@@ -1,0 +1,36 @@
+<section class="section achievements" id="achievements">
+    <div class="container">
+      <div class="section-box">
+        <div class="about-title mb-5" data-aos="fade-up" data-aos-duration="1000">
+            <h3 class="e-font section-title">
+                <span class='code-font n-section-title'>04.</span> {{"Achievements.Title" | translate}}
+            </h3>
+        </div>
+        <div class="achievements-table-container">
+            <table class="achievements__StyledTable-lXDeB haZMKe">
+                <thead>
+                    <tr>
+                        <th> {{"Achievements.Year" | translate}}</th>
+                        <th> {{"Achievements.Rank" | translate}}</th>
+                        <th style="width: 80%;"> {{"Achievements.Description" | translate}}</th>
+                        <th class="hide-on-mobile"> {{"Achievements.Skills" | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor='let item of "Achievements.Items" | translate'>
+                        <td class="project-date">{{item.Year}}</td>
+                        <td class="project-title">{{item.Rank}}</td>
+                        <td class="project-company">{{item.Description}}</td>
+                        <td class="project-skills hide-on-mobile">
+                          <ng-container *ngFor="let skill of item.Skills">
+                            <span class="mr-2">{{skill}}.</span>
+                          </ng-container>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,57 @@
+<nav class="navbar main-navbar on-top" [class.nav-shadow]='this.pageYPosition>0'>
+  <div class="container">
+
+    <div class="menu-wrapper mt-4">
+      <a class="navbar-brand text-light">
+        &lt;br/&gt;
+      </a>
+      <ng-container>
+        <div (click)='responsiveMenuVisible = !responsiveMenuVisible'>
+          <i class="fas fa-bars" *ngIf="!responsiveMenuVisible"></i>
+          <i class="fas fa-times" *ngIf="responsiveMenuVisible"></i>
+        </div>
+      </ng-container>
+    </div>
+    <div class="menu-responsive"  [ngClass]="{'expand-sidebar': responsiveMenuVisible}">
+      <aside [class.nav-shadow]='this.pageYPosition>0' class="on-top">
+        <a class="navbar-brand text-light sidebar-logo">
+          <ng-container *ngIf="!responsiveMenuVisible">&lt;br/&gt;</ng-container>
+        </a>
+        <nav>
+          <ol>
+            <ng-container *ngFor='let headerItem of "Header.Items" | translate ; let i = index'>
+              <li>
+                <a (click)='scroll(headerItem.scroll)'>
+                  <span>0{{i}}.&nbsp;</span> {{headerItem.title}}
+                </a>
+              </li>
+            </ng-container>
+            <li>
+              <a (click)="downloadCV()" class="main-btn cv-btn">
+                {{"Header.cvBtn" | translate}}
+              </a>
+            </li>
+          </ol>
+        </nav>
+        <div class="sidebar-contact text-white d-flex flex-col justify-content-start align-items-center">
+          <div class="mr-3">
+            <a class="text-white" href="mailto:breejeshrathod@gmail.com" target="_blank">
+              <i class="far fa-envelope"></i>
+            </a>
+          </div>
+          <div class="mr-3">
+            <a href="https://github.com/breejesh" class="text-white" target='_blank'>
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+          <div>
+            <a href="https://www.linkedin.com/in/breejesh/" class="text-white" target='_blank'>
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+</nav>

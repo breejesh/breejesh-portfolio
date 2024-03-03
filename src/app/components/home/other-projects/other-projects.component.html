@@ -1,0 +1,43 @@
+<section class="section more-projects">
+    <div class="container">
+        <div class="section-box">
+            <div class="">
+                <h3 class="section-title">
+                    <span class='n-section-title'></span> {{"OtherProjects.Title" | translate}}
+                </h3>
+            </div>
+            <div class="mt-5">
+                <div class="row p-0">
+
+                    <div *ngFor='let project of "OtherProjects.Projects" | translate; let i = index'
+                     class="col-12 col-md-6 col-lg-6 col-xl-4 project-col" data-aos="fade-up" data-aos-duration="1000">
+                        <div class="more-project-box">
+                            <a  [href]="project['ghLink']"  target="_blank" class="d-flex flex-col w-100  m-0 p-0 justify-content-start align-items-center">
+                                <a class="d-flex flex-row justify-content-center align-items-center text-white">
+                                   <i id="ghLink" class="mr-2 fab fa-github"></i>
+                                </a>
+                                <div class="d-flex flex-row justify-content-center align-items-center other-project-title"><h5 class="other-project-title">{{project.Title}}</h5></div>
+                              </a>
+                            <div>
+                                <p class="other-project-description">
+                                    {{project.Description}}
+                                </p>
+                            </div>
+                            <div>
+                                <ul class="more-projects-skills">
+                                    <li *ngFor='let technology of project.Technologies'>
+                                      <span class="underline">{{technology}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- <div class="w-100 text-center mt-5 pt-5">
+                <a [routerLink]="'/projectos'" class='main-btn'>Ver todo</a>
+            </div> -->
+        </div>
+    </div>
+</section>

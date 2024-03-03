@@ -1,0 +1,228 @@
+{
+  "Header.Items": [
+    { "title": "Home", "scroll": "/" },
+    { "title": "About me", "scroll": "about" },
+    { "title": "Experience", "scroll": "jobs" },
+    { "title": "Projects", "scroll": "projects" },
+    { "title": "Achievements", "scroll": "achievements" },
+    { "title": "Contact", "scroll": "contact" }
+  ],
+  "Header.cvBtn": "Resume",
+  "Header.cvName": "CV_Breejesh_Rathod.pdf",
+
+  "Banner.Pretitle": "Hello! My name is",
+  "Banner.Description": "I have <span class='underline'>6+ years of experience</span> developing products, systems, interfaces, and technological solutions.",
+  "Banner.ActionBtn": "Get in touch",
+
+  "AboutMe.Title": "About me",
+  "AboutMe.Paragraphs": [
+    "Always driven by the desire to create something new, I find software engineering to be the canvas for my creativity. I simply love being involved in the end-to-end creation of products. Starting right from the idea to design to development and finally the actual manifestation of the end goal, it's always an engaging journey.",
+    "With a professional background spanning Morgan Stanley, AnalyticsVerse, and presently M2P, I've garnered invaluable experience in navigating the intricacies of both large-scale enterprise projects and new greenfield initiatives. My tenure has been characterized by assuming ownership of critical functionalities and seeing them through to successful fruition.",
+    "Adapting to diverse technological landscapes has been second nature, and the key key skills I've learned along the way include:"
+  ],
+
+  "Experience.Title": "Experience",
+  "Experience.Jobs": [
+    {
+      "Tab": "M2P Fintech",
+      "Title": "Technical Lead",
+      "Date": "December 2022 - Present",
+      "Description": [
+        "Leading a 10-member team developing a Loan Origination System (LOS) for banks and NBFCs.",
+        "Migrated infrastructure from unmanaged AWS to Helm, Argo CD, Kubernetes based Declarative GitOps, thus streamlining deployment processes and ensuring system reliability.",
+        "Engineered a client-customizable feature for rapid form creation, significantly reducing time to market and gaining widespread client adoption",
+        "Designed and implemented a multi-tenancy architecture, enabling efficient resource utilisation and cost savings across different client environments."
+      ],
+      "Technologies": [
+        "Java",
+        "Angular",
+        "SQL",
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "AWS",
+        "Cloud",
+        "ArgoCD",
+        "Helm",
+        "DevOps",
+        "SpringBoot"
+      ]
+    },
+    {
+      "Tab": "AnalyticsVerse",
+      "Title": "Full Stack Developer & Co-Founding Member",
+      "Date": "January 2022 - October 2022",
+      "Description": [
+        "Directly impacted conversion of prospects to paying customers by ideating, designing  and implementing several key features like allowing users to create custom dashboards by picking metrics of their choice, a demo mode which allows users to view the product interactively without any hassle of adding integrations and so on.",
+        "Reduced cloud infrastructure cost by 10x by optimising various batch jobs and cloud components.",
+        "Took ownership and worked on all aspects of the product, including UI Design, Frontend, Web APIs, Batch Processing, Cloud Infrastructure.",
+        "Mentored interns and other employees, helping them grow and enabling vital contribution from them."
+      ],
+      "Technologies": [
+        "Java",
+        "Angular",
+        "SQL",
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "AWS",
+        "Cloud",
+        "SpringBatch",
+        "SpringBoot"
+      ]
+    },
+    {
+      "Tab": "Morgan Stanely",
+      "Title": "Software Engineering Manager",
+      "Date": "August 2018 - December 2021",
+      "Description": [
+        "Led a reporting and visualisation project, from the technical front, which involved creating a framework for integrating Tableau Dashboard with proprietary software.",
+        "Reduced cost and increased scalability of the above system by coming up with an alternative system architecture.",
+        "Demonstrated efficient problem-solving skills by providing quick solutions for business requirements",
+        "Created several proofs of concepts (PoCs) concurrently with the primary project",
+        "Received an email of appreciation from Bjarne Stroustrup (Inventor of C++) for making a SaaS app, as part of our ‘Giving Back’ initiative at the firm, which helped an NGO with their vaccination drive.",
+        "Creation of modules with complex reactive forms",
+        "Mentored summer interns for three consecutive years, within as well as outside my team."
+      ],
+      "Technologies": [
+        "Angular",
+        ".Net",
+        "C#",
+        "Java",
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ]
+    },
+    {
+      "Tab": "Morgan Stanley",
+      "Title": "Summer Analyst",
+      "Date": "May 2017 - July 2017",
+      "Description": [
+        "Successfully completed a System Monitoring and Workflow Automation project for the Data Engineering team.",
+        "Developed REST APIs and UI pages to fulfil diverse feature needs."
+      ],
+      "Technologies": [".Net", "C#", "HTML", "CSS", "JavaScript"]
+    },
+    {
+      "Tab": "Yoddhas NGO",
+      "Title": "Design Head",
+      "Date": "August 2015 - September 2016",
+      "Description": [
+        "Created Social Media posters for various campaigns.",
+        "Led a team of graphic designers, guided them in day-to-day work."
+      ],
+      "Technologies": ["PhotoShop", "Adobe", "Affinity"]
+    }
+  ],
+
+  "FeatureProjects.Title": "My projects",
+  "FeatureProjects.Label": "Featured Project",
+  "FeatureProjects.Projects": [
+    {
+      "Title": "Dijkstra's Robot",
+      "Description": "Developed a line-following robot employing Dijkstra's algorithm to find the shortest path in a grid maze. Utilised Depth First Search for maze exploration, enabling efficient pathfinding from source to destination in subsequent runs.",
+      "imgs": [
+        "/assets/images/d-robot.jpg"
+      ],
+      "Technologies": ["Data Structures & Algorithm", "Robotics", "C"]
+    },
+    {
+      "Title": "Virtual Piano",
+      "Description": "The project involves the creation of a device capable of projecting a piano interface onto any surface, enabling users to play piano virtually. Utilizing a simple torch for projection and a webcam for image processing, the system tracks user interactions with the projected piano keys, translating them into corresponding musical output. This innovative setup allows users to enjoy playing the piano on any flat surface with minimal hardware requirements.",
+      "imgs": [
+        "/assets/images/virtual-piano.jpg"
+      ],
+      "Technologies": ["MatLab", "Image Processing", "Physics"]
+    },
+    {
+      "Title": "Game Development",
+      "Description": "Developed single and multiplayer 2D games including PacMan, Pokémon, Snake, Ping Pong, Tic Tac Toe in various programming languages.",
+      "imgs": [
+        "/assets/images/games.jpg"
+      ],
+      "Technologies": ["Java", "Python", "JavaScript"]
+    }
+  ],
+
+  "OtherProjects.Title": "More projects",
+  "OtherProjects.Projects": [
+    {
+      "Title": "Clipper-Co",
+      "Description": "This software facilitates the seamless sharing of clipboards between multiple users and devices. This functionality streamlines the process of sharing text among various devices, enhancing user convenience and productivity.",
+      "ghLink": "https://github.com/breejesh/clipper-co",
+      "Technologies": ["Java", "Python", "CSS"]
+    },
+    {
+      "Title": "Happyness",
+      "Description": "This app aims to provide users with a refreshing and uplifting experience by delivering positive news stories in a concise and engaging format. In a world often dominated by negative headlines, this app seeks to promote happiness, inspiration, and optimism by curating and presenting news items that evoke joy and hope.",
+      "ghLink": "https://github.com/breejesh/happyness",
+      "Technologies": ["Flutter", "Dart", "Python", "Firebase"]
+    },
+    {
+      "Title": "Poetic Musings",
+      "Description": "Crafted in Angular, mimics a music player interface for navigating and enjoying poetry, featuring responsive design tailored for all devices without relying on CSS libraries.",
+      "ghLink": "https://github.com/breejesh/poetic-musings/tree/main/poems",
+      "Technologies": ["Angular", "TypeScript", "HTML", "CSS", "Python", "Firebase"]
+    },
+    {
+      "Title": "Digital Watermark",
+      "Description": "It employs a 2 part visual secret sharing scheme to split a binary watermark image into two shares: a master share extracted from the host image and an ownership share held by the owner and a copyright verifier. This scheme ensures that the watermark remains invisible and resistant to extraction, even after modifications to the host image, demonstrating its effectiveness for copyright protection.",
+      "ghLink": "https://github.com/breejesh/digital-watermark",
+      "Technologies": ["Python", "Image Processing"]
+    },
+    {
+      "Title": "iMouse",
+      "Description": "aims to create a proof of concept prototype for controlling a laptop mouse using only head movements. This innovative project is designed to assist quadriplegia patients in operating laptops by utilizing head movement as an input method, thereby enhancing accessibility and independence.",
+      "ghLink": "https://github.com/breejesh/i-mouse",
+      "Technologies": ["Python", "Image Processing"]
+    },
+    {
+      "Title": "Consistent Hashing",
+      "Description": "An interactive tool to visually comprehend how consistent hashing distributes data across nodes in distributed systems, aiding in understanding load balancing and node management. It serves as an educational resource by providing intuitive insights into the workings of consistent hashing algorithms for students and developers.",
+      "ghLink": "https://github.com/breejesh/consistent-hashing-visualization",
+      "Technologies": ["Angular", "TypeScript", "HTML", "CSS"]
+    }
+  ],
+  "Achievements.Title": "Achievements",
+  "Achievements.Year": "Year",
+  "Achievements.Rank": "Rank",
+  "Achievements.Description": "Description",
+  "Achievements.Skills": "Skills",
+  "Achievements.Items": [
+    {
+      "Year": "2018",
+      "Rank": "1st",
+      "Description": "Secured first place in the Mumbai Hackathon, organized by ERPNext, by developing a shared clipboard app bridging desktop and mobile devices within a 24-hour timeframe.",
+      "Skills": ["Problem-solving", "Innovation", "Teamwork"]
+    },
+    {
+      "Year": "2016",
+      "Rank": "1st",
+      "Description": "Received the Young Innovators Award from the esteemed then Chief Minister of Maharashtra, Mr. Devendra Fadnavis, for pioneering a virtual piano device. This innovation utilized a simple torch and camera to project a playable piano onto any surface. The accolade was bestowed during the competition organized by ZEE and DNA.",
+      "Skills": ["Innovation", "Creativity", "Presentation"]
+    },
+    {
+      "Year": "2016",
+      "Rank": "6th",
+      "Description": "Advanced to the quarterfinals of the renowned ABU Robocon, a prestigious robotics competition on a global scale. Represented VJTI at the national level, competing against 105 other colleges.",
+      "Skills": ["Robotics", "Engineering", "Team collaboration"]
+    },
+    {
+      "Year": "2015",
+      "Rank": "1st",
+      "Description": "Achieved victory in Adomania, an inter-college advertisement making competition, by crafting a captivating short film celebrating the vibrant essence of Mumbai.",
+      "Skills": ["Creativity", "Marketing", "Presentation"]
+    },
+    {
+      "Year": "2010",
+      "Rank": "1st",
+      "Description": "Emerged as the winner of the M.R. Pai Memorial Elocution Competition at the inter-school level.",
+      "Skills": ["Public speaking", "Communication", "Presentation"]
+    }
+  ],
+  "Contact.Pretitle": "What’s Next",
+  "Contact.Title": "Get in touch!",
+  "Contact.Content": "I will be happy to receive your contact if you want to talk about new opportunities. Write me, and I will reply as soon as I see your message. Simple one-page design that features a profile letter with basic information about a person.",
+  "Contact.Btn": "Say Hello"
+}
