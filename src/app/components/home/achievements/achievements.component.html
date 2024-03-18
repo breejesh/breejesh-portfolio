@@ -11,7 +11,7 @@
                 <thead>
                     <tr>
                         <th> {{"Achievements.Year" | translate}}</th>
-                        <th> {{"Achievements.Rank" | translate}}</th>
+                        <th class="hide-on-mobile"> {{"Achievements.Rank" | translate}}</th>
                         <th style="width: 80%;"> {{"Achievements.Description" | translate}}</th>
                         <th class="hide-on-mobile"> {{"Achievements.Skills" | translate}}</th>
                     </tr>
@@ -19,7 +19,7 @@
                 <tbody>
                     <tr *ngFor='let item of "Achievements.Items" | translate'>
                         <td class="project-date">{{item.Year}}</td>
-                        <td class="project-title">{{item.Rank}}</td>
+                        <td class="project-title hide-on-mobile">{{item.Rank}}</td>
                         <td class="project-company">{{item.Description}}</td>
                         <td class="project-skills hide-on-mobile">
                           <ng-container *ngFor="let skill of item.Skills">

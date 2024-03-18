@@ -1,16 +1,15 @@
 @import "./../../../../variables.scss";
 .projects {
     .project-container {
-        height: 360px;
         margin: 100px 0;
         .project-info-left {
-            width: 50%;
+            width: 100%;
             margin-right: -57px;
             margin-left: 0px;
             display: table;
         }
         .project-info-right {
-            width: 50%;
+            width: 100%;
             margin-left: -57px;
             margin-right: 0px;
             display: table;
