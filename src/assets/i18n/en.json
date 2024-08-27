@@ -18,7 +18,7 @@
   "AboutMe.Paragraphs": [
     "Always driven by the desire to create something new, I find software engineering to be the canvas for my creativity. I simply love being involved in the end-to-end creation of products. Starting right from the idea to design to development and finally the actual manifestation of the end goal, it's always an engaging journey.",
     "With a professional background spanning Morgan Stanley, AnalyticsVerse, and presently M2P, I've garnered invaluable experience in navigating the intricacies of both large-scale enterprise projects and new greenfield initiatives. My tenure has been characterized by assuming ownership of critical functionalities and seeing them through to successful fruition.",
-    "Adapting to diverse technological landscapes has been second nature, and the key key skills I've learned along the way include:"
+    "Adapting to diverse technological landscapes has been second nature, and the key skills I've learned along the way include:"
   ],
 
   "Experience.Title": "Experience",
@@ -31,7 +31,7 @@
         "Leading a 10-member team developing a Loan Origination System (LOS) for banks and NBFCs.",
         "Migrated infrastructure from unmanaged AWS to Helm, Argo CD, Kubernetes based Declarative GitOps, thus streamlining deployment processes and ensuring system reliability.",
         "Engineered a client-customizable feature for rapid form creation, significantly reducing time to market and gaining widespread client adoption",
-        "Designed and implemented a multi-tenancy architecture, enabling efficient resource utilisation and cost savings across different client environments."
+        "Designed and implemented a multi-tenancy architecture, enabling efficient resource utilization and cost savings across different client environments."
       ],
       "Technologies": [
         "Java",
@@ -53,7 +53,7 @@
       "Title": "Full Stack Developer & Co-Founding Member",
       "Date": "January 2022 - October 2022",
       "Description": [
-        "Directly impacted conversion of prospects to paying customers by ideating, designing  and implementing several key features like allowing users to create custom dashboards by picking metrics of their choice, a demo mode which allows users to view the product interactively without any hassle of adding integrations and so on.",
+        "Directly impacted conversion of prospects to paying customers by ideating, designing and implementing several key features like allowing users to create custom dashboards by picking metrics of their choice, a demo mode which allows users to view the product interactively without any hassle of adding integrations and so on.",
         "Reduced cloud infrastructure cost by 10x by optimising various batch jobs and cloud components.",
         "Took ownership and worked on all aspects of the product, including UI Design, Frontend, Web APIs, Batch Processing, Cloud Infrastructure.",
         "Mentored interns and other employees, helping them grow and enabling vital contribution from them."
@@ -72,7 +72,7 @@
       ]
     },
     {
-      "Tab": "Morgan Stanely",
+      "Tab": "Morgan Stanley",
       "Title": "Software Engineering Manager",
       "Date": "August 2018 - December 2021",
       "Description": [
@@ -173,7 +173,7 @@
     },
     {
       "Title": "iMouse",
-      "Description": "aims to create a proof of concept prototype for controlling a laptop mouse using only head movements. This innovative project is designed to assist quadriplegia patients in operating laptops by utilizing head movement as an input method, thereby enhancing accessibility and independence.",
+      "Description": "Aims to create a proof of concept prototype for controlling a laptop mouse using only head movements. This innovative project is designed to assist quadriplegia patients in operating laptops by utilizing head movement as an input method, thereby enhancing accessibility and independence.",
       "ghLink": "https://github.com/breejesh/i-mouse",
       "Technologies": ["Python", "Image Processing"]
     },
