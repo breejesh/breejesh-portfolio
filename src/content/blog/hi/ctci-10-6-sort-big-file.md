@@ -1,0 +1,66 @@
+---
+title: "शॉर्ट बिग फाइल: २ जीबी रैम के साथ २० जीबी फाइल के लिए एक्सटर्नल मर्ज सॉर्ट (CTCI 10.6)"
+description: "सीटीसीआई समस्या १०.६: सीमित २ जीबी रैम में विशाल २० जीबी टेक्स्ट फाइल को सॉर्ट करने के लिए एक्सटर्नल मर्ज सॉर्ट तकनीक।"
+date: "2025-09-13"
+tags: [Algorithms]
+coverImage: /assets/images/ctci-10-6-sort-big-file.webp
+previewImage: /assets/images/ctci-10-6-sort-big-file.webp
+---
+
+
+> **टीएल;डीआर**
+> * **समस्या:** उत्पादन-स्तरीय दक्षता के साथ सीटीसीआई समस्या १०.६ में महारत हासिल करना।
+> * **दृष्टिकोण:** सीटीसीआई समस्या १०.६: सीमित २ जीबी रैम में विशाल २० जीबी टेक्स्ट फाइल को सॉर्ट करने के लिए एक्सटर्नल मर्ज सॉर्ट तकनीक।
+> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+
+यह लेख सीटीसीआई समस्या **१०.६** का एक स्पष्ट और शुरुआती-अनुकूल विवरण प्रदान करता है। हम समस्या के कथन की जांच करते हैं, इष्टतम समाधान की तुलना करते हैं और जावा (जावा) कोड लिखते हैं।
+
+---
+
+## १. वास्तविक जीवन की उपमा
+
+सीटीसीआई समस्या १०.६ को वास्तविक जीवन में वस्तुओं को कुशलतापूर्वक व्यवस्थित करने की तरह सोचें। सही डेटा संरचना का चयन अनावश्यक पुनरावृत्तियों को समाप्त करता है।
+
+---
+
+## २. स्पष्ट समस्या कथन
+
+**समस्या १०.६:** सीटीसीआई समस्या १०.६: सीमित २ जीबी रैम में विशाल २० जीबी टेक्स्ट फाइल को सॉर्ट करने के लिए एक्सटर्नल मर्ज सॉर्ट तकनीक।
+
+---
+
+## ३. इष्टतम दृष्टिकोण और कार्यान्वयन
+
+```java
+// Conceptual External Merge Sort outline
+public class ExternalMergeSort {
+    public void sortLargeFile(File inputFile, int memoryLimitMB) {
+        List<File> sortedChunks = createSortedChunks(inputFile, memoryLimitMB);
+        mergeSortedChunks(sortedChunks, new File("sorted_output.txt"));
+    }
+
+    private List<File> createSortedChunks(File file, int limitMB) {
+        // Read chunk of data fitting in limitMB, sort in RAM, write to temp file
+        return new ArrayList<>();
+    }
+
+    private void mergeSortedChunks(List<File> chunks, File outputFile) {
+        // K-way merge using PriorityQueue reading 1 line at a time from each chunk file
+    }
+}
+```
+
+---
+
+## ४. समय और स्थान जटिलता (टाइम एंड स्पेस कॉम्प्लेक्सिटी)
+
+| मीट्रिक | जटिलता | विवरण |
+| --- | --- | --- |
+| समय जटिलता | ओ(एन) / ओ(लॉग एन) | डेटा के माध्यम से इष्टतम पास |
+| स्थान जटिलता | ओ(१) / ओ(एन) | मेमोरी सीमाएं बनी रहीं |
+
+---
+
+## ५. सीमांत मामले (एज केसेस) और सारांश
+
+कोडिंग इंटरव्यू में हमेशा सीमांत स्थितियों, शून्य (null) इनपुट और एरे आकार की सीमाओं की जांच करें।
