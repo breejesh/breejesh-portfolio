@@ -1,0 +1,1900 @@
+{
+  "source": "CTCI 6th Edition problem set (original Java teaching posts)",
+  "tag": "Algorithms",
+  "count": 189,
+  "problems": [
+    {
+      "ch": 1,
+      "num": 1,
+      "id": "1.1",
+      "title": "Is Unique",
+      "chapter": "Arrays and Strings",
+      "slug": "ctci-1-1-is-unique",
+      "date": "2026-01-23",
+      "status": "done"
+    },
+    {
+      "ch": 1,
+      "num": 2,
+      "id": "1.2",
+      "title": "Check Permutation",
+      "chapter": "Arrays and Strings",
+      "slug": "ctci-1-2-check-permutation",
+      "date": "2026-01-24",
+      "status": "done"
+    },
+    {
+      "ch": 1,
+      "num": 3,
+      "id": "1.3",
+      "title": "URLify",
+      "chapter": "Arrays and Strings",
+      "slug": "ctci-1-3-urlify",
+      "date": "2026-01-25",
+      "status": "done"
+    },
+    {
+      "ch": 1,
+      "num": 4,
+      "id": "1.4",
+      "title": "Palindrome Permutation",
+      "chapter": "Arrays and Strings",
+      "slug": "ctci-1-4-palindrome-permutation",
+      "date": "2026-01-26",
+      "status": "done"
+    },
+    {
+      "ch": 1,
+      "num": 5,
+      "id": "1.5",
+      "title": "One Away",
+      "chapter": "Arrays and Strings",
+      "slug": "ctci-1-5-one-away",
+      "date": "2026-01-27",
+      "status": "done"
+    },
+    {
+      "ch": 1,
+      "num": 6,
+      "id": "1.6",
+      "title": "String Compression",
+      "chapter": "Arrays and Strings",
+      "slug": "ctci-1-6-string-compression",
+      "date": "2026-01-28",
+      "status": "done"
+    },
+    {
+      "ch": 1,
+      "num": 7,
+      "id": "1.7",
+      "title": "Rotate Matrix",
+      "chapter": "Arrays and Strings",
+      "slug": "ctci-1-7-rotate-matrix",
+      "date": "2026-01-29",
+      "status": "done"
+    },
+    {
+      "ch": 1,
+      "num": 8,
+      "id": "1.8",
+      "title": "Zero Matrix",
+      "chapter": "Arrays and Strings",
+      "slug": "ctci-1-8-zero-matrix",
+      "date": "2026-01-30",
+      "status": "done"
+    },
+    {
+      "ch": 1,
+      "num": 9,
+      "id": "1.9",
+      "title": "String Rotation",
+      "chapter": "Arrays and Strings",
+      "slug": "ctci-1-9-string-rotation",
+      "date": "2026-01-31",
+      "status": "done"
+    },
+    {
+      "ch": 2,
+      "num": 1,
+      "id": "2.1",
+      "title": "Remove Dups",
+      "chapter": "Linked Lists",
+      "slug": "ctci-2-1-remove-dups",
+      "date": "2026-02-01",
+      "status": "done"
+    },
+    {
+      "ch": 2,
+      "num": 2,
+      "id": "2.2",
+      "title": "Return Kth to Last",
+      "chapter": "Linked Lists",
+      "slug": "ctci-2-2-return-kth-to-last",
+      "date": "2026-02-02",
+      "status": "done"
+    },
+    {
+      "ch": 2,
+      "num": 3,
+      "id": "2.3",
+      "title": "Delete Middle Node",
+      "chapter": "Linked Lists",
+      "slug": "ctci-2-3-delete-middle-node",
+      "date": "2026-02-03",
+      "status": "done"
+    },
+    {
+      "ch": 2,
+      "num": 4,
+      "id": "2.4",
+      "title": "Partition",
+      "chapter": "Linked Lists",
+      "slug": "ctci-2-4-partition",
+      "date": "2026-02-04",
+      "status": "done"
+    },
+    {
+      "ch": 2,
+      "num": 5,
+      "id": "2.5",
+      "title": "Sum Lists",
+      "chapter": "Linked Lists",
+      "slug": "ctci-2-5-sum-lists",
+      "date": "2026-02-05",
+      "status": "done"
+    },
+    {
+      "ch": 2,
+      "num": 6,
+      "id": "2.6",
+      "title": "Palindrome",
+      "chapter": "Linked Lists",
+      "slug": "ctci-2-6-palindrome",
+      "date": "2026-02-06",
+      "status": "done"
+    },
+    {
+      "ch": 2,
+      "num": 7,
+      "id": "2.7",
+      "title": "Intersection",
+      "chapter": "Linked Lists",
+      "slug": "ctci-2-7-intersection",
+      "date": "2026-02-07",
+      "status": "done"
+    },
+    {
+      "ch": 2,
+      "num": 8,
+      "id": "2.8",
+      "title": "Loop Detection",
+      "chapter": "Linked Lists",
+      "slug": "ctci-2-8-loop-detection",
+      "date": "2026-02-08",
+      "status": "done"
+    },
+    {
+      "ch": 3,
+      "num": 1,
+      "id": "3.1",
+      "title": "Three in One",
+      "chapter": "Stacks and Queues",
+      "slug": "ctci-3-1-three-in-one",
+      "date": "2026-02-09",
+      "status": "done"
+    },
+    {
+      "ch": 3,
+      "num": 2,
+      "id": "3.2",
+      "title": "Stack Min",
+      "chapter": "Stacks and Queues",
+      "slug": "ctci-3-2-stack-min",
+      "date": "2026-02-10",
+      "status": "done"
+    },
+    {
+      "ch": 3,
+      "num": 3,
+      "id": "3.3",
+      "title": "Stack of Plates",
+      "chapter": "Stacks and Queues",
+      "slug": "ctci-3-3-stack-of-plates",
+      "date": "2026-02-11",
+      "status": "done"
+    },
+    {
+      "ch": 3,
+      "num": 4,
+      "id": "3.4",
+      "title": "Queue via Stacks",
+      "chapter": "Stacks and Queues",
+      "slug": "ctci-3-4-queue-via-stacks",
+      "date": "2026-02-12",
+      "status": "done"
+    },
+    {
+      "ch": 3,
+      "num": 5,
+      "id": "3.5",
+      "title": "Sort Stack",
+      "chapter": "Stacks and Queues",
+      "slug": "ctci-3-5-sort-stack",
+      "date": "2026-02-13",
+      "status": "done"
+    },
+    {
+      "ch": 3,
+      "num": 6,
+      "id": "3.6",
+      "title": "Animal Shelter",
+      "chapter": "Stacks and Queues",
+      "slug": "ctci-3-6-animal-shelter",
+      "date": "2026-02-14",
+      "status": "done"
+    },
+    {
+      "ch": 4,
+      "num": 1,
+      "id": "4.1",
+      "title": "Route Between Nodes",
+      "chapter": "Trees and Graphs",
+      "slug": "ctci-4-1-route-between-nodes",
+      "date": "2026-02-15",
+      "status": "done"
+    },
+    {
+      "ch": 4,
+      "num": 2,
+      "id": "4.2",
+      "title": "Minimal Tree",
+      "chapter": "Trees and Graphs",
+      "slug": "ctci-4-2-minimal-tree",
+      "date": "2026-02-16",
+      "status": "done"
+    },
+    {
+      "ch": 4,
+      "num": 3,
+      "id": "4.3",
+      "title": "List of Depths",
+      "chapter": "Trees and Graphs",
+      "slug": "ctci-4-3-list-of-depths",
+      "date": "2026-02-17",
+      "status": "done"
+    },
+    {
+      "ch": 4,
+      "num": 4,
+      "id": "4.4",
+      "title": "Check Balanced",
+      "chapter": "Trees and Graphs",
+      "slug": "ctci-4-4-check-balanced",
+      "date": "2026-02-18",
+      "status": "done"
+    },
+    {
+      "ch": 4,
+      "num": 5,
+      "id": "4.5",
+      "title": "Validate BST",
+      "chapter": "Trees and Graphs",
+      "slug": "ctci-4-5-validate-bst",
+      "date": "2026-02-19",
+      "status": "done"
+    },
+    {
+      "ch": 4,
+      "num": 6,
+      "id": "4.6",
+      "title": "Successor",
+      "chapter": "Trees and Graphs",
+      "slug": "ctci-4-6-successor",
+      "date": "2026-02-20",
+      "status": "done"
+    },
+    {
+      "ch": 4,
+      "num": 7,
+      "id": "4.7",
+      "title": "Build Order",
+      "chapter": "Trees and Graphs",
+      "slug": "ctci-4-7-build-order",
+      "date": "2026-02-21",
+      "status": "done"
+    },
+    {
+      "ch": 4,
+      "num": 8,
+      "id": "4.8",
+      "title": "First Common Ancestor",
+      "chapter": "Trees and Graphs",
+      "slug": "ctci-4-8-first-common-ancestor",
+      "date": "2026-02-22",
+      "status": "done"
+    },
+    {
+      "ch": 4,
+      "num": 9,
+      "id": "4.9",
+      "title": "BST Sequences",
+      "chapter": "Trees and Graphs",
+      "slug": "ctci-4-9-bst-sequences",
+      "date": "2026-02-23",
+      "status": "done"
+    },
+    {
+      "ch": 4,
+      "num": 10,
+      "id": "4.10",
+      "title": "Check Subtree",
+      "chapter": "Trees and Graphs",
+      "slug": "ctci-4-10-check-subtree",
+      "date": "2026-02-24",
+      "status": "done"
+    },
+    {
+      "ch": 4,
+      "num": 11,
+      "id": "4.11",
+      "title": "Random Node",
+      "chapter": "Trees and Graphs",
+      "slug": "ctci-4-11-random-node",
+      "date": "2026-02-25",
+      "status": "done"
+    },
+    {
+      "ch": 4,
+      "num": 12,
+      "id": "4.12",
+      "title": "Paths with Sum",
+      "chapter": "Trees and Graphs",
+      "slug": "ctci-4-12-paths-with-sum",
+      "date": "2026-02-26",
+      "status": "done"
+    },
+    {
+      "ch": 5,
+      "num": 1,
+      "id": "5.1",
+      "title": "Insertion",
+      "chapter": "Bit Manipulation",
+      "slug": "ctci-5-1-insertion",
+      "date": "2026-02-27",
+      "status": "done"
+    },
+    {
+      "ch": 5,
+      "num": 2,
+      "id": "5.2",
+      "title": "Binary to String",
+      "chapter": "Bit Manipulation",
+      "slug": "ctci-5-2-binary-to-string",
+      "date": "2026-02-28",
+      "status": "done"
+    },
+    {
+      "ch": 5,
+      "num": 3,
+      "id": "5.3",
+      "title": "Flip Bit to Win",
+      "chapter": "Bit Manipulation",
+      "slug": "ctci-5-3-flip-bit-to-win",
+      "date": "2026-03-01",
+      "status": "done"
+    },
+    {
+      "ch": 5,
+      "num": 4,
+      "id": "5.4",
+      "title": "Next Number",
+      "chapter": "Bit Manipulation",
+      "slug": "ctci-5-4-next-number",
+      "date": "2026-03-02",
+      "status": "done"
+    },
+    {
+      "ch": 5,
+      "num": 5,
+      "id": "5.5",
+      "title": "Debugger",
+      "chapter": "Bit Manipulation",
+      "slug": "ctci-5-5-debugger",
+      "date": "2026-03-03",
+      "status": "done"
+    },
+    {
+      "ch": 5,
+      "num": 6,
+      "id": "5.6",
+      "title": "Conversion",
+      "chapter": "Bit Manipulation",
+      "slug": "ctci-5-6-conversion",
+      "date": "2026-03-04",
+      "status": "done"
+    },
+    {
+      "ch": 5,
+      "num": 7,
+      "id": "5.7",
+      "title": "Pairwise Swap",
+      "chapter": "Bit Manipulation",
+      "slug": "ctci-5-7-pairwise-swap",
+      "date": "2026-03-05",
+      "status": "done"
+    },
+    {
+      "ch": 5,
+      "num": 8,
+      "id": "5.8",
+      "title": "Draw Line",
+      "chapter": "Bit Manipulation",
+      "slug": "ctci-5-8-draw-line",
+      "date": "2026-03-06",
+      "status": "done"
+    },
+    {
+      "ch": 6,
+      "num": 1,
+      "id": "6.1",
+      "title": "The Heavy Pill",
+      "chapter": "Math and Logic Puzzles",
+      "slug": "ctci-6-1-the-heavy-pill",
+      "date": "2026-03-07",
+      "status": "done"
+    },
+    {
+      "ch": 6,
+      "num": 2,
+      "id": "6.2",
+      "title": "Basketball",
+      "chapter": "Math and Logic Puzzles",
+      "slug": "ctci-6-2-basketball",
+      "date": "2026-03-08",
+      "status": "done"
+    },
+    {
+      "ch": 6,
+      "num": 3,
+      "id": "6.3",
+      "title": "Dominos",
+      "chapter": "Math and Logic Puzzles",
+      "slug": "ctci-6-3-dominos",
+      "date": "2026-03-09",
+      "status": "done"
+    },
+    {
+      "ch": 6,
+      "num": 4,
+      "id": "6.4",
+      "title": "Ants on a Triangle",
+      "chapter": "Math and Logic Puzzles",
+      "slug": "ctci-6-4-ants-on-a-triangle",
+      "date": "2026-03-10",
+      "status": "done"
+    },
+    {
+      "ch": 6,
+      "num": 5,
+      "id": "6.5",
+      "title": "Jugs of Water",
+      "chapter": "Math and Logic Puzzles",
+      "slug": "ctci-6-5-jugs-of-water",
+      "date": "2026-03-11",
+      "status": "done"
+    },
+    {
+      "ch": 6,
+      "num": 6,
+      "id": "6.6",
+      "title": "Blue-Eyed Island",
+      "chapter": "Math and Logic Puzzles",
+      "slug": "ctci-6-6-blue-eyed-island",
+      "date": "2026-03-12",
+      "status": "done"
+    },
+    {
+      "ch": 6,
+      "num": 7,
+      "id": "6.7",
+      "title": "The Apocalypse",
+      "chapter": "Math and Logic Puzzles",
+      "slug": "ctci-6-7-the-apocalypse",
+      "date": "2026-03-13",
+      "status": "done"
+    },
+    {
+      "ch": 6,
+      "num": 8,
+      "id": "6.8",
+      "title": "The Egg Drop Problem",
+      "chapter": "Math and Logic Puzzles",
+      "slug": "ctci-6-8-the-egg-drop-problem",
+      "date": "2026-03-14",
+      "status": "done"
+    },
+    {
+      "ch": 6,
+      "num": 9,
+      "id": "6.9",
+      "title": "100 Lockers",
+      "chapter": "Math and Logic Puzzles",
+      "slug": "ctci-6-9-100-lockers",
+      "date": "2026-03-15",
+      "status": "done"
+    },
+    {
+      "ch": 6,
+      "num": 10,
+      "id": "6.10",
+      "title": "Poison",
+      "chapter": "Math and Logic Puzzles",
+      "slug": "ctci-6-10-poison",
+      "date": "2026-03-16",
+      "status": "done"
+    },
+    {
+      "ch": 7,
+      "num": 1,
+      "id": "7.1",
+      "title": "Deck of Cards",
+      "chapter": "Object-Oriented Design",
+      "slug": "ctci-7-1-deck-of-cards",
+      "date": "2026-03-17",
+      "status": "done"
+    },
+    {
+      "ch": 7,
+      "num": 2,
+      "id": "7.2",
+      "title": "Call Center",
+      "chapter": "Object-Oriented Design",
+      "slug": "ctci-7-2-call-center",
+      "date": "2026-03-18",
+      "status": "done"
+    },
+    {
+      "ch": 7,
+      "num": 3,
+      "id": "7.3",
+      "title": "Jukebox",
+      "chapter": "Object-Oriented Design",
+      "slug": "ctci-7-3-jukebox",
+      "date": "2026-03-19",
+      "status": "done"
+    },
+    {
+      "ch": 7,
+      "num": 4,
+      "id": "7.4",
+      "title": "Parking Lot",
+      "chapter": "Object-Oriented Design",
+      "slug": "ctci-7-4-parking-lot",
+      "date": "2026-03-20",
+      "status": "done"
+    },
+    {
+      "ch": 7,
+      "num": 5,
+      "id": "7.5",
+      "title": "Online Book Reader",
+      "chapter": "Object-Oriented Design",
+      "slug": "ctci-7-5-online-book-reader",
+      "date": "2026-03-21",
+      "status": "done"
+    },
+    {
+      "ch": 7,
+      "num": 6,
+      "id": "7.6",
+      "title": "Jigsaw",
+      "chapter": "Object-Oriented Design",
+      "slug": "ctci-7-6-jigsaw",
+      "date": "2026-03-22",
+      "status": "done"
+    },
+    {
+      "ch": 7,
+      "num": 7,
+      "id": "7.7",
+      "title": "Chat Server",
+      "chapter": "Object-Oriented Design",
+      "slug": "ctci-7-7-chat-server",
+      "date": "2026-03-23",
+      "status": "done"
+    },
+    {
+      "ch": 7,
+      "num": 8,
+      "id": "7.8",
+      "title": "Othello",
+      "chapter": "Object-Oriented Design",
+      "slug": "ctci-7-8-othello",
+      "date": "2026-03-24",
+      "status": "done"
+    },
+    {
+      "ch": 7,
+      "num": 9,
+      "id": "7.9",
+      "title": "Circular Array",
+      "chapter": "Object-Oriented Design",
+      "slug": "ctci-7-9-circular-array",
+      "date": "2026-03-25",
+      "status": "done"
+    },
+    {
+      "ch": 7,
+      "num": 10,
+      "id": "7.10",
+      "title": "Minesweeper",
+      "chapter": "Object-Oriented Design",
+      "slug": "ctci-7-10-minesweeper",
+      "date": "2026-03-26",
+      "status": "done"
+    },
+    {
+      "ch": 7,
+      "num": 11,
+      "id": "7.11",
+      "title": "File System",
+      "chapter": "Object-Oriented Design",
+      "slug": "ctci-7-11-file-system",
+      "date": "2026-03-27",
+      "status": "done"
+    },
+    {
+      "ch": 7,
+      "num": 12,
+      "id": "7.12",
+      "title": "Hash Table",
+      "chapter": "Object-Oriented Design",
+      "slug": "ctci-7-12-hash-table",
+      "date": "2026-03-28",
+      "status": "done"
+    },
+    {
+      "ch": 8,
+      "num": 1,
+      "id": "8.1",
+      "title": "Triple Step",
+      "chapter": "Recursion and Dynamic Programming",
+      "slug": "ctci-8-1-triple-step",
+      "date": "2026-03-29",
+      "status": "done"
+    },
+    {
+      "ch": 8,
+      "num": 2,
+      "id": "8.2",
+      "title": "Robot in a Grid",
+      "chapter": "Recursion and Dynamic Programming",
+      "slug": "ctci-8-2-robot-in-a-grid",
+      "date": "2026-03-30",
+      "status": "done"
+    },
+    {
+      "ch": 8,
+      "num": 3,
+      "id": "8.3",
+      "title": "Magic Index",
+      "chapter": "Recursion and Dynamic Programming",
+      "slug": "ctci-8-3-magic-index",
+      "date": "2026-03-31",
+      "status": "done"
+    },
+    {
+      "ch": 8,
+      "num": 4,
+      "id": "8.4",
+      "title": "Power Set",
+      "chapter": "Recursion and Dynamic Programming",
+      "slug": "ctci-8-4-power-set",
+      "date": "2026-04-01",
+      "status": "done"
+    },
+    {
+      "ch": 8,
+      "num": 5,
+      "id": "8.5",
+      "title": "Recursive Multiply",
+      "chapter": "Recursion and Dynamic Programming",
+      "slug": "ctci-8-5-recursive-multiply",
+      "date": "2026-04-02",
+      "status": "done"
+    },
+    {
+      "ch": 8,
+      "num": 6,
+      "id": "8.6",
+      "title": "Towers of Hanoi",
+      "chapter": "Recursion and Dynamic Programming",
+      "slug": "ctci-8-6-towers-of-hanoi",
+      "date": "2026-04-03",
+      "status": "done"
+    },
+    {
+      "ch": 8,
+      "num": 7,
+      "id": "8.7",
+      "title": "Permutations without Dups",
+      "chapter": "Recursion and Dynamic Programming",
+      "slug": "ctci-8-7-permutations-without-dups",
+      "date": "2026-04-04",
+      "status": "done"
+    },
+    {
+      "ch": 8,
+      "num": 8,
+      "id": "8.8",
+      "title": "Permutations with Dups",
+      "chapter": "Recursion and Dynamic Programming",
+      "slug": "ctci-8-8-permutations-with-dups",
+      "date": "2026-04-05",
+      "status": "done"
+    },
+    {
+      "ch": 8,
+      "num": 9,
+      "id": "8.9",
+      "title": "Parens",
+      "chapter": "Recursion and Dynamic Programming",
+      "slug": "ctci-8-9-parens",
+      "date": "2026-04-06",
+      "status": "done"
+    },
+    {
+      "ch": 8,
+      "num": 10,
+      "id": "8.10",
+      "title": "Paint Fill",
+      "chapter": "Recursion and Dynamic Programming",
+      "slug": "ctci-8-10-paint-fill",
+      "date": "2026-04-07",
+      "status": "done"
+    },
+    {
+      "ch": 8,
+      "num": 11,
+      "id": "8.11",
+      "title": "Coins",
+      "chapter": "Recursion and Dynamic Programming",
+      "slug": "ctci-8-11-coins",
+      "date": "2026-04-08",
+      "status": "done"
+    },
+    {
+      "ch": 8,
+      "num": 12,
+      "id": "8.12",
+      "title": "Eight Queens",
+      "chapter": "Recursion and Dynamic Programming",
+      "slug": "ctci-8-12-eight-queens",
+      "date": "2026-04-09",
+      "status": "done"
+    },
+    {
+      "ch": 8,
+      "num": 13,
+      "id": "8.13",
+      "title": "Stack of Boxes",
+      "chapter": "Recursion and Dynamic Programming",
+      "slug": "ctci-8-13-stack-of-boxes",
+      "date": "2026-04-10",
+      "status": "done"
+    },
+    {
+      "ch": 8,
+      "num": 14,
+      "id": "8.14",
+      "title": "Boolean Evaluation",
+      "chapter": "Recursion and Dynamic Programming",
+      "slug": "ctci-8-14-boolean-evaluation",
+      "date": "2026-04-11",
+      "status": "done"
+    },
+    {
+      "ch": 9,
+      "num": 1,
+      "id": "9.1",
+      "title": "Stock Data",
+      "chapter": "System Design and Scalability",
+      "slug": "ctci-9-1-stock-data",
+      "date": "2026-04-12",
+      "status": "planned"
+    },
+    {
+      "ch": 9,
+      "num": 2,
+      "id": "9.2",
+      "title": "Social Network",
+      "chapter": "System Design and Scalability",
+      "slug": "ctci-9-2-social-network",
+      "date": "2026-04-13",
+      "status": "planned"
+    },
+    {
+      "ch": 9,
+      "num": 3,
+      "id": "9.3",
+      "title": "Web Crawler",
+      "chapter": "System Design and Scalability",
+      "slug": "ctci-9-3-web-crawler",
+      "date": "2026-04-14",
+      "status": "planned"
+    },
+    {
+      "ch": 9,
+      "num": 4,
+      "id": "9.4",
+      "title": "Duplicate URLs",
+      "chapter": "System Design and Scalability",
+      "slug": "ctci-9-4-duplicate-urls",
+      "date": "2026-04-15",
+      "status": "planned"
+    },
+    {
+      "ch": 9,
+      "num": 5,
+      "id": "9.5",
+      "title": "Cache",
+      "chapter": "System Design and Scalability",
+      "slug": "ctci-9-5-cache",
+      "date": "2026-04-16",
+      "status": "planned"
+    },
+    {
+      "ch": 9,
+      "num": 6,
+      "id": "9.6",
+      "title": "Sales Rank",
+      "chapter": "System Design and Scalability",
+      "slug": "ctci-9-6-sales-rank",
+      "date": "2026-04-17",
+      "status": "planned"
+    },
+    {
+      "ch": 9,
+      "num": 7,
+      "id": "9.7",
+      "title": "Personal Financial Manager",
+      "chapter": "System Design and Scalability",
+      "slug": "ctci-9-7-personal-financial-manager",
+      "date": "2026-04-18",
+      "status": "planned"
+    },
+    {
+      "ch": 9,
+      "num": 8,
+      "id": "9.8",
+      "title": "Pastebin",
+      "chapter": "System Design and Scalability",
+      "slug": "ctci-9-8-pastebin",
+      "date": "2026-04-19",
+      "status": "planned"
+    },
+    {
+      "ch": 10,
+      "num": 1,
+      "id": "10.1",
+      "title": "Sorted Merge",
+      "chapter": "Sorting and Searching",
+      "slug": "ctci-10-1-sorted-merge",
+      "date": "2026-04-20",
+      "status": "planned"
+    },
+    {
+      "ch": 10,
+      "num": 2,
+      "id": "10.2",
+      "title": "Group Anagrams",
+      "chapter": "Sorting and Searching",
+      "slug": "ctci-10-2-group-anagrams",
+      "date": "2026-04-21",
+      "status": "planned"
+    },
+    {
+      "ch": 10,
+      "num": 3,
+      "id": "10.3",
+      "title": "Search in Rotated Array",
+      "chapter": "Sorting and Searching",
+      "slug": "ctci-10-3-search-in-rotated-array",
+      "date": "2026-04-22",
+      "status": "planned"
+    },
+    {
+      "ch": 10,
+      "num": 4,
+      "id": "10.4",
+      "title": "Sorted Search No Size",
+      "chapter": "Sorting and Searching",
+      "slug": "ctci-10-4-sorted-search-no-size",
+      "date": "2026-04-23",
+      "status": "planned"
+    },
+    {
+      "ch": 10,
+      "num": 5,
+      "id": "10.5",
+      "title": "Sparse Search",
+      "chapter": "Sorting and Searching",
+      "slug": "ctci-10-5-sparse-search",
+      "date": "2026-04-24",
+      "status": "planned"
+    },
+    {
+      "ch": 10,
+      "num": 6,
+      "id": "10.6",
+      "title": "Sort Big File",
+      "chapter": "Sorting and Searching",
+      "slug": "ctci-10-6-sort-big-file",
+      "date": "2026-04-25",
+      "status": "planned"
+    },
+    {
+      "ch": 10,
+      "num": 7,
+      "id": "10.7",
+      "title": "Missing Int",
+      "chapter": "Sorting and Searching",
+      "slug": "ctci-10-7-missing-int",
+      "date": "2026-04-26",
+      "status": "planned"
+    },
+    {
+      "ch": 10,
+      "num": 8,
+      "id": "10.8",
+      "title": "Find Duplicates",
+      "chapter": "Sorting and Searching",
+      "slug": "ctci-10-8-find-duplicates",
+      "date": "2026-04-27",
+      "status": "planned"
+    },
+    {
+      "ch": 10,
+      "num": 9,
+      "id": "10.9",
+      "title": "Sorted Matrix Search",
+      "chapter": "Sorting and Searching",
+      "slug": "ctci-10-9-sorted-matrix-search",
+      "date": "2026-04-28",
+      "status": "planned"
+    },
+    {
+      "ch": 10,
+      "num": 10,
+      "id": "10.10",
+      "title": "Rank from Stream",
+      "chapter": "Sorting and Searching",
+      "slug": "ctci-10-10-rank-from-stream",
+      "date": "2026-04-29",
+      "status": "planned"
+    },
+    {
+      "ch": 10,
+      "num": 11,
+      "id": "10.11",
+      "title": "Peaks and Valleys",
+      "chapter": "Sorting and Searching",
+      "slug": "ctci-10-11-peaks-and-valleys",
+      "date": "2026-04-30",
+      "status": "planned"
+    },
+    {
+      "ch": 11,
+      "num": 1,
+      "id": "11.1",
+      "title": "Mistake",
+      "chapter": "Testing",
+      "slug": "ctci-11-1-mistake",
+      "date": "2026-05-01",
+      "status": "planned"
+    },
+    {
+      "ch": 11,
+      "num": 2,
+      "id": "11.2",
+      "title": "Random Crashes",
+      "chapter": "Testing",
+      "slug": "ctci-11-2-random-crashes",
+      "date": "2026-05-02",
+      "status": "planned"
+    },
+    {
+      "ch": 11,
+      "num": 3,
+      "id": "11.3",
+      "title": "Chess Test",
+      "chapter": "Testing",
+      "slug": "ctci-11-3-chess-test",
+      "date": "2026-05-03",
+      "status": "planned"
+    },
+    {
+      "ch": 11,
+      "num": 4,
+      "id": "11.4",
+      "title": "No Test Tools",
+      "chapter": "Testing",
+      "slug": "ctci-11-4-no-test-tools",
+      "date": "2026-05-04",
+      "status": "planned"
+    },
+    {
+      "ch": 11,
+      "num": 5,
+      "id": "11.5",
+      "title": "Test a Pen",
+      "chapter": "Testing",
+      "slug": "ctci-11-5-test-a-pen",
+      "date": "2026-05-05",
+      "status": "planned"
+    },
+    {
+      "ch": 11,
+      "num": 6,
+      "id": "11.6",
+      "title": "Test an ATM",
+      "chapter": "Testing",
+      "slug": "ctci-11-6-test-an-atm",
+      "date": "2026-05-06",
+      "status": "planned"
+    },
+    {
+      "ch": 12,
+      "num": 1,
+      "id": "12.1",
+      "title": "Last K Lines",
+      "chapter": "C and C++",
+      "slug": "ctci-12-1-last-k-lines",
+      "date": "2026-05-07",
+      "status": "planned"
+    },
+    {
+      "ch": 12,
+      "num": 2,
+      "id": "12.2",
+      "title": "Reverse String",
+      "chapter": "C and C++",
+      "slug": "ctci-12-2-reverse-string",
+      "date": "2026-05-08",
+      "status": "planned"
+    },
+    {
+      "ch": 12,
+      "num": 3,
+      "id": "12.3",
+      "title": "Hash Table vs STL Map",
+      "chapter": "C and C++",
+      "slug": "ctci-12-3-hash-table-vs-stl-map",
+      "date": "2026-05-09",
+      "status": "planned"
+    },
+    {
+      "ch": 12,
+      "num": 4,
+      "id": "12.4",
+      "title": "Virtual Functions",
+      "chapter": "C and C++",
+      "slug": "ctci-12-4-virtual-functions",
+      "date": "2026-05-10",
+      "status": "planned"
+    },
+    {
+      "ch": 12,
+      "num": 5,
+      "id": "12.5",
+      "title": "Shallow vs Deep Copy",
+      "chapter": "C and C++",
+      "slug": "ctci-12-5-shallow-vs-deep-copy",
+      "date": "2026-05-11",
+      "status": "planned"
+    },
+    {
+      "ch": 12,
+      "num": 6,
+      "id": "12.6",
+      "title": "Volatile",
+      "chapter": "C and C++",
+      "slug": "ctci-12-6-volatile",
+      "date": "2026-05-12",
+      "status": "planned"
+    },
+    {
+      "ch": 12,
+      "num": 7,
+      "id": "12.7",
+      "title": "Virtual Base Class",
+      "chapter": "C and C++",
+      "slug": "ctci-12-7-virtual-base-class",
+      "date": "2026-05-13",
+      "status": "planned"
+    },
+    {
+      "ch": 12,
+      "num": 8,
+      "id": "12.8",
+      "title": "Copy Node",
+      "chapter": "C and C++",
+      "slug": "ctci-12-8-copy-node",
+      "date": "2026-05-14",
+      "status": "planned"
+    },
+    {
+      "ch": 12,
+      "num": 9,
+      "id": "12.9",
+      "title": "Smart Pointer",
+      "chapter": "C and C++",
+      "slug": "ctci-12-9-smart-pointer",
+      "date": "2026-05-15",
+      "status": "planned"
+    },
+    {
+      "ch": 12,
+      "num": 10,
+      "id": "12.10",
+      "title": "Malloc",
+      "chapter": "C and C++",
+      "slug": "ctci-12-10-malloc",
+      "date": "2026-05-16",
+      "status": "planned"
+    },
+    {
+      "ch": 12,
+      "num": 11,
+      "id": "12.11",
+      "title": "2D Alloc",
+      "chapter": "C and C++",
+      "slug": "ctci-12-11-2d-alloc",
+      "date": "2026-05-17",
+      "status": "planned"
+    },
+    {
+      "ch": 13,
+      "num": 1,
+      "id": "13.1",
+      "title": "Private Constructor",
+      "chapter": "Java",
+      "slug": "ctci-13-1-private-constructor",
+      "date": "2026-05-18",
+      "status": "planned"
+    },
+    {
+      "ch": 13,
+      "num": 2,
+      "id": "13.2",
+      "title": "Return from Finally",
+      "chapter": "Java",
+      "slug": "ctci-13-2-return-from-finally",
+      "date": "2026-05-19",
+      "status": "planned"
+    },
+    {
+      "ch": 13,
+      "num": 3,
+      "id": "13.3",
+      "title": "Final etc",
+      "chapter": "Java",
+      "slug": "ctci-13-3-final-etc",
+      "date": "2026-05-20",
+      "status": "planned"
+    },
+    {
+      "ch": 13,
+      "num": 4,
+      "id": "13.4",
+      "title": "Object Reflection",
+      "chapter": "Java",
+      "slug": "ctci-13-4-object-reflection",
+      "date": "2026-05-21",
+      "status": "planned"
+    },
+    {
+      "ch": 13,
+      "num": 5,
+      "id": "13.5",
+      "title": "TreeMap HashMap LinkedHashMap",
+      "chapter": "Java",
+      "slug": "ctci-13-5-treemap-hashmap-linkedhashmap",
+      "date": "2026-05-22",
+      "status": "planned"
+    },
+    {
+      "ch": 13,
+      "num": 6,
+      "id": "13.6",
+      "title": "Object Declaration",
+      "chapter": "Java",
+      "slug": "ctci-13-6-object-declaration",
+      "date": "2026-05-23",
+      "status": "planned"
+    },
+    {
+      "ch": 13,
+      "num": 7,
+      "id": "13.7",
+      "title": "Lambda Expressions",
+      "chapter": "Java",
+      "slug": "ctci-13-7-lambda-expressions",
+      "date": "2026-05-24",
+      "status": "planned"
+    },
+    {
+      "ch": 13,
+      "num": 8,
+      "id": "13.8",
+      "title": "Lambda Random",
+      "chapter": "Java",
+      "slug": "ctci-13-8-lambda-random",
+      "date": "2026-05-25",
+      "status": "planned"
+    },
+    {
+      "ch": 14,
+      "num": 1,
+      "id": "14.1",
+      "title": "Multiple Apartments",
+      "chapter": "Databases",
+      "slug": "ctci-14-1-multiple-apartments",
+      "date": "2026-05-26",
+      "status": "planned"
+    },
+    {
+      "ch": 14,
+      "num": 2,
+      "id": "14.2",
+      "title": "Open Requests",
+      "chapter": "Databases",
+      "slug": "ctci-14-2-open-requests",
+      "date": "2026-05-27",
+      "status": "planned"
+    },
+    {
+      "ch": 14,
+      "num": 3,
+      "id": "14.3",
+      "title": "Student Attendance",
+      "chapter": "Databases",
+      "slug": "ctci-14-3-student-attendance",
+      "date": "2026-05-28",
+      "status": "planned"
+    },
+    {
+      "ch": 14,
+      "num": 4,
+      "id": "14.4",
+      "title": "Grade Dictionary",
+      "chapter": "Databases",
+      "slug": "ctci-14-4-grade-dictionary",
+      "date": "2026-05-29",
+      "status": "planned"
+    },
+    {
+      "ch": 14,
+      "num": 5,
+      "id": "14.5",
+      "title": "Denormalization",
+      "chapter": "Databases",
+      "slug": "ctci-14-5-denormalization",
+      "date": "2026-05-30",
+      "status": "planned"
+    },
+    {
+      "ch": 14,
+      "num": 6,
+      "id": "14.6",
+      "title": "Entity-Relationship Data Model",
+      "chapter": "Databases",
+      "slug": "ctci-14-6-entity-relationship-data-model",
+      "date": "2026-05-31",
+      "status": "planned"
+    },
+    {
+      "ch": 14,
+      "num": 7,
+      "id": "14.7",
+      "title": "Design Grade Database",
+      "chapter": "Databases",
+      "slug": "ctci-14-7-design-grade-database",
+      "date": "2026-06-01",
+      "status": "planned"
+    },
+    {
+      "ch": 15,
+      "num": 1,
+      "id": "15.1",
+      "title": "Thread vs Process",
+      "chapter": "Threads and Locks",
+      "slug": "ctci-15-1-thread-vs-process",
+      "date": "2026-06-02",
+      "status": "planned"
+    },
+    {
+      "ch": 15,
+      "num": 2,
+      "id": "15.2",
+      "title": "Context Switch",
+      "chapter": "Threads and Locks",
+      "slug": "ctci-15-2-context-switch",
+      "date": "2026-06-03",
+      "status": "planned"
+    },
+    {
+      "ch": 15,
+      "num": 3,
+      "id": "15.3",
+      "title": "Dining Philosophers",
+      "chapter": "Threads and Locks",
+      "slug": "ctci-15-3-dining-philosophers",
+      "date": "2026-06-04",
+      "status": "planned"
+    },
+    {
+      "ch": 15,
+      "num": 4,
+      "id": "15.4",
+      "title": "Deadlock-Free Class",
+      "chapter": "Threads and Locks",
+      "slug": "ctci-15-4-deadlock-free-class",
+      "date": "2026-06-05",
+      "status": "planned"
+    },
+    {
+      "ch": 15,
+      "num": 5,
+      "id": "15.5",
+      "title": "Call In Order",
+      "chapter": "Threads and Locks",
+      "slug": "ctci-15-5-call-in-order",
+      "date": "2026-06-06",
+      "status": "planned"
+    },
+    {
+      "ch": 15,
+      "num": 6,
+      "id": "15.6",
+      "title": "Synchronized Methods",
+      "chapter": "Threads and Locks",
+      "slug": "ctci-15-6-synchronized-methods",
+      "date": "2026-06-07",
+      "status": "planned"
+    },
+    {
+      "ch": 15,
+      "num": 7,
+      "id": "15.7",
+      "title": "FizzBuzz",
+      "chapter": "Threads and Locks",
+      "slug": "ctci-15-7-fizzbuzz",
+      "date": "2026-06-08",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 1,
+      "id": "16.1",
+      "title": "Number Swapper",
+      "chapter": "Moderate",
+      "slug": "ctci-16-1-number-swapper",
+      "date": "2026-06-09",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 2,
+      "id": "16.2",
+      "title": "Word Frequencies",
+      "chapter": "Moderate",
+      "slug": "ctci-16-2-word-frequencies",
+      "date": "2026-06-10",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 3,
+      "id": "16.3",
+      "title": "Intersection",
+      "chapter": "Moderate",
+      "slug": "ctci-16-3-intersection",
+      "date": "2026-06-11",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 4,
+      "id": "16.4",
+      "title": "Tic Tac Win",
+      "chapter": "Moderate",
+      "slug": "ctci-16-4-tic-tac-win",
+      "date": "2026-06-12",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 5,
+      "id": "16.5",
+      "title": "Factorial Zeros",
+      "chapter": "Moderate",
+      "slug": "ctci-16-5-factorial-zeros",
+      "date": "2026-06-13",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 6,
+      "id": "16.6",
+      "title": "Smallest Difference",
+      "chapter": "Moderate",
+      "slug": "ctci-16-6-smallest-difference",
+      "date": "2026-06-14",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 7,
+      "id": "16.7",
+      "title": "Number Max",
+      "chapter": "Moderate",
+      "slug": "ctci-16-7-number-max",
+      "date": "2026-06-15",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 8,
+      "id": "16.8",
+      "title": "English Int",
+      "chapter": "Moderate",
+      "slug": "ctci-16-8-english-int",
+      "date": "2026-06-16",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 9,
+      "id": "16.9",
+      "title": "Operations",
+      "chapter": "Moderate",
+      "slug": "ctci-16-9-operations",
+      "date": "2026-06-17",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 10,
+      "id": "16.10",
+      "title": "Living People",
+      "chapter": "Moderate",
+      "slug": "ctci-16-10-living-people",
+      "date": "2026-06-18",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 11,
+      "id": "16.11",
+      "title": "Diving Board",
+      "chapter": "Moderate",
+      "slug": "ctci-16-11-diving-board",
+      "date": "2026-06-19",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 12,
+      "id": "16.12",
+      "title": "XML Encoding",
+      "chapter": "Moderate",
+      "slug": "ctci-16-12-xml-encoding",
+      "date": "2026-06-20",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 13,
+      "id": "16.13",
+      "title": "Bisect Squares",
+      "chapter": "Moderate",
+      "slug": "ctci-16-13-bisect-squares",
+      "date": "2026-06-21",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 14,
+      "id": "16.14",
+      "title": "Best Line",
+      "chapter": "Moderate",
+      "slug": "ctci-16-14-best-line",
+      "date": "2026-06-22",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 15,
+      "id": "16.15",
+      "title": "Master Mind",
+      "chapter": "Moderate",
+      "slug": "ctci-16-15-master-mind",
+      "date": "2026-06-23",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 16,
+      "id": "16.16",
+      "title": "Sub Sort",
+      "chapter": "Moderate",
+      "slug": "ctci-16-16-sub-sort",
+      "date": "2026-06-24",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 17,
+      "id": "16.17",
+      "title": "Contiguous Sequence",
+      "chapter": "Moderate",
+      "slug": "ctci-16-17-contiguous-sequence",
+      "date": "2026-06-25",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 18,
+      "id": "16.18",
+      "title": "Pattern Matching",
+      "chapter": "Moderate",
+      "slug": "ctci-16-18-pattern-matching",
+      "date": "2026-06-26",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 19,
+      "id": "16.19",
+      "title": "Pond Sizes",
+      "chapter": "Moderate",
+      "slug": "ctci-16-19-pond-sizes",
+      "date": "2026-06-27",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 20,
+      "id": "16.20",
+      "title": "T9",
+      "chapter": "Moderate",
+      "slug": "ctci-16-20-t9",
+      "date": "2026-06-28",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 21,
+      "id": "16.21",
+      "title": "Sum Swap",
+      "chapter": "Moderate",
+      "slug": "ctci-16-21-sum-swap",
+      "date": "2026-06-29",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 22,
+      "id": "16.22",
+      "title": "Langton's Ant",
+      "chapter": "Moderate",
+      "slug": "ctci-16-22-langton-s-ant",
+      "date": "2026-06-30",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 23,
+      "id": "16.23",
+      "title": "Rand7 from Rand5",
+      "chapter": "Moderate",
+      "slug": "ctci-16-23-rand7-from-rand5",
+      "date": "2026-07-01",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 24,
+      "id": "16.24",
+      "title": "Pairs with Sum",
+      "chapter": "Moderate",
+      "slug": "ctci-16-24-pairs-with-sum",
+      "date": "2026-07-02",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 25,
+      "id": "16.25",
+      "title": "LRU Cache",
+      "chapter": "Moderate",
+      "slug": "ctci-16-25-lru-cache",
+      "date": "2026-07-03",
+      "status": "planned"
+    },
+    {
+      "ch": 16,
+      "num": 26,
+      "id": "16.26",
+      "title": "Calculator",
+      "chapter": "Moderate",
+      "slug": "ctci-16-26-calculator",
+      "date": "2026-07-04",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 1,
+      "id": "17.1",
+      "title": "Add Without Plus",
+      "chapter": "Hard",
+      "slug": "ctci-17-1-add-without-plus",
+      "date": "2026-07-05",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 2,
+      "id": "17.2",
+      "title": "Shuffle",
+      "chapter": "Hard",
+      "slug": "ctci-17-2-shuffle",
+      "date": "2026-07-06",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 3,
+      "id": "17.3",
+      "title": "Random Set",
+      "chapter": "Hard",
+      "slug": "ctci-17-3-random-set",
+      "date": "2026-07-07",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 4,
+      "id": "17.4",
+      "title": "Missing Number",
+      "chapter": "Hard",
+      "slug": "ctci-17-4-missing-number",
+      "date": "2026-07-08",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 5,
+      "id": "17.5",
+      "title": "Letters and Numbers",
+      "chapter": "Hard",
+      "slug": "ctci-17-5-letters-and-numbers",
+      "date": "2026-07-09",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 6,
+      "id": "17.6",
+      "title": "Count of 2s",
+      "chapter": "Hard",
+      "slug": "ctci-17-6-count-of-2s",
+      "date": "2026-07-10",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 7,
+      "id": "17.7",
+      "title": "Baby Names",
+      "chapter": "Hard",
+      "slug": "ctci-17-7-baby-names",
+      "date": "2026-07-11",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 8,
+      "id": "17.8",
+      "title": "Circus Tower",
+      "chapter": "Hard",
+      "slug": "ctci-17-8-circus-tower",
+      "date": "2026-07-12",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 9,
+      "id": "17.9",
+      "title": "Kth Multiple",
+      "chapter": "Hard",
+      "slug": "ctci-17-9-kth-multiple",
+      "date": "2026-07-13",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 10,
+      "id": "17.10",
+      "title": "Majority Element",
+      "chapter": "Hard",
+      "slug": "ctci-17-10-majority-element",
+      "date": "2026-07-14",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 11,
+      "id": "17.11",
+      "title": "Word Distance",
+      "chapter": "Hard",
+      "slug": "ctci-17-11-word-distance",
+      "date": "2026-07-15",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 12,
+      "id": "17.12",
+      "title": "BiNode",
+      "chapter": "Hard",
+      "slug": "ctci-17-12-binode",
+      "date": "2026-07-16",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 13,
+      "id": "17.13",
+      "title": "Re-Space",
+      "chapter": "Hard",
+      "slug": "ctci-17-13-re-space",
+      "date": "2026-07-17",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 14,
+      "id": "17.14",
+      "title": "Smallest K",
+      "chapter": "Hard",
+      "slug": "ctci-17-14-smallest-k",
+      "date": "2026-07-18",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 15,
+      "id": "17.15",
+      "title": "Longest Word",
+      "chapter": "Hard",
+      "slug": "ctci-17-15-longest-word",
+      "date": "2026-07-19",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 16,
+      "id": "17.16",
+      "title": "The Masseuse",
+      "chapter": "Hard",
+      "slug": "ctci-17-16-the-masseuse",
+      "date": "2026-07-20",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 17,
+      "id": "17.17",
+      "title": "Multi Search",
+      "chapter": "Hard",
+      "slug": "ctci-17-17-multi-search",
+      "date": "2026-07-21",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 18,
+      "id": "17.18",
+      "title": "Shortest Supersequence",
+      "chapter": "Hard",
+      "slug": "ctci-17-18-shortest-supersequence",
+      "date": "2026-07-22",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 19,
+      "id": "17.19",
+      "title": "Missing Two",
+      "chapter": "Hard",
+      "slug": "ctci-17-19-missing-two",
+      "date": "2026-07-23",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 20,
+      "id": "17.20",
+      "title": "Continuous Median",
+      "chapter": "Hard",
+      "slug": "ctci-17-20-continuous-median",
+      "date": "2026-07-24",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 21,
+      "id": "17.21",
+      "title": "Volume of Histogram",
+      "chapter": "Hard",
+      "slug": "ctci-17-21-volume-of-histogram",
+      "date": "2026-07-25",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 22,
+      "id": "17.22",
+      "title": "Word Transformer",
+      "chapter": "Hard",
+      "slug": "ctci-17-22-word-transformer",
+      "date": "2026-07-26",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 23,
+      "id": "17.23",
+      "title": "Max Black Square",
+      "chapter": "Hard",
+      "slug": "ctci-17-23-max-black-square",
+      "date": "2026-07-27",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 24,
+      "id": "17.24",
+      "title": "Max Submatrix",
+      "chapter": "Hard",
+      "slug": "ctci-17-24-max-submatrix",
+      "date": "2026-07-28",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 25,
+      "id": "17.25",
+      "title": "Word Rectangle",
+      "chapter": "Hard",
+      "slug": "ctci-17-25-word-rectangle",
+      "date": "2026-07-29",
+      "status": "planned"
+    },
+    {
+      "ch": 17,
+      "num": 26,
+      "id": "17.26",
+      "title": "Sparse Similarity",
+      "chapter": "Hard",
+      "slug": "ctci-17-26-sparse-similarity",
+      "date": "2026-07-30",
+      "status": "planned"
+    }
+  ],
+  "schedule_start": "2026-01-22",
+  "schedule_end": "2026-07-30",
+  "note": "All publish dates are backdated on or before schedule_end (never future)."
+}

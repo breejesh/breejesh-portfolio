@@ -4,43 +4,62 @@
     <!-- Magazine Header -->
     <div class="blog-magazine-header">
       <h1 class="magazine-title">{{ 'Blog.Title' | translate }}</h1>
-      <p class="magazine-subtitle"> {{ filteredPosts().length }} {{ 'Blog.Stats' | translate | lowercase }}</p>
+      <p class="magazine-subtitle">
+        {{ totalArticles() }} {{ 'Blog.Stats' | translate | lowercase }}
+        <span class="subtitle-sep" *ngIf="filtersActive()">·</span>
+        <span class="subtitle-filter" *ngIf="filtersActive()">{{ 'Blog.Filtered' | translate }}</span>
+      </p>
     </div>
 
-    <!-- Featured Post (Larger Card) - Only shown when no filters are active -->
-    <div 
-      *ngIf="filteredPosts().length > 0 && searchQuery() === '' && selectedTag() === ''" 
-      class="featured-magazine-card" 
-      [routerLink]="'/blog/' + languageService.language() + '/' + filteredPosts()[0].slug" 
+    <!-- Featured Post (Larger Card) - Only on unfiltered browse, first "page" -->
+    <div
+      *ngIf="featuredPost() as featured"
+      class="featured-magazine-card"
+      [routerLink]="'/blog/' + languageService.language() + '/' + featured.slug"
       style="cursor: pointer;"
     >
       <div class="featured-img-wrapper">
-        <img [src]="getPostImage(filteredPosts()[0])" [alt]="filteredPosts()[0].attributes.title + ' cover image'" class="featured-img" loading="eager" />
+        <img
+          [src]="getPostImage(featured)"
+          [alt]="featured.attributes.title + ' cover image'"
+          class="featured-img"
+          loading="eager"
+          width="800"
+          height="450"
+        />
       </div>
       <div class="featured-content">
         <div class="post-meta">
-          <span class="post-date"><i class="far fa-calendar-alt"></i> {{ filteredPosts()[0].attributes.date | date: 'longDate' }}</span>
+          <span class="post-date"><i class="far fa-calendar-alt"></i> {{ featured.attributes.date | date: 'longDate' }}</span>
         </div>
         <h2 class="featured-title">
-          <a [routerLink]="'/blog/' + languageService.language() + '/' + filteredPosts()[0].slug">{{ filteredPosts()[0].attributes.title }}</a>
+          <a [routerLink]="'/blog/' + languageService.language() + '/' + featured.slug">{{ featured.attributes.title }}</a>
         </h2>
-        <p class="featured-excerpt">{{ filteredPosts()[0].attributes.description }}</p>
-        <a [routerLink]="'/blog/' + languageService.language() + '/' + filteredPosts()[0].slug" class="read-more-link">
+        <p class="featured-excerpt">{{ featured.attributes.description }}</p>
+        <a [routerLink]="'/blog/' + languageService.language() + '/' + featured.slug" class="read-more-link">
           {{ 'Blog.Read' | translate }}
         </a>
       </div>
     </div>
 
-    <!-- Rest of the Posts (Grid layout) -->
-    <div class="posts-grid" *ngIf="filteredPosts().length > 0">
-      <article 
-        *ngFor="let post of (searchQuery() !== '' || selectedTag() !== '' ? filteredPosts() : filteredPosts().slice(1))" 
+    <!-- Windowed grid: only visibleCount cards in the DOM -->
+    <div class="posts-grid" *ngIf="visiblePosts().length > 0">
+      <article
+        *ngFor="let post of visiblePosts(); trackBy: trackBySlug"
         class="blog-card"
         [routerLink]="'/blog/' + languageService.language() + '/' + post.slug"
         style="cursor: pointer;"
       >
         <div class="card-img-wrapper">
-          <img [src]="getPostImage(post)" [alt]="post.attributes.title + ' preview'" class="card-img" loading="lazy" />
+          <img
+            [src]="getPostImage(post)"
+            [alt]="post.attributes.title + ' preview'"
+            class="card-img"
+            loading="lazy"
+            decoding="async"
+            width="560"
+            height="315"
+          />
         </div>
         <div class="card-body">
           <div class="post-meta">
@@ -60,8 +79,40 @@
       </article>
     </div>
 
+    <!-- Load more + progress (infinite scroll sentinel) -->
+    <div class="load-more-section" *ngIf="totalGridPosts() > 0">
+      <p class="load-more-status">
+        {{ 'Blog.Showing' | translate }}
+        <strong>{{ showingFrom() }}–{{ showingTo() }}</strong>
+        {{ 'Blog.Of' | translate }}
+        <strong>{{ totalGridPosts() }}</strong>
+      </p>
+
+      <button
+        type="button"
+        class="load-more-btn"
+        *ngIf="hasMore()"
+        (click)="loadMore()"
+      >
+        {{ 'Blog.LoadMore' | translate }}
+        <i class="fas fa-chevron-down load-more-icon" aria-hidden="true"></i>
+      </button>
+
+      <p class="load-more-done" *ngIf="!hasMore() && totalGridPosts() > pageSize">
+        {{ 'Blog.EndOfList' | translate }}
+      </p>
+
+      <!-- IntersectionObserver target: auto-loads next page near the fold -->
+      <div
+        #loadMoreSentinel
+        class="load-more-sentinel"
+        *ngIf="hasMore()"
+        aria-hidden="true"
+      ></div>
+    </div>
+
     <!-- Empty State -->
-    <div *ngIf="filteredPosts().length === 0" class="no-results">
+    <div *ngIf="totalArticles() === 0" class="no-results">
       <i class="far fa-frown no-results-icon"></i>
       <h3>{{ 'Blog.NoPosts' | translate }}</h3>
       <p>{{ 'Blog.NoPostsDesc' | translate }}</p>
@@ -90,14 +141,14 @@
       <div class="sidebar-widget" *ngIf="allTags().length > 0">
         <h4 class="widget-title">{{ 'Blog.ExploreTopics' | translate }}</h4>
         <div class="tags-row">
-          <button 
-            (click)="selectTag('')" 
-            class="tag-pill-btn" 
+          <button
+            (click)="selectTag('')"
+            class="tag-pill-btn"
             [class.active]="selectedTag() === ''">{{ 'Blog.AllTopics' | translate }}</button>
-          <button 
-            *ngFor="let tag of allTags()" 
-            (click)="selectTag(tag)" 
-            class="tag-pill-btn" 
+          <button
+            *ngFor="let tag of allTags()"
+            (click)="selectTag(tag)"
+            class="tag-pill-btn"
             [class.active]="selectedTag() === tag">{{ tag }}</button>
         </div>
       </div>
