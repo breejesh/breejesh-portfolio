@@ -1,0 +1,36 @@
+---
+title: "Dining Philosophers: Preventing Deadlock with Resource Ordering (CTCI 15.3)"
+description: "CTCI problem 15.3: solving the classic Dining Philosophers deadlock using lock hierarchy and strict resource acquisition order."
+date: "2026-04-27"
+tags: [Algorithms]
+coverImage: /assets/images/ctci-15-3-dining-philosophers.webp
+previewImage: /assets/images/ctci-15-3-dining-philosophers.webp
+---
+
+
+> **टीएल;डीआर**
+> * **समस्या:** सीटीसीआई समस्या १५.३ का तकनीकी विवरण।
+> * **दृष्टिकोण:** सीटीसीआई problem १५.३: solving the classic Dining Philosophers deadlock using lock hierarchy and strict resource acquisition order.
+> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+
+यह लेख सीटीसीआई समस्या **१५.३** का एक स्पष्ट विवरण प्रदान करता है।
+
+## १. संदर्भ और समस्या कथन
+सीटीसीआई problem १५.३: solving the classic Dining Philosophers deadlock using lock hierarchy and strict resource acquisition order.
+
+## २. कोड और कार्यान्वयन
+
+```java
+public void pickUpChopsticks(int left, int right) {
+    int first = Math.min(left, right);
+    int second = Math.max(left, right);
+    synchronized (chopsticks[first]) {
+        synchronized (chopsticks[second]) {
+            // Eat safely without deadlock
+        }
+    }
+}
+```
+
+## ३. सारांश और एज केसेस
+हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
