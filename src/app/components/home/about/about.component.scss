@@ -1,19 +1,19 @@
-@import "./../../../../variables.scss";
+@use "../../../../variables.scss";
 
-.about{
-
-    .about-description{
+/* ─── About / Bio ─────────────────────────────────────────────── */
+.about {
+    .about-description {
         margin-top: 30px;
         max-width: 480px;
     }
 
-    .about-img-container{
+    .about-img-container {
         width: 324px;
         margin: auto;
 
-        &:after{
+        &:after {
             content: '';
-            border: 2px solid $Green;
+            border: 2px solid variables.$Green;
             z-index: 0;
             display: block;
             position: relative;
@@ -22,57 +22,250 @@
             border-radius: 3px;
             bottom: 290px;
             left: 23px;
-
         }
 
-        img{
+        img {
             z-index: 2;
             position: relative;
         }
     }
-
-    .skills-list{
-        display: grid;
-        grid-template-columns: repeat(2,minmax(140px,200px));
-        overflow: hidden;
-        padding: 0;
-        margin: 20px 0 0 0;
-        list-style: none;
-    }
-
-    .skill-element{
-        position: relative;
-        margin-bottom: 10px;
-        padding-left: 20px;
-        font-size: 13px;
-        font-family: $CodeFont;
-        color: $Slate;
-        span{
-          padding-bottom: 5px;
-        }
-
-        &:before {
-            content: '▹';
-            position: absolute;
-            left: 0;
-            color: $Green;
-            font-size: 14px;
-            line-height: 12px;
-        }
-    }
-
 }
 
-@media (min-width: 992px) and (max-width: 1300px){
-    .about-img-container{
+.about-section-block {
+    width: 100%;
+}
+
+.mt-section {
+    margin-top: 60px;
+}
+
+.section-subtitle {
+    font-size: 15px;
+    color: variables.$Slate;
+    margin: -8px 0 28px 0;
+}
+
+/* ─── Tech Stack Pills ─────────────────────────────────────────── */
+.tech-pills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.tech-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: default;
+    transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 4px;
+        bottom: 4px;
+        width: 2px;
+        border-radius: 2px;
+        background-color: var(--pill-color, var(--accent-color));
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+
+    &:hover {
+        border-color: var(--pill-color, var(--accent-color));
+        background-color: color-mix(in srgb, var(--pill-color, var(--accent-color)) 8%, var(--bg-secondary));
+        transform: translateY(-2px);
+        box-shadow: 0 4px 14px -4px color-mix(in srgb, var(--pill-color) 30%, transparent);
+
+        &::before { opacity: 1; }
+        .pill-label { color: var(--text-primary); }
+    }
+
+    .pill-icon {
+        font-size: 16px;
+        line-height: 1;
+        flex-shrink: 0;
+    }
+
+    .pill-ts-badge {
+        font-size: 10px;
+        font-weight: 800;
+        color: #fff;
+        width: 18px;
+        height: 18px;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: variables.$CodeFont;
+        flex-shrink: 0;
+    }
+
+    .pill-label {
+        font-family: variables.$CodeFont;
+        font-size: 13px;
+        color: variables.$LightSlate;
+        white-space: nowrap;
+        transition: color 0.2s;
+    }
+}
+
+/* ─── What I Do ─────────────────────────────────────────────────── */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 8px;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+.service-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    position: relative;
+
+    &:hover {
+        border-color: var(--accent-color);
+        transform: translateY(-4px);
+        box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.35);
+
+        .service-title { color: var(--accent-color); }
+        .service-icon { color: var(--accent-color); }
+        .bullet-arrow { color: var(--accent-color); }
+    }
+}
+
+/* Header row: icon box + title */
+.service-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.service-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: border-color 0.3s;
+}
+
+.service-icon {
+    font-size: 17px;
+    color: variables.$Green;
+    transition: color 0.3s ease;
+}
+
+.service-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: variables.$LightestSlate;
+    margin: 0;
+    font-family: variables.$MainFont;
+    transition: color 0.3s;
+    line-height: 1.3;
+}
+
+/* Description */
+.service-desc {
+    font-size: 13.5px;
+    color: variables.$Slate;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Bullet list */
+.service-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 14px;
+
+    li {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
+
+.bullet-arrow {
+    color: variables.$Green;
+    font-size: 13px;
+    line-height: 1.6;
+    flex-shrink: 0;
+    transition: color 0.3s;
+}
+
+.bullet-text {
+    font-family: variables.$CodeFont;
+    font-size: 12.5px;
+    color: variables.$LightSlate;
+    line-height: 1.6;
+}
+
+/* Tech Tags */
+.service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 14px;
+    margin-top: auto;
+}
+
+.service-tag {
+    font-family: variables.$CodeFont;
+    font-size: 11.5px;
+    color: variables.$Green;
+    background-color: color-mix(in srgb, var(--accent-color) 10%, var(--bg-primary));
+    border: 1px solid color-mix(in srgb, var(--accent-color) 25%, transparent);
+    border-radius: 4px;
+    padding: 3px 9px;
+    transition: all 0.2s;
+
+    &:hover {
+        background-color: color-mix(in srgb, var(--accent-color) 18%, var(--bg-primary));
+        border-color: var(--accent-color);
+    }
+}
+
+/* ─── Responsive Adjustments ───────────────────────────────────── */
+@media (min-width: 992px) and (max-width: 1300px) {
+    .about-img-container {
         margin-left: auto;
         margin-right: 0;
     }
 }
 
-@media (max-width: 500px){
-    .about{
-        .about-img-container img{
+@media (max-width: 500px) {
+    .about {
+        .about-img-container img {
             width: 200px;
             height: 200px;
         }
@@ -85,13 +278,12 @@
     }
 }
 
-@media (max-width: 500px){
-    .about{
-
+@media (max-width: 500px) {
+    .about {
         .about-img-container {
             width: 100%;
 
-            img{
+            img {
                 width: 180px;
                 height: 180px;
             }
@@ -102,4 +294,3 @@
         }
     }
 }
-

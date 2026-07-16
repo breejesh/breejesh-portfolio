@@ -1,57 +1,105 @@
-<nav class="navbar main-navbar on-top" [class.nav-shadow]='this.pageYPosition>0'>
-  <div class="container">
-
-    <div class="menu-wrapper mt-4">
-      <a class="navbar-brand text-light">
-        &lt;br/&gt;
-      </a>
-      <ng-container>
-        <div (click)='responsiveMenuVisible = !responsiveMenuVisible'>
-          <i class="fas fa-bars" *ngIf="!responsiveMenuVisible"></i>
-          <i class="fas fa-times" *ngIf="responsiveMenuVisible"></i>
-        </div>
-      </ng-container>
+<header class="main-header" [class.nav-shadow]="pageYPosition > 0">
+  <div class="container nav-container">
+    <!-- Brand / Logo (Left) -->
+    <div class="logo-wrapper">
+      <a (click)="scroll('/')" class="brand-logo">&lt;br/&gt;</a>
     </div>
-    <div class="menu-responsive"  [ngClass]="{'expand-sidebar': responsiveMenuVisible}">
-      <aside [class.nav-shadow]='this.pageYPosition>0' class="on-top">
-        <a class="navbar-brand text-light sidebar-logo">
-          <ng-container *ngIf="!responsiveMenuVisible">&lt;br/&gt;</ng-container>
-        </a>
-        <nav>
-          <ol>
-            <ng-container *ngFor='let headerItem of "Header.Items" | translate ; let i = index'>
-              <li>
-                <a (click)='scroll(headerItem.scroll)'>
-                  <span>0{{i}}.&nbsp;</span> {{headerItem.title}}
-                </a>
-              </li>
-            </ng-container>
-            <li>
-              <a (click)="downloadCV()" class="main-btn cv-btn">
-                {{"Header.cvBtn" | translate}}
-              </a>
-            </li>
-          </ol>
-        </nav>
-        <div class="sidebar-contact text-white d-flex flex-col justify-content-start align-items-center">
-          <div class="mr-3">
-            <a class="text-white" href="mailto:breejeshrathod@gmail.com" target="_blank">
-              <i class="far fa-envelope"></i>
-            </a>
-          </div>
-          <div class="mr-3">
-            <a href="https://github.com/breejesh" class="text-white" target='_blank'>
-              <i class="fab fa-github"></i>
-            </a>
-          </div>
-          <div>
-            <a href="https://www.linkedin.com/in/breejesh/" class="text-white" target='_blank'>
-              <i class="fab fa-linkedin-in"></i>
-            </a>
-          </div>
-        </div>
 
-      </aside>
+    <!-- Desktop Navigation Links (Center) -->
+    <nav class="desktop-nav-menu">
+      <ul class="nav-links">
+        <li *ngFor="let item of 'Header.Items' | translate | asArray; let i = index">
+          <a (click)="scroll(item.scroll)" class="nav-item-link" [class.active]="activeRouteSection === item.scroll">
+            {{item.title}}
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Controls (Right): Resume, Language, Theme -->
+    <div class="desktop-nav-controls">
+      <!-- CV Button -->
+      <a routerLink="/resume" class="cv-button" [class.active]="activeRouteSection === 'resume'">{{"Header.cvBtn" | translate}}</a>
+
+      <!-- Language Switcher Dropdown -->
+      <div class="lang-dropdown-wrapper" ngbDropdown placement="bottom-end">
+        <button class="lang-toggle-btn" ngbDropdownToggle [attr.aria-label]="'Language'">
+          <i class="fas fa-globe"></i>
+          <span class="lang-text">{{ languageService.language() | uppercase }}</span>
+          <i class="fas fa-chevron-down arrow-down"></i>
+        </button>
+        <div ngbDropdownMenu class="lang-dropdown-menu">
+          <button ngbDropdownItem (click)="changeLanguage('en')" class="dropdown-item-btn" [class.active]="languageService.language() === 'en'">
+            EN - English
+          </button>
+          <button ngbDropdownItem (click)="changeLanguage('es')" class="dropdown-item-btn" [class.active]="languageService.language() === 'es'">
+             ES - Español
+          </button>
+          <button ngbDropdownItem (click)="changeLanguage('hi')" class="dropdown-item-btn" [class.active]="languageService.language() === 'hi'">
+             HI - हिन्दी
+          </button>
+          <button ngbDropdownItem (click)="changeLanguage('fr')" class="dropdown-item-btn" [class.active]="languageService.language() === 'fr'">
+             FR - Français
+          </button>
+        </div>
+      </div>
+
+      <!-- Theme Toggle Button -->
+      <button (click)="themeService.toggleTheme()" class="theme-toggle-btn" [attr.aria-label]="'Toggle Theme'">
+        <i class="fas" [class.fa-sun]="themeService.isDarkTheme()" [class.fa-moon]="!themeService.isDarkTheme()"></i>
+      </button>
     </div>
+
+    <!-- Mobile Hamburger Toggle -->
+    <button class="hamburger-toggle" (click)="responsiveMenuVisible = !responsiveMenuVisible" [attr.aria-label]="'Toggle Menu'">
+      <span class="hamburger-line" [class.open]="responsiveMenuVisible"></span>
+      <span class="hamburger-line" [class.open]="responsiveMenuVisible"></span>
+      <span class="hamburger-line" [class.open]="responsiveMenuVisible"></span>
+    </button>
   </div>
-</nav>
+</header>
+
+<!-- Mobile Drawer Overlay -->
+<div class="mobile-drawer-overlay" [class.open]="responsiveMenuVisible" (click)="responsiveMenuVisible = false"></div>
+
+<!-- Mobile Drawer -->
+<div class="mobile-drawer" [class.open]="responsiveMenuVisible">
+  <div class="drawer-header">
+    <a (click)="scroll('/')" class="brand-logo">&lt;br/&gt;</a>
+    <button class="close-drawer-btn" (click)="responsiveMenuVisible = false" [attr.aria-label]="'Close Menu'">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  
+  <nav class="mobile-nav-menu">
+    <ul class="mobile-nav-links">
+      <li *ngFor="let item of 'Header.Items' | translate | asArray; let i = index">
+        <a (click)="scroll(item.scroll)" class="mobile-nav-item-link" [class.active]="activeRouteSection === item.scroll">
+          {{item.title}}
+        </a>
+      </li>
+      <li>
+        <a routerLink="/resume" (click)="responsiveMenuVisible = false" class="cv-button mobile-cv-btn" [class.active]="activeRouteSection === 'resume'">{{"Header.cvBtn" | translate}}</a>
+      </li>
+    </ul>
+
+    <!-- Controls in Mobile Drawer -->
+    <div class="drawer-controls">
+      <div class="mobile-lang-selector">
+        <button class="mobile-lang-btn" [class.active]="languageService.language() === 'en'" (click)="changeLanguage('en')">EN</button>
+        <span class="divider">|</span>
+        <button class="mobile-lang-btn" [class.active]="languageService.language() === 'es'" (click)="changeLanguage('es')">ES</button>
+        <span class="divider">|</span>
+        <button class="mobile-lang-btn" [class.active]="languageService.language() === 'hi'" (click)="changeLanguage('hi')">HI</button>
+        <span class="divider">|</span>
+        <button class="mobile-lang-btn" [class.active]="languageService.language() === 'fr'" (click)="changeLanguage('fr')">FR</button>
+      </div>
+
+      <!-- Theme Toggle -->
+      <button (click)="themeService.toggleTheme(); responsiveMenuVisible = false" class="drawer-theme-toggle" [attr.aria-label]="'Toggle Theme'">
+        <i class="fas" [class.fa-sun]="themeService.isDarkTheme()" [class.fa-moon]="!themeService.isDarkTheme()"></i>
+        <span>Theme</span>
+      </button>
+    </div>
+  </nav>
+</div>

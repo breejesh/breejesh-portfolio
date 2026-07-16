@@ -3,11 +3,11 @@
         <div class="section-box">
             <div data-aos="fade-up" data-aos-duration="1000">
                 <h3 class="section-title">
-                    <span class='n-section-title'>03.</span> {{"FeatureProjects.Title" | translate}}
+                    {{"FeatureProjects.Title" | translate}}
                 </h3>
             </div>
 
-            <div *ngFor='let project of "FeatureProjects.Projects" | translate; let i = index' class="d-flex project-container" data-aos="fade-up" data-aos-duration="1000">
+            <div *ngFor='let project of "FeatureProjects.Projects" | translate | asArray; let i = index' class="d-flex project-container" data-aos="fade-up" data-aos-duration="1000">
                 <div class="img-feature-project-container" data-aos="fade-up" data-aos-duration="1000" *ngIf="i%2==0">
                     <div class="img-feature-project-box">
                         <div class="img-container" style='width: auto;'>

@@ -7,11 +7,8 @@ import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-export function HttpLoaderFactory(http: HttpClient){
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
+import { AsArrayPipe } from '../../pipes/as-array.pipe';
 
 @NgModule({
   declarations: [
@@ -25,14 +22,9 @@ export function HttpLoaderFactory(http: HttpClient){
     NgbDropdownModule,
     FormsModule,
     ReactiveFormsModule,
-    TranslateModule.forChild({
-      loader: {
-          provide: TranslateLoader,
-          useFactory: HttpLoaderFactory,
-          deps: [HttpClient]
-      }
-    })
+    TranslateModule.forChild(),
+    AsArrayPipe
   ],
-  exports: [HeaderComponent, FooterComponent]
+  exports: [HeaderComponent, FooterComponent, AsArrayPipe]
 })
 export class GeneralModule { }

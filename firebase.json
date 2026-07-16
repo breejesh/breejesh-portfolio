@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/breejeshrathod-portfolio",
+    "public": "dist/analog/public",
     "ignore": [
       "firebase.json",
       "**/.*",

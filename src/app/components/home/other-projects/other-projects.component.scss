@@ -1,4 +1,4 @@
-@import "./../../../../variables.scss";
+@use "../../../../variables.scss";
 
 .more-projects{
     .project-col{
@@ -33,7 +33,7 @@
             border-radius: 3px;
             -webkit-transition: all 0.25s cubic-bezier(0.645,0.045,0.355,1);
             transition: all 0.25s cubic-bezier(0.645,0.045,0.355,1);
-            background-color: $LightNavy;
+            background-color: variables.$LightNavy;
 
             &:hover {
                 -webkit-transform: translateY(-5px);
@@ -47,18 +47,18 @@
             svg{
                 width: 40px;
                 height: 40px;
-                color: $Green;
+                color: variables.$Green;
             }
 
             .other-project-title{
                 margin-top: 0.5rem;
                 font-size: 22px;
-                color: $LightestSlate;
+                color: variables.$LightestSlate;
             }
 
             .other-project-description{
                 font-size: 17px;
-                color: $LightSlate;
+                color: variables.$LightSlate;
             }
 
             .more-projects-skills{
@@ -83,10 +83,10 @@
 
                 li{
                     font-size: 12px;
-                    color: $Slate;
+                    color: variables.$Slate;
                     line-height: 1.75;
                     margin-right: 15px;
-                    font-family: $CodeFont;
+                    font-family: variables.$CodeFont;
                     .underline{
                         padding-bottom: 3.5px;
                     }

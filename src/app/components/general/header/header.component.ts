@@ -5,7 +5,8 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import { LanguageService } from 'src/app/services/language/language.service';
+import { LanguageService } from '../../../services/language/language.service';
+import { ThemeService } from '../../../services/theme/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +21,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private router: Router,
-    public languageService: LanguageService
+    public languageService: LanguageService,
+    public themeService: ThemeService
   ) {}
 
   ngOnInit(): void {
@@ -28,17 +30,17 @@ export class HeaderComponent implements OnInit {
       this.languageService.changeLanguage(val)
     );
 
-    this.languageFormControl.setValue(this.languageService.language);
+    this.languageFormControl.setValue(this.languageService.language());
   }
 
   scroll(el) {
-    if (document.getElementById(el)) {
-      document.getElementById(el).scrollIntoView({ behavior: 'smooth' });
+    if (el === '/') {
+      this.router.navigate(['/']).then(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     } else {
-      this.router.navigate(['/home']).then(() => {
-        if (document.getElementById(el)) {
-          document.getElementById(el).scrollIntoView({ behavior: 'smooth' });
-        }
+      this.router.navigate([`/${el}`]).then(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     }
     this.responsiveMenuVisible = false;
@@ -58,8 +60,18 @@ export class HeaderComponent implements OnInit {
       });
   }
 
-  @HostListener('window:scroll', ['getScrollPosition($event)'])
-  getScrollPosition(event) {
+  get activeRouteSection() {
+    const url = this.router.url;
+    if (url.startsWith('/blog')) return 'blog';
+    if (url.startsWith('/experience')) return 'experience';
+    if (url.startsWith('/projects')) return 'projects';
+    if (url.startsWith('/achievements')) return 'achievements';
+    if (url.startsWith('/resume')) return 'resume';
+    return '/';
+  }
+
+  @HostListener('window:scroll', [])
+  getScrollPosition() {
     this.pageYPosition = window.pageYOffset;
   }
 

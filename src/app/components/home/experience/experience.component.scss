@@ -1,163 +1,322 @@
-@import "./../../../../variables.scss";
+@use "../../../../variables.scss";
 
-
-::ng-deep .jobs .jobs-tabs {
-    display: flex;
-
-    .tab-content{
-        margin-left: 38px;
-    }
-
-    ul{
-        display: block;
-        min-width: 148px;
-        border: none;
-    }
-
-    a.active{
-        background-color: $LightNavy !important;
-        color: $Green !important;
-        border-color: transparent !important;
-        border-radius: 0px;
-    }
-
-    a:hover{
-        background-color: $LightNavy !important;
-        color: $Green !important;
-        border-color: transparent !important;
-        border-radius: 0px;
-    }
-
-    a{
-        display: inline-block;
-        -webkit-text-decoration: none;
-        text-decoration: none;
-        -webkit-text-decoration-skip-ink: auto;
-        text-decoration-skip-ink: auto;
-        color: inherit;
-        position: relative;
-        -webkit-transition: all 0.25s cubic-bezier(0.645,0.045,0.355,1);
-        transition: all 0.25s cubic-bezier(0.645,0.045,0.355,1);
-        cursor: pointer;
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-align-items: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        width: 100%;
-        background-color: transparent;
-        height: 42px;
-        padding: 0 20px 2px;
-        -webkit-transition: all 0.25s cubic-bezier(0.645,0.045,0.355,1);
-        transition: all 0.25s cubic-bezier(0.645,0.045,0.355,1);
-        text-align: left;
-        white-space: nowrap;
-        font-family: $CodeFont;
-        font-size: 13px;
-        color: $Slate;
-    }
-
-    li{
-        border-left: 2px solid $LightestNavy;
-        border-left-width: 2px;
-        border-left-style: solid;
-        border-left-color: rgb(48, 60, 85);
-    }
-}
-
-.project-skills {
+.experience-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 60px;
   position: relative;
-  z-index: 2;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex !important;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  padding: 0;
-  margin: 25px 0 10px;
-  list-style: none;
-  li {
-    border: none;
-      margin-right: 0;
-      font-family: $CodeFont;
-      font-size: 13px;
-      color: $Slate;
-      margin-bottom: 7px;
-      white-space: nowrap;
-      .technology{
-        padding-bottom: 5px;
-      }
+  margin-top: 40px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 30px;
   }
 }
 
-.jobs{
+.sticky-sidebar {
+  position: sticky;
+  top: 120px;
+  height: fit-content;
+  z-index: 10;
 
-
-    .title-tab-content{
-        color: $LightestSlate;
-        font-size: 22px;
-        font-weight: 500;
-        margin-bottom: 5px;
-
-        .company-tab-content{
-            color: $Green;
-        }
-    }
-
-    .job-time{
-        font-family: $CodeFont;
-        font-size: 13px;
-        font-weight: normal;
-            -webkit-letter-spacing: 0.05em;
-        -moz-letter-spacing: 0.05em;
-        -ms-letter-spacing: 0.05em;
-        letter-spacing: 0.05em;
-        color: $LightSlate;
-        margin-bottom: 30px;
-    }
-
-    .job-description{
-        position: relative;
-        padding-left: 30px;
-        margin-bottom: 10px;
-        font-size: 18px;
-
-        &:before {
-            content: '▹';
-            position: absolute;
-            left: 0;
-            color: $Green;
-        }
-    }
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 
+.sidebar-nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-left: 2px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+}
 
+.sidebar-nav-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-family: variables.$CodeFont;
+  font-size: 13px;
+  color: variables.$Slate;
+  transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+  margin-left: -2px;
+  border-left: 2px solid transparent;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 
-@media (max-width: 768px){
-    .jobs {
-        .job-description{
-            padding: 0px;
-            &:before {
-                left: -16px;
-            }
-        }
-    }
-    ::ng-deep .jobs-tabs{
-        display: block !important;
+  &.active, &:hover {
+    color: var(--accent-color) !important;
+    border-left-color: var(--accent-color);
+    background-color: var(--accent-opacity);
+  }
 
-        .tab-content{
-            margin-left: 0px !important;
-        }
+  @media (max-width: 768px) {
+    font-size: 12px;
+    padding: 10px 12px;
+  }
+}
 
-        ul {
-            display: block;
-            width: 100% !important;
-            margin-bottom: 50px;
-        }
-    }
+.timeline-container {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  position: relative;
+  border-left: 2px solid var(--border-color);
+  padding-left: 32px;
+  margin-left: 10px;
+  padding-bottom: 20px;
+  
+  @media (max-width: 480px) {
+    padding-left: 20px;
+    margin-left: 0;
+  }
+}
+
+.timeline-item {
+  position: relative;
+  transition: all 0.3s;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -41px;
+  top: 16px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--bg-primary);
+  border: 2px solid var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-opacity);
+  z-index: 2;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+  @media (max-width: 480px) {
+    left: -29px;
+  }
+}
+
+.timeline-item:hover {
+  .job-title {
+    color: var(--accent-color);
+  }
+}
+
+.job-header {
+  margin-bottom: 16px;
+}
+
+.company-header-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.company-logo-wrapper {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .company-icon {
+    font-size: 18px;
+    color: var(--accent-color);
+  }
+}
+
+.company-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.job-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: variables.$LightestSlate;
+  margin: 0;
+  transition: color 0.25s;
+
+  .company {
+    color: variables.$LightestSlate;
+  }
+}
+
+.total-duration {
+  font-family: variables.$CodeFont;
+  font-size: 12px;
+  color: var(--accent-color);
+  margin: 4px 0 0 0;
+}
+
+.single-role-info {
+  margin-top: 12px;
+}
+
+.job-role-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: variables.$LightSlate;
+  margin: 0 0 4px 0;
+}
+
+.job-date {
+  font-family: variables.$CodeFont;
+  font-size: 13px;
+  color: variables.$Slate;
+  margin: 0;
+}
+
+/* Horizontal Sub-Timeline Style */
+.horizontal-roles-timeline {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  margin: 20px 0 28px 0;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scrollbar-width: thin;
+  
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 3px;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    border-left: 2px dashed var(--border-color);
+    padding-left: 20px;
+    margin-left: 10px;
+    gap: 20px;
+    overflow-x: visible;
+  }
+}
+
+.horizontal-role-item {
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  flex: 1;
+
+  @media (max-width: 768px) {
+    flex-direction: row;
+    min-width: auto;
+    align-items: flex-start;
+  }
+}
+
+.role-step-node {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 8px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 0;
+    margin-right: 12px;
+    height: 100%;
+  }
+}
+
+.role-node-circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--bg-primary);
+  border: 2px solid var(--accent-color);
+  z-index: 2;
+}
+
+.role-node-line {
+  height: 2px;
+  background-color: var(--border-color);
+  flex-grow: 1;
+  margin-left: 8px;
+  position: absolute;
+  left: 10px;
+  right: -16px;
+  top: 4px;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.role-step-info {
+  padding-right: 12px;
+
+  @media (max-width: 768px) {
+    padding-right: 0;
+  }
+}
+
+.role-step-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: variables.$LightestSlate;
+  margin: 0 0 4px 0;
+}
+
+.role-step-date {
+  font-family: variables.$CodeFont;
+  font-size: 12px;
+  color: variables.$Slate;
+  margin: 0;
+}
+
+.job-desc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.job-desc-item {
+  position: relative;
+  padding-left: 24px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: variables.$Slate;
+
+  &:before {
+    content: "▹";
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-size: 14px;
+  }
+}
+
+.tech-badges-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tech-badge {
+  font-family: variables.$CodeFont;
+  font-size: 12px;
+  color: variables.$Slate;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 4px 10px;
+  border-radius: 4px;
+  transition: all 0.25s;
+
+  &:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+  }
 }

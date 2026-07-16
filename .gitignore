@@ -45,8 +45,6 @@ testem.log
 .DS_Store
 Thumbs.db
 
-public/
-
 .angular
 
 hosting.*

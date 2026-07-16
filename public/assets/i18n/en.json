@@ -1,0 +1,403 @@
+{
+  "Header.Items": [
+    { "title": "About", "scroll": "/" },
+    { "title": "Experience", "scroll": "experience" },
+    { "title": "Projects", "scroll": "projects" },
+    { "title": "Achievements", "scroll": "achievements" },
+    { "title": "Blog", "scroll": "blog" }
+  ],
+  "Header.cvBtn": "Resume",
+  "Header.cvName": "CV_Breejesh_Rathod.pdf",
+  "Header.cvPretitle": "Curriculum Vitae",
+  "Header.cvSubtitle": "Summary of my skills and qualifications",
+
+  "Banner.Pretitle": "Hello! My name is",
+  "Banner.Description": "Engineering leader with {{years}}+ years of experience taking products from 0→1 and scaling them 1→100 across fintech, cybersecurity, and enterprise software. Skilled at driving product adoption, optimizing systems for scale, and building high-performing teams that deliver business impact.",
+  "Banner.ActionBtn": "Get in touch",
+
+  "AboutMe.Title": "About",
+  "AboutMe.Paragraphs": [
+    "Always driven by the desire to create something new, I find software engineering to be the canvas for my creativity. I simply love being involved in the end-to-end creation of products. Starting right from the idea to design to development and finally the actual manifestation of the end goal, it's always an engaging journey.",
+    "With a professional background spanning Morgan Stanley, AnalyticsVerse, and presently M2P, I've garnered invaluable experience in navigating the intricacies of both large-scale enterprise projects and new greenfield initiatives. My tenure has been characterized by assuming ownership of critical functionalities and seeing them through to successful fruition.",
+    "Adapting to diverse technological landscapes has been second nature, and the key skills I've learned along the way include:"
+  ],
+
+  "Experience.Title": "Experience",
+  "Experience.Pretitle": "Career Path",
+  "Experience.Subtitle": "My professional journey and corporate roles",
+  "Experience.Jobs": [
+    {
+      "Tab": "Concentric AI",
+      "Title": "Engineering Manager",
+      "Date": "January 2025 - Present",
+      "logoClass": "fas fa-shield-alt",
+      "TotalDuration": "7 mos",
+      "Description": [
+        "Led 3 teams (20+ engineers) to deliver core features for Concentric AI’s flagship DSPM product.",
+        "Directly increased revenue by 10% by designing and launching User Behavior Analytics (UBA) feature, enhancing anomaly detection and security.",
+        "Increased team velocity by 25% through improved sprint planning, capacity management, and agile practices.",
+        "Spearheaded Gradle and Java upgrades across 20+ microservices and remediated 100+ vulnerabilities, improving maintainability, ensuring compliance, for achieving FedRAMP certification.",
+        "Partnered with product, sales, success, and QA teams to deliver seamless feature rollouts, accelerating adoption timelines.",
+        "Mentored 20+ engineers through regular check-ins, boosting retention and supporting career development.",
+        "Partnered with TopHire and SuccessPact to accelerate hiring for critical roles; launched an internship hiring program through campus drives at 2 colleges, building long-term talent pipelines."
+      ],
+      "Technologies": ["Java", "Kafka", "Elastic Search", "Redis", "Argo", "Kubernetes", "AWS Cloud"]
+    },
+    {
+      "Tab": "M2P Fintech",
+      "Title": "Tech Lead Manager",
+      "Date": "December 2022 - January 2025",
+      "logoClass": "fas fa-credit-card",
+      "TotalDuration": "2 yrs 2 mos",
+      "Description": [
+        "Led a 9-member team to deliver a Loan Origination System adopted by multiple banks and NBFCs.",
+        "Built a customizable form engine that cut client onboarding time by 60% and accelerated sales.",
+        "Designed multi-tenancy architecture, reducing infra costs and improving scalability across clients.",
+        "Migrated infra to Helm, Argo CD, and Kubernetes GitOps, cutting deployment time by 70% and boosting reliability.",
+        "Drove code quality via PR reviews, sprint planning, and design reviews while mentoring junior engineers.",
+        "Partnered with product to influence roadmap decisions, directly contributing to market success."
+      ],
+      "Technologies": ["Java", "Angular", "SQL", "Spring", "Redis", "Kubernetes", "AWS Cloud"]
+    },
+    {
+      "Tab": "AnalyticsVerse",
+      "Title": "Founding Engineer",
+      "Date": "September 2020 - October 2022",
+      "logoClass": "fas fa-chart-line",
+      "TotalDuration": "2 yrs 3 mos",
+      "Roles": [
+        {
+          "Title": "Founding Engineer (Full-time)",
+          "Date": "Jan 2022 - Oct 2022 · 10 mos"
+        },
+        {
+          "Title": "Founding Engineer (External Consultant)",
+          "Date": "Jul 2020 - Dec 2021 · 1 yr 6 mos"
+        }
+      ],
+      "Description": [
+        "Directly impacted prospect-to-customer conversion by designing and implementing features like customizable dashboards and an interactive demo mode, among others, enhancing user experience without integrations.",
+        "Reduced cloud infrastructure cost by 10x by optimizing various batch jobs and cloud components.",
+        "Took ownership on all aspects of the product, including UI Design, Frontend, Backend, Cloud Infrastructure.",
+        "Optimized the website for SEO, significantly improving page performance, boosting organic traffic and visibility.",
+        "Mentored interns and other employees, enabling vital contribution from them to the product."
+      ],
+      "Technologies": ["Java", "Angular", "Spring", "SQL", "Terraform", "AWS Cloud"]
+    },
+    {
+      "Tab": "Morgan Stanley",
+      "Title": "Manager (Senior Software Engineer)",
+      "Date": "May 2017 - December 2021",
+      "logoClass": "fab fa-morgan-stanley",
+      "TotalDuration": "4 yrs 8 mos",
+      "Roles": [
+        {
+          "Title": "Manager (Senior Software Engineer)",
+          "Date": "Dec 2020 - Dec 2021 · 1 yr 1 mo"
+        },
+        {
+          "Title": "Senior Associate",
+          "Date": "Jan 2020 - Dec 2020 · 1 yr"
+        },
+        {
+          "Title": "Junior Associate",
+          "Date": "Jan 2019 - Dec 2019 · 1 yr"
+        },
+        {
+          "Title": "Technology Analyst",
+          "Date": "Aug 2018 - Dec 2018 · 5 mos"
+        },
+        {
+          "Title": "Summer Analyst",
+          "Date": "May 2017 - July 2017 · 3 mos"
+        }
+      ],
+      "Description": [
+        "Led the technical development of a reporting and visualization project, integrating Tableau Dashboards with proprietary software and improved system scalability and reduced costs by redesigning the architecture.",
+        "Received appreciation from Bjarne Stroustrup (Inventor of C++) for developing a SaaS app supporting an NGO’s vaccination drive.",
+        "Demonstrated strong problem-solving skills by providing quick POCs & solutions for ad-hoc business needs.",
+        "Mentored summer interns for three consecutive years."
+      ],
+      "Technologies": ["Angular", ".Net", "Java", "Tableau", "SQL"]
+    },
+    {
+      "Tab": "Yoddhas NGO",
+      "Title": "Design Head",
+      "Date": "August 2015 - September 2016",
+      "logoClass": "fas fa-hands-helping",
+      "Description": [
+        "Created Social Media posters for various campaigns.",
+        "Led a team of graphic designers, guided them in day-to-day work."
+      ],
+      "Technologies": ["PhotoShop", "Adobe", "Affinity"]
+    }
+  ],
+
+  "FeatureProjects.Title": "My projects",
+  "FeatureProjects.Pretitle": "Portfolio",
+  "FeatureProjects.Subtitle": "A showcase of selected applications and systems",
+  "FeatureProjects.Label": "Featured Project",
+  "FeatureProjects.Projects": [
+    {
+      "Title": "Dijkstra's Robot",
+      "Description": "Developed a line-following robot employing Dijkstra's algorithm to find the shortest path in a grid maze. Utilised Depth First Search for maze exploration, enabling efficient pathfinding from source to destination in subsequent runs.",
+      "imgs": [
+        "/assets/images/d-robot.jpg"
+      ],
+      "Technologies": ["Data Structures & Algorithm", "Robotics", "C"]
+    },
+    {
+      "Title": "Virtual Piano",
+      "Description": "The project involves the creation of a device capable of projecting a piano interface onto any surface, enabling users to play piano virtually. Utilizing a simple torch for projection and a webcam for image processing, the system tracks user interactions with the projected piano keys, translating them into corresponding musical output. This innovative setup allows users to enjoy playing the piano on any flat surface with minimal hardware requirements.",
+      "imgs": [
+        "/assets/images/virtual-piano.jpg"
+      ],
+      "Technologies": ["MatLab", "Image Processing", "Physics"]
+    },
+    {
+      "Title": "Game Development",
+      "Description": "Developed single and multiplayer 2D games including PacMan, Pokémon, Snake, Ping Pong, Tic Tac Toe in various programming languages.",
+      "imgs": [
+        "/assets/images/games.jpg"
+      ],
+      "Technologies": ["Java", "Python", "JavaScript"]
+    }
+  ],
+
+  "OtherProjects.Title": "More projects",
+  "OtherProjects.Projects": [
+    {
+      "Title": "Clipper-Co",
+      "Description": "This software facilitates the seamless sharing of clipboards between multiple users and devices. This functionality streamlines the process of sharing text among various devices, enhancing user convenience and productivity.",
+      "ghLink": "https://github.com/breejesh/clipper-co",
+      "Technologies": ["Java", "Python", "CSS"]
+    },
+    {
+      "Title": "Happyness",
+      "Description": "This app aims to provide users with a refreshing and uplifting experience by delivering positive news stories in a concise and engaging format. In a world often dominated by negative headlines, this app seeks to promote happiness, inspiration, and optimism by curating and presenting news items that evoke joy and hope.",
+      "ghLink": "https://github.com/breejesh/happyness",
+      "Technologies": ["Flutter", "Dart", "Python", "Firebase"]
+    },
+    {
+      "Title": "Poetic Musings",
+      "Description": "Crafted in Angular, mimics a music player interface for navigating and enjoying poetry, featuring responsive design tailored for all devices without relying on CSS libraries.",
+      "ghLink": "https://github.com/breejesh/poetic-musings/tree/main/poems",
+      "Technologies": ["Angular", "TypeScript", "HTML", "CSS", "Python", "Firebase"]
+    },
+    {
+      "Title": "Digital Watermark",
+      "Description": "It employs a 2 part visual secret sharing scheme to split a binary watermark image into two shares: a master share extracted from the host image and an ownership share held by the owner and a copyright verifier. This scheme ensures that the watermark remains invisible and resistant to extraction, even after modifications to the host image, demonstrating its effectiveness for copyright protection.",
+      "ghLink": "https://github.com/breejesh/digital-watermark",
+      "Technologies": ["Python", "Image Processing"]
+    },
+    {
+      "Title": "iMouse",
+      "Description": "Aims to create a proof of concept prototype for controlling a laptop mouse using only head movements. This innovative project is designed to assist quadriplegia patients in operating laptops by utilizing head movement as an input method, thereby enhancing accessibility and independence.",
+      "ghLink": "https://github.com/breejesh/i-mouse",
+      "Technologies": ["Python", "Image Processing"]
+    },
+    {
+      "Title": "Consistent Hashing",
+      "Description": "An interactive tool to visually comprehend how consistent hashing distributes data across nodes in distributed systems, aiding in understanding load balancing and node management. It serves as an educational resource by providing intuitive insights into the workings of consistent hashing algorithms for students and developers.",
+      "ghLink": "https://github.com/breejesh/consistent-hashing-visualization",
+      "Technologies": ["Angular", "TypeScript", "HTML", "CSS"]
+    }
+  ],
+  "Achievements.Title": "Achievements",
+  "Achievements.Pretitle": "Milestones",
+  "Achievements.Subtitle": "Recognition and honors earned along the way",
+  "Achievements.Year": "Year",
+  "Achievements.Rank": "Rank",
+  "Achievements.Description": "Description",
+  "Achievements.Skills": "Skills",
+  "Achievements.Items": [
+    {
+      "Year": "2018",
+      "Rank": "1st",
+      "Description": "Secured first place in the Mumbai Hackathon, organized by ERPNext, by developing a shared clipboard app bridging desktop and mobile devices within a 24-hour timeframe.",
+      "Skills": ["Problem-solving", "Innovation", "Teamwork"]
+    },
+    {
+      "Year": "2016",
+      "Rank": "1st",
+      "Description": "Received the Young Innovators Award from the esteemed then Chief Minister of Maharashtra, Mr. Devendra Fadnavis, for pioneering a virtual piano device. This innovation utilized a simple torch and camera to project a playable piano onto any surface. The accolade was bestowed during the competition organized by ZEE and DNA.",
+      "Skills": ["Innovation", "Creativity", "Presentation"]
+    },
+    {
+      "Year": "2016",
+      "Rank": "6th",
+      "Description": "Advanced to the quarterfinals of the renowned ABU Robocon, a prestigious robotics competition on a global scale. Represented VJTI at the national level, competing against 105 other colleges.",
+      "Skills": ["Robotics", "Engineering", "Team collaboration"]
+    },
+    {
+      "Year": "2015",
+      "Rank": "1st",
+      "Description": "Achieved victory in Adomania, an inter-college advertisement making competition, by crafting a captivating short film celebrating the vibrant essence of Mumbai.",
+      "Skills": ["Creativity", "Marketing", "Presentation"]
+    },
+    {
+      "Year": "2010",
+      "Rank": "1st",
+      "Description": "Emerged as the winner of the M.R. Pai Memorial Elocution Competition at the inter-school level.",
+      "Skills": ["Public speaking", "Communication", "Presentation"]
+    }
+  ],
+  "Contact.Pretitle": "What’s Next",
+  "Contact.Title": "Get in touch!",
+  "Contact.Content": "I would be happy to receive your message if you wish to discuss new opportunities or anything interesting in general. Please feel free to reach out to me, and I will reply as soon as I see your message.",
+  "Contact.Btn": "Say Hello",
+  "Blog.SearchPlaceholder": "Search articles...",
+  "Blog.ReadArticle": "Read Article",
+  "Blog.BackLink": "Back to all articles",
+  "Blog.AllPosts": "All Posts",
+  "Blog.Stats": "Articles",
+  "Blog.Title": "Dev Chronicles",
+  "Blog.Pretitle": "Journal & Notes",
+  "Blog.NoPosts": "No posts found",
+  "Blog.NoPostsDesc": "We couldn't find any articles matching",
+  "TechStack.Title": "Core Tech Stack",
+  "TechStack.Skills": [
+    {
+      "Title": "Java",
+      "Desc": "Robust backend services, REST APIs, and enterprise-grade applications.",
+      "IconClass": "fab fa-java",
+      "Color": "#f89820"
+    },
+    {
+      "Title": "Angular",
+      "Desc": "Dynamic SPAs and modern frontend architecture with TypeScript.",
+      "IconClass": "fab fa-angular",
+      "Color": "#dd0031"
+    },
+    {
+      "Title": "SQL Databases",
+      "Desc": "Relational modeling, query tuning, data warehousing, and analytics.",
+      "IconClass": "fas fa-database",
+      "Color": "#336791"
+    },
+    {
+      "Title": "HTML & CSS",
+      "Desc": "Responsive layouts, clean styling, accessibility, and visual transitions.",
+      "IconClass": "fab fa-html5",
+      "Color": "#e34f26"
+    },
+    {
+      "Title": "TypeScript",
+      "Desc": "Type-safe full-stack codebases and highly scalable architectures.",
+      "IconClass": "ts-logo",
+      "Color": "#3178c6"
+    },
+    {
+      "Title": "AWS Cloud",
+      "Desc": "S3, EKS, EC2, Secrets Manager, CloudWatch — full cloud operations and monitoring.",
+      "IconClass": "fab fa-aws",
+      "Color": "#ff9900"
+    },
+    {
+      "Title": "CI/CD & Git",
+      "Desc": "Automated build/deploy pipelines, GitOps, ArgoCD, and version control workflows.",
+      "IconClass": "fab fa-git-alt",
+      "Color": "#4078c0"
+    },
+    {
+      "Title": "Firebase",
+      "Desc": "Realtime databases, authentication, cloud functions, and hosting.",
+      "IconClass": "fas fa-fire",
+      "Color": "#FFA000"
+    },
+    {
+      "Title": "Python",
+      "Desc": "Scripting, data pipelines, ML utilities, and backend services.",
+      "IconClass": "fab fa-python",
+      "Color": "#3776AB"
+    },
+    {
+      "Title": "Gen AI & LLMs",
+      "Desc": "Generative AI integrations, prompt engineering, RAG, and LLM-powered features.",
+      "IconClass": "fas fa-robot",
+      "Color": "#10a37f"
+    },
+    {
+      "Title": "AI/ML",
+      "Desc": "Milvus, vector search, KNN clustering, DB2, and machine learning pipelines.",
+      "IconClass": "fas fa-brain",
+      "Color": "#a855f7"
+    },
+    {
+      "Title": "Kubernetes",
+      "Desc": "Container orchestration, Helm, autoscaling, and multi-cluster deployments.",
+      "IconClass": "fas fa-dharmachakra",
+      "Color": "#326CE5"
+    },
+    {
+      "Title": "Redis",
+      "Desc": "High-performance caching, pub/sub messaging, and session management.",
+      "IconClass": "fas fa-bolt",
+      "Color": "#DC382D"
+    },
+    {
+      "Title": "Elasticsearch",
+      "Desc": "Full-text search, log analytics, anomaly detection, and observability.",
+      "IconClass": "fas fa-search",
+      "Color": "#00bfb3"
+    },
+    {
+      "Title": "Lakehouse & Spark",
+      "Desc": "Apache Spark, distributed data processing, Delta Lake, and batch analytics.",
+      "IconClass": "fas fa-layer-group",
+      "Color": "#E25A1C"
+    }
+  ],
+  "WhatIDo.Title": "What I Do",
+  "WhatIDo.Subtitle": "End-to-end development for web, mobile, and cloud.",
+  "WhatIDo.Cards": [
+    {
+      "Title": "Enterprise SaaS & Web Platforms",
+      "Desc": "Architecting production-grade web applications with robust Java backends, Angular frontends, and event-driven microservices that scale across enterprise tenants without rewiring the core for every new business flow.",
+      "IconClass": "fas fa-laptop-code",
+      "Bullets": [
+        "Full-stack SaaS architecture with Angular & Spring Boot",
+        "Event-driven microservices with Apache Kafka",
+        "Multi-tenant RBAC and organizational permission layers",
+        "Real-time data sync and schema-driven UI systems"
+      ],
+      "Tags": ["Java", "Angular", "Spring Boot", "Kafka", "PostgreSQL", "TypeScript", "Redis"]
+    },
+    {
+      "Title": "Mobile App Development",
+      "Desc": "Building high-performance, cross-platform mobile applications using React Native, sharing typed backends with web counterparts to eliminate API drift and deliver a native user experience.",
+      "IconClass": "fas fa-mobile-alt",
+      "Bullets": [
+        "Cross-platform mobile apps with React Native & TypeScript",
+        "Shared API contracts & state management with web platforms",
+        "Native integrations: Push notifications, biometric auth, camera",
+        "App Store & Google Play Store publishing and deployment pipelines"
+      ],
+      "Tags": ["React Native", "TypeScript", "iOS", "Android", "Redux Toolkit", "Push Notifications", "Fastlane"]
+    },
+    {
+      "Title": "AI & LLM Integration",
+      "Desc": "Integrating large language models and ML pipelines into production systems with vector databases, cost-aware routing, streaming responses, and the guardrails needed to ship AI features without hallucination risk.",
+      "IconClass": "fas fa-brain",
+      "Bullets": [
+        "Vector search pipelines with Milvus and Elasticsearch",
+        "Gen AI features with OpenAI, Gemini, and custom LLMs",
+        "KNN clustering, DB2, and semantic similarity engines",
+        "RAG architectures and prompt security boundaries"
+      ],
+      "Tags": ["Python", "Gen AI", "Milvus", "Elasticsearch", "OpenAI", "Gemini", "DB2"]
+    },
+    {
+      "Title": "Cloud & Infrastructure",
+      "Desc": "Setting up and operating production-grade infrastructure on AWS with container orchestration, CI/CD pipelines, and full observability stacks for zero-downtime releases across multiple environments.",
+      "IconClass": "fas fa-cloud",
+      "Bullets": [
+        "AWS infrastructure — S3, EKS, EC2, Secrets Manager",
+        "Kubernetes orchestration with Helm and autoscaling",
+        "CI/CD pipelines with GitHub Actions and ArgoCD",
+        "CloudWatch monitoring, alerting, and log analytics"
+      ],
+      "Tags": ["AWS", "Kubernetes", "Docker", "ArgoCD", "GitHub Actions", "CloudWatch", "Helm"]
+    }
+  ]
+}

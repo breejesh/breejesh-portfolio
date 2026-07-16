@@ -1,6 +1,62 @@
-<footer>
-    <div class="footer-credits text-center">
-        <div><span class="copy-symbol">&copy;</span> Copyright 2023, Breejesh Rathod</div>
-        <div> Design Credits: <a href="https://github.com/andresjosehr/andresjosehr-portfolio" target="_blank">andresjosehr</a>&nbsp;<a href="https://github.com/bchiang7/v4" target="_blank">bchiang7</a></div>
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+      <!-- Left Column: Profile Info & Socials -->
+      <div class="footer-section profile-section">
+        <div class="footer-profile-header">
+          <img src="/assets/images/me.jpg" alt="Breejesh Rathod" class="footer-avatar" />
+          <div>
+            <h4 class="footer-title">Breejesh Rathod</h4>
+            <p class="footer-subtitle">Technical Lead &amp; Software Developer</p>
+          </div>
+        </div>
+        <p class="footer-desc">
+          Technical Lead building high-performing loan systems, developer dashboards, and scalable architectures.
+          Focusing on robust codebases, clean design systems, and efficient team processes.
+        </p>
+        <div class="footer-socials">
+          <a href="https://github.com/breejesh" target="_blank" class="social-icon-btn" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/breejesh/" target="_blank" class="social-icon-btn" aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Middle Column: Navigate -->
+      <div class="footer-section">
+        <h4 class="section-heading">NAVIGATE</h4>
+        <ul class="footer-links">
+          <li><a routerLink="/">About</a></li>
+          <li><a routerLink="/experience">Experience</a></li>
+          <li><a routerLink="/projects">Projects</a></li>
+          <li><a routerLink="/achievements">Achievements</a></li>
+          <li><a routerLink="/blog">Blog</a></li>
+        </ul>
+      </div>
+
+      <!-- Right Column: Contact Info -->
+      <div class="footer-section">
+        <h4 class="section-heading">CONTACT INFO</h4>
+        <div class="footer-contact">
+          <a href="mailto:breejeshrathod@gmail.com" class="footer-contact-link">
+            <i class="far fa-envelope"></i> breejeshrathod&#64;gmail.com
+          </a>
+          <a href="tel:+919870320140" class="footer-contact-link">
+            <i class="fas fa-phone-alt"></i> +91-9870320140
+          </a>
+          <a routerLink="/resume" class="footer-contact-link">
+            <i class="far fa-file-alt"></i> Resume / CV
+          </a>
+        </div>
+      </div>
     </div>
+
+    <!-- Bottom copyright & version -->
+    <div class="footer-bottom">
+      <p class="copyright-text">&copy; {{ currentYear }} Breejesh Rathod</p>
+      <p class="version-text">v1.0.0</p>
+    </div>
+  </div>
 </footer>

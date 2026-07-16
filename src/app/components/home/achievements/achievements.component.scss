@@ -1,4 +1,4 @@
-@import "./../../../../variables.scss";
+@use "../../../../variables.scss";
 
 .achievements{
     margin: 0 auto;
@@ -10,15 +10,15 @@
         line-height: 1.1;
         margin: 0;
         font-weight: 600;
-        color: $LightestSlate;
+        color: variables.$LightestSlate;
         margin: 0 0 10px 0;
-        font-family: $MainFont;
+        font-family: variables.$MainFont;
     }
     .achievements-subtitle{
-        color: $Green;
+        color: variables.$Green;
         margin: 0 0 20px 0;
         font-size: 16px;
-        font-family: $CodeFont;
+        font-family: variables.$CodeFont;
         font-weight: normal;
         line-height: 1.5;
     }
@@ -46,12 +46,12 @@
 
 
                     &:hover, &:focus {
-                        background-color: $LightNavy;
+                        background-color: variables.$LightNavy;
                     }
 
                     .project-date{
-                        color: $Green;
-                        font-family: $CodeFont;
+                        color: variables.$Green;
+                        font-family: variables.$CodeFont;
                         font-size: 16px;
                         font-weight: normal;
                         cursor: default;
@@ -62,7 +62,7 @@
 
                     .project-title{
                         padding-top: 15px;
-                        color: $LightestSlate;
+                        color: variables.$LightestSlate;
                         font-size: 20px;
                         font-weight: 700;
                         cursor: default;
@@ -80,7 +80,7 @@
                     }
                     .project-skills{
                         font-size: 12px;
-                        font-family: $CodeFont;
+                        font-family: variables.$CodeFont;
                         cursor: default;
                         line-height: 1.5;
                         padding: 10px 20px;

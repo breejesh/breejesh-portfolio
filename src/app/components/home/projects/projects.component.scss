@@ -1,4 +1,4 @@
-@import "./../../../../variables.scss";
+@use "../../../../variables.scss";
 .projects {
     .project-container {
         margin: 100px 0;
@@ -20,15 +20,15 @@
             .feature-project {
                 font-size: 13px;
                 font-weight: normal;
-                color: $Green;
-                font-family: $CodeFont;
+                color: variables.$Green;
+                font-family: variables.$CodeFont;
                 margin-top: 10px;
                 padding-top: 0;
             }
             .project-name {
                 font-size: 28px;
                 margin: 0 0 20px;
-                color: $LightestSlate;
+                color: variables.$LightestSlate;
             }
             .project-description-box {
                 box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
@@ -37,8 +37,8 @@
                 position: relative;
                 z-index: 2;
                 padding: 25px;
-                background-color: $LightNavy;
-                color: $LightSlate;
+                background-color: variables.$LightNavy;
+                color: variables.$LightSlate;
                 font-size: 18px;
                 border-radius: 3px;
             }
@@ -57,9 +57,9 @@
                 list-style: none;
                 li {
                     margin-right: 0;
-                    font-family: $CodeFont;
+                    font-family: variables.$CodeFont;
                     font-size: 13px;
-                    color: $Slate;
+                    color: variables.$Slate;
                     margin-bottom: 7px;
                     white-space: nowrap;
                     .technology{
@@ -129,7 +129,7 @@
                 z-index: 2;
                 padding: 25px;
                 background-color: transparent !important;
-                color: $LightSlate;
+                color: variables.$LightSlate;
                 font-size: 18px;
                 border-radius: 3px;
             }
@@ -208,7 +208,7 @@
 /* Handle */
 
  ::-webkit-scrollbar-thumb {
-    background: $Green;
+    background: variables.$Green;
     border-radius: 3px;
 }
 
@@ -216,5 +216,5 @@
 /* Handle on hover */
 
  ::-webkit-scrollbar-thumb:hover {
-    background: $Green;
+    background: variables.$Green;
 }

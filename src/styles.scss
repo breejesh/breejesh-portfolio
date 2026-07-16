@@ -1,4 +1,39 @@
-@import "./variables.scss";
+@use "variables.scss";
+@use "fonts";
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "@fortawesome/fontawesome-free/css/all.css";
+@import "aos/dist/aos.css";
+
+
+:root {
+  --bg-primary: #0a192f;
+  --bg-secondary: #112240;
+  --text-primary: #ccd6f6;
+  --text-secondary: #8892b0;
+  --border-color: #233554;
+  --accent-color: #64ffda;
+  --accent-color-hover: #52e0c0;
+  --accent-opacity: rgba(100, 255, 218, 0.07);
+  --header-bg: rgba(10, 25, 47, 0.85);
+  --header-shadow: rgba(2, 12, 27, 0.7);
+  --dropdown-bg: #112240;
+  --dropdown-text: #ccd6f6;
+}
+
+body.light-theme {
+  --bg-primary: #f4f6fb;
+  --bg-secondary: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --border-color: #e2e8f0;
+  --accent-color: #0d9488;
+  --accent-color-hover: #0f766e;
+  --accent-opacity: rgba(13, 148, 136, 0.08);
+  --header-bg: rgba(244, 246, 251, 0.85);
+  --header-shadow: rgba(0, 0, 0, 0.05);
+  --dropdown-bg: #ffffff;
+  --dropdown-text: #0f172a;
+}
 
 body{
     margin: 0;
@@ -7,78 +42,59 @@ body{
     overflow-x: hidden;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    background-color: $Navy;
-    color: $Slate;
+    background-color: var(--bg-primary);
+    color: var(--text-secondary);
     line-height: 1.3;
-    font-family: $MainFont;
+    font-family: variables.$MainFont;
     font-size: 20px;
+    transition: background-color 0.3s, color 0.3s;
 }
 .section-box{
     padding: 40px 0;
 }
 .section{
-    background: $Navy;
+    background: var(--bg-primary);
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .code-font{
-    font-family: $CodeFont;
-
+    font-family: variables.$CodeFont;
 }
 
 .e-font{
-    font-family: $MainFont;
+    font-family: variables.$MainFont;
 }
 
 .section-title{
-    position: relative;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-align-items: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
-    margin: 10px 0 40px;
-    width: 100%;
     white-space: nowrap;
     font-size: 32px;
     font-weight: 600;
-    color: $LightestSlate;
-    font-family: $MainFont;
-    margin: 0 0 10px 0;
-
-    .n-section-title{
-        margin-right: 10px;
-        font-family: $CodeFont;
-        font-weight: normal;
-        color: $Green;
-        font-size: 20px;
-        position: relative;
-        bottom: 4px;
-    }
+    color: var(--text-primary);
+    font-family: variables.$MainFont;
+    margin: 0 0 20px 0;
+    transition: color 0.3s;
 
     &:after{
         content: '';
         display: block;
         height: 1px;
-        width: 300px;
-        background-color: $LightestNavy;
-        position: relative;
-        top: -5px;
+        flex-grow: 1;
+        max-width: 300px;
+        background-color: var(--border-color);
         margin-left: 20px;
+        transition: background-color 0.3s;
     }
 }
 
-
-
 .main-btn{
-    color: $Green;
+    color: var(--accent-color);
     background-color: transparent;
-    border: 1px solid $Green;
+    border: 1px solid var(--accent-color);
     border-radius: 3px;
     font-size: 13px;
-    font-family: $CodeFont;
+    font-family: variables.$CodeFont;
     line-height: 1;
     -webkit-text-decoration: none;
     text-decoration: none;
@@ -88,7 +104,7 @@ body{
     padding: 1.25rem 1.75rem;
 
     &:hover, &:focus, &:active {
-        background-color: rgba(100,255,218,0.07);
+        background-color: var(--accent-opacity);
         outline: none;
     }
 }
@@ -98,7 +114,7 @@ a{
 
     &:hover{
         text-decoration: none !important;
-        color: $Green !important;
+        color: var(--accent-color) !important;
     }
 }
 
@@ -106,7 +122,8 @@ a{
   text-decoration: none;
   display: inline-block;
   position: relative;
-  color: $Green !important;
+  color: var(--accent-color) !important;
+  transition: color 0.3s;
 }
 .underline:after {
   background: none repeat scroll 0 0 transparent;
@@ -116,8 +133,8 @@ a{
   height: 1px;
   left: 50%;
   position: absolute;
-  background: $Green;
-  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  background: var(--accent-color);
+  transition: width 0.3s ease 0s, left 0.3s ease 0s, background-color 0.3s;
   width: 0%;
 }
 .underline:hover:after {
@@ -130,7 +147,6 @@ a{
         margin: 30px 0 !important;
         height: 385px !important;
     }
-
 }
 @media (min-width: 1100px) and (max-width: 1300px){
     .container{
@@ -142,7 +158,6 @@ a{
     .container{
         max-width: 800px;
     }
-
 }
 
 @media (min-width: 880px) and (max-width: 992px){
@@ -166,7 +181,6 @@ a{
     }
 }
 
-
 @media (max-width: 1000px){
     .banner h2, .banner h3, .big-title{
         font-size: 70px !important;
@@ -180,13 +194,11 @@ a{
     .banner h2, .banner h3, .big-title{
         font-size: 60px !important;
     }
-
 }
 @media (max-width: 480px){
     .banner h2, .banner h3, .big-title{
         font-size: 50px !important;
     }
-
 }
 @media (max-width: 376px){
     .banner h2, .banner h3, .big-title{
@@ -194,11 +206,68 @@ a{
     }
 }
 
-
 @media (max-width: 30em){
     body {
         font-size: 18px;
     }
+}
+
+/* Day/Night Light Theme Global Overrides for main portfolio content */
+body.light-theme {
+  h1, h2, h3, h4, h5, h6,
+  .banner h2, .banner h3, .section-title,
+  .project-name, .about-title, .experience-title,
+  .project-title, .company-name, .project-date {
+    color: var(--text-primary) !important;
+  }
+
+  p, span, li, td, th, div {
+    color: var(--text-secondary);
+  }
+
+  /* Work experience tabs */
+  ::ng-deep .nav-tabs .nav-link {
+    color: var(--text-secondary) !important;
+    background: transparent !important;
+    border: none !important;
+    &.active {
+      color: var(--accent-color) !important;
+      background: var(--accent-opacity) !important;
+      border-left: 2px solid var(--accent-color) !important;
+    }
+  }
+
+  /* Projects cards / containers */
+  .more-project-box, .project-description-box {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-secondary) !important;
+    border: 1px solid var(--border-color);
+  }
+
+  /* Achievements table overrides */
+  .achievements__StyledTable-lXDeB {
+    th {
+      border-bottom: 2px solid var(--border-color) !important;
+      color: var(--text-primary) !important;
+    }
+    tr {
+      border-bottom: 1px solid var(--border-color) !important;
+      &:hover {
+        background-color: var(--accent-opacity) !important;
+      }
+    }
+    td {
+      color: var(--text-secondary) !important;
+      &.project-date {
+        color: var(--accent-color) !important;
+      }
+    }
+  }
+
+  /* Other project skills list */
+  .more-projects-skills li span {
+    color: var(--accent-color) !important;
+  }
 }
 
 

@@ -1,0 +1,234 @@
+{
+  "Header.Items": [
+    { "title": "मेरे बारे में", "scroll": "/" },
+    { "title": "अनुभव", "scroll": "experience" },
+    { "title": "परियोजनाएं", "scroll": "projects" },
+    { "title": "उपलब्धियां", "scroll": "achievements" },
+    { "title": "ब्लॉग", "scroll": "blog" }
+  ],
+  "Header.cvBtn": "बायोडाटा",
+  "Header.cvName": "CV_Breejesh_Rathod_HI.pdf",
+
+  "Banner.Pretitle": "नमस्ते! मेरा नाम है",
+  "Banner.Description": "फ़िनटेक, साइबर सुरक्षा और एंटरप्राइज़ सॉफ़्टवेयर में उत्पादों को 0 से 1 तक विकसित करने और उन्हें 1 से 100 तक स्केल करने के {{years}}+ वर्षों के अनुभव के साथ इंजीनियरिंग लीडर। उत्पाद अपनाने को बढ़ावा देने, पैमाने के लिए सिस्टम को अनुकूलित करने और व्यावसायिक प्रभाव देने वाली उच्च प्रदर्शन वाली टीमों के निर्माण में कुशल।",
+  "Banner.ActionBtn": "संपर्क करें",
+
+  "AboutMe.Title": "मेरे बारे में",
+  "AboutMe.Paragraphs": [
+    "हमेशा कुछ नया बनाने की इच्छा से प्रेरित, मैं सॉफ्टवेयर इंजीनियरिंग को अपनी रचनात्मकता का कैनवास मानता हूँ। मुझे उत्पादों के शुरू से अंत तक निर्माण में शामिल होना पसंद है। विचार से लेकर डिज़ाइन, विकास और अंततः अंतिम लक्ष्य को साकार करने तक, यह हमेशा एक रोमांचक यात्रा रही है।",
+    "मॉर्गन स्टेनली, एनालिटिक्सवर्स और वर्तमान में एम2पी में फैले अपने पेशेवर सफर के दौरान मैंने बड़े स्तर की उद्यम परियोजनाओं और नई पहलों की जटिलताओं को सुलझाने का मूल्यवान अनुभव प्राप्त किया है। मैंने हमेशा महत्वपूर्ण कार्यक्षमताओं की जिम्मेदारी ली है और उन्हें सफलतापूर्वक पूरा किया है।",
+    "विभिन्न तकनीकी परिवेशों को अपनाना मेरे लिए बहुत स्वाभाविक रहा है, और इस दौरान मैंने जो मुख्य कौशल सीखे हैं उनमें शामिल हैं:"
+  ],
+
+  "Experience.Title": "अनुभव",
+  "Experience.Jobs": [
+    {
+      "Tab": "Concentric AI",
+      "Title": "Engineering Manager",
+      "Date": "January 2025 - Present",
+      "logoClass": "fas fa-shield-alt",
+      "TotalDuration": "7 mos",
+      "Description": [
+        "Led 3 teams (20+ engineers) to deliver core features for Concentric AI’s flagship DSPM product.",
+        "Directly increased revenue by 10% by designing and launching User Behavior Analytics (UBA) feature, enhancing anomaly detection and security.",
+        "Increased team velocity by 25% through improved sprint planning, capacity management, and agile practices.",
+        "Spearheaded Gradle and Java upgrades across 20+ microservices and remediated 100+ vulnerabilities, improving maintainability, ensuring compliance, for achieving FedRAMP certification.",
+        "Partnered with product, sales, success, and QA teams to deliver seamless feature rollouts, accelerating adoption timelines.",
+        "Mentored 20+ engineers through regular check-ins, boosting retention and supporting career development.",
+        "Partnered with TopHire and SuccessPact to accelerate hiring for critical roles; launched an internship hiring program through campus drives at 2 colleges, building long-term talent pipelines."
+      ],
+      "Technologies": ["Java", "Kafka", "Elastic Search", "Redis", "Argo", "Kubernetes", "AWS Cloud"]
+    },
+    {
+      "Tab": "M2P Fintech",
+      "Title": "Tech Lead Manager",
+      "Date": "December 2022 - January 2025",
+      "logoClass": "fas fa-credit-card",
+      "TotalDuration": "2 yrs 2 mos",
+      "Description": [
+        "Led a 9-member team to deliver a Loan Origination System adopted by multiple banks and NBFCs.",
+        "Built a customizable form engine that cut client onboarding time by 60% and accelerated sales.",
+        "Designed multi-tenancy architecture, reducing infra costs and improving scalability across clients.",
+        "Migrated infra to Helm, Argo CD, and Kubernetes GitOps, cutting deployment time by 70% and boosting reliability.",
+        "Drove code quality via PR reviews, sprint planning, and design reviews while mentoring junior engineers.",
+        "Partnered with product to influence roadmap decisions, directly contributing to market success."
+      ],
+      "Technologies": ["Java", "Angular", "SQL", "Spring", "Redis", "Kubernetes", "AWS Cloud"]
+    },
+    {
+      "Tab": "AnalyticsVerse",
+      "Title": "Founding Engineer",
+      "Date": "September 2020 - October 2022",
+      "logoClass": "fas fa-chart-line",
+      "TotalDuration": "2 yrs 3 mos",
+      "Roles": [
+        {
+          "Title": "Founding Engineer (Full-time)",
+          "Date": "Jan 2022 - Oct 2022 · 10 mos"
+        },
+        {
+          "Title": "Founding Engineer (External Consultant)",
+          "Date": "Jul 2020 - Dec 2021 · 1 yr 6 mos"
+        }
+      ],
+      "Description": [
+        "Directly impacted prospect-to-customer conversion by designing and implementing features like customizable dashboards and an interactive demo mode, among others, enhancing user experience without integrations.",
+        "Reduced cloud infrastructure cost by 10x by optimizing various batch jobs and cloud components.",
+        "Took ownership on all aspects of the product, including UI Design, Frontend, Backend, Cloud Infrastructure.",
+        "Optimized the website for SEO, significantly improving page performance, boosting organic traffic and visibility.",
+        "Mentored interns and other employees, enabling vital contribution from them to the product."
+      ],
+      "Technologies": ["Java", "Angular", "Spring", "SQL", "Terraform", "AWS Cloud"]
+    },
+    {
+      "Tab": "Morgan Stanley",
+      "Title": "Manager (Senior Software Engineer)",
+      "Date": "May 2017 - December 2021",
+      "logoClass": "fab fa-morgan-stanley",
+      "TotalDuration": "4 yrs 8 mos",
+      "Roles": [
+        {
+          "Title": "Manager (Senior Software Engineer)",
+          "Date": "Dec 2020 - Dec 2021 · 1 yr 1 mo"
+        },
+        {
+          "Title": "Senior Associate",
+          "Date": "Jan 2020 - Dec 2020 · 1 yr"
+        },
+        {
+          "Title": "Junior Associate",
+          "Date": "Jan 2019 - Dec 2019 · 1 yr"
+        },
+        {
+          "Title": "Technology Analyst",
+          "Date": "Aug 2018 - Dec 2018 · 5 mos"
+        },
+        {
+          "Title": "Summer Analyst",
+          "Date": "May 2017 - Aug 2018 · 1 yr 4 mos"
+        }
+      ],
+      "Description": [
+        "Led the technical development of a reporting and visualization project, integrating Tableau Dashboards with proprietary software and improved system scalability and reduced costs by redesigning the architecture.",
+        "Received appreciation from Bjarne Stroustrup (Inventor of C++) for developing a SaaS app supporting an NGO’s vaccination drive.",
+        "Demonstrated strong problem-solving skills by providing quick POCs & solutions for ad-hoc business needs.",
+        "Mentored summer interns for three consecutive years."
+      ],
+      "Technologies": ["Angular", ".Net", "Java", "Tableau", "SQL"]
+    },
+    {
+      "Tab": "Yoddhas NGO",
+      "Title": "Design Head",
+      "Date": "August 2015 - September 2016",
+      "logoClass": "fas fa-hands-helping",
+      "Description": [
+        "Created Social Media posters for various campaigns.",
+        "Led a team of graphic designers, guided them in day-to-day work."
+      ],
+      "Technologies": ["PhotoShop", "Adobe", "Affinity"]
+    }
+  ],
+
+  "FeatureProjects.Title": "मेरी परियोजनाएं",
+  "FeatureProjects.Label": "विशेष परियोजना",
+  "FeatureProjects.Projects": [
+    {
+      "Title": "डिज्कस्ट्रा का रोबोट",
+      "Description": "एक ग्रिड भूलभुलैया में सबसे छोटा रास्ता खोजने के लिए डिज्कस्ट्रा के एल्गोरिथम का उपयोग करने वाले लाइन-फॉलोइंग रोबोट को विकसित किया। भूलभुलैया अन्वेषण के लिए डेप्थ फर्स्ट सर्च (DFS) का उपयोग किया, जिससे आगे के प्रयासों में कुशल मार्ग निर्धारण संभव हुआ।",
+      "Technologies": ["डेटा संरचनाएं और एल्गोरिथम", "रोबोटिक्स", "C"]
+    },
+    {
+      "Title": "वर्चुअल पियानो",
+      "Description": "एक ऐसा उपकरण बनाया जो किसी भी सपाट सतह पर पियानो इंटरफ़ेस को प्रोजेक्ट कर सकता है, जिससे उपयोगकर्ता पियानो बजा सकते हैं। एक सरल टॉर्च और वेबकैम इमेज प्रोसेसिंग की मदद से, सिस्टम उपयोगकर्ता के पियानो कुंजियों के साथ जुड़ाव को ट्रैक कर ध्वनि उत्पन्न करता है।",
+      "Technologies": ["MatLab", "इमेज प्रोसेसिंग", "भौतिकी"]
+    },
+    {
+      "Title": "गेम डेवलपमेंट",
+      "Description": "विभिन्न प्रोग्रामिंग भाषाओं में पीएकमैन, पोकेमॉन, स्नेक, पिंग पोंग, टिक टैक टो सहित सिंगल और मल्टीप्लेयर 2D गेम्स विकसित किए।",
+      "Technologies": ["Java", "Python", "JavaScript"]
+    }
+  ],
+
+  "OtherProjects.Title": "अन्य परियोजनाएं",
+  "OtherProjects.Projects": [
+    {
+      "Title": "क्लिपर-को",
+      "Description": "यह सॉफ्टवेयर कई उपयोगकर्ताओं और उपकरणों के बीच क्लिपबोर्ड को आसानी से साझा करने में मदद करता है, जिससे उपयोगकर्ताओं की उत्पादकता बढ़ती है।",
+      "ghLink": "https://github.com/breejesh/clipper-co",
+      "Technologies": ["Java", "Python", "CSS"]
+    },
+    {
+      "Title": "हैप्पीनेस",
+      "Description": "यह मोबाइल ऐप उपयोगकर्ताओं को सकारात्मक समाचार संक्षिप्त और आकर्षक प्रारूप में प्रदान करता है, जिससे खुशी और प्रेरणा मिलती है।",
+      "ghLink": "https://github.com/breejesh/happyness",
+      "Technologies": ["Flutter", "Dart", "Firebase"]
+    },
+    {
+      "Title": "पोएटिक म्यूज़िंग्स",
+      "Description": "एंगुलर (Angular) में तैयार किया गया यह ऐप कविताएँ पढ़ने और सुनने के लिए एक म्यूज़िक प्लेयर जैसा इंटरफ़ेस प्रदान करता है, जो बिना किसी बाहरी CSS लाइब्रेरी के पूरी तरह से रिस्पॉन्सिव है।",
+      "ghLink": "https://github.com/breejesh/poetic-musings",
+      "Technologies": ["Angular", "TypeScript", "Firebase"]
+    }
+  ],
+
+  "Achievements.Title": "उपलब्धियां",
+  "Achievements.Year": "वर्ष",
+  "Achievements.Rank": "रैंक",
+  "Achievements.Description": "विवरण",
+  "Achievements.Skills": "कौशल",
+  "Achievements.Items": [
+    {
+      "Year": "2018",
+      "Rank": "प्रथम",
+      "Description": "ERPNext द्वारा आयोजित मुंबई हैकाथॉन में 24 घंटे के भीतर एक साझा क्लिपबोर्ड ऐप विकसित करके प्रथम स्थान प्राप्त किया।",
+      "Skills": ["समस्या समाधान", "नवाचार", "टीम वर्क"]
+    },
+    {
+      "Year": "2016",
+      "Rank": "प्रथम",
+      "Description": "वर्चुअल पियानो डिवाइस विकसित करने के लिए महाराष्ट्र के तत्कालीन मुख्यमंत्री श्री देवेंद्र फडणवीस से यंग इनोवेटर्स अवार्ड प्राप्त किया।",
+      "Skills": ["नवाचार", "रचनात्मकता", "प्रस्तुतीकरण"]
+    }
+  ],
+
+  "Contact.Pretitle": "आगे क्या है?",
+  "Contact.Title": "संपर्क करें!",
+  "Contact.Content": "यदि आप नए अवसरों या किसी भी दिलचस्प विषय पर चर्चा करना चाहते हैं तो मुझे आपका संदेश पाकर खुशी होगी। कृपया बेझिझक मुझसे संपर्क करें और मैं जल्द से जल्द उत्तर दूंगा।",
+  "Contact.Btn": "नमस्ते कहें",
+
+  "Blog.SearchPlaceholder": "लेख खोजें...",
+  "Blog.ReadArticle": "लेख पढ़ें",
+  "Blog.BackLink": "सभी लेखों पर वापस जाएं",
+  "Blog.AllPosts": "सभी लेख",
+  "Blog.Stats": "लेख",
+  "Blog.Title": "डेव क्रॉनिकल्स",
+  "Blog.Pretitle": "जर्नल और नोट्स",
+  "Blog.NoPosts": "कोई लेख नहीं मिला",
+  "Blog.NoPostsDesc": "हमें इस खोज से संबंधित कोई लेख नहीं मिला:",
+  "TechStack.Title": "मुख्य तकनीकी स्टैक",
+  "TechStack.Skills": [
+    { "Title": "Java", "Desc": "मजबूत बैकएंड सेवाएं, REST APIs और एंटरप्राइज़ एप्लिकेशन।", "IconClass": "fab fa-java", "Color": "#f89820" },
+    { "Title": "Angular", "Desc": "डायनामिक SPAs और TypeScript के साथ आधुनिक फ्रंटएंड आर्किटेक्चर।", "IconClass": "fab fa-angular", "Color": "#dd0031" },
+    { "Title": "SQL डेटाबेस", "Desc": "रिलेशनल मॉडलिंग, क्वेरी ट्यूनिंग, डेटा वेयरहाउसिंग और विश्लेषण।", "IconClass": "fas fa-database", "Color": "#336791" },
+    { "Title": "HTML & CSS", "Desc": "रेस्पॉन्सिव लेआउट, स्वच्छ स्टाइलिंग, एक्सेसिबिलिटी और विज़ुअल ट्रांज़िशन।", "IconClass": "fab fa-html5", "Color": "#e34f26" },
+    { "Title": "TypeScript", "Desc": "टाइप-सेफ कोडबेस और अत्यधिक स्केलेबल आर्किटेक्चर।", "IconClass": "ts-logo", "Color": "#3178c6" },
+    { "Title": "AWS Cloud", "Desc": "S3, EKS, EC2, Secrets Manager, CloudWatch — पूर्ण क्लाउड ऑपरेशन और मॉनिटरिंग।", "IconClass": "fab fa-aws", "Color": "#ff9900" },
+    { "Title": "CI/CD & Git", "Desc": "स्वचालित बिल्ड/डिप्लॉय पाइपलाइन, GitOps, ArgoCD और वर्जन कंट्रोल वर्कफ्लो।", "IconClass": "fab fa-git-alt", "Color": "#4078c0" },
+    { "Title": "Firebase", "Desc": "रियलटाइम डेटाबेस, प्रमाणीकरण, क्लाउड फंक्शन और होस्टिंग।", "IconClass": "fas fa-fire", "Color": "#FFA000" },
+    { "Title": "Python", "Desc": "स्क्रिप्टिंग, डेटा पाइपलाइन, ML उपयोगिताएं और बैकएंड सेवाएं।", "IconClass": "fab fa-python", "Color": "#3776AB" },
+    { "Title": "Gen AI & LLMs", "Desc": "जेनरेटिव AI इंटीग्रेशन, प्रॉम्प्ट इंजीनियरिंग, RAG और LLM-संचालित फीचर।", "IconClass": "fas fa-robot", "Color": "#10a37f" },
+    { "Title": "AI/ML", "Desc": "Milvus, वेक्टर सर्च, KNN क्लस्टरिंग, DB2 और ML पाइपलाइन।", "IconClass": "fas fa-brain", "Color": "#a855f7" },
+    { "Title": "Kubernetes", "Desc": "कंटेनर ऑर्केस्ट्रेशन, Helm, ऑटोस्केलिंग और मल्टी-क्लस्टर डिप्लॉयमेंट।", "IconClass": "fas fa-dharmachakra", "Color": "#326CE5" },
+    { "Title": "Redis", "Desc": "हाई-परफॉर्मेंस कैशिंग, pub/sub मैसेजिंग और सेशन मैनेजमेंट।", "IconClass": "fas fa-bolt", "Color": "#DC382D" },
+    { "Title": "Elasticsearch", "Desc": "फुल-टेक्स्ट सर्च, लॉग एनालिटिक्स, एनोमली डिटेक्शन और ऑब्जर्वेबिलिटी।", "IconClass": "fas fa-search", "Color": "#00bfb3" },
+    { "Title": "Lakehouse & Spark", "Desc": "Apache Spark, वितरित डेटा प्रोसेसिंग, Delta Lake और बैच एनालिटिक्स।", "IconClass": "fas fa-layer-group", "Color": "#E25A1C" }
+  ],
+  "WhatIDo.Title": "मैं क्या करता हूं",
+  "WhatIDo.Subtitle": "वेब, मोबाइल और क्लाउड के लिए एंड-टू-एंड डेवलपमेंट।",
+  "WhatIDo.Cards": [
+    { "Title": "SaaS & वेब प्लेटफ़ॉर्म", "Desc": "रियलटाइम बैकएंड, मल्टी-टेनेंट RBAC, पेमेंट इंटीग्रेशन के साथ प्रोडक्शन-रेडी SaaS एप्लिकेशन।", "IconClass": "fas fa-laptop-code", "Color": "#7aa2f7" },
+    { "Title": "मोबाइल ऐप डेवलपमेंट", "Desc": "React Native से क्रॉस-प्लेटफॉर्म ऐप बनाना, वेब के साथ टाइप्ड बैकएंड साझा करना।", "IconClass": "fas fa-mobile-alt", "Color": "#bb9af7" },
+    { "Title": "AI & LLM इंटीग्रेशन", "Desc": "प्रोवाइडर एब्स्ट्रेक्शन, कॉस्ट-अवेयर रूटिंग और हैलुसिनेशन गार्डरेल के साथ LLM इंटीग्रेशन।", "IconClass": "fas fa-brain", "Color": "#9ece6a" },
+    { "Title": "क्लाउड & इन्फ्रास्ट्रक्चर", "Desc": "AWS और Vercel पर CI/CD पाइपलाइन, Docker कंटेनरीकरण और ज़ीरो-डाउनटाइम रिलीज़ के साथ प्रोडक्शन सेटअप।", "IconClass": "fas fa-cloud", "Color": "#ff9900" }
+  ]
+}

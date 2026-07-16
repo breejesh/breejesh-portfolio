@@ -10,11 +10,17 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2015",
-    "module": "es2020",
+    "target": "es2022",
+    "module": "esnext",
     "lib": [
-      "es2018",
+      "es2022",
       "dom"
-    ]
+    ],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "paths": {
+      "src/*": ["src/*"]
+    }
   }
 }

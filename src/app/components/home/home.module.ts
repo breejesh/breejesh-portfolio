@@ -10,16 +10,12 @@ import { ExperienceComponent } from './experience/experience.component';
 import { OtherProjectsComponent } from './other-projects/other-projects.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { NgbModule, NgbNav, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { CarouselModule } from 'ngx-owl-carousel-o';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { GeneralModule } from '../general/general.module';
 import { AchievementsComponent } from './achievements/achievements.component';
 
-export function HttpLoaderFactory(http: HttpClient){
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
 
 
+import { AsArrayPipe } from '../../pipes/as-array.pipe';
 
 @NgModule({
   declarations: [
@@ -36,14 +32,19 @@ export function HttpLoaderFactory(http: HttpClient){
     GeneralModule,
     CommonModule,
     NgbNavModule,
-    CarouselModule,
-    TranslateModule.forChild({
-      loader: {
-          provide: TranslateLoader,
-          useFactory: HttpLoaderFactory,
-          deps: [HttpClient]
-      }
-    })
+    TranslateModule.forChild(),
+    AsArrayPipe
+  ],
+  exports: [
+    HomeComponent,
+    HeroComponent,
+    AboutComponent,
+    ExperienceComponent,
+    ProjectsComponent,
+    OtherProjectsComponent,
+    ContactComponent,
+    AchievementsComponent,
+    AsArrayPipe
   ]
 })
 export class HomeModule { }
