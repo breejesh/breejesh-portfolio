@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-achievements',
@@ -6,6 +6,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
   styleUrls: ['./achievements.component.scss'],
   })
 export class AchievementsComponent implements OnInit, AfterViewInit {
+  @Input() hideTitle = false;
 
   public state: boolean = false;
   constructor() { }

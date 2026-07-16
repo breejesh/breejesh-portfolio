@@ -52,6 +52,7 @@
     "marked-mangle": "^1.1.13",
     "prismjs": "^1.29.0",
     "sass": "^1.71.1",
+    "sharp": "^0.35.3",
     "typescript": "~5.4.3",
     "vite": "^6.0.0",
     "vitest": "^2.1.1"

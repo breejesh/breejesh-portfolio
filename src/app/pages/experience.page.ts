@@ -1,14 +1,21 @@
 import { Component } from '@angular/core';
 import { HomeModule } from '../components/home/home.module';
 import { GeneralModule } from '../components/general/general.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-experience-page',
   standalone: true,
-  imports: [HomeModule, GeneralModule],
+  imports: [HomeModule, GeneralModule, TranslateModule],
   template: `
-    <div class="page-wrapper" style="padding-top: 100px; min-height: calc(100vh - 100px); display: flex; flex-direction: column; justify-content: space-between;">
-      <app-experience></app-experience>
+    <div class="page-wrapper" style="padding-top: 120px; min-height: calc(100vh - 120px); display: flex; flex-direction: column; justify-content: space-between;">
+      <div class="container" style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 0 24px; box-sizing: border-box;">
+        <div class="page-header-section">
+          <h1 class="page-main-title">{{ 'Experience.Title' | translate }}</h1>
+          <p class="page-subtitle">{{ 'Experience.Subtitle' | translate }}</p>
+        </div>
+        <app-experience [hideTitle]="true"></app-experience>
+      </div>
       <app-footer></app-footer>
     </div>
   `

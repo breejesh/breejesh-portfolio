@@ -1,8 +1,12 @@
 @use "../../../../variables.scss";
 
+.container {
+  max-width: 1200px;
+}
+
 .experience-layout {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 240px 1fr;
   gap: 60px;
   position: relative;
   margin-top: 40px;
@@ -67,6 +71,7 @@
   padding-left: 32px;
   margin-left: 10px;
   padding-bottom: 20px;
+  min-width: 0;
   
   @media (max-width: 480px) {
     padding-left: 20px;
@@ -171,97 +176,55 @@
   margin: 0;
 }
 
-/* Horizontal Sub-Timeline Style */
+/* Sub-Timeline Style (Vertical on both desktop & mobile to avoid horizontal scrolling) */
 .horizontal-roles-timeline {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  border-left: 2px dashed var(--border-color);
+  padding-left: 20px;
+  margin: 20px 0 28px 4px;
   gap: 16px;
-  margin: 20px 0 28px 0;
-  overflow-x: auto;
-  padding-bottom: 12px;
-  scrollbar-width: thin;
-  
-  &::-webkit-scrollbar {
-    height: 6px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--border-color);
-    border-radius: 3px;
-  }
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    border-left: 2px dashed var(--border-color);
-    padding-left: 20px;
-    margin-left: 10px;
-    gap: 20px;
-    overflow-x: visible;
-  }
 }
 
 .horizontal-role-item {
   display: flex;
-  flex-direction: column;
-  min-width: 180px;
-  flex: 1;
-
-  @media (max-width: 768px) {
-    flex-direction: row;
-    min-width: auto;
-    align-items: flex-start;
-  }
+  flex-direction: row;
+  align-items: flex-start;
 }
 
 .role-step-node {
   display: flex;
   align-items: center;
   position: relative;
-  margin-bottom: 8px;
-
-  @media (max-width: 768px) {
-    margin-bottom: 0;
-    margin-right: 12px;
-    height: 100%;
-  }
+  margin-right: 12px;
+  margin-top: 5px;
 }
 
 .role-node-circle {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background-color: var(--bg-primary);
   border: 2px solid var(--accent-color);
   z-index: 2;
+  margin-left: -25px; /* Centered directly over the parent's dashed border line */
 }
 
 .role-node-line {
-  height: 2px;
-  background-color: var(--border-color);
-  flex-grow: 1;
-  margin-left: 8px;
-  position: absolute;
-  left: 10px;
-  right: -16px;
-  top: 4px;
-
-  @media (max-width: 768px) {
-    display: none;
-  }
+  display: none;
 }
 
 .role-step-info {
-  padding-right: 12px;
-
-  @media (max-width: 768px) {
-    padding-right: 0;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .role-step-title {
   font-size: 14px;
   font-weight: 700;
   color: variables.$LightestSlate;
-  margin: 0 0 4px 0;
+  margin: 0;
 }
 
 .role-step-date {
@@ -286,6 +249,8 @@
   font-size: 15px;
   line-height: 1.6;
   color: variables.$Slate;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 
   &:before {
     content: "▹";

@@ -1,4 +1,4 @@
-import { Component, inject, effect } from '@angular/core';
+import { Component, inject, effect, signal } from '@angular/core';
 import { CommonModule, AsyncPipe } from '@angular/common';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
@@ -7,6 +7,8 @@ import { MarkdownComponent, injectContentFilesMap, parseRawContentFile } from '@
 import { TranslateModule } from '@ngx-translate/core';
 import { map, switchMap } from 'rxjs/operators';
 import { from, of, combineLatest } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { FirebaseService, Comment } from '../../services/firebase/firebase.service';
 
 export interface BlogAttributes {
   title: string;
@@ -20,9 +22,9 @@ export interface BlogAttributes {
 @Component({
   selector: 'app-blog-post',
   standalone: true,
-  imports: [CommonModule, MarkdownComponent, AsyncPipe, RouterLink, TranslateModule],
+  imports: [CommonModule, MarkdownComponent, AsyncPipe, RouterLink, TranslateModule, FormsModule],
   template: `
-    <div class="blog-post-section" *ngIf="post$ | async as post">
+    <div class="blog-post-section" *ngIf="postSignal() as post">
       <header class="post-header-nav">
         <a routerLink="/blog" class="back-link">
           &larr; {{ 'Blog.BackLink' | translate }}
@@ -39,6 +41,12 @@ export interface BlogAttributes {
           <div class="post-meta">
             <span class="post-date"><i class="far fa-calendar-alt"></i> {{ post.attributes.date | date: 'longDate' }}</span>
             <span class="meta-divider">|</span>
+            <span class="post-views"><i class="far fa-eye"></i> {{ views() }} {{ 'Blog.Views' | translate }}</span>
+            <span class="meta-divider">|</span>
+            <button class="like-btn" (click)="toggleLike(extractBaseSlug(post.slug))" [class.liked]="hasLiked()">
+              <i class="fas fa-heart"></i> {{ likesCount() }}
+            </button>
+            <span class="meta-divider">|</span>
             <div class="tag-badges">
               <span *ngFor="let tag of post.attributes.tags" class="badge tag-badge">{{ tag }}</span>
             </div>
@@ -49,19 +57,79 @@ export interface BlogAttributes {
         <section class="post-content">
           <analog-markdown [content]="post.content" />
         </section>
+
+        <!-- Comments Section -->
+        <section class="comments-section">
+          <h3 class="comments-title">
+            <i class="far fa-comments"></i> {{ 'Blog.CommentsTitle' | translate }} ({{ comments().length }})
+          </h3>
+
+          <!-- Add Comment Form -->
+          <form #commentForm="ngForm" (submit)="addComment(extractBaseSlug(post.slug), nameInput.value, textInput.value, commentForm)" class="comment-form">
+            <div class="form-row">
+              <input 
+                #nameInput
+                required
+                name="name"
+                ngModel
+                type="text" 
+                [placeholder]="'Blog.NamePlaceholder' | translate" 
+                class="form-input name-input" 
+              />
+            </div>
+            <div class="form-row">
+              <textarea 
+                #textInput
+                required
+                name="text"
+                ngModel
+                rows="4" 
+                [placeholder]="'Blog.CommentPlaceholder' | translate" 
+                class="form-input text-input"
+              ></textarea>
+            </div>
+            <div class="form-actions">
+              <button 
+                type="submit" 
+                [disabled]="!commentForm.valid || submittingComment()" 
+                class="submit-comment-btn"
+              >
+                <span *ngIf="submittingComment()">
+                  <i class="fas fa-spinner fa-spin"></i>
+                </span>
+                <span *ngIf="!submittingComment()">
+                  {{ 'Blog.SubmitComment' | translate }}
+                </span>
+              </button>
+            </div>
+          </form>
+
+          <!-- Comments List -->
+          <div class="comments-list">
+            <div *ngFor="let comment of comments()" class="comment-item">
+              <div class="comment-header">
+                <span class="comment-author"><i class="far fa-user"></i> {{ comment.name }}</span>
+                <span class="comment-date">{{ comment.timestamp | date: 'medium' }}</span>
+              </div>
+              <p class="comment-body">{{ comment.text }}</p>
+            </div>                      
+          </div>
+        </section>
       </article>
     </div>
   `,
   styles: [`
     :host {
       display: block;
-      max-width: 800px;
+      max-width: 1280px;
       margin: 0 auto;
     }
 
     .blog-post-section {
       width: 100%;
       min-width: 0;
+      padding: 0 16px 40px;
+      box-sizing: border-box;
     }
 
     .post-header-nav {
@@ -161,6 +229,49 @@ export interface BlogAttributes {
       font-family: 'SF Mono', monospace;
     }
 
+    .post-views {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'SF Mono', monospace;
+    }
+
+    .like-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      font-family: 'SF Mono', monospace;
+    }
+    
+    .like-btn i {
+      font-size: 0.85rem;
+      transition: transform 0.2s ease;
+    }
+
+    .like-btn:hover {
+      border-color: #f43f5e;
+      color: #f43f5e;
+      background: rgba(244, 63, 94, 0.05);
+    }
+
+    .like-btn:hover i {
+      transform: scale(1.2);
+    }
+
+    .like-btn.liked {
+      background: rgba(244, 63, 94, 0.1);
+      border-color: #f43f5e;
+      color: #f43f5e;
+    }
+
     .meta-divider {
       color: var(--border-color);
     }
@@ -177,7 +288,7 @@ export interface BlogAttributes {
       justify-content: center;
       background: var(--accent-opacity);
       color: var(--accent-color);
-      padding: 4px 10px;
+      padding: 8px 8px 4px 8px;
       border-radius: 12px;
       font-size: 0.75rem;
       font-weight: 600;
@@ -192,7 +303,6 @@ export interface BlogAttributes {
       margin-top: 16px;
     }
 
-    /* Style the parsed markdown content inside the host component */
     :host ::ng-deep .post-content {
       color: var(--text-secondary);
       font-size: 1.05rem;
@@ -274,28 +384,183 @@ export interface BlogAttributes {
 
     :host ::ng-deep .post-content blockquote {
       border-left: 4px solid var(--accent-color);
-      padding: 4px 0 4px 20px;
+      padding: 20px 0 4px 20px;
+      background: var(--bg-primary);
       margin: 0 0 24px 0;
       font-style: italic;
       color: var(--text-secondary);
+    }
+
+    .comments-section {
+      margin-top: 50px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 40px;
+    }
+
+    .comments-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .comment-form {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 30px;
+      transition: border-color 0.3s;
+    }
+
+    .comment-form:focus-within {
+      border-color: var(--accent-color);
+    }
+
+    .form-row {
+      margin-bottom: 12px;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: all 0.3s;
+      box-sizing: border-box;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      background: var(--bg-primary);
+    }
+
+    .name-input {
+      max-width: 300px;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .submit-comment-btn {
+      background: var(--accent-color);
+      color: var(--bg-primary);
+      border: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .submit-comment-btn:hover:not(:disabled) {
+      background: var(--accent-color-hover);
+      transform: translateY(-1px);
+    }
+
+    .submit-comment-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .comments-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .comment-item {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px 20px;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.85rem;
+    }
+
+    .comment-author {
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .comment-date {
+      color: var(--text-secondary);
+      font-family: 'SF Mono', monospace;
+    }
+
+    .comment-body {
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin: 0;
+      white-space: pre-wrap;
+    }
+
+    .no-comments {
+      text-align: center;
+      padding: 30px;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   `]
 })
 export default class BlogPostComponent {
   private router = inject(Router);
-  private route = inject(ActivatedRoute);
+  public route = inject(ActivatedRoute);
   private languageService = inject(LanguageService);
   private contentFiles = injectContentFilesMap();
+  private firebaseService = inject(FirebaseService);
 
-  readonly post$ = combineLatest([
-    this.route.paramMap.pipe(
-      map((params) => {
-        return params.get('slug') || '';
-      })
-    ),
-    toObservable(this.languageService.language)
-  ]).pipe(
-    switchMap(([slug, currentLang]) => {
+  readonly views = signal(0);
+  readonly likesCount = signal(0);
+  readonly hasLiked = signal(false);
+  readonly comments = signal<Comment[]>([]);
+  readonly submittingComment = signal(false);
+
+  private getSlugFromRoute(): string {
+    // AnalogJS exposes [...slug] as a comma-separated paramMap entry named 'slug'
+    const paramSlug = this.route.snapshot.paramMap.get('slug');
+    if (paramSlug) {
+      return paramSlug.replace(/,/g, '/');
+    }
+
+    // Fallback: parse from the current URL path
+    // URL is like /blog/en/some-article — strip leading /blog/
+    const url = this.router.url.split('?')[0].split('#')[0];
+    const prefix = '/blog/';
+    if (url.startsWith(prefix)) {
+      return url.substring(prefix.length);
+    }
+    return '';
+  }
+
+  readonly post$ = of(null).pipe(
+    map(() => this.getSlugFromRoute()),
+    switchMap((slug) => {
       if (!slug) {
         return of({
           filename: '',
@@ -308,7 +573,7 @@ export default class BlogPostComponent {
       const cleanSlug = slug.startsWith('/') ? slug.substring(1) : slug;
       const parts = cleanSlug.split('/');
       
-      let lang = currentLang;
+      let lang = this.languageService.language();
       let postSlug = cleanSlug;
       
       if (parts.length >= 2 && ['en', 'es', 'fr', 'hi'].includes(parts[0])) {
@@ -322,12 +587,18 @@ export default class BlogPostComponent {
                           this.contentFiles[`${filePath}.agx`] ?? 
                           this.contentFiles[`/${filePath}.agx`];
       
-      console.log('BLOG LOOKUP - SLUG:', slug, 'LANG:', lang, 'POSTSLUG:', postSlug, 'FILEPATH:', filePath, 'FOUND FILE:', !!contentFile);
+      console.log('=== BLOG LOOKUP ===');
+      console.log('routeSlug:', slug);
+      console.log('lang:', lang);
+      console.log('postSlug:', postSlug);
+      console.log('filePath:', filePath);
+      console.log('availableKeys (first 5):', Object.keys(this.contentFiles).slice(0, 5));
+      console.log('found:', !!contentFile);
       
       if (!contentFile) {
         return of({
           filename: filePath,
-          slug,
+          slug: postSlug,
           attributes: {} as BlogAttributes,
           content: 'No Content Found'
         });
@@ -339,14 +610,14 @@ export default class BlogPostComponent {
             const { content, attributes } = parseRawContentFile<BlogAttributes>(rawContent);
             return {
               filename: filePath,
-              slug,
+              slug: postSlug,
               attributes,
               content
             };
           }
           return {
             filename: filePath,
-            slug,
+            slug: postSlug,
             attributes: (rawContent as any).metadata,
             content: (rawContent as any).default
           };
@@ -355,28 +626,74 @@ export default class BlogPostComponent {
     })
   );
 
-  constructor() {
-    const paramsSignal = toSignal(this.route.paramMap);
+  readonly postSignal = toSignal(this.post$);
 
-    effect(() => {
-      const params = paramsSignal();
-      if (!params) return;
-      
-      const currentLang = this.languageService.language();
-      const rawSlug = params.get('slug') || '';
-      const segments = rawSlug.split('/');
-      if (segments.length >= 1) {
-        const firstSegment = segments[0];
-        if (['en', 'es', 'fr', 'hi'].includes(firstSegment)) {
-          const postLang = firstSegment;
-          const postSlugBase = segments.slice(1).join('/');
-          if (postLang !== currentLang) {
-            this.router.navigateByUrl(`/blog/${currentLang}/${postSlugBase}`);
-          }
-        } else if (rawSlug) {
-          // No language prefix in URL, redirect to current selected language path
-          this.router.navigateByUrl(`/blog/${currentLang}/${rawSlug}`);
+  private loadStatsEffect = effect(() => {
+    const post = this.postSignal();
+    if (!post || !post.slug) return;
+
+    const baseSlug = this.extractBaseSlug(post.slug);
+
+    this.firebaseService.incrementViews(baseSlug).subscribe(views => {
+      this.views.set(views);
+    });
+
+    this.firebaseService.getLikesInfo(baseSlug).subscribe(likes => {
+      this.likesCount.set(likes.count);
+      this.hasLiked.set(likes.hasLiked);
+    });
+
+    this.firebaseService.getComments(baseSlug).subscribe(comments => {
+      this.comments.set(comments);
+    });
+  }, { allowSignalWrites: true });
+
+  constructor() {
+    const slug = this.getSlugFromRoute();
+    const currentLang = this.languageService.language();
+    if (slug) {
+      const parts = slug.split('/');
+      const firstPart = parts[0];
+      if (['en', 'es', 'fr', 'hi'].includes(firstPart)) {
+        const postLang = firstPart;
+        const postSlugBase = parts.slice(1).join('/');
+        if (postLang !== currentLang && postSlugBase) {
+          this.router.navigateByUrl(`/blog/${currentLang}/${postSlugBase}`);
         }
+      } else if (slug) {
+        this.router.navigateByUrl(`/blog/${currentLang}/${slug}`);
+      }
+    }
+  }
+
+  public extractBaseSlug(slug: string): string {
+    const clean = slug.startsWith('/') ? slug.substring(1) : slug;
+    const parts = clean.split('/');
+    if (parts.length >= 2 && ['en', 'es', 'fr', 'hi'].includes(parts[0])) {
+      return parts.slice(1).join('/');
+    }
+    return clean;
+  }
+
+  public toggleLike(baseSlug: string) {
+    this.firebaseService.toggleLike(baseSlug).subscribe(likes => {
+      this.likesCount.set(likes.count);
+      this.hasLiked.set(likes.hasLiked);
+    });
+  }
+
+  public addComment(baseSlug: string, name: string, text: string, form: any) {
+    if (!name.trim() || !text.trim() || this.submittingComment()) return;
+    this.submittingComment.set(true);
+
+    this.firebaseService.addComment(baseSlug, name, text).subscribe({
+      next: (comment) => {
+        this.comments.update(all => [comment, ...all]);
+        this.submittingComment.set(false);
+        form.reset();
+      },
+      error: () => {
+        this.submittingComment.set(false);
       }
     });
   }

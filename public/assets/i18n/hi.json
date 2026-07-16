@@ -8,8 +8,11 @@
   ],
   "Header.cvBtn": "बायोडाटा",
   "Header.cvName": "CV_Breejesh_Rathod_HI.pdf",
+  "Header.cvPretitle": "बायोडाटा",
+  "Header.cvSubtitle": "मेरे कौशल और योग्यताओं का सारांश",
 
   "Banner.Pretitle": "नमस्ते! मेरा नाम है",
+  "Banner.Subtitle": "इंजीनियरिंग लीडर",
   "Banner.Description": "फ़िनटेक, साइबर सुरक्षा और एंटरप्राइज़ सॉफ़्टवेयर में उत्पादों को 0 से 1 तक विकसित करने और उन्हें 1 से 100 तक स्केल करने के {{years}}+ वर्षों के अनुभव के साथ इंजीनियरिंग लीडर। उत्पाद अपनाने को बढ़ावा देने, पैमाने के लिए सिस्टम को अनुकूलित करने और व्यावसायिक प्रभाव देने वाली उच्च प्रदर्शन वाली टीमों के निर्माण में कुशल।",
   "Banner.ActionBtn": "संपर्क करें",
 
@@ -21,6 +24,8 @@
   ],
 
   "Experience.Title": "अनुभव",
+  "Experience.Pretitle": "करियर पथ",
+  "Experience.Subtitle": "मेरी व्यावसायिक यात्रा और कॉर्पोरेट भूमिकाएँ",
   "Experience.Jobs": [
     {
       "Tab": "Concentric AI",
@@ -130,6 +135,8 @@
   ],
 
   "FeatureProjects.Title": "मेरी परियोजनाएं",
+  "FeatureProjects.Pretitle": "पोर्टफोलियो",
+  "FeatureProjects.Subtitle": "चयनित अनुप्रयोगों और प्रणालियों का प्रदर्शन",
   "FeatureProjects.Label": "विशेष परियोजना",
   "FeatureProjects.Projects": [
     {
@@ -172,6 +179,8 @@
   ],
 
   "Achievements.Title": "उपलब्धियां",
+  "Achievements.Pretitle": "मील के पत्थर",
+  "Achievements.Subtitle": "रास्ते में अर्जित मान्यता और सम्मान",
   "Achievements.Year": "वर्ष",
   "Achievements.Rank": "रैंक",
   "Achievements.Description": "विवरण",
@@ -198,11 +207,16 @@
 
   "Blog.SearchPlaceholder": "लेख खोजें...",
   "Blog.ReadArticle": "लेख पढ़ें",
+  "Blog.Read": "पढ़ें",
   "Blog.BackLink": "सभी लेखों पर वापस जाएं",
   "Blog.AllPosts": "सभी लेख",
   "Blog.Stats": "लेख",
-  "Blog.Title": "डेव क्रॉनिकल्स",
-  "Blog.Pretitle": "जर्नल और नोट्स",
+  "Blog.Title": "Silicon Scribe",
+  "Blog.Views": "दृश्य",
+  "Blog.CommentsTitle": "टिप्पणियाँ",
+  "Blog.NamePlaceholder": "आपका नाम",
+  "Blog.CommentPlaceholder": "एक टिप्पणी जोड़ें...",
+  "Blog.SubmitComment": "भेजें",
   "Blog.NoPosts": "कोई लेख नहीं मिला",
   "Blog.NoPostsDesc": "हमें इस खोज से संबंधित कोई लेख नहीं मिला:",
   "TechStack.Title": "मुख्य तकनीकी स्टैक",

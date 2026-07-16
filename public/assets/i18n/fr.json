@@ -12,6 +12,7 @@
   "Header.cvSubtitle": "Résumé de mes compétences et qualifications",
 
   "Banner.Pretitle": "Bonjour ! Je m'appelle",
+  "Banner.Subtitle": "Leader en Ingénierie",
   "Banner.Description": "Leader en ingénierie avec plus de {{years}} ans d'expérience dans la création de produits de 0 à 1 et leur mise à l'échelle de 1 à 100 dans les domaines de la fintech, de la cybersécurité et des logiciels d'entreprise. Expert dans l'adoption de produits, l'optimisation de systèmes pour la mise à l'échelle et la direction d'équipes hautement performantes créant un fort impact commercial.",
   "Banner.ActionBtn": "Contactez-moi",
 
@@ -206,11 +207,16 @@
 
   "Blog.SearchPlaceholder": "Rechercher des articles...",
   "Blog.ReadArticle": "Lire l'article",
+  "Blog.Read": "Lire",
   "Blog.BackLink": "Retour aux articles",
   "Blog.AllPosts": "Tous les articles",
   "Blog.Stats": "articles",
-  "Blog.Title": "Chroniques de Dev",
-  "Blog.Pretitle": "Journal et Notes",
+  "Blog.Title": "Silicon Scribe",
+  "Blog.Views": "vues",
+  "Blog.CommentsTitle": "Commentaires",
+  "Blog.NamePlaceholder": "Votre nom",
+  "Blog.CommentPlaceholder": "Ajouter un commentaire...",
+  "Blog.SubmitComment": "Envoyer",
   "Blog.NoPosts": "Aucun article trouvé",
   "Blog.NoPostsDesc": "Nous n'avons trouvé aucun article correspondant à",
   "TechStack.Title": "Stack Technologique Principal",

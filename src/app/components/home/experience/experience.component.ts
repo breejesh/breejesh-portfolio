@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, inject } from '@angular/core';
+import { Component, OnInit, HostListener, inject, Input } from '@angular/core';
 import { LanguageService } from '../../../services/language/language.service';
 
 @Component({
@@ -7,6 +7,7 @@ import { LanguageService } from '../../../services/language/language.service';
   styleUrls: ['./experience.component.scss'],
 })
 export class ExperienceComponent implements OnInit {
+  @Input() hideTitle = false;
   activeJobIndex = 0;
   public languageService = inject(LanguageService);
 

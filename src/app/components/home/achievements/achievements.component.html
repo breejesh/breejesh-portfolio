@@ -1,7 +1,7 @@
 <section class="section achievements" id="achievements">
     <div class="container">
       <div class="section-box">
-        <div class="about-title mb-5" data-aos="fade-up" data-aos-duration="1000">
+        <div *ngIf="!hideTitle" class="about-title mb-5" data-aos="fade-up" data-aos-duration="1000">
             <h3 class="e-font section-title">
                 {{"Achievements.Title" | translate}}
             </h3>

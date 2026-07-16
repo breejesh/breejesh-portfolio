@@ -66,7 +66,6 @@ export class HeaderComponent implements OnInit {
     if (url.startsWith('/experience')) return 'experience';
     if (url.startsWith('/projects')) return 'projects';
     if (url.startsWith('/achievements')) return 'achievements';
-    if (url.startsWith('/resume')) return 'resume';
     return '/';
   }
 

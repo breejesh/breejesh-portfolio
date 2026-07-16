@@ -19,7 +19,8 @@
     <!-- Controls (Right): Resume, Language, Theme -->
     <div class="desktop-nav-controls">
       <!-- CV Button -->
-      <a routerLink="/resume" class="cv-button" [class.active]="activeRouteSection === 'resume'">{{"Header.cvBtn" | translate}}</a>
+      <a href="https://docs.google.com/document/d/1B-YwXMlKY1WLx1k1LM1p9Yc375JIcaRawzl87DoHscs/export?format=pdf" class="cv-button" target="_blank">{{"Header.cvBtn" | translate}}</a>
+
 
       <!-- Language Switcher Dropdown -->
       <div class="lang-dropdown-wrapper" ngbDropdown placement="bottom-end">
@@ -79,7 +80,7 @@
         </a>
       </li>
       <li>
-        <a routerLink="/resume" (click)="responsiveMenuVisible = false" class="cv-button mobile-cv-btn" [class.active]="activeRouteSection === 'resume'">{{"Header.cvBtn" | translate}}</a>
+        <a href="https://docs.google.com/document/d/1B-YwXMlKY1WLx1k1LM1p9Yc375JIcaRawzl87DoHscs/export?format=pdf" (click)="responsiveMenuVisible = false" class="cv-button mobile-cv-btn" target="_blank">{{"Header.cvBtn" | translate}}</a>
       </li>
     </ul>
 

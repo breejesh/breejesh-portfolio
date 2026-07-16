@@ -270,5 +270,39 @@ body.light-theme {
   }
 }
 
+/* Center-aligned Page Headers styled like the Blog header */
+.page-header-section {
+  text-align: center;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 30px;
+}
 
+.page-pre-title {
+  font-family: 'SF Mono', monospace;
+  font-size: 14px;
+  color: var(--accent-color);
+  font-weight: normal;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+  text-align: center;
+}
 
+.page-main-title {
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 auto 8px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-family: 'SF Mono', monospace;
+  margin-bottom: 12px;
+  text-align: center;
+}

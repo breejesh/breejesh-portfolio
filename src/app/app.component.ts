@@ -50,6 +50,11 @@ export class AppComponent implements OnInit {
       filter((event): event is NavigationEnd => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
       this.isBlog = event.urlAfterRedirects.startsWith('/blog');
+      if (isPlatformBrowser(this.platformId)) {
+        setTimeout(() => {
+          AOS.refresh();
+        }, 150);
+      }
     });
   }
 }

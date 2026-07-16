@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet, Router } from '@angular/router';
 import { injectContentFiles } from '@analogjs/content';
 import { ThemeService } from '../services/theme/theme.service';
+import { LanguageService } from '../services/language/language.service';
 
 export interface BlogAttributes {
   title: string;
@@ -40,7 +41,7 @@ export interface BlogAttributes {
     }
 
     .blog-layout-container {
-      max-width: 1000px;
+      max-width: 1280px;
       width: 100%;
       margin: 0 auto;
       padding: 40px 24px;
@@ -65,6 +66,7 @@ export default class BlogLayoutComponent {
 
   private router = inject(Router);
   public themeService = inject(ThemeService);
+  public languageService = inject(LanguageService);
 
   readonly allPosts = injectContentFiles<BlogAttributes>((file) =>
     file.filename.includes('/src/content/blog/')
@@ -75,14 +77,15 @@ export default class BlogLayoutComponent {
   });
 
   constructor() {
-    console.log('ALL POSTS FILENAMES:', this.allPosts.map(p => p.filename));
-    console.log('ALL POSTS SLUGS:', this.allPosts.map(p => p.slug));
+    console.log('ALL POSTS FILENAMES:', JSON.stringify(this.allPosts.map(p => p.filename)));
+    console.log('ALL POSTS SLUGS:', JSON.stringify(this.allPosts.map(p => p.slug)));
   }
 
   readonly allTags = computed(() => {
+    const lang = this.languageService.language();
     const tagsSet = new Set<string>();
     this.allPosts.forEach((post) => {
-      if (post.attributes.tags) {
+      if (post.filename.includes('/blog/' + lang + '/') && post.attributes.tags) {
         post.attributes.tags.forEach((tag) => tagsSet.add(tag));
       }
     });
