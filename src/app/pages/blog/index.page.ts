@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageService } from '../../services/language/language.service';
 import BlogLayoutComponent from '../blog.page';
+import { SeoService } from '../../services/seo/seo.service';
 
 @Component({
   selector: 'app-blog-index',
@@ -617,6 +618,15 @@ import BlogLayoutComponent from '../blog.page';
 export default class BlogIndexPage {
   private layout = inject(BlogLayoutComponent);
   public languageService = inject(LanguageService);
+  private seoService = inject(SeoService);
+
+  constructor() {
+    this.seoService.updateMeta({
+      title: 'Engineering Blog',
+      description: 'Insights, tutorials, and experiences in software engineering, cloud architecture, and building products from 0 to 1.',
+      url: '/blog'
+    });
+  }
 
   readonly searchQuery = this.layout.searchQuery;
   readonly selectedTag = this.layout.selectedTag;

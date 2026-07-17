@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HomeModule } from '../components/home/home.module';
 import { GeneralModule } from '../components/general/general.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { SeoService } from '../services/seo/seo.service';
 
 @Component({
   selector: 'app-projects-page',
@@ -21,4 +22,14 @@ import { TranslateModule } from '@ngx-translate/core';
     </div>
   `
 })
-export default class ProjectsPage {}
+export default class ProjectsPage {
+  private seoService = inject(SeoService);
+
+  constructor() {
+    this.seoService.updateMeta({
+      title: 'Projects',
+      description: 'Explore open-source projects, applications, and experiments built by Breejesh Rathod, including NomAI and other software engineering projects.',
+      url: '/projects'
+    });
+  }
+}

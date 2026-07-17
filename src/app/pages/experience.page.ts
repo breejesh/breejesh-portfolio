@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HomeModule } from '../components/home/home.module';
 import { GeneralModule } from '../components/general/general.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { SeoService } from '../services/seo/seo.service';
 
 @Component({
   selector: 'app-experience-page',
@@ -20,4 +21,14 @@ import { TranslateModule } from '@ngx-translate/core';
     </div>
   `
 })
-export default class ExperiencePage {}
+export default class ExperiencePage {
+  private seoService = inject(SeoService);
+
+  constructor() {
+    this.seoService.updateMeta({
+      title: 'Experience',
+      description: 'Professional experience of Breejesh Rathod, engineering leader across fintech, cybersecurity, and enterprise software.',
+      url: '/experience'
+    });
+  }
+}

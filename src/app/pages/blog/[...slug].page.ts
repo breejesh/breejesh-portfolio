@@ -9,6 +9,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { from, of, combineLatest } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { FirebaseService, Comment } from '../../services/firebase/firebase.service';
+import { SeoService } from '../../services/seo/seo.service';
 
 export interface BlogAttributes {
   title: string;
@@ -470,6 +471,7 @@ export default class BlogPostComponent {
   private languageService = inject(LanguageService);
   private contentFiles = injectContentFilesMap();
   private firebaseService = inject(FirebaseService);
+  private seoService = inject(SeoService);
 
   readonly views = signal(0);
   readonly likesCount = signal(0);
@@ -583,6 +585,36 @@ export default class BlogPostComponent {
       this.comments.set(comments);
     });
   }, { allowSignalWrites: true });
+
+  private seoEffect = effect(() => {
+    const post = this.postSignal();
+    if (!post || !post.attributes.title) return;
+
+    const currentLang = this.languageService.language();
+    const url = `/blog/${currentLang}/${post.slug}`;
+
+    this.seoService.updateMeta({
+      title: post.attributes.title,
+      description: post.attributes.description,
+      image: post.attributes.coverImage,
+      url: url,
+      type: 'article',
+      article: {
+        datePublished: post.attributes.date,
+        tags: post.attributes.tags,
+        author: 'Breejesh Rathod'
+      }
+    });
+
+    this.seoService.setBlogPostJsonLd({
+      title: post.attributes.title,
+      description: post.attributes.description,
+      date: post.attributes.date,
+      image: post.attributes.coverImage,
+      url: url,
+      tags: post.attributes.tags
+    });
+  });
 
   constructor() {
     const slug = this.getSlugFromRoute();

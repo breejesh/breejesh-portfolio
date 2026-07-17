@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HomeModule } from '../components/home/home.module';
 import { GeneralModule } from '../components/general/general.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { SeoService } from '../services/seo/seo.service';
 
 @Component({
   selector: 'app-achievements-page',
@@ -20,4 +21,14 @@ import { TranslateModule } from '@ngx-translate/core';
     </div>
   `
 })
-export default class AchievementsPage {}
+export default class AchievementsPage {
+  private seoService = inject(SeoService);
+
+  constructor() {
+    this.seoService.updateMeta({
+      title: 'Achievements',
+      description: 'Awards, recognition, and milestones achieved by Breejesh Rathod throughout his software engineering career.',
+      url: '/achievements'
+    });
+  }
+}

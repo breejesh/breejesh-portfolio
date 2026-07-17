@@ -56,10 +56,14 @@ export default defineConfig(({ mode }) => ({
       prerender: {
         routes: async () => [
           '/',
+          '/experience',
+          '/projects',
+          '/achievements',
           '/blog',
           {
             contentDir: 'src/content/blog',
             transform: (file) => {
+              // file.name will be like 'en/post-name.md'
               const slug = file.name.replace('.md', '');
               return `/blog/${slug}`;
             },
