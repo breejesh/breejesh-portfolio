@@ -3,7 +3,6 @@
     { "title": "About", "scroll": "/" },
     { "title": "Experience", "scroll": "experience" },
     { "title": "Projects", "scroll": "projects" },
-    { "title": "Achievements", "scroll": "achievements" },
     { "title": "Blog", "scroll": "blog" }
   ],
   "Header.cvBtn": "Resume",
@@ -405,5 +404,14 @@
       ],
       "Tags": ["AWS", "Kubernetes", "Docker", "ArgoCD", "GitHub Actions", "CloudWatch", "Helm"]
     }
-  ]
+  ],
+  "Blog.SearchTitle": "Search",
+  "Blog.ExploreTopics": "Explore Topics",
+  "Blog.AllTopics": "All Topics",
+  "Header.Theme": "Theme",
+  "Footer.Subtitle": "Engineering Leader",
+  "Footer.Desc": "Engineering leader with experience of taking products from 0→1 and scaling them 1→100 across fintech, cybersecurity, and enterprise software. Skilled at driving product adoption, optimizing systems for scale, and building high-performing teams that deliver business impact.",
+  "Footer.Navigate": "Navigate",
+  "Footer.ContactInfo": "Contact Info",
+  "Footer.ResumeCV": "Resume / CV"
 }

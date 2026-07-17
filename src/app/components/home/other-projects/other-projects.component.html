@@ -12,8 +12,8 @@
                     <div *ngFor='let project of "OtherProjects.Projects" | translate | asArray; let i = index'
                      class="col-12 col-md-6 col-lg-6 col-xl-4 project-col" data-aos="fade-up" data-aos-duration="1000">
                         <div class="more-project-box">
-                            <a  [href]="project['ghLink']"  target="_blank" class="d-flex flex-col w-100  m-0 p-0 justify-content-start align-items-center">
-                                <span class="d-flex flex-row justify-content-center align-items-center text-white">
+                            <a [href]="project['ghLink']" target="_blank" class="d-flex flex-col w-100 m-0 p-0 justify-content-start align-items-center" [attr.aria-label]="project.Title + ' GitHub'">
+                                <span class="other-project-icon d-flex flex-row justify-content-center align-items-center">
                                    <i id="ghLink" class="mr-2 fab fa-github"></i>
                                 </span>
                                 <div class="d-flex flex-row justify-content-center align-items-center other-project-title"><h5 class="other-project-title">{{project.Title}}</h5></div>

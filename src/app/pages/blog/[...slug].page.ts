@@ -41,12 +41,6 @@ export interface BlogAttributes {
           <div class="post-meta">
             <span class="post-date"><i class="far fa-calendar-alt"></i> {{ post.attributes.date | date: 'longDate' }}</span>
             <span class="meta-divider">|</span>
-            <span class="post-views"><i class="far fa-eye"></i> {{ views() }} {{ 'Blog.Views' | translate }}</span>
-            <span class="meta-divider">|</span>
-            <button class="like-btn" (click)="toggleLike(extractBaseSlug(post.slug))" [class.liked]="hasLiked()">
-              <i class="fas fa-heart"></i> {{ likesCount() }}
-            </button>
-            <span class="meta-divider">|</span>
             <div class="tag-badges">
               <span *ngFor="let tag of post.attributes.tags" class="badge tag-badge">{{ tag }}</span>
             </div>
@@ -56,64 +50,6 @@ export interface BlogAttributes {
 
         <section class="post-content">
           <analog-markdown [content]="post.content" />
-        </section>
-
-        <!-- Comments Section -->
-        <section class="comments-section">
-          <h3 class="comments-title">
-            <i class="far fa-comments"></i> {{ 'Blog.CommentsTitle' | translate }} ({{ comments().length }})
-          </h3>
-
-          <!-- Add Comment Form -->
-          <form #commentForm="ngForm" (submit)="addComment(extractBaseSlug(post.slug), nameInput.value, textInput.value, commentForm)" class="comment-form">
-            <div class="form-row">
-              <input 
-                #nameInput
-                required
-                name="name"
-                ngModel
-                type="text" 
-                [placeholder]="'Blog.NamePlaceholder' | translate" 
-                class="form-input name-input" 
-              />
-            </div>
-            <div class="form-row">
-              <textarea 
-                #textInput
-                required
-                name="text"
-                ngModel
-                rows="4" 
-                [placeholder]="'Blog.CommentPlaceholder' | translate" 
-                class="form-input text-input"
-              ></textarea>
-            </div>
-            <div class="form-actions">
-              <button 
-                type="submit" 
-                [disabled]="!commentForm.valid || submittingComment()" 
-                class="submit-comment-btn"
-              >
-                <span *ngIf="submittingComment()">
-                  <i class="fas fa-spinner fa-spin"></i>
-                </span>
-                <span *ngIf="!submittingComment()">
-                  {{ 'Blog.SubmitComment' | translate }}
-                </span>
-              </button>
-            </div>
-          </form>
-
-          <!-- Comments List -->
-          <div class="comments-list">
-            <div *ngFor="let comment of comments()" class="comment-item">
-              <div class="comment-header">
-                <span class="comment-author"><i class="far fa-user"></i> {{ comment.name }}</span>
-                <span class="comment-date">{{ comment.timestamp | date: 'medium' }}</span>
-              </div>
-              <p class="comment-body">{{ comment.text }}</p>
-            </div>                      
-          </div>
         </section>
       </article>
     </div>
@@ -347,7 +283,7 @@ export interface BlogAttributes {
     }
 
     :host ::ng-deep .post-content pre {
-      background: #011627 !important;
+      background: #061214 !important;
       padding: 20px;
       border-radius: 8px;
       overflow-x: auto;
@@ -368,7 +304,7 @@ export interface BlogAttributes {
       background: transparent;
       padding: 0;
       border-radius: 0;
-      color: #ccd6f6;
+      color: var(--text-primary);
     }
 
     :host ::ng-deep .post-content ul,

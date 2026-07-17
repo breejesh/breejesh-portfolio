@@ -10,22 +10,16 @@
       <p data-aos="fade-up" data-aos-duration="1000">
         {{"Contact.Content" | translate}}
       </p>
-      <div class="mt-3 text-white d-flex flex-col justify-content-center align-items-center" data-aos="fade-up" data-aos-duration="1000">
-        <div class="mr-3">
-          <a class="text-white" href="mailto:breejeshrathod@gmail.com" target="_blank" data-aos="fade-up" data-aos-duration="1000">
-            <i class="far fa-envelope"></i>
-          </a>
-        </div>
-        <div class="mr-3">
-          <a href="https://github.com/breejesh" class="text-white" target='_blank'>
-            <i class="fab fa-github"></i>
-          </a>
-        </div>
-        <div>
-          <a href="https://www.linkedin.com/in/breejesh/" class="text-white" target='_blank'>
-            <i class="fab fa-linkedin-in"></i>
-          </a>
-        </div>
+      <div class="contact-socials mt-4 d-flex flex-row justify-content-center align-items-center" data-aos="fade-up" data-aos-duration="1000">
+        <a class="contact-social-link mx-2" href="mailto:breejeshrathod@gmail.com" target="_blank" [attr.aria-label]="'Email'">
+          <i class="far fa-envelope"></i>
+        </a>
+        <a href="https://github.com/breejesh" class="contact-social-link mx-2" target='_blank' [attr.aria-label]="'GitHub'">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/breejesh/" class="contact-social-link mx-2" target='_blank' [attr.aria-label]="'LinkedIn'">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
       </div>
     </div>
 

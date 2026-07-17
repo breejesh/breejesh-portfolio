@@ -4,6 +4,7 @@ import { RouterOutlet, Router } from '@angular/router';
 import { injectContentFiles } from '@analogjs/content';
 import { ThemeService } from '../services/theme/theme.service';
 import { LanguageService } from '../services/language/language.service';
+import { GeneralModule } from '../components/general/general.module';
 
 export interface BlogAttributes {
   title: string;
@@ -17,7 +18,7 @@ export interface BlogAttributes {
 @Component({
   selector: 'app-blog-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule, RouterOutlet, GeneralModule],
   template: `
     <div class="blog-layout-wrapper">
       <div class="blog-layout-container">
@@ -25,6 +26,7 @@ export interface BlogAttributes {
           <router-outlet></router-outlet>
         </main>
       </div>
+      <app-footer></app-footer>
     </div>
   `,
   styles: [`
@@ -38,6 +40,10 @@ export interface BlogAttributes {
 
     .blog-layout-wrapper {
       padding-top: 80px; /* Spacer for fixed unified header */
+      min-height: calc(100vh - 80px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .blog-layout-container {
@@ -46,6 +52,7 @@ export interface BlogAttributes {
       margin: 0 auto;
       padding: 40px 24px;
       box-sizing: border-box;
+      flex-grow: 1;
     }
 
     .blog-main-content {

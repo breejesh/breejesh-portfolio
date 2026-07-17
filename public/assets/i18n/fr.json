@@ -29,106 +29,106 @@
   "Experience.Jobs": [
     {
       "Tab": "Concentric AI",
-      "Title": "Engineering Manager",
-      "Date": "January 2025 - Present",
+      "Title": "Directeur de l'Ingénierie",
+      "Date": "Janvier 2025 - Présent",
       "logoClass": "fas fa-shield-alt",
-      "TotalDuration": "7 mos",
+      "TotalDuration": "7 mois",
       "Description": [
-        "Led 3 teams (20+ engineers) to deliver core features for Concentric AI’s flagship DSPM product.",
-        "Directly increased revenue by 10% by designing and launching User Behavior Analytics (UBA) feature, enhancing anomaly detection and security.",
-        "Increased team velocity by 25% through improved sprint planning, capacity management, and agile practices.",
-        "Spearheaded Gradle and Java upgrades across 20+ microservices and remediated 100+ vulnerabilities, improving maintainability, ensuring compliance, for achieving FedRAMP certification.",
-        "Partnered with product, sales, success, and QA teams to deliver seamless feature rollouts, accelerating adoption timelines.",
-        "Mentored 20+ engineers through regular check-ins, boosting retention and supporting career development.",
-        "Partnered with TopHire and SuccessPact to accelerate hiring for critical roles; launched an internship hiring program through campus drives at 2 colleges, building long-term talent pipelines."
+        "Lancement et direction de 3 équipes (plus de 20 ingénieurs) pour concevoir et livrer les fonctionnalités clés du produit DSPM de Concentric AI.",
+        "Augmentation directe des revenus de 10% grâce à la conception et au lancement de la fonctionnalité User Behavior Analytics (UBA), améliorant la détection des anomalies et la sécurité.",
+        "Amélioration de 25% de la vélocité de l'équipe via une planification optimale des sprints, la gestion des capacités et l'adoption de pratiques agiles.",
+        "Supervision des mises à niveau Gradle et Java sur plus de 20 microservices et remédiation de plus de 100 vulnérabilités, garantissant la conformité pour la certification FedRAMP.",
+        "Collaboration étroite avec les équipes produit, ventes, succès client et assurance qualité pour assurer des déploiements de fonctionnalités fluides, accélérant l'adoption.",
+        "Accompagnement et mentorat de plus de 20 ingénieurs via des points réguliers, favorisant la rétention et le développement de carrière.",
+        "Partenariat avec TopHire et SuccessPact pour accélérer le recrutement de rôles clés ; lancement d'un programme de recrutement de stagiaires dans 2 universités."
       ],
       "Technologies": ["Java", "Kafka", "Elastic Search", "Redis", "Argo", "Kubernetes", "AWS Cloud"]
     },
     {
       "Tab": "M2P Fintech",
-      "Title": "Tech Lead Manager",
-      "Date": "December 2022 - January 2025",
+      "Title": "Directeur Technique & Manager",
+      "Date": "Décembre 2022 - Janvier 2025",
       "logoClass": "fas fa-credit-card",
-      "TotalDuration": "2 yrs 2 mos",
+      "TotalDuration": "2 ans 2 mois",
       "Description": [
-        "Led a 9-member team to deliver a Loan Origination System adopted by multiple banks and NBFCs.",
-        "Built a customizable form engine that cut client onboarding time by 60% and accelerated sales.",
-        "Designed multi-tenancy architecture, reducing infra costs and improving scalability across clients.",
-        "Migrated infra to Helm, Argo CD, and Kubernetes GitOps, cutting deployment time by 70% and boosting reliability.",
-        "Drove code quality via PR reviews, sprint planning, and design reviews while mentoring junior engineers.",
-        "Partnered with product to influence roadmap decisions, directly contributing to market success."
+        "Direction d'une équipe de 9 ingénieurs pour le déploiement d'un Système d'Octroi de Prêts adopté par plusieurs banques et institutions financières.",
+        "Conception d'un moteur de formulaires dynamique réduisant le temps d'intégration client de 60% et accélérant les cycles de vente.",
+        "Architecture multi-tenant réduisant considérablement les coûts d'infrastructure et optimisant la scalabilité globale.",
+        "Migration de l'infrastructure vers Helm, Argo CD et Kubernetes GitOps, réduisant de 70% les temps de déploiement.",
+        "Supervision de la qualité du code à travers des revues de PR rigoureuses, des revues d'architecture et l'accompagnement d'ingénieurs juniors.",
+        "Collaboration stratégique avec l'équipe produit pour orienter les choix de feuille de route, contribuant directement au succès du produit."
       ],
       "Technologies": ["Java", "Angular", "SQL", "Spring", "Redis", "Kubernetes", "AWS Cloud"]
     },
     {
       "Tab": "AnalyticsVerse",
-      "Title": "Founding Engineer",
-      "Date": "September 2020 - October 2022",
+      "Title": "Ingénieur Fondateur",
+      "Date": "Septembre 2020 - Octobre 2022",
       "logoClass": "fas fa-chart-line",
-      "TotalDuration": "2 yrs 3 mos",
+      "TotalDuration": "2 ans 3 mois",
       "Roles": [
         {
-          "Title": "Founding Engineer (Full-time)",
-          "Date": "Jan 2022 - Oct 2022 · 10 mos"
+          "Title": "Ingénieur Fondateur (Plein temps)",
+          "Date": "Jan 2022 - Oct 2022 · 10 mois"
         },
         {
-          "Title": "Founding Engineer (External Consultant)",
-          "Date": "Jul 2020 - Dec 2021 · 1 yr 6 mos"
+          "Title": "Ingénieur Fondateur (Consultant Externe)",
+          "Date": "Juil 2020 - Déc 2021 · 1 an 6 mois"
         }
       ],
       "Description": [
-        "Directly impacted prospect-to-customer conversion by designing and implementing features like customizable dashboards and an interactive demo mode, among others, enhancing user experience without integrations.",
-        "Reduced cloud infrastructure cost by 10x by optimizing various batch jobs and cloud components.",
-        "Took ownership on all aspects of the product, including UI Design, Frontend, Backend, Cloud Infrastructure.",
-        "Optimized the website for SEO, significantly improving page performance, boosting organic traffic and visibility.",
-        "Mentored interns and other employees, enabling vital contribution from them to the product."
+        "Impact direct sur le taux de conversion en concevant des fonctionnalités clés comme des tableaux de bord personnalisés et un mode démo interactif sans intégrations lourdes.",
+        "Optimisation des tâches batch et des composants cloud, réduisant les coûts d'infrastructure cloud par 10.",
+        "Responsabilité globale du produit : UI/UX, développement frontend/backend et gestion de l'infrastructure AWS.",
+        "Optimisation SEO du site, améliorant significativement les performances de chargement, le trafic organique et la visibilité.",
+        "Encadrement et mentorat de stagiaires et nouveaux collaborateurs pour accélérer leur intégration."
       ],
       "Technologies": ["Java", "Angular", "Spring", "SQL", "Terraform", "AWS Cloud"]
     },
     {
       "Tab": "Morgan Stanley",
-      "Title": "Manager (Senior Software Engineer)",
-      "Date": "May 2017 - December 2021",
+      "Title": "Directeur (Ingénieur Logiciel Senior)",
+      "Date": "Mai 2017 - Décembre 2021",
       "logoClass": "fab fa-morgan-stanley",
-      "TotalDuration": "4 yrs 8 mos",
+      "TotalDuration": "4 ans 8 mois",
       "Roles": [
         {
-          "Title": "Manager (Senior Software Engineer)",
-          "Date": "Dec 2020 - Dec 2021 · 1 yr 1 mo"
+          "Title": "Directeur (Ingénieur Logiciel Senior)",
+          "Date": "Déc 2020 - Déc 2021 · 1 an 1 mois"
         },
         {
-          "Title": "Senior Associate",
-          "Date": "Jan 2020 - Dec 2020 · 1 yr"
+          "Title": "Associé Principal",
+          "Date": "Jan 2020 - Déc 2020 · 1 an"
         },
         {
-          "Title": "Junior Associate",
-          "Date": "Jan 2019 - Dec 2019 · 1 yr"
+          "Title": "Associé Junior",
+          "Date": "Jan 2019 - Déc 2019 · 1 an"
         },
         {
-          "Title": "Technology Analyst",
-          "Date": "Aug 2018 - Dec 2018 · 5 mos"
+          "Title": "Analyste Technologique",
+          "Date": "Août 2018 - Déc 2018 · 5 mois"
         },
         {
-          "Title": "Summer Analyst",
-          "Date": "May 2017 - Aug 2018 · 1 yr 4 mos"
+          "Title": "Stagiaire Analyste",
+          "Date": "Mai 2017 - Juil 2017 · 3 mois"
         }
       ],
       "Description": [
-        "Led the technical development of a reporting and visualization project, integrating Tableau Dashboards with proprietary software and improved system scalability and reduced costs by redesigning the architecture.",
-        "Received appreciation from Bjarne Stroustrup (Inventor of C++) for developing a SaaS app supporting an NGO’s vaccination drive.",
-        "Demonstrated strong problem-solving skills by providing quick POCs & solutions for ad-hoc business needs.",
-        "Mentored summer interns for three consecutive years."
+        "Direction technique d'un projet de reporting et de visualisation de données, intégrant des tableaux de bord Tableau avec des logiciels propriétaires pour optimiser les performances.",
+        "Recommandation officielle reçue de Bjarne Stroustrup (créateur du C++) pour la conception d'une application SaaS facilitant des campagnes de vaccination d'une ONG.",
+        "Force de proposition technique avec la réalisation de POCs rapides répondant à des besoins métier ad-hoc critiques.",
+        "Accompagnement et mentorat de stagiaires d'été pour trois sessions consécutives."
       ],
       "Technologies": ["Angular", ".Net", "Java", "Tableau", "SQL"]
     },
     {
       "Tab": "Yoddhas NGO",
-      "Title": "Design Head",
-      "Date": "August 2015 - September 2016",
+      "Title": "Responsable Design",
+      "Date": "Août 2015 - Septembre 2016",
       "logoClass": "fas fa-hands-helping",
       "Description": [
-        "Created Social Media posters for various campaigns.",
-        "Led a team of graphic designers, guided them in day-to-day work."
+        "Conception de supports visuels et d'affiches de sensibilisation pour diverses campagnes sur les réseaux sociaux.",
+        "Direction d'une équipe de graphistes et planification de leurs tâches quotidiennes."
       ],
       "Technologies": ["PhotoShop", "Adobe", "Affinity"]
     }
@@ -195,8 +195,26 @@
     {
       "Year": "2016",
       "Rank": "1er",
-      "Description": "Reçu le Prix du Jeune Innovateur remis par le Ministre en Chef du Maharashtra, M. Devendra Fadnavis, pour le projet de piano virtuel.",
+      "Description": "Reçu le Prix du Jeune Innovateur remis par le Ministre en Chef du Maharashtra, M. Devendra Fadnavis, pour le projet de piano virtuel projetant un clavier interactif sur toute surface.",
       "Skills": ["Innovation", "Créativité", "Présentation"]
+    },
+    {
+      "Year": "2016",
+      "Rank": "6e",
+      "Description": "Atteint les quarts de finale d'ABU Robocon, une compétition internationale de robotique renommée. Représenté l'institut VJTI au niveau national face à 105 universités.",
+      "Skills": ["Robotique", "Ingénierie", "Travail d'équipe"]
+    },
+    {
+      "Year": "2015",
+      "Rank": "1er",
+      "Description": "Gagné la compétition inter-universitaire de publicité Adomania en réalisant un court-métrage capturant l'essence vibrante de la ville de Mumbai.",
+      "Skills": ["Créativité", "Marketing", "Présentation"]
+    },
+    {
+      "Year": "2010",
+      "Rank": "1er",
+      "Description": "Lauréat du premier prix du concours d'élocution inter-écoles en mémoire de M.R. Pai.",
+      "Skills": ["Prise de parole", "Communication", "Présentation"]
     }
   ],
 
@@ -240,9 +258,62 @@
   "WhatIDo.Title": "Ce Que Je Fais",
   "WhatIDo.Subtitle": "Développement de bout en bout pour le web, mobile et cloud.",
   "WhatIDo.Cards": [
-    { "Title": "SaaS & Plateformes Web", "Desc": "Architecture d'applications SaaS prêtes pour la production avec backends en temps réel, RBAC multi-tenant, intégration de paiement et systèmes d'UI évolutifs.", "IconClass": "fas fa-laptop-code", "Color": "#7aa2f7" },
-    { "Title": "Développement d'Apps Mobiles", "Desc": "Création d'applications multiplateformes avec React Native, partageant des backends typés avec leurs homologues web.", "IconClass": "fas fa-mobile-alt", "Color": "#bb9af7" },
-    { "Title": "Intégration AI & LLM", "Desc": "Intégration de grands modèles de langage dans des systèmes de production avec abstraction des fournisseurs, routage économique et guardrails contre les hallucinations.", "IconClass": "fas fa-brain", "Color": "#9ece6a" },
-    { "Title": "Cloud & Infrastructure", "Desc": "Configuration d'environnements de production sur AWS et Vercel, incluant pipelines CI/CD, gestion des environnements, Docker et surveillance système.", "IconClass": "fas fa-cloud", "Color": "#ff9900" }
-  ]
+    {
+      "Title": "SaaS & Plateformes Web",
+      "Desc": "Architecture d'applications SaaS prêtes pour la production avec backends en temps réel, RBAC multi-tenant, intégration de paiements et systèmes d'UI évolutifs.",
+      "IconClass": "fas fa-laptop-code",
+      "Bullets": [
+        "Architecture SaaS full-stack avec Angular & Spring Boot",
+        "Microservices pilotés par événements avec Apache Kafka",
+        "RBAC multi-tenant et couches de permissions organisationnelles",
+        "Synchro de données en temps réel et systèmes d'UI basés sur des schémas"
+      ],
+      "Tags": ["Java", "Angular", "Spring Boot", "Kafka", "PostgreSQL", "TypeScript", "Redis"]
+    },
+    {
+      "Title": "Développement d'Apps Mobiles",
+      "Desc": "Création d'applications multiplateformes avec React Native, partageant des backends typés avec leurs homologues web.",
+      "IconClass": "fas fa-mobile-alt",
+      "Bullets": [
+        "Applications mobiles multiplateformes avec React Native & TypeScript",
+        "Contrats d'API et gestion d'état partagés avec les plateformes web",
+        "Intégrations natives : Notifications push, auth biométrique, caméra",
+        "Pipelines de publication et déploiement App Store & Google Play"
+      ],
+      "Tags": ["React Native", "TypeScript", "iOS", "Android", "Redux Toolkit", "Push Notifications", "Fastlane"]
+    },
+    {
+      "Title": "Intégration AI & LLM",
+      "Desc": "Intégration de grands modèles de langage dans des systèmes de production avec abstraction des fournisseurs, routage économique et guardrails contre les hallucinations.",
+      "IconClass": "fas fa-brain",
+      "Bullets": [
+        "Pipelines de recherche vectorielle avec Milvus et Elasticsearch",
+        "Fonctions d'IA générative avec OpenAI, Gemini et LLM personnalisés",
+        "Clustering KNN, DB2 et moteurs de similarité sémantique",
+        "Architectures RAG et limites de sécurité des prompts"
+      ],
+      "Tags": ["Python", "Gen AI", "Milvus", "Elasticsearch", "OpenAI", "Gemini", "DB2"]
+    },
+    {
+      "Title": "Cloud & Infrastructure",
+      "Desc": "Configuration d'environnements de production sur AWS et Vercel, incluant pipelines CI/CD, gestion des environnements, Docker et surveillance système.",
+      "IconClass": "fas fa-cloud",
+      "Bullets": [
+        "Infrastructure AWS — S3, EKS, EC2, Secrets Manager",
+        "Orchestration Kubernetes avec Helm et autoscaling",
+        "Pipelines CI/CD avec GitHub Actions et ArgoCD",
+        "Surveillance, alertes et analyse de logs CloudWatch"
+      ],
+      "Tags": ["AWS", "Kubernetes", "Docker", "ArgoCD", "GitHub Actions", "CloudWatch", "Helm"]
+    }
+  ],
+  "Blog.SearchTitle": "Recherche",
+  "Blog.ExploreTopics": "Explorer les Sujets",
+  "Blog.AllTopics": "Tous les Sujets",
+  "Header.Theme": "Thème",
+  "Footer.Subtitle": "Directeur de l'Ingénierie",
+  "Footer.Desc": "Directeur de l'ingénierie avec de l'expérience dans la création de produits de 0→1 et leur passage à l'échelle de 1→100 dans les domaines de la fintech, de la cybersécurité et des logiciels d'entreprise. Capacité avérée à stimuler l'adoption des produits, à optimiser les systèmes pour la performance et à bâtir des équipes hautement performantes à fort impact.",
+  "Footer.Navigate": "NAVIGATION",
+  "Footer.ContactInfo": "COORDONNÉES",
+  "Footer.ResumeCV": "Résumé / CV"
 }

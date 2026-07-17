@@ -32,8 +32,7 @@
                     <div
                         class="tech-pill"
                         *ngFor='let skill of "TechStack.Skills" | translate | asArray'
-                        [style.--pill-color]="skill.Color"
-                    >
+                        [style.--pill-color]="skill.Color">
                         <ng-container *ngIf="skill.IconClass !== 'ts-logo'; else tsLogo">
                             <i [class]="skill.IconClass + ' pill-icon'" [style.color]="skill.Color"></i>
                         </ng-container>
@@ -58,8 +57,7 @@
                         class="service-card"
                         *ngFor='let card of "WhatIDo.Cards" | translate | asArray'
                         data-aos="fade-up"
-                        data-aos-duration="1000"
-                    >
+                        data-aos-duration="1000">
                         <!-- Card Header -->
                         <div class="service-header">
                             <div class="service-icon-wrapper">

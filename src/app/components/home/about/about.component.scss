@@ -8,26 +8,104 @@
     }
 
     .about-img-container {
-        width: 324px;
+        position: relative;
+        width: 330px;
+        height: 330px;
         margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-        &:after {
+        @media (max-width: 500px) {
+            width: 240px;
+            height: 240px;
+        }
+
+        /* Outer PCB lines layer (clockwise) */
+        &::before {
             content: '';
-            border: 2px solid variables.$Green;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAzMDAgMzAwJyBmaWxsPSdub25lJyBzdHJva2U9JyM2NGZmZGEnIHN0cm9rZS13aWR0aD0nMS41Jz48Y2lyY2xlIGN4PScxNTAnIGN5PScxNTAnIHI9JzE0Micgc3Ryb2tlLWRhc2hhcnJheT0nMTAwIDQwIDgwIDUwJyBzdHJva2Utb3BhY2l0eT0nMC4yNScvPjxjaXJjbGUgY3g9JzE1MCcgY3k9JzE1MCcgcj0nMTM0JyBzdHJva2UtZGFzaGFycmF5PScxNDAgNjAgNzAgMzAnIHN0cm9rZS1vcGFjaXR5PScwLjQnLz48Y2lyY2xlIGN4PScxNTAnIGN5PScxNTAnIHI9JzEyNicgc3Ryb2tlLWRhc2hhcnJheT0nNTAgODAgOTAgNDAnIHN0cm9rZS1vcGFjaXR5PScwLjMnLz48L3N2Zz4=");
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: spin-clockwise 20s linear infinite;
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        /* Inner PCB lines layer (counter-clockwise) */
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAzMDAgMzAwJyBmaWxsPSdub25lJyBzdHJva2U9JyM2NGZmZGEnIHN0cm9rZS13aWR0aD0nMS41Jz48Y2lyY2xlIGN4PScxNTAnIGN5PScxNTAnIHI9JzE0Micgc3Ryb2tlLWRhc2hhcnJheT0nMTAwIDQwIDgwIDUwJyBzdHJva2Utb3BhY2l0eT0nMC4yNScvPjxjaXJjbGUgY3g9JzE1MCcgY3k9JzE1MCcgcj0nMTM0JyBzdHJva2UtZGFzaGFycmF5PScxNDAgNjAgNzAgMzAnIHN0cm9rZS1vcGFjaXR5PScwLjQnLz48Y2lyY2xlIGN4PScxNTAnIGN5PScxNTAnIHI9JzEyNicgc3Ryb2tlLWRhc2hhcnJheT0nNTAgODAgOTAgNDAnIHN0cm9rZS1vcGFjaXR5PScwLjMnLz48L3N2Zz4=");
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: block !important;
+            transform: scale(0.92) rotate(180deg);
+            opacity: 0.5;
+            animation: spin-counter-clockwise 15s linear infinite;
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s;
             z-index: 0;
-            display: block;
-            position: relative;
-            width: 300px;
-            height: 300px;
-            border-radius: 3px;
-            bottom: 290px;
-            left: 23px;
+            /* Reset old positioning variables */
+            height: auto;
+            width: auto;
+        }
+
+        &:hover {
+            &::before {
+                transform: scale(1.05);
+                animation-duration: 8s;
+            }
+            &::after {
+                transform: scale(0.88) rotate(180deg);
+                animation-duration: 6s;
+                opacity: 0.8;
+            }
         }
 
         img {
+            width: 260px;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 50% !important;
+            border: 6px solid var(--bg-secondary);
+            box-shadow: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 2;
-            position: relative;
+
+            @media (max-width: 500px) {
+                width: 190px;
+                height: 190px;
+                border-width: 4px;
+            }
         }
+
+        &:hover img {
+            transform: scale(1.04);
+            border-color: var(--accent-color);
+            box-shadow: none;
+        }
+    }
+
+    @keyframes spin-clockwise {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    @keyframes spin-counter-clockwise {
+        from { transform: rotate(360deg); }
+        to { transform: rotate(0deg); }
     }
 }
 
@@ -263,34 +341,3 @@
     }
 }
 
-@media (max-width: 500px) {
-    .about {
-        .about-img-container img {
-            width: 200px;
-            height: 200px;
-        }
-        .about-img-container:after {
-            width: 200px;
-            height: 200px;
-            bottom: 190px;
-            left: 74px;
-        }
-    }
-}
-
-@media (max-width: 500px) {
-    .about {
-        .about-img-container {
-            width: 100%;
-
-            img {
-                width: 180px;
-                height: 180px;
-            }
-
-            &:after {
-                display: none;
-            }
-        }
-    }
-}

@@ -86,7 +86,7 @@ import BlogLayoutComponent from '../blog.page';
         <div class="sidebar-sticky-wrapper">
           <!-- Widget: Search -->
           <div class="sidebar-widget">
-            <h4 class="widget-title">Search</h4>
+            <h4 class="widget-title">{{ 'Blog.SearchTitle' | translate }}</h4>
             <div class="search-wrapper">
               <i class="fas fa-search search-icon"></i>
               <input
@@ -101,12 +101,12 @@ import BlogLayoutComponent from '../blog.page';
  
           <!-- Widget: Topics Cloud -->
           <div class="sidebar-widget" *ngIf="allTags().length > 0">
-            <h4 class="widget-title">Explore Topics</h4>
+            <h4 class="widget-title">{{ 'Blog.ExploreTopics' | translate }}</h4>
             <div class="tags-row">
               <button 
                 (click)="selectTag('')" 
                 class="tag-pill-btn" 
-                [class.active]="selectedTag() === ''">All Topics</button>
+                [class.active]="selectedTag() === ''">{{ 'Blog.AllTopics' | translate }}</button>
               <button 
                 *ngFor="let tag of allTags()" 
                 (click)="selectTag(tag)" 

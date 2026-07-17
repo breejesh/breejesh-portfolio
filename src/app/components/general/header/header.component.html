@@ -99,7 +99,7 @@
       <!-- Theme Toggle -->
       <button (click)="themeService.toggleTheme(); responsiveMenuVisible = false" class="drawer-theme-toggle" [attr.aria-label]="'Toggle Theme'">
         <i class="fas" [class.fa-sun]="themeService.isDarkTheme()" [class.fa-moon]="!themeService.isDarkTheme()"></i>
-        <span>Theme</span>
+        <span>{{ 'Header.Theme' | translate }}</span>
       </button>
     </div>
   </nav>
