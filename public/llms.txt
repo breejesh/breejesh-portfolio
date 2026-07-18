@@ -16,10 +16,12 @@
 - [Handling Database Connections at Scale in Serverless Functions](https://breejeshrathod.com/blog/en/serverless-db-connections): How to avoid database connection exhaustion in AWS Lambda and manage connection pools.
 - [Shrinking Your Docker Images: The Power of Multi-Stage Builds](https://breejeshrathod.com/blog/en/docker-multi-stage-builds): Reduce production Docker image size by 90% using multi-stage builds.
 - [The Hidden Cloud Tax: Why Your NAT Gateway is Eating Your Budget](https://breejeshrathod.com/blog/en/aws-nat-gateway-vs-nat-instance): Cut AWS costs by switching from NAT Gateway to a self-managed NAT Instance.
+- [Zunify: Reimagining the Iconic Zune Player for the Modern Web](https://breejeshrathod.com/blog/en/zunify-music-player): Deep dive into building a typography-focused offline-first PWA music player with Angular 19 and File System Access API.
 
 ## Projects
 
 - [NomAI](https://github.com/breejesh/nom.ai): Free, open-source, offline-first calorie tracker for Android using on-device Gemma LLM.
+- [Zunify](https://github.com/breejesh/zunify): A beautiful, lightweight, offline-first Zune-inspired music player built with Angular 19 and IndexDB.
 
 ## Contact
 

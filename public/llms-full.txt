@@ -204,9 +204,31 @@ Create an ASG with min/max/desired capacity of 1. Use user data scripts to re-at
 
 ---
 
+### Zunify: Reimagining the Iconic Zune Player for the Modern Web
+
+- **URL:** [https://breejeshrathod.com/blog/en/zunify-music-player](https://breejeshrathod.com/blog/en/zunify-music-player)
+- **Date:** 2026-07-09
+- **Tags:** Angular, PWA, IndexedDB, Dexie, Web Audio, File System Access API
+
+A deep dive into Zunify—a lightweight, offline-first music player that brings back the typography-focused late-2000s Zune interface using Angular 19, Dexie.js, and the File System Access API.
+
+#### The Core Architecture of Zunify
+
+1. File System Access API: Ask directory permissions via `showDirectoryPicker`, cache `FileSystemDirectoryHandle` in IndexedDB, and reload access in one click.
+2. IndexedDB via Dexie.js: Store titles, artists, albums, and play history in local browser database for sub-millisecond search queries.
+3. Web Audio API: Parse tags with `music-metadata-browser` and stream to HTML5 audio using temporary Object URLs (`URL.createObjectURL`).
+
+#### Native Integrations
+
+- Media Session API: Binds global media control keys (headset, keyboard, OS widgets) to the browser's playback engine.
+- Progressive Web App: Install as a standalone desktop or mobile application that works 100% offline.
+
+---
+
 ## Projects
 
 - [NomAI](https://github.com/breejesh/nom.ai): Free, open-source, offline-first calorie tracker for Android using on-device Gemma LLM.
+- [Zunify](https://github.com/breejesh/zunify): A beautiful, lightweight, offline-first Zune-inspired music player built with Angular 19 and IndexDB.
 
 ## Contact
 
