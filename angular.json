@@ -28,7 +28,32 @@
                             "src/favicon.ico",
                             "src/assets",
                             "src/manifest.webmanifest",
-                            "src/.htaccess"
+                            "src/.htaccess",
+                            {
+                                "glob": "google240115af94ada981.html",
+                                "input": "public",
+                                "output": "/"
+                            },
+                            {
+                                "glob": "llms.txt",
+                                "input": "public",
+                                "output": "/"
+                            },
+                            {
+                                "glob": "llms-full.txt",
+                                "input": "public",
+                                "output": "/"
+                            },
+                            {
+                                "glob": "robots.txt",
+                                "input": "public",
+                                "output": "/"
+                            },
+                            {
+                                "glob": "sitemap.xml",
+                                "input": "public",
+                                "output": "/"
+                            }
                         ],
                         "styles": [
                             "node_modules/@fortawesome/fontawesome-free/css/all.css",

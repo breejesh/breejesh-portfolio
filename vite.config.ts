@@ -44,7 +44,7 @@ export default defineConfig(({ mode }) => ({
       content: {
         highlighter: 'prism',
         prismOptions: {
-          additionalLangs: ['kotlin'],
+          additionalLangs: ['kotlin', 'dockerfile', 'sql'],
         }
       },
       nitro: {

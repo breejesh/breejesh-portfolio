@@ -13,6 +13,7 @@ export interface SeoConfig {
     tags?: string[];
     author?: string;
   };
+  alternates?: { hreflang: string; href: string }[];
 }
 
 @Injectable({
@@ -52,6 +53,9 @@ export class SeoService {
     // Canonical URL
     this.setCanonicalUrl(url);
 
+    // Hreflang alternates
+    this.setHreflangAlternates(config.alternates || []);
+
     // Open Graph
     this.meta.updateTag({ property: 'og:type', content: type });
     this.meta.updateTag({ property: 'og:url', content: url });
@@ -82,6 +86,22 @@ export class SeoService {
         });
       }
     }
+  }
+
+  setHreflangAlternates(alternates: { hreflang: string; href: string }[]): void {
+    // Remove existing alternates
+    const existing = this.document.querySelectorAll('link[rel="alternate"][hreflang]');
+    existing.forEach(el => el.remove());
+
+    // Add new alternates
+    alternates.forEach(alt => {
+      const link = this.document.createElement('link');
+      link.setAttribute('rel', 'alternate');
+      link.setAttribute('hreflang', alt.hreflang);
+      const absoluteUrl = alt.href.startsWith('http') ? alt.href : `${this.baseUrl}${alt.href}`;
+      link.setAttribute('href', absoluteUrl);
+      this.document.head.appendChild(link);
+    });
   }
 
   /**

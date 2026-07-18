@@ -306,7 +306,7 @@ export interface BlogAttributes {
       background: transparent;
       padding: 0;
       border-radius: 0;
-      color: var(--text-primary);
+      color: #e0f2f1;
     }
 
     :host ::ng-deep .post-content ul,
@@ -594,6 +594,15 @@ export default class BlogPostComponent {
     const currentLang = this.languageService.language();
     const url = `/blog/${currentLang}/${post.slug}`;
 
+    const alternates = ['en', 'es', 'fr', 'hi'].map(lang => ({
+      hreflang: lang,
+      href: `/blog/${lang}/${post.slug}`
+    }));
+    alternates.push({
+      hreflang: 'x-default',
+      href: `/blog/en/${post.slug}`
+    });
+
     this.seoService.updateMeta({
       title: post.attributes.title,
       description: post.attributes.description,
@@ -604,7 +613,8 @@ export default class BlogPostComponent {
         datePublished: post.attributes.date,
         tags: post.attributes.tags,
         author: 'Breejesh Rathod'
-      }
+      },
+      alternates: alternates
     });
 
     this.seoService.setBlogPostJsonLd({
