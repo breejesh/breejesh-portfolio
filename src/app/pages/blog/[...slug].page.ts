@@ -34,7 +34,7 @@ export interface BlogAttributes {
 
       <article class="blog-post">
         <div class="post-cover-wrapper" *ngIf="post.attributes.coverImage">
-          <img [src]="post.attributes.coverImage" alt="Cover" class="post-cover-img" />
+          <img [src]="post.attributes.coverImage" [alt]="post.attributes.title + ' cover image'" class="post-cover-img" />
         </div>
 
         <header class="post-header">
@@ -105,6 +105,7 @@ export interface BlogAttributes {
       overflow: hidden;
       border-radius: 16px 16px 0 0;
       border-bottom: 1px solid var(--border-color);
+      aspect-ratio: 16/9;
     }
 
     @media (max-width: 768px) {
@@ -614,6 +615,13 @@ export default class BlogPostComponent {
       url: url,
       tags: post.attributes.tags
     });
+
+    // Add breadcrumb structured data for rich Google results
+    this.seoService.setBreadcrumbJsonLd([
+      { name: 'Home', url: '/' },
+      { name: 'Blog', url: '/blog' },
+      { name: post.attributes.title, url: url }
+    ]);
   });
 
   constructor() {

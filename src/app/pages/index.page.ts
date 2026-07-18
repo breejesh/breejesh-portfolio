@@ -24,5 +24,6 @@ export default class IndexPage {
       url: '/'
     });
     this.seoService.setPersonJsonLd();
+    this.seoService.setWebSiteJsonLd();
   }
 }

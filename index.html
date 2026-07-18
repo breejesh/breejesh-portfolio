@@ -6,8 +6,8 @@
   <meta http-equiv="Content-Language" content="en">
 
   <!-- Primary Meta Tags -->
-  <title>Breejesh Rathod | Engineering Leader & Software Developer</title>
-  <meta name="title" content="Breejesh Rathod | Engineering Leader & Software Developer">
+  <title>Breejesh Rathod | Engineering Leader &amp; Software Developer</title>
+  <meta name="title" content="Breejesh Rathod | Engineering Leader &amp; Software Developer">
   <meta name="description" content="Engineering leader with experience taking products from 0→1 and scaling them 1→100 across fintech, cybersecurity, and enterprise software. Explore blog posts on Docker, AWS, Serverless, LLMs, and system design.">
   <meta name="author" content="Breejesh Rathod">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -17,7 +17,7 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://breejeshrathod.com/">
-  <meta property="og:title" content="Breejesh Rathod | Engineering Leader & Software Developer">
+  <meta property="og:title" content="Breejesh Rathod | Engineering Leader &amp; Software Developer">
   <meta property="og:description" content="Engineering leader with experience taking products from 0→1 and scaling them 1→100 across fintech, cybersecurity, and enterprise software. Explore blog posts on Docker, AWS, Serverless, LLMs, and system design.">
   <meta property="og:image" content="https://breejeshrathod.com/assets/images/breejeshrathod-preview.png">
   <meta property="og:site_name" content="Breejesh Rathod">
@@ -26,7 +26,7 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://breejeshrathod.com/">
-  <meta name="twitter:title" content="Breejesh Rathod | Engineering Leader & Software Developer">
+  <meta name="twitter:title" content="Breejesh Rathod | Engineering Leader &amp; Software Developer">
   <meta name="twitter:description" content="Engineering leader with experience taking products from 0→1 and scaling them 1→100 across fintech, cybersecurity, and enterprise software. Explore blog posts on Docker, AWS, Serverless, LLMs, and system design.">
   <meta name="twitter:image" content="https://breejeshrathod.com/assets/images/breejeshrathod-preview.png">
   <meta name="twitter:creator" content="@breejesh">
@@ -34,14 +34,25 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+
+  <!-- Preconnect to external origins for faster resource loading -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+  <!-- Preload critical fonts to reduce CLS -->
+  <link rel="preload" href="/assets/fonts/Calibre/Calibre-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/Calibre/Calibre-Semibold.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Prism CSS loaded async to avoid render-blocking -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"></noscript>
+
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="stylesheet" href="/src/styles.scss">
   <link rel="stylesheet" href="/node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css">
   <link rel="stylesheet" href="/node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css">
 
   <meta name="theme-color" content="#030c0d">
-  <meta http-equiv="content-language" content="en">
 </head>
 <body>
   <app-root></app-root>

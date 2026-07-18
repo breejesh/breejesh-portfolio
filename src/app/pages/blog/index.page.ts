@@ -29,7 +29,7 @@ import { SeoService } from '../../services/seo/seo.service';
           style="cursor: pointer;"
         >
           <div class="featured-img-wrapper">
-            <img [src]="getPostImage(filteredPosts()[0])" alt="Cover" class="featured-img" />
+            <img [src]="getPostImage(filteredPosts()[0])" [alt]="filteredPosts()[0].attributes.title + ' cover image'" class="featured-img" loading="eager" />
           </div>
           <div class="featured-content">
             <div class="post-meta">
@@ -54,7 +54,7 @@ import { SeoService } from '../../services/seo/seo.service';
             style="cursor: pointer;"
           >
             <div class="card-img-wrapper">
-              <img [src]="getPostImage(post)" alt="Preview" class="card-img" />
+              <img [src]="getPostImage(post)" [alt]="post.attributes.title + ' preview'" class="card-img" loading="lazy" />
             </div>
             <div class="card-body">
               <div class="post-meta">
@@ -200,6 +200,7 @@ import { SeoService } from '../../services/seo/seo.service';
       width: 100%;
       height: 250px;
       overflow: hidden;
+      aspect-ratio: 16/9;
     }
 
     .featured-img {
@@ -327,6 +328,7 @@ import { SeoService } from '../../services/seo/seo.service';
       height: 160px;
       overflow: hidden;
       border-bottom: 1px solid var(--border-color);
+      aspect-ratio: 16/9;
     }
 
     .card-img {

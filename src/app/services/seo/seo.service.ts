@@ -84,10 +84,13 @@ export class SeoService {
     }
   }
 
+  /**
+   * Injects JSON-LD structured data into the document head.
+   * Works on BOTH server (SSR/SSG) and client to ensure structured data
+   * is present in prerendered HTML for search engine crawlers.
+   */
   setJsonLd(data: object): void {
-    if (!isPlatformBrowser(this.platformId)) return;
-
-    // Remove existing JSON-LD
+    // Remove existing JSON-LD with the same class
     const existing = this.document.querySelector('script[type="application/ld+json"].seo-jsonld');
     if (existing) {
       existing.remove();
@@ -147,9 +150,48 @@ export class SeoService {
     this.setJsonLd(jsonLd);
   }
 
-  private setCanonicalUrl(url: string): void {
-    if (!isPlatformBrowser(this.platformId)) return;
+  setWebSiteJsonLd(): void {
+    const jsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      'name': 'Breejesh Rathod',
+      'url': this.baseUrl,
+      'description': 'Engineering leader with experience taking products from 0→1 and scaling them 1→100 across fintech, cybersecurity, and enterprise software. Explore blog posts on Docker, AWS, Serverless, LLMs, and system design.',
+      'author': {
+        '@type': 'Person',
+        'name': 'Breejesh Rathod'
+      }
+    };
 
+    this.setJsonLd(jsonLd);
+  }
+
+  setBreadcrumbJsonLd(items: { name: string; url: string }[]): void {
+    const jsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      'itemListElement': items.map((item, index) => ({
+        '@type': 'ListItem',
+        'position': index + 1,
+        'name': item.name,
+        'item': item.url.startsWith('http') ? item.url : `${this.baseUrl}${item.url}`
+      }))
+    };
+
+    // Breadcrumb gets its own script tag (separate from main JSON-LD)
+    const existing = this.document.querySelector('script[type="application/ld+json"].seo-breadcrumb');
+    if (existing) {
+      existing.remove();
+    }
+
+    const script = this.document.createElement('script');
+    script.type = 'application/ld+json';
+    script.className = 'seo-breadcrumb';
+    script.text = JSON.stringify(jsonLd);
+    this.document.head.appendChild(script);
+  }
+
+  private setCanonicalUrl(url: string): void {
     let link: HTMLLinkElement | null = this.document.querySelector('link[rel="canonical"]');
     if (link) {
       link.setAttribute('href', url);

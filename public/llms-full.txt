@@ -1,0 +1,217 @@
+# Breejesh Rathod
+
+> Engineering leader and software developer with experience taking products from 0→1 and scaling them 1→100 across fintech, cybersecurity, and enterprise software. This site features technical blog posts, project showcases, and professional experience.
+
+## About
+
+- [Homepage](https://breejeshrathod.com/): Portfolio homepage with introduction, about section, and contact information.
+- [Experience](https://breejeshrathod.com/experience): Professional experience across engineering leadership roles in fintech, cybersecurity, and enterprise software.
+- [Projects](https://breejeshrathod.com/projects): Featured open-source projects and applications built by Breejesh Rathod.
+- [Achievements](https://breejeshrathod.com/achievements): Awards, certifications, and career milestones.
+
+## Blog
+
+### Running LLMs Locally on Android: Gemma 2B with LiteRT
+
+- **URL:** [https://breejeshrathod.com/blog/en/gemma-llm-on-android](https://breejeshrathod.com/blog/en/gemma-llm-on-android)
+- **Date:** 2026-07-17
+- **Tags:** Android, LiteRT, Gemma LLM, On-Device AI, Mobile Development
+
+How to run Google's Gemma models offline on Android using LiteRT, with a real-world look at NomAI—the open-source offline calorie tracker.
+
+Running large language models (LLMs) used to be the exclusive domain of multi-GPU cloud clusters. Today, edge hardware has progressed to a point where we can execute 2-billion parameter models directly inside our pockets.
+
+With Google's LiteRT (formerly TensorFlow Lite) and the Gemma open-model family, Android developers can integrate local generative AI that is fast, 100% private, and works completely offline.
+
+#### Why Run LLMs On-Device?
+
+For a long time, the standard pattern for mobile AI has been API-based: send a request to a remote server, wait for a model to run in the cloud, and parse the response. While easy, this pattern carries major drawbacks:
+
+- Privacy Risks: User data, chat history, and personal inputs leave the phone and land on external servers.
+- Network Dependencies: If the user has a poor connection or is in airplane mode, the AI breaks.
+- Recurring Server Costs: Every API call incurs execution fees that scale linearly with your user base.
+- Latency: Even on fast connections, a round trip to a cloud LLM adds 500ms–2s of latency per request.
+
+On-device AI solves all of these. By using LiteRT and a compressed Gemma model, your application can run inference locally.
+
+#### Choosing the Right Model
+
+For most production apps, Gemma 2B with INT4 quantization is the sweet spot. It delivers surprisingly coherent outputs while fitting comfortably on devices with 6 GB+ of RAM.
+
+| Model | Parameters | Quantization | File Size | RAM Required |
+|---|---|---|---|---|
+| Gemma 2B | 2B | INT4 | ~1.4 GB | ~2.5 GB |
+| Gemma 2B | 2B | INT8 | ~2.5 GB | ~4 GB |
+| Gemma 2B | 2B | FP16 | ~5 GB | ~6 GB |
+| Gemma 7B | 7B | INT4 | ~4.5 GB | ~8 GB |
+
+#### Real-World Example: NomAI Calorie Tracker
+
+NomAI is an open-source, offline-first calorie tracking app for Android. It runs Gemma-2B locally on the device to analyze meal descriptions and estimate nutritional values with zero backend APIs.
+
+GitHub Repository: https://github.com/breejesh/nom.ai
+
+#### Setting Up Gemma on Android with LiteRT-LM
+
+1. Add the LiteRT-LM runtime dependency to your build.gradle.kts.
+2. Obtain the quantized model file from Kaggle or Hugging Face.
+3. Initialize the inference engine on a background thread using Kotlin coroutines.
+4. Connect the engine to your Compose or View-based UI.
+
+#### Performance Expectations
+
+| Device Class | Example Device | Tokens/Second | Model Load Time |
+|---|---|---|---|
+| Budget | Pixel 6a | ~8-12 tok/s | ~6-8s |
+| Mid-Range | Pixel 8 | ~15-20 tok/s | ~3-5s |
+| Flagship | Pixel 9 Pro | ~25-35 tok/s | ~2-3s |
+
+#### Limitations
+
+- Model Accuracy: A 2B parameter model will hallucinate more frequently than cloud-based 70B+ models.
+- Download Size: Even compressed, the model is ~1.4 GB.
+- Device Compatibility: Works well on devices with 6+ GB of RAM (released 2020 or later).
+- Context Window Limits: Gemma 2B supports 8192 tokens by default.
+
+---
+
+### NomAI: The Offline Calorie Tracker Powered by Local LLMs
+
+- **URL:** [https://breejeshrathod.com/blog/en/nom-ai-showcase](https://breejeshrathod.com/blog/en/nom-ai-showcase)
+- **Date:** 2026-07-10
+- **Tags:** Android, Gemma LLM, Mobile Innovation, Open Source, Privacy
+
+An in-depth look at NomAI—the world's first free, open-source, and entirely offline calorie tracking app for Android built with Google Gemma and Jetpack Compose.
+
+#### The Three Pillars of NomAI
+
+1. 100% Free & Open-Source (FOSS): No premium paywalls, no locked charts. MIT licensed.
+2. Privacy-First (No Server Backend): No remote server exists. All data stays in the device's local Room database.
+3. Local & Offline-First LLM Inference: Powered by Google Gemma-2B and LiteRT runtime.
+
+#### Technical Stack
+
+- Jetpack Compose for modern declarative UI
+- LiteRT-LM SDK for on-device Gemma inference with GPU/NPU acceleration
+- Room Database for local SQLite storage
+- Hilt for dependency injection
+- Kotlin Coroutines & Flow for asynchronous operations
+
+#### Prompt Engineering for Nutrition Estimates
+
+NomAI uses a carefully crafted prompt template that constrains the model's output to structured JSON containing nutritional data. A multi-layer fallback strategy handles model failures: JSON validation, sanity checks, and user correction.
+
+GitHub Repository: https://github.com/breejesh/nom.ai
+
+---
+
+### Handling Database Connections at Scale in Serverless Functions
+
+- **URL:** [https://breejeshrathod.com/blog/en/serverless-db-connections](https://breejeshrathod.com/blog/en/serverless-db-connections)
+- **Date:** 2026-01-03
+- **Tags:** Serverless, Database, AWS Lambda, PostgreSQL, System Design
+
+How to avoid database connection exhaustion in AWS Lambda and manage connection pools effectively.
+
+#### The Root Cause: Connection Storms
+
+In serverless models, every active Lambda instance runs in its own isolated container and establishes its own connection to the database. 1,000 concurrent executions means 1,000 separate connection requests, easily exhausting PostgreSQL's default max_connections of 100.
+
+#### Strategy 1: Connection Reuse Across Warm Invocations
+
+Initialize your database client outside the handler function. Lambda containers persist between invocations during warm starts, so connections can be reused.
+
+#### Strategy 2: Use a Connection Proxy
+
+- AWS RDS Proxy: Managed proxy that maintains a persistent connection pool and multiplexes Lambda connections.
+- PgBouncer: Open-source connection pooler for PostgreSQL, best used in transaction mode for serverless.
+
+#### Strategy 3: Minimize Pool Sizes
+
+Set max pool size to 1 inside serverless functions. A single Lambda container processes exactly one request at a time.
+
+#### Strategy 4: Taming Cold Start Connection Storms
+
+Use Provisioned Concurrency to keep containers pre-initialized, or Reserved Concurrency to cap maximum database connections.
+
+#### Strategy 5: Monitor Your Connections
+
+Use pg_stat_activity queries and CloudWatch alarms to track connection usage and detect leaks.
+
+---
+
+### Shrinking Your Docker Images: The Power of Multi-Stage Builds
+
+- **URL:** [https://breejeshrathod.com/blog/en/docker-multi-stage-builds](https://breejeshrathod.com/blog/en/docker-multi-stage-builds)
+- **Date:** 2026-01-02
+- **Tags:** Docker, DevOps, Containerization, Optimization
+
+How to reduce your production Docker image size by 90% and secure your containers using multi-stage builds.
+
+#### The Problem: Fat Images
+
+A standard Go application built with a single-stage Dockerfile can exceed 800 MB because it includes the entire Go compiler and tooling. In production, you only need the compiled binary (~15 MB).
+
+#### Multi-Stage Builds
+
+Define multiple FROM instructions in your Dockerfile. Each FROM starts a new stage with a clean base image. Selectively copy files between stages using COPY --from.
+
+| Stack | Single-Stage | Multi-Stage | Reduction |
+|---|---|---|---|
+| Go (golang → alpine) | ~850 MB | ~15 MB | 98% |
+| Node.js (node:20 → alpine, prod deps) | ~1.1 GB | ~180 MB | 84% |
+| Go (golang → scratch) | ~850 MB | ~8 MB | 99% |
+
+#### Security Hardening
+
+- Run as a non-root user
+- Use scratch or distroless base images for maximum security
+- Add health checks and OCI labels
+- Use BuildKit cache mounts for faster builds
+
+---
+
+### The Hidden Cloud Tax: Why Your NAT Gateway is Eating Your Budget
+
+- **URL:** [https://breejeshrathod.com/blog/en/aws-nat-gateway-vs-nat-instance](https://breejeshrathod.com/blog/en/aws-nat-gateway-vs-nat-instance)
+- **Date:** 2026-01-01
+- **Tags:** AWS, Cloud Cost Optimization, DevOps, Infrastructure
+
+How to drop your monthly AWS bill by switching from NAT Gateway to a cost-effective self-managed NAT Instance.
+
+#### The True Cost
+
+AWS NAT Gateway charges ~$0.045/hour ($32.40/month) plus $0.045 per GB of data processed. A NAT Instance eliminates data processing fees entirely.
+
+| Monthly Data Transfer | NAT Gateway Cost | NAT Instance (t4g.small) | Savings |
+|---|---|---|---|
+| 100 GB | $36.90 | ~$12.26 | 67% |
+| 1 TB | $77.40 | ~$12.26 | 84% |
+| 5 TB | $257.40 | ~$12.26 | 95% |
+| 10 TB | $482.40 | ~$12.26 | 97% |
+
+#### Setting Up a NAT Instance
+
+1. Launch an Amazon Linux 2023 instance in your public subnet
+2. Configure NAT with iptables (enable IP forwarding, set up masquerade)
+3. Disable Source/Destination Checking on the EC2 instance
+4. Update route tables to point private subnet traffic through the instance
+5. Lock down with Security Groups
+
+#### Self-Healing with Auto Scaling
+
+Create an ASG with min/max/desired capacity of 1. Use user data scripts to re-attach the Elastic IP and update route tables on boot. Recovery time is typically under 2-3 minutes.
+
+---
+
+## Projects
+
+- [NomAI](https://github.com/breejesh/nom.ai): Free, open-source, offline-first calorie tracker for Android using on-device Gemma LLM.
+
+## Contact
+
+- [LinkedIn](https://www.linkedin.com/in/breejesh/)
+- [GitHub](https://github.com/breejesh)
+- Email: breejeshrathod@gmail.com
+
+Last reviewed: 2026-07-18

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <!-- Homepage -->
   <url>
     <loc>https://breejeshrathod.com/</loc>
@@ -40,12 +41,17 @@
     <priority>0.9</priority>
   </url>
 
-  <!-- Blog Posts -->
+  <!-- Blog Posts with hreflang alternates -->
   <url>
     <loc>https://breejeshrathod.com/blog/en/gemma-llm-on-android</loc>
     <lastmod>2026-07-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/gemma-llm-on-android"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/gemma-llm-on-android"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/gemma-llm-on-android"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/gemma-llm-on-android"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/gemma-llm-on-android"/>
   </url>
 
   <url>
@@ -53,6 +59,11 @@
     <lastmod>2026-07-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/nom-ai-showcase"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/nom-ai-showcase"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/nom-ai-showcase"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/nom-ai-showcase"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/nom-ai-showcase"/>
   </url>
 
   <url>
@@ -60,6 +71,11 @@
     <lastmod>2026-01-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/serverless-db-connections"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/serverless-db-connections"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/serverless-db-connections"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/serverless-db-connections"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/serverless-db-connections"/>
   </url>
 
   <url>
@@ -67,6 +83,11 @@
     <lastmod>2026-01-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/docker-multi-stage-builds"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/docker-multi-stage-builds"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/docker-multi-stage-builds"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/docker-multi-stage-builds"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/docker-multi-stage-builds"/>
   </url>
 
   <url>
@@ -74,5 +95,10 @@
     <lastmod>2026-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/aws-nat-gateway-vs-nat-instance"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/aws-nat-gateway-vs-nat-instance"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/aws-nat-gateway-vs-nat-instance"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/aws-nat-gateway-vs-nat-instance"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/aws-nat-gateway-vs-nat-instance"/>
   </url>
 </urlset>

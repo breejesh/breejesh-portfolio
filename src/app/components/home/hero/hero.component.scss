@@ -14,6 +14,8 @@
 
             .content{
                 margin-top: 98px;
+                // Reserve space to prevent CLS when fonts/translations load
+                min-height: 300px;
             }
 
             h1{
@@ -23,6 +25,8 @@
                 font-size: 16px;
                 font-weight: normal;
                 font-family: variables.$CodeFont;
+                // Reserve line height to prevent shift
+                min-height: 1.3em;
             }
 
             h2, h3 {
@@ -31,6 +35,8 @@
                 line-height: 1.1;
                 margin: 0;
                 font-family: variables.$MainFont;
+                // Reserve space for large headings
+                min-height: 1.1em;
             }
 
             h2{
@@ -42,6 +48,8 @@
 
             .banner-description{
                 margin-bottom: 70px;
+                // Reserve space for description text
+                min-height: 60px;
             }
 
             p{
@@ -59,6 +67,8 @@
                 font-family: variables.$CodeFont;
                 font-size: 14px;
                 color: var(--text-secondary);
+                // Reserve space for contact row
+                min-height: 20px;
 
                 .banner-contact-item {
                     display: flex;

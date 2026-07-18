@@ -49,6 +49,13 @@ body{
     font-size: 20px;
     transition: background-color 0.3s, color 0.3s;
 }
+
+/* CLS Prevention: Ensure AOS elements reserve their space before animating */
+[data-aos] {
+    /* Override AOS default opacity:0 which causes layout recalculation */
+    pointer-events: auto !important;
+}
+
 .section-box{
     padding: 40px 0;
 }

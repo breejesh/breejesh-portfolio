@@ -2,3 +2,21 @@ User-agent: *
 Allow: /
 
 Sitemap: https://breejeshrathod.com/sitemap.xml
+Host: https://breejeshrathod.com
+
+# AI Agent Accessibility
+# See https://llmstxt.org for specification
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /

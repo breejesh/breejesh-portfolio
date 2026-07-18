@@ -3,11 +3,9 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { GeneralModule } from './components/general/general.module';
 import * as AOS from 'aos';
-import { Title, Meta } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from "./services/language/language.service";
 import { ThemeService } from './services/theme/theme.service';
-import { Location } from '@angular/common';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -22,10 +20,7 @@ export class AppComponent implements OnInit {
   isBlog: boolean = false;
 
   constructor(
-    private titleService: Title,
-    private metaService: Meta,
     private translateService: TranslateService,
-    private location: Location,
     private languageService: LanguageService,
     private themeService: ThemeService,
     private router: Router,
@@ -35,12 +30,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.languageService.initLanguage();
 
-    this.titleService.setTitle("Breejesh Rathod | Software Developer");
-
-    this.metaService.addTags([
-      { name: 'keywords', content: 'Frontend, software, developer' },
-      { name: 'description', content: '' },
-    ]);
+    // Per-page SEO is handled by individual page components via SeoService.
+    // Do NOT set generic title/description here as it overrides page-specific SEO.
 
     if (isPlatformBrowser(this.platformId)) {
       AOS.init();
