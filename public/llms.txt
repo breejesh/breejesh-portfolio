@@ -11,6 +11,8 @@
 
 ## Blog
 
+- [Virtual Threads in Java 21: Are Thread Pools Finally Obsolete?](https://breejeshrathod.com/blog/en/java-virtual-threads): A deep dive into Java's Project Loom. Learn how virtual threads allow millions of concurrent tasks on a single JVM and eliminate traditional thread pool exhaustion.
+
 - [Running LLMs Locally on Android: Gemma 2B with LiteRT](https://breejeshrathod.com/blog/en/gemma-llm-on-android): How to run Google's Gemma models offline on Android using LiteRT with a real-world NomAI example.
 - [NomAI: The Offline Calorie Tracker Powered by Local LLMs](https://breejeshrathod.com/blog/en/nom-ai-showcase): Open-source, offline-first calorie tracking app for Android built with Google Gemma and Jetpack Compose.
 - [Handling Database Connections at Scale in Serverless Functions](https://breejeshrathod.com/blog/en/serverless-db-connections): How to avoid database connection exhaustion in AWS Lambda and manage connection pools.
