@@ -2,7 +2,7 @@
 title: "सर्वरलेस फ़ंक्शन्स में बड़े पैमाने पर डेटाबेस कनेक्शन संभालना"
 description: "AWS Lambda में डेटाबेस कनेक्शन की समाप्ति से कैसे बचें और कनेक्शन पूल को प्रभावी ढंग से कैसे प्रबंधित करें।"
 date: 2026-01-03
-tags: [Serverless, Database, AWS Lambda, PostgreSQL, System Design]
+tags: [सर्वरलेस, डेटाबेस, एडब्ल्यूएस, सिस्टम डिजाइन]
 coverImage: /assets/images/serverless-database.webp
 previewImage: /assets/images/serverless-database.webp
 ---

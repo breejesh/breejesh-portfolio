@@ -1,0 +1,144 @@
+{
+  "tags": [
+    {
+      "id": "Android",
+      "en": "Android",
+      "es": "Android",
+      "fr": "Android",
+      "hi": "एंड्रॉइड"
+    },
+    {
+      "id": "AI",
+      "en": "AI",
+      "es": "IA",
+      "fr": "IA",
+      "hi": "एआई"
+    },
+    {
+      "id": "LLM",
+      "en": "LLM",
+      "es": "LLM",
+      "fr": "LLM",
+      "hi": "एलएलएम"
+    },
+    {
+      "id": "AWS",
+      "en": "AWS",
+      "es": "AWS",
+      "fr": "AWS",
+      "hi": "एडब्ल्यूएस"
+    },
+    {
+      "id": "Java",
+      "en": "Java",
+      "es": "Java",
+      "fr": "Java",
+      "hi": "जावा"
+    },
+    {
+      "id": "Angular",
+      "en": "Angular",
+      "es": "Angular",
+      "fr": "Angular",
+      "hi": "एंगुलर"
+    },
+    {
+      "id": "TypeScript",
+      "en": "TypeScript",
+      "es": "TypeScript",
+      "fr": "TypeScript",
+      "hi": "टाइपस्क्रिप्ट"
+    },
+    {
+      "id": "Serverless",
+      "en": "Serverless",
+      "es": "Serverless",
+      "fr": "Serverless",
+      "hi": "सर्वरलेस"
+    },
+    {
+      "id": "Database",
+      "en": "Database",
+      "es": "Base de datos",
+      "fr": "Base de données",
+      "hi": "डेटाबेस"
+    },
+    {
+      "id": "Docker",
+      "en": "Docker",
+      "es": "Docker",
+      "fr": "Docker",
+      "hi": "डॉकर"
+    },
+    {
+      "id": "Kubernetes",
+      "en": "Kubernetes",
+      "es": "Kubernetes",
+      "fr": "Kubernetes",
+      "hi": "कुबेरनेट्स"
+    },
+    {
+      "id": "DevOps",
+      "en": "DevOps",
+      "es": "DevOps",
+      "fr": "DevOps",
+      "hi": "डेवऑप्स"
+    },
+    {
+      "id": "CI-CD",
+      "en": "CI-CD",
+      "es": "CI-CD",
+      "fr": "CI-CD",
+      "hi": "सीआई-सीडी"
+    },
+    {
+      "id": "System Design",
+      "en": "System Design",
+      "es": "Diseño de sistemas",
+      "fr": "Conception de systèmes",
+      "hi": "सिस्टम डिजाइन"
+    },
+    {
+      "id": "Microservices",
+      "en": "Microservices",
+      "es": "Microservicios",
+      "fr": "Microservices",
+      "hi": "माइक्रोसर्विसेज"
+    },
+    {
+      "id": "Security",
+      "en": "Security",
+      "es": "Seguridad",
+      "fr": "Sécurité",
+      "hi": "सुरक्षा"
+    },
+    {
+      "id": "Cost Optimization",
+      "en": "Cost Optimization",
+      "es": "Optimización de costos",
+      "fr": "Optimisation des coûts",
+      "hi": "लागत अनुकूलन"
+    },
+    {
+      "id": "Cloud Computing",
+      "en": "Cloud Computing",
+      "es": "Computación en la nube",
+      "fr": "Cloud Computing",
+      "hi": "क्लाउड कंप्यूटिंग"
+    },
+    {
+      "id": "Web Development",
+      "en": "Web Development",
+      "es": "Desarrollo Web",
+      "fr": "Développement Web",
+      "hi": "वेब विकास"
+    },
+    {
+      "id": "Mobile Development",
+      "en": "Mobile Development",
+      "es": "Desarrollo Móvil",
+      "fr": "Développement Mobile",
+      "hi": "मोबाइल विकास"
+    }
+  ]
+}

@@ -15,7 +15,7 @@
 
 - **URL:** [https://breejeshrathod.com/blog/en/gemma-llm-on-android](https://breejeshrathod.com/blog/en/gemma-llm-on-android)
 - **Date:** 2026-07-17
-- **Tags:** Android, LiteRT, Gemma LLM, On-Device AI, Mobile Development
+- **Tags:** AI, Android, LLM, Mobile Development
 
 How to run Google's Gemma models offline on Android using LiteRT, with a real-world look at NomAI—the open-source offline calorie tracker.
 
@@ -79,7 +79,7 @@ GitHub Repository: https://github.com/breejesh/nom.ai
 
 - **URL:** [https://breejeshrathod.com/blog/en/nom-ai-showcase](https://breejeshrathod.com/blog/en/nom-ai-showcase)
 - **Date:** 2026-07-10
-- **Tags:** Android, Gemma LLM, Mobile Innovation, Open Source, Privacy
+- **Tags:** AI, Android, LLM, Mobile Development
 
 An in-depth look at NomAI—the world's first free, open-source, and entirely offline calorie tracking app for Android built with Google Gemma and Jetpack Compose.
 
@@ -109,7 +109,7 @@ GitHub Repository: https://github.com/breejesh/nom.ai
 
 - **URL:** [https://breejeshrathod.com/blog/en/serverless-db-connections](https://breejeshrathod.com/blog/en/serverless-db-connections)
 - **Date:** 2026-01-03
-- **Tags:** Serverless, Database, AWS Lambda, PostgreSQL, System Design
+- **Tags:** Serverless, Database, AWS, System Design
 
 How to avoid database connection exhaustion in AWS Lambda and manage connection pools effectively.
 
@@ -144,7 +144,7 @@ Use pg_stat_activity queries and CloudWatch alarms to track connection usage and
 
 - **URL:** [https://breejeshrathod.com/blog/en/docker-multi-stage-builds](https://breejeshrathod.com/blog/en/docker-multi-stage-builds)
 - **Date:** 2026-01-02
-- **Tags:** Docker, DevOps, Containerization, Optimization
+- **Tags:** Docker, DevOps, Security
 
 How to reduce your production Docker image size by 90% and secure your containers using multi-stage builds.
 
@@ -175,7 +175,7 @@ Define multiple FROM instructions in your Dockerfile. Each FROM starts a new sta
 
 - **URL:** [https://breejeshrathod.com/blog/en/aws-nat-gateway-vs-nat-instance](https://breejeshrathod.com/blog/en/aws-nat-gateway-vs-nat-instance)
 - **Date:** 2026-01-01
-- **Tags:** AWS, Cloud Cost Optimization, DevOps, Infrastructure
+- **Tags:** AWS, Cost Optimization, DevOps
 
 How to drop your monthly AWS bill by switching from NAT Gateway to a cost-effective self-managed NAT Instance.
 
@@ -208,7 +208,7 @@ Create an ASG with min/max/desired capacity of 1. Use user data scripts to re-at
 
 - **URL:** [https://breejeshrathod.com/blog/en/zunify-music-player](https://breejeshrathod.com/blog/en/zunify-music-player)
 - **Date:** 2026-07-09
-- **Tags:** Angular, PWA, IndexedDB, Dexie, Web Audio, File System Access API
+- **Tags:** Angular, Web Development, Database
 
 A deep dive into Zunify—a lightweight, offline-first music player that brings back the typography-focused late-2000s Zune interface using Angular 19, Dexie.js, and the File System Access API.
 

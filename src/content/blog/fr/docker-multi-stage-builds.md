@@ -2,7 +2,7 @@
 title: "Réduire la taille de vos images Docker : Le pouvoir des builds multi-étapes"
 description: "Comment réduire la taille de vos images Docker de production de 90 % et sécuriser vos conteneurs grâce aux builds multi-étapes."
 date: 2026-01-02
-tags: [Docker, DevOps, Conteneurisation, Optimisation]
+tags: [Docker, DevOps, Sécurité]
 coverImage: /assets/images/docker-optimization.webp
 previewImage: /assets/images/docker-optimization.webp
 ---

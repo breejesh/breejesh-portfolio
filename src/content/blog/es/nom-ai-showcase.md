@@ -2,7 +2,7 @@
 title: "Presentando NomAI: El contador de calorías offline impulsado por LLMs locales"
 description: "Un análisis detallado de NomAI, el primer contador de calorías para Android de código abierto, gratuito y completamente offline, construido con Google Gemma y Jetpack Compose."
 date: 2026-07-10
-tags: [Android, Gemma LLM, Innovación Móvil, Código Abierto, Privacidad]
+tags: [IA, Android, LLM, Desarrollo Móvil]
 coverImage: /assets/images/nom-ai-showcase.webp
 previewImage: /assets/images/nom-ai-showcase.webp
 ---

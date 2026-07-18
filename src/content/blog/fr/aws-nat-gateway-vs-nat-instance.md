@@ -2,7 +2,7 @@
 title: "La taxe cachée du Cloud : Pourquoi votre NAT Gateway dévore votre budget"
 description: "Comment réduire votre facture AWS mensuelle en remplaçant votre NAT Gateway par une instance NAT autogérée et économique."
 date: 2026-01-01
-tags: [AWS, Optimisation des coûts Cloud, DevOps, Infrastructure]
+tags: [AWS, Optimisation des coûts, DevOps]
 coverImage: /assets/images/aws-cost-spike.webp
 previewImage: /assets/images/aws-cost-spike.webp
 ---

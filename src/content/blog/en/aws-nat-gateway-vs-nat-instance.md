@@ -2,7 +2,7 @@
 title: "The Hidden Cloud Tax: Why Your NAT Gateway is Eating Your Budget"
 description: "How to drop your monthly AWS bill by switching from NAT Gateway to a cost-effective self-managed NAT Instance."
 date: 2026-01-01
-tags: [AWS, Cloud Cost Optimization, DevOps, Infrastructure]
+tags: [AWS, Cost Optimization, DevOps]
 coverImage: /assets/images/aws-cost-spike.webp
 previewImage: /assets/images/aws-cost-spike.webp
 ---

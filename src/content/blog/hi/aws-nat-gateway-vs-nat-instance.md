@@ -2,7 +2,7 @@
 title: "हिडन क्लाउड टैक्स: आपका NAT Gateway आपके बजट को क्यों खा रहा है"
 description: "एक किफायती स्व-प्रबंधित (self-managed) NAT Instance पर स्विच करके अपने मासिक AWS बिल को कैसे कम करें।"
 date: 2026-01-01
-tags: [AWS, Cloud Cost Optimization, DevOps, Infrastructure]
+tags: [एडब्ल्यूएस, लागत अनुकूलन, डेवऑप्स]
 coverImage: /assets/images/aws-cost-spike.webp
 previewImage: /assets/images/aws-cost-spike.webp
 ---

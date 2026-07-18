@@ -2,7 +2,7 @@
 title: "Zunify: आधुनिक वेब के लिए प्रतिष्ठित Zune प्लेयर की नई कल्पना"
 description: "Zunify का एक गहरा विश्लेषण—एक हल्का, ऑफलाइन-फर्स्ट म्यूजिक प्लेयर जो Angular 19, Dexie.js और File System Access API का उपयोग करके 2000 के दशक के उत्तरार्ध के टाइपोग्राफी-केंद्रित Zune इंटरफ़ेस को वापस लाता है।"
 date: 2026-07-09
-tags: [Angular, PWA, IndexedDB, Dexie, Web Audio, File System Access API]
+tags: [एंगुलर, वेब विकास, डेटाबेस]
 coverImage: /assets/images/zunify-music.webp
 previewImage: /assets/images/zunify-music.webp
 ---

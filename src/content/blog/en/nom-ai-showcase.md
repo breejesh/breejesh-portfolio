@@ -2,7 +2,7 @@
 title: "NomAI: The Offline Calorie Tracker Powered by Local LLMs"
 description: "An in-depth look at NomAI—the world's first free, open-source, and entirely offline calorie tracking app for Android built with Google Gemma and Jetpack Compose."
 date: 2026-07-10
-tags: [Android, Gemma LLM, Mobile Innovation, Open Source, Privacy]
+tags: [AI, Android, LLM, Mobile Development]
 coverImage: /assets/images/nom-ai-showcase.webp
 previewImage: /assets/images/nom-ai-showcase.webp
 ---

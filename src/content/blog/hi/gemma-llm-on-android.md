@@ -2,7 +2,7 @@
 title: "Android पर स्थानीय रूप से LLMs चलाना: LiteRT के साथ Gemma 2B"
 description: "LiteRT का उपयोग करके Android पर ऑफ़लाइन Google Gemma मॉडल कैसे चलाएं, और खुले स्रोत (open-source) ऑफ़लाइन कैलोरी ट्रैकर NomAI के माध्यम से इसका एक वास्तविक उदाहरण देखें।"
 date: 2026-07-17
-tags: [Android, LiteRT, Gemma LLM, On-Device AI, Mobile Development]
+tags: [एआई, एंड्रॉइड, एलएलएम, मोबाइल विकास]
 coverImage: /assets/images/gemma-android.webp
 previewImage: /assets/images/gemma-android.webp
 ---

@@ -2,7 +2,7 @@
 title: "Zunify: Reimagining the Iconic Zune Player for the Modern Web"
 description: "A deep dive into Zunify—a lightweight, offline-first music player that brings back the typography-focused late-2000s Zune interface using Angular 19, Dexie.js, and the File System Access API."
 date: 2026-07-09
-tags: [Angular, PWA, IndexedDB, Dexie, Web Audio, File System Access API]
+tags: [Angular, Web Development, Database]
 coverImage: /assets/images/zunify-music.webp
 previewImage: /assets/images/zunify-music.webp
 ---

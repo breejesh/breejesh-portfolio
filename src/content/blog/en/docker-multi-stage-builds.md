@@ -2,7 +2,7 @@
 title: "Shrinking Your Docker Images: The Power of Multi-Stage Builds"
 description: "How to reduce your production Docker image size by 90% and secure your containers using multi-stage builds."
 date: 2026-01-02
-tags: [Docker, DevOps, Containerization, Optimization]
+tags: [Docker, DevOps, Security]
 coverImage: /assets/images/docker-optimization.webp
 previewImage: /assets/images/docker-optimization.webp
 ---

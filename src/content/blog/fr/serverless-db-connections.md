@@ -2,7 +2,7 @@
 title: "Gérer les connexions aux bases de données à l'échelle dans les fonctions Serverless"
 description: "Comment éviter l'épuisement des connexions aux bases de données dans AWS Lambda et gérer efficacement les pools de connexions."
 date: 2026-01-03
-tags: [Serverless, Base de données, AWS Lambda, PostgreSQL, Conception de systèmes]
+tags: [Serverless, Base de données, AWS, Conception de systèmes]
 coverImage: /assets/images/serverless-database.webp
 previewImage: /assets/images/serverless-database.webp
 ---

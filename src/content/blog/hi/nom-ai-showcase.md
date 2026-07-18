@@ -2,7 +2,7 @@
 title: "NomAI का प्रदर्शन: स्थानीय LLMs द्वारा संचालित ऑफ़लाइन कैलोरी ट्रैकर"
 description: "NomAI पर एक विस्तृत नज़र—Google Gemma और Jetpack Compose के साथ निर्मित एंड्रॉइड के लिए दुनिया का पहला मुफ्त, ओपन-सोर्स और पूरी तरह से ऑफ़लाइन कैलोरी ट्रैकिंग ऐप।"
 date: 2026-07-10
-tags: [Android, Gemma LLM, Mobile Innovation, Open Source, Privacy]
+tags: [एआई, एंड्रॉइड, एलएलएम, मोबाइल विकास]
 coverImage: /assets/images/nom-ai-showcase.webp
 previewImage: /assets/images/nom-ai-showcase.webp
 ---

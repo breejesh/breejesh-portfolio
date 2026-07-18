@@ -2,7 +2,7 @@
 title: "El impuesto oculto de la nube: Por qué tu NAT Gateway se está comiendo tu presupuesto"
 description: "Cómo reducir tu factura mensual de AWS cambiando de NAT Gateway a una instancia NAT autogestionada y rentable."
 date: 2026-01-01
-tags: [AWS, Optimización de Costos en la Nube, DevOps, Infraestructura]
+tags: [AWS, Optimización de costos, DevOps]
 coverImage: /assets/images/aws-cost-spike.webp
 previewImage: /assets/images/aws-cost-spike.webp
 ---

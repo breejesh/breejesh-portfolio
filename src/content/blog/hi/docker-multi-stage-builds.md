@@ -2,7 +2,7 @@
 title: "अपने डॉकर इमेज का आकार घटाएं: मल्टी-स्टेज बिल्ड्स की शक्ति"
 description: "मल्टी-स्टेज बिल्ड्स का उपयोग करके अपने प्रोडक्शन डॉकर इमेज के आकार को 90% तक कैसे कम करें और अपने कंटेनरों को कैसे सुरक्षित करें।"
 date: 2026-01-02
-tags: [Docker, DevOps, Containerization, Optimization]
+tags: [डॉकर, डेवऑप्स, सुरक्षा]
 coverImage: /assets/images/docker-optimization.webp
 previewImage: /assets/images/docker-optimization.webp
 ---

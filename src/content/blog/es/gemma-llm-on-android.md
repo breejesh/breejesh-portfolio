@@ -2,7 +2,7 @@
 title: "Ejecutando LLMs localmente en Android: Gemma 2B con LiteRT"
 description: "Cómo ejecutar los modelos Gemma de Google sin conexión en Android usando LiteRT, con una mirada al mundo real de NomAI, el contador de calorías offline de código abierto."
 date: 2026-07-17
-tags: [Android, LiteRT, Gemma LLM, IA en el Dispositivo, Desarrollo Móvil]
+tags: [IA, Android, LLM, Desarrollo Móvil]
 coverImage: /assets/images/gemma-android.webp
 previewImage: /assets/images/gemma-android.webp
 ---
