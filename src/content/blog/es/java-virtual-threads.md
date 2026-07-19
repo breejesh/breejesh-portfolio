@@ -65,7 +65,42 @@ Obtienes los beneficios de rendimiento de la programación reactiva mientras esc
 
 Los hilos virtuales no son una bala de plata. Debes evitarlos para:
 *   **Tareas limitadas por CPU** (CPU-bound): Codificación de video, cálculos matemáticos pesados o bucles cerrados. Dado que los hilos virtuales todavía se ejecutan en hilos portadores del SO, no harán que tu CPU procese números más rápido.
-*   **Hilos Anclados (Pinned Threads)**: Las operaciones que llaman a código nativo (JNI) o utilizan bloques `synchronized` blocks pueden \"anclar\" el hilo virtual a su hilo portador del SO, impidiendo que la JVM lo intercambie. Migra los bloques `synchronized` a `ReentrantLock` al adoptar hilos virtuales.
+*   **Hilos Anclados (Pinned Threads)**: Las operaciones que llaman a código nativo (JNI) o utilizan bloques `synchronized` blocks pueden "anclar" el hilo virtual a su hilo portador del SO, impidiendo que la JVM lo intercambie. Migra los bloques `synchronized` a `ReentrantLock` al adoptar hilos virtuales.
+
+### Pruebas de Rendimiento y Análisis
+
+Para ver el impacto práctico de los Hilos Virtuales en comparación con los Hilos de Plataforma tradicionales, realicé una prueba de rendimiento comparando el rendimiento del pool de hilos predeterminado de Tomcat (usando una aplicación Spring Boot 3.x) bajo una carga de trabajo limitada por I/O.
+
+La prueba de carga simuló **3,000 peticiones en total** a diferentes niveles de concurrencia (50, 150, 300, 500, 1000) con un retraso de I/O simulado de **100ms** por petición. El código completo y la configuración se pueden encontrar en el [Repositorio de GitHub](https://github.com/breejesh/java-virtual-threads-benchmarking).
+
+#### Comparación de Rendimiento (Mayor es Mejor)
+
+| Concurrencia | Hilos de Plataforma (req/s) | Hilos Virtuales (req/s) | Mejora de Escala |
+| :---: | :---: | :---: | :---: |
+| **50** | 467.26 | 455.28 | 0.97x |
+| **150** | 1316.24 | 1288.79 | 0.98x |
+| **300** | 1768.79 | 2297.41 | **1.30x** |
+| **500** | 1780.12 | 3451.08 | **1.94x** |
+| **1000** | 1754.76 | 5070.74 | **2.89x** |
+
+#### Comparación de Latencia (Menor es Mejor)
+
+| Concurrencia | Latencia de Plataforma (Media / P95) | Latencia Virtual (Media / P95) | Reducción de Latencia |
+| :---: | :---: | :---: | :---: |
+| **50** | 107.0ms / 108ms | 109.8ms / 110ms | -2.6% (Límite de sobrecarga) |
+| **150** | 114.0ms / 111ms | 116.4ms / 113ms | -2.1% (Límite de sobrecarga) |
+| **300** | 169.6ms / 212ms | 130.6ms / 116ms | **23.0%** |
+| **500** | 280.9ms / 362ms | 144.9ms / 136ms | **48.4%** |
+| **1000** | 569.9ms / 711ms | 197.2ms / 260ms | **65.4%** |
+
+#### Visualización de los Resultados
+
+![Resultados de las Pruebas de Rendimiento de Tomcat Platform Threads vs Virtual Threads](https://raw.githubusercontent.com/breejesh/java-virtual-threads-benchmarking/main/benchmark_results.png)
+
+#### Observaciones Clave
+1. **Baja Concurrencia (<= 200)**: Con una concurrencia inferior a 200 (por debajo del límite del pool de hilos máximo de Tomcat), los Hilos de Plataforma y los Hilos Virtuales funcionan de forma idéntica. Esto demuestra que los Hilos Virtuales no aceleran la ejecución del código de la CPU por sí mismos; permiten la escala.
+2. **Cuello de Botella de Cola (> 200)**: Una vez que la concurrencia supera el límite de hilos máximo de Tomcat (200), el pool de hilos de plataforma se agota. Las solicitudes entrantes esperan en la cola TCP, lo que hace que la latencia media se dispare (por ejemplo, a **569.9ms** con una concurrencia de 1000).
+3. **Escalado de Rendimiento**: El rendimiento de los hilos de plataforma tiene un límite de aproximadamente **1780 req/s** (200 hilos * 10 req/s por hilo). Los hilos virtuales manejan la concurrencia con facilidad, escalando el rendimiento hasta **5070.74 req/s** (una **mejora de 2.89x**) mientras mantienen la latencia media por debajo de los **200ms**.
 
 ### Conclusión
 

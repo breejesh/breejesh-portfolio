@@ -67,6 +67,41 @@ Virtual threads are not a silver bullet. You should avoid them for:
 *   **CPU-bound tasks**: Video encoding, heavy mathematical computations, or tight loops. Since virtual threads still run on carrier OS threads, they won't make your CPU crunch numbers any faster.
 *   **Pinned Threads**: Operations that call native code (JNI) or use `synchronized` blocks can "pin" the virtual thread to its carrier OS thread, preventing the JVM from swapping it out. Migrate `synchronized` blocks to `ReentrantLock` when adopting virtual threads.
 
+### Benchmarking & Performance Analysis
+
+To see the practical impact of Virtual Threads compared to traditional Platform Threads, I ran a benchmark comparing standard Tomcat thread pool performance (using a Spring Boot 3.x app) under an I/O-bound workload.
+
+The load test simulated **3,000 total requests** at different concurrency levels (50, 150, 300, 500, 1000) with a simulated I/O delay of **100ms** per request. The full codebase and setup can be found in the [GitHub Repository](https://github.com/breejesh/java-virtual-threads-benchmarking).
+
+#### Throughput Comparison (Higher is Better)
+
+| Concurrency | Platform Threads (req/s) | Virtual Threads (req/s) | Scale Improvement |
+| :---: | :---: | :---: | :---: |
+| **50** | 467.26 | 455.28 | 0.97x |
+| **150** | 1316.24 | 1288.79 | 0.98x |
+| **300** | 1768.79 | 2297.41 | **1.30x** |
+| **500** | 1780.12 | 3451.08 | **1.94x** |
+| **1000** | 1754.76 | 5070.74 | **2.89x** |
+
+#### Latency Comparison (Lower is Better)
+
+| Concurrency | Platform Latency (Mean / P95) | Virtual Latency (Mean / P95) | Latency Reduction |
+| :---: | :---: | :---: | :---: |
+| **50** | 107.0ms / 108ms | 109.8ms / 110ms | -2.6% (Overhead limit) |
+| **150** | 114.0ms / 111ms | 116.4ms / 113ms | -2.1% (Overhead limit) |
+| **300** | 169.6ms / 212ms | 130.6ms / 116ms | **23.0%** |
+| **500** | 280.9ms / 362ms | 144.9ms / 136ms | **48.4%** |
+| **1000** | 569.9ms / 711ms | 197.2ms / 260ms | **65.4%** |
+
+#### Visualizing the Results
+
+![Tomcat Platform Threads vs Virtual Threads Benchmark Results](https://raw.githubusercontent.com/breejesh/java-virtual-threads-benchmarking/main/benchmark_results.png)
+
+#### Key Observations
+1. **Low Concurrency (<= 200)**: Under 200 concurrency (below Tomcat's max thread pool limit), Platform Threads and Virtual Threads perform identically. This shows that Virtual Threads do not make CPU code execution faster; they enable scale.
+2. **Queuing Bottleneck (> 200)**: Once concurrency exceeds Tomcat's max thread limit (200), Platform Threads pool runs dry. Incoming requests wait in the TCP queue, causing mean latency to shoot up (e.g. to **569.9ms** at 1000 concurrency).
+3. **Throughput Scaling**: Platform threads throughput caps around **1780 req/s** (200 threads * 10 req/s/thread). Virtual threads handle the concurrency gracefully, scaling throughput up to **5070.74 req/s** (a **2.89x improvement**) while keeping mean latency under **200ms**.
+
 ### Conclusion
 
 Java 21's virtual threads are the most significant update to the language since Lambdas in Java 8. By making threads essentially "free", Project Loom eliminates the need for complex reactive paradigms and oversized thread pools, bringing simplicity back to high-performance Java applications.

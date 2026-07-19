@@ -65,7 +65,42 @@ Vous obtenez les avantages de performance de la programmation réactive tout en 
 
 Les threads virtuels ne sont pas une solution miracle. Vous devez les éviter pour :
 *   **Les tâches limitées par le CPU** (CPU-bound) : Encodage vidéo, calculs mathématiques lourds ou boucles serrées. Étant donné que les threads virtuels s'exécutent toujours sur des threads porteurs de l'OS, ils ne feront pas calculer votre processeur plus rapidement.
-*   **Threads Épinglés (Pinned Threads)** : Les opérations qui appellent du code natif (JNI) ou utilisent des blocs `synchronized` peuvent \"épingler\" le thread virtuel à son thread porteur de l'OS, empêchant la JVM de le permuter. Migrez les blocs `synchronized` vers `ReentrantLock` lors de l'adoption des threads virtuels.
+*   **Threads Épinglés (Pinned Threads)** : Les opérations qui appellent du code natif (JNI) ou utilisent des blocs `synchronized` peuvent "épingler" le thread virtuel à son thread porteur de l'OS, empêchant la JVM de le permuter. Migrez les blocs `synchronized` vers `ReentrantLock` lors de l'adoption des threads virtuels.
+
+### Analyse comparative et de performance
+
+Pour voir l'impact pratique des Threads Virtuels par rapport aux Threads de Plateforme traditionnels, j'ai exécuté un benchmark comparant les performances du pool de threads Tomcat par défaut (à l'aide d'une application Spring Boot 3.x) sous une charge de travail limitée par les I/O.
+
+Le test de charge a simulé **3 000 requêtes au total** à différents niveaux de simultanéité (50, 150, 300, 500, 1000) avec un délai d'I/O simulé de **100ms** par requête. Le codebase complet et la configuration sont disponibles sur le [Dépôt GitHub](https://github.com/breejesh/java-virtual-threads-benchmarking).
+
+#### Comparaison du débit (Le plus élevé est le mieux)
+
+| Simultanéité | Threads de Plateforme (req/s) | Threads Virtuels (req/s) | Amélioration de l'échelle |
+| :---: | :---: | :---: | :---: |
+| **50** | 467.26 | 455.28 | 0.97x |
+| **150** | 1316.24 | 1288.79 | 0.98x |
+| **300** | 1768.79 | 2297.41 | **1.30x** |
+| **500** | 1780.12 | 3451.08 | **1.94x** |
+| **1000** | 1754.76 | 5070.74 | **2.89x** |
+
+#### Comparaison de la latence (Le plus bas est le mieux)
+
+| Simultanéité | Latence Plateforme (Moyenne / P95) | Latence Virtuelle (Moyenne / P95) | Réduction de la latence |
+| :---: | :---: | :---: | :---: |
+| **50** | 107.0ms / 108ms | 109.8ms / 110ms | -2.6% (Limite de surcharge) |
+| **150** | 114.0ms / 111ms | 116.4ms / 113ms | -2.1% (Limite de surcharge) |
+| **300** | 169.6ms / 212ms | 130.6ms / 116ms | **23.0%** |
+| **500** | 280.9ms / 362ms | 144.9ms / 136ms | **48.4%** |
+| **1000** | 569.9ms / 711ms | 197.2ms / 260ms | **65.4%** |
+
+#### Visualisation des résultats
+
+![Résultats du benchmark Tomcat Platform Threads vs Virtual Threads](https://raw.githubusercontent.com/breejesh/java-virtual-threads-benchmarking/main/benchmark_results.png)
+
+#### Observations clés
+1. **Faible simultanéité (<= 200)** : Avec une simultanéité inférieure à 200 (en dessous de la limite maximale du pool de threads de Tomcat), les threads de plateforme et les threads virtuels s'exécutent de manière identique. Cela montre que les threads virtuels ne rendent pas l'exécution du code CPU plus rapide en soi ; ils permettent simplement de passer à l'échelle.
+2. **Goulot d'étranglement de mise en file d'attente (> 200)** : Dès que la simultanéité dépasse la limite maximale de threads de Tomcat (200), le pool de threads de plateforme s'épuise. Les requêtes entrantes attendent dans la file d'attente TCP, ce qui fait grimper la latence moyenne (par exemple, à **569.9ms** pour une simultanéité de 1000).
+3. **Mise à l'échelle du débit** : Le débit des threads de plateforme plafonne à environ **1780 req/s** (200 threads * 10 req/s/thread). Les threads virtuels gèrent la simultanéité de manière fluide, augmentant le débit jusqu'à **5070.74 req/s** (une **amélioration de 2.89x**) tout en maintenant la latence moyenne sous les **200ms**.
 
 ### Conclusion
 
