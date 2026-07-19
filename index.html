@@ -53,6 +53,18 @@
   <link rel="stylesheet" href="/node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css">
 
   <meta name="theme-color" content="#030c0d">
+
+  <!-- Immediate theme check to prevent flickering -->
+  <script>
+    (function() {
+      try {
+        const storedTheme = localStorage.getItem('theme');
+        if (storedTheme === 'light' || (!storedTheme && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+          document.documentElement.classList.add('light-theme');
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
   <app-root></app-root>

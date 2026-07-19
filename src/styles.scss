@@ -20,7 +20,7 @@
   --dropdown-text: #e0f2f1;
 }
 
-body.light-theme {
+body.light-theme, html.light-theme {
   --bg-primary: #f4f6fb;
   --bg-secondary: #F7F7F7;
   --text-primary: #0f172a;
@@ -220,7 +220,7 @@ a{
 }
 
 /* Day/Night Light Theme Global Overrides for main portfolio content */
-body.light-theme {
+body.light-theme, html.light-theme {
   h1, h2, h3, h4, h5, h6,
   .banner h2, .banner h3, .section-title,
   .project-name, .about-title, .experience-title,
