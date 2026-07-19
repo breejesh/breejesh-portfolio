@@ -1,0 +1,106 @@
+<div class="blog-magazine-container">
+  <!-- Left Column: Main Content -->
+  <div class="blog-main-column">
+    <!-- Magazine Header -->
+    <div class="blog-magazine-header">
+      <h1 class="magazine-title">{{ 'Blog.Title' | translate }}</h1>
+      <p class="magazine-subtitle"> {{ filteredPosts().length }} {{ 'Blog.Stats' | translate | lowercase }}</p>
+    </div>
+
+    <!-- Featured Post (Larger Card) - Only shown when no filters are active -->
+    <div 
+      *ngIf="filteredPosts().length > 0 && searchQuery() === '' && selectedTag() === ''" 
+      class="featured-magazine-card" 
+      [routerLink]="'/blog/' + languageService.language() + '/' + filteredPosts()[0].slug" 
+      style="cursor: pointer;"
+    >
+      <div class="featured-img-wrapper">
+        <img [src]="getPostImage(filteredPosts()[0])" [alt]="filteredPosts()[0].attributes.title + ' cover image'" class="featured-img" loading="eager" />
+      </div>
+      <div class="featured-content">
+        <div class="post-meta">
+          <span class="post-date"><i class="far fa-calendar-alt"></i> {{ filteredPosts()[0].attributes.date | date: 'longDate' }}</span>
+        </div>
+        <h2 class="featured-title">
+          <a [routerLink]="'/blog/' + languageService.language() + '/' + filteredPosts()[0].slug">{{ filteredPosts()[0].attributes.title }}</a>
+        </h2>
+        <p class="featured-excerpt">{{ filteredPosts()[0].attributes.description }}</p>
+        <a [routerLink]="'/blog/' + languageService.language() + '/' + filteredPosts()[0].slug" class="read-more-link">
+          {{ 'Blog.Read' | translate }}
+        </a>
+      </div>
+    </div>
+
+    <!-- Rest of the Posts (Grid layout) -->
+    <div class="posts-grid" *ngIf="filteredPosts().length > 0">
+      <article 
+        *ngFor="let post of (searchQuery() !== '' || selectedTag() !== '' ? filteredPosts() : filteredPosts().slice(1))" 
+        class="blog-card"
+        [routerLink]="'/blog/' + languageService.language() + '/' + post.slug"
+        style="cursor: pointer;"
+      >
+        <div class="card-img-wrapper">
+          <img [src]="getPostImage(post)" [alt]="post.attributes.title + ' preview'" class="card-img" loading="lazy" />
+        </div>
+        <div class="card-body">
+          <div class="post-meta">
+            <span class="post-date"><i class="far fa-calendar-alt"></i> {{ post.attributes.date | date: 'mediumDate' }}</span>
+          </div>
+          <h3 class="card-title">
+            <a [routerLink]="'/blog/' + languageService.language() + '/' + post.slug">{{ post.attributes.title }}</a>
+          </h3>
+          <p class="card-excerpt">{{ post.attributes.description }}</p>
+
+          <div class="card-footer-meta">
+            <div class="tag-badges" *ngIf="post.attributes.tags && post.attributes.tags.length > 0">
+              <span *ngFor="let tag of post.attributes.tags" class="badge tag-badge">{{ tag }}</span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="filteredPosts().length === 0" class="no-results">
+      <i class="far fa-frown no-results-icon"></i>
+      <h3>{{ 'Blog.NoPosts' | translate }}</h3>
+      <p>{{ 'Blog.NoPostsDesc' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Right Column: Sidebar -->
+  <aside class="blog-sidebar-column">
+    <div class="sidebar-sticky-wrapper">
+      <!-- Widget: Search -->
+      <div class="sidebar-widget">
+        <h4 class="widget-title">{{ 'Blog.SearchTitle' | translate }}</h4>
+        <div class="search-wrapper">
+          <i class="fas fa-search search-icon"></i>
+          <input
+            type="text"
+            [ngModel]="searchQuery()"
+            (ngModelChange)="onSearchChange($event)"
+            placeholder="{{ 'Blog.SearchPlaceholder' | translate }}"
+            class="blog-search-input"
+          />
+        </div>
+      </div>
+
+      <!-- Widget: Topics Cloud -->
+      <div class="sidebar-widget" *ngIf="allTags().length > 0">
+        <h4 class="widget-title">{{ 'Blog.ExploreTopics' | translate }}</h4>
+        <div class="tags-row">
+          <button 
+            (click)="selectTag('')" 
+            class="tag-pill-btn" 
+            [class.active]="selectedTag() === ''">{{ 'Blog.AllTopics' | translate }}</button>
+          <button 
+            *ngFor="let tag of allTags()" 
+            (click)="selectTag(tag)" 
+            class="tag-pill-btn" 
+            [class.active]="selectedTag() === tag">{{ tag }}</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>

@@ -1,0 +1,29 @@
+<div class="blog-post-section" *ngIf="postSignal() as post">
+  <header class="post-header-nav">
+    <a routerLink="/blog" class="back-link">
+      &larr; {{ 'Blog.BackLink' | translate }}
+    </a>
+  </header>
+
+  <article class="blog-post">
+    <div class="post-cover-wrapper" *ngIf="post.attributes.coverImage">
+      <img [src]="post.attributes.coverImage" [alt]="post.attributes.title + ' cover image'" class="post-cover-img" />
+    </div>
+
+    <header class="post-header">
+      <h1 class="post-title">{{ post.attributes.title }}</h1>
+      <div class="post-meta">
+        <span class="post-date"><i class="far fa-calendar-alt"></i> {{ post.attributes.date | date: 'longDate' }}</span>
+        <span class="meta-divider">|</span>
+        <div class="tag-badges">
+          <span *ngFor="let tag of post.attributes.tags" class="badge tag-badge">{{ tag }}</span>
+        </div>
+      </div>
+      <p class="post-description">{{ post.attributes.description }}</p>
+    </header>
+
+    <section class="post-content">
+      <analog-markdown [content]="post.content" />
+    </section>
+  </article>
+</div>

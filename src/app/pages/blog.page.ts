@@ -19,53 +19,8 @@ export interface BlogAttributes {
   selector: 'app-blog-layout',
   standalone: true,
   imports: [CommonModule, RouterOutlet, GeneralModule],
-  template: `
-    <div class="blog-layout-wrapper">
-      <div class="blog-layout-container">
-        <main class="blog-main-content">
-          <router-outlet></router-outlet>
-        </main>
-      </div>
-      <app-footer></app-footer>
-    </div>
-  `,
-  styles: [`
-    :host {
-      display: block;
-      min-height: 100vh;
-      background-color: var(--bg-primary);
-      color: var(--text-primary);
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    .blog-layout-wrapper {
-      padding-top: 80px; /* Spacer for fixed unified header */
-      min-height: calc(100vh - 80px);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .blog-layout-container {
-      max-width: 1280px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 40px 24px;
-      box-sizing: border-box;
-      flex-grow: 1;
-    }
-
-    .blog-main-content {
-      width: 100%;
-      min-width: 0;
-    }
-
-    @media (max-width: 768px) {
-      .blog-layout-container {
-        padding: 20px 16px;
-      }
-    }
-  `]
+  templateUrl: './blog.page.html',
+  styleUrls: ['./blog.page.scss']
 })
 export default class BlogLayoutComponent {
   searchQuery = signal('');
