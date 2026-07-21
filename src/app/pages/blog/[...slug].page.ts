@@ -249,7 +249,7 @@ export default class BlogPostComponent implements AfterViewChecked {
       return;
     }
 
-    tables.forEach((table: HTMLTableElement) => {
+    Array.from(tables).forEach((table: Element) => {
       const parent = table.parentElement;
       if (!parent || parent.classList.contains('md-table-wrap')) {
         return;

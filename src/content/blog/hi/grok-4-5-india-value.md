@@ -1,132 +1,132 @@
 ---
-title: "Grok 4.5 ₹6,500/वर्ष: SuperGrok भारत में ₹24k AI plans को क्यों हराता है"
-description: "भारत में SuperGrok / Grok 4.5 ₹6,500/वर्ष vs ChatGPT Plus, Claude Pro, Gemini ~₹24,000। Artificial Analysis benchmarks, live charts, source credits."
-date: 2026-07-22
-tags: [AI, LLM, Grok, SuperGrok, India, Pricing, Benchmarks, SpaceXAI]
+title: "ग्रॉक 4.5 ₹6,500/वर्ष: सुपरग्रॉक भारत में ₹24k AI plans को क्यों हराता है"
+description: "भारत में सुपरग्रॉक / ग्रॉक 4.5 ₹6,500/वर्ष vs चैटजीपीटी प्लस, क्लॉड प्रो, जेमिनी ~₹24,000। आर्टिफिशियल एनालिसिस benchmarks, live charts, source credits."
+date: 2026-07-20
+tags: [AI, एलएलएम, ग्रॉक, सुपरग्रॉक, India, Pricing, Benchmarks, स्पेसएक्सएआई]
 coverImage: /assets/images/grok-4-5-india-value-cover.webp
 previewImage: /assets/images/grok-4-5-india-value-cover.webp
 ---
 
-**₹6,500 सालाना** near-frontier AI के लिए। या ChatGPT Plus / Claude Pro / Gemini AI Pro के लिए **~₹2,000 महीना**।
+**₹6,500 सालाना** अग्रणी एआई तकनीक के लिए, या फिर चैटजीपीटी प्लस, क्लॉड प्रो अथवा जेमिनी एआई प्रो के लिए **~₹2,000 महीना**।
 
-अगर बिल personal Indian bank account से जाता है, तो पूरा argument यही है। SuperGrok + **Grok 4.5** "दुनिया का बेस्ट मॉडल" नहीं है। Independent boards intelligence पर high-50s pack में रखते हैं, Fable 5 से ऊपर नहीं। Freelancers, students, indie builders के लिए metric है **intelligence per rupee**।
+यदि भुगतान निजी भारतीय बैंक खाते से होता है, तो मुख्य तर्क यही है। सुपरग्रॉक और **ग्रॉक 4.5** "दुनिया का सर्वश्रेष्ठ मॉडल" नहीं हैं। स्वतंत्र बोर्ड इसे बुद्धिमत्ता सूचकांक में 50 के दशक के उच्च स्तर पर रखते हैं, जो फेबल 5 से थोड़ा नीचे है। फ्रीलांसरों, छात्रों और स्वतंत्र डेवलपर्स के लिए असली मापदंड **प्रति रुपये मिलने वाली बुद्धिमत्ता** है।
 
-नीचे cost math, फिर [Artificial Analysis](https://artificialanalysis.ai/models/grok-4-5) के receipts, live chart links और source credits।
+नीचे लागत की गणना, फिर [आर्टिफिशियल एनालिसिस](https://artificialanalysis.ai/models/grok-4-5) के आंकड़े, लाइव चार्ट लिंक और स्रोत दिए गए हैं।
 
-### भारत की price gap (shareable)
+### भारत में कीमत का अंतर
 
-Common India list prices mid-2026 (order of magnitude; GST/promos बदलते हैं):
+वर्ष 2026 के मध्य में भारत की सामान्य कीमतें (अनुमानित स्तर, जीएसटी अथवा ऑफर के अनुसार बदल सकती हैं):
 
-| Plan | India price | Yearly total | vs SuperGrok |
+| Plan | India price | Yearly total | vs सुपरग्रॉक |
 | --- | --- | --- | --- |
-| **SuperGrok (Grok 4.5)** | **₹6,500 / year** | **₹6,500** (~₹542/mo) | baseline |
-| ChatGPT Plus | ~₹1,999 / month | ~₹23,988 | **~₹17,500 more** |
-| Claude Pro | ~₹2,000 / month (annual billing) | ~₹24,000 | **~₹17,500 more** |
-| Google AI Pro (Gemini) | ~₹1,950 / month | ~₹23,400 | **~₹16,900 more** |
+| **सुपरग्रॉक (ग्रॉक 4.5)** | **₹6,500 / year** | **₹6,500** (~₹542/mo) | आधार रेखा |
+| चैटजीपीटी प्लस | ~₹1,999 / month | ~₹23,988 | **~₹17,500 अधिक** |
+| क्लॉड प्रो | ~₹2,000 / month (annual billing) | ~₹24,000 | **~₹17,500 अधिक** |
+| गूगल AI Pro (जेमिनी) | ~₹1,950 / month | ~₹23,400 | **~₹16,900 अधिक** |
 
-SuperGrok एक Western consumer seat का लगभग **एक चौथाई** है। **दो पूरे साल** SuperGrok खरीद लो, फिर भी एक साल ChatGPT Plus से कम।
+सुपरग्रॉक पश्चिमी देशों की उपभोक्ता लागत का लगभग **एक चौथाई** है। यदि आप **दो पूरे साल** सुपरग्रॉक इस्तेमाल करते हैं, तब भी खर्च एक साल के चैटजीपीटी प्लस से कम रहता है।
 
-Global USD list SuperGrok अक्सर **$30/month** या **$300/year** ([x.ai/pricing](https://x.ai/pricing))। India annual **₹6,500** rupee earners के लिए value flip करता है। ChatGPT Pro (~₹19,900/mo) company-card money है।
+वैश्विक अमेरिकी डॉलर सूची में सुपरग्रॉक की कीमत प्रायः **$30/माह** या **$300/वर्ष** रहती है ([x.ai/pricing](https://x.ai/pricing))। भारत के लिए वार्षिक **₹6,500** की कीमत रुपये में कमाने वालों के लिए मूल्य प्रस्ताव को पूरी तरह बदल देती है। वही चैटजीपीटी प्रो (~₹19,900/माह) कंपनी के खर्च के लिए ही उपयुक्त है।
 
-### Grok 4.5 असल में क्या है
+### ग्रॉक 4.5 वास्तव में क्या है
 
-SpaceXAI ने **Grok 4.5** **8 July 2026** को ship किया। Consumer access SuperGrok पर: apps/web, higher limits, reasoning, vision, Imagine, Grok Build coding। Public write-ups ~**1.5T parameter** claim का जिक्र करते हैं (open weights नहीं)।
+स्पेसएक्सएआई ने **ग्रॉक 4.5** को **8 जुलाई 2026** को जारी किया। सुपरग्रॉक पर उपभोक्ता पहुंच: वेब/ऐप, उच्च सीमाएं, तर्क शक्ति, विज़न, Imagine तथा ग्रॉक Build कोडिंग। सार्वजनिक लेख लगभग **1.5 ट्रिलियन पैरामीटर** का दावा करते हैं (ओपन-वेट्स नहीं)।
 
-API (SuperGrok से अलग), [Artificial Analysis](https://artificialanalysis.ai/models/grok-4-5):
+एपीआई (जो सुपरग्रॉक से अलग है), [आर्टिफिशियल एनालिसिस](https://artificialanalysis.ai/models/grok-4-5) के अनुसार:
 
-- **$2 / 1M input**, **$6 / 1M output**
-- Cache hit ~**$0.50 / 1M** (-75%)
-- Context: **500k tokens**
-- Multimodal: text + image in, text out
+* **$2 / 1M इनपुट**, **$6 / 1M आउटपुट**
+* कैश हिट लगभग **$0.50 / 1M** (75% कम)
+* संदर्भ सीमा: **500k टोकन**
+* मल्टीमॉडल: टेक्स्ट और छवि इनपुट, टेक्स्ट आउटपुट
 
-### स्वतंत्र benchmarks (vendor slides नहीं)
+### स्वतंत्र मूल्यांकन (प्रचार स्लाइड्स नहीं)
 
-सबसे साफ third-party snapshot: **[Grok 4.5 (high) on Artificial Analysis](https://artificialanalysis.ai/models/grok-4-5)**।
+सबसे स्पष्ट तटस्थ विश्लेषण: **[आर्टिफिशियल एनालिसिस पर ग्रॉक 4.5](https://artificialanalysis.ai/models/grok-4-5)**।
 
 | Metric | Value (AA, mid-July 2026) | Why it matters |
 | --- | --- | --- |
-| Intelligence Index v4.1 | **54** | Near-frontier (peer median ~31) |
-| Class rank | ~**#9 / 187** | नए models आने पर बदलता है |
-| Output speed | **~69.6 tokens/s** | daily usable |
-| Index eval verbosity | **~60M** output tokens | median (~63M) के करीब |
-| Full index suite cost | ~**$602** | verbose max models से सस्ता eval |
-| Context | **500k** | बड़ा; कुछ rivals 1M दिखाते हैं |
+| Intelligence Index v4.1 | **54** | अग्रणी स्तर (प्रतिस्पर्धी मध्यका ~31) |
+| Class rank | ~**#9 / 187** | नए मॉडल आने पर परिवर्तनशील |
+| Output speed | **~69.6 tokens/s** | दैनिक उपयोग हेतु व्यावहारिक |
+| Index eval verbosity | **~60M** output tokens | मध्यका (~63M) के समीप |
+| Full index suite cost | ~**$602** | अधिक आउटपुट वाले मॉडलों से सस्ता मूल्यांकन |
+| Context | **500k** | विस्तृत (कुछ प्रतिस्पर्धी 1M दिखाते हैं) |
 
-[AA launch analysis](https://artificialanalysis.ai/articles/grok-4-5-brings-spacexai-to-the-the-intelligence-frontier) से:
+[आर्टिफिशियल एनालिसिस लॉन्च विश्लेषण](https://artificialanalysis.ai/articles/grok-4-5-brings-spacexai-to-the-the-intelligence-frontier) के अनुसार:
 
-- **Coding Agent Index: 76** in Grok Build (GPT-5.5 Codex के बराबर, Fable 5 से नीचे)
-- ~**$0.31** per Intelligence Index task
-- ~**$2.49-$2.59** per coding agent task vs Fable 5 ~$11.80, GPT-5.5 ~$5.07
-- ~**1.9M** tokens per coding task vs ~7.2M / ~6.2M
+* **Coding Agent Index: 76** ग्रॉक Build में (जीपीटी-5.5 कोडेक्स के समकक्ष, फेबल 5 से नीचे)
+* लगभग **$0.31** प्रति बुद्धिमत्ता सूचकांक कार्य
+* लगभग **$2.49-$2.59** प्रति कोडिंग एजेंट कार्य (फेबल 5 ~$11.80 और जीपीटी-5.5 ~$5.07 की तुलना में)
+* लगभग **1.9M** टोकन प्रति कोडिंग कार्य (7.2M या 6.2M की तुलना में)
 
-Builder story: हमेशा top Elo नहीं, strong agent scores **और** low token burn।
+डेवलपर्स के लिए मुख्य बात: केवल उच्चतम अंक ही नहीं, बल्कि मजबूत एजेंट स्कोर और **कम टोकन की खपत** भी महत्वपूर्ण है।
 
-#### Charts (embedded + live)
+#### चार्ट (संलग्न और लाइव)
 
-![Grok 4.5 intelligence vs cost (Artificial Analysis)](https://cdn.sanity.io/images/6vfeftx9/articles/4a57186a3b74c34496fcee3eb85bebe1ecffcfff-4640x4288.png?w=1200&auto=format)
+![ग्रॉक 4.5 intelligence vs cost (आर्टिफिशियल एनालिसिस)](https://cdn.sanity.io/images/6vfeftx9/articles/4a57186a3b74c34496fcee3eb85bebe1ecffcfff-4640x4288.png?w=1200&auto=format)
 
-*स्रोत: [Artificial Analysis, Grok 4.5 launch analysis](https://artificialanalysis.ai/articles/grok-4-5-brings-spacexai-to-the-the-intelligence-frontier)*
+*स्रोत: [आर्टिफिशियल एनालिसिस, ग्रॉक 4.5 launch analysis](https://artificialanalysis.ai/articles/grok-4-5-brings-spacexai-to-the-the-intelligence-frontier)*
 
-![Grok 4.5 Coding Agent Index (Artificial Analysis)](https://cdn.sanity.io/images/6vfeftx9/articles/9bcd6f1df704ca86d96b2616219bedd487ab091e-4640x3466.png?w=1200&auto=format)
+![ग्रॉक 4.5 Coding Agent Index (आर्टिफिशियल एनालिसिस)](https://cdn.sanity.io/images/6vfeftx9/articles/9bcd6f1df704ca86d96b2616219bedd487ab091e-4640x3466.png?w=1200&auto=format)
 
-*स्रोत: [Artificial Analysis](https://artificialanalysis.ai/articles/grok-4-5-brings-spacexai-to-the-the-intelligence-frontier)*
+*स्रोत: [आर्टिफिशियल एनालिसिस](https://artificialanalysis.ai/articles/grok-4-5-brings-spacexai-to-the-the-intelligence-frontier)*
 
 | Live chart / board | What it shows | Link |
 | --- | --- | --- |
-| Grok 4.5 model page | Intelligence Index, speed, price | [artificialanalysis.ai/models/grok-4-5](https://artificialanalysis.ai/models/grok-4-5) |
+| ग्रॉक 4.5 model page | Intelligence Index, speed, price | [artificialanalysis.ai/models/grok-4-5](https://artificialanalysis.ai/models/grok-4-5) |
 | Intelligence section | Live leaderboard | [AA #intelligence](https://artificialanalysis.ai/models/grok-4-5#intelligence) |
 | AA launch article | Coding + Pareto charts | [AA article](https://artificialanalysis.ai/articles/grok-4-5-brings-spacexai-to-the-the-intelligence-frontier) |
-| Terminal-Bench 2.1 | Agentic terminal | [AA Terminal-Bench](https://artificialanalysis.ai/evaluations/terminalbench-v2-1) |
-| Kimi K3 peer | Open-weight comparison | [AA Kimi K3](https://artificialanalysis.ai/models/kimi-k3/) |
-| SpaceXAI pricing | SuperGrok plans | [x.ai/pricing](https://x.ai/pricing) |
+| टर्मिनल-बेंच 2.1 | Agentic terminal | [AA टर्मिनल-बेंच](https://artificialanalysis.ai/evaluations/terminalbench-v2-1) |
+| किमी के3 peer | Open-weight comparison | [AA किमी के3](https://artificialanalysis.ai/models/kimi-k3/) |
+| स्पेसएक्सएआई pricing | सुपरग्रॉक plans | [x.ai/pricing](https://x.ai/pricing) |
 
-### Rivals के साथ
+### मुख्य प्रतिस्पर्धियों के साथ तुलना
 
 | Model | Approx. AA Index | India consumer angle |
 | --- | --- | --- |
-| Claude Fable 5 / GPT-5.6 Sol class | 54 से ऊपर | Peak frontier; Max/Pro money |
-| Kimi K3 | **57** | Strong open-weight; SuperGrok ₹6.5k substitute नहीं |
-| **Grok 4.5 (high)** | **54** | SuperGrok + सस्ता API |
-| Opus 4.8 / GPT-5.5 class | mid-50s band | Grok launch neighborhood |
+| क्लॉड फेबल 5 / जीपीटी-5.6 सॉल class | 54 से ऊपर | उच्चतम शिखर; अधिक लागत |
+| किमी के3 | **57** | मजबूत ओपन-वेट; सुपरग्रॉक का विकल्प नहीं |
+| **ग्रॉक 4.5 (high)** | **54** | सुपरग्रॉक + किफायती एपीआई |
+| ओपस 4.8 / जीपीटी-5.5 class | mid-50s band | ग्रॉक लॉन्च के समतुल्य |
 
-### साल भर की लागत
+### वार्षिक लागत का विश्लेषण
 
-- SuperGrok only: **₹6,500**/year
-- Plus / Claude Pro / Gemini alone: **~₹23k-₹24k**/year
-- Plus + Claude: **~₹48,000**/year
-- SuperGrok + free tiers: **₹6,500** + free
+* केवल सुपरग्रॉक: **₹6,500**/वर्ष
+* चैटजीपीटी प्लस / क्लॉड प्रो / जेमिनी अकेले: **~₹23,000-₹24,000**/वर्ष
+* चैटजीपीटी प्लस + क्लॉड प्रो दोनों: **~₹48,000**/वर्ष
+* सुपरग्रॉक + निःशुल्क प्लान: **₹6,500** + मुफ़्त सेवाएँ
 
-**₹2,000/month** से SuperGrok **₹6,500/year** पर ~**₹1,450/month** बचता है।
+**₹2,000/माह** के स्थान पर सुपरग्रॉक **₹6,500/वर्ष** चुनने पर लगभग **₹1,450/माह** की बचत होती है।
 
-### कहाँ automatic नहीं
+### सीमाएं और ध्यान देने योग्य बातें
 
-1. **Ecosystem.** ChatGPT GPTs, Gemini Docs/Drive/Gmail, Claude prose polish।
-2. **Peak coding Elo.** Fable 5 Coding Agent Index पर आगे।
-3. **Hallucinations.** AA: higher accuracy *और* higher hallucination rate। Facts verify करो।
-4. **Context.** 500k; कुछ 1M दिखाते हैं।
-5. **Prices move.** Checkout दोबारा देखो।
+1. **इकोसिस्टम:** चैटजीपीटी के पास Custom जीपीटी हैं, जेमिनी के पास गूगल डॉक्स/Drive एकीकरण है, तथा क्लॉड के पास भाषा शैली का निखार है।
+2. **कोडिंग शिखर:** फेबल 5 कोडिंग एजेंट सूचकांक पर आगे बना हुआ है।
+3. **तथ्यात्मक सटीकता:** आर्टिफिशियल एनालिसिस के अनुसार उच्च शुद्धता के साथ भ्रम (hallucination) दर भी थोड़ी अधिक है। उत्तरों की पुष्टि आवश्यक है।
+4. **संदर्भ सीमा:** 500k टोकन, जबकि कुछ प्रतिस्पर्धी 1M प्रदान करते हैं।
+5. **कीमत में बदलाव:** खरीदारी से पहले भुगतान पृष्ठ अवश्य देखें।
 
-### भारत में किसे खरीदना चाहिए
+### भारत में किसे यह चुनना चाहिए
 
-**हाँ अगर** personal income से भरते हो, ₹2k/month tax के बिना near-frontier chat/coding चाहते हो, 12 months hard use करोगे।
+**उपयुक्त है यदि:** आप अपनी जेब से भुगतान कर रहे हैं, ₹2,000 प्रति माह खर्च किए बिना उच्च स्तरीय एआई चाहते हैं और वर्ष भर नियमित उपयोग की योजना है।
 
-**Skip अगर** पूरे दिन Workspace AI चाहिए, company reimburse करती है, या हफ्ते में दो बार खोलते हो।
+**छोड़ें यदि:** आपको पूरे दिन वर्कस्पेस एआई एकीकरण की आवश्यकता है, कंपनी खर्च वहन करती है, या आप सप्ताह में केवल एक-दो बार उपयोग करते हैं।
 
-### Bottom line
+### निष्कर्ष
 
-Grok 4.5 free Fable 5 नहीं। Near-frontier: **Intelligence Index 54**, **Coding Agent 76**, strong **cost/token efficiency**।
+ग्रॉक 4.5 मुफ्त फेबल 5 का विकल्प नहीं है। फिर भी यह उच्च श्रेणी में आता है: **Intelligence Index 54**, **Coding Agent 76** तथा मजबूत **लागत-दक्षता**।
 
-भारत out-of-pocket के लिए **₹6,500/year** common list prices पर Plus/Claude/Gemini का लगभग **एक चौथाई** है। Metric **intelligence per rupee** है तो SuperGrok आसान yes है। Checkout confirm करो, एक real month use करो।
+भारतीय उपयोगकर्ताओं के लिए **₹6,500/वर्ष** की कीमत अन्य प्रचलित योजनाओं का केवल **एक चौथाई** है। यदि मुख्य मापदंड **प्रति रुपये बुद्धिमत्ता** है, तो सुपरग्रॉक एक समझदारी भरा विकल्प है।
 
-### Sources and credits
+### स्रोत एवं श्रेय
 
-1. [Grok 4.5 on Artificial Analysis](https://artificialanalysis.ai/models/grok-4-5)
-2. [AA Grok 4.5 launch article](https://artificialanalysis.ai/articles/grok-4-5-brings-spacexai-to-the-the-intelligence-frontier)
+1. [ग्रॉक 4.5 on आर्टिफिशियल एनालिसिस](https://artificialanalysis.ai/models/grok-4-5)
+2. [AA ग्रॉक 4.5 launch article](https://artificialanalysis.ai/articles/grok-4-5-brings-spacexai-to-the-the-intelligence-frontier)
 3. [AA Intelligence Index methodology](https://artificialanalysis.ai/methodology/intelligence-benchmarking)
-4. [Terminal-Bench 2.1 on AA](https://artificialanalysis.ai/evaluations/terminalbench-v2-1)
-5. [SpaceXAI pricing](https://x.ai/pricing)
-6. [Kimi K3 on AA](https://artificialanalysis.ai/models/kimi-k3/)
-7. India plan refs: Plus ~₹1,999/mo, Claude Pro ~₹2,000/mo annual, Gemini ~₹1,950/mo
-8. SuperGrok India annual used here: **₹6,500/year**
+4. [टर्मिनल-बेंच 2.1 on AA](https://artificialanalysis.ai/evaluations/terminalbench-v2-1)
+5. [स्पेसएक्सएआई pricing](https://x.ai/pricing)
+6. [किमी के3 on AA](https://artificialanalysis.ai/models/kimi-k3/)
+7. भारत की योजना संदर्भ: Plus ~₹1,999/माह, क्लॉड प्रो ~₹2,000/माह वार्षिक, जेमिनी ~₹1,950/माह
+8. सुपरग्रॉक भारत वार्षिक दर: **₹6,500/वर्ष**
 
-Chart images Artificial Analysis CDN से। Prices/ranks बदलते हैं। Purchase के लिए live checkout + AA page प्राथमिकता दें।
+चार्ट छवियां आर्टिफिशियल एनालिसिस की वेबसाइट से ली गई हैं। दरें और स्थान समय के साथ बदल सकते हैं।

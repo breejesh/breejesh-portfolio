@@ -1,7 +1,7 @@
 ---
 title: "Kimi K3 derrière le hype : est-ce vraiment un tueur de Fable 5 ?"
 description: "Derrière le hype Kimi K3 : benchmarks Artificial Analysis, LMArena et Moonshot face à Claude Fable 5. Spoiler : fort modèle open, pas un tueur net de Fable 5."
-date: 2026-07-21
+date: 2026-07-19
 tags: [IA, LLM, Benchmarks, Kimi, Moonshot AI]
 coverImage: /assets/images/kimi-k3-cover.webp
 previewImage: /assets/images/kimi-k3-cover.webp

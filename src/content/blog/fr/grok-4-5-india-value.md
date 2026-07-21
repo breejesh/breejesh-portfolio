@@ -1,7 +1,7 @@
 ---
 title: "Grok 4.5 à ₹6 500/an : pourquoi SuperGrok bat les plans IA à ₹24k en Inde"
 description: "SuperGrok / Grok 4.5 coûte ₹6 500 par an en Inde vs ~₹24 000 pour ChatGPT Plus, Claude Pro et Gemini. Benchmarks Artificial Analysis, graphiques live et crédits."
-date: 2026-07-22
+date: 2026-07-20
 tags: [IA, LLM, Grok, SuperGrok, Inde, Prix, Benchmarks, SpaceXAI]
 coverImage: /assets/images/grok-4-5-india-value-cover.webp
 previewImage: /assets/images/grok-4-5-india-value-cover.webp

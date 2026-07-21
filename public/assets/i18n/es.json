@@ -450,7 +450,7 @@
   "FeatureProjects.LiveDemo": "Demo en vivo",
   "FeatureProjects.Overview": "Resumen",
   "FeatureProjects.Highlights": "Puntos clave",
-  "FeatureProjects.Stack": "Stack",
+  "FeatureProjects.Stack": "Tecnologías",
   "FeatureProjects.BackToProjects": "Volver a proyectos",
   "FeatureProjects.NotFound": "Proyecto no encontrado",
   "OtherProjects.Subtitle": "Benchmarks, experimentos y builds más antiguos que aún merecen una mirada.",
@@ -484,7 +484,7 @@
     },
     "innodino": {
       "Title": "InnoDino",
-      "Tagline": "Robótica offline-first para niños",
+      "Tagline": "Robótica sin conexión para niños",
       "Description": "Plataforma asequible de aprendizaje en robótica: kits de hardware modular, programación por bloques en Android y lecciones offline para que los niños construyan y programen sin PC ni internet.",
       "Technologies": [
         "JavaScript",
@@ -496,7 +496,7 @@
       "Highlights": [
         "Kits modulares: matriz LED y DinoBot",
         "Programación visual por bloques en el móvil (sin PC)",
-        "Diseño offline-first para aulas con poca conectividad",
+        "Diseño orientado a la desconexión para aulas con poca conectividad",
         "Currículo y docs de hardware abiertos bajo AGPL"
       ],
       "Body": [

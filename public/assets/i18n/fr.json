@@ -417,7 +417,7 @@
       ]
     },
     {
-      "Title": "Cloud & Infrastructure",
+      "Title": "Cloud et Infrastructure",
       "Desc": "Configuration d'environnements de production sur AWS et Vercel, incluant pipelines CI/CD, gestion des environnements, Docker et surveillance système.",
       "IconClass": "fas fa-cloud",
       "Bullets": [
@@ -457,7 +457,7 @@
   "OtherProjects.GithubCta": "Tout voir sur GitHub",
   "ArchiveProjects.Title": "Travaux antérieurs",
   "ArchiveProjects.Subtitle": "Anciens travaux que j’aime encore montrer. Sources et articles limités, mais les démos et les idées tiennent toujours.",
-  "ArchiveProjects.Badge": "Archive",
+  "ArchiveProjects.Badge": "Archives",
   "PortfolioProjects": {
     "nom-ai": {
       "Title": "NomAI",
@@ -484,7 +484,7 @@
     },
     "innodino": {
       "Title": "InnoDino",
-      "Tagline": "Robotique offline-first pour enfants",
+      "Tagline": "Robotique hors-ligne pour enfants",
       "Description": "Plateforme abordable d’apprentissage robotique : kits hardware modulaires, programmation par blocs sur Android et leçons offline pour que les enfants construisent et codent sans PC ni internet.",
       "Technologies": [
         "JavaScript",
@@ -496,7 +496,7 @@
       "Highlights": [
         "Kits modulaires : matrice LED et DinoBot",
         "Programmation visuelle par blocs sur mobile (sans PC)",
-        "Conception offline-first pour salles de classe peu connectées",
+        "Conception axée sur le hors-ligne pour salles de classe peu connectées",
         "Curriculum et docs hardware ouverts sous AGPL"
       ],
       "Body": [
