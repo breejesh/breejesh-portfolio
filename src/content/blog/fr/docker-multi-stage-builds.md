@@ -1,21 +1,25 @@
 ---
 title: "Réduire la taille de vos images Docker : Le pouvoir des builds multi-étapes"
-description: "Comment réduire la taille de vos images Docker de production de 90 % et sécuriser vos conteneurs grâce aux builds multi-étapes."
+description: "Comment les builds multi-étapes Docker réduisent la taille en production, avec des benchmarks réels sur Go, Node, Java et Python."
 date: 2026-01-02
 tags: [Docker, DevOps, Sécurité]
 coverImage: /assets/images/docker-optimization.webp
 previewImage: /assets/images/docker-optimization.webp
 ---
 
-Les images de conteneurs volumineuses ralentissent les déploiements, consomment de l'espace disque inutile dans vos registres et augmentent la surface d'attaque de sécurité. Si votre image Docker de production contient des compilateurs, des outils de test et des dépendances de build, vous transportez un poids mort qui nuit activement à votre infrastructure.
+Les images volumineuses ralentissent les déploiements, remplissent les registries et élargissent la surface d'attaque. Si l'image de production contient encore compilateurs, runners de tests et outillage de build, vous livrez du poids mort.
 
-C'est là que les **builds multi-étapes** (Multi-Stage Builds) interviennent : ils vous permettent de construire votre application dans un environnement temporaire, puis de copier uniquement les fichiers compilés nécessaires vers une image finale minimale.
+Les **builds multi-étapes** s'attaquent au packaging : vous compilez dans un stage lourd, puis vous ne copiez que l'artefact de runtime dans une petite image finale.
+
+J'ai aussi mesuré cela face à deux alternatives courantes (single-stage et base préconstruite avec deps) sur quatre écosystèmes. Le harness, les Dockerfiles et les chiffres sont ici :
+
+* **GitHub :** [github.com/breejesh/multi-stage-docker-benchmarking](https://github.com/breejesh/multi-stage-docker-benchmarking)
 
 ---
 
-## Le problème : Des images trop lourdes
+## Le problème : des images trop lourdes
 
-Prenons l'exemple d'une application Go classique. Pour la compiler, vous avez besoin du compilateur Go, de sa bibliothèque standard, du cache des modules et de divers outils système. Si vous utilisez un `Dockerfile` à étape unique comme celui-ci :
+Une app Go typique a besoin du compilateur, du cache de modules et d'outils système pour builder. Un Dockerfile mono-étape laisse tout cela dans l'image finale :
 
 ```dockerfile
 FROM golang:1.23
@@ -25,20 +29,89 @@ RUN go build -o main .
 CMD ["./main"]
 ```
 
-Votre image finale dépassera facilement **800 Mo** car elle inclut l'intégralité du compilateur Go, ses outils et le cache des packages locaux. En production, vous n'avez besoin que du binaire compilé (`main`), qui pèse généralement moins de **15 Mo** !
-
-Le même problème se pose pour les applications Node.js. Une image de base `node:20` standard pèse plus de **1 Go**, alors que votre application en production n'a besoin que du runtime Node, de vos `node_modules` de production et des fichiers compilés.
+Au runtime, il ne faut que le binaire. Le même schéma apparaît en Node, Java et Python : le SDK reste dans l'image après le build.
 
 ---
 
-## La solution : Les builds multi-étapes
+## Trois stratégies de build
 
-Avec les builds multi-étapes, vous définissez plusieurs instructions `FROM` dans votre Dockerfile. Chaque instruction `FROM` démarre une nouvelle étape avec une image de base propre. Vous pouvez nommer ces étapes à l'aide du mot-clé `AS` et copier sélectivement des fichiers de l'une à l'autre grâce à `COPY --from`.
+Le benchmark compare trois stratégies de packaging sur le même petit service HTTP `/health` par langage :
 
-### Exemple avec Go
+1. **Single-stage :** une image installe, build et exécute.
+2. **Base préconstruite :** les deps (et souvent le SDK) vivent dans une base custom ; le build de l'app copie le code par-dessus. L'image finale reste grosse.
+3. **Multi-stage :** le builder a le SDK ; le stage final ne reçoit que l'artefact (binaire, `dist/`, JAR ou extrait d'env conda).
+
+L'ordre des couches est fixe dans chaque Dockerfile (manifest → deps → source → build) pour comparer les stratégies, pas des gains de cache accidentels.
+
+---
+
+## Résultats du benchmark
+
+Dernière exécution dans le repo : **2026-07-21**, Darwin x86_64, moyennes wall-clock, tailles non compressées via `docker image inspect`. Graphiques :
+
+![Taille d'image finale par stratégie](https://raw.githubusercontent.com/breejesh/multi-stage-docker-benchmarking/refs/heads/main/assets/chart_size.png)
+
+![Temps de build à froid / sans cache](https://raw.githubusercontent.com/breejesh/multi-stage-docker-benchmarking/refs/heads/main/assets/chart_cold.png)
+
+![Temps de rebuild sur changement de code](https://raw.githubusercontent.com/breejesh/multi-stage-docker-benchmarking/refs/heads/main/assets/chart_incremental.png)
+
+![Temps de rebuild sur changement de dépendances](https://raw.githubusercontent.com/breejesh/multi-stage-docker-benchmarking/refs/heads/main/assets/chart_dependency.png)
+
+### Taille d'image (le multi-stage gagne)
+
+| Stack | Single-stage | Pre-built | Multi-stage | Baisse vs single |
+|---|---:|---:|---:|---:|
+| Go | 69.2 MB | 69.2 MB | **5.4 MB** | **~92%** |
+| Node.js (TypeScript) | 64.3 MB | 64.3 MB | **47.4 MB** | **~26%** |
+| Java (fat JAR) | 231.7 MB | 231.7 MB | **69.9 MB** | **~70%** |
+| Python (Conda) | 355.1 MB | 355.1 MB | **85.7 MB** | **~76%** |
+
+Sur ces apps, le multi-stage a réduit la taille finale d'environ **26% à 92%**. Le pre-built égale le single-stage en taille parce qu'il livre volontairement tout le toolchain.
+
+Go est l'extrême : un binaire statique sur un runner type Alpine/`scratch` et presque tout le reste disparaît. Node baisse moins car la prod a encore besoin du runtime Node et des `node_modules` de prod. Java et Conda se placent au milieu.
+
+### Vitesse de rebuild (le pre-built gagne sur les edits de code)
+
+Quand seul le code applicatif change :
+
+| Stack | Single (s) | Pre-built (s) | Multi-stage (s) |
+|---|---:|---:|---:|
+| Go | 1.05 | **0.68** | 1.22 |
+| Node | 1.55 | **1.09** | 2.08 |
+| Java | 2.26 | **1.50** | 1.92 |
+| Python (Conda) | 1.25 | **0.31** | 0.98 |
+
+Le pre-built a été le plus rapide sur les **rebuilds purement code dans les quatre** écosystèmes. Les deps sont déjà dans la base ; Docker recompile surtout le code app.
+
+Les builds à froid et les changements de manifest de deps sont **mitigés**. Les temps cold et dep-change du pre-built incluent la reconstruction de la base custom (juste pour un agent CI froid). Le multi-stage ne gagne pas toujours en wall-clock ; pour Conda, le cold était plus lent sur cette run (~25s multi-stage vs ~16s single).
+
+### Smoke tests
+
+Toutes les images, toutes stratégies confondues, ont répondu à `/health`. Plus petit ne veut pas dire cassé si le stage runtime est bien monté.
+
+### Enseignement pratique
+
+* **Livrez en multi-stage** pour la taille et la surface d'attaque en production.
+* **Utilisez une base préconstruite** quand la vitesse de rebuild sur pur code domine (images de dev, certains chemins CI). Image de confort, pas runtime de prod.
+* **Single-stage** reste une baseline simple. Rarement le meilleur sur la taille, parfois seulement correct sur la vitesse.
+
+Pour reproduire ou étendre les chiffres :
+
+```bash
+git clone https://github.com/breejesh/multi-stage-docker-benchmarking.git
+cd multi-stage-docker-benchmarking
+./benchmark.sh
+# or: python3 benchmark.py --apps go node java conda --runs 3
+```
+
+---
+
+## Dockerfiles multi-étapes
+
+### Go
 
 ```dockerfile
-# Étape 1 : Build
+# Stage 1: Build
 FROM golang:1.23-alpine AS builder
 WORKDIR /app
 COPY go.mod go.sum ./
@@ -46,7 +119,7 @@ RUN go mod download
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o main .
 
-# Étape 2 : Runtime minimal
+# Stage 2: Runtime
 FROM alpine:3.20
 RUN apk --no-cache add ca-certificates
 WORKDIR /app
@@ -54,17 +127,17 @@ COPY --from=builder /app/main .
 CMD ["./main"]
 ```
 
-**Points clés :**
-- `go mod download` est séparé de `COPY . .` afin que le téléchargement de vos dépendances soit mis en cache d'un build à l'autre (l'étape ne s'exécute que si `go.mod` o `go.sum` changent).
-- `-ldflags="-s -w"` supprime les symboles de débogage et les informations DWARF, ce qui réduit encore la taille du binaire.
-- `ca-certificates` est ajouté à l'image finale pour permettre à votre application d'effectuer des appels HTTPS.
+**Notes :**
+- Séparez `go mod download` de `COPY . .` pour cacher les deps quand seul le source change.
+- `-ldflags="-s -w"` retire les symboles de debug.
+- `ca-certificates` garde le HTTPS dans l'image slim.
 
-### Exemple avec Node.js / TypeScript
+### Node.js / TypeScript
 
-Pour Node.js, l'approche est légèrement différente puisque vous avez besoin du runtime Node en production (contrairement à Go qui produit un binaire autonome) :
+Node a encore besoin d'un runtime en production ; le multi-stage aide en retirant devDependencies et source :
 
 ```dockerfile
-# Étape 1 : Installation complète et build
+# Stage 1: Install all dependencies and build
 FROM node:20-alpine AS builder
 WORKDIR /app
 COPY package.json package-lock.json ./
@@ -72,7 +145,7 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# Étape 2 : Image finale avec dépendances de production uniquement
+# Stage 2: Production runtime with only production dependencies
 FROM node:20-alpine AS production
 WORKDIR /app
 COPY package.json package-lock.json ./
@@ -81,26 +154,13 @@ COPY --from=builder /app/dist ./dist
 CMD ["node", "dist/index.js"]
 ```
 
-**Points clés :**
-- `npm ci` dans l'étape builder installe *toutes* les dépendances (y compris les devDependencies comme TypeScript, ESLint, frameworks de test).
-- `npm ci --omit=dev` dans l'étape de production n'installe *que* les dépendances requises au runtime, évitant ainsi d'embarquer les outils de build.
-- Seul le dossier de sortie compilé `dist/` est copié depuis le builder, laissant de côté les fichiers sources `.ts`, les tests et les configurations de développement.
-
-### Comparatif de taille des images
-
-| Stack | Image à étape unique | Image multi-étapes | Réduction |
-|---|---|---|---|
-| Go (`golang:1.23` → `alpine`) | ~850 Mo | ~15 Mo | **98%** |
-| Node.js (`node:20` → `node:20-alpine`, deps prod) | ~1.1 Go | ~180 Mo | **84%** |
-| Go (`golang:1.23` → `scratch`) | ~850 Mo | ~8 Mo | **99%** |
+C'est pourquoi le gain Node (~26% dans le bench) est plus faible que Go (~92%) : vous payez encore Node + modules de prod.
 
 ---
 
-## N'oubliez pas le fichier `.dockerignore`
+## N'oubliez pas `.dockerignore`
 
-Les builds multi-étapes optimisent le contenu de votre image finale, mais le fichier `.dockerignore` permet d'optimiser les données envoyées au démon Docker lors du build. Sans lui, Docker envoie l'intégralité du répertoire du projet (y compris le dossier `.git/`, les `node_modules/` locaux, les fichiers de test et les variables d'environnement locales), augmentant inutilement le temps de build.
-
-Créez un fichier `.dockerignore` à la racine de votre projet :
+Le multi-stage contrôle ce qui finit dans l'image finale. `.dockerignore` contrôle ce qui part au démon comme contexte de build. Sans lui, Docker peut uploader `.git/`, des `node_modules/` locaux, des fixtures de tests et des fichiers d'env à chaque build.
 
 ```
 .git
@@ -116,17 +176,15 @@ Dockerfile
 docker-compose*.yml
 ```
 
-Cela peut réduire la taille du contexte de build de plusieurs centaines de mégaoctets à seulement quelques mégaoctets, accélérant considérablement le processus, en particulier dans les pipelines CI/CD.
+Les apps du benchmark ignorent les artefacts host de la même façon pour garder des timings comparables.
 
 ---
 
-## Durcissement de la sécurité : Au-delà de la taille
+## Durcissement sécurité : au-delà de la taille
 
-Réduire la taille des images améliore naturellement la sécurité (moins de paquets = moins de failles potentielles), mais vous pouvez aller plus loin grâce à ces bonnes pratiques :
+Moins de paquets, moins de chemins CVE, mais la taille ne fait pas tout.
 
-### Exécuter en tant qu'utilisateur non-root
-
-Par défaut, les conteneurs s'exécutent avec les privilèges `root`. Si un attaquant parvient à exploiter une faille dans votre application, il disposera des droits root dans le conteneur. Veillez à toujours créer et utiliser un utilisateur non privilégié :
+### Tourner en utilisateur non-root
 
 ```dockerfile
 FROM alpine:3.20
@@ -137,41 +195,40 @@ USER appuser
 CMD ["./main"]
 ```
 
-### Utiliser des images de base `scratch` ou Distroless
+### Bases `scratch` ou Distroless
 
-Pour Go et les langages compilés statiquement, vous pouvez aller encore plus loin qu'Alpine en utilisant `scratch` (un système de fichiers vide) ou les images **distroless** de Google :
+Pour des binaires statiques :
 
 ```dockerfile
-# scratch : le strict minimum, aucun shell, aucun gestionnaire de paquets
+# scratch : minimum absolu, pas de shell, pas de gestionnaire de paquets
 FROM scratch
 COPY --from=builder /app/main /main
 CMD ["/main"]
 ```
 
 ```dockerfile
-# distroless : pas de shell, mais inclut les certificats CA, fuseaux horaires et glibc
+# distroless : pas de shell, mais CA certs, données de fuseau et glibc
 FROM gcr.io/distroless/static-debian12
 COPY --from=builder /app/main /main
 CMD ["/main"]
 ```
 
-**Avantages et inconvénients :**
-| Image de base | Taille | Présence d'un Shell | Gestionnaire de paquets | Usage recommandé |
+| Image de base | Taille | Shell | Gestionnaire de paquets | Idéal pour |
 |---|---|---|---|---|
-| `alpine:3.20` | ~7 Mo | ✅ | ✅ (`apk`) | Usage général, débogage facile |
-| `distroless/static` | ~2 Mo | ❌ | ❌ | Go, Rust, C++ en production |
-| `scratch` | 0 Mo | ❌ | ❌ | Binaires statiques, sécurité maximale |
+| `alpine:3.20` | ~7 MB | ✅ | ✅ (`apk`) | Usage général, debug |
+| `distroless/static` | ~2 MB | ❌ | ❌ | Prod Go, Rust, C++ |
+| `scratch` | 0 MB | ❌ | ❌ | Sécurité max, binaires statiques |
 
-> En l'absence de shell, un attaquant ne peut pas exécuter de commandes arbitraires ou explorer le système de fichiers, ce qui représente un atout de sécurité majeur.
+Sans shell, un attaquant ne peut pas faire un `exec` dans le conteneur et lancer des commandes arbitraires aussi facilement.
 
 ---
 
-## Modèle de Dockerfile prêt pour la production
+## Motif de Dockerfile prêt pour la production
 
-Voici un Dockerfile complet et robuste combinant l'ensemble de ces pratiques : build multi-étapes, utilisateur non-root, vérification de santé (healthcheck), étiquetage standardisé et gestion correcte des signaux :
+Un motif Go plus complet : multi-stage, non-root, health check, labels et layout compatible signaux :
 
 ```dockerfile
-# Étape 1 : Build
+# Stage 1: Build
 FROM golang:1.23-alpine AS builder
 RUN apk --no-cache add ca-certificates
 WORKDIR /app
@@ -182,11 +239,11 @@ RUN CGO_ENABLED=0 GOOS=linux go build \
     -ldflags="-s -w" \
     -o /app/server .
 
-# Étape 2 : Production
+# Stage 2: Production
 FROM alpine:3.20
 
-LABEL org.opencontainers.image.source="https://github.com/votre-org/votre-app"
-LABEL org.opencontainers.image.description="Description de votre application"
+LABEL org.opencontainers.image.source="https://github.com/your-org/your-app"
+LABEL org.opencontainers.image.description="Your application description"
 
 RUN apk --no-cache add ca-certificates tzdata \
     && addgroup -S appgroup \
@@ -204,34 +261,36 @@ EXPOSE 8080
 CMD ["./server"]
 ```
 
-**Pourquoi ces éléments sont importants :**
-- Les **labels OCI** permettent de lier les images à leurs dépôts sources dans vos registres.
-- **`tzdata`** assure le bon fonctionnement des opérations liées aux fuseaux horaires.
-- **`HEALTHCHECK`** permet à Docker ou aux orchestrateurs (ECS, Kubernetes) de détecter et de redémarrer automatiquement les conteneurs défaillants.
-- **`EXPOSE`** documente le port d'écoute (informatif, mais crucial pour les outils d'orchestration).
+**Pourquoi chaque pièce compte :**
+- **OCI Labels** relient l'image au dépôt dans les registries.
+- **`tzdata`** pour le code sensible aux fuseaux (`time.LoadLocation` en Go).
+- **`HEALTHCHECK`** permet à Docker/Kubernetes de redémarrer les conteneurs malsains.
+- **`EXPOSE`** documente le port pour les humains et les orchestrateurs.
 
 ---
 
-## Bonus : Accélérer les builds avec le cache BuildKit
+## Bonus : accélérer les builds avec les cache mounts BuildKit
 
-Docker BuildKit permet d'utiliser des montages de cache qui partagent les dossiers de vos gestionnaires de paquets d'un build à l'autre, accélérant ainsi l'installation des dépendances :
+BuildKit (par défaut depuis Docker 23.0) peut garder des caches de paquets entre builds même si des couches précédentes changent :
 
 ```dockerfile
-# Mettre en cache les dépendances Go
+# Cache Go module downloads across builds
 RUN --mount=type=cache,target=/go/pkg/mod \
     go mod download
 
-# Mettre en cache les paquets npm  
+# Cache npm packages across builds
 RUN --mount=type=cache,target=/root/.npm \
     npm ci
 ```
 
-Contrairement au cache de couches traditionnel, le cache de type `--mount=type=cache` est conservé même si les couches précédentes ont été modifiées. C'est une optimisation précieuse pour vos environnements de CI.
+Surtout utile en CI, où le cache de couches est souvent froid. Ça complète le packaging multi-stage ; ça ne le remplace pas.
 
 ---
 
 ## Conclusion
 
-Les builds multi-étapes sont indispensables à tout workflow DevOps moderne. En isolant les outils de build de votre image finale, vous accélérez les temps de démarrage, facilitez le transfert de vos images et réduisez considérablement votre surface d'attaque.
+Le multi-stage est le défaut que je veux pour les images de production. Le benchmark confirme le gain de taille sur Go, Node, Java et Python, d'environ un quart à plus de 90% selon le runtime encore nécessaire.
 
-Associez-les à un fichier `.dockerignore` pour des transferts de contexte plus rapides, à des utilisateurs non-root et des bases distroless pour la sécurité, et enfin aux caches de BuildKit pour optimiser vos pipelines de CI/CD. Grâce à ces pratiques, vos conteneurs de production seront légers, sécurisés et performants.
+Ce n'est pas gratuit sur tous les axes. Les bases préconstruites peuvent reconstruire plus vite un pur changement de code. Cold et dep rebuilds dépendent de l'écosystème. Mesurez vos propres apps si la latence de rebuild est le goulot.
+
+Combinez l'essentiel : multi-stage pour ce que vous livrez, `.dockerignore` pour le contexte, non-root (et distroless/`scratch` quand c'est pertinent) pour la sécurité, health checks pour l'ops, caches BuildKit pour la CI. Harness et graphiques de ce billet : [multi-stage-docker-benchmarking](https://github.com/breejesh/multi-stage-docker-benchmarking).
