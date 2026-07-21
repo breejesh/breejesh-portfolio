@@ -32,12 +32,14 @@
 }
 
 .blog-post {
-  background-color: var(--bg-secondary);
+  background-color: var(--surface-elevated, var(--bg-secondary));
   border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 40px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
   transition: all 0.3s;
+  overflow: hidden;
+  min-width: 0;
 }
 
 .post-cover-wrapper {
@@ -227,7 +229,7 @@
 }
 
 :host ::ng-deep .post-content pre {
-  background: #061214 !important;
+  background: var(--code-bg, #000000) !important;
   padding: 20px;
   border-radius: 8px;
   overflow-x: auto;
@@ -269,6 +271,128 @@
   margin: 0 0 24px 0;
   font-style: italic;
   color: var(--text-secondary);
+}
+
+/* Markdown GFM tables: scroll shell + readable cells */
+:host ::ng-deep .post-content .md-table-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 28px 0;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--surface-elevated, var(--bg-primary));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+:host ::ng-deep .post-content table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  background: transparent;
+}
+
+/* Fallback before/without JS wrap: allow horizontal scroll on the table itself */
+:host ::ng-deep .post-content > analog-markdown table,
+:host ::ng-deep .post-content analog-markdown > div > table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 28px 0;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--surface-elevated, var(--bg-primary));
+}
+
+:host ::ng-deep .post-content .md-table-wrap table {
+  display: table;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+:host ::ng-deep .post-content thead {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+:host ::ng-deep .post-content th {
+  color: var(--text-primary);
+  font-weight: 650;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  text-align: left;
+  vertical-align: bottom;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+  background: transparent;
+}
+
+:host ::ng-deep .post-content td {
+  color: var(--text-secondary);
+  text-align: left;
+  vertical-align: top;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-color);
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+:host ::ng-deep .post-content tbody tr:last-child td {
+  border-bottom: none;
+}
+
+:host ::ng-deep .post-content tbody tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+:host ::ng-deep .post-content tbody tr:hover td {
+  background: var(--accent-opacity);
+}
+
+:host ::ng-deep .post-content th:first-child,
+:host ::ng-deep .post-content td:first-child {
+  padding-left: 16px;
+}
+
+:host ::ng-deep .post-content th:last-child,
+:host ::ng-deep .post-content td:last-child {
+  padding-right: 16px;
+}
+
+:host ::ng-deep .post-content td code {
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+:host ::ng-deep .post-content td a {
+  word-break: break-all;
+}
+
+:host-context(body.light-theme) ::ng-deep .post-content .md-table-wrap,
+:host-context(html.light-theme) ::ng-deep .post-content .md-table-wrap {
+  background: var(--bg-secondary);
+  box-shadow: none;
+}
+
+:host-context(body.light-theme) ::ng-deep .post-content thead,
+:host-context(html.light-theme) ::ng-deep .post-content thead {
+  background: rgba(15, 23, 42, 0.04);
+}
+
+:host-context(body.light-theme) ::ng-deep .post-content tbody tr:nth-child(even) td,
+:host-context(html.light-theme) ::ng-deep .post-content tbody tr:nth-child(even) td {
+  background: rgba(15, 23, 42, 0.03);
 }
 
 .comments-section {

@@ -6,21 +6,26 @@
 
 
 :root {
-  --bg-primary: #030c0d;
-  --bg-secondary: #081618;
-  --text-primary: #e0f2f1;
-  --text-secondary: #859c98;
-  --border-color: #122528;
+  color-scheme: dark;
+  /* Near-black dark theme (Grok / OpenCode / modern AI site feel) */
+  --bg-primary: #050505;
+  --bg-secondary: #0a0a0a;
+  --text-primary: #f4f4f5;
+  --text-secondary: #a1a1aa;
+  --border-color: #1c1c1c;
   --accent-color: #64ffda;
   --accent-color-hover: #52e0c0;
-  --accent-opacity: rgba(100, 255, 218, 0.07);
-  --header-bg: rgba(3, 12, 13, 0.85);
-  --header-shadow: rgba(0, 0, 0, 0.6);
-  --dropdown-bg: #081618;
-  --dropdown-text: #e0f2f1;
+  --accent-opacity: rgba(100, 255, 218, 0.08);
+  --header-bg: rgba(5, 5, 5, 0.82);
+  --header-shadow: rgba(0, 0, 0, 0.75);
+  --dropdown-bg: #0a0a0a;
+  --dropdown-text: #f4f4f5;
+  --surface-elevated: #111111;
+  --code-bg: #000000;
 }
 
 body.light-theme, html.light-theme {
+  color-scheme: light;
   --bg-primary: #f4f6fb;
   --bg-secondary: #F7F7F7;
   --text-primary: #0f172a;
@@ -33,6 +38,8 @@ body.light-theme, html.light-theme {
   --header-shadow: rgba(0, 0, 0, 0.05);
   --dropdown-bg: #ffffff;
   --dropdown-text: #0f172a;
+  --surface-elevated: #ffffff;
+  --code-bg: #0f172a;
 }
 
 body{

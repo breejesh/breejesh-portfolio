@@ -49,11 +49,11 @@
 
 /* Featured Magazine Card */
 .featured-magazine-card {
-  background-color: var(--bg-secondary);
+  background-color: var(--surface-elevated, var(--bg-secondary));
   border: 1px solid var(--border-color);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
   transition: all 0.3s;
   display: flex;
   flex-direction: column;
@@ -175,7 +175,7 @@
 }
 
 .blog-card {
-  background-color: var(--bg-secondary);
+  background-color: var(--surface-elevated, var(--bg-secondary));
   border: 1px solid var(--border-color);
   border-radius: 16px;
   overflow: hidden;

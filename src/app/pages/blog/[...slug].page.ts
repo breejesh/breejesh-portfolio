@@ -1,4 +1,4 @@
-import { Component, inject, effect, signal } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, inject, effect, signal } from '@angular/core';
 import { CommonModule, AsyncPipe } from '@angular/common';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
@@ -27,13 +27,15 @@ export interface BlogAttributes {
   templateUrl: './[...slug].page.html',
   styleUrls: ['./[...slug].page.scss']
 })
-export default class BlogPostComponent {
+export default class BlogPostComponent implements AfterViewChecked {
   private router = inject(Router);
   public route = inject(ActivatedRoute);
   private languageService = inject(LanguageService);
   private contentFiles = injectContentFilesMap();
   private firebaseService = inject(FirebaseService);
   private seoService = inject(SeoService);
+  private host = inject(ElementRef<HTMLElement>);
+  private tablesWrappedForSlug = '';
 
   readonly views = signal(0);
   readonly likesCount = signal(0);
@@ -220,6 +222,45 @@ export default class BlogPostComponent {
       return parts.slice(1).join('/');
     }
     return clean;
+  }
+
+  ngAfterViewChecked(): void {
+    const post = this.postSignal();
+    if (!post?.slug || !post.content) {
+      return;
+    }
+
+    // Re-wrap when the post changes; skip once done for current slug
+    if (this.tablesWrappedForSlug === post.slug) {
+      return;
+    }
+
+    const root = this.host.nativeElement.querySelector('.post-content');
+    if (!root) {
+      return;
+    }
+
+    const tables = root.querySelectorAll('table');
+    if (!tables.length) {
+      // Markdown may still be rendering; only stop once body content exists
+      if (root.querySelector('p, h1, h2, h3, h4, ul, ol, pre, img, blockquote')) {
+        this.tablesWrappedForSlug = post.slug;
+      }
+      return;
+    }
+
+    tables.forEach((table: HTMLTableElement) => {
+      const parent = table.parentElement;
+      if (!parent || parent.classList.contains('md-table-wrap')) {
+        return;
+      }
+      const wrap = document.createElement('div');
+      wrap.className = 'md-table-wrap';
+      parent.insertBefore(wrap, table);
+      wrap.appendChild(table);
+    });
+
+    this.tablesWrappedForSlug = post.slug;
   }
 
   public toggleLike(baseSlug: string) {
