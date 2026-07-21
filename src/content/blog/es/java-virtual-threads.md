@@ -1,6 +1,6 @@
 ---
 title: "Hilos Virtuales en Java 21: ¿Son los Thread Pools Finalmente Obsoletos?"
-description: "Un análisis profundo de Project Loom en Java. Descubre cómo los hilos virtuales permiten millones de tareas concurrentes en una sola JVM y eliminan el agotamiento tradicional de los pools de hilos."
+description: "Cómo los hilos virtuales de Project Loom en Java permiten millones de tareas concurrentes en una sola JVM y reducen el agotamiento tradicional de los pools de hilos."
 date: 2026-02-15
 tags: [Java, Diseño de sistemas]
 coverImage: /assets/images/java-virtual-threads.webp
@@ -9,7 +9,7 @@ previewImage: /assets/images/java-virtual-threads.webp
 
 Durante casi dos décadas, el patrón estándar para manejar la alta concurrencia en Java ha sido el pool de hilos (thread pool). Cada vez que un servidor necesitaba procesar peticiones simultáneas, los desarrolladores configuraban ejecutores para gestionar un número fijo de hilos del sistema operativo.
 
-Pero con la introducción de los **Hilos Virtuales** (Project Loom) en Java 21, el panorama de la concurrencia en Java ha sido completamente reescrito.
+Pero con la introducción de los **Hilos Virtuales** (Project Loom) en Java 21, la concurrencia en Java funciona de forma muy distinta.
 
 ### El Problema con los Hilos de Plataforma
 
@@ -30,7 +30,7 @@ Múltiples hilos virtuales se multiplexan sobre un pequeño grupo de hilos porta
 
 Cuando la operación I/O se completa, la JVM reanuda el hilo virtual donde lo dejó.
 
-#### La Magia de `Thread.ofVirtual()`
+#### Crear hilos virtuales con `Thread.ofVirtual()`
 
 Crear un hilo virtual es tan simple como:
 
@@ -63,7 +63,7 @@ Obtienes los beneficios de rendimiento de la programación reactiva mientras esc
 
 ### Cuándo NO Usar Hilos Virtuales
 
-Los hilos virtuales no son una bala de plata. Debes evitarlos para:
+Los hilos virtuales no son una solución universal. Debes evitarlos para:
 *   **Tareas limitadas por CPU** (CPU-bound): Codificación de video, cálculos matemáticos pesados o bucles cerrados. Dado que los hilos virtuales todavía se ejecutan en hilos portadores del SO, no harán que tu CPU procese números más rápido.
 *   **Hilos Anclados (Pinned Threads)**: Las operaciones que llaman a código nativo (JNI) o utilizan bloques `synchronized` blocks pueden "anclar" el hilo virtual a su hilo portador del SO, impidiendo que la JVM lo intercambie. Migra los bloques `synchronized` a `ReentrantLock` al adoptar hilos virtuales.
 
@@ -104,4 +104,4 @@ La prueba de carga simuló **3,000 peticiones en total** a diferentes niveles de
 
 ### Conclusión
 
-Los hilos virtuales de Java 21 son la actualización más significativa del lenguaje desde las expresiones Lambda en Java 8. Al hacer que los hilos sean esencialmente \"gratuitos\", Project Loom elimina la necesidad de paradigmas reactivos complejos y pools de hilos sobredimensionados, devolviendo la simplicidad a las aplicaciones Java de alto rendimiento.
+Los hilos virtuales de Java 21 son uno de los mayores cambios de concurrencia desde las lambdas en Java 8. Al abaratar la creación de hilos, Project Loom reduce la necesidad de código reactivo complejo y de pools sobredimensionados, y simplifica las aplicaciones Java de alta concurrencia.

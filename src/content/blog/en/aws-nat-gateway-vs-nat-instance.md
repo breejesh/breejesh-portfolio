@@ -19,7 +19,7 @@ But you don't have to keep paying for things just because "that's how everyone e
 
 ## The True Cost: NAT Gateway vs. NAT Instance
 
-Before jumping into the fix, let's look at why NAT Gateway drains your wallet so fast. AWS charges **~$0.045/hour** just for running a NAT Gateway (roughly **$32.40/month** before any data moves), plus **$0.045 per GB** of data processed. If your architecture moves terabytes of data to the internet or other AWS services outside your VPC, that processing fee stacks up fast — and it scales linearly with your traffic volume, so there are no volume discounts to save you.
+Before jumping into the fix, let's look at why NAT Gateway drains your wallet so fast. AWS charges **~$0.045/hour** just for running a NAT Gateway (roughly **$32.40/month** before any data moves), plus **$0.045 per GB** of data processed. If your architecture moves terabytes of data to the internet or other AWS services outside your VPC, that processing fee stacks up fast, and it scales linearly with your traffic volume, so there are no volume discounts to save you.
 
 A **NAT Instance**, on the other hand, changes the game entirely:
 
@@ -134,7 +134,7 @@ aws ec2 replace-route \
 
 > Make sure the instance's IAM Role has permissions for `ec2:AssociateAddress` and `ec2:ReplaceRoute`.
 
-With this setup, recovery from an instance failure is typically under **2-3 minutes** — not instant like NAT Gateway's built-in HA, but more than acceptable for non-production workloads.
+With this setup, recovery from an instance failure is typically under **2-3 minutes**. That is not instant like NAT Gateway's built-in HA, but more than acceptable for non-production workloads.
 
 ---
 

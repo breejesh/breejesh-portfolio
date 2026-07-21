@@ -1,6 +1,6 @@
 ---
 title: "Running LLMs Locally on Android: Gemma 2B with LiteRT"
-description: "How to run Google's Gemma models offline on Android using LiteRT, with a real-world look at NomAI—the open-source offline calorie tracker."
+description: "How to run Google's Gemma models offline on Android using LiteRT, with a real-world look at NomAI, the open-source offline calorie tracker."
 date: 2026-07-17
 tags: [AI, Android, LLM, Mobile Development]
 coverImage: /assets/images/gemma-android.webp
@@ -20,7 +20,7 @@ For a long time, the standard pattern for mobile AI has been API-based: send a r
 * **Privacy Risks:** User data, chat history, and personal inputs leave the phone and land on external servers. For health, financial, or personal data, this is often a dealbreaker.
 * **Network Dependencies:** If the user has a poor connection or is in airplane mode, the AI breaks. In many parts of the world, reliable mobile internet simply cannot be assumed.
 * **Recurring Server Costs:** Every API call incurs execution fees that scale linearly with your user base. A viral app can go from $50/month to $50,000/month overnight.
-* **Latency:** Even on fast connections, a round trip to a cloud LLM adds 500ms–2s of latency per request. On-device inference can respond in under 300ms for short prompts.
+* **Latency:** Even on fast connections, a round trip to a cloud LLM adds 500ms-2s of latency per request. On-device inference can respond in under 300ms for short prompts.
 
 **On-device AI solves all of these.** By using LiteRT and a compressed Gemma model, your application can run inference locally. Your users get instant responses, complete privacy, and zero internet overhead.
 
@@ -37,7 +37,7 @@ Not all Gemma variants are suitable for mobile. Choosing the right model and qua
 | Gemma 2B | 2B | FP16 | ~5 GB | ~6 GB | Best quality, flagship only |
 | Gemma 7B | 7B | INT4 | ~4.5 GB | ~8 GB | High-end flagships with 12+ GB RAM |
 
-**Practical recommendation:** For most production apps, **Gemma 2B with INT4 quantization** is the sweet spot. It delivers surprisingly coherent outputs while fitting comfortably on devices with 6 GB+ of RAM — which covers the vast majority of Android phones sold since 2021.
+**Practical recommendation:** For most production apps, **Gemma 2B with INT4 quantization** is the sweet spot. It delivers surprisingly coherent outputs while fitting comfortably on devices with 6 GB+ of RAM, which covers the vast majority of Android phones sold since 2021.
 
 > INT4 quantization compresses each model weight from 16 bits to 4 bits, reducing the file size by roughly 75% with minimal quality degradation for most tasks.
 
@@ -51,7 +51,7 @@ Most calorie trackers demand accounts, show ads, and send your food log data to 
 
 * **GitHub Repository:** [github.com/breejesh/nom.ai](https://github.com/breejesh/nom.ai)
 
-In NomAI, when a user types *"I had two scrambled eggs and a piece of toast"*, the local Gemma model parses the query, estimates the macros (proteins, carbs, fats), and returns a structured response — fully on-device, with zero backend APIs.
+In NomAI, when a user types *"I had two scrambled eggs and a piece of toast"*, the local Gemma model parses the query, estimates the macros (proteins, carbs, fats), and returns a structured response fully on-device, with zero backend APIs.
 
 ---
 
@@ -75,7 +75,7 @@ For mobile devices, use quantized model files. You can find pre-converted models
 - **Kaggle:** Search for Gemma LiteRT models on [kaggle.com/models/google/gemma](https://kaggle.com/models/google/gemma)
 - **Hugging Face:** Look for community-converted models in `.task` format on the LiteRT community page
 
-Place the model file in your app's internal storage (not `assets/` — the file is too large for APK bundling). You will typically download it on first launch or bundle it as an Android App Bundle asset pack.
+Place the model file in your app's internal storage (not `assets/`; the file is too large for APK bundling). You will typically download it on first launch or bundle it as an Android App Bundle asset pack.
 
 ### 3. Initialize the Engine
 
@@ -153,13 +153,13 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
 }
 ```
 
-> **Important:** Always call `close()` when the engine is no longer needed. A 2B parameter model occupies 2+ GB of RAM — failing to release it will trigger aggressive OS memory kills on other apps or your own.
+> **Important:** Always call `close()` when the engine is no longer needed. A 2B parameter model occupies 2+ GB of RAM. Failing to release it will trigger aggressive OS memory kills on other apps or your own.
 
 ---
 
 ## Prompt Engineering for Structured Output
 
-One of the trickiest parts of on-device LLM integration is getting **reliable, structured output**. Cloud models like GPT-4 or Gemini Pro have robust instruction-following capabilities, but smaller 2B models need more careful prompting.
+One of the trickiest parts of on-device LLM integration is getting **reliable, structured output**. Cloud models like GPT-4 or Gemini Pro follow instructions more reliably, but smaller 2B models need more careful prompting.
 
 For NomAI's nutritional analysis, a well-crafted system prompt makes the difference between usable results and garbage:
 
@@ -182,9 +182,9 @@ Meal: {user_input}
 
 **Tips for reliable structured output from small models:**
 - **Be extremely explicit** about the output format. Include a complete example in the prompt if needed.
-- **Use negative instructions** ("Do not include any text outside the JSON") — small models tend to add explanatory text unless told not to.
-- **Validate and retry** — wrap your JSON parsing in a try/catch and retry with a rephrased prompt if parsing fails. Expect ~5-10% failure rate on first attempt with INT4 models.
-- **Keep prompts short** — 2B models have limited context windows (typically 2048–8192 tokens). Long system prompts eat into your response budget.
+- **Use negative instructions** ("Do not include any text outside the JSON"). Small models tend to add explanatory text unless told not to.
+- **Validate and retry:** wrap your JSON parsing in a try/catch and retry with a rephrased prompt if parsing fails. Expect ~5-10% failure rate on first attempt with INT4 models.
+- **Keep prompts short.** 2B models have limited context windows (typically 2048-8192 tokens). Long system prompts eat into your response budget.
 
 ---
 
@@ -195,7 +195,7 @@ To keep your mobile app smooth and prevent crashes:
 * **Background Execution:** Always run initialization and generation in coroutines on `Dispatchers.IO` to avoid blocking the main UI thread. Model loading alone can take 3-8 seconds on mid-range devices.
 * **Hardware Acceleration:** LiteRT automatically delegates to the **GPU delegate** or **NNAPI delegate** when available. On devices with a dedicated NPU (like Google Tensor or Qualcomm Hexagon chips), this can double inference speed.
 * **Memory Management:** Mobile operating systems actively terminate apps that exceed memory limits. Before initializing a 2B model, check available RAM with `ActivityManager.getMemoryInfo()` and show a graceful fallback for low-memory devices (under 4 GB total RAM).
-* **Model Preloading:** On app launch, start loading the model immediately in the background — even before the user navigates to the AI feature. This hides the initialization latency behind normal app usage.
+* **Model Preloading:** On app launch, start loading the model immediately in the background, even before the user navigates to the AI feature. This hides the initialization latency behind normal app usage.
 * **Thermal Throttling:** Extended inference sessions generate significant heat. Monitor thermal state with `PowerManager.getThermalStatus()` and reduce generation speed or batch size when the device is thermally constrained.
 
 ---
@@ -211,9 +211,9 @@ Here are approximate benchmarks to set realistic expectations (measured on Gemma
 | Flagship | Pixel 9 Pro | ~25-35 tok/s | ~2-3s | ~2.5 GB |
 | Flagship (NPU) | Samsung S24 Ultra | ~30-40 tok/s | ~2-3s | ~2.5 GB |
 
-*These are approximate figures — actual performance varies based on prompt length, concurrent app activity, thermal state, and OS version.*
+*These are approximate figures. Actual performance varies based on prompt length, concurrent app activity, thermal state, and OS version.*
 
-For context, comfortable reading speed is about 4 tokens/second, so even budget devices can generate faster than a user can read — making the experience feel responsive.
+For context, comfortable reading speed is about 4 tokens/second, so even budget devices can generate faster than a user can read, which makes the experience feel responsive.
 
 ---
 
@@ -222,7 +222,7 @@ For context, comfortable reading speed is about 4 tokens/second, so even budget 
 Before committing to on-device LLMs, be aware of these real-world challenges:
 
 * **Model Accuracy:** A 2B parameter model will hallucinate more frequently than cloud-based 70B+ models. For safety-critical applications (medical, financial), always include disclaimers and validation layers.
-* **Download Size:** Even compressed, the model is ~1.4 GB. This requires a dedicated download step in your app's onboarding flow — users on metered connections will notice.
+* **Download Size:** Even compressed, the model is ~1.4 GB. This requires a dedicated download step in your app's onboarding flow. Users on metered connections will notice.
 * **Device Compatibility:** Realistically, on-device LLMs work well on devices with 6+ GB of RAM (released 2020 or later). For older devices, you will need a fallback strategy (simpler model, cloud API, or feature gating).
 * **Context Window Limits:** Gemma 2B supports 8192 tokens by default, but longer contexts slow inference and increase memory usage. For chat applications, implement conversation pruning to stay within limits.
 * **First-Launch Experience:** The model loading screen is the most critical UX moment. Show clear progress indicators, estimated time remaining, and allow the user to use other features while the model loads in the background.
@@ -233,4 +233,4 @@ Before committing to on-device LLMs, be aware of these real-world challenges:
 
 Running Gemma locally via LiteRT represents a genuine shift in mobile application design. It empowers developers to build deeply interactive, intelligent systems that respect user privacy, run offline, and incur zero cloud hosting costs. 
 
-The technology is not without trade-offs — model accuracy, device compatibility, and download size are real constraints — but for use cases like food logging, journaling, language translation, and personal assistants, on-device LLMs are already a viable, production-ready design pattern. Projects like **NomAI** prove that the future of mobile AI is not in the cloud — it is in your pocket.
+The technology is not without trade-offs. Model accuracy, device compatibility, and download size are real constraints. But for use cases like food logging, journaling, language translation, and personal assistants, on-device LLMs are already a viable, production-ready design pattern. Projects like **NomAI** prove that the future of mobile AI is not in the cloud; it is in your pocket.

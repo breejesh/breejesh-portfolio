@@ -27,7 +27,7 @@ L'examen du prospectus d'enregistrement S-1 de SpaceX révèle un détail inhabi
 
 SpaceX s'est enregistrée sous le **Code Industriel 7370 : Programmation informatique et traitement de données**.
 
-Officiellement, SpaceX entre en bourse en tant qu'entreprise de centres de données d'IA. En creusant à la page 11 du prospectus, on constate que son marché total adressable (TAM) est estimé à la somme astronomique de 28,5 billions de dollars (28.5 trillion)—soit environ le PIB des États-Unis. Mais seulement **15 %** de ce TAM concerne l'espace et les télécommunications. Les **85 %** restants sont alloués aux grands modèles de langage (LLMs) et aux infrastructures de calcul.
+Officiellement, SpaceX entre en bourse en tant qu'entreprise de centres de données d'IA. En creusant à la page 11 du prospectus, on constate que son marché total adressable (TAM) est estimé à la somme astronomique de 28,5 billions de dollars (28.5 trillion), soit environ le PIB des États-Unis. Mais seulement **15 %** de ce TAM concerne l'espace et les télécommunications. Les **85 %** restants sont alloués aux grands modèles de langage (LLMs) et aux infrastructures de calcul.
 
 En fusionnant avec xAI, SpaceX est devenue dans les faits une « enveloppe d'IA » (AI wrapper).
 
@@ -55,6 +55,6 @@ Du point de vue de la physique et de l'ingénierie des systèmes, ce concept pr�
 
 SpaceX était un modèle d'ingénierie d'élite, disposant d'un monopole naturel sur les lancements spatiaux. En la fusionnant avec xAI pour l'introduire en bourse, ses dirigeants en ont fait un instrument de financement circulaire et d'évaluation spéculative basée sur la frénésie de l'IA.
 
-Même si les transactions croisées—comme le fait que Google loue de la puissance de calcul à xAI pour 920 millions de dollars par mois tout en détenant 6 % de son capital—permettent de gonfler artificiellement les chiffres à court terme, elles ne changent rien à la réalité des flux de trésorerie sous-jacents.
+Même si les transactions croisées (comme le fait que Google loue de la puissance de calcul à xAI pour 920 millions de dollars par mois tout en détenant 6 % de son capital) permettent de gonfler artificiellement les chiffres à court terme, elles ne changent rien à la réalité des flux de trésorerie sous-jacents.
 
 Pour les investisseurs, l'IPO sous le symbole SPCX illustre parfaitement les dérives de l'ingénierie financière lorsqu'elle tente de s'affranchir des limites physiques et économiques. La fusée peut s'élever haut grâce aux achats forcés des fonds indiciels, mais la gravité finit toujours par l'emporter.

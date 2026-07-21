@@ -1,6 +1,6 @@
 ---
 title: "La crisis de la memoria RAM en 2026: Cómo la burbuja de la IA está asfixiando la tecnología de consumo"
-description: "Un análisis profundo de la escasez de memoria RAM en 2026. Cómo la fiebre de los centros de datos de IA y la demanda de HBM están afectando los precios de PC, móviles y consolas."
+description: "Cómo la escasez de memoria de 2026, la fiebre de los centros de datos de IA y la demanda de HBM están afectando precios de PC, móviles y consolas."
 date: 2026-07-20
 tags: [Hardware, IA]
 coverImage: /assets/images/ram-prices-bubble.webp
@@ -39,7 +39,7 @@ El impacto de este acaparamiento corporativo de memoria se está reflejando dire
 
 1. **Smartphones**: Los fabricantes de celulares se enfrentan a aumentos masivos de costes. Apple está pagando un **recargo del 230%** (unos 70 dólares por unidad frente al rango histórico de 25-29 dólares) por la memoria LPDDR5X de 12GB necesaria para el iPhone 17 Pro. Inevitablemente, estos costes repercutirán en los consumidores.
 2. **Laptops y PCs**: Compañías como Dell, Lenovo y HP han anunciado aumentos de precios. Algunas configuraciones de portátiles de gama media y económica están dando marcha atrás, limitando las especificaciones base a 8GB de RAM en lugar de dar el salto a los 16GB, con el fin de mantener bajos los precios de venta. Un solo kit de RAM DDR5 de 256GB de gama alta cuesta ahora más que una tarjeta gráfica para videojuegos de primer nivel.
-3. **Consolas y GPUs**: Las consolas de próxima generación como la PlayStation 6 y la próxima Xbox se enfrentan a posibles retrasos o compromisos de hardware debido al aumento de los costes de la memoria GDDR. Nintendo ha sufrido presiones de valoración en bolsa por los márgenes de la futura sucesora de la Switch. Además, los rumores sugieren que Nvidia podría fijar el precio de su RTX 5090 en hasta 5.000 dólares, impulsado en parte por la extrema escasez de memoria GDDR7.
+3. **Consolas y GPUs**: Las consolas de próxima generación como la PlayStation 6 y la próxima Xbox se enfrentan a posibles retrasos o compromisos de hardware debido al aumento de los costes de la memoria GDDR. Nintendo ha sufrido presiones de valoración en bolsa por los márgenes de la futura sucesora de la Switch. Los rumores también sugieren que Nvidia podría fijar el precio de su RTX 5090 en hasta 5.000 dólares, impulsado en parte por la extrema escasez de memoria GDDR7.
 
 ### ¿Se está gestando un colapso por la burbuja de la IA?
 

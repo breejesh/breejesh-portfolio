@@ -1,15 +1,15 @@
 ---
 title: "Zunify: Reimagining the Iconic Zune Player for the Modern Web"
-description: "A deep dive into Zunify—a lightweight, offline-first music player that brings back the typography-focused late-2000s Zune interface using Angular 19, Dexie.js, and the File System Access API."
+description: "A look at Zunify, a lightweight, offline-first music player that brings back the typography-focused late-2000s Zune interface using Angular 19, Dexie.js, and the File System Access API."
 date: 2026-07-09
 tags: [Angular, Web Development, Database]
 coverImage: /assets/images/zunify-music.webp
 previewImage: /assets/images/zunify-music.webp
 ---
 
-In the late 2000s, Microsoft introduced the Zune—a digital media player that, despite struggles to capture market share from the iPod, gained a passionate cult following for its revolutionary design language. The "Metro" interface was typography-first, minimalist, high-contrast, and focused on clean digital layouts rather than mimicking physical objects (skeuomorphism).
+In the late 2000s, Microsoft introduced the Zune, a digital media player that struggled to capture market share from the iPod but still gained a passionate cult following for its design language. The "Metro" interface was typography-first, minimalist, high-contrast, and focused on clean digital layouts rather than mimicking physical objects (skeuomorphism).
 
-**Zunify** is a modern homage to that legendary interface. It is a lightweight, offline-first Progressive Web App (PWA) that syncs your local music library directly inside your browser—with zero server uploads, zero trackers, and complete privacy.
+**Zunify** is a modern homage to that legendary interface. It is a lightweight, offline-first Progressive Web App (PWA) that syncs your local music library directly inside your browser, with zero server uploads, zero trackers, and complete privacy.
 
 * **GitHub Repository:** [github.com/breejesh/zunify](https://github.com/breejesh/zunify)
 * **Live Demo:** [zunify.breejeshrathod.com](https://zunify.breejeshrathod.com/)
@@ -50,7 +50,7 @@ Two different typography layouts that dynamically shift background colors based 
 ---
 
 ### 4. Settings & Directory Synchronization
-Seamlessly sync files using standard IndexDB settings structures and file system permission verification workflows.
+Sync files using IndexedDB settings and file system permission checks.
 
 <p align="left">
   <img src="https://raw.githubusercontent.com/breejesh/zunify/main/doc-images/settings.png" width="600" alt="Zunify Settings">
@@ -62,7 +62,7 @@ Seamlessly sync files using standard IndexDB settings structures and file system
 
 Unlike traditional music streaming sites or cloud-based players, Zunify requires no backend server. It executes entirely in your browser and reads music directly from your computer's filesystem.
 
-To make this possible, Zunify relies on a state-of-the-art web stack:
+To make this possible, Zunify relies on a modern web stack:
 
 ### 1. File System Access API
 Normally, web apps can only interact with files through file picker inputs, requiring the user to re-select files on every load. Zunify uses the modern **File System Access API** (`showDirectoryPicker`) to request access to a local music directory. 
@@ -75,7 +75,7 @@ Scanning hundreds of audio files, extracting metadata, and loading cover art is 
 Dexie indexes track titles, artists, albums, genres, and play counts, enabling sub-millisecond search queries, history tracking, and custom playlists directly in the browser's database.
 
 ### 3. Web Audio API & Metadata Parsing
-Zunify utilizes `music-metadata-browser` to scan and parse audio files inside the browser. It extracts ID3v2 metadata, sample rate, bitrates, lyrics, and embedded album covers. Once parsed, the raw audio file handles are streamed directly to the HTML5 `<audio>` context, keeping the memory footprint exceptionally low.
+Zunify uses `music-metadata-browser` to scan and parse audio files inside the browser. It extracts ID3v2 metadata, sample rate, bitrates, lyrics, and embedded album covers. Once parsed, the raw audio file handles are streamed directly to the HTML5 `<audio>` context, keeping the memory footprint exceptionally low.
 
 ---
 
@@ -199,10 +199,10 @@ navigator.mediaSession.setActionHandler('previoustrack', () => this.playbackServ
 
 ## Why Offline-First Web Applications Matter
 
-Zunify is more than a nostalgic tribute; it represents a growing shift toward self-sovereign data and local-first software. By utilizing modern web APIs, we can build rich, highly-interactive applications that:
+Zunify is more than a nostalgic tribute. It is part of a broader shift toward local-first software. With modern web APIs, you can build rich, interactive applications that:
 
 * Run entirely on the client, incurring **zero server cost**.
 * Require **no internet connection**, protecting user privacy from data tracking.
 * Deliver native-app performance inside the browser sandbox.
 
-Whether you are looking to bring back the gorgeous Metro styling of the Zune player or want to explore how the File System Access API can build offline-first applications, Zunify is fully open-source and welcoming contributions. Grab your local music folder, launch [Zunify](https://zunify.breejeshrathod.com/), and experience your music collection in a clean typography-focused layout.
+If you want Metro-style Zune aesthetics or a concrete example of the File System Access API for offline-first apps, Zunify is open-source and open to contributions. Grab a local music folder, open [Zunify](https://zunify.breejeshrathod.com/), and try your library in a clean, typography-focused layout.

@@ -1,15 +1,15 @@
 ---
 title: "NomAI: The Offline Calorie Tracker Powered by Local LLMs"
-description: "An in-depth look at NomAI—the world's first free, open-source, and entirely offline calorie tracking app for Android built with Google Gemma and Jetpack Compose."
+description: "An in-depth look at NomAI, the world's first free, open-source, and entirely offline calorie tracking app for Android built with Google Gemma and Jetpack Compose."
 date: 2026-07-10
 tags: [AI, Android, LLM, Mobile Development]
 coverImage: /assets/images/nom-ai-showcase.webp
 previewImage: /assets/images/nom-ai-showcase.webp
 ---
 
-Calorie tracking has become a staple of modern fitness journeys. However, almost every popular calorie tracker on the market shares a common set of frustrations: they demand monthly subscriptions, show constant ads, require continuous internet connectivity, and send your personal eating habits to third-party data brokers.
+Calorie tracking is a staple of modern fitness apps. Almost every popular calorie tracker on the market shares a common set of frustrations: they demand monthly subscriptions, show constant ads, require continuous internet connectivity, and send your personal eating habits to third-party data brokers.
 
-**NomAI takes a different approach.** It is a free, open-source, and entirely offline calorie tracking app for Android — built on absolute privacy and on-device AI.
+**NomAI takes a different approach.** It is a free, open-source, and entirely offline calorie tracking app for Android, built on absolute privacy and on-device AI.
 
 * **GitHub Repository:** [github.com/breejesh/nom.ai](https://github.com/breejesh/nom.ai)
 
@@ -20,10 +20,10 @@ Calorie tracking has become a staple of modern fitness journeys. However, almost
 NomAI was designed from the ground up to challenge standard design patterns in mobile application development, focusing on three core pillars:
 
 ### 1. 100% Free & Open-Source (FOSS)
-There are no premium paywalls, no locked charts, and no payment gateways. The entire application is MIT licensed and completely free to use, modify, and build upon. The full source code — including the prompt engineering templates and model configuration — is available for anyone to audit, fork, or contribute to.
+There are no premium paywalls, no locked charts, and no payment gateways. The entire application is MIT licensed and completely free to use, modify, and build upon. The full source code, including the prompt engineering templates and model configuration, is available for anyone to audit, fork, or contribute to.
 
 ### 2. Privacy-First (No Server Backend)
-NomAI does not have a remote server. There is literally no backend infrastructure to send data to. Your physical metrics, meal history, and nutritional goals remain exclusively in your device's local Room database. This is not privacy by policy — it is privacy by architecture.
+NomAI does not have a remote server. There is literally no backend infrastructure to send data to. Your physical metrics, meal history, and nutritional goals remain exclusively in your device's local Room database. This is not privacy by policy; it is privacy by architecture.
 
 ### 3. Local & Offline-First LLM Inference
 All meal analysis and macro estimations are performed on-device. Powered by **Google Gemma-2B** and Google's **LiteRT** runtime, the app parses natural language text input directly inside your phone. No internet connection is ever required for core functionality.
@@ -45,7 +45,7 @@ Here is how the clean, minimalist layout shifts between the warm off-white light
 
 ---
 
-### The Smart Adding Journey
+### Adding a Meal
 Tracking a meal is fully local: describe it naturally or snap a photo, review the extracted elements, and log.
 
 <p align="left">
@@ -61,7 +61,7 @@ Tracking a meal is fully local: describe it naturally or snap a photo, review th
 ---
 
 ### Insights, Journal & Settings
-Dive into weekly charts, browse your history, or customize your experience offline.
+Check weekly charts, browse your history, or customize your experience offline.
 
 <p align="left">
   <img src="https://raw.githubusercontent.com/breejesh/nom.ai/refs/heads/main/doc-images/dashboard.png" width="240" alt="Dashboard Analytics">
@@ -104,7 +104,7 @@ MEAL: $userInput
 - **Explicit format specification** prevents the model from generating conversational responses or explanations alongside the data.
 - **Negative instructions** ("no other text") reduce the chance of preamble text that would break JSON parsing.
 - **Reference to USDA values** anchors the model's estimates to a known standard rather than allowing arbitrary guesses.
-- **The `serving` field** provides transparency — the user can see what portion size the model assumed and correct it if needed.
+- **The `serving` field** provides transparency: the user can see what portion size the model assumed and correct it if needed.
 
 ### Handling Model Failures
 
@@ -118,11 +118,11 @@ Small models are not perfectly reliable. NomAI implements a multi-layer fallback
 
 ## Technical Stack & Architecture
 
-Built with modern Android standards, NomAI represents a state-of-the-art implementation of on-device machine learning:
+Built with modern Android standards, NomAI is a practical implementation of on-device machine learning:
 
-* **Jetpack Compose:** A modern declarative UI toolkit that keeps the interface responsive, fluid, and beautiful. The reactive state model pairs naturally with asynchronous LLM inference — partial results can stream directly into the UI.
+* **Jetpack Compose:** A modern declarative UI toolkit that keeps the interface responsive, fluid, and beautiful. The reactive state model pairs naturally with asynchronous LLM inference, so partial results can stream directly into the UI.
 * **LiteRT-LM SDK:** Google's high-performance generative AI runtime, utilizing hardware acceleration (GPU/NPU) to run Gemma models with minimal battery drain. The model runs on `Dispatchers.IO` to keep the UI thread free.
-* **Room Database:** A local SQLite abstraction layer for secure, fast storage of meal logs and user goals. Room's Flow-based queries enable real-time UI updates when new meals are logged — daily totals, weekly trends, and macro breakdowns all update instantly.
+* **Room Database:** A local SQLite abstraction layer for secure, fast storage of meal logs and user goals. Room's Flow-based queries enable real-time UI updates when new meals are logged: daily totals, weekly trends, and macro breakdowns all update instantly.
 * **Hilt (Dependency Injection):** The LLM engine is provided as a singleton scoped to the application lifecycle, ensuring the model is loaded once and shared across all features that need it.
 * **Kotlin Coroutines & Flow:** All LLM operations are wrapped in structured concurrency. StateFlow drives the UI, while SharedFlow handles one-off events like error toasts and navigation.
 
@@ -143,12 +143,12 @@ When a user says *"I had some rice"*, how much rice is "some"? The model default
 **Mitigation:** The `serving` field in the JSON response makes the model's assumption visible. Users can tap to adjust.
 
 ### Memory Pressure
-Running a 2B parameter model alongside a full Compose UI, Room database, and potentially other apps puts real strain on device memory. On devices with 6 GB of RAM, the app needs to be aggressive about releasing resources — clearing bitmap caches, using lazy loading for historical meal data, and monitoring memory pressure callbacks.
+Running a 2B parameter model alongside a full Compose UI, Room database, and potentially other apps puts real strain on device memory. On devices with 6 GB of RAM, the app needs to be aggressive about releasing resources: clearing bitmap caches, using lazy loading for historical meal data, and monitoring memory pressure callbacks.
 
 **Mitigation:** NomAI registers a `ComponentCallbacks2` listener and, when memory gets critical (`TRIM_MEMORY_RUNNING_LOW`), releases the LLM engine and shows a "reload" button instead of keeping it resident.
 
 ### First-Launch Download
-The model file is ~1.4 GB — far too large to bundle in an APK. NomAI downloads it on first launch, which creates a critical onboarding UX moment. Users on slow connections may wait 5-10 minutes.
+The model file is ~1.4 GB, far too large to bundle in an APK. NomAI downloads it on first launch, which creates a critical onboarding UX moment. Users on slow connections may wait 5-10 minutes.
 
 **Mitigation:** A progress bar with estimated time remaining, download pause/resume support, and the ability to use the app's manual entry mode while the model downloads in the background.
 
@@ -156,6 +156,6 @@ The model file is ~1.4 GB — far too large to bundle in an APK. NomAI downloads
 
 ## Conclusion
 
-NomAI is more than a fitness tracker — it is a proof-of-concept for a new generation of mobile applications. It demonstrates that we can build robust, intelligent apps that respect user privacy, work fully offline, and run at zero ongoing cost to either the developer or the user. 
+NomAI is more than a fitness tracker. It is a proof-of-concept for a new generation of mobile applications: intelligent apps that respect user privacy, work fully offline, and run at zero ongoing cost to either the developer or the user. 
 
-The source code is fully open on [GitHub](https://github.com/breejesh/nom.ai). Whether you are interested in on-device AI, privacy-first architecture, or just want a calorie tracker that does not sell your data, take a look and consider contributing.
+The source code is fully open on [GitHub](https://github.com/breejesh/nom.ai). If you care about on-device AI, privacy-first architecture, or just want a calorie tracker that does not sell your data, take a look and consider contributing.

@@ -9,7 +9,7 @@ previewImage: /assets/images/docker-optimization.webp
 
 Large container images slow down deployments, consume unnecessary registry storage, and increase your security attack surface. If your production Docker image contains compilers, test runners, and build-time dependencies, you are carrying around dead weight that actively hurts your infrastructure.
 
-This is where **Multi-Stage Builds** come in — allowing you to build your application in a temporary environment and copy only the compiled production assets to a tiny, minimal final image.
+This is where **Multi-Stage Builds** come in. They let you build your application in a temporary environment and copy only the compiled production assets into a tiny, minimal final image.
 
 ---
 
@@ -98,7 +98,7 @@ CMD ["node", "dist/index.js"]
 
 ## Don't Forget `.dockerignore`
 
-Multi-stage builds optimize what ends up in your final image, but `.dockerignore` optimizes what gets sent to the Docker daemon in the first place. Without it, Docker sends your entire project directory — including `.git/`, `node_modules/`, test fixtures, and local environment files — as build context, slowing down every build.
+Multi-stage builds optimize what ends up in your final image, but `.dockerignore` optimizes what gets sent to the Docker daemon in the first place. Without it, Docker sends your entire project directory (including `.git/`, `node_modules/`, test fixtures, and local environment files) as build context, slowing down every build.
 
 Create a `.dockerignore` file in your project root:
 
@@ -116,7 +116,7 @@ Dockerfile
 docker-compose*.yml
 ```
 
-This can reduce your build context from hundreds of megabytes to just a few megabytes, making builds noticeably faster — especially in CI/CD pipelines where build context is uploaded over the network.
+This can reduce your build context from hundreds of megabytes to just a few megabytes, making builds noticeably faster, especially in CI/CD pipelines where build context is uploaded over the network.
 
 ---
 
@@ -142,14 +142,14 @@ CMD ["./main"]
 For Go and other statically compiled languages, you can go even further than Alpine by using `scratch` (an empty filesystem) or Google's **distroless** images:
 
 ```dockerfile
-# scratch — absolute minimum, no shell, no package manager
+# scratch: absolute minimum, no shell, no package manager
 FROM scratch
 COPY --from=builder /app/main /main
 CMD ["/main"]
 ```
 
 ```dockerfile
-# distroless — no shell, but includes CA certs, timezone data, and glibc
+# distroless: no shell, but includes CA certs, timezone data, and glibc
 FROM gcr.io/distroless/static-debian12
 COPY --from=builder /app/main /main
 CMD ["/main"]
@@ -162,13 +162,13 @@ CMD ["/main"]
 | `distroless/static` | ~2 MB | ❌ | ❌ | Production Go, Rust, C++ |
 | `scratch` | 0 MB | ❌ | ❌ | Maximum security, static binaries |
 
-> Without a shell, attackers cannot exec into the container or run arbitrary commands — a significant security win for production deployments.
+> Without a shell, attackers cannot exec into the container or run arbitrary commands, which is a significant security win for production deployments.
 
 ---
 
 ## Production-Ready Dockerfile Pattern
 
-Here is a complete, production-grade Dockerfile combining everything discussed above — multi-stage builds, non-root user, health checks, proper labels, and signal handling:
+Here is a complete, production-grade Dockerfile combining everything discussed above: multi-stage builds, non-root user, health checks, proper labels, and signal handling:
 
 ```dockerfile
 # Stage 1: Build

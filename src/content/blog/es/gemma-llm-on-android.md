@@ -159,7 +159,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
 
 ## Ingeniería de prompts para salida estructurada
 
-Una de las partes más complejas de la integración de LLMs en el dispositivo es obtener una **salida estructurada y confiable**. Los modelos en la nube como GPT-4 o Gemini Pro tienen capacidades robustas para seguir instrucciones, pero los modelos más pequeños de 2B necesitan prompts más cuidadosos.
+Una de las partes más complejas de la integración de LLMs en el dispositivo es obtener una **salida estructurada y confiable**. Los modelos en la nube como GPT-4 o Gemini Pro siguen instrucciones con más fiabilidad, pero los modelos más pequeños de 2B necesitan prompts más cuidadosos.
 
 Para el análisis nutricional de NomAI, un prompt del sistema bien diseñado marca la diferencia entre resultados útiles y basura:
 
@@ -182,9 +182,9 @@ Comida: {user_input}
 
 **Consejos para obtener salidas estructuradas fiables de modelos pequeños:**
 - **Sé extremadamente explícito** sobre el formato de salida. Incluye un ejemplo completo en el prompt si es necesario.
-- **Usa instrucciones negativas** ("No incluyas ningún texto fuera del JSON") — los modelos pequeños tienden a añadir texto explicativo a menos que se les prohíba.
-- **Valida y reintenta** — envuelve el análisis del JSON en un bloque try/catch y reintenta con un prompt reformulado si falla. Espera una tasa de fallo del ~5-10% en el primer intento con modelos INT4.
-- **Mantén los prompts cortos** — los modelos 2B tienen ventanas de contexto limitadas (normalmente entre 2048 y 8192 tokens). Los prompts del sistema largos consumen tu presupuesto de respuesta.
+- **Usa instrucciones negativas** ("No incluyas ningún texto fuera del JSON"). Los modelos pequeños tienden a añadir texto explicativo a menos que se les prohíba.
+- **Valida y reintenta:** envuelve el análisis del JSON en un bloque try/catch y reintenta con un prompt reformulado si falla. Espera una tasa de fallo del ~5-10% en el primer intento con modelos INT4.
+- **Mantén los prompts cortos.** Los modelos 2B tienen ventanas de contexto limitadas (normalmente entre 2048 y 8192 tokens). Los prompts del sistema largos consumen tu presupuesto de respuesta.
 
 ---
 
@@ -233,4 +233,4 @@ Antes de comprometerte con LLMs en el dispositivo, ten en cuenta estos desafíos
 
 Ejecutar Gemma localmente a través de LiteRT representa un cambio genuino en el diseño de aplicaciones móviles. Permite a los desarrolladores crear sistemas profundamente interactivos e inteligentes que respetan la privacidad del usuario, funcionan sin conexión y generan cero costos de alojamiento en la nube.
 
-La tecnología no está exenta de compromisos — la precisión del modelo, la compatibilidad de dispositivos y el tamaño de descarga son restricciones reales —, pero para casos de uso como el registro de alimentos, diarios personales, traducción de idiomas y asistentes personales, los LLMs en el dispositivo ya son un patrón de diseño viable y listo para producción. Proyectos como **NomAI** demuestran que el futuro de la IA móvil no está en la nube: está en tu bolsillo.
+La tecnología no está exenta de compromisos. La precisión del modelo, la compatibilidad de dispositivos y el tamaño de descarga son restricciones reales. Pero para casos de uso como el registro de alimentos, diarios personales, traducción de idiomas y asistentes personales, los LLMs en el dispositivo ya son un patrón de diseño viable y listo para producción. Proyectos como **NomAI** demuestran que el futuro de la IA móvil no está en la nube: está en tu bolsillo.

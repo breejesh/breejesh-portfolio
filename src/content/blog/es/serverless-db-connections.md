@@ -255,4 +255,4 @@ El enfoque de defensa en profundidad combina múltiples estrategias:
 4. **Controlar la concurrencia** con concurrencia provisionada o reservada para evitar tormentas de conexiones.
 5. **Monitorear activamente** con consultas a `pg_stat_activity` y alarmas de CloudWatch.
 
-Ninguna estrategia es una solución mágica. En la práctica, las arquitecturas serverless más resilientes utilizan un proxy como defensa principal y aplican las demás estrategias como capas de seguridad operacional adicionales.
+Ninguna estrategia basta por sí sola. En la práctica, las arquitecturas serverless más resilientes utilizan un proxy como defensa principal y aplican las demás estrategias como capas de seguridad operacional adicionales.

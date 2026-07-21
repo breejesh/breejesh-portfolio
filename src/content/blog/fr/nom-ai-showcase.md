@@ -1,13 +1,13 @@
 ---
 title: "Présentation de NomAI : Le suivi de calories hors ligne propulsé par des LLM locaux"
-description: "Une analyse approfondie de NomAI, le premier tracker de calories pour Android open-source, gratuit y entièrement hors ligne, conçu avec Google Gemma et Jetpack Compose."
+description: "Une analyse approfondie de NomAI, le premier tracker de calories pour Android open-source, gratuit et entièrement hors ligne, conçu avec Google Gemma et Jetpack Compose."
 date: 2026-07-10
 tags: [IA, Android, LLM, Développement Mobile]
 coverImage: /assets/images/nom-ai-showcase.webp
 previewImage: /assets/images/nom-ai-showcase.webp
 ---
 
-Le suivi des calories est devenu un incontournable de nos parcours de remise en forme. Cependant, presque tous les trackers populaires du marché partagent les mêmes défauts : ils imposent des abonnements payants, affichent des publicités intrusives, nécessitent une connexion Internet permanente y revendent vos habitudes alimentaires à des courtiers en données tiers.
+Le suivi des calories est un pilier des apps fitness modernes. Presque tous les trackers populaires du marché partagent les mêmes défauts : ils imposent des abonnements payants, affichent des publicités intrusives, nécessitent une connexion Internet permanente y revendent vos habitudes alimentaires à des courtiers en données tiers.
 
 **NomAI propose une autre voie.** C'est un tracker de calories pour Android gratuit, open-source y entièrement hors ligne, fondé sur le respect absolu de la vie privée y l'IA embarquée sur le smartphone.
 
@@ -19,7 +19,7 @@ Le suivi des calories est devenu un incontournable de nos parcours de remise en 
 
 NomAI a été conçu dès le départ pour bousculer les architectures mobiles classiques, en s'appuyant sur trois piliers fondamentaux :
 
-### 1. 100 % gratuit y open-source (FOSS)
+### 1. 100 % gratuit et open-source (FOSS)
 Aucun abonnement payant, aucun graphique verrouillé, aucune option premium. L'application est publiée sous licence MIT et est entièrement libre d'utilisation, de modification y de redistribution. Le code source complet, y compris les modèles de prompts et les configurations du modèle, está accessible à tous pour être audité, cloné ou amélioré.
 
 ### 2. Priorité à la vie privée (aucun serveur)

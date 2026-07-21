@@ -15,7 +15,7 @@ Lorsque des centaines ou des milliers de fonctions Lambda démarrent simultaném
 
 ## La cause originelle : Les tempêtes de connexion
 
-Dans une architecture serveur traditionnelle, une seule instance d'application établit un pool de connexions (par exemple, 20 connexions) y le partage entre toutes les requêtes simultanées. Trois instances derrière un répartiteur de charge signifient 60 connexions au total : un chiffre prévisible et facile à gérer.
+Dans une architecture serveur traditionnelle, une seule instance d'application établit un pool de connexions (par exemple, 20 connexions) qu'elle partage entre toutes les requêtes simultanées. Trois instances derrière un répartiteur de charge signifient 60 connexions au total : un chiffre prévisible et facile à gérer.
 
 Dans un modèle serverless, ce contrat est rompu :
 
@@ -35,7 +35,7 @@ L'optimisation la plus simple consiste à déclarer le client de base de donnée
 ```javascript
 const { Client } = require('pg');
 
-// Initialisé en dehors du handler — réutilisé lors des démarrages à chaud
+// Initialisé en dehors du handler ; réutilisé lors des démarrages à chaud
 let client = null;
 
 async function getClient() {

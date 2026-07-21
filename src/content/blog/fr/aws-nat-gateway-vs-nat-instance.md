@@ -19,7 +19,7 @@ Pourtant, vous n'êtes pas obligé de continuer à payer simplement parce que "c
 
 ## Le coût réel : NAT Gateway vs. Instance NAT
 
-Avant de passer à la solution, analysons pourquoi NAT Gateway vide votre portefeuille aussi rapidement. AWS facture environ **~0,045 $/heure** uniquement pour faire fonctionner un NAT Gateway (soit environ **32,40 $/mois** avant tout transfert de données), plus **0,045 $ par Go** de données traitées. Si votre architecture transfère des téraoctets de données vers Internet ou d'autres services AWS situés en dehors de votre VPC, ces frais de traitement s'accumulent rapidement — et ils augmentent de manière linéaire avec votre volume de trafic, sans aucune remise sur le volume pour vous sauver.
+Avant de passer à la solution, analysons pourquoi NAT Gateway vide votre portefeuille aussi rapidement. AWS facture environ **~0,045 $/heure** uniquement pour faire fonctionner un NAT Gateway (soit environ **32,40 $/mois** avant tout transfert de données), plus **0,045 $ par Go** de données traitées. Si votre architecture transfère des téraoctets de données vers Internet ou d'autres services AWS situés en dehors de votre VPC, ces frais de traitement s'accumulent rapidement, et ils augmentent de manière linéaire avec votre volume de trafic, sans aucune remise sur le volume pour vous sauver.
 
 Une **instance NAT**, en revanche, change complètement la donne :
 
@@ -134,7 +134,7 @@ aws ec2 replace-route \
 
 > Assurez-vous que le rôle IAM de l'instance possède les permissions pour `ec2:AssociateAddress` et `ec2:ReplaceRoute`.
 
-Avec cette configuration, la récupération après une défaillance d'instance prend généralement moins de **2 à 3 minutes** — ce n'est pas instantané comme la haute disponibilité intégrée de NAT Gateway, mais c'est amplement suffisant pour les environnements de non-production.
+Avec cette configuration, la récupération après une défaillance d'instance prend généralement moins de **2 à 3 minutes**. Ce n'est pas instantané comme la haute disponibilité intégrée de NAT Gateway, mais c'est amplement suffisant pour les environnements de non-production.
 
 ---
 

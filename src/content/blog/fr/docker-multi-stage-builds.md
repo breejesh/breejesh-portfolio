@@ -98,7 +98,7 @@ CMD ["node", "dist/index.js"]
 
 ## N'oubliez pas le fichier `.dockerignore`
 
-Les builds multi-étapes optimisent le contenu de votre image finale, mais le fichier `.dockerignore` permet d'optimiser les données envoyées au démon Docker lors du build. Sans lui, Docker envoie l'intégralité du répertoire du projet — y compris le dossier `.git/`, les `node_modules/` locaux, les fichiers de test et les variables d'environnement locales — augmentant inutilement le temps de build.
+Les builds multi-étapes optimisent le contenu de votre image finale, mais le fichier `.dockerignore` permet d'optimiser les données envoyées au démon Docker lors du build. Sans lui, Docker envoie l'intégralité du répertoire du projet (y compris le dossier `.git/`, les `node_modules/` locaux, les fichiers de test et les variables d'environnement locales), augmentant inutilement le temps de build.
 
 Créez un fichier `.dockerignore` à la racine de votre projet :
 
@@ -142,14 +142,14 @@ CMD ["./main"]
 Pour Go et les langages compilés statiquement, vous pouvez aller encore plus loin qu'Alpine en utilisant `scratch` (un système de fichiers vide) ou les images **distroless** de Google :
 
 ```dockerfile
-# scratch — le strict minimum, aucun shell, aucun gestionnaire de paquets
+# scratch : le strict minimum, aucun shell, aucun gestionnaire de paquets
 FROM scratch
 COPY --from=builder /app/main /main
 CMD ["/main"]
 ```
 
 ```dockerfile
-# distroless — pas de shell, mais inclut les certificats CA, fuseaux horaires et glibc
+# distroless : pas de shell, mais inclut les certificats CA, fuseaux horaires et glibc
 FROM gcr.io/distroless/static-debian12
 COPY --from=builder /app/main /main
 CMD ["/main"]

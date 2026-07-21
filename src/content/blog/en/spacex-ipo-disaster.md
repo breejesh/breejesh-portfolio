@@ -7,7 +7,7 @@ coverImage: /assets/images/spacex-ipo-disaster.webp
 previewImage: /assets/images/spacex-ipo-disaster.webp
 ---
 
-The SpaceX IPO (trading under ticker SPCX) will go down in financial history. Blasting past a $2.3 trillion valuation in its first few hours of trading, it instantly became the seventh most valuable company on the planet—rivaling the GDP of entire G7 nations. 
+The SpaceX IPO (trading under ticker SPCX) will go down in financial history. Blasting past a $2.3 trillion valuation in its first few hours of trading, it instantly became the seventh most valuable company on the planet, rivaling the GDP of entire G7 nations. 
 
 To the casual observer, this was the crowning achievement of a legendary aerospace disruptor. After all, SpaceX brought orbital launch costs down by 85%, commercialized reusable rockets, and built Starlink, a profitable satellite constellation generating $4.4 billion in operating profit on $11.4 billion in revenue in 2025.
 
@@ -27,15 +27,15 @@ If you look at SpaceX’s S-1 prospectus, you will find a bizarre detail. Aerosp
 
 SpaceX filed under **Industry Code 7370: Computer Programming and Data Processing**.
 
-Officially, SpaceX is listing as an AI data center company. Digging into page 11 of the prospectus, their Total Addressable Market (TAM) is claimed to be a staggering $28.5 trillion—roughly the size of the entire US GDP. But only **15%** of that TAM is allocated to space and communications. The other **85%** is allocated to Large Language Models (LLMs) and compute infrastructure.
+Officially, SpaceX is listing as an AI data center company. Digging into page 11 of the prospectus, their Total Addressable Market (TAM) is claimed to be a staggering $28.5 trillion, roughly the size of the entire US GDP. But only **15%** of that TAM is allocated to space and communications. The other **85%** is allocated to Large Language Models (LLMs) and compute infrastructure.
 
 By merging with xAI, SpaceX has effectively become an "AI wrapper."
 
 ### The Multi-Billing Financial Drain
 
-Why would Elon Musk risk the financial health of SpaceX—a company that took decades to reach profitability, clearing $791 million in net income in 2024—by merging it with a pre-revenue AI startup?
+Why would Elon Musk risk the financial health of SpaceX, a company that took decades to reach profitability and cleared $791 million in net income in 2024, by merging it with a pre-revenue AI startup?
 
-The answer lies in xAI’s burn rate. Training state-of-the-art foundation models is a black hole of capital. In 2025, xAI was losing $2 for every $1 it earned, burning through roughly **$28 million a day** (almost $1 billion a month). By Q1 2026, xAI's capital expenditures spiked to $7.7 billion—an annualized burn rate of over $30.8 billion.
+The answer lies in xAI’s burn rate. Training state-of-the-art foundation models is a black hole of capital. In 2025, xAI was losing $2 for every $1 it earned, burning through roughly **$28 million a day** (almost $1 billion a month). By Q1 2026, xAI's capital expenditures spiked to $7.7 billion, an annualized burn rate of over $30.8 billion.
 
 Starlink's profits are nowhere near enough to subsidize this burn. The merger was a strategic move to access public markets and passive index flows to keep xAI afloat. 
 
@@ -55,6 +55,6 @@ From a physics and system engineering perspective, this concept is highly flawed
 
 SpaceX was a world-class engineering firm with a natural monopoly on space travel. By merging it with xAI and dumping it onto the public markets, it has been transformed into a vehicle for circular financing and hype-driven valuations. 
 
-While circular deals—such as Google renting compute from xAI for $920 million a month while holding a 6% equity stake—can inflate short-term numbers, they do not change the underlying cash flow reality. 
+While circular deals (such as Google renting compute from xAI for $920 million a month while holding a 6% equity stake) can inflate short-term numbers, they do not change the underlying cash flow reality. 
 
 For investors, the SPCX IPO is a classic case of financial engineering attempting to override physical and economic limits. The rocket may launch high on initial passive index buying, but gravity always wins.

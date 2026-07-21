@@ -1,6 +1,6 @@
 ---
 title: "La crise de la mémoire RAM en 2026 : Comment la bulle de l'IA asphyxie la technologie grand public"
-description: "Une analyse approfondie de la pénurie de RAM en 2026. Comment la ruée vers les centres de données d'IA et la demande de HBM font grimper les prix des PC, des smartphones et retardent les consoles."
+description: "Comment la pénurie de mémoire de 2026, la ruée vers les centres de données d'IA et la demande de HBM font grimper les prix des PC et smartphones et retardent les consoles."
 date: 2026-07-20
 tags: [Hardware, IA]
 coverImage: /assets/images/ram-prices-bubble.webp
@@ -37,9 +37,9 @@ Cela a déclenché une ruée frénétique. Début 2026, les médias coréens ont
 
 L'impact de cet accaparement de la mémoire par les géants du cloud se fait désormais sentir directement sur l'électronique grand public :
 
-1. **Smartphones** : Les fabricants de téléphones subissent des hausses de coûts massives. Apple paierait une **surcharge de 230 %**—soit environ 70 $ par appareil contre 25 à 29 $ historiquement—pour la mémoire LPDDR5X de 12 Go requise pour l'iPhone 17 Pro. Ces coûts se répercutent inévitablement sur les consommateurs.
+1. **Smartphones** : Les fabricants de téléphones subissent des hausses de coûts massives. Apple paierait une **surcharge de 230 %** (soit environ 70 $ par appareil contre 25 à 29 $ historiquement) pour la mémoire LPDDR5X de 12 Go requise pour l'iPhone 17 Pro. Ces coûts se répercutent inévitablement sur les consommateurs.
 2. **PC & Portables** : Des géants comme Dell, Lenovo et HP ont annoncé des augmentations de prix. Certaines configurations d'ordinateurs portables d'entrée et de milieu de gamme reviennent en arrière, limitant la configuration de base à 8 Go de RAM au lieu de passer à 16 Go, afin de maintenir des prix de vente abordables. Un kit de 256 Go de RAM DDR5 haut de gamme coûte désormais plus cher qu'une carte graphique grand public.
-3. **Consoles & GPUs** : Les consoles de nouvelle génération comme la PlayStation 6 et la future Xbox font face à des retards potentiels ou à des compromis matériels en raison de la flambée des coûts de la mémoire GDDR. Nintendo a subi des pressions sur sa valorisation boursière à cause des marges prévues pour la future remplaçante de la Switch. De plus, des rumeurs suggèrent que Nvidia pourrait fixer le prix de sa RTX 5090 à près de 5 000 $, en partie à cause de la pénurie extrême de mémoire GDDR7.
+3. **Consoles & GPUs** : Les consoles de nouvelle génération comme la PlayStation 6 et la future Xbox font face à des retards potentiels ou à des compromis matériels en raison de la flambée des coûts de la mémoire GDDR. Nintendo a subi des pressions sur sa valorisation boursière à cause des marges prévues pour la future remplaçante de la Switch. Des rumeurs suggèrent que Nvidia pourrait fixer le prix de sa RTX 5090 à près de 5 000 $, en partie à cause de la pénurie extrême de mémoire GDDR7.
 
 ### La bulle de l'IA prépare-t-elle un effondrement ?
 

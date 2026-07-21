@@ -1,6 +1,6 @@
 ---
 title: "Zunify : Réinventer l'Iconique Lecteur Zune pour le Web Moderne"
-description: "Une plongée au cœur de Zunify—un lecteur de musique léger et offline-first qui fait renaître l'interface typographique de la fin des années 2000 avec Angular 19, Dexie.js et l'API File System Access."
+description: "Un regard sur Zunify, un lecteur de musique léger et offline-first qui fait renaître l'interface typographique de la fin des années 2000 avec Angular 19, Dexie.js et l'API File System Access."
 date: 2026-07-09
 tags: [Angular, Développement Web, Base de données]
 coverImage: /assets/images/zunify-music.webp
@@ -199,10 +199,10 @@ navigator.mediaSession.setActionHandler('previoustrack', () => this.playbackServ
 
 ## Pourquoi les Applications Web Offline-First Sont Essentielles
 
-Zunify dépasse le cadre de la simple nostalgie ; il s'inscrit dans un mouvement en faveur de la souveraineté des données personnelles et d'un traitement informatique local (local-first). En s'appuyant sur les nouvelles APIs du web, nous sommes en mesure de concevoir des applications élégantes et interactives qui :
+Zunify est plus qu'un hommage nostalgique. Il s'inscrit dans un mouvement plus large vers le logiciel local-first. Avec les API web modernes, on peut construire des applications riches et interactives qui :
 
 * Tournent intégralement sur le terminal de l'utilisateur, ce qui induit un **coût d'hébergement serveur nul**.
 * Fonctionnent **sans aucune connexion internet**, protégeant ainsi vos données personnelles de tout suivi publicitaire.
 * Offrent des performances similaires à celles des applications natives, tout en profitant du bac à sable sécurisé du navigateur.
 
-Que vous soyez nostalgique de la superbe interface typographique du lecteur Zune ou curieux de découvrir comment utiliser l'API File System Access pour fabriquer des applications web déconnectées, le projet Zunify est disponible en open-source et ouvert aux contributions. Sélectionnez votre dossier de musique, rendez-vous sur [Zunify](https://zunify.breejeshrathod.com/) et écoutez vos chansons préférées dans une mise en page épurée et axée sur la typographie.
+Si vous voulez l'esthétique Metro du Zune ou un exemple concret de l'API File System Access pour des apps offline-first, Zunify est open-source et ouvert aux contributions. Prenez un dossier de musique local, ouvrez [Zunify](https://zunify.breejeshrathod.com/), et parcourez votre bibliothèque dans une interface typographique claire.

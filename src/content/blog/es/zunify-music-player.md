@@ -1,6 +1,6 @@
 ---
 title: "Zunify: Reimaginando el Icónico Reproductor Zune para la Web Moderna"
-description: "Un análisis profundo de Zunify—un reproductor de música ligero y offline-first que revive la interfaz tipográfica de finales de los 2000 usando Angular 19, Dexie.js y File System Access API."
+description: "Una mirada a Zunify, un reproductor de música ligero y offline-first que revive la interfaz tipográfica de finales de los 2000 usando Angular 19, Dexie.js y File System Access API."
 date: 2026-07-09
 tags: [Angular, Desarrollo Web, Base de datos]
 coverImage: /assets/images/zunify-music.webp
@@ -199,10 +199,10 @@ navigator.mediaSession.setActionHandler('previoustrack', () => this.playbackServ
 
 ## Por Qué Importan las Aplicaciones Web Offline-First
 
-Zunify es más que un tributo nostálgico; representa una tendencia creciente hacia la soberanía de los datos personales y el software de procesamiento local. Mediante el uso de APIs web modernas, podemos diseñar aplicaciones potentes e interactivas que:
+Zunify es más que un tributo nostálgico. Forma parte de un cambio más amplio hacia el software local-first. Con APIs web modernas puedes construir aplicaciones potentes e interactivas que:
 
 * Se ejecutan completamente en el cliente, logrando un **coste de servidores de cero**.
 * Funcionan **sin conexión a internet**, manteniendo los datos del usuario a salvo del rastreo.
 * Consiguen un rendimiento idéntico al de una aplicación nativa dentro del entorno seguro del navegador.
 
-Tanto si quieres revivir el hermoso diseño tipográfico del reproductor Zune como si quieres explorar el potencial de File System Access API para desarrollar aplicaciones offline-first, Zunify es de código abierto y da la bienvenida a colaboraciones. Elige tu carpeta local de música, entra en [Zunify](https://zunify.breejeshrathod.com/) y redescubre tu biblioteca musical con una interfaz clara y centrada en la tipografía.
+Si quieres la estética Metro del Zune o un ejemplo concreto de File System Access API para apps offline-first, Zunify es open-source y acepta colaboraciones. Elige una carpeta local de música, abre [Zunify](https://zunify.breejeshrathod.com/) y prueba tu biblioteca con una interfaz clara y tipográfica.

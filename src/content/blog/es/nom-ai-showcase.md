@@ -7,7 +7,7 @@ coverImage: /assets/images/nom-ai-showcase.webp
 previewImage: /assets/images/nom-ai-showcase.webp
 ---
 
-El seguimiento de calorías se ha convertido en un elemento básico de los viajes de acondicionamiento físico modernos. Sin embargo, casi todos los contadores de calorías populares del mercado comparten un conjunto común de frustraciones: exigen suscripciones mensuales, muestran anuncios constantes, requieren conectividad a Internet continua y venden tus hábitos alimenticios personales a intermediarios de datos externos.
+El seguimiento de calorías es un elemento básico de las apps de fitness modernas. Casi todos los contadores de calorías populares del mercado comparten un conjunto común de frustraciones: exigen suscripciones mensuales, muestran anuncios constantes, requieren conectividad a Internet continua y venden tus hábitos alimenticios personales a intermediarios de datos externos.
 
 **NomAI adopta un enfoque diferente.** Es una aplicación de seguimiento de calorías para Android gratuita, de código abierto y completamente offline, construida sobre la privacidad absoluta y la inteligencia artificial en el dispositivo.
 
@@ -45,7 +45,7 @@ Así es como cambia el diseño limpio y minimalista entre el tema claro off-whit
 
 ---
 
-### El viaje de añadir de forma inteligente
+### Añadir una comida
 El seguimiento de una comida es totalmente local: descríbela con naturalidad o toma una foto, revisa los elementos extraídos y regístralos.
 
 <p align="left">
@@ -155,6 +155,6 @@ El archivo del modelo pesa ~1.4 GB, demasiado grande para incluirlo en un APK. N
 
 ## Conclusión
 
-NomAI es más que un simple contador de calorías; es una prueba de concepto para una nueva generación de aplicaciones móviles. Demuestra que podemos construir aplicaciones robustas e inteligentes que respetan la privacidad del usuario, funcionan completamente offline y se ejecutan a un costo continuo de cero tanto para el desarrollador como para el usuario.
+NomAI es más que un simple contador de calorías. Es una prueba de concepto para una nueva generación de aplicaciones móviles: apps inteligentes que respetan la privacidad del usuario, funcionan completamente offline y tienen un coste continuo de cero para el desarrollador y el usuario.
 
 El código fuente está completamente abierto en [GitHub](https://github.com/breejesh/nom.ai). Si estás interesado en la IA en el dispositivo, la arquitectura sin conexión primero o simplemente deseas un contador de calorías que no venda tus datos, echa un vistazo y considera contribuir.

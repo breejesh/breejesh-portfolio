@@ -98,7 +98,7 @@ CMD ["node", "dist/index.js"]
 
 ## No olvides `.dockerignore`
 
-Las construcciones multi-etapa optimizan lo que termina en tu imagen final, pero `.dockerignore` optimiza lo que se envía al demonio de Docker en primer lugar. Sin él, Docker envía todo el directorio de tu proyecto —incluyendo `.git/`, `node_modules/`, archivos de pruebas y archivos de entorno local— como contexto de construcción, ralentizando cada compilación.
+Las construcciones multi-etapa optimizan lo que termina en tu imagen final, pero `.dockerignore` optimiza lo que se envía al demonio de Docker en primer lugar. Sin él, Docker envía todo el directorio de tu proyecto (incluyendo `.git/`, `node_modules/`, archivos de pruebas y archivos de entorno local) como contexto de construcción, ralentizando cada compilación.
 
 Crea un archivo `.dockerignore` en la raíz de tu proyecto:
 
@@ -142,14 +142,14 @@ CMD ["./main"]
 Para Go y otros lenguajes compilados estáticamente, puedes ir aún más lejos que Alpine utilizando `scratch` (un sistema de archivos vacío) o las imágenes **distroless** de Google:
 
 ```dockerfile
-# scratch — mínimo absoluto, sin shell, sin gestor de paquetes
+# scratch: mínimo absoluto, sin shell, sin gestor de paquetes
 FROM scratch
 COPY --from=builder /app/main /main
 CMD ["/main"]
 ```
 
 ```dockerfile
-# distroless — sin shell, pero incluye certificados CA, datos de zona horaria y glibc
+# distroless: sin shell, pero incluye certificados CA, datos de zona horaria y glibc
 FROM gcr.io/distroless/static-debian12
 COPY --from=builder /app/main /main
 CMD ["/main"]

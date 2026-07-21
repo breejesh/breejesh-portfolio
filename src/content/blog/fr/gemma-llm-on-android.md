@@ -51,7 +51,7 @@ La plupart des trackers du marché imposent de créer un compte, affichent des p
 
 * **Dépôt GitHub :** [github.com/breejesh/nom.ai](https://github.com/breejesh/nom.ai)
 
-Dans NomAI, lorsqu'un utilisateur saisit *"J'ai mangé deux œufs brouillés y une tranche de pain grillé"*, le modèle Gemma local analyse la phrase, estime les macros (protéines, glucides, lipides) y renvoie une réponse structurée — le tout sur l'appareil, sans aucune API cloud.
+Dans NomAI, lorsqu'un utilisateur saisit *"J'ai mangé deux œufs brouillés et une tranche de pain grillé"*, le modèle Gemma local analyse la phrase, estime les macros (protéines, glucides, lipides) y renvoie une réponse structurée entièrement sur l'appareil, sans aucune API cloud.
 
 ---
 
@@ -183,8 +183,8 @@ Repas : {user_input}
 **Conseils pour fiabiliser les sorties structurées des petits modèles :**
 - **Soyez extrêmement précis** sur le format attendu, quitte à inclure un exemple type dans le prompt.
 - **Ajoutez des instructions négatives** ("Ne pas inclure de texte en dehors du JSON") car ces modèles ont tendance à commenter leur réponse.
-- **Validez et re-tentez** — interceptez les erreurs d'analyse du JSON dans un bloc try/catch et relancez le prompt avec une formulation simplifiée si nécessaire. Prévoyez 5 à 10 % de taux d'échec au premier essai.
-- **Restez concis** — les modèles 2B disposent de fenêtres de contexte limitées (généralement 2048 à 8192 tokens). Des prompts système trop longs réduisent l'espace alloué à la réponse.
+- **Validez et re-tentez :** interceptez les erreurs d'analyse du JSON dans un bloc try/catch et relancez le prompt avec une formulation simplifiée si nécessaire. Prévoyez 5 à 10 % de taux d'échec au premier essai.
+- **Restez concis.** Les modèles 2B disposent de fenêtres de contexte limitées (généralement 2048 à 8192 tokens). Des prompts système trop longs réduisent l'espace alloué à la réponse.
 
 ---
 

@@ -7,7 +7,7 @@ coverImage: /assets/images/serverless-database.webp
 previewImage: /assets/images/serverless-database.webp
 ---
 
-Serverless architectures like AWS Lambda scale instantly to handle incoming traffic surges. However, traditional relational databases like PostgreSQL and MySQL were not built for this ephemeral scaling model. They expect a stable pool of long-lived connections — not thousands of short-lived ones created and destroyed in seconds.
+Serverless architectures like AWS Lambda scale instantly to handle incoming traffic surges. However, traditional relational databases like PostgreSQL and MySQL were not built for this ephemeral scaling model. They expect a stable pool of long-lived connections, not thousands of short-lived ones created and destroyed in seconds.
 
 When hundreds or thousands of Lambda functions spin up simultaneously, they can easily overwhelm your database, leading to **connection pool exhaustion**, cascading failures, and application downtime.
 
@@ -15,7 +15,7 @@ When hundreds or thousands of Lambda functions spin up simultaneously, they can 
 
 ## The Root Cause: Connection Storms
 
-In a traditional server architecture, a single application instance establishes a connection pool (e.g., 20 connections) and shares it across all concurrent requests. Three instances behind a load balancer means 60 database connections total — predictable and manageable.
+In a traditional server architecture, a single application instance establishes a connection pool (e.g., 20 connections) and shares it across all concurrent requests. Three instances behind a load balancer means 60 database connections total: predictable and manageable.
 
 In a serverless model, this contract breaks completely:
 
@@ -35,7 +35,7 @@ The simplest optimization (and one that many teams miss) is to initialize your d
 ```javascript
 const { Client } = require('pg');
 
-// Connection initialized outside the handler — persists across warm invocations
+// Connection initialized outside the handler; persists across warm invocations
 let client = null;
 
 async function getClient() {
@@ -68,7 +68,7 @@ exports.handler = async (event) => {
 ```
 
 **Key details:**
-- **Parameterized queries** (`$1`) prevent SQL injection — never interpolate user input into query strings.
+- **Parameterized queries** (`$1`) prevent SQL injection. Never interpolate user input into query strings.
 - **`connectionTimeoutMillis`** prevents the function from hanging indefinitely if the database is overwhelmed.
 - **Stale connection handling** is critical. Lambda freezes containers between invocations. If a container is frozen for too long, the database may close the connection server-side, but the client still holds a reference to the dead socket. Without the reconnection logic, the function will fail with a cryptic pipe error.
 
@@ -104,7 +104,7 @@ Connection reuse helps with warm containers, but it does not solve the fundament
 4. Lambda Container B's query reuses the same underlying database connection moments later.
 
 **Benefits:**
-- Handles connection multiplexing transparently — your application code does not change (just swap the connection string).
+- Handles connection multiplexing transparently. Your application code does not change (just swap the connection string).
 - Supports IAM-based authentication, eliminating the need to store database passwords in environment variables.
 - Automatic failover to read replicas during primary database outages.
 
@@ -157,7 +157,7 @@ const knex = require('knex')({
 });
 ```
 
-**Why `max: 1`?** A single Lambda container processes exactly one request at a time (unless using reserved concurrency with response streaming). There is no concurrency inside a single container, so holding a pool of 10 connections means 9 are permanently idle and wasted — but they still count against your database's `max_connections` limit.
+**Why `max: 1`?** A single Lambda container processes exactly one request at a time (unless using reserved concurrency with response streaming). There is no concurrency inside a single container, so holding a pool of 10 connections means 9 are permanently idle and wasted, but they still count against your database's `max_connections` limit.
 
 > Set `min: 0` as well. If the container is warm but idle, a `min: 1` setting keeps a connection open unnecessarily. With `min: 0`, the pool releases the connection after `idleTimeoutMillis`, freeing up a database slot for other containers.
 
@@ -245,7 +245,7 @@ const client = new Client({
 
 ## Conclusion
 
-Scaling serverless architectures requires fundamentally rethinking how you manage relational databases. The connection model that works perfectly for traditional servers — persistent pools shared across concurrent requests — actively works against you when every function invocation is an isolated container.
+Scaling serverless architectures requires fundamentally rethinking how you manage relational databases. The connection model that works perfectly for traditional servers (persistent pools shared across concurrent requests) actively works against you when every function invocation is an isolated container.
 
 The defense-in-depth approach combines multiple strategies:
 
@@ -255,4 +255,4 @@ The defense-in-depth approach combines multiple strategies:
 4. **Control concurrency** with provisioned or reserved concurrency to prevent connection storms.
 5. **Monitor actively** with `pg_stat_activity` queries and CloudWatch alarms.
 
-No single strategy is a silver bullet. In practice, the most resilient serverless architectures use a proxy as the primary defense and layer the other strategies on top for operational safety.
+No single strategy is enough on its own. In practice, the most resilient serverless architectures use a proxy as the primary defense and layer the other strategies on top for operational safety.
