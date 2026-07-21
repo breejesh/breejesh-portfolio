@@ -1,0 +1,125 @@
+@use '../../../../variables.scss';
+
+.archive-projects {
+  .archive-header {
+    margin-bottom: 32px;
+  }
+
+  .archive-subtitle {
+    margin: -4px 0 0;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    max-width: 40rem;
+    line-height: 1.55;
+  }
+
+  .archive-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .archive-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    background: var(--surface-elevated, var(--bg-secondary));
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24);
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      border-color: color-mix(in srgb, var(--accent-color) 40%, var(--border-color));
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.32);
+    }
+  }
+
+  .archive-media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--bg-primary);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .archive-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      font-family: variables.$CodeFont;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--bg-primary);
+      background: var(--accent-color);
+      border-radius: 999px;
+      padding: 4px 10px;
+    }
+  }
+
+  .archive-card:hover .archive-media img {
+    transform: scale(1.05);
+  }
+
+  .archive-body {
+    padding: 1.15rem 1.2rem 1.3rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .archive-title {
+    margin: 0 0 4px;
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    line-height: 1.25;
+  }
+
+  .archive-tagline {
+    margin: 0 0 10px;
+    font-family: variables.$CodeFont;
+    font-size: 0.78rem;
+    color: var(--accent-color);
+  }
+
+  .archive-desc {
+    margin: 0 0 14px;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    flex-grow: 1;
+  }
+
+  .archive-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      font-family: variables.$CodeFont;
+      font-size: 11px;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      padding: 4px 9px;
+      background: var(--bg-primary);
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .archive-projects .archive-grid {
+    grid-template-columns: 1fr;
+  }
+}

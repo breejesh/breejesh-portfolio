@@ -1,97 +1,128 @@
-
 @use "../../../../variables.scss";
 
-.banner{
-    min-height: 100vh;
-    
-    .container{
-        display: table;
-        height: 100vh;
+.banner {
+  min-height: 100vh;
 
-        .section-box-banner{
-            display: table-cell;
-            vertical-align: middle;
+  .container {
+    display: table;
+    height: 100vh;
+    width: 100%;
 
-            .content{
-                margin-top: 98px;
-                // Reserve space to prevent CLS when fonts/translations load
-                min-height: 300px;
-            }
+    .section-box-banner {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
 
-            h1{
-    
-                color: #64ffda;
-                margin: 0 0 20px 3px;
-                font-size: 16px;
-                font-weight: normal;
-                font-family: variables.$CodeFont;
-                // Reserve line height to prevent shift
-                min-height: 1.3em;
-            }
+      .content {
+        margin-top: 98px;
+        // Reserve space to prevent CLS when fonts/translations load
+        min-height: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
 
-            h2, h3 {
-                font-weight: 600;
-                font-size: 80px;
-                line-height: 1.1;
-                margin: 0;
-                font-family: variables.$MainFont;
-                // Reserve space for large headings
-                min-height: 1.1em;
-            }
+      h1 {
+        color: #64ffda;
+        margin: 0 0 20px 0;
+        font-size: 16px;
+        font-weight: normal;
+        font-family: variables.$CodeFont;
+        min-height: 1.3em;
+        text-align: center;
+      }
 
-            h2{
-                color: variables.$LightestSlate;
-            }
-            h3{  
-                color: variables.$Slate;
-            }
+      h2,
+      h3 {
+        font-weight: 600;
+        font-size: 80px;
+        line-height: 1.1;
+        margin: 0;
+        font-family: variables.$MainFont;
+        min-height: 1.1em;
+        text-align: center;
+      }
 
-            .banner-description{
-                margin-bottom: 70px;
-                // Reserve space for description text
-                min-height: 60px;
-            }
+      h2 {
+        color: variables.$LightestSlate;
+      }
 
-            p{
-                max-width: 500px;
-            }
+      h3 {
+        color: variables.$Slate;
+      }
 
-            .div-btn-banner{
-                height: 43px;
-            }
+      .banner-title {
+        width: 100%;
+        text-align: center;
+      }
 
-            .banner-contact {
-                display: flex;
-                flex-direction: row;
-                gap: 24px;
-                font-family: variables.$CodeFont;
-                font-size: 14px;
-                color: var(--text-secondary);
-                // Reserve space for contact row
-                min-height: 20px;
+      .banner-description {
+        margin-bottom: 70px;
+        min-height: 60px;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
 
-                .banner-contact-item {
-                    display: flex;
-                    align-items: center;
-                }
+      p {
+        max-width: 540px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
 
-                .banner-contact-link {
-                    display: flex;
-                    align-items: center;
-                    color: var(--text-secondary);
-                    text-decoration: none;
-                    transition: color 0.2s ease;
+      .div-btn-banner {
+        height: 43px;
+      }
 
-                    &:hover {
-                        color: var(--accent-color);
-                    }
-                }
-            }
+      .banner-contact {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 24px;
+        font-family: variables.$CodeFont;
+        font-size: 14px;
+        color: var(--text-secondary);
+        min-height: 20px;
+
+        .banner-contact-item {
+          display: flex;
+          align-items: center;
         }
 
-       
-    }    
+        .banner-contact-link {
+          display: flex;
+          align-items: center;
+          color: var(--text-secondary);
+          text-decoration: none;
+          transition: color 0.2s ease;
+
+          &:hover {
+            color: var(--accent-color);
+          }
+        }
+      }
+    }
+  }
 }
 
+@media (max-width: 768px) {
+  .banner {
+    .container {
+      .section-box-banner {
+        h2,
+        h3 {
+          font-size: 48px;
+        }
 
+        .banner-contact {
+          flex-direction: column;
+          align-items: center;
+          gap: 12px;
+        }
+      }
+    }
+  }
+}
 

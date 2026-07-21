@@ -1,27 +1,36 @@
 {
   "Header.Items": [
-    { "title": "About", "scroll": "/" },
-    { "title": "Experience", "scroll": "experience" },
-    { "title": "Projects", "scroll": "projects" },
-    { "title": "Blog", "scroll": "blog" }
+    {
+      "title": "About",
+      "scroll": "/"
+    },
+    {
+      "title": "Experience",
+      "scroll": "experience"
+    },
+    {
+      "title": "Projects",
+      "scroll": "projects"
+    },
+    {
+      "title": "Blog",
+      "scroll": "blog"
+    }
   ],
   "Header.cvBtn": "Resume",
   "Header.cvName": "CV_Breejesh_Rathod.pdf",
   "Header.cvPretitle": "Curriculum Vitae",
   "Header.cvSubtitle": "Summary of my skills and qualifications",
-
   "Banner.Pretitle": "Hello! My name is",
   "Banner.Subtitle": "Engineering Leader",
   "Banner.Description": "Engineering leader with {{years}}+ years of experience taking products from 0→1 and scaling them 1→100 across fintech, cybersecurity, and enterprise software. Skilled at driving product adoption, optimizing systems for scale, and building high-performing teams that deliver business impact.",
   "Banner.ActionBtn": "Get in touch",
-
   "AboutMe.Title": "About",
   "AboutMe.Paragraphs": [
     "Always driven by the desire to create something new, I find software engineering to be the canvas for my creativity. I simply love being involved in the end-to-end creation of products. Starting right from the idea to design to development and finally the actual manifestation of the end goal, it's always an engaging journey.",
     "With a professional background spanning Morgan Stanley, AnalyticsVerse, and presently M2P, I've garnered invaluable experience in navigating the intricacies of both large-scale enterprise projects and new greenfield initiatives. My tenure has been characterized by assuming ownership of critical functionalities and seeing them through to successful fruition.",
     "Adapting to diverse technological landscapes has been second nature, and the key skills I've learned along the way include:"
   ],
-
   "Experience.Title": "Experience",
   "Experience.Pretitle": "Career Path",
   "Experience.Subtitle": "My professional journey and corporate roles",
@@ -41,7 +50,15 @@
         "Mentored 20+ engineers through regular check-ins, boosting retention and supporting career development.",
         "Partnered with TopHire and SuccessPact to accelerate hiring for critical roles; launched an internship hiring program through campus drives at 2 colleges, building long-term talent pipelines."
       ],
-      "Technologies": ["Java", "Kafka", "Elastic Search", "Redis", "Argo", "Kubernetes", "AWS Cloud"]
+      "Technologies": [
+        "Java",
+        "Kafka",
+        "Elastic Search",
+        "Redis",
+        "Argo",
+        "Kubernetes",
+        "AWS Cloud"
+      ]
     },
     {
       "Tab": "M2P Fintech",
@@ -57,7 +74,15 @@
         "Drove code quality via PR reviews, sprint planning, and design reviews while mentoring junior engineers.",
         "Partnered with product to influence roadmap decisions, directly contributing to market success."
       ],
-      "Technologies": ["Java", "Angular", "SQL", "Spring", "Redis", "Kubernetes", "AWS Cloud"]
+      "Technologies": [
+        "Java",
+        "Angular",
+        "SQL",
+        "Spring",
+        "Redis",
+        "Kubernetes",
+        "AWS Cloud"
+      ]
     },
     {
       "Tab": "AnalyticsVerse",
@@ -82,7 +107,14 @@
         "Optimized the website for SEO, significantly improving page performance, boosting organic traffic and visibility.",
         "Mentored interns and other employees, enabling vital contribution from them to the product."
       ],
-      "Technologies": ["Java", "Angular", "Spring", "SQL", "Terraform", "AWS Cloud"]
+      "Technologies": [
+        "Java",
+        "Angular",
+        "Spring",
+        "SQL",
+        "Terraform",
+        "AWS Cloud"
+      ]
     },
     {
       "Tab": "Morgan Stanley",
@@ -118,7 +150,13 @@
         "Demonstrated strong problem-solving skills by providing quick POCs & solutions for ad-hoc business needs.",
         "Mentored summer interns for three consecutive years."
       ],
-      "Technologies": ["Angular", ".Net", "Java", "Tableau", "SQL"]
+      "Technologies": [
+        "Angular",
+        ".Net",
+        "Java",
+        "Tableau",
+        "SQL"
+      ]
     },
     {
       "Tab": "Yoddhas NGO",
@@ -129,80 +167,18 @@
         "Created Social Media posters for various campaigns.",
         "Led a team of graphic designers, guided them in day-to-day work."
       ],
-      "Technologies": ["PhotoShop", "Adobe", "Affinity"]
+      "Technologies": [
+        "PhotoShop",
+        "Adobe",
+        "Affinity"
+      ]
     }
   ],
-
-  "FeatureProjects.Title": "My projects",
+  "FeatureProjects.Title": "Projects",
   "FeatureProjects.Pretitle": "Portfolio",
-  "FeatureProjects.Subtitle": "A showcase of selected applications and systems",
-  "FeatureProjects.Label": "Featured Project",
-  "FeatureProjects.Projects": [
-    {
-      "Title": "Dijkstra's Robot",
-      "Description": "Developed a line-following robot employing Dijkstra's algorithm to find the shortest path in a grid maze. Utilised Depth First Search for maze exploration, enabling efficient pathfinding from source to destination in subsequent runs.",
-      "imgs": [
-        "/assets/images/d-robot.jpg"
-      ],
-      "Technologies": ["Data Structures & Algorithm", "Robotics", "C"]
-    },
-    {
-      "Title": "Virtual Piano",
-      "Description": "The project involves the creation of a device capable of projecting a piano interface onto any surface, enabling users to play piano virtually. Utilizing a simple torch for projection and a webcam for image processing, the system tracks user interactions with the projected piano keys, translating them into corresponding musical output. This innovative setup allows users to enjoy playing the piano on any flat surface with minimal hardware requirements.",
-      "imgs": [
-        "/assets/images/virtual-piano.jpg"
-      ],
-      "Technologies": ["MatLab", "Image Processing", "Physics"]
-    },
-    {
-      "Title": "Game Development",
-      "Description": "Developed single and multiplayer 2D games including PacMan, Pokémon, Snake, Ping Pong, Tic Tac Toe in various programming languages.",
-      "imgs": [
-        "/assets/images/games.jpg"
-      ],
-      "Technologies": ["Java", "Python", "JavaScript"]
-    }
-  ],
-
+  "FeatureProjects.Subtitle": "A showcase of selected applications and systems I have built end to end",
+  "FeatureProjects.Label": "Featured project",
   "OtherProjects.Title": "More projects",
-  "OtherProjects.Projects": [
-    {
-      "Title": "Clipper-Co",
-      "Description": "This software facilitates the seamless sharing of clipboards between multiple users and devices. This functionality streamlines the process of sharing text among various devices, enhancing user convenience and productivity.",
-      "ghLink": "https://github.com/breejesh/clipper-co",
-      "Technologies": ["Java", "Python", "CSS"]
-    },
-    {
-      "Title": "Happyness",
-      "Description": "This app aims to provide users with a refreshing and uplifting experience by delivering positive news stories in a concise and engaging format. In a world often dominated by negative headlines, this app seeks to promote happiness, inspiration, and optimism by curating and presenting news items that evoke joy and hope.",
-      "ghLink": "https://github.com/breejesh/happyness",
-      "Technologies": ["Flutter", "Dart", "Python", "Firebase"]
-    },
-    {
-      "Title": "Poetic Musings",
-      "Description": "Crafted in Angular, mimics a music player interface for navigating and enjoying poetry, featuring responsive design tailored for all devices without relying on CSS libraries.",
-      "ghLink": "https://github.com/breejesh/poetic-musings/tree/main/poems",
-      "Technologies": ["Angular", "TypeScript", "HTML", "CSS", "Python", "Firebase"]
-    },
-    {
-      "Title": "Digital Watermark",
-      "Description": "It employs a 2 part visual secret sharing scheme to split a binary watermark image into two shares: a master share extracted from the host image and an ownership share held by the owner and a copyright verifier. This scheme ensures that the watermark remains invisible and resistant to extraction, even after modifications to the host image, demonstrating its effectiveness for copyright protection.",
-      "ghLink": "https://github.com/breejesh/digital-watermark",
-      "Technologies": ["Python", "Image Processing"]
-    },
-    {
-      "Title": "iMouse",
-      "Description": "Aims to create a proof of concept prototype for controlling a laptop mouse using only head movements. This innovative project is designed to assist quadriplegia patients in operating laptops by utilizing head movement as an input method, thereby enhancing accessibility and independence.",
-      "ghLink": "https://github.com/breejesh/i-mouse",
-      "Technologies": ["Python", "Image Processing"]
-    },
-    {
-      "Title": "Consistent Hashing",
-      "Description": "An interactive tool to visually comprehend how consistent hashing distributes data across nodes in distributed systems, aiding in understanding load balancing and node management. It serves as an educational resource by providing intuitive insights into the workings of consistent hashing algorithms for students and developers.",
-      "ghLink": "https://github.com/breejesh/consistent-hashing-visualization",
-      "Technologies": ["Angular", "TypeScript", "HTML", "CSS"]
-    }
-  ],
   "Achievements.Title": "Achievements",
   "Achievements.Pretitle": "Milestones",
   "Achievements.Subtitle": "Recognition and honors earned along the way",
@@ -215,31 +191,51 @@
       "Year": "2018",
       "Rank": "1st",
       "Description": "Secured first place in the Mumbai Hackathon, organized by ERPNext, by developing a shared clipboard app bridging desktop and mobile devices within a 24-hour timeframe.",
-      "Skills": ["Problem-solving", "Innovation", "Teamwork"]
+      "Skills": [
+        "Problem-solving",
+        "Innovation",
+        "Teamwork"
+      ]
     },
     {
       "Year": "2016",
       "Rank": "1st",
       "Description": "Received the Young Innovators Award from the esteemed then Chief Minister of Maharashtra, Mr. Devendra Fadnavis, for pioneering a virtual piano device. This innovation utilized a simple torch and camera to project a playable piano onto any surface. The accolade was bestowed during the competition organized by ZEE and DNA.",
-      "Skills": ["Innovation", "Creativity", "Presentation"]
+      "Skills": [
+        "Innovation",
+        "Creativity",
+        "Presentation"
+      ]
     },
     {
       "Year": "2016",
       "Rank": "6th",
       "Description": "Advanced to the quarterfinals of the renowned ABU Robocon, a prestigious robotics competition on a global scale. Represented VJTI at the national level, competing against 105 other colleges.",
-      "Skills": ["Robotics", "Engineering", "Team collaboration"]
+      "Skills": [
+        "Robotics",
+        "Engineering",
+        "Team collaboration"
+      ]
     },
     {
       "Year": "2015",
       "Rank": "1st",
       "Description": "Achieved victory in Adomania, an inter-college advertisement making competition, by crafting a captivating short film celebrating the vibrant essence of Mumbai.",
-      "Skills": ["Creativity", "Marketing", "Presentation"]
+      "Skills": [
+        "Creativity",
+        "Marketing",
+        "Presentation"
+      ]
     },
     {
       "Year": "2010",
       "Rank": "1st",
       "Description": "Emerged as the winner of the M.R. Pai Memorial Elocution Competition at the inter-school level.",
-      "Skills": ["Public speaking", "Communication", "Presentation"]
+      "Skills": [
+        "Public speaking",
+        "Communication",
+        "Presentation"
+      ]
     }
   ],
   "Contact.Pretitle": "What’s Next",
@@ -366,7 +362,15 @@
         "Multi-tenant RBAC and organizational permission layers",
         "Real-time data sync and schema-driven UI systems"
       ],
-      "Tags": ["Java", "Angular", "Spring Boot", "Kafka", "PostgreSQL", "TypeScript", "Redis"]
+      "Tags": [
+        "Java",
+        "Angular",
+        "Spring Boot",
+        "Kafka",
+        "PostgreSQL",
+        "TypeScript",
+        "Redis"
+      ]
     },
     {
       "Title": "Mobile App Development",
@@ -378,7 +382,15 @@
         "Native integrations: Push notifications, biometric auth, camera",
         "App Store & Google Play Store publishing and deployment pipelines"
       ],
-      "Tags": ["React Native", "TypeScript", "iOS", "Android", "Redux Toolkit", "Push Notifications", "Fastlane"]
+      "Tags": [
+        "React Native",
+        "TypeScript",
+        "iOS",
+        "Android",
+        "Redux Toolkit",
+        "Push Notifications",
+        "Fastlane"
+      ]
     },
     {
       "Title": "AI & LLM Integration",
@@ -390,7 +402,15 @@
         "KNN clustering, DB2, and semantic similarity engines",
         "RAG architectures and prompt security boundaries"
       ],
-      "Tags": ["Python", "Gen AI", "Milvus", "Elasticsearch", "OpenAI", "Gemini", "DB2"]
+      "Tags": [
+        "Python",
+        "Gen AI",
+        "Milvus",
+        "Elasticsearch",
+        "OpenAI",
+        "Gemini",
+        "DB2"
+      ]
     },
     {
       "Title": "Cloud & Infrastructure",
@@ -402,7 +422,15 @@
         "CI/CD pipelines with GitHub Actions and ArgoCD",
         "CloudWatch monitoring, alerting, and log analytics"
       ],
-      "Tags": ["AWS", "Kubernetes", "Docker", "ArgoCD", "GitHub Actions", "CloudWatch", "Helm"]
+      "Tags": [
+        "AWS",
+        "Kubernetes",
+        "Docker",
+        "ArgoCD",
+        "GitHub Actions",
+        "CloudWatch",
+        "Helm"
+      ]
     }
   ],
   "Blog.SearchTitle": "Search",
@@ -413,5 +441,226 @@
   "Footer.Desc": "Engineering leader with experience of taking products from 0→1 and scaling them 1→100 across fintech, cybersecurity, and enterprise software. Skilled at driving product adoption, optimizing systems for scale, and building high-performing teams that deliver business impact.",
   "Footer.Navigate": "Navigate",
   "Footer.ContactInfo": "Contact Info",
-  "Footer.ResumeCV": "Resume / CV"
+  "Footer.ResumeCV": "Resume / CV",
+  "FeatureProjects.ViewCase": "Read more",
+  "FeatureProjects.LiveDemo": "Live demo",
+  "FeatureProjects.Overview": "Overview",
+  "FeatureProjects.Highlights": "Highlights",
+  "FeatureProjects.Stack": "Stack",
+  "FeatureProjects.BackToProjects": "Back to projects",
+  "FeatureProjects.NotFound": "Project not found",
+  "OtherProjects.Subtitle": "Benchmarks, experiments, and older builds still worth a look.",
+  "OtherProjects.GithubCta": "See everything on GitHub",
+  "ArchiveProjects.Title": "Earlier work",
+  "ArchiveProjects.Subtitle": "Older builds I still like to show. Source and write-ups are limited, but the demos and ideas still hold up.",
+  "ArchiveProjects.Badge": "Archive",
+  "PortfolioProjects": {
+    "nom-ai": {
+      "Title": "NomAI",
+      "Tagline": "Offline LLM calorie tracker",
+      "Description": "Free, open-source, privacy-first calorie tracker for Android. Local Gemma-2B models estimate nutrition from text or photos. No accounts, no cloud backend, no ads.",
+      "Technologies": [
+        "Kotlin",
+        "Jetpack Compose",
+        "Gemma-2B",
+        "Android",
+        "LiteRT-LM"
+      ],
+      "Highlights": [
+        "100% on-device meal analysis with local Gemma models",
+        "Vision scan + natural language food logging",
+        "BMR/TDEE goals via Mifflin-St Jeor",
+        "MIT licensed, zero logins or tracking"
+      ],
+      "Body": [
+        "NomAI is a privacy-first offline calorie tracker for Android. Most trackers push subscriptions, ads, and data collection. NomAI keeps meal history, settings, and metrics on-device only.",
+        "It uses local Gemma-2B models for text extraction and vision scanning. You can describe a meal in plain language or snap a photo; macros and portions are estimated offline. Values stay editable when you want more precision.",
+        "Built for casual, mindful tracking: dashboards, journals, weekly charts, and Android system backup support without a remote product backend."
+      ]
+    },
+    "innodino": {
+      "Title": "InnoDino",
+      "Tagline": "Offline-first robotics for kids",
+      "Description": "Ultra-affordable robotics learning platform: modular hardware kits, Android block programming, and offline-first lessons so kids can build and code without a PC or internet.",
+      "Technologies": [
+        "JavaScript",
+        "Android",
+        "Robotics",
+        "Block coding",
+        "Education"
+      ],
+      "Highlights": [
+        "Modular kits: LED matrix and DinoBot",
+        "Mobile visual block programming (no PC required)",
+        "Offline-first for classrooms with limited connectivity",
+        "Open AGPL curriculum and hardware docs"
+      ],
+      "Body": [
+        "InnoDino makes robotics and coding accessible through modular hardware kits, a mobile app with visual block programming, and offline-first design. Start small, expand as skills grow.",
+        "Learners program on Android, connect over USB, and see code run on LED or robot modules. Educators get K-12 friendly progression and story-driven curriculum.",
+        "Docs cover LED Module, DinoBot, DinoSerial protocol, Android app, and the product site. Live overview: breejesh.github.io/innodino."
+      ]
+    },
+    "zunify": {
+      "Title": "Zunify",
+      "Tagline": "Zune-inspired offline music player",
+      "Description": "Beautiful Zune Metro UI reborn as a privacy-first PWA. Local library via File System Access API, IndexedDB metadata, zero uploads or accounts.",
+      "Technologies": [
+        "Angular",
+        "PWA",
+        "IndexedDB",
+        "Dexie",
+        "Web Audio"
+      ],
+      "Highlights": [
+        "File System Access API for local folders only",
+        "Zune Metro aesthetics with themes and accent colors",
+        "Playlists, history, and immersive now-playing",
+        "Installable PWA, fully offline-capable"
+      ],
+      "Body": [
+        "Zunify brings late-2000s Zune Metro UI back in the browser. It scans local music with the File System Access API, stores tags and art in IndexedDB via Dexie, and never uploads files or listening data.",
+        "Features include artist/album browsing, playlists, heart ratings, playback history, and an immersive now-playing view with dynamic backdrops from album art.",
+        "Stack: Angular 19 with Signals, music-metadata-browser for tags, Web Audio for playback, and service workers for PWA install and offline use."
+      ]
+    },
+    "vanguard-health": {
+      "Title": "Vanguard Health",
+      "Tagline": "FHIR healthcare data platform",
+      "Description": "Containerized healthcare pipeline: Synthea FHIR ingest, Bronze to Silver to Gold transforms, Firebase-hosted map analytics of community health events.",
+      "Technologies": [
+        "Python",
+        "Kubernetes",
+        "Skaffold",
+        "Angular",
+        "FHIR",
+        "Firebase"
+      ],
+      "Highlights": [
+        "Medallion-style Bronze / Silver / Gold pipeline",
+        "Kubernetes + Skaffold local platform loop",
+        "Map-based community health dashboard",
+        "Synthea FHIR synthetic data ingest"
+      ],
+      "Body": [
+        "Vanguard Health is a containerized healthcare data platform. It ingests FHIR from Synthea, processes through Bronze, Silver, and Gold layers, publishes Gold assets, and powers a map-based analytics frontend.",
+        "Local development targets Docker Desktop Kubernetes with Skaffold. The Angular frontend visualizes how health events ripple geographically as records arrive.",
+        "Demo: vanguard-health.web.app. Built for portfolio-grade data engineering plus product UI, not a clinical production claim."
+      ]
+    },
+    "dijkstra-robot": {
+      "Title": "Dijkstra's Robot",
+      "Tagline": "Shortest path maze robot",
+      "Description": "Line-following robot using Dijkstra to find the shortest path in a grid maze. Depth-first exploration first, then efficient pathing from source to destination on later runs.",
+      "Technologies": [
+        "Data Structures",
+        "Robotics",
+        "C"
+      ]
+    },
+    "virtual-piano": {
+      "Title": "Virtual Piano",
+      "Tagline": "Piano on any surface",
+      "Description": "Projects a piano onto any flat surface with a simple torch, then uses a webcam and image processing so finger presses become playable notes. Minimal hardware, high wow factor.",
+      "Technologies": [
+        "MatLab",
+        "Image Processing",
+        "Physics"
+      ]
+    },
+    "game-development": {
+      "Title": "Game Development",
+      "Tagline": "Classic 2D games, multi-language",
+      "Description": "Single and multiplayer 2D games including Pac-Man, Pokémon-style maps, Snake, Ping Pong, and Tic Tac Toe, built across Java, Python, and JavaScript.",
+      "Technologies": [
+        "Java",
+        "Python",
+        "JavaScript"
+      ]
+    },
+    "digital-watermark": {
+      "Title": "Digital Watermark",
+      "Tagline": "Visual cryptography for image copyright",
+      "Description": "Proof of concept: split a binary watermark with 2-out-of-2 visual secret sharing, bind ownership to host images, and recover marks after modification.",
+      "Technologies": [
+        "Python",
+        "OpenCV",
+        "NumPy",
+        "Cryptography"
+      ]
+    },
+    "multi-stage-docker": {
+      "Title": "Multi-stage Docker Benchmarking",
+      "Tagline": "Build strategy benchmarks across ecosystems",
+      "Description": "Three Docker build strategies (single, multi-stage, prebuilt) across Go, Node/TS, Java, and Python/Conda with reproducible measurements.",
+      "Technologies": [
+        "Docker",
+        "Python",
+        "Go",
+        "Node",
+        "Java"
+      ]
+    },
+    "java-virtual-threads": {
+      "Title": "Java Virtual Threads Benchmarking",
+      "Tagline": "Java 21 concurrency performance study",
+      "Description": "Hands-on benchmarks of modern Java 21 virtual threads: throughput, latency, and behavior under load versus classic thread pools.",
+      "Technologies": [
+        "Java 21",
+        "Virtual Threads",
+        "Python",
+        "Benchmarking"
+      ]
+    },
+    "smart-posture": {
+      "Title": "SmartPosture",
+      "Tagline": "Posture ML experiment",
+      "Description": "Research notebook project exploring posture detection and feedback with modern computer-vision tooling.",
+      "Technologies": [
+        "Python",
+        "Jupyter",
+        "CV",
+        "ML"
+      ]
+    },
+    "rippleboards": {
+      "Title": "Rippleboards",
+      "Tagline": "TypeScript product experiment",
+      "Description": "Full-stack TypeScript project exploring interactive boards and product UX patterns.",
+      "Technologies": [
+        "TypeScript",
+        "Web"
+      ]
+    },
+    "clipper-co": {
+      "Title": "Clipper-Co",
+      "Tagline": "Shared clipboard across devices",
+      "Description": "Share clipboard text seamlessly across users and devices to cut friction in multi-device workflows.",
+      "Technologies": [
+        "Java",
+        "Python",
+        "CSS"
+      ]
+    },
+    "happyness": {
+      "Title": "Happyness",
+      "Tagline": "Positive news, short form",
+      "Description": "Flutter app that surfaces uplifting news in a concise format when the feed feels heavy.",
+      "Technologies": [
+        "Flutter",
+        "Dart",
+        "Firebase"
+      ]
+    },
+    "consistent-hashing": {
+      "Title": "Consistent Hashing Viz",
+      "Tagline": "Interactive systems teaching tool",
+      "Description": "Visual tool for how consistent hashing places keys across nodes: load balancing and membership changes made intuitive.",
+      "Technologies": [
+        "Angular",
+        "TypeScript",
+        "CSS"
+      ]
+    }
+  }
 }

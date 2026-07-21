@@ -42,9 +42,9 @@ Explore albums, artists, and playlists in a clean, typography-focused list layou
 Two different typography layouts that dynamically shift background colors based on album art colors.
 
 <p align="left">
-  <img src="https://raw.githubusercontent.com/breejesh/zunify/main/doc-images/now-playing-1.png" width="280" alt="Now Playing Layout 1">
+  <img src="https://raw.githubusercontent.com/breejesh/zunify/main/doc-images/now-playing-1.png" width="600" alt="Now Playing Layout 1">
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="https://raw.githubusercontent.com/breejesh/zunify/main/doc-images/now-playing-2.png" width="280" alt="Now Playing Layout 2">
+  <img src="https://raw.githubusercontent.com/breejesh/zunify/main/doc-images/now-playing-2.png" width="600" alt="Now Playing Layout 2">
 </p>
 
 ---

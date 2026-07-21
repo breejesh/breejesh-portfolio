@@ -1,17 +1,17 @@
 import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
-import { getOtherMeta, PortfolioProject } from '../../../data/projects.data';
+import { getArchiveMeta, PortfolioProject } from '../../../data/projects.data';
 import { hydrateProjects } from '../../../data/project-i18n';
 
 @Component({
-  selector: 'app-other-projects',
-  templateUrl: './other-projects.component.html',
-  styleUrls: ['./other-projects.component.scss'],
+  selector: 'app-archive-projects',
+  templateUrl: './archive-projects.component.html',
+  styleUrls: ['./archive-projects.component.scss'],
 })
-export class OtherProjectsComponent implements OnInit, OnDestroy {
+export class ArchiveProjectsComponent implements OnInit, OnDestroy {
   private readonly translate = inject(TranslateService);
-  private readonly meta = getOtherMeta();
+  private readonly meta = getArchiveMeta();
   private sub?: Subscription;
 
   readonly projects = signal<PortfolioProject[]>([]);

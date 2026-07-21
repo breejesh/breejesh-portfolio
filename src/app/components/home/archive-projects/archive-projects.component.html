@@ -1,0 +1,31 @@
+<section class="section archive-projects" id="earlier-work" *ngIf="projects().length">
+    <div class="container">
+        <div class="section-box">
+            <div class="archive-header" data-aos="fade-up" data-aos-duration="1000">
+                <h3 class="section-title">{{ 'ArchiveProjects.Title' | translate }}</h3>
+                <p class="archive-subtitle">{{ 'ArchiveProjects.Subtitle' | translate }}</p>
+            </div>
+
+            <div class="archive-grid">
+                <article
+                    *ngFor="let project of projects()"
+                    class="archive-card"
+                    data-aos="fade-up"
+                    data-aos-duration="1000">
+                    <div class="archive-media">
+                        <img [src]="project.image" [alt]="project.title" loading="lazy" width="480" height="300" />
+                        <span class="archive-badge">{{ 'ArchiveProjects.Badge' | translate }}</span>
+                    </div>
+                    <div class="archive-body">
+                        <h4 class="archive-title">{{ project.title }}</h4>
+                        <p class="archive-tagline">{{ project.tagline }}</p>
+                        <p class="archive-desc">{{ project.description }}</p>
+                        <ul class="archive-tech">
+                            <li *ngFor="let tech of project.technologies">{{ tech }}</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>

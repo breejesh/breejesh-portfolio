@@ -1,28 +1,40 @@
 {
   "Header.Items": [
-    { "title": "Sobre mí", "scroll": "/" },
-    { "title": "Experiencia", "scroll": "experience" },
-    { "title": "Proyectos", "scroll": "projects" },
-    { "title": "Logros", "scroll": "achievements" },
-    { "title": "Blog", "scroll": "blog" }
+    {
+      "title": "Sobre mí",
+      "scroll": "/"
+    },
+    {
+      "title": "Experiencia",
+      "scroll": "experience"
+    },
+    {
+      "title": "Proyectos",
+      "scroll": "projects"
+    },
+    {
+      "title": "Logros",
+      "scroll": "achievements"
+    },
+    {
+      "title": "Blog",
+      "scroll": "blog"
+    }
   ],
   "Header.cvBtn": "Currículum",
   "Header.cvName": "CV_Breejesh_Rathod_ES.pdf",
   "Header.cvPretitle": "Curriculum Vitae",
   "Header.cvSubtitle": "Resumen de mis habilidades y cualificaciones",
-
   "Banner.Pretitle": "¡Hola! Mi nombre es",
   "Banner.Subtitle": "Líder de Ingeniería",
   "Banner.Description": "Líder de ingeniería con más de {{years}} años de experiencia llevando productos de 0 a 1 y escalándolos de 1 a 100 en fintech, ciberseguridad y software empresarial. Capaz de impulsar la adopción de productos, optimizar sistemas para escalabilidad y crear equipos de alto rendimiento que entreguen valor de negocio.",
   "Banner.ActionBtn": "Ponte en contacto",
-
   "AboutMe.Title": "Sobre mí",
   "AboutMe.Paragraphs": [
     "Siempre impulsado por el deseo de crear algo nuevo, encuentro en la ingeniería de software el lienzo para mi creatividad. Me encanta participar en la creación de productos de extremo a extremo. Desde la idea hasta el diseño, el desarrollo y finalmente la manifestación real de la meta final, siempre es un viaje apasionante.",
     "Con una trayectoria profesional que abarca Morgan Stanley, AnalyticsVerse y actualmente M2P, he adquirido una valiosa experiencia navegando por las complejidades de proyectos empresariales a gran escala e iniciativas ecológicas. Mi mandato se ha caracterizado por asumir la responsabilidad de funcionalidades críticas y llevarlas a buen término.",
     "Adaptarme a diversos entornos tecnológicos ha sido algo natural para mí, y las habilidades clave que he aprendido en el camino incluyen:"
   ],
-
   "Experience.Title": "Experiencia",
   "Experience.Pretitle": "Trayectoria",
   "Experience.Subtitle": "Mi trayectoria profesional y roles corporativos",
@@ -42,7 +54,15 @@
         "Mentoricé a más de 20 ingenieros a través de reuniones periódicas, impulsando la retención y apoyando el desarrollo profesional.",
         "Colaboré con TopHire y SuccessPact para acelerar la contratación de roles críticos; lancé un programa de contratación de pasantías a través de campañas universitarias en 2 instituciones, creando canales de talento a largo plazo."
       ],
-      "Technologies": ["Java", "Kafka", "Elastic Search", "Redis", "Argo", "Kubernetes", "AWS Cloud"]
+      "Technologies": [
+        "Java",
+        "Kafka",
+        "Elastic Search",
+        "Redis",
+        "Argo",
+        "Kubernetes",
+        "AWS Cloud"
+      ]
     },
     {
       "Tab": "M2P Fintech",
@@ -58,7 +78,15 @@
         "Impulsé la calidad del código mediante revisiones de PR, planificación de sprints y revisiones de diseño mientras guiaba a ingenieros juniors.",
         "Colaboré con el equipo de producto para influir en las decisiones de la hoja de ruta, contribuyendo directamente al éxito del mercado."
       ],
-      "Technologies": ["Java", "Angular", "SQL", "Spring", "Redis", "Kubernetes", "AWS Cloud"]
+      "Technologies": [
+        "Java",
+        "Angular",
+        "SQL",
+        "Spring",
+        "Redis",
+        "Kubernetes",
+        "AWS Cloud"
+      ]
     },
     {
       "Tab": "AnalyticsVerse",
@@ -83,7 +111,14 @@
         "Optimicé el sitio web para SEO, mejorando significativamente el rendimiento de la página, lo que impulsó el tráfico orgánico y la visibilidad.",
         "Guié a pasantes y otros empleados, facilitando su contribución vital al desarrollo del producto."
       ],
-      "Technologies": ["Java", "Angular", "Spring", "SQL", "Terraform", "AWS Cloud"]
+      "Technologies": [
+        "Java",
+        "Angular",
+        "Spring",
+        "SQL",
+        "Terraform",
+        "AWS Cloud"
+      ]
     },
     {
       "Tab": "Morgan Stanley",
@@ -119,7 +154,13 @@
         "Demostré sólidas habilidades de resolución de problemas al proporcionar POCs y soluciones rápidas para necesidades comerciales ad-hoc.",
         "Guié a pasantes de verano durante tres años consecutivos."
       ],
-      "Technologies": ["Angular", ".Net", "Java", "Tableau", "SQL"]
+      "Technologies": [
+        "Angular",
+        ".Net",
+        "Java",
+        "Tableau",
+        "SQL"
+      ]
     },
     {
       "Tab": "Yoddhas NGO",
@@ -130,54 +171,18 @@
         "Creé pósters para redes sociales para diversas campañas de concientización.",
         "Lideré un equipo de diseñadores gráficos, guiándolos en su trabajo diario."
       ],
-      "Technologies": ["PhotoShop", "Adobe", "Affinity"]
+      "Technologies": [
+        "PhotoShop",
+        "Adobe",
+        "Affinity"
+      ]
     }
   ],
-
-  "FeatureProjects.Title": "Mis proyectos",
+  "FeatureProjects.Title": "Trabajo seleccionado",
   "FeatureProjects.Pretitle": "Portafolio",
-  "FeatureProjects.Subtitle": "Una muestra de aplicaciones y sistemas seleccionados",
-  "FeatureProjects.Label": "Proyecto Destacado",
-  "FeatureProjects.Projects": [
-    {
-      "Title": "Robot de Dijkstra",
-      "Description": "Desarrollé un robot seguidor de línea que emplea el algoritmo de Dijkstra para encontrar la ruta más corta en un laberinto de cuadrícula. Utiliza búsqueda en profundidad (DFS) para explorar el laberinto, permitiendo un recorrido eficiente de origen a destino en ejecuciones posteriores.",
-      "Technologies": ["Estructuras de Datos", "Robótica", "C"]
-    },
-    {
-      "Title": "Piano Virtual",
-      "Description": "Consiste en la creación de un dispositivo capaz de proyectar una interfaz de piano sobre cualquier superficie plana, permitiendo a los usuarios tocar virtualmente. Utilizando una linterna y una cámara web para el procesamiento de imágenes, el sistema rastrea las interacciones del usuario y las traduce en notas musicales.",
-      "Technologies": ["MatLab", "Procesamiento de Imágenes", "Física"]
-    },
-    {
-      "Title": "Desarrollo de Videojuegos",
-      "Description": "Desarrollé videojuegos 2D para uno y varios jugadores, incluidos PacMan, Pokémon, Snake, Ping Pong y Tic Tac Toe, utilizando varios lenguajes de programación.",
-      "Technologies": ["Java", "Python", "JavaScript"]
-    }
-  ],
-
-  "OtherProjects.Title": "Más proyectos",
-  "OtherProjects.Projects": [
-    {
-      "Title": "Clipper-Co",
-      "Description": "Software que facilita el intercambio continuo de portapapeles entre múltiples usuarios y dispositivos, mejorando la productividad.",
-      "ghLink": "https://github.com/breejesh/clipper-co",
-      "Technologies": ["Java", "Python", "CSS"]
-    },
-    {
-      "Title": "Happyness",
-      "Description": "Aplicación móvil diseñada para ofrecer noticias positivas en un formato resumido y atractivo, promoviendo el optimismo y la alegría.",
-      "ghLink": "https://github.com/breejesh/happyness",
-      "Technologies": ["Flutter", "Dart", "Firebase"]
-    },
-    {
-      "Title": "Poetic Musings",
-      "Description": "Diseñado en Angular, imita una interfaz de reproductor de música para navegar y disfrutar de poesía de manera responsiva sin librerías CSS.",
-      "ghLink": "https://github.com/breejesh/poetic-musings",
-      "Technologies": ["Angular", "TypeScript", "Firebase"]
-    }
-  ],
-
+  "FeatureProjects.Subtitle": "De extremo a extremo construí apps y sistemas: IA con privacidad, hardware educativo, UX musical y plataformas de datos.",
+  "FeatureProjects.Label": "Proyecto destacado",
+  "OtherProjects.Title": "Mas proyectos",
   "Achievements.Title": "Logros",
   "Achievements.Pretitle": "Hitos",
   "Achievements.Subtitle": "Reconocimiento y honores obtenidos a lo largo del camino",
@@ -190,39 +195,57 @@
       "Year": "2018",
       "Rank": "1º",
       "Description": "Obtuve el primer lugar en el Mumbai Hackathon, organizado por ERPNext, desarrollando una aplicación de portapapeles compartido entre computadoras y dispositivos móviles en un período de 24 horas.",
-      "Skills": ["Resolución de problemas", "Innovación", "Trabajo en equipo"]
+      "Skills": [
+        "Resolución de problemas",
+        "Innovación",
+        "Trabajo en equipo"
+      ]
     },
     {
       "Year": "2016",
       "Rank": "1º",
       "Description": "Recibí el Premio al Joven Innovador del entonces Ministro Principal de Maharashtra, Sr. Devendra Fadnavis, por diseñar un piano virtual que proyectaba una interfaz interactiva en cualquier superficie mediante una linterna y cámara web.",
-      "Skills": ["Innovación", "Creatividad", "Presentación"]
+      "Skills": [
+        "Innovación",
+        "Creatividad",
+        "Presentación"
+      ]
     },
     {
       "Year": "2016",
       "Rank": "6º",
       "Description": "Avancé a los cuartos de final de ABU Robocon, una prestigiosa competencia de robótica a nivel global. Representé a VJTI a nivel nacional, compitiendo contra otras 105 universidades.",
-      "Skills": ["Robótica", "Ingeniería", "Colaboración en equipo"]
+      "Skills": [
+        "Robótica",
+        "Ingeniería",
+        "Colaboración en equipo"
+      ]
     },
     {
       "Year": "2015",
       "Rank": "1º",
       "Description": "Logré la victoria en Adomania, una competencia intercolegial de creación de anuncios, al dirigir y producir un cortometraje que capturaba la esencia de la vida en Mumbai.",
-      "Skills": ["Creatividad", "Marketing", "Presentación"]
+      "Skills": [
+        "Creatividad",
+        "Marketing",
+        "Presentación"
+      ]
     },
     {
       "Year": "2010",
       "Rank": "1º",
       "Description": "Ganador del Concurso de Oratoria en Memoria de M.R. Pai a nivel intercolegial.",
-      "Skills": ["Oratoria", "Comunicación", "Presentación"]
+      "Skills": [
+        "Oratoria",
+        "Comunicación",
+        "Presentación"
+      ]
     }
   ],
-
   "Contact.Pretitle": "¿Qué sigue?",
   "Contact.Title": "¡Ponte en contacto!",
   "Contact.Content": "Estaré encantado de recibir tu mensaje si deseas hablar sobre nuevas oportunidades o cualquier tema interesante. No dudes en contactarme y te responderé lo antes posible.",
   "Contact.Btn": "Di Hola",
-
   "Blog.SearchPlaceholder": "Buscar artículos...",
   "Blog.ReadArticle": "Leer artículo",
   "Blog.Read": "Leer",
@@ -239,21 +262,96 @@
   "Blog.NoPostsDesc": "No pudimos encontrar ningún artículo que coincida con",
   "TechStack.Title": "Stack Tecnológico Principal",
   "TechStack.Skills": [
-    { "Title": "Java", "Desc": "Servicios backend robustos, APIs REST y aplicaciones empresariales.", "IconClass": "fab fa-java", "Color": "#f89820" },
-    { "Title": "Angular", "Desc": "SPAs dinámicas y arquitectura frontend moderna con TypeScript.", "IconClass": "fab fa-angular", "Color": "#dd0031" },
-    { "Title": "Bases de datos SQL", "Desc": "Modelado relacional, ajuste de consultas, data warehousing y análisis.", "IconClass": "fas fa-database", "Color": "#336791" },
-    { "Title": "HTML & CSS", "Desc": "Diseños responsivos, estilos limpios, accesibilidad y transiciones visuales.", "IconClass": "fab fa-html5", "Color": "#e34f26" },
-    { "Title": "TypeScript", "Desc": "Bases de código con tipos seguros y arquitecturas altamente escalables.", "IconClass": "ts-logo", "Color": "#3178c6" },
-    { "Title": "AWS Cloud", "Desc": "S3, EKS, EC2, Secrets Manager, CloudWatch — operaciones e monitoreo en la nube.", "IconClass": "fab fa-aws", "Color": "#ff9900" },
-    { "Title": "CI/CD & Git", "Desc": "Pipelines de build/deploy automatizados, GitOps, ArgoCD y flujos de control de versiones.", "IconClass": "fab fa-git-alt", "Color": "#4078c0" },
-    { "Title": "Firebase", "Desc": "Bases de datos en tiempo real, autenticación, cloud functions y hosting.", "IconClass": "fas fa-fire", "Color": "#FFA000" },
-    { "Title": "Python", "Desc": "Scripting, pipelines de datos, utilidades ML y servicios backend.", "IconClass": "fab fa-python", "Color": "#3776AB" },
-    { "Title": "Gen AI & LLMs", "Desc": "Integraciones de IA generativa, ingeniería de prompts, RAG y funciones impulsadas por LLM.", "IconClass": "fas fa-robot", "Color": "#10a37f" },
-    { "Title": "AI/ML", "Desc": "Milvus, búsqueda vectorial, clustering KNN, DB2 y pipelines de aprendizaje automático.", "IconClass": "fas fa-brain", "Color": "#a855f7" },
-    { "Title": "Kubernetes", "Desc": "Orquestación de contenedores, Helm, autoescalado y despliegues multi-clúster.", "IconClass": "fas fa-dharmachakra", "Color": "#326CE5" },
-    { "Title": "Redis", "Desc": "Caché de alto rendimiento, mensajería pub/sub y gestión de sesiones.", "IconClass": "fas fa-bolt", "Color": "#DC382D" },
-    { "Title": "Elasticsearch", "Desc": "Búsqueda de texto completo, análisis de logs, detección de anomalías y observabilidad.", "IconClass": "fas fa-search", "Color": "#00bfb3" },
-    { "Title": "Lakehouse & Spark", "Desc": "Apache Spark, procesamiento distribuido de datos, Delta Lake y análisis por lotes.", "IconClass": "fas fa-layer-group", "Color": "#E25A1C" }
+    {
+      "Title": "Java",
+      "Desc": "Servicios backend robustos, APIs REST y aplicaciones empresariales.",
+      "IconClass": "fab fa-java",
+      "Color": "#f89820"
+    },
+    {
+      "Title": "Angular",
+      "Desc": "SPAs dinámicas y arquitectura frontend moderna con TypeScript.",
+      "IconClass": "fab fa-angular",
+      "Color": "#dd0031"
+    },
+    {
+      "Title": "Bases de datos SQL",
+      "Desc": "Modelado relacional, ajuste de consultas, data warehousing y análisis.",
+      "IconClass": "fas fa-database",
+      "Color": "#336791"
+    },
+    {
+      "Title": "HTML & CSS",
+      "Desc": "Diseños responsivos, estilos limpios, accesibilidad y transiciones visuales.",
+      "IconClass": "fab fa-html5",
+      "Color": "#e34f26"
+    },
+    {
+      "Title": "TypeScript",
+      "Desc": "Bases de código con tipos seguros y arquitecturas altamente escalables.",
+      "IconClass": "ts-logo",
+      "Color": "#3178c6"
+    },
+    {
+      "Title": "AWS Cloud",
+      "Desc": "S3, EKS, EC2, Secrets Manager, CloudWatch — operaciones e monitoreo en la nube.",
+      "IconClass": "fab fa-aws",
+      "Color": "#ff9900"
+    },
+    {
+      "Title": "CI/CD & Git",
+      "Desc": "Pipelines de build/deploy automatizados, GitOps, ArgoCD y flujos de control de versiones.",
+      "IconClass": "fab fa-git-alt",
+      "Color": "#4078c0"
+    },
+    {
+      "Title": "Firebase",
+      "Desc": "Bases de datos en tiempo real, autenticación, cloud functions y hosting.",
+      "IconClass": "fas fa-fire",
+      "Color": "#FFA000"
+    },
+    {
+      "Title": "Python",
+      "Desc": "Scripting, pipelines de datos, utilidades ML y servicios backend.",
+      "IconClass": "fab fa-python",
+      "Color": "#3776AB"
+    },
+    {
+      "Title": "Gen AI & LLMs",
+      "Desc": "Integraciones de IA generativa, ingeniería de prompts, RAG y funciones impulsadas por LLM.",
+      "IconClass": "fas fa-robot",
+      "Color": "#10a37f"
+    },
+    {
+      "Title": "AI/ML",
+      "Desc": "Milvus, búsqueda vectorial, clustering KNN, DB2 y pipelines de aprendizaje automático.",
+      "IconClass": "fas fa-brain",
+      "Color": "#a855f7"
+    },
+    {
+      "Title": "Kubernetes",
+      "Desc": "Orquestación de contenedores, Helm, autoescalado y despliegues multi-clúster.",
+      "IconClass": "fas fa-dharmachakra",
+      "Color": "#326CE5"
+    },
+    {
+      "Title": "Redis",
+      "Desc": "Caché de alto rendimiento, mensajería pub/sub y gestión de sesiones.",
+      "IconClass": "fas fa-bolt",
+      "Color": "#DC382D"
+    },
+    {
+      "Title": "Elasticsearch",
+      "Desc": "Búsqueda de texto completo, análisis de logs, detección de anomalías y observabilidad.",
+      "IconClass": "fas fa-search",
+      "Color": "#00bfb3"
+    },
+    {
+      "Title": "Lakehouse & Spark",
+      "Desc": "Apache Spark, procesamiento distribuido de datos, Delta Lake y análisis por lotes.",
+      "IconClass": "fas fa-layer-group",
+      "Color": "#E25A1C"
+    }
   ],
   "WhatIDo.Title": "¿Qué Hago?",
   "WhatIDo.Subtitle": "Desarrollo integral para web, móvil y nube.",
@@ -268,7 +366,15 @@
         "RBAC multi-tenant y capas de permisos organizacionales",
         "Sincronización de datos en tiempo real y UI basada en esquemas"
       ],
-      "Tags": ["Java", "Angular", "Spring Boot", "Kafka", "PostgreSQL", "TypeScript", "Redis"]
+      "Tags": [
+        "Java",
+        "Angular",
+        "Spring Boot",
+        "Kafka",
+        "PostgreSQL",
+        "TypeScript",
+        "Redis"
+      ]
     },
     {
       "Title": "Desarrollo de Apps Móviles",
@@ -280,7 +386,15 @@
         "Integraciones nativas: Notificaciones push, autenticación biométrica, cámara",
         "Pipelines de publicación y despliegue en App Store y Google Play Store"
       ],
-      "Tags": ["React Native", "TypeScript", "iOS", "Android", "Redux Toolkit", "Push Notifications", "Fastlane"]
+      "Tags": [
+        "React Native",
+        "TypeScript",
+        "iOS",
+        "Android",
+        "Redux Toolkit",
+        "Push Notifications",
+        "Fastlane"
+      ]
     },
     {
       "Title": "Integración AI & LLM",
@@ -292,7 +406,15 @@
         "Agrupamiento KNN, DB2 y motores de similitud semántica",
         "Arquitecturas RAG y límites de seguridad de prompts"
       ],
-      "Tags": ["Python", "Gen AI", "Milvus", "Elasticsearch", "OpenAI", "Gemini", "DB2"]
+      "Tags": [
+        "Python",
+        "Gen AI",
+        "Milvus",
+        "Elasticsearch",
+        "OpenAI",
+        "Gemini",
+        "DB2"
+      ]
     },
     {
       "Title": "Nube e Infraestructura",
@@ -304,7 +426,15 @@
         "Pipelines CI/CD con GitHub Actions y ArgoCD",
         "Monitoreo, alertas y análisis de logs con CloudWatch"
       ],
-      "Tags": ["AWS", "Kubernetes", "Docker", "ArgoCD", "GitHub Actions", "CloudWatch", "Helm"]
+      "Tags": [
+        "AWS",
+        "Kubernetes",
+        "Docker",
+        "ArgoCD",
+        "GitHub Actions",
+        "CloudWatch",
+        "Helm"
+      ]
     }
   ],
   "Blog.SearchTitle": "Buscar",
@@ -315,5 +445,226 @@
   "Footer.Desc": "Líder de ingeniería con experiencia llevando productos de 0→1 y escalándolos de 1→100 en fintech, ciberseguridad y software empresarial. Capacidad demostrada para impulsar la adopción de productos, optimizar sistemas a escala y crear equipos de alto rendimiento que generan impacto empresarial.",
   "Footer.Navigate": "NAVEGAR",
   "Footer.ContactInfo": "INFORMACIÓN DE CONTACTO",
-  "Footer.ResumeCV": "Currículum / CV"
+  "Footer.ResumeCV": "Currículum / CV",
+  "FeatureProjects.ViewCase": "Leer más",
+  "FeatureProjects.LiveDemo": "Demo en vivo",
+  "FeatureProjects.Overview": "Resumen",
+  "FeatureProjects.Highlights": "Puntos clave",
+  "FeatureProjects.Stack": "Stack",
+  "FeatureProjects.BackToProjects": "Volver a proyectos",
+  "FeatureProjects.NotFound": "Proyecto no encontrado",
+  "OtherProjects.Subtitle": "Benchmarks, experimentos y builds más antiguos que aún merecen una mirada.",
+  "OtherProjects.GithubCta": "Ver todo en GitHub",
+  "ArchiveProjects.Title": "Trabajos anteriores",
+  "ArchiveProjects.Subtitle": "Trabajos antiguos que aún me gusta mostrar. El código y los textos son limitados, pero las demos y las ideas siguen en pie.",
+  "ArchiveProjects.Badge": "Archivo",
+  "PortfolioProjects": {
+    "nom-ai": {
+      "Title": "NomAI",
+      "Tagline": "Contador de calorías con LLM offline",
+      "Description": "App de calorías gratis, open source y con privacidad primero para Android. Modelos Gemma-2B locales estiman la nutrición por texto o foto. Sin cuentas, sin backend en la nube, sin anuncios.",
+      "Technologies": [
+        "Kotlin",
+        "Jetpack Compose",
+        "Gemma-2B",
+        "Android",
+        "LiteRT-LM"
+      ],
+      "Highlights": [
+        "Análisis de comidas 100% en el dispositivo con modelos Gemma locales",
+        "Escaneo por visión y registro de comida en lenguaje natural",
+        "Metas de BMR/TDEE con la fórmula Mifflin-St Jeor",
+        "Licencia MIT, sin inicios de sesión ni seguimiento"
+      ],
+      "Body": [
+        "NomAI es un contador de calorías offline y con privacidad primero para Android. La mayoría de apps empujan suscripciones, anuncios y recolección de datos. NomAI deja el historial, los ajustes y las métricas solo en el dispositivo.",
+        "Usa modelos Gemma-2B locales para texto y visión. Puedes describir una comida en lenguaje natural o sacar una foto; macros y porciones se estiman sin conexión. Los valores se pueden editar si quieres más precisión.",
+        "Pensado para un seguimiento casual: paneles, diarios, gráficos semanales y copia de seguridad del sistema Android sin un backend remoto de producto."
+      ]
+    },
+    "innodino": {
+      "Title": "InnoDino",
+      "Tagline": "Robótica offline-first para niños",
+      "Description": "Plataforma asequible de aprendizaje en robótica: kits de hardware modular, programación por bloques en Android y lecciones offline para que los niños construyan y programen sin PC ni internet.",
+      "Technologies": [
+        "JavaScript",
+        "Android",
+        "Robotics",
+        "Block coding",
+        "Education"
+      ],
+      "Highlights": [
+        "Kits modulares: matriz LED y DinoBot",
+        "Programación visual por bloques en el móvil (sin PC)",
+        "Diseño offline-first para aulas con poca conectividad",
+        "Currículo y docs de hardware abiertos bajo AGPL"
+      ],
+      "Body": [
+        "InnoDino hace accesible la robótica y la programación con kits de hardware modular, una app móvil de bloques visuales y un diseño offline-first. Empieza pequeño y crece con las habilidades.",
+        "Los alumnos programan en Android, se conectan por USB y ven el código ejecutarse en módulos LED o robot. Los educadores obtienen una progresión amigable para K-12 y un currículo con historias.",
+        "La documentación cubre el módulo LED, DinoBot, el protocolo DinoSerial, la app Android y el sitio del producto. Vista general en vivo: breejesh.github.io/innodino."
+      ]
+    },
+    "zunify": {
+      "Title": "Zunify",
+      "Tagline": "Reproductor de música offline estilo Zune",
+      "Description": "La interfaz Metro de Zune renace como PWA con privacidad primero. Biblioteca local con File System Access API, metadatos en IndexedDB, sin subidas ni cuentas.",
+      "Technologies": [
+        "Angular",
+        "PWA",
+        "IndexedDB",
+        "Dexie",
+        "Web Audio"
+      ],
+      "Highlights": [
+        "File System Access API solo para carpetas locales",
+        "Estética Metro de Zune con temas y colores de acento",
+        "Listas de reproducción, historial y vista now-playing inmersiva",
+        "PWA instalable y totalmente usable offline"
+      ],
+      "Body": [
+        "Zunify trae de vuelta la UI Metro de finales de los 2000 en el navegador. Escanea música local con la File System Access API, guarda etiquetas y carátulas en IndexedDB vía Dexie y nunca sube archivos ni datos de escucha.",
+        "Incluye navegación por artista/álbum, listas, valoraciones con corazón, historial de reproducción y una vista now-playing inmersiva con fondos dinámicos desde la carátula.",
+        "Stack: Angular 19 con Signals, music-metadata-browser para etiquetas, Web Audio para la reproducción y service workers para instalación PWA y uso offline."
+      ]
+    },
+    "vanguard-health": {
+      "Title": "Vanguard Health",
+      "Tagline": "Plataforma de datos sanitarios FHIR",
+      "Description": "Pipeline sanitario en contenedores: ingesta FHIR de Synthea, transformaciones Bronze a Silver a Gold y analítica de mapa en Firebase de eventos de salud comunitaria.",
+      "Technologies": [
+        "Python",
+        "Kubernetes",
+        "Skaffold",
+        "Angular",
+        "FHIR",
+        "Firebase"
+      ],
+      "Highlights": [
+        "Pipeline estilo medallion Bronze / Silver / Gold",
+        "Bucle local de plataforma con Kubernetes + Skaffold",
+        "Panel de salud comunitaria basado en mapa",
+        "Ingesta de datos sintéticos FHIR con Synthea"
+      ],
+      "Body": [
+        "Vanguard Health es una plataforma de datos sanitarios en contenedores. Ingiere FHIR desde Synthea, procesa las capas Bronze, Silver y Gold, publica activos Gold y alimenta un frontend de analítica cartográfica.",
+        "El desarrollo local apunta a Kubernetes en Docker Desktop con Skaffold. El frontend Angular visualiza cómo los eventos de salud se propagan geográficamente al llegar los registros.",
+        "Demo: vanguard-health.web.app. Hecho como portfolio de ingeniería de datos más UI de producto, no como afirmación clínica de producción."
+      ]
+    },
+    "dijkstra-robot": {
+      "Title": "Robot de Dijkstra",
+      "Tagline": "Robot de laberinto por camino más corto",
+      "Description": "Robot seguidor de línea que usa Dijkstra para el camino más corto en un laberinto en rejilla. Primero exploración en profundidad y luego rutas eficientes de origen a destino.",
+      "Technologies": [
+        "Data Structures",
+        "Robotics",
+        "C"
+      ]
+    },
+    "virtual-piano": {
+      "Title": "Piano virtual",
+      "Tagline": "Piano en cualquier superficie",
+      "Description": "Proyecta un piano sobre cualquier superficie plana con una linterna simple y usa cámara y procesamiento de imagen para convertir toques en notas. Poco hardware, mucho efecto.",
+      "Technologies": [
+        "MatLab",
+        "Image Processing",
+        "Physics"
+      ]
+    },
+    "game-development": {
+      "Title": "Desarrollo de juegos",
+      "Tagline": "Juegos 2D clásicos en varios lenguajes",
+      "Description": "Juegos 2D individuales y multijugador: Pac-Man, mapas estilo Pokémon, Snake, Ping Pong y Tres en raya, hechos en Java, Python y JavaScript.",
+      "Technologies": [
+        "Java",
+        "Python",
+        "JavaScript"
+      ]
+    },
+    "digital-watermark": {
+      "Title": "Marca de agua digital",
+      "Tagline": "Criptografía visual para copyright de imagen",
+      "Description": "Prueba de concepto: dividir una marca binaria con secret sharing 2-de-2, vincular la propiedad a la imagen anfitriona y recuperar la marca tras modificaciones.",
+      "Technologies": [
+        "Python",
+        "OpenCV",
+        "NumPy",
+        "Cryptography"
+      ]
+    },
+    "multi-stage-docker": {
+      "Title": "Benchmark de Docker multi-stage",
+      "Tagline": "Estrategias de build en varios ecosistemas",
+      "Description": "Tres estrategias de build Docker (single, multi-stage, prebuilt) en Go, Node/TS, Java y Python/Conda con mediciones reproducibles.",
+      "Technologies": [
+        "Docker",
+        "Python",
+        "Go",
+        "Node",
+        "Java"
+      ]
+    },
+    "java-virtual-threads": {
+      "Title": "Benchmark de virtual threads en Java",
+      "Tagline": "Estudio de concurrencia en Java 21",
+      "Description": "Benchmarks prácticos de virtual threads de Java 21: rendimiento, latencia y comportamiento bajo carga frente a pools clásicos.",
+      "Technologies": [
+        "Java 21",
+        "Virtual Threads",
+        "Python",
+        "Benchmarking"
+      ]
+    },
+    "smart-posture": {
+      "Title": "SmartPosture",
+      "Tagline": "Experimento de ML de postura",
+      "Description": "Proyecto de notebook de investigación sobre detección de postura y feedback con herramientas modernas de visión por computador.",
+      "Technologies": [
+        "Python",
+        "Jupyter",
+        "CV",
+        "ML"
+      ]
+    },
+    "rippleboards": {
+      "Title": "Rippleboards",
+      "Tagline": "Experimento de producto en TypeScript",
+      "Description": "Proyecto full-stack en TypeScript sobre tableros interactivos y patrones de UX de producto.",
+      "Technologies": [
+        "TypeScript",
+        "Web"
+      ]
+    },
+    "clipper-co": {
+      "Title": "Clipper-Co",
+      "Tagline": "Portapapeles compartido entre dispositivos",
+      "Description": "Comparte texto del portapapeles entre usuarios y dispositivos para reducir la fricción en flujos multi-dispositivo.",
+      "Technologies": [
+        "Java",
+        "Python",
+        "CSS"
+      ]
+    },
+    "happyness": {
+      "Title": "Happyness",
+      "Tagline": "Noticias positivas, formato corto",
+      "Description": "App Flutter que muestra noticias alentadoras en formato breve cuando el feed se siente pesado.",
+      "Technologies": [
+        "Flutter",
+        "Dart",
+        "Firebase"
+      ]
+    },
+    "consistent-hashing": {
+      "Title": "Visualización de consistent hashing",
+      "Tagline": "Herramienta interactiva para sistemas",
+      "Description": "Herramienta visual de cómo el consistent hashing coloca claves en nodos: balanceo de carga y cambios de membresía de forma intuitiva.",
+      "Technologies": [
+        "Angular",
+        "TypeScript",
+        "CSS"
+      ]
+    }
+  }
 }

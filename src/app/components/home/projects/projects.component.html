@@ -1,50 +1,144 @@
-<section class="section projects" id='projects'>
-    <div class="container">
-        <div class="section-box">
-            <div *ngIf="!hideTitle" data-aos="fade-up" data-aos-duration="1000">
-                <h3 class="section-title">
-                    {{"FeatureProjects.Title" | translate}}
-                </h3>
-            </div>
+<section class="section projects" id="projects">
+  <div class="container">
+    <div class="section-box">
+      <div *ngIf="!hideTitle" data-aos="fade-up" data-aos-duration="1000">
+        <h3 class="section-title">
+          {{ 'FeatureProjects.Title' | translate }}
+        </h3>
+      </div>
 
-            <div *ngFor='let project of "FeatureProjects.Projects" | translate | asArray; let i = index' class="d-flex project-container" data-aos="fade-up" data-aos-duration="1000">
-                <div class="img-feature-project-container" data-aos="fade-up" data-aos-duration="1000" *ngIf="i%2==0">
-                    <div class="img-feature-project-box">
-                        <div class="img-container" style='width: auto;'>
-                            <img class='img-feature-project rounded' [src]="project.imgs[0]" [alt]="project.imgs[0]" width='600px'>
-                        </div>
-                    </div>
-                </div>
-                <div [class.project-info-right]='i%2==0' [class.project-info-left]='i%2!=0' class="h-100" style="background-image: url('{{project.img}}');">
-                    <div class="project-box">
-                        <h4 [class.text-right]='i%2==0' [class.text-left]='i%2!=0' class="feature-project">{{"FeatureProjects.Label" | translate}}</h4>
-                        <h5 [class.text-right]='i%2==0' [class.text-left]='i%2!=0' class="project-name">{{project.Title}}</h5>
-
-                        <div class="project-description-box" (click)='debug()'>
-                            <p class="mb-0" [innerHTML]="project.Description">
-                            </p>
-                        </div>
-                        <ul [class.justify-content-end]='i%2==0' [class.justify-content-start]='i%2!=0' class="project-skills">
-                            <li *ngFor='let technology of project.Technologies' class="ml-3">
-                              <span class="underline technology">{{technology}}</span>
-                            </li>
-                        </ul>
-                        <div [class.text-right]='i%2==0' [class.text-left]='i%2!=0' class="project-links">
-                            <a *ngIf="project['ghLink']" style='color: inherit' [href]="project['ghLink']" target="_blank"><i class="ml-3 fab fa-github"></i></a>
-                            <a *ngIf="project['demoLink']" style='color: inherit' [href]="project['demoLink']" target="_blank"><i class="ml-3 fas fa-external-link-alt"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="img-feature-project-container" data-aos="fade-up" data-aos-duration="1000" *ngIf="i%2!=0">
-                    <div class="img-feature-project-box">
-                        <div class="img-container" style='width: auto;'>
-                            <img class='img-feature-project rounded' [src]="project.imgs[0]" [alt]="project.imgs[0]" width='600px'>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div>
-            </div>
+      <div
+        *ngFor="let project of projects(); let i = index"
+        class="d-flex project-container"
+        data-aos="fade-up"
+        data-aos-duration="1000">
+        <div
+          class="img-feature-project-container"
+          data-aos="fade-up"
+          data-aos-duration="1000"
+          *ngIf="i % 2 === 0">
+          <div class="img-feature-project-box">
+            <ng-container
+              *ngTemplateOutlet="projectMedia; context: { $implicit: project }"></ng-container>
+          </div>
         </div>
+
+        <div
+          class="h-100 project-info"
+          [class.project-info-right]="i % 2 === 0"
+          [class.project-info-left]="i % 2 !== 0"
+          [style.background-image]="'url(' + project.image + ')'">
+          <div class="project-box">
+            <h4
+              class="feature-project"
+              [class.text-right]="i % 2 === 0"
+              [class.text-left]="i % 2 !== 0">
+              {{ 'FeatureProjects.Label' | translate }}
+            </h4>
+            <h5
+              class="project-name"
+              [class.text-right]="i % 2 === 0"
+              [class.text-left]="i % 2 !== 0">
+              <a *ngIf="blogLink(project) as link; else titlePlain" [routerLink]="link">{{ project.title }}</a>
+              <ng-template #titlePlain>{{ project.title }}</ng-template>
+            </h5>
+
+            <div class="project-description-box">
+              <p class="mb-0">{{ project.description }}</p>
+            </div>
+
+            <ul
+              class="project-skills"
+              [class.skills-end]="i % 2 === 0"
+              [class.skills-start]="i % 2 !== 0">
+              <li *ngFor="let technology of project.technologies" class="ml-3">
+                <span class="underline technology">{{ technology }}</span>
+              </li>
+            </ul>
+
+            <div
+              class="project-links"
+              [class.text-right]="i % 2 === 0"
+              [class.text-left]="i % 2 !== 0">
+              <a
+                *ngIf="blogLink(project) as link"
+                class="view-case"
+                [routerLink]="link">
+                {{ 'FeatureProjects.ViewCase' | translate }}
+              </a>
+              <a
+                *ngIf="project.ghLink"
+                class="project-icon-link"
+                [href]="project.ghLink"
+                target="_blank"
+                rel="noopener noreferrer"
+                [attr.aria-label]="project.title + ' GitHub'"
+                title="GitHub">
+                <i class="fab fa-github" aria-hidden="true"></i>
+              </a>
+              <a
+                *ngIf="project.demoLink"
+                class="project-icon-link project-icon-link--demo"
+                [href]="project.demoLink"
+                target="_blank"
+                rel="noopener noreferrer"
+                [attr.aria-label]="project.title + ' live demo'"
+                [attr.title]="'FeatureProjects.LiveDemo' | translate">
+                <svg class="demo-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path
+                    fill="currentColor"
+                    d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="img-feature-project-container"
+          data-aos="fade-up"
+          data-aos-duration="1000"
+          *ngIf="i % 2 !== 0">
+          <div class="img-feature-project-box">
+            <ng-container
+              *ngTemplateOutlet="projectMedia; context: { $implicit: project }"></ng-container>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
+
+<ng-template #projectMedia let-project>
+  <a
+    *ngIf="blogLink(project) as link; else mediaPlain"
+    class="img-container"
+    [routerLink]="link"
+    [attr.aria-label]="project.title + ' article'">
+    <ng-container *ngTemplateOutlet="mediaInner; context: { $implicit: project }"></ng-container>
+  </a>
+  <ng-template #mediaPlain>
+    <div class="img-container">
+      <ng-container *ngTemplateOutlet="mediaInner; context: { $implicit: project }"></ng-container>
+    </div>
+  </ng-template>
+</ng-template>
+
+<ng-template #mediaInner let-project>
+  <img
+    class="img-feature-project rounded"
+    [src]="project.image"
+    [alt]="project.title"
+    width="600"
+    height="375"
+    loading="lazy" />
+  <span class="img-hover-overlay" aria-hidden="true">
+    <img
+      *ngIf="project.logo"
+      class="project-logo"
+      [src]="project.logo"
+      alt=""
+      width="96"
+      height="96" />
+  </span>
+</ng-template>

@@ -1,220 +1,328 @@
-@use "../../../../variables.scss";
+@use '../../../../variables.scss';
+
 .projects {
-    .project-container {
-        margin: 100px 0;
-        .project-info-left {
-            width: 100%;
-            margin-right: -57px;
-            margin-left: 0px;
-            display: table;
-        }
-        .project-info-right {
-            width: 100%;
-            margin-left: -57px;
-            margin-right: 0px;
-            display: table;
-        }
-        .project-box {
-            display: table-cell;
-            vertical-align: middle;
-            .feature-project {
-                font-size: 13px;
-                font-weight: normal;
-                color: variables.$Green;
-                font-family: variables.$CodeFont;
-                margin-top: 10px;
-                padding-top: 0;
-            }
-            .project-name {
-                font-size: 28px;
-                margin: 0 0 20px;
-                color: variables.$LightestSlate;
-            }
-            .project-description-box {
-                box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
-                -webkit-transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
-                transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
-                position: relative;
-                z-index: 2;
-                padding: 25px;
-                background-color: variables.$LightNavy;
-                color: variables.$LightSlate;
-                font-size: 18px;
-                border-radius: 3px;
-            }
-            .project-skills {
-                position: relative;
-                z-index: 2;
-                display: -webkit-box;
-                display: -webkit-flex;
-                display: -ms-flexbox;
-                display: flex;
-                -webkit-flex-wrap: wrap;
-                -ms-flex-wrap: wrap;
-                flex-wrap: wrap;
-                padding: 0;
-                margin: 25px 0 10px;
-                list-style: none;
-                li {
-                    margin-right: 0;
-                    font-family: variables.$CodeFont;
-                    font-size: 13px;
-                    color: variables.$Slate;
-                    margin-bottom: 7px;
-                    white-space: nowrap;
-                    .technology{
-                      padding-bottom: 5px;
-                    }
-                }
-            }
-            .project-links {
-                margin-top: 10px;
-                i {
-                    font-size: 22px;
-                }
-            }
-        }
+  .project-container {
+    margin: 100px 0;
+    align-items: center;
+    position: relative;
+
+    .img-feature-project-container {
+      position: relative;
+      z-index: 1;
     }
+
+    .project-info {
+      position: relative;
+      z-index: 3;
+    }
+
+    .project-info-left {
+      width: 100%;
+      margin-right: -40px;
+      margin-left: 0;
+      display: table;
+    }
+
+    .project-info-right {
+      width: 100%;
+      margin-left: -40px;
+      margin-right: 0;
+      display: table;
+    }
+
+    .project-box {
+      display: table-cell;
+      vertical-align: middle;
+
+      .feature-project {
+        font-size: 13px;
+        font-weight: normal;
+        color: variables.$Green;
+        font-family: variables.$CodeFont;
+        margin-top: 10px;
+        padding-top: 0;
+      }
+
+      .project-name {
+        font-size: 28px;
+        margin: 0 0 20px;
+        color: variables.$LightestSlate;
+
+        a {
+          color: inherit;
+          text-decoration: none;
+          transition: color 0.2s ease;
+
+          &:hover {
+            color: variables.$Green;
+          }
+        }
+      }
+
+      .project-description-box {
+        box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+        transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+        position: relative;
+        z-index: 2;
+        padding: 25px;
+        background-color: variables.$LightNavy;
+        color: variables.$LightSlate;
+        font-size: 18px;
+        border-radius: 3px;
+      }
+
+      /* Keep classic tag look; z-index + side padding only to avoid image overlap */
+      .project-skills {
+        position: relative;
+        z-index: 4;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+        margin: 25px 0 10px;
+        list-style: none;
+        max-width: 100%;
+
+        &.skills-end {
+          justify-content: flex-end;
+          padding-left: 12%;
+        }
+
+        &.skills-start {
+          justify-content: flex-start;
+          padding-right: 12%;
+        }
+
+        li {
+          margin-right: 0;
+          margin-bottom: 7px;
+          font-family: variables.$CodeFont;
+          font-size: 13px;
+          color: variables.$Slate;
+          white-space: nowrap;
+
+          .technology {
+            padding-bottom: 5px;
+          }
+        }
+      }
+
+      .project-links {
+        position: relative;
+        z-index: 4;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+
+        &.text-right {
+          justify-content: flex-end;
+        }
+
+        &.text-left {
+          justify-content: flex-start;
+        }
+
+        .view-case {
+          font-family: variables.$CodeFont;
+          font-size: 13px;
+          color: variables.$Green;
+          text-decoration: none;
+          border: 1px solid variables.$Green;
+          border-radius: 4px;
+          padding: 6px 12px;
+          transition: background 0.2s ease, color 0.2s ease;
+
+          &:hover {
+            background: variables.$GreenOpacity;
+          }
+        }
+
+        .project-icon-link {
+          width: 40px;
+          height: 40px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          color: variables.$LightestSlate;
+          text-decoration: none;
+          line-height: 1;
+          border-radius: 8px;
+          border: 1px solid transparent;
+          transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+
+          i {
+            font-size: 20px;
+          }
+
+          .demo-icon {
+            width: 18px;
+            height: 18px;
+            display: block;
+          }
+
+          &:hover {
+            color: variables.$Green;
+            border-color: color-mix(in srgb, variables.$Green 45%, transparent);
+            background: variables.$GreenOpacity;
+          }
+        }
+      }
+    }
+  }
 }
 
-
-
 @media (min-width: 768px) and (max-width: 1300px) {
-    .owl-carousel-o{
-        display: none;
+  .img-feature-project-container {
+    display: table !important;
+    height: -webkit-fill-available;
+
+    .img-feature-project-box {
+      display: table-cell;
+      vertical-align: middle;
     }
-    .img-feature-project-container {
-        display: table !important;
-        height: -webkit-fill-available;
-        .img-feature-project-box {
-            display: table-cell;
-            vertical-align: middle;
-        }
-        .img-feature-project {
-            width: 100%;
-        }
+
+    .img-feature-project {
+      width: 100%;
     }
-    .project-info-right,
-    .project-info-left {
-        width: 50%;
-    }
+  }
+
+  .project-info-right,
+  .project-info-left {
+    width: 50%;
+  }
 }
 
 @media (min-width: 768px) {
-
+  .projects .project-container {
     .project-info-right,
     .project-info-left {
-        background-image: none !important;
+      width: 50%;
+      background-image: none !important;
     }
+  }
 }
 
 @media (max-width: 768px) {
-    .owl-carousel-o{
+  .projects {
+    .project-container {
+      height: 100% !important;
+      margin: 33px 0 !important;
+
+      .img-feature-project-container {
         display: none;
+      }
+
+      .project-info-left,
+      .project-info-right {
+        width: 100%;
+        display: block !important;
+        margin: 0 !important;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-radius: 3px;
+
+        .project-box {
+          display: block;
+          padding: 20px;
+          background: rgba(5, 5, 5, 0.9);
+        }
+      }
+
+      .project-description-box {
+        padding: 0 !important;
+        box-shadow: none !important;
+        background-color: transparent !important;
+        color: variables.$LightSlate;
+        font-size: 18px;
+        border-radius: 3px;
+      }
+
+      .project-skills {
+        &.skills-end,
+        &.skills-start {
+          justify-content: center !important;
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+        }
+      }
     }
-    .projects {
-        .project-container {
-            height: 100% !important;
-            margin: 33px 0 !important;
-            .project-info-left {
-                width: 100%;
-            }
-            .project-info-right {
-                width: 100%;
-            }
-            .project-description-box {
-                padding: 0px !important;
-                box-shadow: none !important;
-                position: relative;
-                z-index: 2;
-                padding: 25px;
-                background-color: transparent !important;
-                color: variables.$LightSlate;
-                font-size: 18px;
-                border-radius: 3px;
-            }
-            .project-info-right,
-            .project-info-left {
-                display: block !important;
-                margin: 0px !important;
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
-                border-radius: 3px;
-                .project-box {
-                    display: block;
-                }
-            }
-            .img-feature-project-container {
-                display: none;
-            }
-        }
-        .project-info-right,
-        .project-info-left {
-            padding: 0px;
-        }
-        .text-right,
-        .text-left {
-            text-align: center !important;
-        }
-        .justify-content-end {
-            justify-content: center !important;
-        }
-        .justify-content-start {
-            justify-content: center !important;
-        }
 
-
-        .project-info-right .project-box,
-        .project-info-left .project-box {
-            padding: 20px;
-            background: rgba(5, 5, 5, 0.9);
-        }
+    .project-info-right,
+    .project-info-left {
+      padding: 0;
     }
-}
 
-::ng-deep .owl-theme .owl-dots .owl-dot.active span,
- ::ng-deep .owl-theme .owl-dots .owl-dot:hover span {
-    background-color: white !important;
-}
+    .text-right,
+    .text-left {
+      text-align: center !important;
+    }
 
-::ng-deep .owl-theme .owl-dots .owl-dot span {
-    background: #ffffff33;
+    .project-links {
+      &.text-right,
+      &.text-left {
+        justify-content: center !important;
+      }
+    }
+  }
 }
 
 .img-container {
-    width: 600px;
-    max-height: 320px;
-    overflow: hide;
-    border-radius: 3px;
-}
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  max-height: 340px;
+  overflow: hidden;
+  border-radius: 4px;
+  position: relative;
+  isolation: isolate;
 
+  .img-feature-project {
+    width: 100%;
+    height: 100%;
+    max-height: 340px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.45s ease;
+  }
 
-/* width */
+  .img-hover-overlay {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.78);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
 
-::-webkit-scrollbar {
-    width: 7px;
-}
+  .project-logo {
+    width: clamp(64px, 18%, 104px);
+    height: clamp(64px, 18%, 104px);
+    object-fit: contain;
+    filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.45));
+    transform: translateY(8px) scale(0.92);
+    opacity: 0.9;
+    transition: transform 0.35s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.3s ease;
+  }
 
+  &:hover,
+  &:focus-visible {
+    .img-feature-project {
+      transform: scale(1.03);
+    }
 
-/* Track */
+    .img-hover-overlay {
+      opacity: 1;
+    }
 
- ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px #8892b0;
-    border-radius: 3px;
-}
-
-
-/* Handle */
-
- ::-webkit-scrollbar-thumb {
-    background: variables.$Green;
-    border-radius: 3px;
-}
-
-
-/* Handle on hover */
-
- ::-webkit-scrollbar-thumb:hover {
-    background: variables.$Green;
+    .project-logo {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+  }
 }
