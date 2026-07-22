@@ -22,9 +22,24 @@ export default class BlogIndexPage {
   constructor() {
     this.seoService.updateMeta({
       title: 'Engineering Blog',
-      description: 'Insights, tutorials, and experiences in software engineering, cloud architecture, and building products from 0 to 1.',
-      url: '/blog'
+      description: 'Insights, tutorials, and benchmarks on Java 21 virtual threads, cloud architecture, LLMs, Docker, AWS, and building products from 0 to 1.',
+      url: '/blog',
+      lang: 'en',
+      keywords: [
+        'Engineering Blog',
+        'Java 21',
+        'Virtual Threads',
+        'AWS',
+        'Docker',
+        'LLM',
+        'System Design'
+      ]
     });
+    this.seoService.setBlogIndexJsonLd();
+    this.seoService.setBreadcrumbJsonLd([
+      { name: 'Home', url: '/' },
+      { name: 'Blog', url: '/blog' }
+    ]);
   }
 
   readonly searchQuery = this.layout.searchQuery;

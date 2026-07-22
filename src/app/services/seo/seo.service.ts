@@ -8,8 +8,15 @@ export interface SeoConfig {
   url?: string;
   image?: string;
   type?: string;
+  /** Optional document language (en, es, fr, hi) */
+  lang?: string;
+  /** When true, use title as-is without appending the site name */
+  rawTitle?: boolean;
+  robots?: string;
+  keywords?: string[];
   article?: {
     datePublished?: string;
+    dateModified?: string;
     tags?: string[];
     author?: string;
   };
@@ -33,15 +40,23 @@ export class SeoService {
 
   updateMeta(config: SeoConfig): void {
     const title = config.title
-      ? `${config.title} | Breejesh Rathod`
+      ? (config.rawTitle || config.title.includes(this.siteName)
+          ? config.title
+          : `${config.title} | ${this.siteName}`)
       : 'Breejesh Rathod | Engineering Leader & Software Developer';
     const description = config.description ||
       'Engineering leader with experience taking products from 0→1 and scaling them 1→100 across fintech, cybersecurity, and enterprise software.';
-    const url = config.url ? `${this.baseUrl}${config.url}` : this.baseUrl;
+    const url = config.url ? this.toAbsoluteUrl(config.url) : this.baseUrl;
     const image = config.image
-      ? (config.image.startsWith('http') ? config.image : `${this.baseUrl}${config.image}`)
+      ? this.toAbsoluteUrl(config.image)
       : this.defaultImage;
     const type = config.type || 'website';
+
+    // Document language for crawlers and accessibility
+    if (config.lang) {
+      this.document.documentElement.lang = config.lang;
+      this.document.documentElement.setAttribute('xml:lang', config.lang);
+    }
 
     // Title
     this.titleService.setTitle(title);
@@ -49,6 +64,15 @@ export class SeoService {
     // Primary Meta
     this.meta.updateTag({ name: 'title', content: title });
     this.meta.updateTag({ name: 'description', content: description });
+    this.meta.updateTag({
+      name: 'robots',
+      content: config.robots || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+    });
+    this.meta.updateTag({ name: 'author', content: 'Breejesh Rathod' });
+
+    if (config.keywords?.length) {
+      this.meta.updateTag({ name: 'keywords', content: config.keywords.join(', ') });
+    }
 
     // Canonical URL
     this.setCanonicalUrl(url);
@@ -62,7 +86,12 @@ export class SeoService {
     this.meta.updateTag({ property: 'og:title', content: title });
     this.meta.updateTag({ property: 'og:description', content: description });
     this.meta.updateTag({ property: 'og:image', content: image });
+    this.meta.updateTag({ property: 'og:image:alt', content: title });
     this.meta.updateTag({ property: 'og:site_name', content: this.siteName });
+    this.meta.updateTag({
+      property: 'og:locale',
+      content: this.localeFromLang(config.lang || 'en')
+    });
 
     // Twitter
     this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
@@ -70,17 +99,30 @@ export class SeoService {
     this.meta.updateTag({ name: 'twitter:title', content: title });
     this.meta.updateTag({ name: 'twitter:description', content: description });
     this.meta.updateTag({ name: 'twitter:image', content: image });
+    this.meta.updateTag({ name: 'twitter:image:alt', content: title });
+    this.meta.updateTag({ name: 'twitter:creator', content: '@breejesh' });
 
     // Article-specific
     if (config.article) {
       this.meta.updateTag({ property: 'og:type', content: 'article' });
       if (config.article.datePublished) {
-        this.meta.updateTag({ property: 'article:published_time', content: config.article.datePublished });
+        this.meta.updateTag({
+          property: 'article:published_time',
+          content: this.toIsoDate(config.article.datePublished)
+        });
+      }
+      if (config.article.dateModified || config.article.datePublished) {
+        this.meta.updateTag({
+          property: 'article:modified_time',
+          content: this.toIsoDate(config.article.dateModified || config.article.datePublished!)
+        });
       }
       if (config.article.author) {
         this.meta.updateTag({ property: 'article:author', content: config.article.author });
       }
       if (config.article.tags) {
+        // Clear previous article:tag tags by rewriting the first and removing extras is hard;
+        // set a joined keywords-style fallback and individual tags.
         config.article.tags.forEach(tag => {
           this.meta.updateTag({ property: 'article:tag', content: tag });
         });
@@ -98,8 +140,7 @@ export class SeoService {
       const link = this.document.createElement('link');
       link.setAttribute('rel', 'alternate');
       link.setAttribute('hreflang', alt.hreflang);
-      const absoluteUrl = alt.href.startsWith('http') ? alt.href : `${this.baseUrl}${alt.href}`;
-      link.setAttribute('href', absoluteUrl);
+      link.setAttribute('href', this.toAbsoluteUrl(alt.href));
       this.document.head.appendChild(link);
     });
   }
@@ -109,29 +150,43 @@ export class SeoService {
    * Works on BOTH server (SSR/SSG) and client to ensure structured data
    * is present in prerendered HTML for search engine crawlers.
    */
-  setJsonLd(data: object): void {
-    // Remove existing JSON-LD with the same class
-    const existing = this.document.querySelector('script[type="application/ld+json"].seo-jsonld');
+  setJsonLd(data: object, className = 'seo-jsonld'): void {
+    const existing = this.document.querySelector(`script[type="application/ld+json"].${className}`);
     if (existing) {
       existing.remove();
     }
 
     const script = this.document.createElement('script');
     script.type = 'application/ld+json';
-    script.className = 'seo-jsonld';
+    script.className = className;
     script.text = JSON.stringify(data);
     this.document.head.appendChild(script);
   }
 
-  setBlogPostJsonLd(post: { title: string; description: string; date: string; image?: string; url: string; tags?: string[] }): void {
+  setBlogPostJsonLd(post: {
+    title: string;
+    description: string;
+    date: string;
+    dateModified?: string;
+    image?: string;
+    url: string;
+    tags?: string[];
+    lang?: string;
+  }): void {
+    const pageUrl = this.toAbsoluteUrl(post.url);
+    const image = post.image ? this.toAbsoluteUrl(post.image) : this.defaultImage;
+    const published = this.toIsoDate(post.date);
+    const modified = this.toIsoDate(post.dateModified || post.date);
+
     const jsonLd = {
       '@context': 'https://schema.org',
       '@type': 'BlogPosting',
       'headline': post.title,
       'description': post.description,
-      'image': post.image ? (post.image.startsWith('http') ? post.image : `${this.baseUrl}${post.image}`) : this.defaultImage,
-      'datePublished': post.date,
-      'dateModified': post.date,
+      'image': [image],
+      'datePublished': published,
+      'dateModified': modified,
+      'inLanguage': post.lang || 'en',
       'author': {
         '@type': 'Person',
         'name': 'Breejesh Rathod',
@@ -144,12 +199,17 @@ export class SeoService {
       },
       'mainEntityOfPage': {
         '@type': 'WebPage',
-        '@id': `${this.baseUrl}${post.url}`
+        '@id': pageUrl
+      },
+      'isPartOf': {
+        '@type': 'Blog',
+        'name': 'Breejesh Rathod Engineering Blog',
+        'url': `${this.baseUrl}/blog`
       },
       'keywords': post.tags ? post.tags.join(', ') : undefined
     };
 
-    this.setJsonLd(jsonLd);
+    this.setJsonLd(jsonLd, 'seo-jsonld');
   }
 
   setPersonJsonLd(): void {
@@ -167,7 +227,7 @@ export class SeoService {
       ]
     };
 
-    this.setJsonLd(jsonLd);
+    this.setJsonLd(jsonLd, 'seo-person-jsonld');
   }
 
   setWebSiteJsonLd(): void {
@@ -180,10 +240,28 @@ export class SeoService {
       'author': {
         '@type': 'Person',
         'name': 'Breejesh Rathod'
-      }
+      },
+      'inLanguage': ['en', 'es', 'fr', 'hi']
     };
 
-    this.setJsonLd(jsonLd);
+    this.setJsonLd(jsonLd, 'seo-website-jsonld');
+  }
+
+  setBlogIndexJsonLd(): void {
+    const jsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'Blog',
+      'name': 'Breejesh Rathod Engineering Blog',
+      'url': `${this.baseUrl}/blog`,
+      'description': 'Insights, tutorials, and benchmarks on Java, cloud architecture, LLMs, and building products from 0 to 1.',
+      'author': {
+        '@type': 'Person',
+        'name': 'Breejesh Rathod',
+        'url': this.baseUrl
+      },
+      'inLanguage': ['en', 'es', 'fr', 'hi']
+    };
+    this.setJsonLd(jsonLd, 'seo-blog-jsonld');
   }
 
   setBreadcrumbJsonLd(items: { name: string; url: string }[]): void {
@@ -194,21 +272,11 @@ export class SeoService {
         '@type': 'ListItem',
         'position': index + 1,
         'name': item.name,
-        'item': item.url.startsWith('http') ? item.url : `${this.baseUrl}${item.url}`
+        'item': this.toAbsoluteUrl(item.url)
       }))
     };
 
-    // Breadcrumb gets its own script tag (separate from main JSON-LD)
-    const existing = this.document.querySelector('script[type="application/ld+json"].seo-breadcrumb');
-    if (existing) {
-      existing.remove();
-    }
-
-    const script = this.document.createElement('script');
-    script.type = 'application/ld+json';
-    script.className = 'seo-breadcrumb';
-    script.text = JSON.stringify(jsonLd);
-    this.document.head.appendChild(script);
+    this.setJsonLd(jsonLd, 'seo-breadcrumb');
   }
 
   private setCanonicalUrl(url: string): void {
@@ -220,6 +288,37 @@ export class SeoService {
       link.setAttribute('rel', 'canonical');
       link.setAttribute('href', url);
       this.document.head.appendChild(link);
+    }
+  }
+
+  private toAbsoluteUrl(pathOrUrl: string): string {
+    if (pathOrUrl.startsWith('http://') || pathOrUrl.startsWith('https://')) {
+      return pathOrUrl;
+    }
+    if (!pathOrUrl.startsWith('/')) {
+      return `${this.baseUrl}/${pathOrUrl}`;
+    }
+    return `${this.baseUrl}${pathOrUrl}`;
+  }
+
+  private toIsoDate(value: string): string {
+    // Accept YYYY-MM-DD or full ISO; normalize to ISO-8601 date time UTC
+    if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+      return `${value}T00:00:00.000Z`;
+    }
+    const parsed = new Date(value);
+    if (!Number.isNaN(parsed.getTime())) {
+      return parsed.toISOString();
+    }
+    return value;
+  }
+
+  private localeFromLang(lang: string): string {
+    switch (lang) {
+      case 'es': return 'es_ES';
+      case 'fr': return 'fr_FR';
+      case 'hi': return 'hi_IN';
+      default: return 'en_US';
     }
   }
 }

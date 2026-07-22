@@ -38,11 +38,6 @@ export default class BlogLayoutComponent {
     return dateB - dateA;
   });
 
-  constructor() {
-    console.log('ALL POSTS FILENAMES:', JSON.stringify(this.allPosts.map(p => p.filename)));
-    console.log('ALL POSTS SLUGS:', JSON.stringify(this.allPosts.map(p => p.slug)));
-  }
-
   readonly allTags = computed(() => {
     const lang = this.languageService.language();
     const tagsSet = new Set<string>();
