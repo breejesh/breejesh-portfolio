@@ -225,6 +225,9 @@ export default class BlogPostComponent implements AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
+    if (typeof document === 'undefined') {
+      return;
+    }
     const post = this.postSignal();
     if (!post?.slug || !post.content) {
       return;

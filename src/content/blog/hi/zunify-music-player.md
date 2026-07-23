@@ -11,20 +11,20 @@ previewImage: /assets/images/zunify-music.webp
 
 **ज़्यूनिफाई** उस इंटरफ़ेस के लिए एक आधुनिक श्रद्धांजलि है। यह एक हल्का, ऑफ़लाइन-फर्स्ट प्रोग्रेसिव वेब ऐप (पीडब्ल्यूए) है जो आपके स्थानीय संगीत संग्रह को सीधे आपके ब्राउज़र में सिंक करता है, बिना किसी सर्वर अपलोड या ट्रैकर के।
 
-* **गिटहब रिपॉजिटरी:** [github.com/breejesh/zunify](https://github.com/breejesh/zunify)
-* **लाइव डेमो:** [zunify.breejeshrathod.com](https://zunify.breejeshrathod.com/)
+* **गिटहब रिपॉजिटरी:** [ज़्यूनिफाई गिटहब](https://github.com/breejesh/zunify)
+* **लाइव डेमो:** [ज़्यूनिफाई डेमो](https://zunify.breejeshrathod.com/)
 
 ---
 
 ## ऐप इंटरफ़ेस और स्क्रीन शोकेस
 
-ज़्यूनिफाई कैसा दिखता है और कैसे काम करता है, आइए इसकी स्क्रीन और यूजर फ्लो को देखें।
+ज़्यूनिफाई कैसा दिखता है और कैसे काम करता है, आइए इसकी स्क्रीन और उपयोगकर्ता प्रवाह को देखें।
 
 ### 1. होम हब
 स्टार्टअप स्क्रीन आपके प्लेबैक इतिहास, सबसे अधिक बार बजाए गए ट्रैक और पसंदीदा गानों तक त्वरित पहुंच प्रदान करती है।
 
 <p align="left">
-  <img src="https://raw.githubusercontent.com/breejesh/zunify/main/doc-images/home.png" width="600" alt="ज़्यूनिफाई Home Screen">
+  <img src="https://raw.githubusercontent.com/breejesh/zunify/main/doc-images/home.png" width="600" alt="ज़्यूनिफाई होम स्क्रीन">
 </p>
 
 ---
@@ -33,18 +33,18 @@ previewImage: /assets/images/zunify-music.webp
 मूल माइक्रोसॉफ्ट ज़्यून क्लाइंट से सीधे प्रेरित एक स्वच्छ, टाइपोग्राफी-केंद्रित सूची लेआउट में एल्बम, कलाकारों और प्लेलिस्ट का पता लगाएं।
 
 <p align="left">
-  <img src="https://raw.githubusercontent.com/breejesh/zunify/main/doc-images/collection.png" width="600" alt="ज़्यूनिफाई Music Collection">
+  <img src="https://raw.githubusercontent.com/breejesh/zunify/main/doc-images/collection.png" width="600" alt="ज़्यूनिफाई संगीत संग्रह">
 </p>
 
 ---
 
-### 3. प्लेयर हब (Now Playing)
+### 3. प्लेयर हब (अभी चल रहा)
 दो अलग-अलग टाइपोग्राफी लेआउट जो एल्बम आर्ट रंगों के आधार पर पृष्ठभूमि के रंगों को गतिशील रूप से बदलते हैं।
 
 <p align="left">
-  <img src="https://raw.githubusercontent.com/breejesh/zunify/main/doc-images/now-playing-1.png" width="280" alt="Now Playing Layout 1">
+  <img src="https://raw.githubusercontent.com/breejesh/zunify/main/doc-images/now-playing-1.png" width="280" alt="अभी चल रहा लेआउट 1">
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="https://raw.githubusercontent.com/breejesh/zunify/main/doc-images/now-playing-2.png" width="280" alt="Now Playing Layout 2">
+  <img src="https://raw.githubusercontent.com/breejesh/zunify/main/doc-images/now-playing-2.png" width="280" alt="अभी चल रहा लेआउट 2">
 </p>
 
 ---
@@ -53,7 +53,7 @@ previewImage: /assets/images/zunify-music.webp
 इंडेक्सडीडीबी सेटिंग्स और फ़ाइल सिस्टम अनुमति जाँच का उपयोग करके फ़ाइलें सिंक करें।
 
 <p align="left">
-  <img src="https://raw.githubusercontent.com/breejesh/zunify/main/doc-images/settings.png" width="600" alt="ज़्यूनिफाई Settings">
+  <img src="https://raw.githubusercontent.com/breejesh/zunify/main/doc-images/settings.png" width="600" alt="ज़्यूनिफाई सेटिंग्स">
 </p>
 
 ---
@@ -193,10 +193,10 @@ navigator.mediaSession.setActionHandler('previoustrack', () => this.playbackServ
 
 ## ऑफ़लाइन-फर्स्ट वेब एप्लीकेशन का महत्व
 
-ज़्यूनिफाई local-first सॉफ़्टवेयर का एक उदाहरण है। आधुनिक वेब एपीआई के साथ आप समृद्ध ऐप्स बना सकते हैं जो:
+ज़्यूनिफाई स्थानीय-पहले सॉफ़्टवेयर का एक उदाहरण है। आधुनिक वेब एपीआई के साथ आप समृद्ध ऐप्स बना सकते हैं जो:
 
 * पूरी तरह से क्लाइंट-साइड पर चलते हैं, जिससे **सर्वर की कोई लागत नहीं** आती।
 * बिना किसी इंटरनेट कनेक्शन के चलते हैं, जिससे उपयोगकर्ता का डेटा निजी रहता है।
 * सुरक्षित ब्राउज़र वातावरण में नेटिव-ऐप जैसा अनुभव प्रदान करते हैं।
 
-यदि आप स्थानीय सॉफ़्टवेयर के लिए फ़ाइल सिस्टम एक्सेस एपीआई का एक व्यावहारिक उदाहरण देखना चाहते हैं, तो ज़्यूनिफाई open-source प्रोजेक्ट के रूप में उपलब्ध है। [ज़्यूनिफाई](https://zunify.breejeshrathod.com/) पर अपना स्थानीय संगीत फ़ोल्डर खोलकर इसे आज़मा सकते हैं।
+यदि आप स्थानीय सॉफ़्टवेयर के लिए फ़ाइल सिस्टम एक्सेस एपीआई का एक व्यावहारिक उदाहरण देखना चाहते हैं, तो ज़्यूनिफाई ओपन-सोर्स प्रोजेक्ट के रूप में उपलब्ध है। [ज़्यूनिफाई](https://zunify.breejeshrathod.com/) पर अपना स्थानीय संगीत फ़ोल्डर खोलकर इसे आज़मा सकते हैं।

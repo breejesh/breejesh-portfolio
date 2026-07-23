@@ -36,7 +36,9 @@ Every post must be synced across all supported language subdirectories:
 
 When translating:
 * Translate titles, descriptions, headings, blockquotes, and prose content accurately.
-* Retain original code blocks, shell commands, AWS resources, and technology terms without translating them.
+* Retain original code blocks, shell commands, and literal resource identifiers inside backticks or fenced code (filenames, CLI flags, image paths, URLs).
+* **Spanish / French:** keep common technology brand/product terms as in English when that is natural for the locale.
+* **Hindi (`hi/`) special rule (strict):** prose, titles, descriptions, tags, table headers, alt text, and markdown link labels must contain **no Latin-script English words**. Translate fully; when a technical or brand term has no common Hindi equivalent, write it in Devanagari (e.g. एप्पल, ओपनएआई, चैटजीपीटी, एपीआई, डॉकर, लैम्ब्डा). Numbers, currency symbols, and code/URLs stay as-is.
 * Sync frontmatter keys (`title`, `description`, `tags`) to match the target language, but keep `date`, `coverImage`, and `previewImage` identical.
 * Apply the **Human Writing Voice** rules below in every language. Do not reintroduce AI-tone punctuation or filler when translating.
 * If English prose is rewritten for voice, update es/fr/hi to match meaning and tone (not a word-for-word calque).
