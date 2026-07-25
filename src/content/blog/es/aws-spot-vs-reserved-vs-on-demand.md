@@ -1,7 +1,7 @@
 ---
 title: "Modelos de Precios de AWS EC2: Comparativa de On-Demand, Spot e Instancias Reservadas"
 description: "Compara los modelos de precios de AWS EC2 con costes por hora reales, mecanica de interrupcion spot, riesgos de compromiso y estrategia hibrida."
-date: 2026-07-25
+date: 2026-02-20
 tags: [AWS, Computacion en la Nube, Optimizacion de Costes, DevOps]
 coverImage: /assets/images/aws-spot-reserved-ondemand.webp
 previewImage: /assets/images/aws-spot-reserved-ondemand.webp
@@ -61,17 +61,13 @@ La capacidad Spot se organiza en grupos (pools). Un grupo Spot se define por tre
 
 Si un grupo específico se queda sin hardware disponible, AWS interrumpe los nodos Spot de ese grupo.
 
-```
-+-------------------------------------------------------------------+
-|               Línea de Tiempo de Interrupción Spot                |
-+-------------------------------------------------------------------+
-| [0:00] AWS señala la interrupción mediante IMDS / EventBridge     |
-| [0:05] Node Handler marca el nodo como no programable (cordon)   |
-| [0:10] Pods activos reciben SIGTERM, nuevos pods van a otros nodos|
-| [1:50] Cargas de trabajo terminan de guardar estado en disco/red  |
-| [2:00] AWS termina la instancia EC2                               |
-+-------------------------------------------------------------------+
-```
+### Línea de Tiempo de Interrupción Spot
+
+* **0:00:** AWS señala la interrupción mediante IMDS o EventBridge.
+* **0:05:** Node Handler marca el nodo como no programable (`kubectl cordon`).
+* **0:10:** Pods activos reciben `SIGTERM`, nuevos pods van a otros nodos.
+* **1:50:** Cargas de trabajo terminan de guardar estado en disco o red.
+* **2:00:** AWS termina la instancia EC2.
 
 ### Cómo Diseñar para la Fiabilidad en Spot
 
@@ -145,15 +141,11 @@ Así se comparan las cuatro opciones principales para un servidor de 8 vCPU y 16
 
 Las arquitecturas de nube más eficientes no eligen un solo modelo de precios. Combinan los tres en una estructura de asignación híbrida.
 
-```
-+-------------------------------------------------------------------+
-|               Diseño de Arquitectura de Cómputo Híbrido           |
-+-------------------------------------------------------------------+
-|  [Picos Altos - 10%]    -->  Auto Scaling Groups On-Demand        |
-|  [Escalado - 20-30%]    -->  Instancias Spot (Multi-AZ y Familia)  |
-|  [Base Estable - 60-70%]-->  Compute Savings Plans (1 o 3 Años)   |
-+-------------------------------------------------------------------+
-```
+### Estructura de Asignación Híbrida
+
+* **Base Estable (60% a 70%):** Compute Savings Plans (1 o 3 Años) para infraestructura central.
+* **Escalado (20% a 30%):** Instancias Spot en múltiples zonas y familias de instancias.
+* **Picos Altos (10%):** Auto Scaling Groups On-Demand para margen de seguridad.
 
 ### Desglose Arquitectónico
 

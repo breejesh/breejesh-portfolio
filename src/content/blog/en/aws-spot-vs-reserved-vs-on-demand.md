@@ -1,7 +1,7 @@
 ---
 title: "AWS EC2 Pricing Demystified: On-Demand, Spot, and Reserved Instances"
 description: "Compare AWS EC2 pricing models with real hourly costs, spot interruption mechanics, commitment risks, and a production hybrid strategy."
-date: 2026-07-25
+date: 2026-02-20
 tags: [AWS, Cloud Computing, Cost Optimization, DevOps]
 coverImage: /assets/images/aws-spot-reserved-ondemand.webp
 previewImage: /assets/images/aws-spot-reserved-ondemand.webp
@@ -61,17 +61,13 @@ Spot capacity is organized into pools. A Spot pool is defined by three parameter
 
 If a specific pool runs low on spare hardware, AWS terminates Spot nodes in that pool.
 
-```
-+-------------------------------------------------------------------+
-|                     Spot Preemption Timeline                      |
-+-------------------------------------------------------------------+
-| [0:00] AWS signals interruption via IMDS / EventBridge           |
-| [0:05] Node Handler marks node as Unschedulable (kubectl cordoning)|
-| [0:10] Active pods receive SIGTERM, new pods route elsewhere     |
-| [1:50] Workloads finish flushing state to disk / network          |
-| [2:00] AWS terminates the EC2 instance                            |
-+-------------------------------------------------------------------+
-```
+### Spot Preemption Timeline
+
+* **0:00:** AWS signals interruption via IMDS or EventBridge.
+* **0:05:** Node Handler marks node as Unschedulable (`kubectl cordon`).
+* **0:10:** Active pods receive `SIGTERM`, new pods route elsewhere.
+* **1:50:** Workloads finish flushing state to disk or network.
+* **2:00:** AWS terminates the EC2 instance.
 
 ### How to Engineer for Spot Reliability
 
@@ -145,15 +141,11 @@ Here is how the four main purchasing paths stack up for an 8 vCPU, 16 GB RAM ser
 
 The most cost-effective cloud architectures do not choose a single pricing model. They combine all three into a hybrid allocation structure.
 
-```
-+-------------------------------------------------------------------+
-|               Hybrid Compute Architecture Blueprint               |
-+-------------------------------------------------------------------+
-|  [Peak Spikes - 10%]  -->  On-Demand Auto Scaling Groups          |
-|  [Scale-Out - 20-30%] -->  Spot Instances (Multi-AZ & Family)     |
-|  [Baseline - 60-70%]  -->  Compute Savings Plans (1 or 3 Year)     |
-+-------------------------------------------------------------------+
-```
+### Hybrid Allocation Structure
+
+* **Baseline (60% to 70%):** Compute Savings Plans (1 or 3 Year) for core infrastructure.
+* **Scale-Out (20% to 30%):** Spot Instances across multiple AZs and instance families.
+* **Peak Spikes (10%):** On-Demand Auto Scaling Groups for sudden headroom buffer.
 
 ### Architectural Breakdown
 

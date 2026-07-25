@@ -1,7 +1,7 @@
 ---
 title: "Tarification AWS EC2 : Comparatif des Instances On-Demand, Spot et Réservées"
 description: "Comparez les modèles de tarification AWS EC2 avec les coûts horaires réels, la mécanique d'interruption spot, les risques d'engagement et la stratégie hybride."
-date: 2026-07-25
+date: 2026-02-20
 tags: [AWS, Cloud Computing, Optimisation des Couts, DevOps]
 coverImage: /assets/images/aws-spot-reserved-ondemand.webp
 previewImage: /assets/images/aws-spot-reserved-ondemand.webp
@@ -61,17 +61,13 @@ La capacité Spot est organisée en pools. Un pool Spot est défini par trois cr
 
 Si un pool spécifique manque de matériel disponible, AWS interrompt les nœuds Spot de ce pool.
 
-```
-+-------------------------------------------------------------------+
-|               Chronologie de l'Interruption Spot                  |
-+-------------------------------------------------------------------+
-| [0:00] AWS signale l'interruption via IMDS / EventBridge          |
-| [0:05] Node Handler marque le nœud non planifiable (cordon)       |
-| [0:10] Les pods actifs reçoivent SIGTERM, les nouveaux pods dévient|
-| [1:50] Fin de la sauvegarde de l'état sur disque / réseau         |
-| [2:00] AWS termine l'instance EC2                                 |
-+-------------------------------------------------------------------+
-```
+### Chronologie de l'Interruption Spot
+
+* **0:00:** AWS signale l'interruption via IMDS ou EventBridge.
+* **0:05:** Node Handler marque le nœud non planifiable (`kubectl cordon`).
+* **0:10:** Les pods actifs reçoivent `SIGTERM`, les nouveaux pods dévient.
+* **1:50:** Fin de la sauvegarde de l'état sur disque ou réseau.
+* **2:00:** AWS termine l'instance EC2.
 
 ### Concevoir une Architecture Fiable avec Spot
 
@@ -145,15 +141,11 @@ Voici la comparaison des quatre options principales pour une empreinte de serveu
 
 Les architectures cloud les plus performantes ne s'appuient pas sur un seul modèle tarifaire. Elles combinent les trois dans une structure d'allocation hybride.
 
-```
-+-------------------------------------------------------------------+
-|               Architecture de Calcul Hybride                      |
-+-------------------------------------------------------------------+
-|  [Pics de Trafic - 10%] -->  Auto Scaling Groups On-Demand        |
-|  [Échelle - 20-30%]     -->  Instances Spot (Multi-AZ & Familles)  |
-|  [Socle Fixe - 60-70%]  -->  Compute Savings Plans (1 ou 3 Ans)   |
-+-------------------------------------------------------------------+
-```
+### Structure d'Allocation Hybride
+
+* **Socle Fixe (60% à 70%) :** Compute Savings Plans (1 ou 3 Ans) pour l'infrastructure centrale.
+* **Échelle (20% à 30%) :** Instances Spot sur plusieurs zones et familles d'instances.
+* **Pics de Trafic (10%) :** Auto Scaling Groups On-Demand pour la marge de sécurité.
 
 ### Découpage de l'Architecture
 
