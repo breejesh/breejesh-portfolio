@@ -19,8 +19,14 @@ export class LanguageService {
   initLanguage(){
     this.translateService.addLangs(["en", "es", "hi", "fr"])
     let language: "es" | "en" | "hi" | "fr" = "en";
-    
-    if (isPlatformBrowser(this.platformId)) {
+
+    // Prefer language from the URL for deep links like /blog/en/...
+    // so direct opens do not get rewritten by the browser locale.
+    const path = this.location.path() || '';
+    const blogMatch = path.match(/^\/blog\/(en|es|hi|fr)(?:\/|$)/);
+    if (blogMatch) {
+      language = blogMatch[1] as "es" | "en" | "hi" | "fr";
+    } else if (isPlatformBrowser(this.platformId)) {
       let navLang = navigator.language || (navigator as any).userLanguage;
       if (navLang.split("-").includes("es")) language = "es";
       else if (navLang.split("-").includes("hi")) language = "hi";

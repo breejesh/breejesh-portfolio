@@ -1,12 +1,22 @@
-import { AfterViewChecked, Component, ElementRef, inject, effect, signal } from '@angular/core';
-import { CommonModule, AsyncPipe } from '@angular/common';
-import { RouterLink, Router, ActivatedRoute } from '@angular/router';
-import { toSignal, toObservable } from '@angular/core/rxjs-interop';
+import {
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  ExperimentalPendingTasks,
+  Inject,
+  PLATFORM_ID,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
+import { CommonModule, AsyncPipe, isPlatformBrowser } from '@angular/common';
+import { RouterLink, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { LanguageService } from '../../services/language/language.service';
 import { MarkdownComponent, injectContentFilesMap, parseRawContentFile } from '@analogjs/content';
 import { TranslateModule } from '@ngx-translate/core';
-import { map, switchMap } from 'rxjs/operators';
-import { from, of, combineLatest } from 'rxjs';
+import { distinctUntilChanged, filter, map, switchMap, startWith, finalize } from 'rxjs/operators';
+import { from, of, Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { FirebaseService, Comment } from '../../services/firebase/firebase.service';
 import { SeoService } from '../../services/seo/seo.service';
@@ -19,6 +29,24 @@ export interface BlogAttributes {
   coverImage?: string;
   previewImage?: string;
 }
+
+export interface BlogPostView {
+  filename: string;
+  /** Base slug without language prefix, e.g. java-virtual-threads */
+  slug: string;
+  /** Language from the URL, e.g. en */
+  lang: string;
+  attributes: BlogAttributes;
+  content: string;
+}
+
+const EMPTY_POST: BlogPostView = {
+  filename: '',
+  slug: '',
+  lang: 'en',
+  attributes: {} as BlogAttributes,
+  content: '',
+};
 
 @Component({
   selector: 'app-blog-post',
@@ -34,6 +62,7 @@ export default class BlogPostComponent implements AfterViewChecked {
   private contentFiles = injectContentFilesMap();
   private firebaseService = inject(FirebaseService);
   private seoService = inject(SeoService);
+  private pendingTasks = inject(ExperimentalPendingTasks);
   private host = inject(ElementRef<HTMLElement>);
   private tablesWrappedForSlug = '';
 
@@ -42,16 +71,38 @@ export default class BlogPostComponent implements AfterViewChecked {
   readonly hasLiked = signal(false);
   readonly comments = signal<Comment[]>([]);
   readonly submittingComment = signal(false);
+  readonly loadError = signal(false);
 
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
+  /**
+   * Resolve /blog/{lang}/{post} from the catch-all route.
+   * Analog maps [...slug] to path **, so paramMap may not have "slug".
+   * Prefer ActivatedRoute url segments, then router URL fallback.
+   */
   private getSlugFromRoute(): string {
-    // AnalogJS exposes [...slug] as a comma-separated paramMap entry named 'slug'
+    const segments = this.route.snapshot.url.map((s) => s.path).filter(Boolean);
+    if (segments.length > 0) {
+      return segments.join('/');
+    }
+
     const paramSlug = this.route.snapshot.paramMap.get('slug');
     if (paramSlug) {
       return paramSlug.replace(/,/g, '/');
     }
 
-    // Fallback: parse from the current URL path
-    // URL is like /blog/en/some-article — strip leading /blog/
+    // Walk parent routes for segments under /blog
+    const fromTree = this.route.pathFromRoot
+      .flatMap((r) => r.snapshot.url.map((s) => s.path))
+      .filter(Boolean);
+    if (fromTree.length > 0) {
+      // Drop leading "blog" if present
+      const parts = fromTree[0] === 'blog' ? fromTree.slice(1) : fromTree;
+      if (parts.length > 0) {
+        return parts.join('/');
+      }
+    }
+
     const url = this.router.url.split('?')[0].split('#')[0];
     const prefix = '/blog/';
     if (url.startsWith(prefix)) {
@@ -60,72 +111,90 @@ export default class BlogPostComponent implements AfterViewChecked {
     return '';
   }
 
-  readonly post$ = of(null).pipe(
-    map(() => this.getSlugFromRoute()),
-    switchMap((slug) => {
-      if (!slug) {
-        return of({
-          filename: '',
-          slug: '',
-          attributes: {} as BlogAttributes,
-          content: 'No Content Found'
-        });
-      }
-      
-      const cleanSlug = slug.startsWith('/') ? slug.substring(1) : slug;
-      const parts = cleanSlug.split('/');
-      
-      let lang = this.languageService.language();
-      let postSlug = cleanSlug;
-      
-      if (parts.length >= 2 && ['en', 'es', 'fr', 'hi'].includes(parts[0])) {
-        lang = parts[0] as any;
-        postSlug = parts.slice(1).join('/');
-      }
-      
-      const filePath = `src/content/blog/${lang}/${postSlug}`;
-      const contentFile = this.contentFiles[`${filePath}.md`] ?? 
-                          this.contentFiles[`/${filePath}.md`] ?? 
-                          this.contentFiles[`${filePath}.agx`] ?? 
-                          this.contentFiles[`/${filePath}.agx`];
-      
-      console.log('=== BLOG LOOKUP ===');
-      console.log('routeSlug:', slug);
-      console.log('lang:', lang);
-      console.log('postSlug:', postSlug);
-      console.log('filePath:', filePath);
-      console.log('availableKeys (first 5):', Object.keys(this.contentFiles).slice(0, 5));
-      console.log('found:', !!contentFile);
-      
-      if (!contentFile) {
-        return of({
-          filename: filePath,
-          slug: postSlug,
-          attributes: {} as BlogAttributes,
-          content: 'No Content Found'
-        });
-      }
+  private parseLangAndSlug(raw: string): { lang: 'en' | 'es' | 'fr' | 'hi'; postSlug: string } {
+    const clean = raw.startsWith('/') ? raw.substring(1) : raw;
+    const parts = clean.split('/').filter(Boolean);
+    if (parts.length >= 2 && ['en', 'es', 'fr', 'hi'].includes(parts[0])) {
+      return {
+        lang: parts[0] as 'en' | 'es' | 'fr' | 'hi',
+        postSlug: parts.slice(1).join('/'),
+      };
+    }
+    return {
+      lang: this.languageService.language(),
+      postSlug: clean,
+    };
+  }
 
-      return from(contentFile()).pipe(
-        map((rawContent) => {
-          if (typeof rawContent === 'string') {
-            const { content, attributes } = parseRawContentFile<BlogAttributes>(rawContent);
-            return {
-              filename: filePath,
-              slug: postSlug,
-              attributes,
-              content
-            };
-          }
+  private loadPost(rawSlug: string): Observable<BlogPostView> {
+    if (!rawSlug) {
+      this.loadError.set(true);
+      return of({ ...EMPTY_POST, content: 'No Content Found' });
+    }
+
+    const { lang, postSlug } = this.parseLangAndSlug(rawSlug);
+
+    // URL language wins. Do not redirect the user away from an explicit /blog/en/... link.
+    if (this.languageService.language() !== lang) {
+      this.languageService.changeLanguage(lang);
+    }
+
+    const filePath = `src/content/blog/${lang}/${postSlug}`;
+    const contentFile =
+      this.contentFiles[`/${filePath}.md`] ??
+      this.contentFiles[`${filePath}.md`] ??
+      this.contentFiles[`/${filePath}.agx`] ??
+      this.contentFiles[`${filePath}.agx`];
+
+    if (!contentFile) {
+      this.loadError.set(true);
+      return of({
+        filename: filePath,
+        slug: postSlug,
+        lang,
+        attributes: {} as BlogAttributes,
+        content: 'No Content Found',
+      });
+    }
+
+    // Block SSR/prerender stability until the markdown chunk is loaded.
+    // Without this, Analog finishes HTML before content arrives (empty app-blog-post).
+    const clearTask = this.pendingTasks.add();
+
+    return from(contentFile()).pipe(
+      map((rawContent) => {
+        this.loadError.set(false);
+        if (typeof rawContent === 'string') {
+          const { content, attributes } = parseRawContentFile<BlogAttributes>(rawContent);
           return {
             filename: filePath,
             slug: postSlug,
-            attributes: (rawContent as any).metadata,
-            content: (rawContent as any).default
+            lang,
+            attributes,
+            content,
           };
-        })
-      );
-    })
+        }
+        return {
+          filename: filePath,
+          slug: postSlug,
+          lang,
+          attributes: (rawContent as { metadata: BlogAttributes }).metadata,
+          content: (rawContent as { default: string }).default,
+        };
+      }),
+      finalize(() => {
+        // Match Analog's getContentFile timing so markdown render can settle.
+        setTimeout(() => clearTask(), 10);
+      })
+    );
+  }
+
+  readonly post$ = this.router.events.pipe(
+    filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+    startWith(null),
+    map(() => this.getSlugFromRoute()),
+    distinctUntilChanged(),
+    switchMap((slug) => this.loadPost(slug))
   );
 
   readonly postSignal = toSignal(this.post$);
@@ -133,37 +202,41 @@ export default class BlogPostComponent implements AfterViewChecked {
   private loadStatsEffect = effect(() => {
     const post = this.postSignal();
     if (!post || !post.slug) return;
+    // Firebase + localStorage only on the client
+    if (!isPlatformBrowser(this.platformId)) return;
 
-    const baseSlug = this.extractBaseSlug(post.slug);
+    const baseSlug = post.slug;
 
-    this.firebaseService.incrementViews(baseSlug).subscribe(views => {
+    this.firebaseService.incrementViews(baseSlug).subscribe((views) => {
       this.views.set(views);
     });
 
-    this.firebaseService.getLikesInfo(baseSlug).subscribe(likes => {
+    this.firebaseService.getLikesInfo(baseSlug).subscribe((likes) => {
       this.likesCount.set(likes.count);
       this.hasLiked.set(likes.hasLiked);
     });
 
-    this.firebaseService.getComments(baseSlug).subscribe(comments => {
+    this.firebaseService.getComments(baseSlug).subscribe((comments) => {
       this.comments.set(comments);
     });
   }, { allowSignalWrites: true });
 
   private seoEffect = effect(() => {
     const post = this.postSignal();
-    if (!post || !post.attributes.title) return;
+    if (!post || !post.attributes?.title) return;
 
-    const currentLang = this.languageService.language();
-    const url = `/blog/${currentLang}/${post.slug}`;
+    const lang = post.lang || this.languageService.language();
+    const url = `/blog/${lang}/${post.slug}`;
 
-    const alternates = ['en', 'es', 'fr', 'hi'].map(lang => ({
-      hreflang: lang,
-      href: `/blog/${lang}/${post.slug}`
+    const alternates: { hreflang: string; href: string }[] = (
+      ['en', 'es', 'fr', 'hi'] as const
+    ).map((l) => ({
+      hreflang: l,
+      href: `/blog/${l}/${post.slug}`,
     }));
     alternates.push({
       hreflang: 'x-default',
-      href: `/blog/en/${post.slug}`
+      href: `/blog/en/${post.slug}`,
     });
 
     this.seoService.updateMeta({
@@ -172,48 +245,34 @@ export default class BlogPostComponent implements AfterViewChecked {
       image: post.attributes.coverImage,
       url: url,
       type: 'article',
+      lang,
+      keywords: post.attributes.tags,
       article: {
         datePublished: post.attributes.date,
+        dateModified: post.attributes.date,
         tags: post.attributes.tags,
-        author: 'Breejesh Rathod'
+        author: 'Breejesh Rathod',
       },
-      alternates: alternates
+      alternates: alternates,
     });
 
     this.seoService.setBlogPostJsonLd({
       title: post.attributes.title,
       description: post.attributes.description,
       date: post.attributes.date,
+      dateModified: post.attributes.date,
       image: post.attributes.coverImage,
       url: url,
-      tags: post.attributes.tags
+      tags: post.attributes.tags,
+      lang,
     });
 
-    // Add breadcrumb structured data for rich Google results
     this.seoService.setBreadcrumbJsonLd([
       { name: 'Home', url: '/' },
       { name: 'Blog', url: '/blog' },
-      { name: post.attributes.title, url: url }
+      { name: post.attributes.title, url: url },
     ]);
   });
-
-  constructor() {
-    const slug = this.getSlugFromRoute();
-    const currentLang = this.languageService.language();
-    if (slug) {
-      const parts = slug.split('/');
-      const firstPart = parts[0];
-      if (['en', 'es', 'fr', 'hi'].includes(firstPart)) {
-        const postLang = firstPart;
-        const postSlugBase = parts.slice(1).join('/');
-        if (postLang !== currentLang && postSlugBase) {
-          this.router.navigateByUrl(`/blog/${currentLang}/${postSlugBase}`);
-        }
-      } else if (slug) {
-        this.router.navigateByUrl(`/blog/${currentLang}/${slug}`);
-      }
-    }
-  }
 
   public extractBaseSlug(slug: string): string {
     const clean = slug.startsWith('/') ? slug.substring(1) : slug;
@@ -225,7 +284,7 @@ export default class BlogPostComponent implements AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    if (typeof document === 'undefined') {
+    if (!isPlatformBrowser(this.platformId)) {
       return;
     }
     const post = this.postSignal();
@@ -233,7 +292,6 @@ export default class BlogPostComponent implements AfterViewChecked {
       return;
     }
 
-    // Re-wrap when the post changes; skip once done for current slug
     if (this.tablesWrappedForSlug === post.slug) {
       return;
     }
@@ -245,7 +303,6 @@ export default class BlogPostComponent implements AfterViewChecked {
 
     const tables = root.querySelectorAll('table');
     if (!tables.length) {
-      // Markdown may still be rendering; only stop once body content exists
       if (root.querySelector('p, h1, h2, h3, h4, ul, ol, pre, img, blockquote')) {
         this.tablesWrappedForSlug = post.slug;
       }
@@ -267,25 +324,25 @@ export default class BlogPostComponent implements AfterViewChecked {
   }
 
   public toggleLike(baseSlug: string) {
-    this.firebaseService.toggleLike(baseSlug).subscribe(likes => {
+    this.firebaseService.toggleLike(baseSlug).subscribe((likes) => {
       this.likesCount.set(likes.count);
       this.hasLiked.set(likes.hasLiked);
     });
   }
 
-  public addComment(baseSlug: string, name: string, text: string, form: any) {
+  public addComment(baseSlug: string, name: string, text: string, form: { reset: () => void }) {
     if (!name.trim() || !text.trim() || this.submittingComment()) return;
     this.submittingComment.set(true);
 
     this.firebaseService.addComment(baseSlug, name, text).subscribe({
       next: (comment) => {
-        this.comments.update(all => [comment, ...all]);
+        this.comments.update((all) => [comment, ...all]);
         this.submittingComment.set(false);
         form.reset();
       },
       error: () => {
         this.submittingComment.set(false);
-      }
+      },
     });
   }
 }

@@ -24,6 +24,10 @@ export class FirebaseService {
   readonly userHash$: Observable<string> = this.http.get<{ ip: string }>('https://api.ipify.org?format=json').pipe(
     map(res => this.hashString(res.ip)),
     catchError(() => {
+      // SSR / non-browser: never touch localStorage
+      if (typeof localStorage === 'undefined') {
+        return of(this.hashString('ssr-anonymous'));
+      }
       // Fallback to local storage UUID if IP API fails
       let localId = localStorage.getItem('blog_user_id');
       if (!localId) {
