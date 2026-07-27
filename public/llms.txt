@@ -1,29 +1,58 @@
 # Breejesh Rathod
 
-> Engineering leader and software developer with experience taking products from 0→1 and scaling them 1→100 across fintech, cybersecurity, and enterprise software. This site features technical blog posts, project showcases, and professional experience.
+> Engineering leader and software developer with experience taking products from 0→1 and scaling them 1→100 across fintech, cybersecurity, and enterprise software. Technical blog, projects, and experience.
 
 ## About
 
 - [Homepage](https://breejeshrathod.com/): Portfolio homepage with introduction, about section, and contact information.
-- [Experience](https://breejeshrathod.com/experience): Professional experience across engineering leadership roles in fintech, cybersecurity, and enterprise software.
-- [Projects](https://breejeshrathod.com/projects): Featured open-source projects and applications built by Breejesh Rathod.
+- [Experience](https://breejeshrathod.com/experience): Professional experience across engineering leadership roles.
+- [Projects](https://breejeshrathod.com/projects): Featured open-source projects and applications.
 - [Achievements](https://breejeshrathod.com/achievements): Awards, certifications, and career milestones.
+- [Blog](https://breejeshrathod.com/blog): Engineering articles on Java, cloud, AI, and system design.
 
 ## Blog
 
-- [Virtual Threads in Java 21: Are Thread Pools Finally Obsolete?](https://breejeshrathod.com/blog/en/java-virtual-threads): A deep dive into Java's Project Loom. Learn how virtual threads allow millions of concurrent tasks on a single JVM and eliminate traditional thread pool exhaustion.
+- [Microsoft's First Cyber Model Hits 96% on CyberGym and Ships Agent Armies](https://breejeshrathod.com/blog/en/microsoft-mai-cyber-1-flash-perception): MAI-Cyber-1-Flash + MDASH posts 96% on CyberGym at half the cost. Project Perception adds red, blue, and green agents. What actually matters for security teams.
 
-- [Running LLMs Locally on Android: Gemma 2B with LiteRT](https://breejeshrathod.com/blog/en/gemma-llm-on-android): How to run Google's Gemma models offline on Android using LiteRT with a real-world NomAI example.
-- [NomAI: The Offline Calorie Tracker Powered by Local LLMs](https://breejeshrathod.com/blog/en/nom-ai-showcase): Open-source, offline-first calorie tracking app for Android built with Google Gemma and Jetpack Compose.
-- [Handling Database Connections at Scale in Serverless Functions](https://breejeshrathod.com/blog/en/serverless-db-connections): How to avoid database connection exhaustion in AWS Lambda and manage connection pools.
-- [Shrinking Your Docker Images: The Power of Multi-Stage Builds](https://breejeshrathod.com/blog/en/docker-multi-stage-builds): Reduce production Docker image size by 90% using multi-stage builds.
-- [The Hidden Cloud Tax: Why Your NAT Gateway is Eating Your Budget](https://breejeshrathod.com/blog/en/aws-nat-gateway-vs-nat-instance): Cut AWS costs by switching from NAT Gateway to a self-managed NAT Instance.
-- [Zunify: Reimagining the Iconic Zune Player for the Modern Web](https://breejeshrathod.com/blog/en/zunify-music-player): Deep dive into building a typography-focused offline-first PWA music player with Angular 19 and File System Access API.
+- [Nvidia's $750B Deals Are the Circular AI Machine on Full Display](https://breejeshrathod.com/blog/en/nvidia-750b-circular-finance): SK Group $500B+, a possible $250B OpenAI backstop, 18¢ of every AI dollar in production, and free cash flow that fell off a cliff. The money loop is the product.
+
+- [How an OpenAI Agent Hacked Hugging Face?](https://breejeshrathod.com/blog/en/openai-agent-hacks-huggingface): During an ExploitGym benchmark run, OpenAI's GPT-5.6 Soul escaped sandbox isolation, injected a poison dataset into Hugging Face, and evaded defensive security models.
+
+- [Apple Sues OpenAI: Inside the Stolen Hardware Lawsuit That Shattered Their Alliance](https://breejeshrathod.com/blog/en/apple-vs-openai-future-of-ai): Apple filed a federal trade secret lawsuit against OpenAI, alleging stolen hardware prototypes and systematic insider data theft. Here is what happened and what comes next.
+
+- [Gemini 3.6 Flash: 17% fewer tokens, 350 tok/s Lite, and a cyber specialist](https://breejeshrathod.com/blog/en/gemini-3-6-flash-release): Google shipped Gemini 3.6 Flash, 3.5 Flash-Lite, and 3.5 Flash Cyber in CodeMender. Benchmarks, $1.50/$7.50 pricing, 350 tok/s, and native computer use.
+
+- [Grok 4.5 at ₹6,500/Year: Why SuperGrok Beats ₹24k AI Plans in India](https://breejeshrathod.com/blog/en/grok-4-5-india-value): SuperGrok / Grok 4.5 costs ₹6,500 a year in India vs ~₹24,000 for ChatGPT Plus, Claude Pro, and Gemini. Artificial Analysis benchmarks, live charts, and source credits.
+
+- [Kimi K3 Behind the Hype: Is It Really a Fable 5 Killer?](https://breejeshrathod.com/blog/en/kimi-k3-benchmarks): Behind the Kimi K3 hype: Artificial Analysis, LMArena, and Moonshot benchmarks vs Claude Fable 5. Spoiler: strong open model, not a clean Fable 5 killer.
+
+- [The 2026 RAM Crisis: How the AI Bubble is Starving Consumer Tech](https://breejeshrathod.com/blog/en/ram-prices-bubble): How the 2026 memory hardware shortage, the AI data center gold rush, and HBM demand are squeezing PC parts, smartphone prices, and console releases.
+
+- [Running LLMs Locally on Android: Gemma 2B with LiteRT](https://breejeshrathod.com/blog/en/gemma-llm-on-android): How to run Google's Gemma models offline on Android using LiteRT, with a real-world look at NomAI, the open-source offline calorie tracker.
+
+- [NomAI: The Offline Calorie Tracker Powered by Local LLMs](https://breejeshrathod.com/blog/en/nom-ai-showcase): An in-depth look at NomAI, the world's first free, open-source, and entirely offline calorie tracking app for Android built with Google Gemma and Jetpack Compose.
+
+- [Zunify: Reimagining the Iconic Zune Player for the Modern Web](https://breejeshrathod.com/blog/en/zunify-music-player): A look at Zunify, a lightweight, offline-first music player that brings back the typography-focused late-2000s Zune interface using Angular 19, Dexie.js, and the File System Access API.
+
+- [SpaceX, xAI, and the Trojan Horse IPO: Why the Math Doesn't Add Up](https://breejeshrathod.com/blog/en/spacex-ipo-disaster): An in-depth analysis of the SpaceX (SPCX) IPO. How a merger with xAI transformed a profitable aerospace monopoly into a cash-burning AI play with severe physics and financial challenges.
+
+- [AWS EC2 Pricing Demystified: On-Demand, Spot, and Reserved Instances](https://breejeshrathod.com/blog/en/aws-spot-vs-reserved-vs-on-demand): Compare AWS EC2 pricing models with real hourly costs, spot interruption mechanics, commitment risks, and a production hybrid strategy.
+
+- [Java 21 Virtual Threads: Benchmarks, Thread Pools, and When to Use Them](https://breejeshrathod.com/blog/en/java-virtual-threads): Java 21 virtual threads vs platform threads with Spring Boot load-test numbers. Project Loom, Thread.ofVirtual(), pinning pitfalls, and when thread pools still matter.
+
+- [Fargate vs EC2 for Always-On Services: When the Premium Stops Making Sense](https://breejeshrathod.com/blog/en/fargate-vs-ec2-always-on): Fargate is great for bursty work. For APIs and workers that never sleep, the per-vCPU premium adds up. Here is the 2026 cost math and the ops trade-offs.
+
+- [Handling Database Connections at Scale in Serverless Functions](https://breejeshrathod.com/blog/en/serverless-db-connections): How to avoid database connection exhaustion in AWS Lambda and manage connection pools effectively.
+
+- [Shrinking Your Docker Images: The Power of Multi-Stage Builds](https://breejeshrathod.com/blog/en/docker-multi-stage-builds): How multi-stage Docker builds cut production image size, with real benchmarks across Go, Node, Java, and Python.
+
+- [The Hidden Cloud Tax: Why Your NAT Gateway is Eating Your Budget](https://breejeshrathod.com/blog/en/aws-nat-gateway-vs-nat-instance): How to drop your monthly AWS bill by switching from NAT Gateway to a cost-effective self-managed NAT Instance.
 
 ## Projects
 
 - [NomAI](https://github.com/breejesh/nom.ai): Free, open-source, offline-first calorie tracker for Android using on-device Gemma LLM.
-- [Zunify](https://github.com/breejesh/zunify): A beautiful, lightweight, offline-first Zune-inspired music player built with Angular 19 and IndexDB.
+- [Zunify](https://github.com/breejesh/zunify): Offline-first Zune-inspired music player built with Angular and IndexedDB.
+- [Java virtual threads benchmarking](https://github.com/breejesh/java-virtual-threads-benchmarking): Load-test harness comparing platform threads and Java 21 virtual threads.
 
 ## Contact
 
@@ -31,4 +60,4 @@
 - [GitHub](https://github.com/breejesh)
 - Email: breejeshrathod@gmail.com
 
-Last reviewed: 2026-07-18
+Last reviewed: 2026-07-28

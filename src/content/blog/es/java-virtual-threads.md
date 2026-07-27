@@ -1,15 +1,15 @@
 ---
-title: "Hilos Virtuales en Java 21: ¿Son los Thread Pools Finalmente Obsoletos?"
-description: "Cómo los hilos virtuales de Project Loom en Java permiten millones de tareas concurrentes en una sola JVM y reducen el agotamiento tradicional de los pools de hilos."
+title: "Hilos virtuales en Java 21: benchmarks, thread pools y cuándo usarlos"
+description: "Hilos virtuales de Java 21 frente a platform threads con números de carga en Spring Boot. Project Loom, Thread.ofVirtual(), pinning y cuándo siguen importando los pools."
 date: 2026-02-15
-tags: [Java, Diseño de sistemas]
+tags: [Java, Java 21, Hilos virtuales, Project Loom, Concurrencia]
 coverImage: /assets/images/java-virtual-threads.webp
 previewImage: /assets/images/java-virtual-threads.webp
 ---
 
 Durante casi dos décadas, el patrón estándar para manejar la alta concurrencia en Java ha sido el pool de hilos (thread pool). Cada vez que un servidor necesitaba procesar peticiones simultáneas, los desarrolladores configuraban ejecutores para gestionar un número fijo de hilos del sistema operativo.
 
-Pero con la introducción de los **Hilos Virtuales** (Project Loom) en Java 21, la concurrencia en Java funciona de forma muy distinta.
+Los **hilos virtuales de Java 21** (Project Loom) cambian ese modelo. Puedes ejecutar muchas tareas concurrentes bloqueantes sin dimensionar un pool clásico para cada petición.
 
 ### El Problema con los Hilos de Plataforma
 

@@ -11,7 +11,20 @@
 
 ## Blog
 
-### Virtual Threads in Java 21: Are Thread Pools Finally Obsolete?
+### Microsoft's First Cyber Model Hits 96% on CyberGym and Ships Agent Armies
+
+- **URL:** [https://breejeshrathod.com/blog/en/microsoft-mai-cyber-1-flash-perception](https://breejeshrathod.com/blog/en/microsoft-mai-cyber-1-flash-perception)
+- **Date:** 2026-07-28
+
+Microsoft launched MAI-Cyber-1-Flash and Project Perception for agentic cybersecurity workflows.
+
+### Nvidia Circular Finance and the $750B AI Capex Loop
+
+- **URL:** [https://breejeshrathod.com/blog/en/nvidia-750b-circular-finance](https://breejeshrathod.com/blog/en/nvidia-750b-circular-finance)
+- **Date:** 2026-07-27
+
+
+### Java 21 Virtual Threads: Benchmarks, Thread Pools, and When to Use Them
 
 - **URL:** [https://breejeshrathod.com/blog/en/java-virtual-threads](https://breejeshrathod.com/blog/en/java-virtual-threads)
 - **Date:** 2026-02-15
@@ -19,7 +32,7 @@
 
 For nearly two decades, the standard pattern for handling high concurrency in Java has been the thread pool. Whenever a server needed to process simultaneous requests, developers would configure executors to manage a fixed number of OS threads. 
 
-But with the introduction of **Virtual Threads** (Project Loom) in Java 21, the landscape of Java concurrency has been completely rewritten.
+**Java 21 virtual threads** (Project Loom) change how concurrency works on the JVM for blocking I/O workloads.
 
 #### The Problem with Platform Threads
 
@@ -304,4 +317,4 @@ A deep dive into Zunify—a lightweight, offline-first music player that brings 
 - [GitHub](https://github.com/breejesh)
 - Email: breejeshrathod@gmail.com
 
-Last reviewed: 2026-07-18
+Last reviewed: 2026-07-28

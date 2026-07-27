@@ -4,15 +4,15 @@
   <!-- Homepage -->
   <url>
     <loc>https://breejeshrathod.com/</loc>
-    <lastmod>2026-07-18</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-07-28</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <!-- Experience -->
   <url>
     <loc>https://breejeshrathod.com/experience</loc>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -20,7 +20,7 @@
   <!-- Projects -->
   <url>
     <loc>https://breejeshrathod.com/projects</loc>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -28,7 +28,7 @@
   <!-- Achievements -->
   <url>
     <loc>https://breejeshrathod.com/achievements</loc>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -36,22 +36,99 @@
   <!-- Blog Index -->
   <url>
     <loc>https://breejeshrathod.com/blog</loc>
-    <lastmod>2026-07-18</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-07-28</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
 
   <!-- Blog Posts with hreflang alternates -->
   <url>
-    <loc>https://breejeshrathod.com/blog/en/java-virtual-threads</loc>
-    <lastmod>2026-02-15</lastmod>
+    <loc>https://breejeshrathod.com/blog/en/microsoft-mai-cyber-1-flash-perception</loc>
+    <lastmod>2026-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/java-virtual-threads"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/java-virtual-threads"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/java-virtual-threads"/>
-    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/java-virtual-threads"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/java-virtual-threads"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/microsoft-mai-cyber-1-flash-perception"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/microsoft-mai-cyber-1-flash-perception"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/microsoft-mai-cyber-1-flash-perception"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/microsoft-mai-cyber-1-flash-perception"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/microsoft-mai-cyber-1-flash-perception"/>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/en/nvidia-750b-circular-finance</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/nvidia-750b-circular-finance"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/nvidia-750b-circular-finance"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/nvidia-750b-circular-finance"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/nvidia-750b-circular-finance"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/nvidia-750b-circular-finance"/>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/en/openai-agent-hacks-huggingface</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/openai-agent-hacks-huggingface"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/openai-agent-hacks-huggingface"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/openai-agent-hacks-huggingface"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/openai-agent-hacks-huggingface"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/openai-agent-hacks-huggingface"/>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/en/apple-vs-openai-future-of-ai</loc>
+    <lastmod>2026-07-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/apple-vs-openai-future-of-ai"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/apple-vs-openai-future-of-ai"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/apple-vs-openai-future-of-ai"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/apple-vs-openai-future-of-ai"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/apple-vs-openai-future-of-ai"/>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/en/gemini-3-6-flash-release</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/gemini-3-6-flash-release"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/gemini-3-6-flash-release"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/gemini-3-6-flash-release"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/gemini-3-6-flash-release"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/gemini-3-6-flash-release"/>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/en/grok-4-5-india-value</loc>
+    <lastmod>2026-07-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/grok-4-5-india-value"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/grok-4-5-india-value"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/grok-4-5-india-value"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/grok-4-5-india-value"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/grok-4-5-india-value"/>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/en/kimi-k3-benchmarks</loc>
+    <lastmod>2026-07-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/kimi-k3-benchmarks"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/kimi-k3-benchmarks"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/kimi-k3-benchmarks"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/kimi-k3-benchmarks"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/kimi-k3-benchmarks"/>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/en/ram-prices-bubble</loc>
+    <lastmod>2026-07-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/ram-prices-bubble"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/ram-prices-bubble"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/ram-prices-bubble"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/ram-prices-bubble"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/ram-prices-bubble"/>
   </url>
   <url>
     <loc>https://breejeshrathod.com/blog/en/gemma-llm-on-android</loc>
@@ -64,7 +141,6 @@
     <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/gemma-llm-on-android"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/gemma-llm-on-android"/>
   </url>
-
   <url>
     <loc>https://breejeshrathod.com/blog/en/nom-ai-showcase</loc>
     <lastmod>2026-07-10</lastmod>
@@ -76,7 +152,61 @@
     <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/nom-ai-showcase"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/nom-ai-showcase"/>
   </url>
-
+  <url>
+    <loc>https://breejeshrathod.com/blog/en/zunify-music-player</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/zunify-music-player"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/zunify-music-player"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/zunify-music-player"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/zunify-music-player"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/zunify-music-player"/>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/en/spacex-ipo-disaster</loc>
+    <lastmod>2026-06-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/spacex-ipo-disaster"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/spacex-ipo-disaster"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/spacex-ipo-disaster"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/spacex-ipo-disaster"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/spacex-ipo-disaster"/>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/en/aws-spot-vs-reserved-vs-on-demand</loc>
+    <lastmod>2026-02-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/aws-spot-vs-reserved-vs-on-demand"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/aws-spot-vs-reserved-vs-on-demand"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/aws-spot-vs-reserved-vs-on-demand"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/aws-spot-vs-reserved-vs-on-demand"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/aws-spot-vs-reserved-vs-on-demand"/>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/en/java-virtual-threads</loc>
+    <lastmod>2026-07-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/java-virtual-threads"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/java-virtual-threads"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/java-virtual-threads"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/java-virtual-threads"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/java-virtual-threads"/>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/en/fargate-vs-ec2-always-on</loc>
+    <lastmod>2026-01-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/fargate-vs-ec2-always-on"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/fargate-vs-ec2-always-on"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/fargate-vs-ec2-always-on"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/fargate-vs-ec2-always-on"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/fargate-vs-ec2-always-on"/>
+  </url>
   <url>
     <loc>https://breejeshrathod.com/blog/en/serverless-db-connections</loc>
     <lastmod>2026-01-03</lastmod>
@@ -88,7 +218,6 @@
     <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/serverless-db-connections"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/serverless-db-connections"/>
   </url>
-
   <url>
     <loc>https://breejeshrathod.com/blog/en/docker-multi-stage-builds</loc>
     <lastmod>2026-01-02</lastmod>
@@ -100,7 +229,6 @@
     <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/docker-multi-stage-builds"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/docker-multi-stage-builds"/>
   </url>
-
   <url>
     <loc>https://breejeshrathod.com/blog/en/aws-nat-gateway-vs-nat-instance</loc>
     <lastmod>2026-01-01</lastmod>
@@ -111,17 +239,5 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/aws-nat-gateway-vs-nat-instance"/>
     <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/aws-nat-gateway-vs-nat-instance"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/aws-nat-gateway-vs-nat-instance"/>
-  </url>
-
-  <url>
-    <loc>https://breejeshrathod.com/blog/en/zunify-music-player</loc>
-    <lastmod>2026-07-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/zunify-music-player"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/zunify-music-player"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/zunify-music-player"/>
-    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/zunify-music-player"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/zunify-music-player"/>
   </url>
 </urlset>

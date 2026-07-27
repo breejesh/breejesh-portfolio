@@ -1,15 +1,15 @@
 ---
-title: "Threads Virtuels dans Java 21 : Les pools de threads sont-ils enfin obsolètes ?"
-description: "Comment les threads virtuels de Project Loom en Java gèrent des millions de tâches simultanées sur une seule JVM et réduisent l'épuisement classique des pools de threads."
+title: "Threads virtuels Java 21: benchmarks, pools de threads et cas d'usage"
+description: "Threads virtuels Java 21 vs platform threads avec des chiffres de charge Spring Boot. Project Loom, Thread.ofVirtual(), pinning, et quand les pools comptent encore."
 date: 2026-02-15
-tags: [Java, Conception de systèmes]
+tags: [Java, Java 21, Threads virtuels, Project Loom, Concurrence]
 coverImage: /assets/images/java-virtual-threads.webp
 previewImage: /assets/images/java-virtual-threads.webp
 ---
 
 Pendant près de deux décennies, le modèle standard pour gérer une forte simultanéité en Java a été le pool de threads (thread pool). Chaque fois qu'un serveur devait traiter des requêtes simultanées, les développeurs configuraient des exécuteurs pour gérer un nombre fixe de threads du système d'exploitation.
 
-Mais avec l'introduction des **Threads Virtuels** (Project Loom) dans Java 21, la concurrence en Java fonctionne de façon très différente.
+Les **threads virtuels Java 21** (Project Loom) changent ce modèle. Vous pouvez lancer un grand nombre de tâches concurrentes bloquantes sans dimensionner un pool classique pour chaque requête.
 
 ### Le Problème avec les Threads de Plateforme
 
