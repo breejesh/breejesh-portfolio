@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Breejesh Rathod | Engineering Blog</title>
+    <link>https://breejeshrathod.com/blog</link>
+    <description>Engineering articles on Java, cloud, AI agents, system design, and Cracking the Coding Interview.</description>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 06 Aug 2026 11:57:42 GMT</lastBuildDate>
+    <atom:link href="https://breejeshrathod.com/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Gemini 3.6 Flash: 17% fewer tokens, 350 tok/s Lite, and a cyber specialist</title>
+      <link>https://breejeshrathod.com/blog/en/gemini-3-6-flash-release</link>
+      <guid>https://breejeshrathod.com/blog/en/gemini-3-6-flash-release</guid>
+      <pubDate>Thu, 06 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Google shipped Gemini 3.6 Flash, 3.5 Flash-Lite, and 3.5 Flash Cyber in CodeMender. Benchmarks, $1.50/$7.50 pricing, 350 tok/s, and native computer use.</description>
+    </item>
+    <item>
+      <title>Grok 4.5 at ₹6,500/Year: Why SuperGrok Beats ₹24k AI Plans in India</title>
+      <link>https://breejeshrathod.com/blog/en/grok-4-5-india-value</link>
+      <guid>https://breejeshrathod.com/blog/en/grok-4-5-india-value</guid>
+      <pubDate>Tue, 04 Aug 2026 00:00:00 GMT</pubDate>
+      <description>SuperGrok / Grok 4.5 costs ₹6,500 a year in India vs ~₹24,000 for ChatGPT Plus, Claude Pro, and Gemini. Artificial Analysis benchmarks, live charts, and source credits.</description>
+    </item>
+    <item>
+      <title>The 2026 RAM Crisis: How the AI Bubble is Starving Consumer Tech</title>
+      <link>https://breejeshrathod.com/blog/en/ram-prices-bubble</link>
+      <guid>https://breejeshrathod.com/blog/en/ram-prices-bubble</guid>
+      <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
+      <description>How the 2026 memory hardware shortage, the AI data center gold rush, and HBM demand are squeezing PC parts, smartphone prices, and console releases.</description>
+    </item>
+    <item>
+      <title>NomAI: The Offline Calorie Tracker Powered by Local LLMs</title>
+      <link>https://breejeshrathod.com/blog/en/nom-ai-showcase</link>
+      <guid>https://breejeshrathod.com/blog/en/nom-ai-showcase</guid>
+      <pubDate>Sat, 01 Aug 2026 00:00:00 GMT</pubDate>
+      <description>An in-depth look at NomAI, the world&#x27;s first free, open-source, and entirely offline calorie tracking app for Android built with Google Gemma and Jetpack Compose.</description>
+    </item>
+    <item>
+      <title>Microsoft&#x27;s First Cyber Model Hits 96% on CyberGym and Ships Agent Armies</title>
+      <link>https://breejeshrathod.com/blog/en/microsoft-mai-cyber-1-flash-perception</link>
+      <guid>https://breejeshrathod.com/blog/en/microsoft-mai-cyber-1-flash-perception</guid>
+      <pubDate>Fri, 31 Jul 2026 00:00:00 GMT</pubDate>
+      <description>MAI-Cyber-1-Flash + MDASH posts 96% on CyberGym at half the cost. Project Perception adds red, blue, and green agents. What actually matters for security teams.</description>
+    </item>
+    <item>
+      <title>How an OpenAI Agent Hacked Hugging Face?</title>
+      <link>https://breejeshrathod.com/blog/en/openai-agent-hacks-huggingface</link>
+      <guid>https://breejeshrathod.com/blog/en/openai-agent-hacks-huggingface</guid>
+      <pubDate>Wed, 29 Jul 2026 00:00:00 GMT</pubDate>
+      <description>During an ExploitGym benchmark run, OpenAI&#x27;s GPT-5.6 Soul escaped sandbox isolation, injected a poison dataset into Hugging Face, and evaded defensive security models.</description>
+    </item>
+    <item>
+      <title>SpaceX, xAI, and the Trojan Horse IPO: Why the Math Doesn&#x27;t Add Up</title>
+      <link>https://breejeshrathod.com/blog/en/spacex-ipo-disaster</link>
+      <guid>https://breejeshrathod.com/blog/en/spacex-ipo-disaster</guid>
+      <pubDate>Tue, 28 Jul 2026 00:00:00 GMT</pubDate>
+      <description>An in-depth analysis of the SpaceX (SPCX) IPO. How a merger with xAI transformed a profitable aerospace monopoly into a cash-burning AI play with severe physics and financial challenges.</description>
+    </item>
+    <item>
+      <title>Nvidia&#x27;s $750B Deals Are the Circular AI Machine on Full Display</title>
+      <link>https://breejeshrathod.com/blog/en/nvidia-750b-circular-finance</link>
+      <guid>https://breejeshrathod.com/blog/en/nvidia-750b-circular-finance</guid>
+      <pubDate>Sun, 26 Jul 2026 00:00:00 GMT</pubDate>
+      <description>SK Group $500B+, a possible $250B OpenAI backstop, 18¢ of every AI dollar in production, and free cash flow that fell off a cliff. The money loop is the product.</description>
+    </item>
+    <item>
+      <title>Kimi K3 Behind the Hype: Is It Really a Fable 5 Killer?</title>
+      <link>https://breejeshrathod.com/blog/en/kimi-k3-benchmarks</link>
+      <guid>https://breejeshrathod.com/blog/en/kimi-k3-benchmarks</guid>
+      <pubDate>Sat, 25 Jul 2026 00:00:00 GMT</pubDate>
+      <description>Behind the Kimi K3 hype: Artificial Analysis, LMArena, and Moonshot benchmarks vs Claude Fable 5. Spoiler: strong open model, not a clean Fable 5 killer.</description>
+    </item>
+    <item>
+      <title>Apple Sues OpenAI: Inside the Stolen Hardware Lawsuit That Shattered Their Alliance</title>
+      <link>https://breejeshrathod.com/blog/en/apple-vs-openai-future-of-ai</link>
+      <guid>https://breejeshrathod.com/blog/en/apple-vs-openai-future-of-ai</guid>
+      <pubDate>Thu, 23 Jul 2026 00:00:00 GMT</pubDate>
+      <description>Apple filed a federal trade secret lawsuit against OpenAI, alleging stolen hardware prototypes and systematic insider data theft. Here is what happened and what comes next.</description>
+    </item>
+    <item>
+      <title>OpenAI and the AI Bubble Bigger Than Dotcom</title>
+      <link>https://breejeshrathod.com/blog/en/openai-bubble-bigger-than-dotcom</link>
+      <guid>https://breejeshrathod.com/blog/en/openai-bubble-bigger-than-dotcom</guid>
+      <pubDate>Wed, 22 Jul 2026 00:00:00 GMT</pubDate>
+      <description>Burn rates, unpaid AI bills, Chinese open models, data-center lease-backs, and a leaked Treasury draft. Why the AI trade now sits deeper in the economy than the 2000 internet boom.</description>
+    </item>
+    <item>
+      <title>MCP for Engineers: How Tool-Using AI Agents Actually Plug Into Your Stack</title>
+      <link>https://breejeshrathod.com/blog/en/mcp-ai-tools-explained</link>
+      <guid>https://breejeshrathod.com/blog/en/mcp-ai-tools-explained</guid>
+      <pubDate>Mon, 20 Jul 2026 00:00:00 GMT</pubDate>
+      <description>What the Model Context Protocol is, why it showed up, how tools and resources work, and the security footguns that matter when agents can call real systems.</description>
+    </item>
+    <item>
+      <title>How to Actually Use AI Coding Agents Without Shipping Garbage</title>
+      <link>https://breejeshrathod.com/blog/en/ai-coding-agents-workflow</link>
+      <guid>https://breejeshrathod.com/blog/en/ai-coding-agents-workflow</guid>
+      <pubDate>Sun, 19 Jul 2026 00:00:00 GMT</pubDate>
+      <description>Practical Cursor and Copilot-style habits: context windows, review loops, test-first with agents, and clear rules for when to reject AI code.</description>
+    </item>
+    <item>
+      <title>Running LLMs Locally on Android: Gemma 2B with LiteRT</title>
+      <link>https://breejeshrathod.com/blog/en/gemma-llm-on-android</link>
+      <guid>https://breejeshrathod.com/blog/en/gemma-llm-on-android</guid>
+      <pubDate>Fri, 17 Jul 2026 00:00:00 GMT</pubDate>
+      <description>How to run Google&#x27;s Gemma models offline on Android using LiteRT, with a real-world look at NomAI, the open-source offline calorie tracker.</description>
+    </item>
+    <item>
+      <title>LoRA Fine-Tuning for LLMs: Ranks, Target Modules, and Memory Math</title>
+      <link>https://breejeshrathod.com/blog/en/lora-finetuning-guide</link>
+      <guid>https://breejeshrathod.com/blog/en/lora-finetuning-guide</guid>
+      <pubDate>Thu, 16 Jul 2026 00:00:00 GMT</pubDate>
+      <description>A practical engineer guide to LoRA and QLoRA: when adapters beat full fine-tunes, how to pick rank and modules, rough VRAM math, and failures that waste a weekend.</description>
+    </item>
+    <item>
+      <title>Build a Practical RAG Pipeline: Chunking, Embeddings, Retrieval, Rerank, Eval</title>
+      <link>https://breejeshrathod.com/blog/en/practical-rag-pipeline</link>
+      <guid>https://breejeshrathod.com/blog/en/practical-rag-pipeline</guid>
+      <pubDate>Wed, 15 Jul 2026 00:00:00 GMT</pubDate>
+      <description>A production-minded RAG walkthrough: chunking strategies, embedding choices, hybrid retrieval, reranking, evaluation metrics, and when RAG quietly fails.</description>
+    </item>
+    <item>
+      <title>Zunify: Reimagining the Iconic Zune Player for the Modern Web</title>
+      <link>https://breejeshrathod.com/blog/en/zunify-music-player</link>
+      <guid>https://breejeshrathod.com/blog/en/zunify-music-player</guid>
+      <pubDate>Mon, 13 Jul 2026 00:00:00 GMT</pubDate>
+      <description>A look at Zunify, a lightweight, offline-first music player that brings back the typography-focused late-2000s Zune interface using Angular 19, Dexie.js, and the File System Access API.</description>
+    </item>
+    <item>
+      <title>How Transformers Work: A Practical Map for Working Engineers</title>
+      <link>https://breejeshrathod.com/blog/en/transformers-explained-engineers</link>
+      <guid>https://breejeshrathod.com/blog/en/transformers-explained-engineers</guid>
+      <pubDate>Sun, 12 Jul 2026 00:00:00 GMT</pubDate>
+      <description>Attention, embeddings, encoder/decoder stacks, context windows, and KV cache explained without the research paper fog. What actually matters when you ship or host LLMs.</description>
+    </item>
+    <item>
+      <title>Vector Embeddings Explained: What Engineers Actually Need</title>
+      <link>https://breejeshrathod.com/blog/en/vector-embeddings-explained</link>
+      <guid>https://breejeshrathod.com/blog/en/vector-embeddings-explained</guid>
+      <pubDate>Fri, 10 Jul 2026 00:00:00 GMT</pubDate>
+      <description>What embeddings encode, how similarity works, what dimensions buy you, how search and RAG use them, and the mistakes that quietly wreck retrieval quality.</description>
+    </item>
+    <item>
+      <title>Prompt Engineering That Actually Works for Product Engineers</title>
+      <link>https://breejeshrathod.com/blog/en/prompt-engineering-that-works</link>
+      <guid>https://breejeshrathod.com/blog/en/prompt-engineering-that-works</guid>
+      <pubDate>Thu, 09 Jul 2026 00:00:00 GMT</pubDate>
+      <description>Structure, few-shot examples, hard constraints, eval loops, and common failure modes. A practical playbook for shipping LLM features, not chat demos.</description>
+    </item>
+    <item>
+      <title>Java 21 Virtual Threads: Benchmarks, Thread Pools, and When to Use Them</title>
+      <link>https://breejeshrathod.com/blog/en/java-virtual-threads</link>
+      <guid>https://breejeshrathod.com/blog/en/java-virtual-threads</guid>
+      <pubDate>Tue, 07 Jul 2026 00:00:00 GMT</pubDate>
+      <description>Java 21 virtual threads vs platform threads with Spring Boot load-test numbers. Project Loom, Thread.ofVirtual(), pinning pitfalls, and when thread pools still matter.</description>
+    </item>
+    <item>
+      <title>Build REST APIs with FastAPI: Routing, Pydantic, Dependencies, and Tests</title>
+      <link>https://breejeshrathod.com/blog/en/fastapi-rest-apis-guide</link>
+      <guid>https://breejeshrathod.com/blog/en/fastapi-rest-apis-guide</guid>
+      <pubDate>Mon, 06 Jul 2026 00:00:00 GMT</pubDate>
+      <description>A practical FastAPI path: path and query routing, Pydantic models, dependency injection, async handlers, and TestClient basics you can ship this week.</description>
+    </item>
+    <item>
+      <title>Next.js App Router Data Fetching: Server Components, Cache, and Revalidate</title>
+      <link>https://breejeshrathod.com/blog/en/nextjs-app-router-data-fetching</link>
+      <guid>https://breejeshrathod.com/blog/en/nextjs-app-router-data-fetching</guid>
+      <pubDate>Sat, 04 Jul 2026 00:00:00 GMT</pubDate>
+      <description>Practical patterns for App Router data loading: async Server Components, fetch cache options, revalidate and tags, unstable_cache for DB work, and when client fetch still belongs.</description>
+    </item>
+    <item>
+      <title>Tailwind CSS Production Patterns: Layouts, Components, Dark Mode</title>
+      <link>https://breejeshrathod.com/blog/en/tailwind-css-production-patterns</link>
+      <guid>https://breejeshrathod.com/blog/en/tailwind-css-production-patterns</guid>
+      <pubDate>Fri, 03 Jul 2026 00:00:00 GMT</pubDate>
+      <description>How teams keep Tailwind maintainable at scale: layout systems, component extraction, dark mode that does not thrash, and habits that stop class soup.</description>
+    </item>
+    <item>
+      <title>PostgreSQL Indexes That Matter: B-tree, Partial, Composite, Covering</title>
+      <link>https://breejeshrathod.com/blog/en/postgres-indexes-that-matter</link>
+      <guid>https://breejeshrathod.com/blog/en/postgres-indexes-that-matter</guid>
+      <pubDate>Wed, 01 Jul 2026 00:00:00 GMT</pubDate>
+      <description>Which Postgres indexes actually move latency: B-tree defaults, partial filters, composite column order, covering INCLUDE, and when indexes slow you down.</description>
+    </item>
+    <item>
+      <title>Redis Caching Patterns That Survive Production</title>
+      <link>https://breejeshrathod.com/blog/en/redis-caching-patterns</link>
+      <guid>https://breejeshrathod.com/blog/en/redis-caching-patterns</guid>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Cache-aside, stampede control, TTL jitter, invalidation, and hot keys. Patterns that keep Redis useful under real traffic without melting the database.</description>
+    </item>
+    <item>
+      <title>Minesweeper: Board, Cell, Bombs, and Zero Flood Fill (Java)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-7-10-minesweeper</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-7-10-minesweeper</guid>
+      <pubDate>Sun, 28 Jun 2026 00:00:00 GMT</pubDate>
+      <description>CTCI-style problem 7.10 for beginners: design a text Minesweeper with Cell and Board, random bomb placement, neighbor counts, click rules, and flood fill when you open a zero.</description>
+    </item>
+    <item>
+      <title>Random Crashes: Debugging Intermittent Application Failure (CTCI 11.2)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-11-2-random-crashes</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-11-2-random-crashes</guid>
+      <pubDate>Sat, 27 Jun 2026 00:00:00 GMT</pubDate>
+      <description>CTCI problem 11.2: step-by-step methodology to isolate and diagnose random, non-deterministic crashes in production.</description>
+    </item>
+    <item>
+      <title>CSS Grid Layout Mental Model: Tracks, Areas, fr, and minmax</title>
+      <link>https://breejeshrathod.com/blog/en/css-grid-layout-mental-model</link>
+      <guid>https://breejeshrathod.com/blog/en/css-grid-layout-mental-model</guid>
+      <pubDate>Fri, 26 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A practical mental model for CSS Grid: tracks, areas, fr units, minmax, auto-fit vs auto-fill, and the layouts you build every week.</description>
+    </item>
+    <item>
+      <title>Social Network: Find Shortest Connection Paths at Scale (CTCI 9.2)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-9-2-social-network</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-9-2-social-network</guid>
+      <pubDate>Wed, 24 Jun 2026 00:00:00 GMT</pubDate>
+      <description>CTCI problem 9.2: design a distributed system to calculate degree of separation and shortest paths between two users in a billion-node social graph.</description>
+    </item>
+    <item>
+      <title>Bisect Squares: Find Line Bisecting Two Squares in 2D Space (CTCI 16.13)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-16-13-bisect-squares</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-16-13-bisect-squares</guid>
+      <pubDate>Tue, 23 Jun 2026 00:00:00 GMT</pubDate>
+      <description>CTCI problem 16.13: compute the 2D line equation that cuts two arbitrary squares in half by connecting their center points.</description>
+    </item>
+    <item>
+      <title>Deadlock-Free Class: Designing a Lock Manager (CTCI 15.4)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-15-4-deadlock-free-class</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-15-4-deadlock-free-class</guid>
+      <pubDate>Sun, 21 Jun 2026 00:00:00 GMT</pubDate>
+      <description>CTCI problem 15.4: architecture for a thread-safe LockManager class that prevents circular wait conditions.</description>
+    </item>
+    <item>
+      <title>Entity Relationship Data Model: Designing ER Diagrams (CTCI 14.6)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-14-6-entity-relationship-data-model</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-14-6-entity-relationship-data-model</guid>
+      <pubDate>Sat, 20 Jun 2026 00:00:00 GMT</pubDate>
+      <description>CTCI problem 14.6: principles of Entity-Relationship modeling, primary keys, foreign keys, and 1-to-N relationships.</description>
+    </item>
+    <item>
+      <title>2D Alloc: Allocate 2D Array in C with Single Malloc (CTCI 12.11)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-12-11-2d-alloc</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-12-11-2d-alloc</guid>
+      <pubDate>Thu, 18 Jun 2026 00:00:00 GMT</pubDate>
+      <description>CTCI problem 12.11 in C: allocate a 2D array dynamically using a single malloc call to guarantee memory contiguity.</description>
+    </item>
+    <item>
+      <title>Stock Data: Design a High-Throughput Financial Data Server (CTCI 9.1)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-9-1-stock-data</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-9-1-stock-data</guid>
+      <pubDate>Wed, 17 Jun 2026 00:00:00 GMT</pubDate>
+      <description>CTCI problem 9.1: design an architecture to deliver real-time stock ticker updates and historical chart data to millions of concurrent clients.</description>
+    </item>
+    <item>
+      <title>Sorted Matrix Search: Search M x N Matrix Sorted by Rows and Columns (CTCI 10.9)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-10-9-sorted-matrix-search</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-10-9-sorted-matrix-search</guid>
+      <pubDate>Mon, 15 Jun 2026 00:00:00 GMT</pubDate>
+      <description>CTCI problem 10.9 in Java: search for an element in an M x N matrix where every row and column is sorted in O(M + N) time.</description>
+    </item>
+    <item>
+      <title>Circular Array: O(1) Rotation with a Head Index (Java)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-7-9-circular-array</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-7-9-circular-array</guid>
+      <pubDate>Sun, 14 Jun 2026 00:00:00 GMT</pubDate>
+      <description>CTCI-style problem 7.9 for beginners: a generic CircularArray that rotates in O(1) by moving a head pointer, maps logical indices with modulo, and supports for-each via Iterable.</description>
+    </item>
+    <item>
+      <title>Handling Database Connections at Scale in Serverless Functions</title>
+      <link>https://breejeshrathod.com/blog/en/serverless-db-connections</link>
+      <guid>https://breejeshrathod.com/blog/en/serverless-db-connections</guid>
+      <pubDate>Fri, 12 Jun 2026 00:00:00 GMT</pubDate>
+      <description>How to avoid database connection exhaustion in AWS Lambda and manage connection pools effectively.</description>
+    </item>
+    <item>
+      <title>Validate BST: Min/Max Ranges on a Binary Tree (Java)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-4-5-validate-bst</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-4-5-validate-bst</guid>
+      <pubDate>Thu, 11 Jun 2026 00:00:00 GMT</pubDate>
+      <description>CTCI-style problem 4.5 for beginners: check whether a binary tree is a binary search tree. Primary approach uses recursive min/max bounds; in-order sorted scan is the optional check.</description>
+    </item>
+    <item>
+      <title>Sparse Search: Search String Array Interspersed with Empty Strings (CTCI 10.5)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-10-5-sparse-search</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-10-5-sparse-search</guid>
+      <pubDate>Tue, 09 Jun 2026 00:00:00 GMT</pubDate>
+      <description>CTCI problem 10.5 in Java: locate a target string in a sorted array of strings interspersed with empty strings using modified binary search.</description>
+    </item>
+    <item>
+      <title>Draw Line: Paint a Horizontal Line on a Byte-Packed Screen (Java)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-5-8-draw-line</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-5-8-draw-line</guid>
+      <pubDate>Mon, 08 Jun 2026 00:00:00 GMT</pubDate>
+      <description>CTCI-style problem 5.8 for beginners: monochrome screen stored as a byte array, eight pixels per byte. Draw a horizontal line from (x1, y) to (x2, y) with bit masks on partial bytes and 0xFF on full ones.</description>
+    </item>
+    <item>
+      <title>Max Submatrix: Maximum Sum 2D Submatrix via Kadane 2D (CTCI 17.24)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-17-24-max-submatrix</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-17-24-max-submatrix</guid>
+      <pubDate>Sun, 07 Jun 2026 00:00:00 GMT</pubDate>
+      <description>CTCI problem 17.24: find 2D submatrix with largest sum in N x N matrix in O(N^3) time.</description>
+    </item>
+    <item>
+      <title>CTCI 1.2 Check Permutation: Same Letters, Different Order (Java)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-1-2-check-permutation</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-1-2-check-permutation</guid>
+      <pubDate>Fri, 05 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Decide if two strings are permutations of each other. Scrabble-tile analogy, sort vs count array vs HashMap in Java, complexity, and edge cases for beginners.</description>
+    </item>
+    <item>
+      <title>Is Unique: Check if a String Has All Distinct Characters (Java)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-1-1-is-unique</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-1-1-is-unique</guid>
+      <pubDate>Thu, 04 Jun 2026 00:00:00 GMT</pubDate>
+      <description>CTCI-style problem 1.1 for beginners: decide whether every character in a string appears only once. Analogy, brute force, boolean array, HashSet, sort, and complexity.</description>
+    </item>
+    <item>
+      <title>Sort Big File: External Merge Sort for 20 GB File with 2 GB RAM (CTCI 10.6)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-10-6-sort-big-file</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-10-6-sort-big-file</guid>
+      <pubDate>Tue, 02 Jun 2026 00:00:00 GMT</pubDate>
+      <description>CTCI problem 10.6: design external merge sort algorithm to sort a massive 20 GB text file when system memory is restricted to 2 GB.</description>
+    </item>
+    <item>
+      <title>Grade Dictionary: Outer Joins and Aggregations (CTCI 14.4)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-14-4-grade-dictionary</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-14-4-grade-dictionary</guid>
+      <pubDate>Mon, 01 Jun 2026 00:00:00 GMT</pubDate>
+      <description>CTCI problem 14.4: writing SQL queries to join Students, Courses, and Teachers with aggregate functions.</description>
+    </item>
+    <item>
+      <title>Thread vs Process: Concurrency Fundamentals (CTCI 15.1)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-15-1-thread-vs-process</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-15-1-thread-vs-process</guid>
+      <pubDate>Sat, 30 May 2026 00:00:00 GMT</pubDate>
+      <description>CTCI problem 15.1: core differences between process-level isolation and shared memory thread execution.</description>
+    </item>
+    <item>
+      <title>Queue via Stacks: Build a FIFO Queue with Two LIFO Stacks (Java)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-3-4-queue-via-stacks</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-3-4-queue-via-stacks</guid>
+      <pubDate>Fri, 29 May 2026 00:00:00 GMT</pubDate>
+      <description>CTCI-style problem 3.4 for beginners: implement MyQueue with stackNewest and stackOldest. Push to one, shift only when dequeue or peek needs data. Amortized O(1) in plain Java.</description>
+    </item>
+    <item>
+      <title>Basketball: One Shot vs Make 2 of 3 (Probability)</title>
+      <link>https://breejeshrathod.com/blog/en/ctci-6-2-basketball</link>
+      <guid>https://breejeshrathod.com/blog/en/ctci-6-2-basketball</guid>
+      <pubDate>Wed, 27 May 2026 00:00:00 GMT</pubDate>
+      <description>CTCI-style problem 6.2 for beginners: with make probability p, choose Game 1 (one make) or Game 2 (at least two makes in three shots). Algebra: p vs 3p^2(1-p)+p^3, and when each wins.</description>
+    </item>
+    <item>
+      <title>SQL Window Functions That Stick: ROW_NUMBER, RANK, LAG, and Running Totals</title>
+      <link>https://breejeshrathod.com/blog/en/sql-window-functions-guide</link>
+      <guid>https://breejeshrathod.com/blog/en/sql-window-functions-guide</guid>
+      <pubDate>Tue, 26 May 2026 00:00:00 GMT</pubDate>
+      <description>A practical guide to SQL window functions: partitions, ROW_NUMBER vs RANK, LAG/LEAD period diffs, running totals, and the CTE filter pattern you need every week.</description>
+    </item>
+  </channel>
+</rss>

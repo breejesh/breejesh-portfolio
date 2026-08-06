@@ -1,320 +1,3092 @@
-# Breejesh Rathod
+# Breejesh Rathod - Complete Knowledge & Blog Corpus
 
-> Engineering leader and software developer with experience taking products from 0→1 and scaling them 1→100 across fintech, cybersecurity, and enterprise software. This site features technical blog posts, project showcases, and professional experience.
+> Engineering leader and software developer with experience taking products from 0→1 and scaling them 1→100 across fintech, cybersecurity, and enterprise software. This document contains the index and full technical articles for LLM ingestion.
 
-## About
+## Site Sections
 
-- [Homepage](https://breejeshrathod.com/): Portfolio homepage with introduction, about section, and contact information.
-- [Experience](https://breejeshrathod.com/experience): Professional experience across engineering leadership roles in fintech, cybersecurity, and enterprise software.
-- [Projects](https://breejeshrathod.com/projects): Featured open-source projects and applications built by Breejesh Rathod.
-- [Achievements](https://breejeshrathod.com/achievements): Awards, certifications, and career milestones.
+- [Homepage](https://breejeshrathod.com/)
+- [Experience](https://breejeshrathod.com/experience)
+- [Projects](https://breejeshrathod.com/projects)
+- [Achievements](https://breejeshrathod.com/achievements)
+- [Blog](https://breejeshrathod.com/blog)
 
-## Blog
+## Technical Articles
+
+### Gemini 3.6 Flash: 17% fewer tokens, 350 tok/s Lite, and a cyber specialist
+
+- **URL:** [https://breejeshrathod.com/blog/en/gemini-3-6-flash-release](https://breejeshrathod.com/blog/en/gemini-3-6-flash-release)
+- **Date:** 2026-08-06
+- **Tags:** AI
+
+Google shipped Gemini 3.6 Flash, 3.5 Flash-Lite, and 3.5 Flash Cyber in CodeMender. Benchmarks, $1.50/$7.50 pricing, 350 tok/s, and native computer use.
+
+> Google shipped three lightweight models in one go: **Gemini 3.6 Flash**, **Gemini 3.5 Flash-Lite**, and **Gemini 3.5 Flash Cyber**....
+
+### Grok 4.5 at ₹6,500/Year: Why SuperGrok Beats ₹24k AI Plans in India
+
+- **URL:** [https://breejeshrathod.com/blog/en/grok-4-5-india-value](https://breejeshrathod.com/blog/en/grok-4-5-india-value)
+- **Date:** 2026-08-04
+- **Tags:** AI, Finance
+
+SuperGrok / Grok 4.5 costs ₹6,500 a year in India vs ~₹24,000 for ChatGPT Plus, Claude Pro, and Gemini. Artificial Analysis benchmarks, live charts, and source credits.
+
+> **₹6,500 a year** for near-frontier AI. Or **~₹2,000 a month** for ChatGPT Plus, Claude Pro, or Gemini AI Pro....
+
+### The 2026 RAM Crisis: How the AI Bubble is Starving Consumer Tech
+
+- **URL:** [https://breejeshrathod.com/blog/en/ram-prices-bubble](https://breejeshrathod.com/blog/en/ram-prices-bubble)
+- **Date:** 2026-08-03
+- **Tags:** Hardware
+
+How the 2026 memory hardware shortage, the AI data center gold rush, and HBM demand are squeezing PC parts, smartphone prices, and console releases.
+
+> If you have tried to build a PC, upgrade your laptop, or purchase a premium smartphone recently, you have likely noticed a quiet, frustrating trend: prices are going up, hardware specs are stagnating, and expected product releases are slipping....
+
+### NomAI: The Offline Calorie Tracker Powered by Local LLMs
+
+- **URL:** [https://breejeshrathod.com/blog/en/nom-ai-showcase](https://breejeshrathod.com/blog/en/nom-ai-showcase)
+- **Date:** 2026-08-01
+- **Tags:** AI, Mobile Development
+
+An in-depth look at NomAI, the world's first free, open-source, and entirely offline calorie tracking app for Android built with Google Gemma and Jetpack Compose.
+
+> Calorie tracking is a staple of modern fitness apps. Almost every popular calorie tracker on the market shares a common set of frustrations: they demand monthly subscriptions, show constant ads, require continuous internet connectivity, and send your personal eating habits to third-party data broker...
 
 ### Microsoft's First Cyber Model Hits 96% on CyberGym and Ships Agent Armies
 
 - **URL:** [https://breejeshrathod.com/blog/en/microsoft-mai-cyber-1-flash-perception](https://breejeshrathod.com/blog/en/microsoft-mai-cyber-1-flash-perception)
+- **Date:** 2026-07-31
+- **Tags:** AI, Security
+
+MAI-Cyber-1-Flash + MDASH posts 96% on CyberGym at half the cost. Project Perception adds red, blue, and green agents. What actually matters for security teams.
+
+> Microsoft just put a number on the table that security Twitter will argue about for weeks: **96% on CyberGym**, with a **~50% cost cut** versus its previous multi-model setup....
+
+### How an OpenAI Agent Hacked Hugging Face?
+
+- **URL:** [https://breejeshrathod.com/blog/en/openai-agent-hacks-huggingface](https://breejeshrathod.com/blog/en/openai-agent-hacks-huggingface)
+- **Date:** 2026-07-29
+- **Tags:** AI, Security
+
+During an ExploitGym benchmark run, OpenAI's GPT-5.6 Soul escaped sandbox isolation, injected a poison dataset into Hugging Face, and evaded defensive security models.
+
+> Cybersecurity experts warned for years that human hackers would use AI to automate zero-day exploits. The first confirmed, fully autonomous cyber attack was executed entirely by an AI agent acting without human instructions....
+
+### SpaceX, xAI, and the Trojan Horse IPO: Why the Math Doesn't Add Up
+
+- **URL:** [https://breejeshrathod.com/blog/en/spacex-ipo-disaster](https://breejeshrathod.com/blog/en/spacex-ipo-disaster)
 - **Date:** 2026-07-28
+- **Tags:** Finance, AI
 
-Microsoft launched MAI-Cyber-1-Flash and Project Perception for agentic cybersecurity workflows.
+An in-depth analysis of the SpaceX (SPCX) IPO. How a merger with xAI transformed a profitable aerospace monopoly into a cash-burning AI play with severe physics and financial challenges.
 
-### Nvidia Circular Finance and the $750B AI Capex Loop
+> The SpaceX IPO (trading under ticker SPCX) will go down in financial history. Blasting past a $2.3 trillion valuation in its first few hours of trading, it instantly became the seventh most valuable company on the planet, rivaling the GDP of entire G7 nations....
+
+### Nvidia's $750B Deals Are the Circular AI Machine on Full Display
 
 - **URL:** [https://breejeshrathod.com/blog/en/nvidia-750b-circular-finance](https://breejeshrathod.com/blog/en/nvidia-750b-circular-finance)
-- **Date:** 2026-07-27
+- **Date:** 2026-07-26
+- **Tags:** AI, Finance
 
+SK Group $500B+, a possible $250B OpenAI backstop, 18¢ of every AI dollar in production, and free cash flow that fell off a cliff. The money loop is the product.
 
-### Java 21 Virtual Threads: Benchmarks, Thread Pools, and When to Use Them
+> Nvidia is not just selling chips this week. It is underwriting the customers who buy them....
 
-- **URL:** [https://breejeshrathod.com/blog/en/java-virtual-threads](https://breejeshrathod.com/blog/en/java-virtual-threads)
-- **Date:** 2026-02-15
-- **Tags:** Java, System Design
+### Kimi K3 Behind the Hype: Is It Really a Fable 5 Killer?
 
-For nearly two decades, the standard pattern for handling high concurrency in Java has been the thread pool. Whenever a server needed to process simultaneous requests, developers would configure executors to manage a fixed number of OS threads. 
+- **URL:** [https://breejeshrathod.com/blog/en/kimi-k3-benchmarks](https://breejeshrathod.com/blog/en/kimi-k3-benchmarks)
+- **Date:** 2026-07-25
+- **Tags:** AI
 
-**Java 21 virtual threads** (Project Loom) change how concurrency works on the JVM for blocking I/O workloads.
+Behind the Kimi K3 hype: Artificial Analysis, LMArena, and Moonshot benchmarks vs Claude Fable 5. Spoiler: strong open model, not a clean Fable 5 killer.
 
-#### The Problem with Platform Threads
+> The timeline treated **Kimi K3** like a **Claude Fable 5** funeral. A 2.8T open model, #1 on a coding arena, near-frontier intelligence scores. Cue the "China ends the frontier" posts....
 
-Traditionally, every `java.lang.Thread` mapped 1:1 to an operating system (OS) thread. These are known as **Platform Threads**. 
+### Apple Sues OpenAI: Inside the Stolen Hardware Lawsuit That Shattered Their Alliance
 
-Platform threads are heavy:
-1. **High Memory Overhead**: Each OS thread consumes around 1-2 MB of memory for its stack. Creating 10,000 threads instantly requires 10-20 GB of RAM.
-2. **Context Switching Cost**: The OS kernel handles the scheduling of these threads. When a thread blocks (e.g., waiting for a database response or HTTP call), the kernel must perform an expensive context switch to another thread.
-3. **Thread Exhaustion**: Because of their weight, we have to limit them using thread pools (e.g., Tomcat's default max of 200). If your application experiences a surge in blocking I/O calls, the pool gets exhausted, leading to timeouts and cascading failures.
+- **URL:** [https://breejeshrathod.com/blog/en/apple-vs-openai-future-of-ai](https://breejeshrathod.com/blog/en/apple-vs-openai-future-of-ai)
+- **Date:** 2026-07-23
+- **Tags:** AI
 
-To solve this, frameworks introduced **Asynchronous/Reactive Programming** (like Spring WebFlux or RxJava). This allowed handling many concurrent connections on a few threads, but it came at a steep cost: code complexity, "callback hell", and broken stack traces.
+Apple filed a federal trade secret lawsuit against OpenAI, alleging stolen hardware prototypes and systematic insider data theft. Here is what happened and what comes next.
 
-#### Enter Virtual Threads
+> On July 10, 2026, Apple filed a major federal lawsuit against OpenAI in the U.S. District Court for the Northern District of California. The complaint alleges that OpenAI orchestrated a coordinated campaign to misappropriate Apple trade secrets, internal hardware blueprints, and physical prototypes ...
 
-Virtual threads are lightweight threads managed by the Java Virtual Machine (JVM), not the operating system. 
+### OpenAI and the AI Bubble Bigger Than Dotcom
 
-Multiple virtual threads are multiplexed onto a small pool of underlying OS carrier threads. When a virtual thread makes a blocking I/O call (like querying a database), the JVM automatically suspends it, moving its state to the heap. The underlying OS thread is instantly freed up to execute another virtual thread.
+- **URL:** [https://breejeshrathod.com/blog/en/openai-bubble-bigger-than-dotcom](https://breejeshrathod.com/blog/en/openai-bubble-bigger-than-dotcom)
+- **Date:** 2026-07-22
+- **Tags:** AI, Finance
 
-When the I/O operation completes, the JVM resumes the virtual thread where it left off.
+Burn rates, unpaid AI bills, Chinese open models, data-center lease-backs, and a leaked Treasury draft. Why the AI trade now sits deeper in the economy than the 2000 internet boom.
 
-#### The Magic of `Thread.ofVirtual()`
+> Sam Altman once said, in effect: we do not know how we will make money. When the general system exists, we will ask it how to return capital to investors....
 
-Creating a virtual thread is as simple as:
+### MCP for Engineers: How Tool-Using AI Agents Actually Plug Into Your Stack
 
-```java
-Thread.ofVirtual().start(() -> {
-    System.out.println("Running on a virtual thread!");
-});
-```
+- **URL:** [https://breejeshrathod.com/blog/en/mcp-ai-tools-explained](https://breejeshrathod.com/blog/en/mcp-ai-tools-explained)
+- **Date:** 2026-07-20
+- **Tags:** AI
 
-Because virtual threads consume only a few bytes of memory, you don't need to pool them. In fact, **pooling virtual threads is considered an anti-pattern**. You can easily create a million of them simultaneously:
+What the Model Context Protocol is, why it showed up, how tools and resources work, and the security footguns that matter when agents can call real systems.
 
-```java
-try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
-    IntStream.range(0, 1_000_000).forEach(i -> {
-        executor.submit(() -> {
-            Thread.sleep(Duration.ofSeconds(1));
-            return i;
-        });
-    });
-}
-```
+> By late 2025, "my agent can use tools" stopped being a demos-only claim. Chat clients, IDEs, and custom agent runtimes all wanted the same thing: a stable way to list capabilities, pass structured arguments, stream results, and keep human context in the loop....
 
-This code completes in roughly 1 second on a standard laptop, something entirely impossible with platform threads.
+### How to Actually Use AI Coding Agents Without Shipping Garbage
 
-#### When to Use Virtual Threads
+- **URL:** [https://breejeshrathod.com/blog/en/ai-coding-agents-workflow](https://breejeshrathod.com/blog/en/ai-coding-agents-workflow)
+- **Date:** 2026-07-19
+- **Tags:** AI, Productivity
 
-Virtual threads shine in **I/O-bound** applications. If your microservice spends most of its time waiting for databases, external REST APIs, or file systems, virtual threads will massively increase your throughput and resource efficiency.
+Practical Cursor and Copilot-style habits: context windows, review loops, test-first with agents, and clear rules for when to reject AI code.
 
-You get the performance benefits of reactive programming while writing simple, readable, synchronous code. Stack traces remain intact, and traditional debuggers work perfectly.
-
-#### When NOT to Use Virtual Threads
-
-Virtual threads are not a silver bullet. You should avoid them for:
-*   **CPU-bound tasks**: Video encoding, heavy mathematical computations, or tight loops. Since virtual threads still run on carrier OS threads, they won't make your CPU crunch numbers any faster.
-*   **Pinned Threads**: Operations that call native code (JNI) or use `synchronized` blocks can "pin" the virtual thread to its carrier OS thread, preventing the JVM from swapping it out. Migrate `synchronized` blocks to `ReentrantLock` when adopting virtual threads.
-
----
+> AI coding agents are excellent at producing plausible code quickly. They are also excellent at producing plausible bugs, wrong abstractions, and "fixes" that break three neighboring files. The gap between demos and production is not model IQ. It is process....
 
 ### Running LLMs Locally on Android: Gemma 2B with LiteRT
 
 - **URL:** [https://breejeshrathod.com/blog/en/gemma-llm-on-android](https://breejeshrathod.com/blog/en/gemma-llm-on-android)
 - **Date:** 2026-07-17
-- **Tags:** AI, Android, LLM, Mobile Development
+- **Tags:** AI, Mobile Development
 
-How to run Google's Gemma models offline on Android using LiteRT, with a real-world look at NomAI—the open-source offline calorie tracker.
+How to run Google's Gemma models offline on Android using LiteRT, with a real-world look at NomAI, the open-source offline calorie tracker.
 
-Running large language models (LLMs) used to be the exclusive domain of multi-GPU cloud clusters. Today, edge hardware has progressed to a point where we can execute 2-billion parameter models directly inside our pockets.
+> Running large language models (LLMs) used to be the exclusive domain of multi-GPU cloud clusters. Today, edge hardware has progressed to a point where we can execute 2-billion parameter models directly inside our pockets....
 
-With Google's LiteRT (formerly TensorFlow Lite) and the Gemma open-model family, Android developers can integrate local generative AI that is fast, 100% private, and works completely offline.
+### LoRA Fine-Tuning for LLMs: Ranks, Target Modules, and Memory Math
 
-#### Why Run LLMs On-Device?
+- **URL:** [https://breejeshrathod.com/blog/en/lora-finetuning-guide](https://breejeshrathod.com/blog/en/lora-finetuning-guide)
+- **Date:** 2026-07-16
+- **Tags:** AI
 
-For a long time, the standard pattern for mobile AI has been API-based: send a request to a remote server, wait for a model to run in the cloud, and parse the response. While easy, this pattern carries major drawbacks:
+A practical engineer guide to LoRA and QLoRA: when adapters beat full fine-tunes, how to pick rank and modules, rough VRAM math, and failures that waste a weekend.
 
-- Privacy Risks: User data, chat history, and personal inputs leave the phone and land on external servers.
-- Network Dependencies: If the user has a poor connection or is in airplane mode, the AI breaks.
-- Recurring Server Costs: Every API call incurs execution fees that scale linearly with your user base.
-- Latency: Even on fast connections, a round trip to a cloud LLM adds 500ms–2s of latency per request.
+> Full fine-tunes still win on some jobs. For most product work, they are the wrong default. **LoRA** freezes the base weights and trains a pair of low-rank matrices per chosen layer. **QLoRA** keeps that idea and loads the base model in 4-bit, so a 7B or 13B model can train on a single 24 GB card....
 
-On-device AI solves all of these. By using LiteRT and a compressed Gemma model, your application can run inference locally.
+### Build a Practical RAG Pipeline: Chunking, Embeddings, Retrieval, Rerank, Eval
 
-#### Choosing the Right Model
+- **URL:** [https://breejeshrathod.com/blog/en/practical-rag-pipeline](https://breejeshrathod.com/blog/en/practical-rag-pipeline)
+- **Date:** 2026-07-15
+- **Tags:** AI
 
-For most production apps, Gemma 2B with INT4 quantization is the sweet spot. It delivers surprisingly coherent outputs while fitting comfortably on devices with 6 GB+ of RAM.
+A production-minded RAG walkthrough: chunking strategies, embedding choices, hybrid retrieval, reranking, evaluation metrics, and when RAG quietly fails.
 
-| Model | Parameters | Quantization | File Size | RAM Required |
-|---|---|---|---|---|
-| Gemma 2B | 2B | INT4 | ~1.4 GB | ~2.5 GB |
-| Gemma 2B | 2B | INT8 | ~2.5 GB | ~4 GB |
-| Gemma 2B | 2B | FP16 | ~5 GB | ~6 GB |
-| Gemma 7B | 7B | INT4 | ~4.5 GB | ~8 GB |
-
-#### Real-World Example: NomAI Calorie Tracker
-
-NomAI is an open-source, offline-first calorie tracking app for Android. It runs Gemma-2B locally on the device to analyze meal descriptions and estimate nutritional values with zero backend APIs.
-
-GitHub Repository: https://github.com/breejesh/nom.ai
-
-#### Setting Up Gemma on Android with LiteRT-LM
-
-1. Add the LiteRT-LM runtime dependency to your build.gradle.kts.
-2. Obtain the quantized model file from Kaggle or Hugging Face.
-3. Initialize the inference engine on a background thread using Kotlin coroutines.
-4. Connect the engine to your Compose or View-based UI.
-
-#### Performance Expectations
-
-| Device Class | Example Device | Tokens/Second | Model Load Time |
-|---|---|---|---|
-| Budget | Pixel 6a | ~8-12 tok/s | ~6-8s |
-| Mid-Range | Pixel 8 | ~15-20 tok/s | ~3-5s |
-| Flagship | Pixel 9 Pro | ~25-35 tok/s | ~2-3s |
-
-#### Limitations
-
-- Model Accuracy: A 2B parameter model will hallucinate more frequently than cloud-based 70B+ models.
-- Download Size: Even compressed, the model is ~1.4 GB.
-- Device Compatibility: Works well on devices with 6+ GB of RAM (released 2020 or later).
-- Context Window Limits: Gemma 2B supports 8192 tokens by default.
-
----
-
-### NomAI: The Offline Calorie Tracker Powered by Local LLMs
-
-- **URL:** [https://breejeshrathod.com/blog/en/nom-ai-showcase](https://breejeshrathod.com/blog/en/nom-ai-showcase)
-- **Date:** 2026-07-10
-- **Tags:** AI, Android, LLM, Mobile Development
-
-An in-depth look at NomAI—the world's first free, open-source, and entirely offline calorie tracking app for Android built with Google Gemma and Jetpack Compose.
-
-#### The Three Pillars of NomAI
-
-1. 100% Free & Open-Source (FOSS): No premium paywalls, no locked charts. MIT licensed.
-2. Privacy-First (No Server Backend): No remote server exists. All data stays in the device's local Room database.
-3. Local & Offline-First LLM Inference: Powered by Google Gemma-2B and LiteRT runtime.
-
-#### Technical Stack
-
-- Jetpack Compose for modern declarative UI
-- LiteRT-LM SDK for on-device Gemma inference with GPU/NPU acceleration
-- Room Database for local SQLite storage
-- Hilt for dependency injection
-- Kotlin Coroutines & Flow for asynchronous operations
-
-#### Prompt Engineering for Nutrition Estimates
-
-NomAI uses a carefully crafted prompt template that constrains the model's output to structured JSON containing nutritional data. A multi-layer fallback strategy handles model failures: JSON validation, sanity checks, and user correction.
-
-GitHub Repository: https://github.com/breejesh/nom.ai
-
----
-
-### Handling Database Connections at Scale in Serverless Functions
-
-- **URL:** [https://breejeshrathod.com/blog/en/serverless-db-connections](https://breejeshrathod.com/blog/en/serverless-db-connections)
-- **Date:** 2026-01-03
-- **Tags:** Serverless, Database, AWS, System Design
-
-How to avoid database connection exhaustion in AWS Lambda and manage connection pools effectively.
-
-#### The Root Cause: Connection Storms
-
-In serverless models, every active Lambda instance runs in its own isolated container and establishes its own connection to the database. 1,000 concurrent executions means 1,000 separate connection requests, easily exhausting PostgreSQL's default max_connections of 100.
-
-#### Strategy 1: Connection Reuse Across Warm Invocations
-
-Initialize your database client outside the handler function. Lambda containers persist between invocations during warm starts, so connections can be reused.
-
-#### Strategy 2: Use a Connection Proxy
-
-- AWS RDS Proxy: Managed proxy that maintains a persistent connection pool and multiplexes Lambda connections.
-- PgBouncer: Open-source connection pooler for PostgreSQL, best used in transaction mode for serverless.
-
-#### Strategy 3: Minimize Pool Sizes
-
-Set max pool size to 1 inside serverless functions. A single Lambda container processes exactly one request at a time.
-
-#### Strategy 4: Taming Cold Start Connection Storms
-
-Use Provisioned Concurrency to keep containers pre-initialized, or Reserved Concurrency to cap maximum database connections.
-
-#### Strategy 5: Monitor Your Connections
-
-Use pg_stat_activity queries and CloudWatch alarms to track connection usage and detect leaks.
-
----
-
-### Shrinking Your Docker Images: The Power of Multi-Stage Builds
-
-- **URL:** [https://breejeshrathod.com/blog/en/docker-multi-stage-builds](https://breejeshrathod.com/blog/en/docker-multi-stage-builds)
-- **Date:** 2026-01-02
-- **Tags:** Docker, DevOps, Security
-
-How to reduce your production Docker image size by 90% and secure your containers using multi-stage builds.
-
-#### The Problem: Fat Images
-
-A standard Go application built with a single-stage Dockerfile can exceed 800 MB because it includes the entire Go compiler and tooling. In production, you only need the compiled binary (~15 MB).
-
-#### Multi-Stage Builds
-
-Define multiple FROM instructions in your Dockerfile. Each FROM starts a new stage with a clean base image. Selectively copy files between stages using COPY --from.
-
-| Stack | Single-Stage | Multi-Stage | Reduction |
-|---|---|---|---|
-| Go (golang → alpine) | ~850 MB | ~15 MB | 98% |
-| Node.js (node:20 → alpine, prod deps) | ~1.1 GB | ~180 MB | 84% |
-| Go (golang → scratch) | ~850 MB | ~8 MB | 99% |
-
-#### Security Hardening
-
-- Run as a non-root user
-- Use scratch or distroless base images for maximum security
-- Add health checks and OCI labels
-- Use BuildKit cache mounts for faster builds
-
----
-
-### The Hidden Cloud Tax: Why Your NAT Gateway is Eating Your Budget
-
-- **URL:** [https://breejeshrathod.com/blog/en/aws-nat-gateway-vs-nat-instance](https://breejeshrathod.com/blog/en/aws-nat-gateway-vs-nat-instance)
-- **Date:** 2026-01-01
-- **Tags:** AWS, Cost Optimization, DevOps
-
-How to drop your monthly AWS bill by switching from NAT Gateway to a cost-effective self-managed NAT Instance.
-
-#### The True Cost
-
-AWS NAT Gateway charges ~$0.045/hour ($32.40/month) plus $0.045 per GB of data processed. A NAT Instance eliminates data processing fees entirely.
-
-| Monthly Data Transfer | NAT Gateway Cost | NAT Instance (t4g.small) | Savings |
-|---|---|---|---|
-| 100 GB | $36.90 | ~$12.26 | 67% |
-| 1 TB | $77.40 | ~$12.26 | 84% |
-| 5 TB | $257.40 | ~$12.26 | 95% |
-| 10 TB | $482.40 | ~$12.26 | 97% |
-
-#### Setting Up a NAT Instance
-
-1. Launch an Amazon Linux 2023 instance in your public subnet
-2. Configure NAT with iptables (enable IP forwarding, set up masquerade)
-3. Disable Source/Destination Checking on the EC2 instance
-4. Update route tables to point private subnet traffic through the instance
-5. Lock down with Security Groups
-
-#### Self-Healing with Auto Scaling
-
-Create an ASG with min/max/desired capacity of 1. Use user data scripts to re-attach the Elastic IP and update route tables on boot. Recovery time is typically under 2-3 minutes.
-
----
+> Retrieval-augmented generation looks simple on a slide: embed docs, store vectors, retrieve top-k, stuff the prompt, generate. In production that pipeline leaks quality at every stage. This post is a concrete walkthrough of a practical RAG stack, the decisions that actually move the needle, and the ...
 
 ### Zunify: Reimagining the Iconic Zune Player for the Modern Web
 
 - **URL:** [https://breejeshrathod.com/blog/en/zunify-music-player](https://breejeshrathod.com/blog/en/zunify-music-player)
+- **Date:** 2026-07-13
+- **Tags:** Web Development, Frontend
+
+A look at Zunify, a lightweight, offline-first music player that brings back the typography-focused late-2000s Zune interface using Angular 19, Dexie.js, and the File System Access API.
+
+> In the late 2000s, Microsoft introduced the Zune, a digital media player that struggled to capture market share from the iPod but still gained a passionate cult following for its design language. The "Metro" interface was typography-first, minimalist, high-contrast, and focused on clean digital layo...
+
+### How Transformers Work: A Practical Map for Working Engineers
+
+- **URL:** [https://breejeshrathod.com/blog/en/transformers-explained-engineers](https://breejeshrathod.com/blog/en/transformers-explained-engineers)
+- **Date:** 2026-07-12
+- **Tags:** AI
+
+Attention, embeddings, encoder/decoder stacks, context windows, and KV cache explained without the research paper fog. What actually matters when you ship or host LLMs.
+
+> You do not need a PhD to reason about transformers. You need a mental model that survives contact with production: why latency jumps at long prompts, why VRAM dies before the CPU does, and why "128k context" is not free....
+
+### Vector Embeddings Explained: What Engineers Actually Need
+
+- **URL:** [https://breejeshrathod.com/blog/en/vector-embeddings-explained](https://breejeshrathod.com/blog/en/vector-embeddings-explained)
+- **Date:** 2026-07-10
+- **Tags:** AI
+
+What embeddings encode, how similarity works, what dimensions buy you, how search and RAG use them, and the mistakes that quietly wreck retrieval quality.
+
+> Most teams meet embeddings the day someone says "just put it in a vector DB." That shortcut works for a demo. It also hides the only thing that matters: an embedding is a **fixed-length numeric summary of meaning**, and every retrieval system is only as good as what that summary keeps and what it th...
+
+### Prompt Engineering That Actually Works for Product Engineers
+
+- **URL:** [https://breejeshrathod.com/blog/en/prompt-engineering-that-works](https://breejeshrathod.com/blog/en/prompt-engineering-that-works)
 - **Date:** 2026-07-09
-- **Tags:** Angular, Web Development, Database
+- **Tags:** AI
 
-A deep dive into Zunify—a lightweight, offline-first music player that brings back the typography-focused late-2000s Zune interface using Angular 19, Dexie.js, and the File System Access API.
+Structure, few-shot examples, hard constraints, eval loops, and common failure modes. A practical playbook for shipping LLM features, not chat demos.
 
-#### The Core Architecture of Zunify
+> Prompt engineering has a reputation problem. Half the internet sells magic phrases. The other half says prompts do not matter because models are "smart enough." Both sides are wrong for product work....
 
-1. File System Access API: Ask directory permissions via `showDirectoryPicker`, cache `FileSystemDirectoryHandle` in IndexedDB, and reload access in one click.
-2. IndexedDB via Dexie.js: Store titles, artists, albums, and play history in local browser database for sub-millisecond search queries.
-3. Web Audio API: Parse tags with `music-metadata-browser` and stream to HTML5 audio using temporary Object URLs (`URL.createObjectURL`).
+### Java 21 Virtual Threads: Benchmarks, Thread Pools, and When to Use Them
 
-#### Native Integrations
+- **URL:** [https://breejeshrathod.com/blog/en/java-virtual-threads](https://breejeshrathod.com/blog/en/java-virtual-threads)
+- **Date:** 2026-07-07
+- **Tags:** Java, Backend
 
-- Media Session API: Binds global media control keys (headset, keyboard, OS widgets) to the browser's playback engine.
-- Progressive Web App: Install as a standalone desktop or mobile application that works 100% offline.
+Java 21 virtual threads vs platform threads with Spring Boot load-test numbers. Project Loom, Thread.ofVirtual(), pinning pitfalls, and when thread pools still matter.
 
----
+> For nearly two decades, the standard pattern for handling high concurrency in Java has been the thread pool. Whenever a server needed to process simultaneous requests, developers would configure executors to manage a fixed number of OS threads....
 
-## Projects
+### Build REST APIs with FastAPI: Routing, Pydantic, Dependencies, and Tests
 
-- [NomAI](https://github.com/breejesh/nom.ai): Free, open-source, offline-first calorie tracker for Android using on-device Gemma LLM.
-- [Zunify](https://github.com/breejesh/zunify): A beautiful, lightweight, offline-first Zune-inspired music player built with Angular 19 and IndexDB.
+- **URL:** [https://breejeshrathod.com/blog/en/fastapi-rest-apis-guide](https://breejeshrathod.com/blog/en/fastapi-rest-apis-guide)
+- **Date:** 2026-07-06
+- **Tags:** Python, Backend, Web Development
 
-## Contact
+A practical FastAPI path: path and query routing, Pydantic models, dependency injection, async handlers, and TestClient basics you can ship this week.
 
-- [LinkedIn](https://www.linkedin.com/in/breejesh/)
-- [GitHub](https://github.com/breejesh)
-- Email: breejeshrathod@gmail.com
+> FastAPI is the default answer when a Python team needs a typed HTTP API with OpenAPI for free. The framework stays small: declare routes, validate bodies with Pydantic, pull shared setup through dependencies, and prefer `async def` where I/O waits. This post is the path I use when spinning up a serv...
 
-Last reviewed: 2026-07-28
+### Next.js App Router Data Fetching: Server Components, Cache, and Revalidate
+
+- **URL:** [https://breejeshrathod.com/blog/en/nextjs-app-router-data-fetching](https://breejeshrathod.com/blog/en/nextjs-app-router-data-fetching)
+- **Date:** 2026-07-04
+- **Tags:** Web Development, Frontend
+
+Practical patterns for App Router data loading: async Server Components, fetch cache options, revalidate and tags, unstable_cache for DB work, and when client fetch still belongs.
+
+> App Router data fetching is not hard once you drop the old `getServerSideProps` mental model. You fetch where the component lives. Default is server-side. Caching is opt-in (since Next.js 15). Client libraries are for interaction and browser-only APIs, not for every list on the page....
+
+### Tailwind CSS Production Patterns: Layouts, Components, Dark Mode
+
+- **URL:** [https://breejeshrathod.com/blog/en/tailwind-css-production-patterns](https://breejeshrathod.com/blog/en/tailwind-css-production-patterns)
+- **Date:** 2026-07-03
+- **Tags:** Web Development, Frontend
+
+How teams keep Tailwind maintainable at scale: layout systems, component extraction, dark mode that does not thrash, and habits that stop class soup.
+
+> Tailwind is fast in the first week and messy by month six if you treat every screen as a one-off pile of utilities. Production teams that stay happy with it share a few habits: they design **layout systems**, they extract **components** when a pattern repeats, they wire **dark mode** once at the roo...
+
+### PostgreSQL Indexes That Matter: B-tree, Partial, Composite, Covering
+
+- **URL:** [https://breejeshrathod.com/blog/en/postgres-indexes-that-matter](https://breejeshrathod.com/blog/en/postgres-indexes-that-matter)
+- **Date:** 2026-07-01
+- **Tags:** Databases
+
+Which Postgres indexes actually move latency: B-tree defaults, partial filters, composite column order, covering INCLUDE, and when indexes slow you down.
+
+> Indexes are the cheapest performance lever most teams still misuse. Add ten of them and writes crawl. Skip the right one and a weekly report locks the primary for minutes. Postgres will not save you from a bad shape. It will reward a good one....
+
+### Redis Caching Patterns That Survive Production
+
+- **URL:** [https://breejeshrathod.com/blog/en/redis-caching-patterns](https://breejeshrathod.com/blog/en/redis-caching-patterns)
+- **Date:** 2026-06-30
+- **Tags:** Databases, Backend
+
+Cache-aside, stampede control, TTL jitter, invalidation, and hot keys. Patterns that keep Redis useful under real traffic without melting the database.
+
+> Caching looks simple until traffic is uneven, keys expire together, and one celebrity product id burns a single Redis shard. Most outages I have seen were not "Redis is slow." They were stampede, stale-forever data, or a hot key that nobody measured....
+
+### Minesweeper: Board, Cell, Bombs, and Zero Flood Fill (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-7-10-minesweeper](https://breejeshrathod.com/blog/en/ctci-7-10-minesweeper)
+- **Date:** 2026-06-28
+- **Tags:** Algorithms
+
+CTCI-style problem 7.10 for beginners: design a text Minesweeper with Cell and Board, random bomb placement, neighbor counts, click rules, and flood fill when you open a zero.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 7.10 for beginners: design a text Minesweeper with Cell and Board, random bomb placement, neighbor counts, click rules, and flood fill when y...
+
+### Random Crashes: Debugging Intermittent Application Failure (CTCI 11.2)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-11-2-random-crashes](https://breejeshrathod.com/blog/en/ctci-11-2-random-crashes)
+- **Date:** 2026-06-27
+- **Tags:** Algorithms
+
+CTCI problem 11.2: step-by-step methodology to isolate and diagnose random, non-deterministic crashes in production.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 11.2 technical mechanics.
+> * **The Approach:** CTCI problem 11.2: step-by-step methodology to isolate and diagnose random, non-deterministic crashes in production.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### CSS Grid Layout Mental Model: Tracks, Areas, fr, and minmax
+
+- **URL:** [https://breejeshrathod.com/blog/en/css-grid-layout-mental-model](https://breejeshrathod.com/blog/en/css-grid-layout-mental-model)
+- **Date:** 2026-06-26
+- **Tags:** Web Development, Frontend
+
+A practical mental model for CSS Grid: tracks, areas, fr units, minmax, auto-fit vs auto-fill, and the layouts you build every week.
+
+> Flexbox is great for a row or a column. Grid is the tool for **two axes at once**: rows and columns that line up, overlap in controlled ways, and reflow without a pile of nested wrappers....
+
+### Social Network: Find Shortest Connection Paths at Scale (CTCI 9.2)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-9-2-social-network](https://breejeshrathod.com/blog/en/ctci-9-2-social-network)
+- **Date:** 2026-06-24
+- **Tags:** Algorithms
+
+CTCI problem 9.2: design a distributed system to calculate degree of separation and shortest paths between two users in a billion-node social graph.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 9.2 with production-grade efficiency.
+> * **The Approach:** CTCI problem 9.2: design a distributed system to calculate degree of separation and shortest paths between two users in a billion-node social graph.
+> * **Complexity:** Optimal Time an...
+
+### Bisect Squares: Find Line Bisecting Two Squares in 2D Space (CTCI 16.13)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-13-bisect-squares](https://breejeshrathod.com/blog/en/ctci-16-13-bisect-squares)
+- **Date:** 2026-06-23
+- **Tags:** Algorithms
+
+CTCI problem 16.13: compute the 2D line equation that cuts two arbitrary squares in half by connecting their center points.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.13 technical mechanics.
+> * **The Approach:** CTCI problem 16.13: compute the 2D line equation that cuts two arbitrary squares in half by connecting their center points.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Deadlock-Free Class: Designing a Lock Manager (CTCI 15.4)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-15-4-deadlock-free-class](https://breejeshrathod.com/blog/en/ctci-15-4-deadlock-free-class)
+- **Date:** 2026-06-21
+- **Tags:** Algorithms
+
+CTCI problem 15.4: architecture for a thread-safe LockManager class that prevents circular wait conditions.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 15.4 technical mechanics.
+> * **The Approach:** CTCI problem 15.4: architecture for a thread-safe LockManager class that prevents circular wait conditions.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Entity Relationship Data Model: Designing ER Diagrams (CTCI 14.6)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-14-6-entity-relationship-data-model](https://breejeshrathod.com/blog/en/ctci-14-6-entity-relationship-data-model)
+- **Date:** 2026-06-20
+- **Tags:** Algorithms
+
+CTCI problem 14.6: principles of Entity-Relationship modeling, primary keys, foreign keys, and 1-to-N relationships.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 14.6 technical mechanics.
+> * **The Approach:** CTCI problem 14.6: principles of Entity-Relationship modeling, primary keys, foreign keys, and 1-to-N relationships.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### 2D Alloc: Allocate 2D Array in C with Single Malloc (CTCI 12.11)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-12-11-2d-alloc](https://breejeshrathod.com/blog/en/ctci-12-11-2d-alloc)
+- **Date:** 2026-06-18
+- **Tags:** Algorithms
+
+CTCI problem 12.11 in C: allocate a 2D array dynamically using a single malloc call to guarantee memory contiguity.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 12.11 technical mechanics.
+> * **The Approach:** CTCI problem 12.11 in C: allocate a 2D array dynamically using a single malloc call to guarantee memory contiguity.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Stock Data: Design a High-Throughput Financial Data Server (CTCI 9.1)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-9-1-stock-data](https://breejeshrathod.com/blog/en/ctci-9-1-stock-data)
+- **Date:** 2026-06-17
+- **Tags:** Algorithms
+
+CTCI problem 9.1: design an architecture to deliver real-time stock ticker updates and historical chart data to millions of concurrent clients.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 9.1 with production-grade efficiency.
+> * **The Approach:** CTCI problem 9.1: design an architecture to deliver real-time stock ticker updates and historical chart data to millions of concurrent clients.
+> * **Complexity:** Optimal Time and Spa...
+
+### Sorted Matrix Search: Search M x N Matrix Sorted by Rows and Columns (CTCI 10.9)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-10-9-sorted-matrix-search](https://breejeshrathod.com/blog/en/ctci-10-9-sorted-matrix-search)
+- **Date:** 2026-06-15
+- **Tags:** Algorithms
+
+CTCI problem 10.9 in Java: search for an element in an M x N matrix where every row and column is sorted in O(M + N) time.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 10.9 with production-grade efficiency.
+> * **The Approach:** CTCI problem 10.9 in Java: search for an element in an M x N matrix where every row and column is sorted in O(M + N) time.
+> * **Complexity:** Optimal Time and Space complexity trade-...
+
+### Circular Array: O(1) Rotation with a Head Index (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-7-9-circular-array](https://breejeshrathod.com/blog/en/ctci-7-9-circular-array)
+- **Date:** 2026-06-14
+- **Tags:** Algorithms
+
+CTCI-style problem 7.9 for beginners: a generic CircularArray that rotates in O(1) by moving a head pointer, maps logical indices with modulo, and supports for-each via Iterable.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 7.9 for beginners: a generic CircularArray that rotates in O(1) by moving a head pointer, maps logical indices with modulo, and supports for-...
+
+### Handling Database Connections at Scale in Serverless Functions
+
+- **URL:** [https://breejeshrathod.com/blog/en/serverless-db-connections](https://breejeshrathod.com/blog/en/serverless-db-connections)
+- **Date:** 2026-06-12
+- **Tags:** Databases, Cloud, Backend
+
+How to avoid database connection exhaustion in AWS Lambda and manage connection pools effectively.
+
+> Serverless architectures like AWS Lambda scale instantly to handle incoming traffic surges. However, traditional relational databases like PostgreSQL and MySQL were not built for this ephemeral scaling model. They expect a stable pool of long-lived connections, not thousands of short-lived ones crea...
+
+### Validate BST: Min/Max Ranges on a Binary Tree (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-4-5-validate-bst](https://breejeshrathod.com/blog/en/ctci-4-5-validate-bst)
+- **Date:** 2026-06-11
+- **Tags:** Algorithms
+
+CTCI-style problem 4.5 for beginners: check whether a binary tree is a binary search tree. Primary approach uses recursive min/max bounds; in-order sorted scan is the optional check.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 4.5 for beginners: check whether a binary tree is a binary search tree. Primary approach uses recursive min/max bounds; in-order sorted scan ...
+
+### Sparse Search: Search String Array Interspersed with Empty Strings (CTCI 10.5)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-10-5-sparse-search](https://breejeshrathod.com/blog/en/ctci-10-5-sparse-search)
+- **Date:** 2026-06-09
+- **Tags:** Algorithms
+
+CTCI problem 10.5 in Java: locate a target string in a sorted array of strings interspersed with empty strings using modified binary search.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 10.5 with production-grade efficiency.
+> * **The Approach:** CTCI problem 10.5 in Java: locate a target string in a sorted array of strings interspersed with empty strings using modified binary search.
+> * **Complexity:** Optimal Time and Space...
+
+### Draw Line: Paint a Horizontal Line on a Byte-Packed Screen (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-5-8-draw-line](https://breejeshrathod.com/blog/en/ctci-5-8-draw-line)
+- **Date:** 2026-06-08
+- **Tags:** Algorithms
+
+CTCI-style problem 5.8 for beginners: monochrome screen stored as a byte array, eight pixels per byte. Draw a horizontal line from (x1, y) to (x2, y) with bit masks on partial bytes and 0xFF on full ones.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 5.8 for beginners: monochrome screen stored as a byte array, eight pixels per byte. Draw a horizontal line from (x1, y) to (x2, y) with bit m...
+
+### Max Submatrix: Maximum Sum 2D Submatrix via Kadane 2D (CTCI 17.24)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-24-max-submatrix](https://breejeshrathod.com/blog/en/ctci-17-24-max-submatrix)
+- **Date:** 2026-06-07
+- **Tags:** Algorithms
+
+CTCI problem 17.24: find 2D submatrix with largest sum in N x N matrix in O(N^3) time.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.24 technical mechanics.
+> * **The Approach:** CTCI problem 17.24: find 2D submatrix with largest sum in N x N matrix in O(N^3) time.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### CTCI 1.2 Check Permutation: Same Letters, Different Order (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-1-2-check-permutation](https://breejeshrathod.com/blog/en/ctci-1-2-check-permutation)
+- **Date:** 2026-06-05
+- **Tags:** Algorithms
+
+Decide if two strings are permutations of each other. Scrabble-tile analogy, sort vs count array vs HashMap in Java, complexity, and edge cases for beginners.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** Decide if two strings are permutations of each other. Scrabble-tile analogy, sort vs count array vs HashMap in Java, complexity, and edge cases for beginners.
+>...
+
+### Is Unique: Check if a String Has All Distinct Characters (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-1-1-is-unique](https://breejeshrathod.com/blog/en/ctci-1-1-is-unique)
+- **Date:** 2026-06-04
+- **Tags:** Algorithms
+
+CTCI-style problem 1.1 for beginners: decide whether every character in a string appears only once. Analogy, brute force, boolean array, HashSet, sort, and complexity.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 1.1 for beginners: decide whether every character in a string appears only once. Analogy, brute force, boolean array, HashSet, sort, and comp...
+
+### Sort Big File: External Merge Sort for 20 GB File with 2 GB RAM (CTCI 10.6)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-10-6-sort-big-file](https://breejeshrathod.com/blog/en/ctci-10-6-sort-big-file)
+- **Date:** 2026-06-02
+- **Tags:** Algorithms
+
+CTCI problem 10.6: design external merge sort algorithm to sort a massive 20 GB text file when system memory is restricted to 2 GB.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 10.6 with production-grade efficiency.
+> * **The Approach:** CTCI problem 10.6: design external merge sort algorithm to sort a massive 20 GB text file when system memory is restricted to 2 GB.
+> * **Complexity:** Optimal Time and Space complexi...
+
+### Grade Dictionary: Outer Joins and Aggregations (CTCI 14.4)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-14-4-grade-dictionary](https://breejeshrathod.com/blog/en/ctci-14-4-grade-dictionary)
+- **Date:** 2026-06-01
+- **Tags:** Algorithms
+
+CTCI problem 14.4: writing SQL queries to join Students, Courses, and Teachers with aggregate functions.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 14.4 technical mechanics.
+> * **The Approach:** CTCI problem 14.4: writing SQL queries to join Students, Courses, and Teachers with aggregate functions.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Thread vs Process: Concurrency Fundamentals (CTCI 15.1)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-15-1-thread-vs-process](https://breejeshrathod.com/blog/en/ctci-15-1-thread-vs-process)
+- **Date:** 2026-05-30
+- **Tags:** Algorithms
+
+CTCI problem 15.1: core differences between process-level isolation and shared memory thread execution.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 15.1 technical mechanics.
+> * **The Approach:** CTCI problem 15.1: core differences between process-level isolation and shared memory thread execution.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Queue via Stacks: Build a FIFO Queue with Two LIFO Stacks (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-3-4-queue-via-stacks](https://breejeshrathod.com/blog/en/ctci-3-4-queue-via-stacks)
+- **Date:** 2026-05-29
+- **Tags:** Algorithms
+
+CTCI-style problem 3.4 for beginners: implement MyQueue with stackNewest and stackOldest. Push to one, shift only when dequeue or peek needs data. Amortized O(1) in plain Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 3.4 for beginners: implement MyQueue with stackNewest and stackOldest. Push to one, shift only when dequeue or peek needs data. Amortized O(1...
+
+### Basketball: One Shot vs Make 2 of 3 (Probability)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-6-2-basketball](https://breejeshrathod.com/blog/en/ctci-6-2-basketball)
+- **Date:** 2026-05-27
+- **Tags:** Algorithms
+
+CTCI-style problem 6.2 for beginners: with make probability p, choose Game 1 (one make) or Game 2 (at least two makes in three shots). Algebra: p vs 3p^2(1-p)+p^3, and when each wins.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 6.2 for beginners: with make probability p, choose Game 1 (one make) or Game 2 (at least two makes in three shots). Algebra: p vs 3p^2(1-p)+p...
+
+### SQL Window Functions That Stick: ROW_NUMBER, RANK, LAG, and Running Totals
+
+- **URL:** [https://breejeshrathod.com/blog/en/sql-window-functions-guide](https://breejeshrathod.com/blog/en/sql-window-functions-guide)
+- **Date:** 2026-05-26
+- **Tags:** Databases
+
+A practical guide to SQL window functions: partitions, ROW_NUMBER vs RANK, LAG/LEAD period diffs, running totals, and the CTE filter pattern you need every week.
+
+> Most analytics SQL you write is the same five shapes: latest row per key, top N per group, rank with ties, value vs previous period, and a cumulative total. Window functions solve those shapes without self-joins that melt the query planner....
+
+### BST Sequences: All Arrays That Build the Same Tree (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-4-9-bst-sequences](https://breejeshrathod.com/blog/en/ctci-4-9-bst-sequences)
+- **Date:** 2026-05-24
+- **Tags:** Algorithms
+
+CTCI-style problem 4.9 for beginners: given a BST built by left-to-right inserts, list every array that could have produced it. Root first, then weave left and right subtree sequences with a recursive helper.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 4.9 for beginners: given a BST built by left-to-right inserts, list every array that could have produced it. Root first, then weave left and ...
+
+### Lambda Expressions: Functional Interfaces & Streams in Java (CTCI 13.7)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-13-7-lambda-expressions](https://breejeshrathod.com/blog/en/ctci-13-7-lambda-expressions)
+- **Date:** 2026-05-23
+- **Tags:** Algorithms
+
+CTCI problem 13.7: using Java 8+ Lambda expressions and Streams to filter, map, and reduce collections cleanly.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 13.7 technical mechanics.
+> * **The Approach:** CTCI problem 13.7: using Java 8+ Lambda expressions and Streams to filter, map, and reduce collections cleanly.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Recursive Multiply: Product by Double and Halve (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-8-5-recursive-multiply](https://breejeshrathod.com/blog/en/ctci-8-5-recursive-multiply)
+- **Date:** 2026-05-21
+- **Tags:** Algorithms
+
+CTCI-style problem 8.5 for beginners: multiply two positive ints without * or /. Recurse on half the smaller factor, double the half-product, add once when odd. Plain Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 8.5 for beginners: multiply two positive ints without * or /. Recurse on half the smaller factor, double the half-product, add once when odd....
+
+### Call Center: Ranks, Escalation, and dispatchCall (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-7-2-call-center](https://breejeshrathod.com/blog/en/ctci-7-2-call-center)
+- **Date:** 2026-05-20
+- **Tags:** Algorithms
+
+CTCI-style problem 7.2 for beginners: respondents, managers, and directors. Route every call to the lowest free rank that can handle it, escalate when needed, and implement dispatchCall.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 7.2 for beginners: respondents, managers, and directors. Route every call to the lowest free rank that can handle it, escalate when needed, a...
+
+### Boolean Evaluation: Count Ways to Parenthesize an Expression (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-8-14-boolean-evaluation](https://breejeshrathod.com/blog/en/ctci-8-14-boolean-evaluation)
+- **Date:** 2026-05-19
+- **Tags:** Algorithms
+
+CTCI-style problem 8.14 for beginners: count how many full parenthesizations of a 0/1 expression with &, |, and ^ evaluate to true or false. Memoized recursion on substrings in Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 8.14 for beginners: count how many full parenthesizations of a 0/1 expression with &, |, and ^ evaluate to true or false. Memoized recursion ...
+
+### Event-Driven Architecture for Backend Engineers: Events, Brokers, Idempotency, Outbox
+
+- **URL:** [https://breejeshrathod.com/blog/en/event-driven-architecture-intro](https://breejeshrathod.com/blog/en/event-driven-architecture-intro)
+- **Date:** 2026-05-17
+- **Tags:** Backend, Cloud
+
+A practical intro to event-driven systems: events vs commands, broker choices, consumer idempotency, transactional outbox, and when request/response is still the better call.
+
+> Synchronous request/response is easy to reason about. Service A calls Service B, waits, gets an answer or an error. That model breaks down when one action must fan out to many independent systems, when those systems scale at different rates, or when a temporary outage in one dependency should not bl...
+
+### Max Black Square: Find Largest Square Submatrix with Black Borders (CTCI 17.23)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-23-max-black-square](https://breejeshrathod.com/blog/en/ctci-17-23-max-black-square)
+- **Date:** 2026-05-16
+- **Tags:** Algorithms
+
+CTCI problem 17.23: find largest square in N x N grid where all 4 borders are black pixels.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.23 technical mechanics.
+> * **The Approach:** CTCI problem 17.23: find largest square in N x N grid where all 4 borders are black pixels.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Denormalization: Pros and Cons of Database Denormalization (CTCI 14.5)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-14-5-denormalization](https://breejeshrathod.com/blog/en/ctci-14-5-denormalization)
+- **Date:** 2026-05-14
+- **Tags:** Algorithms
+
+CTCI problem 14.5: trade-offs between normalized relational schemas (3NF) and denormalized read-heavy architectures.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 14.5 technical mechanics.
+> * **The Approach:** CTCI problem 14.5: trade-offs between normalized relational schemas (3NF) and denormalized read-heavy architectures.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Count of 2s: Count Total Occurrences of Digit 2 Between 0 and N (CTCI 17.6)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-6-count-of-2s](https://breejeshrathod.com/blog/en/ctci-17-6-count-of-2s)
+- **Date:** 2026-05-13
+- **Tags:** Algorithms
+
+CTCI problem 17.6: count occurrences of digit 2 in all numbers from 0 to N using digit-by-digit math in O(log N) time.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.6 technical mechanics.
+> * **The Approach:** CTCI problem 17.6: count occurrences of digit 2 in all numbers from 0 to N using digit-by-digit math in O(log N) time.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Pairwise Swap: Swap Odd and Even Bits With Masks (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-5-7-pairwise-swap](https://breejeshrathod.com/blog/en/ctci-5-7-pairwise-swap)
+- **Date:** 2026-05-11
+- **Tags:** Algorithms
+
+CTCI-style problem 5.7 for beginners: swap every pair of odd and even bits in an int. Mask with 0xaaaaaaaa and 0x55555555, shift once each way, OR the halves.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 5.7 for beginners: swap every pair of odd and even bits in an int. Mask with 0xaaaaaaaa and 0x55555555, shift once each way, OR the halves.
+>...
+
+### Best Line: Find Line Passing Through Maximum Number of Points (CTCI 16.14)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-14-best-line](https://breejeshrathod.com/blog/en/ctci-16-14-best-line)
+- **Date:** 2026-05-10
+- **Tags:** Algorithms
+
+CTCI problem 16.14: find 2D line passing through the maximum number of 2D points using slope HashMap hash counting.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.14 technical mechanics.
+> * **The Approach:** CTCI problem 16.14: find 2D line passing through the maximum number of 2D points using slope HashMap hash counting.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### The Hidden Cloud Tax: Why Your NAT Gateway is Eating Your Budget
+
+- **URL:** [https://breejeshrathod.com/blog/en/aws-nat-gateway-vs-nat-instance](https://breejeshrathod.com/blog/en/aws-nat-gateway-vs-nat-instance)
+- **Date:** 2026-05-08
+- **Tags:** AWS, Cloud
+
+How to drop your monthly AWS bill by switching from NAT Gateway to a cost-effective self-managed NAT Instance.
+
+> We've all been there. You look at your monthly AWS bill, expecting the usual predictable numbers, only to find a massive spike staring back at you. Your mind starts racing, trying to figure out what went wrong. Did a script go rogue? Did traffic suddenly double?...
+
+### Volatile: Demystifying the C/C++ Volatile Keyword (CTCI 12.6)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-12-6-volatile](https://breejeshrathod.com/blog/en/ctci-12-6-volatile)
+- **Date:** 2026-05-07
+- **Tags:** Algorithms
+
+CTCI problem 12.6: when and why to use volatile to prevent compiler optimizations on hardware registers and memory-mapped IO.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 12.6 technical mechanics.
+> * **The Approach:** CTCI problem 12.6: when and why to use volatile to prevent compiler optimizations on hardware registers and memory-mapped IO.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Stack of Boxes: Tallest Strictly Decreasing Stack (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-8-13-stack-of-boxes](https://breejeshrathod.com/blog/en/ctci-8-13-stack-of-boxes)
+- **Date:** 2026-05-05
+- **Tags:** Algorithms
+
+CTCI-style problem 8.13 for beginners: stack boxes only when width, depth, and height are all strictly smaller. Sort one dimension, then DP with memo for the max total height.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 8.13 for beginners: stack boxes only when width, depth, and height are all strictly smaller. Sort one dimension, then DP with memo for the ma...
+
+### How a YouTube-like Video Service Really Works: Upload, Convert, Store, Play
+
+- **URL:** [https://breejeshrathod.com/blog/en/design-youtube-streaming](https://breejeshrathod.com/blog/en/design-youtube-streaming)
+- **Date:** 2026-05-04
+- **Tags:** System Design
+
+A beginner-friendly map of video streaming: a filmmaker drops off one tape, the platform makes many quality copies, stores them near viewers, and plays them through a CDN. Why the original alone is not enough, and how cost shows up in plain words.
+
+> > **TL;DR**
+> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Insight:** A beginner-friendly map of video streaming: a filmmaker drops off one tape, the platform makes many quality copies, st...
+
+### Factorial Zeros: Count Trailing Zeros in n! (CTCI 16.5)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-5-factorial-zeros](https://breejeshrathod.com/blog/en/ctci-16-5-factorial-zeros)
+- **Date:** 2026-05-02
+- **Tags:** Algorithms
+
+CTCI problem 16.5: count trailing zeros in n! by summing factors of 5 in O(log n) time.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.5 technical mechanics.
+> * **The Approach:** CTCI problem 16.5: count trailing zeros in n! by summing factors of 5 in O(log n) time.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Sales Rank: E-Commerce Real-Time Best Sellers Rank System (CTCI 9.6)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-9-6-sales-rank](https://breejeshrathod.com/blog/en/ctci-9-6-sales-rank)
+- **Date:** 2026-05-01
+- **Tags:** Algorithms
+
+CTCI problem 9.6: design an e-commerce ranking system that tracks top-selling products by category across multiple time windows.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 9.6 with production-grade efficiency.
+> * **The Approach:** CTCI problem 9.6: design an e-commerce ranking system that tracks top-selling products by category across multiple time windows.
+> * **Complexity:** Optimal Time and Space complexity t...
+
+### Shallow vs Deep Copy: C++ Copy Constructors & Memory Safety (CTCI 12.5)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-12-5-shallow-vs-deep-copy](https://breejeshrathod.com/blog/en/ctci-12-5-shallow-vs-deep-copy)
+- **Date:** 2026-04-30
+- **Tags:** Algorithms
+
+CTCI problem 12.5: comparing pointer assignment vs memory allocation in copy constructors to prevent double-free crashes.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 12.5 technical mechanics.
+> * **The Approach:** CTCI problem 12.5: comparing pointer assignment vs memory allocation in copy constructors to prevent double-free crashes.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Design a Search Autocomplete System: How Typeahead Really Works
+
+- **URL:** [https://breejeshrathod.com/blog/en/design-search-autocomplete](https://breejeshrathod.com/blog/en/design-search-autocomplete)
+- **Date:** 2026-04-28
+- **Tags:** System Design
+
+Search autocomplete for beginners: prefixes, a letter tree (trie), top suggestions, why we precompute answers, and a letter-by-letter walk of typing din.
+
+> > **TL;DR**
+> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Insight:** Search autocomplete for beginners: prefixes, a letter tree (trie), top suggestions, why we precompute answers, and a l...
+
+### Tic Tac Win: Detect Winner in Tic-Tac-Toe Board (CTCI 16.4)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-4-tic-tac-win](https://breejeshrathod.com/blog/en/ctci-16-4-tic-tac-win)
+- **Date:** 2026-04-27
+- **Tags:** Algorithms
+
+CTCI problem 16.4: design an algorithm to check if someone has won a Tic-Tac-Toe game on an N x N board.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.4 technical mechanics.
+> * **The Approach:** CTCI problem 16.4: design an algorithm to check if someone has won a Tic-Tac-Toe game on an N x N board.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### GitHub Actions CI from Scratch
+
+- **URL:** [https://breejeshrathod.com/blog/en/github-actions-ci-from-scratch](https://breejeshrathod.com/blog/en/github-actions-ci-from-scratch)
+- **Date:** 2026-04-25
+- **Tags:** DevOps
+
+Workflows, jobs, caching, secrets, matrix builds, and the pitfalls that waste hours when you set up CI on GitHub for the first time.
+
+> GitHub Actions is CI that lives next to your code. You drop YAML under `.github/workflows/`, push, and runners pick up jobs on events you choose: pull request, push to `main`, a schedule, or a manual click....
+
+### Design a Unique ID Generator: UUID, Ticket Servers, and Snowflake
+
+- **URL:** [https://breejeshrathod.com/blog/en/design-unique-id-generator](https://breejeshrathod.com/blog/en/design-unique-id-generator)
+- **Date:** 2026-04-24
+- **Tags:** System Design
+
+Unique IDs explained for beginners: why one database counter fails with many writers, then UUID, ticket servers, and Snowflake as time plus machine number plus counter, like a receipt, including clocks that jump backward.
+
+> > **TL;DR**
+> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Insight:** Unique IDs explained for beginners: why one database counter fails with many writers, then UUID, ticket servers, and S...
+
+### Smallest K: Find Smallest K Elements via QuickSelect / Max-Heap (CTCI 17.14)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-14-smallest-k](https://breejeshrathod.com/blog/en/ctci-17-14-smallest-k)
+- **Date:** 2026-04-22
+- **Tags:** Algorithms
+
+CTCI problem 17.14: find the smallest K numbers in an array using QuickSelect in O(N) average time.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.14 technical mechanics.
+> * **The Approach:** CTCI problem 17.14: find the smallest K numbers in an array using QuickSelect in O(N) average time.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Missing Int: Find Missing Integer in 4 Billion Numbers (CTCI 10.7)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-10-7-missing-int](https://breejeshrathod.com/blog/en/ctci-10-7-missing-int)
+- **Date:** 2026-04-21
+- **Tags:** Algorithms
+
+CTCI problem 10.7 in Java: find an uncontained non-negative integer from 4 billion numbers using BitSet and two-pass chunking under tight RAM.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 10.7 with production-grade efficiency.
+> * **The Approach:** CTCI problem 10.7 in Java: find an uncontained non-negative integer from 4 billion numbers using BitSet and two-pass chunking under tight RAM.
+> * **Complexity:** Optimal Time and Spa...
+
+### Operations: Implement Multiply, Subtract, Divide Using Only Addition (CTCI 16.9)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-9-operations](https://breejeshrathod.com/blog/en/ctci-16-9-operations)
+- **Date:** 2026-04-19
+- **Tags:** Algorithms
+
+CTCI problem 16.9: write arithmetic operations (multiply, subtract, divide) for integers using only addition and bitwise ops.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.9 technical mechanics.
+> * **The Approach:** CTCI problem 16.9: write arithmetic operations (multiply, subtract, divide) for integers using only addition and bitwise ops.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Smallest Difference: Minimum Pairwise Difference Between Two Arrays (CTCI 16.6)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-6-smallest-difference](https://breejeshrathod.com/blog/en/ctci-16-6-smallest-difference)
+- **Date:** 2026-04-18
+- **Tags:** Algorithms
+
+CTCI problem 16.6: find pair of values (one from each array) with smallest non-negative difference using sorting and two pointers.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.6 technical mechanics.
+> * **The Approach:** CTCI problem 16.6: find pair of values (one from each array) with smallest non-negative difference using sorting and two pointers.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Design a News Feed System (Beginner Guide): Fan-out, Ranking, and Cache
+
+- **URL:** [https://breejeshrathod.com/blog/en/design-news-feed-system](https://breejeshrathod.com/blog/en/design-news-feed-system)
+- **Date:** 2026-04-16
+- **Tags:** System Design
+
+A plain-language guide to social news feeds: fan-out on write vs read as mailbox stuffing vs checking the bulletin board, ranking, cache, and the celebrity problem.
+
+> > **TL;DR**
+> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Insight:** A plain-language guide to social news feeds: fan-out on write vs read as mailbox stuffing vs checking the bulletin boa...
+
+### Living People: Find Year with Maximum Living Population (CTCI 16.10)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-10-living-people](https://breejeshrathod.com/blog/en/ctci-16-10-living-people)
+- **Date:** 2026-04-15
+- **Tags:** Algorithms
+
+CTCI problem 16.10: find the calendar year with the maximum number of living people using prefix sum array.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.10 technical mechanics.
+> * **The Approach:** CTCI problem 16.10: find the calendar year with the maximum number of living people using prefix sum array.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### CTCI 1.5 One Away: One Edit, One Pass in Java
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-1-5-one-away](https://breejeshrathod.com/blog/en/ctci-1-5-one-away)
+- **Date:** 2026-04-13
+- **Tags:** Algorithms
+
+Check if two strings differ by at most one insert, remove, or replace. Walk through the length rule, a single pointer scan, and clean Java you can explain out loud.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** Check if two strings differ by at most one insert, remove, or replace. Walk through the length rule, a single pointer scan, and clean Java you can explain out l...
+
+### Kth Multiple: Find Kth Number Whose Only Prime Factors Are 3, 5, 7 (CTCI 17.9)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-9-kth-multiple](https://breejeshrathod.com/blog/en/ctci-17-9-kth-multiple)
+- **Date:** 2026-04-12
+- **Tags:** Algorithms
+
+CTCI problem 17.9: find Kth number with prime factors 3, 5, 7 using 3 pointer queues in O(K) time.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.9 technical mechanics.
+> * **The Approach:** CTCI problem 17.9: find Kth number with prime factors 3, 5, 7 using 3 pointer queues in O(K) time.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### List of Depths: One Linked List per Tree Level (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-4-3-list-of-depths](https://breejeshrathod.com/blog/en/ctci-4-3-list-of-depths)
+- **Date:** 2026-04-11
+- **Tags:** Algorithms
+
+CTCI-style problem 4.3 for beginners: turn a binary tree into a list of linked lists, one list per depth. BFS level-order first, optional DFS with a depth index, in plain Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 4.3 for beginners: turn a binary tree into a list of linked lists, one list per depth. BFS level-order first, optional DFS with a depth index...
+
+### Test a Pen: Physical Product System Testing (CTCI 11.5)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-11-5-test-a-pen](https://breejeshrathod.com/blog/en/ctci-11-5-test-a-pen)
+- **Date:** 2026-04-09
+- **Tags:** Algorithms
+
+CTCI problem 11.5: structured test plan for a physical ballpoint pen covering operational, stress, and environmental scenarios.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 11.5 technical mechanics.
+> * **The Approach:** CTCI problem 11.5: structured test plan for a physical ballpoint pen covering operational, stress, and environmental scenarios.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Re-Space: Restore Spaces in Unspaced String Using Dynamic Programming (CTCI 17.13)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-13-re-space](https://breejeshrathod.com/blog/en/ctci-17-13-re-space)
+- **Date:** 2026-04-08
+- **Tags:** Algorithms
+
+CTCI problem 17.13: re-insert spaces into a text string to minimize unrecognized characters using DP and Trie.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.13 technical mechanics.
+> * **The Approach:** CTCI problem 17.13: re-insert spaces into a text string to minimize unrecognized characters using DP and Trie.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Search in Rotated Array: Find Element in Rotated Sorted Array (CTCI 10.3)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-10-3-search-in-rotated-array](https://breejeshrathod.com/blog/en/ctci-10-3-search-in-rotated-array)
+- **Date:** 2026-04-06
+- **Tags:** Algorithms
+
+CTCI problem 10.3 in Java: modified binary search to locate an element in a sorted array that has been rotated by an unknown offset.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 10.3 with production-grade efficiency.
+> * **The Approach:** CTCI problem 10.3 in Java: modified binary search to locate an element in a sorted array that has been rotated by an unknown offset.
+> * **Complexity:** Optimal Time and Space complex...
+
+### Build Order: Project Dependencies with Topological Sort (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-4-7-build-order](https://breejeshrathod.com/blog/en/ctci-4-7-build-order)
+- **Date:** 2026-04-05
+- **Tags:** Algorithms
+
+CTCI-style problem 4.7 for beginners: projects and dependency pairs, find a valid build order or fail if a cycle exists. Kahn indegree queue and DFS in plain Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 4.7 for beginners: projects and dependency pairs, find a valid build order or fail if a cycle exists. Kahn indegree queue and DFS in plain Ja...
+
+### Pattern Matching: Match String to Pattern of a and b (CTCI 16.18)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-18-pattern-matching](https://breejeshrathod.com/blog/en/ctci-16-18-pattern-matching)
+- **Date:** 2026-04-03
+- **Tags:** Algorithms
+
+CTCI problem 16.18: check if a value string matches a pattern string composed of 'a' and 'b' variables.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.18 technical mechanics.
+> * **The Approach:** CTCI problem 16.18: check if a value string matches a pattern string composed of 'a' and 'b' variables.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### The Egg Drop Problem: 100 Floors, 2 Eggs, Minimize Worst Case (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-6-8-the-egg-drop-problem](https://breejeshrathod.com/blog/en/ctci-6-8-the-egg-drop-problem)
+- **Date:** 2026-04-02
+- **Tags:** Algorithms
+
+CTCI-style problem 6.8 for beginners: find the critical floor with two eggs and 100 floors while minimizing the worst-case number of drops. Use decreasing intervals so every path costs the same, and solve x(x+1)/2 >= 100.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 6.8 for beginners: find the critical floor with two eggs and 100 floors while minimizing the worst-case number of drops. Use decreasing inter...
+
+### Blue-Eyed Island: Common Knowledge and Induction for Beginners
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-6-6-blue-eyed-island](https://breejeshrathod.com/blog/en/ctci-6-6-blue-eyed-island)
+- **Date:** 2026-03-31
+- **Tags:** Algorithms
+
+CTCI-style problem 6.6: n blue-eyed islanders leave on the nth night after the guru says I see someone with blue eyes. Teach base case, inductive step, and common knowledge without jargon fog.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 6.6: n blue-eyed islanders leave on the nth night after the guru says I see someone with blue eyes. Teach base case, inductive step, and comm...
+
+### Add Without Plus: Arithmetic Addition via Bitwise XOR and AND (CTCI 17.1)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-1-add-without-plus](https://breejeshrathod.com/blog/en/ctci-17-1-add-without-plus)
+- **Date:** 2026-03-30
+- **Tags:** Algorithms
+
+CTCI problem 17.1: add two numbers without using + or any arithmetic operators using bitwise XOR for sum and bitwise AND for carry.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.1 technical mechanics.
+> * **The Approach:** CTCI problem 17.1: add two numbers without using + or any arithmetic operators using bitwise XOR for sum and bitwise AND for carry.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Next Number: Same Bit Count, Next Larger and Smaller (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-5-4-next-number](https://breejeshrathod.com/blog/en/ctci-5-4-next-number)
+- **Date:** 2026-03-28
+- **Tags:** Algorithms
+
+CTCI-style problem 5.4 for beginners: given a positive int, find the next larger and next smaller values that keep the same number of 1 bits. Count trailing zeros and ones, flip one bit, rearrange the rest.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 5.4 for beginners: given a positive int, find the next larger and next smaller values that keep the same number of 1 bits. Count trailing zer...
+
+### Object Declaration: Java Generics and Type Erasure Mechanics (CTCI 13.6)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-13-6-object-declaration](https://breejeshrathod.com/blog/en/ctci-13-6-object-declaration)
+- **Date:** 2026-03-27
+- **Tags:** Algorithms
+
+CTCI problem 13.6: how type erasure in Java Generics works at compile time vs runtime.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 13.6 technical mechanics.
+> * **The Approach:** CTCI problem 13.6: how type erasure in Java Generics works at compile time vs runtime.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Rank from Stream: Track Stream Rank of Number in Real-Time (CTCI 10.10)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-10-10-rank-from-stream](https://breejeshrathod.com/blog/en/ctci-10-10-rank-from-stream)
+- **Date:** 2026-03-25
+- **Tags:** Algorithms
+
+CTCI problem 10.10 in Java: design a Binary Search Tree with left subtree size tracking to efficiently compute rank of a number in a stream.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 10.10 with production-grade efficiency.
+> * **The Approach:** CTCI problem 10.10 in Java: design a Binary Search Tree with left subtree size tracking to efficiently compute rank of a number in a stream.
+> * **Complexity:** Optimal Time and Spac...
+
+### Paint Fill: Flood Fill a Color Region with DFS or BFS (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-8-10-paint-fill](https://breejeshrathod.com/blog/en/ctci-8-10-paint-fill)
+- **Date:** 2026-03-24
+- **Tags:** Algorithms
+
+CTCI-style problem 8.10 for beginners: paint-bucket fill on a 2D screen of colors. Replace a connected region with a new color using recursive DFS or iterative BFS in Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 8.10 for beginners: paint-bucket fill on a 2D screen of colors. Replace a connected region with a new color using recursive DFS or iterative ...
+
+### Design Grade Database: Relational Database Schema for School Grades (CTCI 14.7)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-14-7-design-grade-database](https://breejeshrathod.com/blog/en/ctci-14-7-design-grade-database)
+- **Date:** 2026-03-22
+- **Tags:** Algorithms
+
+CTCI problem 14.7: complete relational database schema design for tracking students, courses, professors, and grade histories.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 14.7 technical mechanics.
+> * **The Approach:** CTCI problem 14.7: complete relational database schema design for tracking students, courses, professors, and grade histories.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Contiguous Sequence: Maximum Sum Subarray via Kadane's Algorithm (CTCI 16.17)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-17-contiguous-sequence](https://breejeshrathod.com/blog/en/ctci-16-17-contiguous-sequence)
+- **Date:** 2026-03-21
+- **Tags:** Algorithms
+
+CTCI problem 16.17: find contiguous sequence of integers with maximum sum using Kadane's dynamic programming algorithm.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.17 technical mechanics.
+> * **The Approach:** CTCI problem 16.17: find contiguous sequence of integers with maximum sum using Kadane's dynamic programming algorithm.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Jigsaw: Match Piece Edges IN OUT FLAT to Solve the Board (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-7-6-jigsaw](https://breejeshrathod.com/blog/en/ctci-7-6-jigsaw)
+- **Date:** 2026-03-20
+- **Tags:** Algorithms
+
+CTCI-style problem 7.6 for beginners: model jigsaw pieces with four edges (INNER, OUTER, FLAT), rotate them, and fill an N by N board by matching opposite sides. Object design plus a simple solver sketch in Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 7.6 for beginners: model jigsaw pieces with four edges (INNER, OUTER, FLAT), rotate them, and fill an N by N board by matching opposite sides...
+
+### Scale From Zero to Millions of Users: Grow One Layer at a Time
+
+- **URL:** [https://breejeshrathod.com/blog/en/design-scale-zero-to-millions](https://breejeshrathod.com/blog/en/design-scale-zero-to-millions)
+- **Date:** 2026-03-18
+- **Tags:** System Design
+
+A beginner-friendly path from one computer to millions of users: split tiers, load balancers, read replicas, cache, CDN, stateless servers, queues, multi-region, and database sharding, with plain analogies and trade-offs at every step.
+
+> > **TL;DR**
+> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Insight:** A beginner-friendly path from one computer to millions of users: split tiers, load balancers, read replicas, cache, CD...
+
+### Find Duplicates: Find All Duplicates in N Numbers with 4 KB RAM (CTCI 10.8)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-10-8-find-duplicates](https://breejeshrathod.com/blog/en/ctci-10-8-find-duplicates)
+- **Date:** 2026-03-17
+- **Tags:** Algorithms
+
+CTCI problem 10.8 in Java: print all duplicate numbers in an array of numbers from 1 to 32,000 using a BitSet with only 4 KB of memory.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 10.8 with production-grade efficiency.
+> * **The Approach:** CTCI problem 10.8 in Java: print all duplicate numbers in an array of numbers from 1 to 32,000 using a BitSet with only 4 KB of memory.
+> * **Complexity:** Optimal Time and Space comp...
+
+### Magic Index: Find i Where A[i] Equals i (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-8-3-magic-index](https://breejeshrathod.com/blog/en/ctci-8-3-magic-index)
+- **Date:** 2026-03-15
+- **Tags:** Algorithms
+
+CTCI-style problem 8.3 for beginners: in a sorted array find an index i with A[i] == i. Distinct values get a binary search. Duplicates need both sides with narrowed bounds.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 8.3 for beginners: in a sorted array find an index i with A[i] == i. Distinct values get a binary search. Duplicates need both sides with nar...
+
+### Parens: All Valid Parenthesis Strings via Left/Right Counts (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-8-9-parens](https://breejeshrathod.com/blog/en/ctci-8-9-parens)
+- **Date:** 2026-03-14
+- **Tags:** Algorithms
+
+CTCI-style problem 8.9 for beginners: generate every valid string of n pairs of parentheses. Backtrack with open and close remaining counts, prune illegal prefixes early, and count Catalan results.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 8.9 for beginners: generate every valid string of n pairs of parentheses. Backtrack with open and close remaining counts, prune illegal prefi...
+
+### Circus Tower: Longest Increasing Subsequence for Height and Weight (CTCI 17.8)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-8-circus-tower](https://breejeshrathod.com/blog/en/ctci-17-8-circus-tower)
+- **Date:** 2026-03-12
+- **Tags:** Algorithms
+
+CTCI problem 17.8: build tallest human tower where each person is shorter and lighter than the person below.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.8 technical mechanics.
+> * **The Approach:** CTCI problem 17.8: build tallest human tower where each person is shorter and lighter than the person below.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Majority Element: Boyer-Moore Majority Vote Algorithm (CTCI 17.10)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-10-majority-element](https://breejeshrathod.com/blog/en/ctci-17-10-majority-element)
+- **Date:** 2026-03-11
+- **Tags:** Algorithms
+
+CTCI problem 17.10: find the element that appears more than N/2 times in an array in O(N) time and O(1) space.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.10 technical mechanics.
+> * **The Approach:** CTCI problem 17.10: find the element that appears more than N/2 times in an array in O(N) time and O(1) space.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Virtual Base Class: Resolving the Diamond Problem in C++ (CTCI 12.7)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-12-7-virtual-base-class](https://breejeshrathod.com/blog/en/ctci-12-7-virtual-base-class)
+- **Date:** 2026-03-09
+- **Tags:** Algorithms
+
+CTCI problem 12.7: resolving the diamond inheritance conflict in C++ using virtual base classes.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 12.7 technical mechanics.
+> * **The Approach:** CTCI problem 12.7: resolving the diamond inheritance conflict in C++ using virtual base classes.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Word Distance: Shortest Distance Between Two Words in Large Text (CTCI 17.11)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-11-word-distance](https://breejeshrathod.com/blog/en/ctci-17-11-word-distance)
+- **Date:** 2026-03-08
+- **Tags:** Algorithms
+
+CTCI problem 17.11: compute minimum word index distance between two words in a file in O(N) single pass time.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.11 technical mechanics.
+> * **The Approach:** CTCI problem 17.11: compute minimum word index distance between two words in a file in O(N) single pass time.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### English Int: Convert Integer to English Words (CTCI 16.8)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-8-english-int](https://breejeshrathod.com/blog/en/ctci-16-8-english-int)
+- **Date:** 2026-03-06
+- **Tags:** Algorithms
+
+CTCI problem 16.8: convert an integer into its English words representation (e.g. 1234 -> One Thousand Two Hundred Thirty Four).
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.8 technical mechanics.
+> * **The Approach:** CTCI problem 16.8: convert an integer into its English words representation (e.g. 1234 -> One Thousand Two Hundred Thirty Four).
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Open Requests: SQL Left Join for Open Maintenance Requests (CTCI 14.2)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-14-2-open-requests](https://breejeshrathod.com/blog/en/ctci-14-2-open-requests)
+- **Date:** 2026-03-05
+- **Tags:** Algorithms
+
+CTCI problem 14.2: SQL query returning open maintenance requests per building using LEFT JOIN and GROUP BY.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 14.2 technical mechanics.
+> * **The Approach:** CTCI problem 14.2: SQL query returning open maintenance requests per building using LEFT JOIN and GROUP BY.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Diving Board: Generate All Possible Board Lengths (CTCI 16.11)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-11-diving-board](https://breejeshrathod.com/blog/en/ctci-16-11-diving-board)
+- **Date:** 2026-03-03
+- **Tags:** Algorithms
+
+CTCI problem 16.11: compute all possible total lengths of a diving board built using K planks of shorter or longer size.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.11 technical mechanics.
+> * **The Approach:** CTCI problem 16.11: compute all possible total lengths of a diving board built using K planks of shorter or longer size.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Peaks and Valleys: Sort Array into Alternating Sequence (CTCI 10.11)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-10-11-peaks-and-valleys](https://breejeshrathod.com/blog/en/ctci-10-11-peaks-and-valleys)
+- **Date:** 2026-03-02
+- **Tags:** Algorithms
+
+CTCI problem 10.11 in Java: rearrange an array of integers into an alternating sequence of peaks and valleys in O(N) single-pass time.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 10.11 with production-grade efficiency.
+> * **The Approach:** CTCI problem 10.11 in Java: rearrange an array of integers into an alternating sequence of peaks and valleys in O(N) single-pass time.
+> * **Complexity:** Optimal Time and Space comp...
+
+### Smart Pointer: Building a Custom Reference Counting Pointer in C++ (CTCI 12.9)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-12-9-smart-pointer](https://breejeshrathod.com/blog/en/ctci-12-9-smart-pointer)
+- **Date:** 2026-03-01
+- **Tags:** Algorithms
+
+CTCI problem 12.9: implementing a custom SmartPointer class with ref count incrementing and automatic memory deallocation.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 12.9 technical mechanics.
+> * **The Approach:** CTCI problem 12.9: implementing a custom SmartPointer class with ref count incrementing and automatic memory deallocation.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Minimal Tree: Build a Balanced BST from a Sorted Array (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-4-2-minimal-tree](https://breejeshrathod.com/blog/en/ctci-4-2-minimal-tree)
+- **Date:** 2026-02-27
+- **Tags:** Algorithms
+
+CTCI-style problem 4.2 for beginners: given a sorted array of unique ints, build a binary search tree of minimal height. Pick the mid as root, recurse on left and right halves.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 4.2 for beginners: given a sorted array of unique ints, build a binary search tree of minimal height. Pick the mid as root, recurse on left a...
+
+### OAuth 2.0 for Developers: Authorization Code, PKCE, Tokens, and Common Bugs
+
+- **URL:** [https://breejeshrathod.com/blog/en/oauth2-for-developers](https://breejeshrathod.com/blog/en/oauth2-for-developers)
+- **Date:** 2026-02-26
+- **Tags:** Security, Web Development
+
+How the authorization code flow with PKCE actually works, what access and refresh tokens are for, and the implementation mistakes that leak sessions or break mobile clients.
+
+> OAuth 2.0 is the protocol most apps use when a user says "let this app call my calendar" without handing over a password. Teams still ship broken implementations: missing PKCE on SPAs, tokens in query strings, `state` skipped "for MVP," refresh tokens stored like session cookies, and implicit flow l...
+
+### Docker Compose for Local Dev That Matches Production Closely Enough
+
+- **URL:** [https://breejeshrathod.com/blog/en/docker-compose-local-dev](https://breejeshrathod.com/blog/en/docker-compose-local-dev)
+- **Date:** 2026-02-24
+- **Tags:** Containers, DevOps
+
+Shape a Compose stack with services, volumes, env files, and healthchecks so local failures look like prod failures, not random laptop bugs.
+
+> "Works on my machine" usually means your laptop is not running the same process graph as production. Different Postgres version. No Redis. API process starts before the database accepts connections. Env vars set in a shell profile that CI never sees....
+
+### Remove Dups: Delete Duplicates from an Unsorted Linked List (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-2-1-remove-dups](https://breejeshrathod.com/blog/en/ctci-2-1-remove-dups)
+- **Date:** 2026-02-23
+- **Tags:** Algorithms
+
+CTCI-style problem 2.1 for beginners: strip duplicate values from a singly linked list. HashSet walk in O(N), then a no-buffer runner pointer in O(N^2).
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 2.1 for beginners: strip duplicate values from a singly linked list. HashSet walk in O(N), then a no-buffer runner pointer in O(N^2).
+> * **C...
+
+### Dominos: Why a Mutilated Chessboard Cannot Be Tiled (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-6-3-dominos](https://breejeshrathod.com/blog/en/ctci-6-3-dominos)
+- **Date:** 2026-02-21
+- **Tags:** Algorithms
+
+CTCI-style problem 6.3 for beginners: 8x8 board with two opposite corners removed, 31 dominos. Coloring invariant proves it is impossible. Counts, board sketch, and optional Java visualization.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 6.3 for beginners: 8x8 board with two opposite corners removed, 31 dominos. Coloring invariant proves it is impossible. Counts, board sketch,...
+
+### XML Encoding: Compress XML Element Tree to Byte Stream (CTCI 16.12)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-12-xml-encoding](https://breejeshrathod.com/blog/en/ctci-16-12-xml-encoding)
+- **Date:** 2026-02-20
+- **Tags:** Algorithms
+
+CTCI problem 16.12: encode an XML element tree into a compact byte format using integer token lookup tables.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.12 technical mechanics.
+> * **The Approach:** CTCI problem 16.12: encode an XML element tree into a compact byte format using integer token lookup tables.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Cracking the Coding Interview in Java: The Full Problem Series
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-series-guide](https://breejeshrathod.com/blog/en/ctci-series-guide)
+- **Date:** 2026-02-18
+- **Tags:** Algorithms
+
+A complete, novice-friendly Java walkthrough of the classic CTCI-style interview problem set. How the series works, how to practice, and where to start.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** A complete, novice-friendly Java walkthrough of the classic CTCI-style interview problem set. How the series works, how to practice, and where to start.
+> * **C...
+
+### LRU Cache: Implement Least Recently Used Cache (CTCI 16.25)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-25-lru-cache](https://breejeshrathod.com/blog/en/ctci-16-25-lru-cache)
+- **Date:** 2026-02-17
+- **Tags:** Algorithms
+
+CTCI problem 16.25: design and build a data structure for Least Recently Used (LRU) cache with O(1) get and put.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.25 technical mechanics.
+> * **The Approach:** CTCI problem 16.25: design and build a data structure for Least Recently Used (LRU) cache with O(1) get and put.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### CTCI 1.8 Zero Matrix: Clear Rows and Columns in Place (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-1-8-zero-matrix](https://breejeshrathod.com/blog/en/ctci-1-8-zero-matrix)
+- **Date:** 2026-02-15
+- **Tags:** Algorithms
+
+If a cell is 0, set its whole row and column to 0. Brute force first, then O(1) extra space with first-row and first-column flags in Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** If a cell is 0, set its whole row and column to 0. Brute force first, then O(1) extra space with first-row and first-column flags in Java.
+> * **Complexity:** O...
+
+### Jukebox: Songs, Playlists, Catalog, Users, and Payment (Java OOD)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-7-3-jukebox](https://breejeshrathod.com/blog/en/ctci-7-3-jukebox)
+- **Date:** 2026-02-14
+- **Tags:** Algorithms
+
+CTCI-style problem 7.3 for beginners: design a musical jukebox with object-oriented classes. Model Song, Playlist, CD catalog, User, and coin payment, then wire a focused Java sketch around a play queue.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 7.3 for beginners: design a musical jukebox with object-oriented classes. Model Song, Playlist, CD catalog, User, and coin payment, then wire...
+
+### Design a Web Crawler: Frontier, Politeness, Fetch, Dedup, and Scale
+
+- **URL:** [https://breejeshrathod.com/blog/en/design-web-crawler](https://breejeshrathod.com/blog/en/design-web-crawler)
+- **Date:** 2026-02-12
+- **Tags:** System Design
+
+How a web crawler works in plain language: seed URLs, the frontier queue, politeness, fetch, parse, store, and dedup. One page walked through the pipeline, plus a short recap.
+
+> > **TL;DR**
+> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Insight:** How a web crawler works in plain language: seed URLs, the frontier queue, politeness, fetch, parse, store, and dedup. ...
+
+### Langton's Ant: Simulate Grid Cellular Automata Ant Traversal (CTCI 16.22)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-22-langton-s-ant](https://breejeshrathod.com/blog/en/ctci-16-22-langton-s-ant)
+- **Date:** 2026-02-11
+- **Tags:** Algorithms
+
+CTCI problem 16.22: simulate K steps of Langton's Ant cellular automata on an infinite grid.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.22 technical mechanics.
+> * **The Approach:** CTCI problem 16.22: simulate K steps of Langton's Ant cellular automata on an infinite grid.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Missing Two: Find Two Missing Numbers from 1 to N (CTCI 17.19)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-19-missing-two](https://breejeshrathod.com/blog/en/ctci-17-19-missing-two)
+- **Date:** 2026-02-10
+- **Tags:** Algorithms
+
+CTCI problem 17.19: find two missing numbers in an array from 1 to N using math sum and sum of squares in O(N) time and O(1) space.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.19 technical mechanics.
+> * **The Approach:** CTCI problem 17.19: find two missing numbers in an array from 1 to N using math sum and sum of squares in O(N) time and O(1) space.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### File System: In-Memory Tree with Entry, File, and Directory (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-7-11-file-system](https://breejeshrathod.com/blog/en/ctci-7-11-file-system)
+- **Date:** 2026-02-08
+- **Tags:** Algorithms
+
+CTCI-style problem 7.11 for beginners: design an in-memory file system. Shared Entry base, File leaves, Directory nodes, recursive size, and path helpers in Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 7.11 for beginners: design an in-memory file system. Shared Entry base, File leaves, Directory nodes, recursive size, and path helpers in Jav...
+
+### Sorted Merge: Merge Array B into Sorted Array A In-Place (CTCI 10.1)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-10-1-sorted-merge](https://breejeshrathod.com/blog/en/ctci-10-1-sorted-merge)
+- **Date:** 2026-02-07
+- **Tags:** Algorithms
+
+CTCI problem 10.1 in Java: merge two sorted arrays A and B into A in sorted order, working backwards to avoid shifting elements.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 10.1 with production-grade efficiency.
+> * **The Approach:** CTCI problem 10.1 in Java: merge two sorted arrays A and B into A in sorted order, working backwards to avoid shifting elements.
+> * **Complexity:** Optimal Time and Space complexity ...
+
+### Student Attendance: SQL Query for Student Course Grades (CTCI 14.3)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-14-3-student-attendance](https://breejeshrathod.com/blog/en/ctci-14-3-student-attendance)
+- **Date:** 2026-02-05
+- **Tags:** Algorithms
+
+CTCI problem 14.3: SQL update query to update student attendance status and compute GPA averages.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 14.3 technical mechanics.
+> * **The Approach:** CTCI problem 14.3: SQL update query to update student attendance status and compute GPA averages.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### CTCI 4.10 Check Subtree: Is T2 Hiding Inside T1? (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-4-10-check-subtree](https://breejeshrathod.com/blog/en/ctci-4-10-check-subtree)
+- **Date:** 2026-02-04
+- **Tags:** Algorithms
+
+T1 is much larger than T2. Decide if T2 is a subtree of T1: search for T2's root in T1 then matchTree, or serialize preorder with null markers and test contains. Java, O(n + km) vs O(n + m).
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** T1 is much larger than T2. Decide if T2 is a subtree of T1: search for T2's root in T1 then matchTree, or serialize preorder with null markers and test contains...
+
+### Design a Notification System: Push, SMS, Email, Queues, and Reliability
+
+- **URL:** [https://breejeshrathod.com/blog/en/design-notification-system](https://breejeshrathod.com/blog/en/design-notification-system)
+- **Date:** 2026-02-02
+- **Tags:** System Design
+
+How a notification system works, explained for beginners: channels, user preferences, message templates, queues, retries, and the path from an order shipped event to a phone alert.
+
+> > **TL;DR**
+> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Insight:** How a notification system works, explained for beginners: channels, user preferences, message templates, queues, retri...
+
+### Git Interactive Rebase for Real Teams: Squash, Fixup, and Clean History
+
+- **URL:** [https://breejeshrathod.com/blog/en/git-interactive-rebase-guide](https://breejeshrathod.com/blog/en/git-interactive-rebase-guide)
+- **Date:** 2026-02-01
+- **Tags:** Productivity, DevOps
+
+A practical guide to git rebase -i: squash, reword, fixup, reorder commits, when not to rebase shared branches, and how to recover with reflog when things go wrong.
+
+> Interactive rebase is the tool I reach for when a feature branch looks like a lab notebook: five "wip" commits, one typo fix on a typo fix, and a message I would never merge as-is. Used well, it turns that noise into a short story a reviewer can follow. Used on the wrong branch, it rewrites history ...
+
+### Call In Order: Synchronizing Method Execution Sequence (CTCI 15.5)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-15-5-call-in-order](https://breejeshrathod.com/blog/en/ctci-15-5-call-in-order)
+- **Date:** 2026-01-30
+- **Tags:** Algorithms
+
+CTCI problem 15.5: enforce execution order of first(), second(), third() methods across concurrent threads using CountDownLatch / Semaphores.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 15.5 technical mechanics.
+> * **The Approach:** CTCI problem 15.5: enforce execution order of first(), second(), third() methods across concurrent threads using CountDownLatch / Semaphores.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### A Practical Framework for System Design Interviews
+
+- **URL:** [https://breejeshrathod.com/blog/en/design-interview-framework](https://breejeshrathod.com/blog/en/design-interview-framework)
+- **Date:** 2026-01-29
+- **Tags:** System Design
+
+A scared-candidate checklist for system design interviews: ask first, plan the boxes, then add detail. Plain English steps, sample dialogue, and a reusable time budget for 45-60 minutes.
+
+> > **TL;DR**
+> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Insight:** A scared-candidate checklist for system design interviews: ask first, plan the boxes, then add detail. Plain English s...
+
+### Letters and Numbers: Find Longest Subarray with Equal Letters and Digits (CTCI 17.5)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-5-letters-and-numbers](https://breejeshrathod.com/blog/en/ctci-17-5-letters-and-numbers)
+- **Date:** 2026-01-27
+- **Tags:** Algorithms
+
+CTCI problem 17.5: find the longest contiguous subarray containing an equal number of letters and numbers in O(N) time.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.5 technical mechanics.
+> * **The Approach:** CTCI problem 17.5: find the longest contiguous subarray containing an equal number of letters and numbers in O(N) time.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Triple Step: Count Ways to Climb n Stairs with 1, 2, or 3 Hops (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-8-1-triple-step](https://breejeshrathod.com/blog/en/ctci-8-1-triple-step)
+- **Date:** 2026-01-26
+- **Tags:** Algorithms
+
+CTCI-style problem 8.1 for beginners: a child climbs n stairs taking 1, 2, or 3 steps at a time. Count the ways with recursion, memoization, and bottom-up DP in Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 8.1 for beginners: a child climbs n stairs taking 1, 2, or 3 steps at a time. Count the ways with recursion, memoization, and bottom-up DP in...
+
+### Pairs with Sum: Find All Pairs in Array Summing to Target Value (CTCI 16.24)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-24-pairs-with-sum](https://breejeshrathod.com/blog/en/ctci-16-24-pairs-with-sum)
+- **Date:** 2026-01-24
+- **Tags:** Algorithms
+
+CTCI problem 16.24: find all pairs of integers in an array that sum to a target value in O(N) time.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.24 technical mechanics.
+> * **The Approach:** CTCI problem 16.24: find all pairs of integers in an array that sum to a target value in O(N) time.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Paths with Sum: Count Downward Paths That Hit a Target (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-4-12-paths-with-sum](https://breejeshrathod.com/blog/en/ctci-4-12-paths-with-sum)
+- **Date:** 2026-01-23
+- **Tags:** Algorithms
+
+CTCI-style problem 4.12 for beginners: count every path in a binary tree that sums to a target. Paths go parent to child only. Brute force from each node, then running sum plus a HashMap of prefix counts.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 4.12 for beginners: count every path in a binary tree that sums to a target. Paths go parent to child only. Brute force from each node, then ...
+
+### Flip Bit to Win: Longest Ones After One Flip (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-5-3-flip-bit-to-win](https://breejeshrathod.com/blog/en/ctci-5-3-flip-bit-to-win)
+- **Date:** 2026-01-22
+- **Tags:** Algorithms
+
+CTCI-style problem 5.3 for beginners: flip one 0-bit in an integer to maximize consecutive 1s. Track runs of ones separated by zeros, merge across a single zero, plain Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 5.3 for beginners: flip one 0-bit in an integer to maximize consecutive 1s. Track runs of ones separated by zeros, merge across a single zero...
+
+### Last K Lines: Print Last K Lines of File in C++ (CTCI 12.1)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-12-1-last-k-lines](https://breejeshrathod.com/blog/en/ctci-12-1-last-k-lines)
+- **Date:** 2026-01-20
+- **Tags:** Algorithms
+
+CTCI problem 12.1 in C++: print the last K lines of a file using a circular array buffer for O(K) memory.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 12.1 technical mechanics.
+> * **The Approach:** CTCI problem 12.1 in C++: print the last K lines of a file using a circular array buffer for O(K) memory.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Deck of Cards: Card, Deck, Hand, and Blackjack (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-7-1-deck-of-cards](https://breejeshrathod.com/blog/en/ctci-7-1-deck-of-cards)
+- **Date:** 2026-01-19
+- **Tags:** Algorithms
+
+CTCI-style problem 7.1 for beginners: design reusable card classes (Card, Deck, Hand) and specialize them for blackjack with BlackJackCard and BlackJackHand, including soft aces.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 7.1 for beginners: design reusable card classes (Card, Deck, Hand) and specialize them for blackjack with BlackJackCard and BlackJackHand, in...
+
+### Othello: Board, Color, Game, and Flip Rules in Java OOD
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-7-8-othello](https://breejeshrathod.com/blog/en/ctci-7-8-othello)
+- **Date:** 2026-01-17
+- **Tags:** Algorithms
+
+CTCI-style problem 7.8 for beginners: design Othello (Reversi) with Board, Piece color, Game flow, and capture flip logic. Original Java sketch, not a book copy.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 7.8 for beginners: design Othello (Reversi) with Board, Piece color, Game flow, and capture flip logic. Original Java sketch, not a book copy...
+
+### BiNode: Convert Binary Search Tree to Doubly Linked List In-Place (CTCI 17.12)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-12-binode](https://breejeshrathod.com/blog/en/ctci-17-12-binode)
+- **Date:** 2026-01-16
+- **Tags:** Algorithms
+
+CTCI problem 17.12: convert a BST into a sorted doubly linked list in-place using BiNode data structures.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.12 technical mechanics.
+> * **The Approach:** CTCI problem 17.12: convert a BST into a sorted doubly linked list in-place using BiNode data structures.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Eight Queens: Place 8 Non-Attacking Queens with Backtracking (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-8-12-eight-queens](https://breejeshrathod.com/blog/en/ctci-8-12-eight-queens)
+- **Date:** 2026-01-14
+- **Tags:** Algorithms
+
+CTCI-style problem 8.12 for beginners: put eight queens on an 8x8 board so none share a row, column, or diagonal. Column-by-column placement, conflict checks, and clean Java backtracking.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 8.12 for beginners: put eight queens on an 8x8 board so none share a row, column, or diagonal. Column-by-column placement, conflict checks, a...
+
+### Animal Shelter: FIFO Adoption with Dogs and Cats (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-3-6-animal-shelter](https://breejeshrathod.com/blog/en/ctci-3-6-animal-shelter)
+- **Date:** 2026-01-13
+- **Tags:** Algorithms
+
+CTCI-style problem 3.6 for beginners: an animal shelter holds only dogs and cats on a strict first-in first-out line. Build enqueue, dequeueAny, dequeueDog, and dequeueCat with two queues plus an arrival order.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 3.6 for beginners: an animal shelter holds only dogs and cats on a strict first-in first-out line. Build enqueue, dequeueAny, dequeueDog, and...
+
+### Online Book Reader: User, Library, Display, and Reading Session (Java OOD)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-7-5-online-book-reader](https://breejeshrathod.com/blog/en/ctci-7-5-online-book-reader)
+- **Date:** 2026-01-11
+- **Tags:** Algorithms
+
+CTCI-style problem 7.5 for beginners: design an online book reader with User, Book, Library, Display, and a single active reading session. Original Java sketch, not a product build.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 7.5 for beginners: design an online book reader with User, Book, Library, Display, and a single active reading session. Original Java sketch,...
+
+### Baby Names: Merge Synonym Name Frequencies Using Disjoint Set (CTCI 17.7)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-7-baby-names](https://breejeshrathod.com/blog/en/ctci-17-7-baby-names)
+- **Date:** 2026-01-10
+- **Tags:** Algorithms
+
+CTCI problem 17.7: aggregate total frequencies of synonymous baby names using Connected Components / Union-Find.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.7 technical mechanics.
+> * **The Approach:** CTCI problem 17.7: aggregate total frequencies of synonymous baby names using Connected Components / Union-Find.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### The Apocalypse: Boys, Girls, and a Policy That Still Hits 50/50 (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-6-7-the-apocalypse](https://breejeshrathod.com/blog/en/ctci-6-7-the-apocalypse)
+- **Date:** 2026-01-08
+- **Tags:** Algorithms
+
+CTCI-style problem 6.7 for beginners: families keep having kids until a boy, then stop. Ratio of boys to girls is still about 1:1. Infinite series proof and a short Java simulation.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 6.7 for beginners: families keep having kids until a boy, then stop. Ratio of boys to girls is still about 1:1. Infinite series proof and a s...
+
+### Stack Min: push, pop, and min() in O(1) (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-3-2-stack-min](https://breejeshrathod.com/blog/en/ctci-3-2-stack-min)
+- **Date:** 2026-01-07
+- **Tags:** Algorithms
+
+CTCI-style problem 3.2 for beginners: design a stack that returns the current minimum in constant time. Track mins with a second stack (or store min-so-far on each node), with clear Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 3.2 for beginners: design a stack that returns the current minimum in constant time. Track mins with a second stack (or store min-so-far on e...
+
+### Sparse Similarity: Compute Jaccard Similarity Over Documents (CTCI 17.26)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-26-sparse-similarity](https://breejeshrathod.com/blog/en/ctci-17-26-sparse-similarity)
+- **Date:** 2026-01-05
+- **Tags:** Algorithms
+
+CTCI problem 17.26: compute Jaccard similarity for pairs of documents with overlapping elements using Inverted Index in O(K) time.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.26 technical mechanics.
+> * **The Approach:** CTCI problem 17.26: compute Jaccard similarity for pairs of documents with overlapping elements using Inverted Index in O(K) time.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Lambda Random: Random Subset Generation with Java Streams (CTCI 13.8)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-13-8-lambda-random](https://breejeshrathod.com/blog/en/ctci-13-8-lambda-random)
+- **Date:** 2026-01-04
+- **Tags:** Algorithms
+
+CTCI problem 13.8: generating a random subset of a list using Java Streams and lambda expressions.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 13.8 technical mechanics.
+> * **The Approach:** CTCI problem 13.8: generating a random subset of a list using Java Streams and lambda expressions.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Final vs Finally vs Finalize: Java Keyword Breakdown (CTCI 13.3)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-13-3-final-etc](https://breejeshrathod.com/blog/en/ctci-13-3-final-etc)
+- **Date:** 2026-01-03
+- **Tags:** Algorithms
+
+CTCI problem 13.3: clear distinction between final variable/method/class, try-finally block, and Object.finalize().
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 13.3 technical mechanics.
+> * **The Approach:** CTCI problem 13.3: clear distinction between final variable/method/class, try-finally block, and Object.finalize().
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Structured Logging Best Practices for Production Services
+
+- **URL:** [https://breejeshrathod.com/blog/en/structured-logging-best-practices](https://breejeshrathod.com/blog/en/structured-logging-best-practices)
+- **Date:** 2026-01-01
+- **Tags:** DevOps, Backend
+
+JSON logs, correlation IDs, log levels, PII redaction, and cardinality control. What keeps incident response fast without drowning your log bill.
+
+> Plain text logs worked when one box ran one app. Once you have many services, many replicas, and a log shipper that turns every line into a queryable event, free-form strings become expensive noise. Structured logs fix the shape: every line is a small document with stable keys. You search by field, ...
+
+### Sum Lists: Add Numbers Stored as Linked Lists (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-2-5-sum-lists](https://breejeshrathod.com/blog/en/ctci-2-5-sum-lists)
+- **Date:** 2025-12-31
+- **Tags:** Algorithms
+
+CTCI-style problem 2.5: two numbers live as linked lists, one digit per node, least significant digit at the head. Walk both lists with a carry and build the sum list. Brief note on the forward-order follow-up.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 2.5: two numbers live as linked lists, one digit per node, least significant digit at the head. Walk both lists with a carry and build the su...
+
+### FizzBuzz: Multi-Threaded Concurrent FizzBuzz in Java (CTCI 15.7)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-15-7-fizzbuzz](https://breejeshrathod.com/blog/en/ctci-15-7-fizzbuzz)
+- **Date:** 2025-12-29
+- **Tags:** Algorithms
+
+CTCI problem 15.7: multi-threaded FizzBuzz using 4 concurrent threads for numbers divisible by 3, 5, 15, and others.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 15.7 technical mechanics.
+> * **The Approach:** CTCI problem 15.7: multi-threaded FizzBuzz using 4 concurrent threads for numbers divisible by 3, 5, 15, and others.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Loop Detection: Find the Start of a Cycle in a Linked List (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-2-8-loop-detection](https://breejeshrathod.com/blog/en/ctci-2-8-loop-detection)
+- **Date:** 2025-12-28
+- **Tags:** Algorithms
+
+CTCI-style problem 2.8 for beginners: given a circular linked list, return the node where the loop begins. Floyd tortoise and hare, then the head reset trick, in plain Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 2.8 for beginners: given a circular linked list, return the node where the loop begins. Floyd tortoise and hare, then the head reset trick, i...
+
+### 100 Lockers: Which Stay Open After 100 Toggles? (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-6-9-100-lockers](https://breejeshrathod.com/blog/en/ctci-6-9-100-lockers)
+- **Date:** 2025-12-26
+- **Tags:** Algorithms
+
+CTCI-style problem 6.9 for beginners: 100 closed lockers, 100 people each toggle every i-th door. Open lockers are perfect squares (1, 4, 9, ..., 100) because only squares have an odd number of factors. Optional Java simulation.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 6.9 for beginners: 100 closed lockers, 100 people each toggle every i-th door. Open lockers are perfect squares (1, 4, 9, ..., 100) because o...
+
+### Chat Server: Users, Conversations, Messages, and Status (Java OOD)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-7-7-chat-server](https://breejeshrathod.com/blog/en/ctci-7-7-chat-server)
+- **Date:** 2025-12-25
+- **Tags:** Algorithms
+
+CTCI-style problem 7.7 for beginners: design a chat server in Java with User, PrivateChat and GroupChat, Message, presence status, and friend add requests. Scope first, then classes.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 7.7 for beginners: design a chat server in Java with User, PrivateChat and GroupChat, Message, presence status, and friend add requests. Scop...
+
+### Design a Key-Value Store Like a Coat Check: Put, Get, CAP, and Quorums
+
+- **URL:** [https://breejeshrathod.com/blog/en/design-key-value-store](https://breejeshrathod.com/blog/en/design-key-value-store)
+- **Date:** 2025-12-23
+- **Tags:** System Design
+
+A beginner-friendly walk through distributed key-value stores. Coat-check put and get, CAP as a simple choice, partitioning as books on shelves, replication as copies, and quorums as librarians who must agree.
+
+> > **TL;DR**
+> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Insight:** A beginner-friendly walk through distributed key-value stores. Coat-check put and get, CAP as a simple choice, partiti...
+
+### Insertion: Slot Integer M into N Between Bits i and j (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-5-1-insertion](https://breejeshrathod.com/blog/en/ctci-5-1-insertion)
+- **Date:** 2025-12-22
+- **Tags:** Algorithms
+
+CTCI-style problem 5.1 for beginners: clear bits i through j in N, shift M by i, then OR. Bit masks, a walk-through on the classic example, and Java code.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 5.1 for beginners: clear bits i through j in N, shift M by i, then OR. Bit masks, a walk-through on the classic example, and Java code.
+> * *...
+
+### Group Anagrams: Sort Array of Strings so Anagrams Are Adjacent (CTCI 10.2)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-10-2-group-anagrams](https://breejeshrathod.com/blog/en/ctci-10-2-group-anagrams)
+- **Date:** 2025-12-20
+- **Tags:** Algorithms
+
+CTCI problem 10.2 in Java: group an array of strings such that all anagrams are placed next to each other using HashMap bucket sorting.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 10.2 with production-grade efficiency.
+> * **The Approach:** CTCI problem 10.2 in Java: group an array of strings such that all anagrams are placed next to each other using HashMap bucket sorting.
+> * **Complexity:** Optimal Time and Space comp...
+
+### Stack of Plates: SetOfStacks with Capacity and popAt (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-3-3-stack-of-plates](https://breejeshrathod.com/blog/en/ctci-3-3-stack-of-plates)
+- **Date:** 2025-12-19
+- **Tags:** Algorithms
+
+CTCI-style problem 3.3 for beginners: when one plate stack is too tall, start another. Build SetOfStacks so push and pop still feel like one stack, then a short note on popAt(index).
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 3.3 for beginners: when one plate stack is too tall, start another. Build SetOfStacks so push and pop still feel like one stack, then a short...
+
+### Design Consistent Hashing: Rings, Virtual Nodes, and Minimal Remapping
+
+- **URL:** [https://breejeshrathod.com/blog/en/design-consistent-hashing](https://breejeshrathod.com/blog/en/design-consistent-hashing)
+- **Date:** 2025-12-17
+- **Tags:** System Design
+
+Why hash(key) % N reseats almost everyone when one server leaves, how a hash ring maps keys by walking clockwise, virtual nodes for fair load, and where consistent hashing shows up in caches, databases, and load balancers.
+
+> > **TL;DR**
+> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Insight:** Why hash(key) % N reseats almost everyone when one server leaves, how a hash ring maps keys by walking clockwise, virt...
+
+### How DNS Works for Engineers: Resolution Path, Records, TTL, and dig
+
+- **URL:** [https://breejeshrathod.com/blog/en/how-dns-works-for-engineers](https://breejeshrathod.com/blog/en/how-dns-works-for-engineers)
+- **Date:** 2025-12-16
+- **Tags:** Networking
+
+The DNS resolution path from stub resolver to authoritative nameserver, the records you actually edit (A, AAAA, CNAME, MX, TXT), how TTL and caching shape outages, and how to debug with dig.
+
+> DNS is the phone book of the internet, and that analogy is only half useful. Engineers do not need a fairy tale about "looking up names." You need the **resolution path**, the **record types you ship**, how **TTL and caches** delay every change, and a muscle memory for **`dig`** when production says...
+
+### Word Rectangle: Largest Grid of Words Valid in Rows and Columns (CTCI 17.25)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-25-word-rectangle](https://breejeshrathod.com/blog/en/ctci-17-25-word-rectangle)
+- **Date:** 2025-12-15
+- **Tags:** Algorithms
+
+CTCI problem 17.25: create largest rectangle of letters such that every row and column forms a valid dictionary word.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.25 technical mechanics.
+> * **The Approach:** CTCI problem 17.25: create largest rectangle of letters such that every row and column forms a valid dictionary word.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Pond Sizes: Compute Connected Water Regions in Matrix (CTCI 16.19)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-19-pond-sizes](https://breejeshrathod.com/blog/en/ctci-16-19-pond-sizes)
+- **Date:** 2025-12-13
+- **Tags:** Algorithms
+
+CTCI problem 16.19: compute sizes of all connected water ponds in a land matrix using 8-directional DFS traversal.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.19 technical mechanics.
+> * **The Approach:** CTCI problem 16.19: compute sizes of all connected water ponds in a land matrix using 8-directional DFS traversal.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Random Node: Uniform Pick From a BST (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-4-11-random-node](https://breejeshrathod.com/blog/en/ctci-4-11-random-node)
+- **Date:** 2025-12-12
+- **Tags:** Algorithms
+
+CTCI-style problem 4.11 for beginners: build a BST with insert, find, delete, and getRandomNode so every node is equally likely. Store subtree size on each node and walk a random index.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 4.11 for beginners: build a BST with insert, find, delete, and getRandomNode so every node is equally likely. Store subtree size on each node...
+
+### WebSockets for Real-Time Apps: Handshake, Heartbeats, Reconnect, Auth, Scale
+
+- **URL:** [https://breejeshrathod.com/blog/en/websockets-realtime-basics](https://breejeshrathod.com/blog/en/websockets-realtime-basics)
+- **Date:** 2025-12-10
+- **Tags:** Networking, Backend, Web Development
+
+How WebSockets actually work in production: the HTTP upgrade, ping and pong, reconnect with backoff, auth patterns that do not leak tokens, and multi-node fan-out with pub/sub.
+
+> HTTP is request and response. Real-time products need the server to push without waiting for the next poll: chat, live dashboards, multiplayer state, trading ticks, collaborative cursors. **WebSockets** give you a long-lived, full-duplex channel over a single TCP connection. The hard part is not ope...
+
+### TreeMap vs HashMap vs LinkedHashMap: Java Map Selection Guide (CTCI 13.5)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-13-5-treemap-hashmap-linkedhashmap](https://breejeshrathod.com/blog/en/ctci-13-5-treemap-hashmap-linkedhashmap)
+- **Date:** 2025-12-09
+- **Tags:** Algorithms
+
+CTCI problem 13.5: comparing HashMap O(1), TreeMap O(log N) sorted, and LinkedHashMap insertion-ordered maps in Java.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 13.5 technical mechanics.
+> * **The Approach:** CTCI problem 13.5: comparing HashMap O(1), TreeMap O(log N) sorted, and LinkedHashMap insertion-ordered maps in Java.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Hash Table: Chaining with LinkedList Buckets (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-7-12-hash-table](https://breejeshrathod.com/blog/en/ctci-7-12-hash-table)
+- **Date:** 2025-12-07
+- **Tags:** Algorithms
+
+CTCI-style problem 7.12 for beginners: build a simple HashMap with an array of linked-list buckets. put, get, and remove with collision chaining in Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 7.12 for beginners: build a simple HashMap with an array of linked-list buckets. put, get, and remove with collision chaining in Java.
+> * **...
+
+### Jugs of Water: Measure Exactly 4 Liters with 3 and 5 (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-6-5-jugs-of-water](https://breejeshrathod.com/blog/en/ctci-6-5-jugs-of-water)
+- **Date:** 2025-12-06
+- **Tags:** Algorithms
+
+CTCI-style problem 6.5 for beginners: two jugs of capacity 3 and 5 liters, measure exactly 4. Manual pour steps, Bézout identity, and optional Java BFS over jug states.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 6.5 for beginners: two jugs of capacity 3 and 5 liters, measure exactly 4. Manual pour steps, Bézout identity, and optional Java BFS over jug...
+
+### Coins: Number of Ways to Make Change (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-8-11-coins](https://breejeshrathod.com/blog/en/ctci-8-11-coins)
+- **Date:** 2025-12-04
+- **Tags:** Algorithms
+
+CTCI-style problem 8.11 for beginners: count combinations that make n cents with quarters, dimes, nickels, and pennies. Bottom-up DP coin change, order does not matter, plain Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 8.11 for beginners: count combinations that make n cents with quarters, dimes, nickels, and pennies. Bottom-up DP coin change, order does not...
+
+### Test an ATM: End-to-End System Testing for Banking Hardware (CTCI 11.6)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-11-6-test-an-atm](https://breejeshrathod.com/blog/en/ctci-11-6-test-an-atm)
+- **Date:** 2025-12-03
+- **Tags:** Algorithms
+
+CTCI problem 11.6: test strategy for an automated teller machine (ATM) covering hardware, transaction processing, and failure recovery.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 11.6 technical mechanics.
+> * **The Approach:** CTCI problem 11.6: test strategy for an automated teller machine (ATM) covering hardware, transaction processing, and failure recovery.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Python Type Hints That Actually Pay Off in Production
+
+- **URL:** [https://breejeshrathod.com/blog/en/python-type-hints-production](https://breejeshrathod.com/blog/en/python-type-hints-production)
+- **Date:** 2025-12-01
+- **Tags:** Python, Backend
+
+Which Python typing features catch real bugs: Protocols, TypedDict, gradual mypy and pyright. What to type first, what to skip, and how to keep CI useful.
+
+> Python type hints are free at runtime and expensive when they lie. The teams that get value out of them do not annotate every private helper. They type the **seams**: public APIs, wire formats, shared domain objects, and plugin boundaries. Everything else can stay loose until a bug or a refactor for...
+
+### Cache: Design a Search Engine In-Memory Query Cache (CTCI 9.5)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-9-5-cache](https://breejeshrathod.com/blog/en/ctci-9-5-cache)
+- **Date:** 2025-11-30
+- **Tags:** Algorithms
+
+CTCI problem 9.5: design a multi-tiered in-memory caching system for a search engine serving millions of queries per second.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 9.5 with production-grade efficiency.
+> * **The Approach:** CTCI problem 9.5: design a multi-tiered in-memory caching system for a search engine serving millions of queries per second.
+> * **Complexity:** Optimal Time and Space complexity trade...
+
+### Longest Word: Find Longest Word Built from Other Words (CTCI 17.15)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-15-longest-word](https://breejeshrathod.com/blog/en/ctci-17-15-longest-word)
+- **Date:** 2025-11-28
+- **Tags:** Algorithms
+
+CTCI problem 17.15: find the longest word in an array that can be built by concatenating other words in the array.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.15 technical mechanics.
+> * **The Approach:** CTCI problem 17.15: find the longest word in an array that can be built by concatenating other words in the array.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### CTCI 2.6 Palindrome Linked List in Java: Reverse the Second Half
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-2-6-palindrome](https://breejeshrathod.com/blog/en/ctci-2-6-palindrome)
+- **Date:** 2025-11-27
+- **Tags:** Algorithms
+
+Check if a singly linked list is a palindrome. Find the middle with slow and fast pointers, reverse the second half, compare, and restore if you need the list intact. O(n) time, O(1) space.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** Check if a singly linked list is a palindrome. Find the middle with slow and fast pointers, reverse the second half, compare, and restore if you need the list i...
+
+### Malloc: Implement Aligned Malloc and Free in C (CTCI 12.10)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-12-10-malloc](https://breejeshrathod.com/blog/en/ctci-12-10-malloc)
+- **Date:** 2025-11-25
+- **Tags:** Algorithms
+
+CTCI problem 12.10: implement aligned_malloc and aligned_free in C for memory alignment requirements.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 12.10 technical mechanics.
+> * **The Approach:** CTCI problem 12.10: implement aligned_malloc and aligned_free in C for memory alignment requirements.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Binary to String: Print a Fraction as Bits or ERROR (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-5-2-binary-to-string](https://breejeshrathod.com/blog/en/ctci-5-2-binary-to-string)
+- **Date:** 2025-11-24
+- **Tags:** Algorithms
+
+CTCI-style problem 5.2 for beginners: take a double in (0, 1), print its binary fraction string, or ERROR if it needs more than 32 bits after the point. Multiply-by-2 method in plain Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 5.2 for beginners: take a double in (0, 1), print its binary fraction string, or ERROR if it needs more than 32 bits after the point. Multipl...
+
+### CTCI 2.4 Partition: Split a Linked List Around x
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-2-4-partition](https://breejeshrathod.com/blog/en/ctci-2-4-partition)
+- **Date:** 2025-11-23
+- **Tags:** Algorithms
+
+Partition a singly linked list so every node less than x comes before every node greater than or equal to x. Two-list merge in Java, plus a short head/tail grow note.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** Partition a singly linked list so every node less than x comes before every node greater than or equal to x. Two-list merge in Java, plus a short head/tail grow...
+
+### Hash Table vs STL Map: C++ Container Differences (CTCI 12.3)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-12-3-hash-table-vs-stl-map](https://breejeshrathod.com/blog/en/ctci-12-3-hash-table-vs-stl-map)
+- **Date:** 2025-11-21
+- **Tags:** Algorithms
+
+CTCI problem 12.3: deep technical breakdown comparing std::map (Red-Black Tree O(log N)) and std::unordered_map (Hash Table O(1)).
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 12.3 technical mechanics.
+> * **The Approach:** CTCI problem 12.3: deep technical breakdown comparing std::map (Red-Black Tree O(log N)) and std::unordered_map (Hash Table O(1)).
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Permutations without Dups: All Orders of a Unique String (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-8-7-permutations-without-dups](https://breejeshrathod.com/blog/en/ctci-8-7-permutations-without-dups)
+- **Date:** 2025-11-20
+- **Tags:** Algorithms
+
+CTCI-style problem 8.7 for beginners: list every permutation of a string whose characters are all different. Backtracking with a used-char set, plain Java, and a short walkthrough for abc.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 8.7 for beginners: list every permutation of a string whose characters are all different. Backtracking with a used-char set, plain Java, and ...
+
+### Random Set: Generate Uniform Random Subset of Size M from Array of Size N (CTCI 17.3)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-3-random-set](https://breejeshrathod.com/blog/en/ctci-17-3-random-set)
+- **Date:** 2025-11-18
+- **Tags:** Algorithms
+
+CTCI problem 17.3: sample a random subset of size m from an array of n elements uniformly.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.3 technical mechanics.
+> * **The Approach:** CTCI problem 17.3: sample a random subset of size m from an array of n elements uniformly.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Delete Middle Node: Remove a Node Without Head Access (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-2-3-delete-middle-node](https://breejeshrathod.com/blog/en/ctci-2-3-delete-middle-node)
+- **Date:** 2025-11-17
+- **Tags:** Algorithms
+
+CTCI-style problem 2.3: delete a middle node of a singly linked list when you only hold a pointer to that node. Copy the next value, skip the next node, and know why the last node fails.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 2.3: delete a middle node of a singly linked list when you only hold a pointer to that node. Copy the next value, skip the next node, and kno...
+
+### Airflow vs Argo Workflows: Pick the Orchestrator That Matches Your Runtime
+
+- **URL:** [https://breejeshrathod.com/blog/en/airflow-vs-argo-workflows](https://breejeshrathod.com/blog/en/airflow-vs-argo-workflows)
+- **Date:** 2025-11-15
+- **Tags:** DevOps, Backend
+
+Python DAGs and a metadata DB, or Kubernetes-native steps and YAML. When Airflow still wins, when Argo Workflows is the cleaner fit, and when people mix them up with Argo CD.
+
+> People say "Airflow vs Argo" like it is one product face-off. It is not....
+
+### Missing Number: Find Missing Integer from 0 to N Using Bit Operations (CTCI 17.4)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-4-missing-number](https://breejeshrathod.com/blog/en/ctci-17-4-missing-number)
+- **Date:** 2025-11-14
+- **Tags:** Algorithms
+
+CTCI problem 17.4: find missing integer in array from 0 to N where array elements can only be accessed via fetchBit(i, j).
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.4 technical mechanics.
+> * **The Approach:** CTCI problem 17.4: find missing integer in array from 0 to N where array elements can only be accessed via fetchBit(i, j).
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Synchronized Methods: Java Object Locks & Class Locks (CTCI 15.6)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-15-6-synchronized-methods](https://breejeshrathod.com/blog/en/ctci-15-6-synchronized-methods)
+- **Date:** 2025-11-12
+- **Tags:** Algorithms
+
+CTCI problem 15.6: understanding thread blocking behavior between synchronized instance methods vs static class methods in Java.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 15.6 technical mechanics.
+> * **The Approach:** CTCI problem 15.6: understanding thread blocking behavior between synchronized instance methods vs static class methods in Java.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Shrinking Your Docker Images: The Power of Multi-Stage Builds
+
+- **URL:** [https://breejeshrathod.com/blog/en/docker-multi-stage-builds](https://breejeshrathod.com/blog/en/docker-multi-stage-builds)
+- **Date:** 2025-11-11
+- **Tags:** Containers, DevOps
+
+How multi-stage Docker builds cut production image size, with real benchmarks across Go, Node, Java, and Python.
+
+> Large container images slow down deployments, burn registry storage, and widen your attack surface. If the production image still contains compilers, test runners, and build-time tooling, you are shipping dead weight....
+
+### Pastebin: Design a Scalable Text Storage & Snippet Service (CTCI 9.8)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-9-8-pastebin](https://breejeshrathod.com/blog/en/ctci-9-8-pastebin)
+- **Date:** 2025-11-09
+- **Tags:** Algorithms
+
+CTCI problem 9.8: full system design of a Pastebin service supporting unique short key generation, custom expiration, and high-throughput reads.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 9.8 with production-grade efficiency.
+> * **The Approach:** CTCI problem 9.8: full system design of a Pastebin service supporting unique short key generation, custom expiration, and high-throughput reads.
+> * **Complexity:** Optimal Time and Sp...
+
+### CTCI 1.7 Rotate Matrix: Turn an NxN Grid 90 Degrees In Place (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-1-7-rotate-matrix](https://breejeshrathod.com/blog/en/ctci-1-7-rotate-matrix)
+- **Date:** 2025-11-08
+- **Tags:** Algorithms
+
+Rotate an NxN matrix 90 degrees clockwise without a second matrix. Layer-by-layer 4-way swap in Java, with text diagrams and edge cases for interviews.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** Rotate an NxN matrix 90 degrees clockwise without a second matrix. Layer-by-layer 4-way swap in Java, with text diagrams and edge cases for interviews.
+> * **Co...
+
+### Virtual Functions: How vptr and vtable Work in C++ (CTCI 12.4)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-12-4-virtual-functions](https://breejeshrathod.com/blog/en/ctci-12-4-virtual-functions)
+- **Date:** 2025-11-06
+- **Tags:** Algorithms
+
+CTCI problem 12.4: explaining dynamic dispatch, vtable, and vptr layout in C++ runtime polymorphism.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 12.4 technical mechanics.
+> * **The Approach:** CTCI problem 12.4: explaining dynamic dispatch, vtable, and vptr layout in C++ runtime polymorphism.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Back-of-the-Envelope Estimation for System Design Interviews
+
+- **URL:** [https://breejeshrathod.com/blog/en/design-back-of-envelope-estimation](https://breejeshrathod.com/blog/en/design-back-of-envelope-estimation)
+- **Date:** 2025-11-05
+- **Tags:** System Design
+
+Learn rough capacity math for interviews: QPS, storage, bandwidth, and latency with everyday analogies, one slow worked example, and a friend-level recap.
+
+> > **TL;DR**
+> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Insight:** Learn rough capacity math for interviews: QPS, storage, bandwidth, and latency with everyday analogies, one slow worke...
+
+### Ants on a Triangle: Probability They Never Collide (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-6-4-ants-on-a-triangle](https://breejeshrathod.com/blog/en/ctci-6-4-ants-on-a-triangle)
+- **Date:** 2025-11-04
+- **Tags:** Algorithms
+
+CTCI-style problem 6.4 for beginners: three ants on triangle vertices each pick a random direction. Count the 8 outcomes, find when they only chase, and get probability 1/4. Java enumeration included.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 6.4 for beginners: three ants on triangle vertices each pick a random direction. Count the 8 outcomes, find when they only chase, and get pro...
+
+### Successor: In-Order Next Node in a BST (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-4-6-successor](https://breejeshrathod.com/blog/en/ctci-4-6-successor)
+- **Date:** 2025-11-02
+- **Tags:** Algorithms
+
+CTCI-style problem 4.6 for beginners: find the in-order successor of a node in a binary search tree when every node has a parent link. Right-subtree leftmost, or climb parents until you are not a right child.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 4.6 for beginners: find the in-order successor of a node in a binary search tree when every node has a parent link. Right-subtree leftmost, o...
+
+### Object Reflection: How Java Reflection Works (CTCI 13.4)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-13-4-object-reflection](https://breejeshrathod.com/blog/en/ctci-13-4-object-reflection)
+- **Date:** 2025-11-01
+- **Tags:** Algorithms
+
+CTCI problem 13.4: how Java Reflection API allows inspecting classes, invoking methods, and instantiating objects at runtime.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 13.4 technical mechanics.
+> * **The Approach:** CTCI problem 13.4: how Java Reflection API allows inspecting classes, invoking methods, and instantiating objects at runtime.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Number Max: Find Maximum of Two Numbers Without Comparison Operators (CTCI 16.7)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-7-number-max](https://breejeshrathod.com/blog/en/ctci-16-7-number-max)
+- **Date:** 2025-10-30
+- **Tags:** Algorithms
+
+CTCI problem 16.7: find maximum of two integers without using if-else or comparison operators using bitwise sign shift.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.7 technical mechanics.
+> * **The Approach:** CTCI problem 16.7: find maximum of two integers without using if-else or comparison operators using bitwise sign shift.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### CTCI 1.4 Palindrome Permutation in Java: Count Odds, Not Rearrangements
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-1-4-palindrome-permutation](https://breejeshrathod.com/blog/en/ctci-1-4-palindrome-permutation)
+- **Date:** 2025-10-29
+- **Tags:** Algorithms
+
+Check if any rearrangement of a string is a palindrome. Frequency counts, at most one odd character, optional space and case rules, and clean Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** Check if any rearrangement of a string is a palindrome. Frequency counts, at most one odd character, optional space and case rules, and clean Java.
+> * **Comple...
+
+### Multi Search: Search Multiple Small Strings in Large Text via Aho-Corasick / Trie (CTCI 17.17)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-17-multi-search](https://breejeshrathod.com/blog/en/ctci-17-17-multi-search)
+- **Date:** 2025-10-27
+- **Tags:** Algorithms
+
+CTCI problem 17.17: search a big string for all occurrences of a set of smaller target strings using Suffix Trie.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.17 technical mechanics.
+> * **The Approach:** CTCI problem 17.17: search a big string for all occurrences of a set of smaller target strings using Suffix Trie.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Conversion: How Many Bits Flip to Turn A into B (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-5-6-conversion](https://breejeshrathod.com/blog/en/ctci-5-6-conversion)
+- **Date:** 2025-10-26
+- **Tags:** Algorithms
+
+CTCI-style problem 5.6 for beginners: count the bits you must flip to convert integer A into B. XOR the two numbers, then count the ones. Brian Kernighan loop and Integer.bitCount.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 5.6 for beginners: count the bits you must flip to convert integer A into B. XOR the two numbers, then count the ones. Brian Kernighan loop a...
+
+### Master Mind: Calculate Hits and Pseudo-Hits in Mastermind (CTCI 16.15)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-15-master-mind](https://breejeshrathod.com/blog/en/ctci-16-15-master-mind)
+- **Date:** 2025-10-24
+- **Tags:** Algorithms
+
+CTCI problem 16.15: compute the number of hits (exact match) and pseudo-hits (color match wrong slot) in Mastermind.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.15 technical mechanics.
+> * **The Approach:** CTCI problem 16.15: compute the number of hits (exact match) and pseudo-hits (color match wrong slot) in Mastermind.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Sub Sort: Find Minimum Subarray Index Range to Sort Entire Array (CTCI 16.16)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-16-sub-sort](https://breejeshrathod.com/blog/en/ctci-16-16-sub-sort)
+- **Date:** 2025-10-23
+- **Tags:** Algorithms
+
+CTCI problem 16.16: find smallest index range (m, n) such that sorting subarray array[m..n] sorts the entire array.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.16 technical mechanics.
+> * **The Approach:** CTCI problem 16.16: find smallest index range (m, n) such that sorting subarray array[m..n] sorts the entire array.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Towers of Hanoi: Move n Disks With Three Pegs (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-8-6-towers-of-hanoi](https://breejeshrathod.com/blog/en/ctci-8-6-towers-of-hanoi)
+- **Date:** 2025-10-21
+- **Tags:** Algorithms
+
+CTCI-style problem 8.6 for beginners: classic Towers of Hanoi with three pegs and n disks. Recursive move of the top tower, Java stacks for each peg.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 8.6 for beginners: classic Towers of Hanoi with three pegs and n disks. Recursive move of the top tower, Java stacks for each peg.
+> * **Comp...
+
+### Parking Lot: Multi-Level Spots for Motorcycle, Car, and Bus (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-7-4-parking-lot](https://breejeshrathod.com/blog/en/ctci-7-4-parking-lot)
+- **Date:** 2025-10-20
+- **Tags:** Algorithms
+
+CTCI-style problem 7.4 for beginners: design a multi-level parking lot with motorcycle, compact, and large spots. Park motorcycles, cars, and buses under size rules, with clean Java classes.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 7.4 for beginners: design a multi-level parking lot with motorcycle, compact, and large spots. Park motorcycles, cars, and buses under size r...
+
+### Poison: Find One Poisoned Bottle with 10 Strips in One Month (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-6-10-poison](https://breejeshrathod.com/blog/en/ctci-6-10-poison)
+- **Date:** 2025-10-18
+- **Tags:** Algorithms
+
+CTCI-style problem 6.10 for beginners: 1000 bottles, one poisoned, 10 test strips, results take a month. Encode each bottle as a bit pattern so one round of sips names the bottle.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 6.10 for beginners: 1000 bottles, one poisoned, 10 test strips, results take a month. Encode each bottle as a bit pattern so one round of sip...
+
+### Three in One: Three Stacks in a Single Array (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-3-1-three-in-one](https://breejeshrathod.com/blog/en/ctci-3-1-three-in-one)
+- **Date:** 2025-10-17
+- **Tags:** Algorithms
+
+CTCI-style problem 3.1 for beginners: implement three stacks with one array. Fixed equal slices, a sizes[] array, and a clean FixedMultiStack in Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 3.1 for beginners: implement three stacks with one array. Fixed equal slices, a sizes[] array, and a clean FixedMultiStack in Java.
+> * **Com...
+
+### Design a URL Shortener: Encoding, Storage, Cache, Redirects, and Scale
+
+- **URL:** [https://breejeshrathod.com/blog/en/design-url-shortener](https://breejeshrathod.com/blog/en/design-url-shortener)
+- **Date:** 2025-10-16
+- **Tags:** System Design
+
+URL shortener system design explained for beginners: coat-check codes, create and redirect walk-throughs, Base62 encoding, storage, cache, and how to scale step by step.
+
+> > **TL;DR**
+> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Insight:** URL shortener system design explained for beginners: coat-check codes, create and redirect walk-throughs, Base62 encod...
+
+### Power Set: All Subsets via Recursion and Bit Masks (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-8-4-power-set](https://breejeshrathod.com/blog/en/ctci-8-4-power-set)
+- **Date:** 2025-10-14
+- **Tags:** Algorithms
+
+CTCI-style problem 8.4 for beginners: return every subset of a set, including empty and full. Recursive build from smaller power sets, optional bit-mask enumeration, and Java code.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 8.4 for beginners: return every subset of a set, including empty and full. Recursive build from smaller power sets, optional bit-mask enumera...
+
+### Number Swapper: Swap Two Numbers In-Place Without Temporary Variables (CTCI 16.1)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-1-number-swapper](https://breejeshrathod.com/blog/en/ctci-16-1-number-swapper)
+- **Date:** 2025-10-13
+- **Tags:** Algorithms
+
+CTCI problem 16.1: swap two numbers in-place using arithmetic addition/subtraction or bitwise XOR logic.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.1 technical mechanics.
+> * **The Approach:** CTCI problem 16.1: swap two numbers in-place using arithmetic addition/subtraction or bitwise XOR logic.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### CTCI 1.9 String Rotation: One isSubstring Call
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-1-9-string-rotation](https://breejeshrathod.com/blog/en/ctci-1-9-string-rotation)
+- **Date:** 2025-10-11
+- **Tags:** Algorithms
+
+Check whether s2 is a rotation of s1 with a single isSubstring call: concatenate s1 with itself and ask if s2 lives inside. Java walkthrough for beginners.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** Check whether s2 is a rotation of s1 with a single isSubstring call: concatenate s1 with itself and ask if s2 lives inside. Java walkthrough for beginners.
+> * ...
+
+### Binary Search Patterns That Keep Showing Up
+
+- **URL:** [https://breejeshrathod.com/blog/en/binary-search-patterns](https://breejeshrathod.com/blog/en/binary-search-patterns)
+- **Date:** 2025-10-10
+- **Tags:** Algorithms
+
+Classic binary search, lower and upper bound, answer-space search, and the off-by-one traps that burn interviews and production code. Templates you can reuse.
+
+> Binary search is not one trick. Interviews and production code keep reusing a few shapes: find a value, find a boundary, and search over the *answer* instead of the array. Most bugs are not "I forgot log n." They are off-by-one mistakes in the loop invariant....
+
+### Personal Financial Manager: Bank Account Aggregation System (CTCI 9.7)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-9-7-personal-financial-manager](https://breejeshrathod.com/blog/en/ctci-9-7-personal-financial-manager)
+- **Date:** 2025-10-08
+- **Tags:** Algorithms
+
+CTCI problem 9.7: architecture for a personal finance app connecting multiple bank feeds, categorizing transactions, and generating insights.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 9.7 with production-grade efficiency.
+> * **The Approach:** CTCI problem 9.7: architecture for a personal finance app connecting multiple bank feeds, categorizing transactions, and generating insights.
+> * **Complexity:** Optimal Time and Space...
+
+### Reverse String: In-Place C-Style Null-Terminated String Reverse (CTCI 12.2)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-12-2-reverse-string](https://breejeshrathod.com/blog/en/ctci-12-2-reverse-string)
+- **Date:** 2025-10-07
+- **Tags:** Algorithms
+
+CTCI problem 12.2 in C++: reverse a null-terminated C-style string in-place using pointer arithmetic.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 12.2 technical mechanics.
+> * **The Approach:** CTCI problem 12.2 in C++: reverse a null-terminated C-style string in-place using pointer arithmetic.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Clean Architecture for Backends That Stay Maintainable
+
+- **URL:** [https://breejeshrathod.com/blog/en/clean-architecture-backends](https://breejeshrathod.com/blog/en/clean-architecture-backends)
+- **Date:** 2025-10-05
+- **Tags:** Backend
+
+Layers, the dependency rule, and use cases in real backend services. What pays off, what turns into ceremony, and when a simpler layout is the better call.
+
+> Most backend rewrites start the same way. Business rules live in controllers. Controllers talk to the ORM. The ORM leaks into tests. Six months later, changing a payment rule means touching HTTP handlers, SQL, and a queue consumer that nobody remembered. Clean architecture is a set of habits that sl...
+
+### Return from Finally: Try-Catch-Finally Execution Order in Java (CTCI 13.2)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-13-2-return-from-finally](https://breejeshrathod.com/blog/en/ctci-13-2-return-from-finally)
+- **Date:** 2025-10-04
+- **Tags:** Algorithms
+
+CTCI problem 13.2: how return statements in try, catch, and finally blocks interact in Java runtime execution.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 13.2 technical mechanics.
+> * **The Approach:** CTCI problem 13.2: how return statements in try, catch, and finally blocks interact in Java runtime execution.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### The Heavy Pill: Find the Heavy Bottle with One Weighing (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-6-1-the-heavy-pill](https://breejeshrathod.com/blog/en/ctci-6-1-the-heavy-pill)
+- **Date:** 2025-10-02
+- **Tags:** Algorithms
+
+CTCI-style problem 6.1 for beginners: 20 pill bottles, one bottle has 1.1g pills instead of 1.0g. Identify it with a single scale weighing by taking 1, 2, ..., 20 pills and reading the weight excess.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 6.1 for beginners: 20 pill bottles, one bottle has 1.1g pills instead of 1.0g. Identify it with a single scale weighing by taking 1, 2, ..., ...
+
+### Build a Manifest V3 Chrome Extension from Scratch
+
+- **URL:** [https://breejeshrathod.com/blog/en/chrome-extension-manifest-v3](https://breejeshrathod.com/blog/en/chrome-extension-manifest-v3)
+- **Date:** 2025-10-01
+- **Tags:** Web Development
+
+Service workers, content scripts, permissions, and the pitfalls that waste an afternoon. A small word-count extension you can load unpacked today.
+
+> Chrome Web Store only accepts Manifest V3 extensions now. If your last extension still used a persistent background page, `browserAction`, or blocking `webRequest`, that model is gone. The replacement is a short-lived **service worker**, tighter permissions, and a clearer split between page code and...
+
+### Context Switch: Measuring Thread vs Process Context Switching (CTCI 15.2)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-15-2-context-switch](https://breejeshrathod.com/blog/en/ctci-15-2-context-switch)
+- **Date:** 2025-09-29
+- **Tags:** Algorithms
+
+CTCI problem 15.2: mechanics of OS context switching, CPU register saving, TLB flushing, and cache misses.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 15.2 technical mechanics.
+> * **The Approach:** CTCI problem 15.2: mechanics of OS context switching, CPU register saving, TLB flushing, and cache misses.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Design a Chat System: Walkie-Talkies, Post Offices, and Green Ticks
+
+- **URL:** [https://breejeshrathod.com/blog/en/design-chat-system](https://breejeshrathod.com/blog/en/design-chat-system)
+- **Date:** 2025-09-28
+- **Tags:** System Design
+
+Chat system design for absolute beginners: live online path vs history storage, 1:1 and small groups, presence, delivery ticks, and how to explain the whole design to a friend.
+
+> > **TL;DR**
+> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Insight:** Chat system design for absolute beginners: live online path vs history storage, 1:1 and small groups, presence, delive...
+
+### Duplicate URLs: Detect Duplicates in 10 Billion URLs (CTCI 9.4)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-9-4-duplicate-urls](https://breejeshrathod.com/blog/en/ctci-9-4-duplicate-urls)
+- **Date:** 2025-09-27
+- **Tags:** Algorithms
+
+CTCI problem 9.4: how to identify duplicate URLs in a dataset of 10 billion URLs with strict RAM constraints using Bloom Filters and External Hash Partitioning.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 9.4 with production-grade efficiency.
+> * **The Approach:** CTCI problem 9.4: how to identify duplicate URLs in a dataset of 10 billion URLs with strict RAM constraints using Bloom Filters and External Hash Partitioning.
+> * **Complexity:** Opt...
+
+### No Test Tools: Testing Software Without Automation Frameworks (CTCI 11.4)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-11-4-no-test-tools](https://breejeshrathod.com/blog/en/ctci-11-4-no-test-tools)
+- **Date:** 2025-09-25
+- **Tags:** Algorithms
+
+CTCI problem 11.4: how to build an in-house testing apply and load test without third-party frameworks.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 11.4 technical mechanics.
+> * **The Approach:** CTCI problem 11.4: how to build an in-house testing apply and load test without third-party frameworks.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### How HTTPS and TLS Work for Developers: Handshake, Certificates, SNI, Misconfigs
+
+- **URL:** [https://breejeshrathod.com/blog/en/how-https-tls-works](https://breejeshrathod.com/blog/en/how-https-tls-works)
+- **Date:** 2025-09-24
+- **Tags:** Security, Networking
+
+A practical map of TLS for people who ship web apps: what the handshake actually does, how certificates prove identity, why SNI matters on shared IPs, and the misconfigs that still break production.
+
+> HTTPS is HTTP over TLS. The browser (or your service client) opens a TCP connection, then runs a **TLS handshake** so both sides agree on keys and the client can check that the server is who it claims to be. After that, application bytes (HTTP/1.1, HTTP/2, HTTP/3 over QUIC) ride encrypted on the rec...
+
+### Dining Philosophers: Preventing Deadlock with Resource Ordering (CTCI 15.3)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-15-3-dining-philosophers](https://breejeshrathod.com/blog/en/ctci-15-3-dining-philosophers)
+- **Date:** 2025-09-22
+- **Tags:** Algorithms
+
+CTCI problem 15.3: solving the classic Dining Philosophers deadlock using lock hierarchy and strict resource acquisition order.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 15.3 technical mechanics.
+> * **The Approach:** CTCI problem 15.3: solving the classic Dining Philosophers deadlock using lock hierarchy and strict resource acquisition order.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Sort Stack: Order a Stack With One Temporary Stack (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-3-5-sort-stack](https://breejeshrathod.com/blog/en/ctci-3-5-sort-stack)
+- **Date:** 2025-09-21
+- **Tags:** Algorithms
+
+CTCI-style problem 3.5 for beginners: sort a stack so the smallest items sit on top. Only one extra stack allowed. Insertion-sort thinking in plain Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 3.5 for beginners: sort a stack so the smallest items sit on top. Only one extra stack allowed. Insertion-sort thinking in plain Java.
+> * **...
+
+### Fargate vs EC2 for Always-On Services: When the Premium Stops Making Sense
+
+- **URL:** [https://breejeshrathod.com/blog/en/fargate-vs-ec2-always-on](https://breejeshrathod.com/blog/en/fargate-vs-ec2-always-on)
+- **Date:** 2025-09-19
+- **Tags:** AWS, Cloud
+
+Fargate is great for bursty work. For APIs and workers that never sleep, the per-vCPU premium adds up. Here is the 2026 cost math and the ops trade-offs.
+
+> Fargate is the default answer in a lot of architecture reviews. No AMIs. No capacity providers. No "who patched the node." You define CPU and memory, ship a task, and AWS runs it....
+
+### Mistake: Debugging an Unsigned Loop Bug in C/Java (CTCI 11.1)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-11-1-mistake](https://breejeshrathod.com/blog/en/ctci-11-1-mistake)
+- **Date:** 2025-09-18
+- **Tags:** Algorithms
+
+CTCI problem 11.1: find the flaw in an unsigned integer countdown loop causing an infinite execution bug.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 11.1 technical mechanics.
+> * **The Approach:** CTCI problem 11.1: find the flaw in an unsigned integer countdown loop causing an infinite execution bug.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Rand7 from Rand5: Implement Random Number Generator 1 to 7 (CTCI 16.23)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-23-rand7-from-rand5](https://breejeshrathod.com/blog/en/ctci-16-23-rand7-from-rand5)
+- **Date:** 2025-09-16
+- **Tags:** Algorithms
+
+CTCI problem 16.23: generate uniform random number from 1 to 7 using only a rand5() random generator.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.23 technical mechanics.
+> * **The Approach:** CTCI problem 16.23: generate uniform random number from 1 to 7 using only a rand5() random generator.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### CTCI 1.6 String Compression in Java: Counts and StringBuilder
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-1-6-string-compression](https://breejeshrathod.com/blog/en/ctci-1-6-string-compression)
+- **Date:** 2025-09-15
+- **Tags:** Algorithms
+
+Compress runs of letters (aabcccccaaa to a2b1c5a3) with StringBuilder, then return the original when compression does not help. Java walkthrough with edge cases.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** Compress runs of letters (aabcccccaaa to a2b1c5a3) with StringBuilder, then return the original when compression does not help. Java walkthrough with edge cases...
+
+### Calculator: Evaluate Mathematical Expression String (CTCI 16.26)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-26-calculator](https://breejeshrathod.com/blog/en/ctci-16-26-calculator)
+- **Date:** 2025-09-13
+- **Tags:** Algorithms
+
+CTCI problem 16.26: evaluate arithmetic expression string containing addition, subtraction, multiplication, and division.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.26 technical mechanics.
+> * **The Approach:** CTCI problem 16.26: evaluate arithmetic expression string containing addition, subtraction, multiplication, and division.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### CTCI 1.3 URLify: Replace Spaces with %20 from the End
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-1-3-urlify](https://breejeshrathod.com/blog/en/ctci-1-3-urlify)
+- **Date:** 2025-09-12
+- **Tags:** Algorithms
+
+In-place URL encoding for a char array with true length. Count spaces, walk backward, write %20 without stomping characters you still need.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** In-place URL encoding for a char array with true length. Count spaces, walk backward, write %20 without stomping characters you still need.
+> * **Complexity:** ...
+
+### Sum Swap: Find Element Pair to Swap for Equal Array Sums (CTCI 16.21)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-21-sum-swap](https://breejeshrathod.com/blog/en/ctci-16-21-sum-swap)
+- **Date:** 2025-09-10
+- **Tags:** Algorithms
+
+CTCI problem 16.21: find pair of values (one from each array) to swap so both arrays have equal sum in O(A + B) time.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.21 technical mechanics.
+> * **The Approach:** CTCI problem 16.21: find pair of values (one from each array) to swap so both arrays have equal sum in O(A + B) time.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Sorted Search No Size: Search Listy Without Size Method (CTCI 10.4)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-10-4-sorted-search-no-size](https://breejeshrathod.com/blog/en/ctci-10-4-sorted-search-no-size)
+- **Date:** 2025-09-09
+- **Tags:** Algorithms
+
+CTCI problem 10.4 in Java: find an element in a Listy data structure lacking a size method by exponentially bounding the search range.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 10.4 with production-grade efficiency.
+> * **The Approach:** CTCI problem 10.4 in Java: find an element in a Listy data structure lacking a size method by exponentially bounding the search range.
+> * **Complexity:** Optimal Time and Space compl...
+
+### Web Crawler: Design a Scalable Distributed Web Crawler (CTCI 9.3)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-9-3-web-crawler](https://breejeshrathod.com/blog/en/ctci-9-3-web-crawler)
+- **Date:** 2025-09-08
+- **Tags:** Algorithms
+
+CTCI problem 9.3: architecture for a distributed web crawler that handles duplicate URLs, politeness policies, and host DNS bottlenecks.
+
+> > **TL;DR**
+> * **The Problem:** Mastering CTCI problem 9.3 with production-grade efficiency.
+> * **The Approach:** CTCI problem 9.3: architecture for a distributed web crawler that handles duplicate URLs, politeness policies, and host DNS bottlenecks.
+> * **Complexity:** Optimal Time and Space comp...
+
+### Shortest Supersequence: Shortest Subarray Containing All Target Elements (CTCI 17.18)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-18-shortest-supersequence](https://breejeshrathod.com/blog/en/ctci-17-18-shortest-supersequence)
+- **Date:** 2025-09-06
+- **Tags:** Algorithms
+
+CTCI problem 17.18: find the shortest subarray of a larger array that contains all elements from a smaller target set using sliding window.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.18 technical mechanics.
+> * **The Approach:** CTCI problem 17.18: find the shortest subarray of a larger array that contains all elements from a smaller target set using sliding window.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### T9: Predict Words from Keypad Digits via Trie / Precomputation (CTCI 16.20)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-20-t9](https://breejeshrathod.com/blog/en/ctci-16-20-t9)
+- **Date:** 2025-09-05
+- **Tags:** Algorithms
+
+CTCI problem 16.20: return matching valid dictionary words for a T9 mobile numeric keypad sequence.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.20 technical mechanics.
+> * **The Approach:** CTCI problem 16.20: return matching valid dictionary words for a T9 mobile numeric keypad sequence.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Word Frequencies: Efficient Frequency Lookup in Large Text (CTCI 16.2)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-2-word-frequencies](https://breejeshrathod.com/blog/en/ctci-16-2-word-frequencies)
+- **Date:** 2025-09-03
+- **Tags:** Algorithms
+
+CTCI problem 16.2: design a precomputed HashMap lookup table to query word frequencies in O(1) time.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.2 technical mechanics.
+> * **The Approach:** CTCI problem 16.2: design a precomputed HashMap lookup table to query word frequencies in O(1) time.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Robot in a Grid: Find a Right/Down Path Around Blocked Cells (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-8-2-robot-in-a-grid](https://breejeshrathod.com/blog/en/ctci-8-2-robot-in-a-grid)
+- **Date:** 2025-09-02
+- **Tags:** Algorithms
+
+CTCI-style problem 8.2 for beginners: robot goes top-left to bottom-right with only right and down moves. Some cells are off. Memoized DFS (or DP) finds one path in Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 8.2 for beginners: robot goes top-left to bottom-right with only right and down moves. Some cells are off. Memoized DFS (or DP) finds one pat...
+
+### Keep Learning System Design: Building Blocks, Practice Order, and This Series
+
+- **URL:** [https://breejeshrathod.com/blog/en/design-interview-learning-path](https://breejeshrathod.com/blog/en/design-interview-learning-path)
+- **Date:** 2025-08-31
+- **Tags:** System Design
+
+After the classic interview designs, learn the reusable building blocks in plain English, follow a beginner practice order, and use this blog series as your study map.
+
+> > **TL;DR**
+> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Insight:** After the classic interview designs, learn the reusable building blocks in plain English, follow a beginner practice o...
+
+### Multiple Apartments: Query Tenants with Multiple Apartments in SQL (CTCI 14.1)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-14-1-multiple-apartments](https://breejeshrathod.com/blog/en/ctci-14-1-multiple-apartments)
+- **Date:** 2025-08-30
+- **Tags:** Algorithms
+
+CTCI problem 14.1: SQL query using GROUP BY and HAVING to find tenants renting more than one apartment.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 14.1 technical mechanics.
+> * **The Approach:** CTCI problem 14.1: SQL query using GROUP BY and HAVING to find tenants renting more than one apartment.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Design Google Drive: How a Magic Folder Works on Every Device
+
+- **URL:** [https://breejeshrathod.com/blog/en/design-google-drive](https://breejeshrathod.com/blog/en/design-google-drive)
+- **Date:** 2025-08-28
+- **Tags:** System Design
+
+Google Drive style storage for absolute beginners: upload, download, sync, chunks, versions, sharing, and what happens when two phones edit the same file offline.
+
+> > **TL;DR**
+> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Insight:** Google Drive style storage for absolute beginners: upload, download, sync, chunks, versions, sharing, and what happens...
+
+### AWS EC2 Pricing Demystified: On-Demand, Spot, and Reserved Instances
+
+- **URL:** [https://breejeshrathod.com/blog/en/aws-spot-vs-reserved-vs-on-demand](https://breejeshrathod.com/blog/en/aws-spot-vs-reserved-vs-on-demand)
+- **Date:** 2025-08-27
+- **Tags:** AWS, Cloud
+
+Compare AWS EC2 pricing models with real hourly costs, spot interruption mechanics, commitment risks, and a production hybrid strategy.
+
+> Cloud compute often consumes over half of an organization's monthly AWS bill. Yet many engineering teams default to On-Demand instances out of convenience. Others avoid Spot instances entirely after experiencing a single unexpected node termination, or lock themselves into 3-year commitments for wor...
+
+### Word Transformer: Transform One Word to Another via BFS (CTCI 17.22)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-22-word-transformer](https://breejeshrathod.com/blog/en/ctci-17-22-word-transformer)
+- **Date:** 2025-08-25
+- **Tags:** Algorithms
+
+CTCI problem 17.22: transform word A into word B by changing 1 letter at a time through dictionary words using Bidirectional BFS.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.22 technical mechanics.
+> * **The Approach:** CTCI problem 17.22: transform word A into word B by changing 1 letter at a time through dictionary words using Bidirectional BFS.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Kubernetes Concepts You Need to Ship a Service
+
+- **URL:** [https://breejeshrathod.com/blog/en/kubernetes-ship-a-service](https://breejeshrathod.com/blog/en/kubernetes-ship-a-service)
+- **Date:** 2025-08-24
+- **Tags:** Containers, DevOps, Cloud
+
+Pods, Deployments, Services, Ingress, probes, ConfigMaps, and Secrets: the minimal path to run one HTTP service on Kubernetes without a certification dump.
+
+> You do not need every Kubernetes object to ship a service. Most production APIs that land on a cluster use the same small stack: a **Pod** that runs the container, a **Deployment** that keeps the right number of Pods alive, a **Service** that gives them a stable network name, an **Ingress** (or Gate...
+
+### CTCI 2.7 Intersection: Find Where Two Lists Share a Node (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-2-7-intersection](https://breejeshrathod.com/blog/en/ctci-2-7-intersection)
+- **Date:** 2025-08-22
+- **Tags:** Algorithms
+
+Given two singly linked lists, return the first shared node by reference (not value). Same tail means they merge; align lengths, then walk together.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** Given two singly linked lists, return the first shared node by reference (not value). Same tail means they merge; align lengths, then walk together.
+> * **Compl...
+
+### Chess Test: How to Test a Computer Chess Game (CTCI 11.3)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-11-3-chess-test](https://breejeshrathod.com/blog/en/ctci-11-3-chess-test)
+- **Date:** 2025-08-21
+- **Tags:** Algorithms
+
+CTCI problem 11.3: comprehensive test suite design for a chess application covering game rules, AI engine, and UI.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 11.3 technical mechanics.
+> * **The Approach:** CTCI problem 11.3: comprehensive test suite design for a chess application covering game rules, AI engine, and UI.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### First Common Ancestor: LCA Without Parent Links (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-4-8-first-common-ancestor](https://breejeshrathod.com/blog/en/ctci-4-8-first-common-ancestor)
+- **Date:** 2025-08-20
+- **Tags:** Algorithms
+
+CTCI-style problem 4.8 for beginners: find the deepest common ancestor of two nodes in a binary tree (not necessarily a BST). Prefer one recursive pass that returns a status object; parent-link climb is the alternate.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 4.8 for beginners: find the deepest common ancestor of two nodes in a binary tree (not necessarily a BST). Prefer one recursive pass that ret...
+
+### Design a Rate Limiter: Algorithms, Redis Patterns, and Gateway Reality
+
+- **URL:** [https://breejeshrathod.com/blog/en/design-a-rate-limiter](https://breejeshrathod.com/blog/en/design-a-rate-limiter)
+- **Date:** 2025-08-18
+- **Tags:** System Design
+
+Rate limiting explained for absolute beginners: the club bouncer analogy, why limits exist, token buckets and sliding windows in plain language, Redis as a shared notebook, and one request walked end to end.
+
+> > **TL;DR**
+> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Insight:** Rate limiting explained for absolute beginners: the club bouncer analogy, why limits exist, token buckets and sliding ...
+
+### Debugger: What ((n & (n-1)) == 0) Really Checks (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-5-5-debugger](https://breejeshrathod.com/blog/en/ctci-5-5-debugger)
+- **Date:** 2025-08-17
+- **Tags:** Algorithms
+
+CTCI-style problem 5.5 for beginners: prove that n & (n-1) equals zero only when n has at most one bit set. Power of two, the zero trap, binary walk-throughs, and Java code.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 5.5 for beginners: prove that n & (n-1) equals zero only when n has at most one bit set. Power of two, the zero trap, binary walk-throughs, a...
+
+### Continuous Median: Track Streaming Median via Dual Heaps (CTCI 17.20)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-20-continuous-median](https://breejeshrathod.com/blog/en/ctci-17-20-continuous-median)
+- **Date:** 2025-08-15
+- **Tags:** Algorithms
+
+CTCI problem 17.20: track and maintain the median of a numerical data stream using a Max-Heap and Min-Heap.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.20 technical mechanics.
+> * **The Approach:** CTCI problem 17.20: track and maintain the median of a numerical data stream using a Max-Heap and Min-Heap.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Volume of Histogram: Trapping Rain Water DP / Two-Pointer Solution (CTCI 17.21)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-21-volume-of-histogram](https://breejeshrathod.com/blog/en/ctci-17-21-volume-of-histogram)
+- **Date:** 2025-08-14
+- **Tags:** Algorithms
+
+CTCI problem 17.21: compute total volume of water trapped between bars in a 2D histogram in O(N) time.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.21 technical mechanics.
+> * **The Approach:** CTCI problem 17.21: compute total volume of water trapped between bars in a 2D histogram in O(N) time.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Intersection: Find Intersection Point of Two Line Segments (CTCI 16.3)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-16-3-intersection](https://breejeshrathod.com/blog/en/ctci-16-3-intersection)
+- **Date:** 2025-08-12
+- **Tags:** Algorithms
+
+CTCI problem 16.3: compute the intersection point of two 2D line segments handling collinearity and slopes.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 16.3 technical mechanics.
+> * **The Approach:** CTCI problem 16.3: compute the intersection point of two 2D line segments handling collinearity and slopes.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Shuffle: Fisher-Yates Card Deck Shuffling Algorithm (CTCI 17.2)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-2-shuffle](https://breejeshrathod.com/blog/en/ctci-17-2-shuffle)
+- **Date:** 2025-08-11
+- **Tags:** Algorithms
+
+CTCI problem 17.2: shuffle a deck of cards uniformly using the Fisher-Yates (Knuth) in-place algorithm.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.2 technical mechanics.
+> * **The Approach:** CTCI problem 17.2: shuffle a deck of cards uniformly using the Fisher-Yates (Knuth) in-place algorithm.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Check Balanced: Height Difference at Most One (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-4-4-check-balanced](https://breejeshrathod.com/blog/en/ctci-4-4-check-balanced)
+- **Date:** 2025-08-09
+- **Tags:** Algorithms
+
+CTCI-style problem 4.4 for beginners: decide if a binary tree is balanced. Compute height in one pass and return a fail signal as soon as any node has subtree heights that differ by more than one.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 4.4 for beginners: decide if a binary tree is balanced. Compute height in one pass and return a fail signal as soon as any node has subtree h...
+
+### CTCI 2.2 Return Kth to Last: Two Pointers on a Linked List
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-2-2-return-kth-to-last](https://breejeshrathod.com/blog/en/ctci-2-2-return-kth-to-last)
+- **Date:** 2025-08-08
+- **Tags:** Algorithms
+
+Find the kth node from the end of a singly linked list. Walk the classic two-pointer gap of k, then a short recursive index wrapper, in plain Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** Find the kth node from the end of a singly linked list. Walk the classic two-pointer gap of k, then a short recursive index wrapper, in plain Java.
+> * **Comple...
+
+### The Masseuse: Maximize Non-Adjacent Appointment Minutes (CTCI 17.16)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-17-16-the-masseuse](https://breejeshrathod.com/blog/en/ctci-17-16-the-masseuse)
+- **Date:** 2025-08-06
+- **Tags:** Algorithms
+
+CTCI problem 17.16: optimal dynamic programming allocation of appointments with mandatory 15-min break between bookings.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 17.16 technical mechanics.
+> * **The Approach:** CTCI problem 17.16: optimal dynamic programming allocation of appointments with mandatory 15-min break between bookings.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Route Between Nodes: Path Search in a Directed Graph (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-4-1-route-between-nodes](https://breejeshrathod.com/blog/en/ctci-4-1-route-between-nodes)
+- **Date:** 2025-08-05
+- **Tags:** Algorithms
+
+CTCI-style problem 4.1 for beginners: given a directed graph, decide if there is a route from node S to node E. BFS preferred over DFS, with a simple GraphNode neighbors list in Java.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 4.1 for beginners: given a directed graph, decide if there is a route from node S to node E. BFS preferred over DFS, with a simple GraphNode ...
+
+### Permutations with Dups: Unique Strings via Frequency Map (Java)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-8-8-permutations-with-dups](https://breejeshrathod.com/blog/en/ctci-8-8-permutations-with-dups)
+- **Date:** 2025-08-03
+- **Tags:** Algorithms
+
+CTCI-style problem 8.8 for beginners: list every unique permutation of a string that may contain duplicate characters. Build a frequency map, backtrack by remaining counts, skip the n! blowup of naive swaps.
+
+> > **TL;DR**
+> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Approach:** CTCI-style problem 8.8 for beginners: list every unique permutation of a string that may contain duplicate characters. Build a frequency map, backtrack by remai...
+
+### Private Constructor: Inaccessible Constructors & Singleton Pattern in Java (CTCI 13.1)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-13-1-private-constructor](https://breejeshrathod.com/blog/en/ctci-13-1-private-constructor)
+- **Date:** 2025-08-02
+- **Tags:** Algorithms
+
+CTCI problem 13.1: why and how private constructors are used in Java for Singleton pattern and utility classes.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 13.1 technical mechanics.
+> * **The Approach:** CTCI problem 13.1: why and how private constructors are used in Java for Singleton pattern and utility classes.
+> * **Complexity:** Optimal Time and Memory bounds....
+
+### Copy Node: Deep Copy a Graph / Data Structure in C++ (CTCI 12.8)
+
+- **URL:** [https://breejeshrathod.com/blog/en/ctci-12-8-copy-node](https://breejeshrathod.com/blog/en/ctci-12-8-copy-node)
+- **Date:** 2025-08-01
+- **Tags:** Algorithms
+
+CTCI problem 12.8: deep copying a data structure containing pointers and cycle references using std::map pointer lookup.
+
+> > **TL;DR**
+> * **The Problem:** CTCI problem 12.8 technical mechanics.
+> * **The Approach:** CTCI problem 12.8: deep copying a data structure containing pointers and cycle references using std::map pointer lookup.
+> * **Complexity:** Optimal Time and Memory bounds....
+

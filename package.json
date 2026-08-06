@@ -6,9 +6,13 @@
     "dev": "vite",
     "start": "vite",
     "build": "npm run typecheck && vite build",
-    "ship": "npm run typecheck && vite build && firebase deploy",
+    "build:app": "vite build",
+    "ship": "npm run typecheck && vite build && firebase deploy --only hosting",
+    "ship:fast": "cross-env NODE_OPTIONS=\"--max-old-space-size=8192\" vite build && firebase deploy --only hosting",
+    "ship:full": "npm run typecheck && cross-env NODE_OPTIONS=\"--max-old-space-size=8192\" vite build && firebase deploy --only hosting",
+    "ship:nocheck": "cross-env NODE_OPTIONS=\"--max-old-space-size=8192\" vite build && firebase deploy --only hosting",
     "test": "vitest",
-    "typecheck": "tsc --project tsconfig.app.json --noEmit"
+    "typecheck": "tsc --project tsconfig.app.json --noEmit --incremental --tsBuildInfoFile .tsbuildinfo"
   },
   "private": true,
   "dependencies": {
@@ -45,6 +49,7 @@
     "@popperjs/core": "^2.11.8",
     "@types/node": "^20.11.0",
     "@types/prismjs": "^1.26.3",
+    "cross-env": "^10.1.0",
     "front-matter": "^4.0.2",
     "marked": "^18.0.6",
     "marked-gfm-heading-id": "^4.1.4",

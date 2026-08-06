@@ -1,57 +1,86 @@
 ---
 name: blog-post-formatter
-description: Formats portfolio blog posts with frontmatter, cover images, multi-language sync, and strict human writing voice (no AI-tone prose). Use whenever creating, editing, translating, or reviewing posts under src/content/blog/.
+description: World-class tech blog authoring & formatting skill. Formats portfolio blog posts with frontmatter, cover images, multi-language sync, strict human writing voice (no AI-tone prose), and industry-leading technical depth (benchmarks, architecture diagrams, trade-off matrices, production edge cases). Use whenever creating, editing, translating, or reviewing posts under src/content/blog/.
 ---
 
-# Blog Post Formatter Skill
+# World-Class Tech Content Creator & Blog Formatter Skill
 
-Use this skill when creating, editing, formatting, translating, or reviewing markdown (`.md`) articles for the portfolio website under `src/content/blog/`.
+Use this skill when creating, writing, editing, formatting, translating, or reviewing technical articles (`.md`) for the portfolio website under `src/content/blog/`.
 
-## Requirements
+This skill combines the editorial and technical standards of industry-leading tech engineering blogs:
+* **Dan Luu & Phil Eaton**: Empirical benchmark data, flame graphs/profiling results, zero handwaving, deep systems mechanics.
+* **Julia Evans (wizardzines)**: Clear visual mental models, diagnostic thought processes, step-by-step problem-solving journeys.
+* **ByteByteGo & Stripe Engineering**: Crisp architecture diagrams (ASCII/Mermaid/tables), high-signal executive TL;DR boxes, quantitative trade-off matrices.
+* **Cloudflare & Hugging Face**: Post-mortem honesty, exact reproduction commands, production gotchas, and low-level code accuracy.
 
-### 1. Frontmatter Format
-Every blog post must begin with standard YAML frontmatter:
+---
+
+## 1. Article Blueprint & Structural Standards
+
+Every article created or reviewed using this skill must follow this high-signal structural blueprint:
+
+### 1.1 Frontmatter Header
 ```yaml
 ---
-title: "[Post Title]"
-description: "[Short summary of the article for the list page]"
+title: "[Actionable, Specific Title — e.g. Why SQLite Handles 10,000 Writes/sec in Node.js]"
+description: "[1-2 sentence high-signal summary of the core insight or benchmark result]"
 date: YYYY-MM-DD
-tags: [Tag1, Tag2, Tag3]
+tags: [Technology1, Concept2, Benchmark3]
 coverImage: /assets/images/[image-name].webp
 previewImage: /assets/images/[image-name].webp
 ---
 ```
 
-### 2. Local Visual Assets (Cover Only)
-* **Cover Image:** Every article must have a high-quality cover image generated using `generate_image` based on the article's concept.
-* **WebP & Compression:** Convert generated cover images to `.webp` format, resize to a maximum width of `1000px`, and compress to ensure the final file size is under **150 KB** (to prevent performance issues when 1,000s of posts are added, while looking sharp on large screens).
-* **Inline Images (manual only):** Inline images in the post body are allowed when the user adds them or **explicitly asks** for specific ones (screenshots, diagrams, repo assets, etc.). **Do not generate or invent inline images by default** when creating or formatting a post—only produce the cover/preview image unless the user requests more. Preserve existing inline images when editing. Prefer existing project/repo URLs or paths the user provides; do not auto-generate decorative mid-article images. Cover/preview still go in `public/assets/images/` as local absolute paths (e.g. `/assets/images/my-image.webp`).
+### 1.2 Executive Summary (TL;DR Box)
+Place an executive summary box directly after frontmatter to respect the reader's time:
+```markdown
+> **TL;DR**
+> * **The Problem:** [Brief description of the bottleneck, bug, or limitation]
+> * **The Insight:** [The core technical discovery, architectural shift, or fix]
+> * **The Result:** [Quantified outcome: e.g. 84% latency drop, 3.2x throughput increase, 0 allocation overhead]
+```
 
-### 3. Multi-Language Synchronization
-Every post must be synced across all supported language subdirectories:
-* `src/content/blog/en/` (English)
-* `src/content/blog/es/` (Spanish)
-* `src/content/blog/fr/` (French)
-* `src/content/blog/hi/` (Hindi)
+### 1.3 Core Narrative & Technical Sections
+1. **The Real-World Context / Problem Setup**: Start with a concrete failure mode, production bottleneck, or engineering challenge. Avoid generic intros ("In today's fast-paced tech world...").
+2. **Mental Model & Architecture**: Visual diagram (ASCII flow, Mermaid, or Markdown tables) showing data flow, component interactions, or memory layout.
+3. **Empirical Proof & Code Breakdown**:
+   * Complete, runnable, or production-faithful code snippets.
+   * Precise comments pointing to non-obvious lines.
+   * Exact terminal commands to reproduce or benchmark locally.
+4. **Quantified Trade-off Matrix**: Side-by-side table comparing alternatives across latency, throughput, memory, cost, and complexity.
+5. **Production Pitfalls & Edge Cases**: Explicitly document where the solution breaks (e.g. memory leaks under load, race conditions, edge-case limits).
 
-When translating:
-* Translate titles, descriptions, headings, blockquotes, and prose content accurately.
-* Retain original code blocks, shell commands, and literal resource identifiers inside backticks or fenced code (filenames, CLI flags, image paths, URLs).
-* **Spanish / French:** keep common technology brand/product terms as in English when that is natural for the locale.
-* **Hindi (`hi/`) special rule (strict):** prose, titles, descriptions, tags, table headers, alt text, and markdown link labels must contain **no Latin-script English words**. Translate fully; when a technical or brand term has no common Hindi equivalent, write it in Devanagari (e.g. एप्पल, ओपनएआई, चैटजीपीटी, एपीआई, डॉकर, लैम्ब्डा). **Numbers in Hindi prose must use Devanagari digits** (`०-९`), including percentages, dates in body text, list markers, model version numbers in prose (e.g. जीपीटी-५.४, ९६%, २७ जुलाई). Keep Western digits only for machine-facing values: frontmatter `date`, file paths, URLs, and fenced code. Currency symbols stay as-is.
-* Sync frontmatter keys (`title`, `description`, `tags`) to match the target language, but keep `date`, `coverImage`, and `previewImage` identical.
-* Apply the **Human Writing Voice** rules below in every language. Do not reintroduce AI-tone punctuation or filler when translating.
-* If English prose is rewritten for voice, update es/fr/hi to match meaning and tone (not a word-for-word calque).
+---
 
-### 4. Human Writing Voice (Mandatory — No AI Tone)
+## 2. Industry-Leading Engineering Rigor
 
-Posts must read like a competent engineer wrote them: direct, specific, slightly uneven sentence rhythm. **Never ship prose that sounds like generic LLM output.**
+### 2.1 Quantified Claims Over Abstract Adjectives
+* Never state a system is "fast," "efficient," or "scalable."
+* Always quantify: `reduced p99 latency from 180ms to 14ms`, `cut memory overhead by 42 MB`, `handled 45,000 requests/sec with 0 drops`.
 
-This applies to **new posts, edits, and all translations**.
+### 2.2 Concrete Code & Diagnostics
+* Code snippets must be syntactically valid and idiomatic.
+* Show before-and-after diffs (` ```diff `) when demonstrating optimizations.
+* Provide exact CLI commands for reproduction (e.g. `wrk -t12 -c400 -d30s`, `perf record -g`, `go tool pprof`).
 
-#### 4.1 Banned punctuation (hard rules)
-* **Do not use em dashes (`—`) anywhere** in title, description, body, comments, or headings.
-* **Do not use en dashes (`–`)** for ranges or asides. Use a normal hyphen (`-`) for ranges (`500ms-2s`, `$25-$29`, `2048-8192`) or rewrite with words (`from 2 to 3 minutes`).
+### 2.3 Visual Architecture
+Use ASCII diagrams or Markdown tables for architectural clarity:
+```
++-------------------+      gRPC / HTTP/2      +-------------------+
+|  API Gateway      | ----------------------> |  Auth Service     |
+|  (Envoy / NGINX)  |                         |  (Go / Redis)     |
++-------------------+                         +-------------------+
+```
+
+---
+
+## 3. Human Writing Voice (Mandatory — Zero AI Tone)
+
+Articles must sound like an experienced, passionate systems engineer wrote them: direct, concrete, with natural sentence rhythm. **Never ship prose that sounds like generic LLM output.**
+
+### 3.1 Banned Punctuation (Hard Rules)
+* **Do NOT use em dashes (`—`) anywhere** in title, description, body, comments, or headings.
+* **Do NOT use en dashes (`–`)** for ranges or asides. Use a normal hyphen (`-`) for ranges (`500ms-2s`, `$25-$29`, `2048-8192`) or rewrite with words (`from 2 to 3 minutes`).
 * Prefer commas, periods, colons, parentheses, or separate sentences instead of dash asides.
 
 | Avoid | Prefer |
@@ -61,59 +90,66 @@ This applies to **new posts, edits, and all translations**.
 | `not instant — but acceptable` | `not instant. That is acceptable` / `not instant, but acceptable` |
 | `# scratch — absolute minimum` | `# scratch: absolute minimum` |
 
-#### 4.2 Banned or heavily restricted phrases
-Do **not** use these (or close paraphrases) in any language:
+### 3.2 Banned Phrases & Clichés
+Do **not** use these phrases (or close paraphrases) in any language:
 
-**Openers / transitions**
+**Openers / Transitions**
 * deep dive, let's dive, dive into, under the hood
 * In today's…, In this article…, Without further ado
 * Furthermore, Moreover, Additionally (as empty glue)
-* It's worth noting, It is important to note
-* At its core, In conclusion, At the end of the day
+* It's worth noting, It is important to note, At its core, In conclusion
 * Whether you are… (stock CTA ending)
 
-**Hype / filler**
+**Hype / Filler**
 * landscape of X has been rewritten / transformed
 * cutting-edge, state-of-the-art (unless quoting a product name)
 * robust, seamless / seamlessly, leverage, utilize (prefer *use*)
-* revolutionize, game-changer, silver bullet
-* embark, unlock, harness, foster, pivotal, multifaceted
-* tapestry, realm of, ever-evolving, testament to
-* fitness journeys, smart adding journey, "the magic of…"
-* Delve / delving
+* revolutionize, game-changer, silver bullet, paradigm shift
+* embark, unlock, harness, foster, pivotal, multifaceted, tapestry, realm of
 
-**Translation traps (do not invent AI-sounding equivalents)**
-* es: *análisis profundo*, *bala de plata*, *panorama de la concurrencia*, *viajes de fitness*, *de forma fluida/seamless*
-* fr: *plongée en profondeur*, *paysage de la concurrence*, *parcours de remise en forme*, *solution miracle*
-* hi: *गहरा विश्लेषण* as a stock opener, *परिदृश्य पूरी तरह से फिर से लिखा*, *जादू की छड़ी*, *फिटनेस यात्रा*
+### 3.3 Preferred Writing Style
+* Short to medium sentences. Vary rhythm naturally.
+* Say what something **is** or **does**, not that it is impressive.
+* Direct, descriptive headings (`Measuring GC Pauses under 10k RPS` instead of `The Magic of Garbage Collection`).
+* Actionable CTAs: `If you want to benchmark this on your machine, clone the repo and run make bench.`
 
-Also avoid Spanish conjunction **`y`** leaking into French prose (`gratuit y open-source` → `gratuit et open-source`).
+---
 
-#### 4.3 Preferred voice
-* Short and medium sentences. Vary length. One idea per sentence when explaining trade-offs.
-* Concrete nouns and numbers over abstract praise (`~1.4 GB model`, `max: 1`, `2-3 minutes`).
-* Say what something **is** or **does**, not that it is a paradigm shift.
-* CTAs: direct. Prefer *If you care about X, open the repo* over *Whether you are looking to…*
-* Headings: descriptive (`Creating Virtual Threads with Thread.ofVirtual()`), not theatrical (`The Magic of Thread.ofVirtual()`).
-* Comments in code samples: plain (`// persists across warm invocations`), not dash-heavy asides.
+## 4. Visual Assets & Cover Image Protocol
 
-#### 4.4 Before finishing any blog write/edit
-Run a quick self-check on **every language file you touched**:
-1. Search for `—` and `–` → must be **zero** matches.
-2. Search for banned phrases above → rewrite any hits.
-3. Read the title + description + first paragraph + conclusion out loud in your head: if it sounds like a template, rewrite once more in plainer language.
-4. If you changed English meaning or voice, sync es/fr/hi the same turn.
+* **Cover Image:** Every article must have a high-quality cover image generated using `generate_image` based on the article's concept.
+* **WebP & Compression:** Convert generated cover images to `.webp` format, resize to a maximum width of `1000px`, and compress so the final file size is under **150 KB** (for lightning-fast page loads).
+* **Inline Assets:** Preserve existing inline images. Do not invent decorative mid-article images unless requested. Inline architecture diagrams should be rendered via code blocks or SVG/tables where possible. Cover/preview images reside in `public/assets/images/` as local absolute paths (e.g. `/assets/images/my-image.webp`).
 
-#### 4.5 Examples
+---
 
-**Bad (AI tone):**
-> This is where Multi-Stage Builds come in — allowing you to build robust, production-grade images. Furthermore, they seamlessly unlock a new landscape of container security.
+## 5. Multi-Language Synchronization (EN, ES, FR, HI)
 
-**Good (human tone):**
-> Multi-stage builds fix that. You build in a temporary stage and copy only the compiled assets into a small final image.
+Every post must be synchronized across all supported language subdirectories:
+* `src/content/blog/en/` (English)
+* `src/content/blog/es/` (Spanish)
+* `src/content/blog/fr/` (French)
+* `src/content/blog/hi/` (Hindi)
 
-**Bad (AI tone):**
-> NomAI is more than a fitness tracker — it is a proof-of-concept for a new generation of robust, intelligent apps.
+### 5.1 Translation Guidelines
+* Retain original code blocks, CLI commands, file paths, and technical identifiers backticked or fenced as-is across all languages.
+* Keep `date`, `coverImage`, and `previewImage` identical in frontmatter. Localize `title`, `description`, and `tags`.
+* Apply the **Human Writing Voice** rules in every language.
 
-**Good (human tone):**
-> NomAI is more than a fitness tracker. It is a proof-of-concept for apps that stay private, work offline, and cost nothing to run in the cloud.
+### 5.2 Hindi (`hi/`) Strict Localization Rules
+* **No Latin-script words in Hindi body/tags/headers**: All prose, titles, descriptions, tags, table headers, alt text, and link labels must contain **no Latin-script English words**. Translate fully into Hindi; when no common Hindi translation exists, transliterate into Devanagari script (e.g. ओपनएआई, चैटजीपीटी, एपीआई, डॉकर, लैम्ब्डा, पायथन, पायटॉर्च).
+* **Devanagari Digits**: All numbers in Hindi body text, headings, list markers, dates in body, percentages, and model versions must use Devanagari numerals (`०-९`) (e.g. जीपीटी-५.४, ९६%, २७ जुलाई).
+* **Western Digits Exception**: Keep Western digits ONLY for machine-facing fields: frontmatter `date`, file paths, URLs, inline code literals, and fenced code blocks.
+
+---
+
+## 6. Pre-Publish Quality Audit Checklist
+
+Run this self-check before finalizing any blog post creation or edit across all language files:
+
+1. **Punctuation Audit:** Search for `—` (em dash) and `–` (en dash) -> must be **zero** occurrences.
+2. **Banned Term Check:** Search for *deep dive*, *landscape*, *seamless*, *leverage*, *game-changer* -> remove/rewrite all hits.
+3. **Signal Density Test:** Is there a TL;DR box at the top? Are there concrete numbers/metrics instead of generic claims?
+4. **Code & Benchmark Check:** Are code blocks complete and syntactically valid? Are terminal commands provided?
+5. **Multi-Language Sync:** Are `en/`, `es/`, `fr/`, and `hi/` versions updated? Does Hindi adhere to Devanagari digits (`०-९`) and zero Latin characters in prose?
+
