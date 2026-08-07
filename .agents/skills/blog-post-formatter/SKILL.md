@@ -143,28 +143,28 @@ Every post must be synchronized across all supported language subdirectories:
 
 ---
 
-## 6. Technical Completeness & Production Rigor Guardrails
+## 6. Universal Technical Accuracy & Depth Guardrails
 
-To prevent shallow or incomplete technical articles, every algorithm or system architecture blog post must strictly enforce these five technical guardrails:
+Every technical article written or reviewed using this skill must strictly enforce these five universal accuracy and depth guardrails:
 
-### 6.1 Executable, Self-Contained Benchmark Scripts
-* **No Pseudo-Code or Truncated Snippets:** All benchmark and implementation code must be syntactically valid, self-contained, and copy-paste executable (including imports, data generation, timing, memory tracking via `psutil`, and metric calculations).
-* **Ground-Truth Baseline Included:** Benchmarks comparing approximate methods (e.g., ANN, lossy compression) must include an exact ground-truth baseline (e.g., `IndexFlatL2`) and compute explicit accuracy metrics (`recall@k`, precision, or error bound).
+### 6.1 Executable, Self-Contained Implementation & Benchmark Proofs
+* **No Incomplete Pseudo-Code or Broken Snippets:** All code snippets must be syntactically valid, self-contained, and copy-paste executable. Include required imports, synthetic or real sample data generation, error handling, timing, and metric assertions.
+* **Ground-Truth / Baseline Comparison:** When demonstrating an optimization, algorithm, or tool (e.g., lossy compression, caching, concurrency, indexing, or framework alternative), always include an exact baseline comparison (e.g., unoptimized baseline vs optimized version) with empirical measurements (throughput, p99 latency, RAM/CPU allocation, error rates, or accuracy score).
 
-### 6.2 Exhaustive Mechanism & Variant Comparisons
-* **Compare Core Algorithmic Variants:** Never cover a technique without explicitly detailing its primary variants (e.g., **Symmetric vs Asymmetric Distance Computation**, **Coarse vs Fine Quantization**, **Scalar vs Product Quantization**, **Plain vs Optimized/Rotated Variants**).
-* **Bidirectional Operations:** Explain both encoding/quantization AND reconstruction/decoding flows, showing how original values are approximated from compressed representations.
+### 6.2 Full Structural Mechanics & Bidirectional Lifecycle Coverage
+* **Complete System Mechanics:** Explain both ends of data/system lifecycles (e.g., read vs write paths, encoding vs decoding, request vs response pipeline, normal operating mode vs failure mode, baseline vs fallback). Never present a one-sided or half-explained mechanism.
+* **Architectural Variant Analysis:** Explicitly detail the primary architectural or algorithmic choices and trade-offs (e.g., synchronous vs asynchronous, push vs pull, in-memory vs disk-backed, exact vs approximate, client-side vs server-side).
 
-### 6.3 Multi-Point Parameter Tuning Matrices
-* **Explicit Production Knobs:** Include a dedicated performance table showing the impact of primary tuning parameters (e.g., `nprobe`, `m`, `nbits`, `nlist`, batch size, thread count) across at least 5 distinct data points.
-* **Trade-Off Curves:** Map how tuning each knob shifts the trade-off frontier between RAM/Disk usage, query latency (p99), QPS, and recall/accuracy.
+### 6.3 Multi-Point Parameter & Configuration Impact Tables
+* **Production Tuning Knobs:** Provide a dedicated tuning matrix showing the impact of primary configuration parameters (e.g., batch sizes, buffer limits, thread pool sizes, sample rates, cache TTLs, probes/thresholds) across at least 4-5 distinct data points.
+* **Trade-Off Frontiers:** Map how adjusting each parameter shifts system trade-offs between performance (latency/QPS), resource overhead (RAM/CPU/Disk), and fidelity/accuracy.
 
-### 6.4 End-to-End Production Pipelines
-* **Two-Stage Retrieval & Re-ranking:** Show how the algorithm integrates into a production pipeline (e.g., fast candidate retrieval + exact re-ranking against uncompressed storage on SSD/NVMe) with runnable code snippets.
-* **Data Scale Estimations:** Include a scale estimation table showing resource requirements across multiple dataset orders of magnitude (e.g., 1M, 10M, 100M vectors/records).
+### 6.4 Production Edge Cases, Failure Modes & Scale Boundaries
+* **Failure Modes & Edge Cases:** Document explicit production failure modes, concurrency issues, memory leaks, scale limits, network partitions, or degradation scenarios. Explain how to detect, mitigate, or recover from each.
+* **Scale Estimations & Real-World Integration:** Include a scale estimation matrix showing system behavior and resource demands across orders of magnitude (e.g., 1K vs 100K vs 10M operations/records). Show how the technique integrates into end-to-end production pipelines (e.g., caching layers, fallbacks, re-ranking, or retry policies).
 
-### 6.5 Numerical & Dimensional Consistency Audit
-* **Mathematical Alignment:** Ensure vector dimensions ($D$), subvector counts ($m$), memory byte calculations, and compression percentages are mathematically identical across TL;DR boxes, text narratives, diagrams, code comments, and benchmark tables.
+### 6.5 Mathematical, Metric & Narrative Consistency Audit
+* **Cross-Section Alignment:** Ensure all quantitative numbers, unit metrics (ms, MB, QPS, %), configuration parameters, and dimensional math are 100% consistent across frontmatter descriptions, TL;DR summary boxes, body narrative, ASCII/Mermaid diagrams, code comments, and benchmark tables.
 
 ---
 
@@ -175,8 +175,8 @@ Run this self-check before finalizing any blog post creation or edit across all 
 1. **Punctuation Audit:** Search for `—` (em dash) and `–` (en dash) -> must be **zero** occurrences.
 2. **Banned Term Check:** Search for *deep dive*, *landscape*, *seamless*, *leverage*, *game-changer* -> remove/rewrite all hits.
 3. **Signal Density Test:** Is there a TL;DR box at the top? Are there concrete numbers/metrics instead of generic claims?
-4. **Code & Benchmark Check:** Are code blocks complete, self-contained, and syntactically valid? Are imports, timing, memory tracking, and recall calculation included?
-5. **Technical Rigor Check:** Are algorithm variants (SDC vs ADC, OPQ, SQ), reconstruction flows, tuning tables (`nprobe`), two-stage re-ranking code, and scale tables included?
-6. **Numerical Consistency Audit:** Do vector dimensions, memory math, and compression ratios match across text, diagrams, code, and tables?
+4. **Code & Implementation Check:** Are code blocks complete, self-contained, and syntactically valid? Are imports, input data, timing/metrics, and baseline comparison included?
+5. **Technical Depth Audit:** Are system variants, full bidirectional lifecycles, production failure modes, multi-point tuning tables, and scale estimations included?
+6. **Metric & Data Consistency Audit:** Do numbers, metrics, unit scales, and equations match identically across text, diagrams, code comments, and tables?
 7. **Multi-Language Sync:** Are `en/`, `es/`, `fr/`, and `hi/` versions updated? Does Hindi adhere to Devanagari digits (`०-९`) and zero Latin characters in prose?
 
