@@ -143,13 +143,40 @@ Every post must be synchronized across all supported language subdirectories:
 
 ---
 
-## 6. Pre-Publish Quality Audit Checklist
+## 6. Technical Completeness & Production Rigor Guardrails
+
+To prevent shallow or incomplete technical articles, every algorithm or system architecture blog post must strictly enforce these five technical guardrails:
+
+### 6.1 Executable, Self-Contained Benchmark Scripts
+* **No Pseudo-Code or Truncated Snippets:** All benchmark and implementation code must be syntactically valid, self-contained, and copy-paste executable (including imports, data generation, timing, memory tracking via `psutil`, and metric calculations).
+* **Ground-Truth Baseline Included:** Benchmarks comparing approximate methods (e.g., ANN, lossy compression) must include an exact ground-truth baseline (e.g., `IndexFlatL2`) and compute explicit accuracy metrics (`recall@k`, precision, or error bound).
+
+### 6.2 Exhaustive Mechanism & Variant Comparisons
+* **Compare Core Algorithmic Variants:** Never cover a technique without explicitly detailing its primary variants (e.g., **Symmetric vs Asymmetric Distance Computation**, **Coarse vs Fine Quantization**, **Scalar vs Product Quantization**, **Plain vs Optimized/Rotated Variants**).
+* **Bidirectional Operations:** Explain both encoding/quantization AND reconstruction/decoding flows, showing how original values are approximated from compressed representations.
+
+### 6.3 Multi-Point Parameter Tuning Matrices
+* **Explicit Production Knobs:** Include a dedicated performance table showing the impact of primary tuning parameters (e.g., `nprobe`, `m`, `nbits`, `nlist`, batch size, thread count) across at least 5 distinct data points.
+* **Trade-Off Curves:** Map how tuning each knob shifts the trade-off frontier between RAM/Disk usage, query latency (p99), QPS, and recall/accuracy.
+
+### 6.4 End-to-End Production Pipelines
+* **Two-Stage Retrieval & Re-ranking:** Show how the algorithm integrates into a production pipeline (e.g., fast candidate retrieval + exact re-ranking against uncompressed storage on SSD/NVMe) with runnable code snippets.
+* **Data Scale Estimations:** Include a scale estimation table showing resource requirements across multiple dataset orders of magnitude (e.g., 1M, 10M, 100M vectors/records).
+
+### 6.5 Numerical & Dimensional Consistency Audit
+* **Mathematical Alignment:** Ensure vector dimensions ($D$), subvector counts ($m$), memory byte calculations, and compression percentages are mathematically identical across TL;DR boxes, text narratives, diagrams, code comments, and benchmark tables.
+
+---
+
+## 7. Pre-Publish Quality Audit Checklist
 
 Run this self-check before finalizing any blog post creation or edit across all language files:
 
 1. **Punctuation Audit:** Search for `—` (em dash) and `–` (en dash) -> must be **zero** occurrences.
 2. **Banned Term Check:** Search for *deep dive*, *landscape*, *seamless*, *leverage*, *game-changer* -> remove/rewrite all hits.
 3. **Signal Density Test:** Is there a TL;DR box at the top? Are there concrete numbers/metrics instead of generic claims?
-4. **Code & Benchmark Check:** Are code blocks complete and syntactically valid? Are terminal commands provided?
-5. **Multi-Language Sync:** Are `en/`, `es/`, `fr/`, and `hi/` versions updated? Does Hindi adhere to Devanagari digits (`०-९`) and zero Latin characters in prose?
+4. **Code & Benchmark Check:** Are code blocks complete, self-contained, and syntactically valid? Are imports, timing, memory tracking, and recall calculation included?
+5. **Technical Rigor Check:** Are algorithm variants (SDC vs ADC, OPQ, SQ), reconstruction flows, tuning tables (`nprobe`), two-stage re-ranking code, and scale tables included?
+6. **Numerical Consistency Audit:** Do vector dimensions, memory math, and compression ratios match across text, diagrams, code, and tables?
+7. **Multi-Language Sync:** Are `en/`, `es/`, `fr/`, and `hi/` versions updated? Does Hindi adhere to Devanagari digits (`०-९`) and zero Latin characters in prose?
 
