@@ -1,8 +1,25 @@
 import { Component, inject } from '@angular/core';
+import { RouteMeta } from '@analogjs/router';
 import { HomeModule } from '../../components/home/home.module';
 import { GeneralModule } from '../../components/general/general.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { SeoService } from '../../services/seo/seo.service';
+
+const PAGE_TITLE = 'Projects | Breejesh Rathod';
+const PAGE_DESCRIPTION =
+  'Selected work by Breejesh Rathod: NomAI, InnoDino, Zunify, Vanguard Health, and more open-source projects with case pages and GitHub links.';
+
+export const routeMeta: RouteMeta = {
+  title: PAGE_TITLE,
+  meta: [
+    { name: 'description', content: PAGE_DESCRIPTION },
+    { property: 'og:title', content: PAGE_TITLE },
+    { property: 'og:description', content: PAGE_DESCRIPTION },
+    { property: 'og:url', content: 'https://breejeshrathod.com/projects' },
+    { name: 'twitter:title', content: PAGE_TITLE },
+    { name: 'twitter:description', content: PAGE_DESCRIPTION },
+  ],
+};
 
 @Component({
   selector: 'app-projects-index',
@@ -28,9 +45,8 @@ export default class ProjectsIndexPage {
 
   constructor() {
     this.seoService.updateMeta({
-      title: 'Projects | Breejesh Rathod',
-      description:
-        'Selected work by Breejesh Rathod: NomAI, InnoDino, Zunify, Vanguard Health, and more open-source projects with case pages and GitHub links.',
+      title: PAGE_TITLE,
+      description: PAGE_DESCRIPTION,
       url: '/projects',
     });
   }

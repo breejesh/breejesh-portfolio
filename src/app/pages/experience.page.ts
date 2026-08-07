@@ -1,8 +1,25 @@
 import { Component, inject } from '@angular/core';
+import { RouteMeta } from '@analogjs/router';
 import { HomeModule } from '../components/home/home.module';
 import { GeneralModule } from '../components/general/general.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { SeoService } from '../services/seo/seo.service';
+
+const PAGE_TITLE = 'Experience | Breejesh Rathod';
+const PAGE_DESCRIPTION =
+  'Professional experience of Breejesh Rathod, engineering leader across fintech, cybersecurity, and enterprise software.';
+
+export const routeMeta: RouteMeta = {
+  title: PAGE_TITLE,
+  meta: [
+    { name: 'description', content: PAGE_DESCRIPTION },
+    { property: 'og:title', content: PAGE_TITLE },
+    { property: 'og:description', content: PAGE_DESCRIPTION },
+    { property: 'og:url', content: 'https://breejeshrathod.com/experience' },
+    { name: 'twitter:title', content: PAGE_TITLE },
+    { name: 'twitter:description', content: PAGE_DESCRIPTION },
+  ],
+};
 
 @Component({
   selector: 'app-experience-page',
@@ -27,7 +44,7 @@ export default class ExperiencePage {
   constructor() {
     this.seoService.updateMeta({
       title: 'Experience',
-      description: 'Professional experience of Breejesh Rathod, engineering leader across fintech, cybersecurity, and enterprise software.',
+      description: PAGE_DESCRIPTION,
       url: '/experience'
     });
   }

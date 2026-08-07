@@ -2,19 +2,24 @@
   "name": "breejeshrathod-portfolio",
   "version": "0.0.0",
   "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "vite",
     "start": "vite",
-    "build": "npm run typecheck && vite build",
-    "build:app": "vite build",
-    "ship": "npm run typecheck && vite build && firebase deploy --only hosting",
-    "ship:fast": "cross-env NODE_OPTIONS=\"--max-old-space-size=8192\" vite build && firebase deploy --only hosting",
-    "ship:full": "npm run typecheck && cross-env NODE_OPTIONS=\"--max-old-space-size=8192\" vite build && firebase deploy --only hosting",
-    "ship:nocheck": "cross-env NODE_OPTIONS=\"--max-old-space-size=8192\" vite build && firebase deploy --only hosting",
-    "test": "vitest",
-    "typecheck": "tsc --project tsconfig.app.json --noEmit --incremental --tsBuildInfoFile .tsbuildinfo"
+    "typecheck": "tsc --project tsconfig.app.json --noEmit --incremental --tsBuildInfoFile .tsbuildinfo",
+    "build": "node scripts/run-with-node.mjs -- node scripts/ship.mjs build-only",
+    "ship": "node scripts/run-with-node.mjs -- node scripts/ship.mjs default",
+    "ship:fast": "node scripts/run-with-node.mjs -- node scripts/ship.mjs fast",
+    "ship:seo": "node scripts/run-with-node.mjs -- node scripts/ship.mjs seo",
+    "ship:full": "node scripts/run-with-node.mjs -- node scripts/ship.mjs full",
+    "ship:debug": "node scripts/run-with-node.mjs -- node scripts/ship.mjs debug",
+    "content:cache": "node scripts/warm-content-cache.mjs",
+    "content:cache:clear": "node scripts/warm-content-cache.mjs --clear",
+    "test": "vitest"
   },
-  "private": true,
   "dependencies": {
     "@analogjs/content": "^1.8.0",
     "@analogjs/router": "^1.8.0",
@@ -49,7 +54,6 @@
     "@popperjs/core": "^2.11.8",
     "@types/node": "^20.11.0",
     "@types/prismjs": "^1.26.3",
-    "cross-env": "^10.1.0",
     "front-matter": "^4.0.2",
     "marked": "^18.0.6",
     "marked-gfm-heading-id": "^4.1.4",
@@ -57,7 +61,6 @@
     "marked-mangle": "^1.1.13",
     "prismjs": "^1.29.0",
     "sass": "^1.71.1",
-    "sharp": "^0.35.3",
     "typescript": "~5.4.3",
     "vite": "^6.0.0",
     "vitest": "^2.1.1"

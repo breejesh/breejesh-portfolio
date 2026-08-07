@@ -667,5 +667,8 @@
         "CSS"
       ]
     }
-  }
+  },
+  "Footer.Legal": "Legal",
+  "Footer.Privacy": "Privacy Policy",
+  "Footer.Terms": "Terms of Use"
 }

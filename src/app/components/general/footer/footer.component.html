@@ -53,11 +53,30 @@
           </a>
         </div>
       </div>
+
+      <!-- Legal (Play Store privacy URL lives here) -->
+      <div class="footer-section">
+        <h4 class="section-heading">{{ 'Footer.Legal' | translate }}</h4>
+        <ul class="footer-links">
+          <li>
+            <a routerLink="/privacy">{{ 'Footer.Privacy' | translate }}</a>
+          </li>
+          <li>
+            <a routerLink="/terms">{{ 'Footer.Terms' | translate }}</a>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <!-- Bottom copyright & version -->
     <div class="footer-bottom">
-      <p class="copyright-text">&copy; {{ currentYear }} Breejesh Rathod</p>
+      <p class="copyright-text">
+        &copy; {{ currentYear }} Breejesh Rathod
+        ·
+        <a routerLink="/privacy" class="footer-bottom-link">{{ 'Footer.Privacy' | translate }}</a>
+        ·
+        <a routerLink="/terms" class="footer-bottom-link">{{ 'Footer.Terms' | translate }}</a>
+      </p>
       <p class="version-text">v1.0.0</p>
     </div>
   </div>

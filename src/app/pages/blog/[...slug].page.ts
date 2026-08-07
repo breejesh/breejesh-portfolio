@@ -17,9 +17,14 @@ import { MarkdownComponent, injectContentFilesMap, parseRawContentFile } from '@
 import { TranslateModule } from '@ngx-translate/core';
 import { distinctUntilChanged, filter, map, switchMap, startWith, finalize } from 'rxjs/operators';
 import { from, of, Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { FormsModule } from '@angular/forms';
 import { FirebaseService, Comment } from '../../services/firebase/firebase.service';
 import { SeoService } from '../../services/seo/seo.service';
+import { blogPostRouteMeta } from './blog-route-meta';
+
+/** Analog RouteMeta: title + OG/Twitter from frontmatter (content routes SEO docs). */
+export const routeMeta = blogPostRouteMeta;
 
 export interface BlogAttributes {
   title: string;
@@ -181,6 +186,18 @@ export default class BlogPostComponent implements AfterViewChecked {
           attributes: (rawContent as { metadata: BlogAttributes }).metadata,
           content: (rawContent as { default: string }).default,
         };
+      }),
+      catchError((err) => {
+        // Common production failure: /assets/blog-data/*.json missing → SPA index.html
+        console.error('[blog] failed to load post body', filePath, err);
+        this.loadError.set(true);
+        return of({
+          filename: filePath,
+          slug: postSlug,
+          lang,
+          attributes: {} as BlogAttributes,
+          content: 'No Content Found',
+        });
       }),
       finalize(() => {
         // Match Analog's getContentFile timing so markdown render can settle.

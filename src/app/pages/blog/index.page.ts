@@ -17,12 +17,31 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import type { ContentFile } from '@analogjs/content';
+import { RouteMeta } from '@analogjs/router';
 import { LanguageService } from '../../services/language/language.service';
 import BlogLayoutComponent, { BlogAttributes } from '../blog.page';
 import { SeoService } from '../../services/seo/seo.service';
 
 /** Cards per load. Grid-friendly (≈4 rows on a 3-column desktop layout). */
 const PAGE_SIZE = 12;
+
+const BLOG_INDEX_TITLE = 'Engineering Blog | Breejesh Rathod';
+const BLOG_INDEX_DESCRIPTION =
+  'Insights, tutorials, and benchmarks on Java 21 virtual threads, cloud architecture, LLMs, Docker, AWS, and building products from 0 to 1.';
+
+/** Analog RouteMeta for /blog list (prerendered head tags). */
+export const routeMeta: RouteMeta = {
+  title: BLOG_INDEX_TITLE,
+  meta: [
+    { name: 'description', content: BLOG_INDEX_DESCRIPTION },
+    { name: 'keywords', content: 'Engineering Blog, Java 21, Virtual Threads, AWS, Docker, LLM, System Design' },
+    { property: 'og:title', content: BLOG_INDEX_TITLE },
+    { property: 'og:description', content: BLOG_INDEX_DESCRIPTION },
+    { property: 'og:url', content: 'https://breejeshrathod.com/blog' },
+    { name: 'twitter:title', content: BLOG_INDEX_TITLE },
+    { name: 'twitter:description', content: BLOG_INDEX_DESCRIPTION },
+  ],
+};
 
 @Component({
   selector: 'app-blog-index',
@@ -107,7 +126,7 @@ export default class BlogIndexPage implements OnDestroy {
   constructor() {
     this.seoService.updateMeta({
       title: 'Engineering Blog',
-      description: 'Insights, tutorials, and benchmarks on Java 21 virtual threads, cloud architecture, LLMs, Docker, AWS, and building products from 0 to 1.',
+      description: BLOG_INDEX_DESCRIPTION,
       url: '/blog',
       lang: 'en',
       keywords: [

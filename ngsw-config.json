@@ -5,6 +5,7 @@
     {
       "name": "app",
       "installMode": "prefetch",
+      "updateMode": "prefetch",
       "resources": {
         "files": [
           "/favicon.ico",
@@ -22,9 +23,33 @@
       "resources": {
         "files": [
           "/assets/**",
+          "!/assets/blog-data/**",
           "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
         ]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "blog-data",
+      "urls": [
+        "/assets/blog-data/**",
+        "/blog-data/**"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 200,
+        "maxAge": "0u",
+        "timeout": "10s"
+      }
+    }
+  ],
+  "navigationUrls": [
+    "/**",
+    "!/**/*.*",
+    "!/**/*__*",
+    "!/**/*__*/**",
+    "!/assets/blog-data/**",
+    "!/blog-data/**"
   ]
 }
