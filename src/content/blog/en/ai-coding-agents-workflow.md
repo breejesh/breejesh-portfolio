@@ -58,7 +58,7 @@ A useful mental model: every token you include is competing with the tokens that
 
 ## 3. Write the contract before you let the agent code
 
-The highest leverage move with agents is still old-school: define behavior first.
+The highest-impact move with agents is still old-school: define behavior first.
 
 **Test-first with an agent looks like this:**
 

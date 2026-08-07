@@ -63,7 +63,7 @@ Two things share the word "embedding" and confuse people:
 | **Token embedding** | Learned vector for one vocabulary piece inside a transformer | LLM internals, training diagrams |
 | **Sentence / document embedding** | One vector for a whole string (or chunk), usually pooled or from a dedicated encoder | Search, clustering, RAG, recommendations |
 
-This post is about the second kind: the vectors you store and query in product systems. (Token embeddings still matter under the hood of those models. You rarely store one vector per token for RAG.)
+This post is about the second kind: the vectors you store and query in product systems. (Token embeddings still operate inside those models. You rarely store one vector per token for RAG.)
 
 ---
 

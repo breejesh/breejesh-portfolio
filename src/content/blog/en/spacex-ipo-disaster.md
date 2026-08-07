@@ -35,7 +35,7 @@ By merging with xAI, SpaceX has effectively become an "AI wrapper."
 
 Why would Elon Musk risk the financial health of SpaceX, a company that took decades to reach profitability and cleared $791 million in net income in 2024, by merging it with a pre-revenue AI startup?
 
-The answer lies in xAI’s burn rate. Training state-of-the-art foundation models is a black hole of capital. In 2025, xAI was losing $2 for every $1 it earned, burning through roughly **$28 million a day** (almost $1 billion a month). By Q1 2026, xAI's capital expenditures spiked to $7.7 billion, an annualized burn rate of over $30.8 billion.
+The answer lies in xAI’s burn rate. Training frontier foundation models is a black hole of capital. In 2025, xAI was losing $2 for every $1 it earned, burning through roughly **$28 million a day** (almost $1 billion a month). By Q1 2026, xAI's capital expenditures spiked to $7.7 billion, an annualized burn rate of over $30.8 billion.
 
 Starlink's profits are nowhere near enough to subsidize this burn. The merger was a strategic move to access public markets and passive index flows to keep xAI afloat. 
 
