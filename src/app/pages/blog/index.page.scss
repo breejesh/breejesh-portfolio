@@ -23,6 +23,13 @@
   min-width: 0;
 }
 
+@media (max-width: 512px) {
+  .blog-main-column {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
 .blog-magazine-header {
   border-bottom: 2px double var(--border-color);
   padding-bottom: 20px;
@@ -53,7 +60,7 @@
   border: 1px solid var(--border-color);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
   transition: all 0.3s;
   display: flex;
   flex-direction: column;
