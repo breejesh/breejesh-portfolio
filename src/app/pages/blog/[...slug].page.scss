@@ -11,6 +11,19 @@
   box-sizing: border-box;
 }
 
+
+@media (max-width: 512px) {
+  .blog-post-section {
+    padding: 0px;
+  }
+
+  .post-header-nav {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+
 .post-header-nav {
   margin-bottom: 24px;
 }
@@ -348,6 +361,35 @@
   overflow: visible;
 }
 
+:host ::ng-deep .post-content .mermaid-wrap {
+  width: 100%;
+  max-width: 740px;
+  margin: 28px auto;
+  padding: 24px 20px;
+  background: var(--surface-elevated, var(--bg-primary));
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+  svg {
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+
+    text, .nodeText, .label {
+      font-size: 14px !important;
+      font-weight: 500;
+    }
+  }
+}
+
 :host ::ng-deep .post-content thead {
   background: rgba(255, 255, 255, 0.035);
 }
@@ -411,6 +453,13 @@
 :host-context(html.light-theme) ::ng-deep .post-content .md-table-wrap {
   background: var(--bg-secondary);
   box-shadow: none;
+}
+
+:host-context(body.light-theme) ::ng-deep .post-content .mermaid-wrap,
+:host-context(html.light-theme) ::ng-deep .post-content .mermaid-wrap {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
 :host-context(body.light-theme) ::ng-deep .post-content thead,

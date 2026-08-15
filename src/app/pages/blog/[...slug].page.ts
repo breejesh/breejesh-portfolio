@@ -13,6 +13,7 @@ import { CommonModule, AsyncPipe, isPlatformBrowser } from '@angular/common';
 import { RouterLink, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { LanguageService } from '../../services/language/language.service';
+import { ThemeService } from '../../services/theme/theme.service';
 import { MarkdownComponent, injectContentFilesMap, parseRawContentFile } from '@analogjs/content';
 import { TranslateModule } from '@ngx-translate/core';
 import { distinctUntilChanged, filter, map, switchMap, startWith, finalize } from 'rxjs/operators';
@@ -64,12 +65,15 @@ export default class BlogPostComponent implements AfterViewChecked {
   private router = inject(Router);
   public route = inject(ActivatedRoute);
   private languageService = inject(LanguageService);
+  public themeService = inject(ThemeService);
   private contentFiles = injectContentFilesMap();
   private firebaseService = inject(FirebaseService);
   private seoService = inject(SeoService);
   private pendingTasks = inject(ExperimentalPendingTasks);
   private host = inject(ElementRef<HTMLElement>);
   private tablesWrappedForSlug = '';
+  private mermaidRenderedForSlug = '';
+  private mermaidLastTheme: boolean | null = null;
 
   readonly views = signal(0);
   readonly likesCount = signal(0);
@@ -300,6 +304,154 @@ export default class BlogPostComponent implements AfterViewChecked {
     return clean;
   }
 
+  private themeEffect = effect(() => {
+    const isDark = this.themeService.isDarkTheme();
+    if (!isPlatformBrowser(this.platformId)) return;
+    
+    // When theme switches, re-render all already rendered mermaid wrappers
+    const root = this.host.nativeElement.querySelector('.post-content') as HTMLElement;
+    if (!root) return;
+
+    if (this.mermaidLastTheme !== null && this.mermaidLastTheme !== isDark) {
+      this.reRenderMermaidWrappers(root, isDark);
+    }
+    this.mermaidLastTheme = isDark;
+  });
+
+  private getMermaidConfig(isDark: boolean) {
+    return {
+      startOnLoad: false,
+      theme: 'base',
+      themeVariables: isDark
+        ? {
+            darkMode: true,
+            background: '#0a0a0a',
+            mainBkg: '#111111',
+            primaryColor: '#111111',
+            primaryTextColor: '#f4f4f5',
+            primaryBorderColor: '#64ffda',
+            lineColor: '#64ffda',
+            secondaryColor: '#050505',
+            tertiaryColor: '#161616',
+            nodeBorder: '#64ffda',
+            nodeTextColor: '#f4f4f5',
+            clusterBkg: '#0a0a0a',
+            clusterBorder: '#1c1c1c',
+            defaultLinkColor: '#64ffda',
+            titleColor: '#64ffda',
+            edgeLabelBackground: '#0a0a0a',
+            actorBorder: '#64ffda',
+            actorBkg: '#111111',
+            actorTextColor: '#f4f4f5',
+            actorLineColor: '#64ffda',
+            signalColor: '#64ffda',
+            signalTextColor: '#f4f4f5',
+            labelBoxBkgColor: '#111111',
+            labelBoxBorderColor: '#64ffda',
+            labelTextColor: '#f4f4f5',
+            loopTextColor: '#f4f4f5',
+          }
+        : {
+            darkMode: false,
+            background: '#ffffff',
+            mainBkg: '#f8fafc',
+            primaryColor: '#f8fafc',
+            primaryTextColor: '#0f172a',
+            primaryBorderColor: '#0d9488',
+            lineColor: '#0d9488',
+            secondaryColor: '#f4f6fb',
+            tertiaryColor: '#f1f5f9',
+            nodeBorder: '#0d9488',
+            nodeTextColor: '#0f172a',
+            clusterBkg: '#f8fafc',
+            clusterBorder: '#e2e8f0',
+            defaultLinkColor: '#0d9488',
+            titleColor: '#0d9488',
+            edgeLabelBackground: '#ffffff',
+            actorBorder: '#0d9488',
+            actorBkg: '#f8fafc',
+            actorTextColor: '#0f172a',
+            actorLineColor: '#0d9488',
+            signalColor: '#0d9488',
+            signalTextColor: '#0f172a',
+            labelBoxBkgColor: '#f8fafc',
+            labelBoxBorderColor: '#0d9488',
+            labelTextColor: '#0f172a',
+            loopTextColor: '#0f172a',
+          },
+      securityLevel: 'loose',
+      fontFamily: 'Calibre, -apple-system, system-ui, BlinkMacSystemFont, sans-serif',
+    };
+  }
+
+  private async reRenderMermaidWrappers(root: HTMLElement, isDark: boolean): Promise<void> {
+    const wrappers = root.querySelectorAll('.mermaid-wrap[data-mermaid-def]');
+    if (!wrappers.length) return;
+
+    try {
+      const mermaidModule = await import('mermaid');
+      const mermaid: any = (mermaidModule as any).default || mermaidModule;
+      mermaid.initialize(this.getMermaidConfig(isDark));
+
+      for (let i = 0; i < wrappers.length; i++) {
+        const wrapEl = wrappers[i] as HTMLElement;
+        const rawDef = wrapEl.getAttribute('data-mermaid-def');
+        if (!rawDef) continue;
+        const decodedDef = decodeURIComponent(rawDef);
+        const id = `mermaid-rechart-${Date.now()}-${i}`;
+        try {
+          const { svg } = await mermaid.render(id, decodedDef);
+          wrapEl.innerHTML = svg;
+        } catch (err) {
+          console.warn('[mermaid] re-render error:', err);
+        }
+      }
+    } catch (e) {
+      console.warn('[mermaid] theme switch error:', e);
+    }
+  }
+
+  private async renderMermaid(root: HTMLElement, slug: string): Promise<void> {
+    const codeBlocks = root.querySelectorAll('pre > code.language-mermaid, pre.language-mermaid > code');
+    if (!codeBlocks.length) {
+      if (root.querySelector('p, h1, h2, h3, h4, ul, ol, pre, img, blockquote')) {
+        this.mermaidRenderedForSlug = slug;
+      }
+      return;
+    }
+
+    try {
+      const isDark = this.themeService.isDarkTheme();
+      this.mermaidLastTheme = isDark;
+      const mermaidModule = await import('mermaid');
+      const mermaid: any = (mermaidModule as any).default || mermaidModule;
+      mermaid.initialize(this.getMermaidConfig(isDark));
+
+      for (let i = 0; i < codeBlocks.length; i++) {
+        const codeEl = codeBlocks[i];
+        const preEl = codeEl.closest('pre');
+        if (!preEl || preEl.getAttribute('data-mermaid-done')) continue;
+        preEl.setAttribute('data-mermaid-done', 'true');
+
+        const graphDef = (codeEl.textContent || '').trim();
+        const id = `mermaid-chart-${Date.now()}-${i}`;
+        try {
+          const { svg } = await mermaid.render(id, graphDef);
+          const wrapper = document.createElement('div');
+          wrapper.className = 'mermaid-wrap';
+          wrapper.setAttribute('data-mermaid-def', encodeURIComponent(graphDef));
+          wrapper.innerHTML = svg;
+          preEl.parentNode?.replaceChild(wrapper, preEl);
+        } catch (err) {
+          console.warn('[mermaid] render failed:', err);
+        }
+      }
+    } catch (e) {
+      console.warn('[mermaid] import failed:', e);
+    }
+    this.mermaidRenderedForSlug = slug;
+  }
+
   ngAfterViewChecked(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
@@ -309,35 +461,35 @@ export default class BlogPostComponent implements AfterViewChecked {
       return;
     }
 
-    if (this.tablesWrappedForSlug === post.slug) {
-      return;
-    }
-
-    const root = this.host.nativeElement.querySelector('.post-content');
+    const root = this.host.nativeElement.querySelector('.post-content') as HTMLElement;
     if (!root) {
       return;
     }
 
-    const tables = root.querySelectorAll('table');
-    if (!tables.length) {
-      if (root.querySelector('p, h1, h2, h3, h4, ul, ol, pre, img, blockquote')) {
+    if (this.tablesWrappedForSlug !== post.slug) {
+      const tables = root.querySelectorAll('table');
+      if (!tables.length) {
+        if (root.querySelector('p, h1, h2, h3, h4, ul, ol, pre, img, blockquote')) {
+          this.tablesWrappedForSlug = post.slug;
+        }
+      } else {
+        Array.from(tables).forEach((table: Element) => {
+          const parent = table.parentElement;
+          if (!parent || parent.classList.contains('md-table-wrap')) {
+            return;
+          }
+          const wrap = document.createElement('div');
+          wrap.className = 'md-table-wrap';
+          parent.insertBefore(wrap, table);
+          wrap.appendChild(table);
+        });
         this.tablesWrappedForSlug = post.slug;
       }
-      return;
     }
 
-    Array.from(tables).forEach((table: Element) => {
-      const parent = table.parentElement;
-      if (!parent || parent.classList.contains('md-table-wrap')) {
-        return;
-      }
-      const wrap = document.createElement('div');
-      wrap.className = 'md-table-wrap';
-      parent.insertBefore(wrap, table);
-      wrap.appendChild(table);
-    });
-
-    this.tablesWrappedForSlug = post.slug;
+    if (this.mermaidRenderedForSlug !== post.slug) {
+      this.renderMermaid(root, post.slug);
+    }
   }
 
   public toggleLike(baseSlug: string) {

@@ -189,7 +189,8 @@ Prefer single-file or single-test runs during iteration. Full suites are for the
 
 When the user corrects your approach, append a one-line rule here before ending the session. Write it concretely ("Always use X for Y"), never abstractly ("be careful with Y"). If an existing line already covers the correction, tighten it instead of adding a new one. Remove lines when the underlying issue goes away (model upgrades, refactors, process changes).
 
-- (empty)
+- Never generate ASCII line-art or box-drawing charts in blog posts; use clean Markdown tables, Mermaid diagrams, or structured step lists instead.
+- For macroeconomic, financial, and news analysis blog posts, omit code blocks and prioritize rigorous market data tables, balance sheet breakdowns, and policy mechanics.
 
 ---
 

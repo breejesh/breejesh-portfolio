@@ -33,3 +33,10 @@
     padding: 20px 16px;
   }
 }
+
+@media (max-width: 512px) {
+  
+  .blog-layout-container {
+    padding: 0px;
+  }
+}

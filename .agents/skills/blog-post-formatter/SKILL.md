@@ -42,7 +42,7 @@ Place an executive summary box directly after frontmatter to respect the reader'
 
 ### 1.3 Core Narrative & Technical Sections
 1. **The Real-World Context / Problem Setup**: Start with a concrete failure mode, production bottleneck, or engineering challenge. Avoid generic intros ("In today's fast-paced tech world...").
-2. **Mental Model & Architecture**: Visual diagram (ASCII flow, Mermaid, or Markdown tables) showing data flow, component interactions, or memory layout.
+2. **Mental Model & Architecture**: Use crisp Markdown tables, structured workflow steps, or Mermaid diagrams. **Never use ASCII line-art boxes or ASCII art charts.**
 3. **Empirical Proof & Code Breakdown**:
    * Complete, runnable, or production-faithful code snippets.
    * Precise comments pointing to non-obvious lines.
@@ -63,14 +63,9 @@ Place an executive summary box directly after frontmatter to respect the reader'
 * Show before-and-after diffs (` ```diff `) when demonstrating optimizations.
 * Provide exact CLI commands for reproduction (e.g. `wrk -t12 -c400 -d30s`, `perf record -g`, `go tool pprof`).
 
-### 2.3 Visual Architecture
-Use ASCII diagrams or Markdown tables for architectural clarity:
-```
-+-------------------+      gRPC / HTTP/2      +-------------------+
-|  API Gateway      | ----------------------> |  Auth Service     |
-|  (Envoy / NGINX)  |                         |  (Go / Redis)     |
-+-------------------+                         +-------------------+
-```
+### 2.3 Visual Architecture & Structured Data (No Line Art Charts)
+* **Prohibit ASCII line-art charts / box drawings:** Never generate ASCII line art diagrams (`+---+`, `| |`, `----->`).
+* Use formatted Markdown tables, numbered structural pipelines, or valid Mermaid diagrams to represent system flows and lifecycles clearly.
 
 ---
 
@@ -174,9 +169,10 @@ Run this self-check before finalizing any blog post creation or edit across all 
 
 1. **Punctuation Audit:** Search for `—` (em dash) and `–` (en dash) -> must be **zero** occurrences.
 2. **Banned Term Check:** Search for *deep dive*, *landscape*, *seamless*, *leverage*, *game-changer* -> remove/rewrite all hits.
-3. **Signal Density Test:** Is there a TL;DR box at the top? Are there concrete numbers/metrics instead of generic claims?
-4. **Code & Implementation Check:** Are code blocks complete, self-contained, and syntactically valid? Are imports, input data, timing/metrics, and baseline comparison included?
-5. **Technical Depth Audit:** Are system variants, full bidirectional lifecycles, production failure modes, multi-point tuning tables, and scale estimations included?
-6. **Metric & Data Consistency Audit:** Do numbers, metrics, unit scales, and equations match identically across text, diagrams, code comments, and tables?
-7. **Multi-Language Sync:** Are `en/`, `es/`, `fr/`, and `hi/` versions updated? Does Hindi adhere to Devanagari digits (`०-९`) and zero Latin characters in prose?
+3. **No Line Art Based Charts:** Ensure zero ASCII box drawings (`+---+`, `| |`, `----->`). Use clean Markdown tables, Mermaid diagrams, or structured text lists instead.
+4. **Signal Density Test:** Is there a TL;DR box at the top? Are there concrete numbers/metrics instead of generic claims?
+5. **Code & Article Type Alignment:** Code blocks must be syntactically valid when present; omit code blocks for pure macroeconomic, policy, or financial news analysis articles.
+6. **Technical Depth Audit:** Are system variants, full bidirectional lifecycles, production failure modes, multi-point tuning tables, and scale estimations included?
+7. **Metric & Data Consistency Audit:** Do numbers, metrics, unit scales, and equations match identically across text, diagrams, code comments, and tables?
+8. **Multi-Language Sync:** Are `en/`, `es/`, `fr/`, and `hi/` versions updated? Does Hindi adhere to Devanagari digits (`०-९`) and zero Latin characters in prose?
 
