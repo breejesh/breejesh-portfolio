@@ -28,16 +28,6 @@ La plupart des gens se souviennent de 2008 pour la faillite de Lehman Brothers, 
 
 En 2006, la mécanique des crédits subprimes s'est brisée en silence alors que la presse célébrait une économie florissante et que les prix de l'immobilier touchaient des sommets historiques.
 
-```mermaid
-flowchart TD
-    H1["1. Prêt Bon Marché sur 2 Ans<br/>(Taux d'appel attractif 3%)"] --> H2["2. Choc de Taux à l'An 2<br/>(Le taux grimpe à 9%+)"]
-    H2 --> H3{"Le prix du logement a-t-il<br/>grimpé assez vite?"}
-    H3 -->|"OUI: +15% à 20% / an"| H4["Nouvel emprunt plus gros sur plus-value<br/>-> Rembourse l'ancien prêt avec la nouvelle dette"]
-    H4 --> H1
-    H3 -->|"NON: +8% / an (hausse ralentie)"| H5["Plus-value insuffisante pour nouveau prêt<br/>-> La chaîne de refinancement se brise"]
-    H5 --> H6["Les acheteurs ne peuvent plus payer<br/>-> Le marché s'effondre"]
-```
-
 ### Comment tournait la boucle des crédits 2/28
 
 1. **Le Taux d'Appel:** L'acheteur souscrivait un crédit avec un taux d'intérêt très bas les 2 premières années (ex. 3%).
@@ -62,16 +52,12 @@ La crise de 2008 n'était que la conséquence mathématique d'un ralentissement 
 
 Ce même mécanisme de renouvellement de dette tourne aujourd'hui à plein régime dans l'industrie de l'intelligence artificielle.
 
-```mermaid
-flowchart TD
-    A1["1. Startup IA Perd des Milliards<br/>(Zéro bénéfice net sur le calcul)"] --> A2["2. Signe 2,1 T$ de Contrats Cloud<br/>(Promesses de paiements aux géants tech)"]
-    A2 --> A3["3. Géants Cloud Empruntent 725 Md$<br/>(Émettent des obligations pour construire)"]
-    A3 --> A4["4. Startup Lève de Nouveaux Fonds<br/>(Saut massif de valorisation à 852 Md$)"]
-    A4 --> A5["5. Paye les Factures de Serveurs Actuelles<br/>(Avec l'argent des nouveaux investisseurs)"]
-    A5 --> A6{"La startup peut-elle continuer<br/>de doubler sa valorisation?"}
-    A6 -->|"OUI (Sauts de 1,7x+)"| A4
-    A6 -->|"NON (Modèles ouverts cassent les prix)"| A7["Le manège s'arrête<br/>-> Géants cloud restent avec dette impayée"]
-```
+### Le cycle de la dette d'infrastructure IA en 2026
+
+1. **Startups d'IA Déficitaires:** L'entraînement et l'inférence des modèles fonctionnent avec d'immenses déficits de trésorerie opérationnelle.
+2. **Contrats Cloud Take-or-Pay:** Les startups s'engagent par contrat pluriannuel ferme à payer des sommes colossales aux fournisseurs de cloud.
+3. **Émission d'Obligations par les Géants de la Nube:** Les hyperscalers empruntent des centaines de milliards pour bâtir des méga-centres de données.
+4. **Report de Dette par Hausse de Valorisation:** Les startups lèvent des fonds à des valorisations croissantes pour régler les factures passées avec les chèques des nouveaux investisseurs.
 
 | Tour de Financement | Valorisation de l'Entreprise | Hausse de Valorisation | Ce Qui S'est Passé |
 | --- | --- | --- | --- |
@@ -153,15 +139,10 @@ Comme en 2006, l'IA n'a pas besoin d'échouer pour que le système financier se 
 
 Ce risque ne concerne pas que les fonds de capital-risque de la Silicon Valley. La dette est empilée sur trois étages interconnectés:
 
-```mermaid
-flowchart TD
-    D1["1. Modèles ouverts gratuits font chuter les prix<br/>(Kimi K3 & DeepSeek cassent tarifs jusqu'à 65%)"]
-    D1 --> D2["2. Croissance des revenus ralentie en IA<br/>(Sauts de valorisation passent de 1,9x à 1,2x)"]
-    D2 --> D3["3. Startups peinent à payer les serveurs<br/>(Tension sur 2,1 T$ de contrats promis)"]
-    D3 --> D4["4. Géants cloud accusent de lourdes pertes<br/>(725 Md$ de datacenters financés par la dette)"]
-    D4 --> D5["5. Le S&P 500 et les retraites baissent<br/>(Les 10 plus grandes tech = 40% de l'indice)"]
-    D5 --> D6["6. Intérêts plus élevés sur la dette US<br/>(Coûts de refinancement en hausse sur 39,8 T$)"]
-```
+1. **Étage 1 (Startups d'IA Déficitaires):** Brûlent des milliards en serveurs et dépendent des levées de fonds pour régler leurs échéances.
+2. **Étage 2 (Déflation par les Modèles Gratuits):** Les architectures open-source imposent des chutes de prix de 40% à 65% sur les APIs, écrasant les marges.
+3. **Étage 3 (Géants du Cloud):** 2,1 billions $ de contrats de papier servant de garantie pour plus de 725 Md$ d'emprunts obligataires pour construire des datacenters.
+4. **Étage 4 (S&P 500 et Dette Fédérale US):** Concentration record de l'indice (top 10 = 40%) et 12 billions $ de dette souveraine à refinancer à des taux plus élevés.
 
 | Étage | Qui Sont-ils | Exposition Totale | Pourquoi C'est Vulnérable |
 | --- | --- | --- | --- |

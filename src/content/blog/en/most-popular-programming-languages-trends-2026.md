@@ -23,19 +23,64 @@ By analyzing hard metrics from the TIOBE Index, GitHub Octoverse contributor dat
 
 The TIOBE Index measures global search volume across search engines, engineer counts, courses, and third-party vendor support to calculate overall market share.
 
-```mermaid
-pie title TIOBE 2026 Global Search Market Share (%)
-    "Python" : 16.25
-    "C++" : 10.42
-    "Java" : 9.15
-    "C" : 8.80
-    "C#" : 6.75
-    "JavaScript" : 3.20
-    "Go" : 2.85
-    "TypeScript" : 2.60
-    "Rust" : 2.10
-    "Other Languages" : 37.88
-```
+<div class="stat-chart-card">
+  <div class="chart-header">
+    <h4>TIOBE Index 2026: Search Market Share Rating (%)</h4>
+    <span>Global Search Popularity</span>
+  </div>
+  <div class="stat-bar-list">
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">Python</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 90%;"></div></div>
+      <span class="stat-val">16.25%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">C++</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 58%;"></div></div>
+      <span class="stat-val">10.42%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">Java</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 51%;"></div></div>
+      <span class="stat-val">9.15%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">C</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 49%;"></div></div>
+      <span class="stat-val">8.80%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">C#</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 38%;"></div></div>
+      <span class="stat-val">6.75%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">JavaScript</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 18%;"></div></div>
+      <span class="stat-val">3.20%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">Go</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 16%;"></div></div>
+      <span class="stat-val">2.85%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">TypeScript</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 15%;"></div></div>
+      <span class="stat-val">2.60%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">Rust</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 12%;"></div></div>
+      <span class="stat-val">2.10%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">SQL</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 11%;"></div></div>
+      <span class="stat-val">1.95%</span>
+    </div>
+  </div>
+</div>
 
 | 2026 Rank | Language | Market Share Rating (%) | YoY Change | Primary Domain in 2026 |
 | --- | --- | --- | --- | --- |
@@ -58,13 +103,54 @@ pie title TIOBE 2026 Global Search Market Share (%)
 
 While search metrics measure curiosity, GitHub contributor metrics measure what developers are actively building every day.
 
-```mermaid
-xychart-beta
-    title "GitHub 2026: Contributor YoY Growth Rate (%)"
-    x-axis ["Rust", "TypeScript", "Python", "Go", "C#", "Java", "C++", "JavaScript"]
-    y-axis "Growth Rate (%)" 0 --> 40
-    bar [34.5, 28.4, 22.1, 19.7, 8.3, 6.1, 5.0, 4.2]
-```
+<div class="stat-chart-card">
+  <div class="chart-header">
+    <h4>GitHub 2026: Contributor YoY Growth Rate (%)</h4>
+    <span>Octoverse Metric</span>
+  </div>
+  <div class="stat-bar-list">
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">Rust</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 86%;"></div></div>
+      <span class="stat-val">+34.5%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">TypeScript</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 71%;"></div></div>
+      <span class="stat-val">+28.4%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">Python</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 55%;"></div></div>
+      <span class="stat-val">+22.1%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">Go</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 49%;"></div></div>
+      <span class="stat-val">+19.7%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">C#</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 21%;"></div></div>
+      <span class="stat-val">+8.3%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">Java</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 15%;"></div></div>
+      <span class="stat-val">+6.1%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">C++</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 12%;"></div></div>
+      <span class="stat-val">+5.0%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">JavaScript</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 10%;"></div></div>
+      <span class="stat-val">+4.2%</span>
+    </div>
+  </div>
+</div>
 
 **Key Takeaway:** TypeScript's +28.4% contributor surge and Rust's +34.5% growth rate demonstrate a major shift toward statically typed, compiler-verified codebases that eliminate runtime crashes.
 
@@ -74,21 +160,103 @@ xychart-beta
 
 The gap between what developers use at work and what they genuinely love using reveals where the industry is heading.
 
-```mermaid
-xychart-beta
-    title "Stack Overflow 2026: Developer Admiration Rate (%)"
-    x-axis ["Rust", "Go", "TypeScript", "Python", "SQL", "C#", "Java", "C++"]
-    y-axis "Admiration (%)" 0 --> 100
-    bar [84.6, 74.5, 73.2, 68.9, 65.4, 62.3, 47.8, 46.1]
-```
+<div class="stat-chart-card">
+  <div class="chart-header">
+    <h4>Stack Overflow 2026: Developer Admiration Rate (%)</h4>
+    <span>Developer Sentiment</span>
+  </div>
+  <div class="stat-bar-list">
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">Rust</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 85%;"></div></div>
+      <span class="stat-val">84.6%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">Go</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 75%;"></div></div>
+      <span class="stat-val">74.5%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">TypeScript</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 73%;"></div></div>
+      <span class="stat-val">73.2%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">Python</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 69%;"></div></div>
+      <span class="stat-val">68.9%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">SQL</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 65%;"></div></div>
+      <span class="stat-val">65.4%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">C#</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 62%;"></div></div>
+      <span class="stat-val">62.3%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">Java</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 48%;"></div></div>
+      <span class="stat-val">47.8%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">C++</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 46%;"></div></div>
+      <span class="stat-val">46.1%</span>
+    </div>
+  </div>
+</div>
 
-```mermaid
-xychart-beta
-    title "Stack Overflow 2026: Median Global Annual Salary ($k USD)"
-    x-axis ["Rust", "Go", "C++", "Python", "Java", "C#", "TypeScript", "SQL"]
-    y-axis "Salary ($k)" 0 --> 140
-    bar [124, 112, 95, 92, 88, 86, 84, 78]
-```
+<div class="stat-chart-card">
+  <div class="chart-header">
+    <h4>Stack Overflow 2026: Median Global Annual Salary ($k USD)</h4>
+    <span>Annual Compensation</span>
+  </div>
+  <div class="stat-bar-list">
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">Rust</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 89%;"></div></div>
+      <span class="stat-val">$124k</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">Go</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 80%;"></div></div>
+      <span class="stat-val">$112k</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">C++</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 68%;"></div></div>
+      <span class="stat-val">$95k</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">Python</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 66%;"></div></div>
+      <span class="stat-val">$92k</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">Java</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 63%;"></div></div>
+      <span class="stat-val">$88k</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">C#</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 61%;"></div></div>
+      <span class="stat-val">$86k</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">TypeScript</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 60%;"></div></div>
+      <span class="stat-val">$84k</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">SQL</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 56%;"></div></div>
+      <span class="stat-val">$78k</span>
+    </div>
+  </div>
+</div>
 
 **Key Takeaway:** Rust holds the highest admiration rating at 84.6%, paired with the highest median global salary ($124,000), followed closely by Go ($112,000), reflecting a major premium for engineers building high-efficiency infrastructure.
 

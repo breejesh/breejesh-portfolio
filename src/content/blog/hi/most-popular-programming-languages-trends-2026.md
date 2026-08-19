@@ -23,19 +23,64 @@ previewImage: /assets/images/most-popular-programming-languages-trends-2026.webp
 
 टीआईओबीई इंडेक्स सर्च इंजनों पर खोज, प्रशिक्षित इंजीनियरों की संख्या, पाठ्यक्रमों और तकनीकी समर्थन के आधार पर प्रत्येक भाषा की बाजार हिस्सेदारी मापता है।
 
-```mermaid
-pie title २०२६ वैश्विक सर्च बाजार हिस्सेदारी (%)
-    "पायथन" : 16.25
-    "सी++" : 10.42
-    "जावा" : 9.15
-    "सी" : 8.80
-    "सी-शार्प" : 6.75
-    "जावास्क्रिप्ट" : 3.20
-    "गो" : 2.85
-    "टाइपस्क्रिप्ट" : 2.60
-    "रस्ट" : 2.10
-    "अन्य भाषाएं" : 37.88
-```
+<div class="stat-chart-card">
+  <div class="chart-header">
+    <h4>टीआईओबीई इंडेक्स २०२६: सर्च बाजार हिस्सेदारी (%)</h4>
+    <span>वैश्विक लोकप्रियता</span>
+  </div>
+  <div class="stat-bar-list">
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">पायथन</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 90%;"></div></div>
+      <span class="stat-val">१६.२५%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">सी++</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 58%;"></div></div>
+      <span class="stat-val">१०.४२%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">जावा</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 51%;"></div></div>
+      <span class="stat-val">९.१५%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">सी</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 49%;"></div></div>
+      <span class="stat-val">८.८०%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">सी-शार्प</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 38%;"></div></div>
+      <span class="stat-val">६.७५%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">जावास्क्रिप्ट</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 18%;"></div></div>
+      <span class="stat-val">३.२०%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">गो</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 16%;"></div></div>
+      <span class="stat-val">२.८५%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">टाइपस्क्रिप्ट</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 15%;"></div></div>
+      <span class="stat-val">२.६०%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">रस्ट</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 12%;"></div></div>
+      <span class="stat-val">२.१०%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">एसक्यूएल</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 11%;"></div></div>
+      <span class="stat-val">१.९५%</span>
+    </div>
+  </div>
+</div>
 
 | २०२६ रैंक | प्रोग्रामिंग भाषा | बाजार हिस्सेदारी (%) | वार्षिक बदलाव | २०२६ में मुख्य कार्यक्षेत्र |
 | --- | --- | --- | --- | --- |
@@ -58,13 +103,54 @@ pie title २०२६ वैश्विक सर्च बाजार हि
 
 सर्च डेटा जहां रुचि को दर्शाता है, वहीं गिटहब का डेटा यह दिखाता है कि इंजीनियर वास्तव में किन भाषाओं में रोजाना कोड लिख रहे हैं।
 
-```mermaid
-xychart-beta
-    title "गिटहब २०२६: ओपन-सोर्स योगदानकर्ता वार्षिक वृद्धि (%)"
-    x-axis ["रस्ट", "टाइपस्क्रिप्ट", "पायथन", "गो", "सी-शार्प", "जावा", "सी++", "जावास्क्रिप्ट"]
-    y-axis "वृद्धि दर (%)" 0 --> 40
-    bar [34.5, 28.4, 22.1, 19.7, 8.3, 6.1, 5.0, 4.2]
-```
+<div class="stat-chart-card">
+  <div class="chart-header">
+    <h4>गिटहब २०२६: ओपन-सोर्स योगदानकर्ता वार्षिक वृद्धि (%)</h4>
+    <span>ऑक्टोवर्स आंकड़े</span>
+  </div>
+  <div class="stat-bar-list">
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">रस्ट</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 86%;"></div></div>
+      <span class="stat-val">+३४.५%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">टाइपस्क्रिप्ट</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 71%;"></div></div>
+      <span class="stat-val">+२८.४%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">पायथन</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 55%;"></div></div>
+      <span class="stat-val">+२२.१%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">गो</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 49%;"></div></div>
+      <span class="stat-val">+१९.७%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">सी-शार्प</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 21%;"></div></div>
+      <span class="stat-val">+८.३%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">जावा</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 15%;"></div></div>
+      <span class="stat-val">+६.१%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">सी++</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 12%;"></div></div>
+      <span class="stat-val">+५.०%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">जावास्क्रिप्ट</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 10%;"></div></div>
+      <span class="stat-val">+४.२%</span>
+    </div>
+  </div>
+</div>
 
 **मुख्य निष्कर्ष:** टाइपस्क्रिप्ट में +२८.४% और रस्ट में +३४.५% की उछाल यह दर्शाती है कि उद्योग अब ऐसे कोडबेस पसंद कर रहा है जो चलने से पहले ही गलतियों को पकड़ लें ताकि सिस्टम क्रैश न हो।
 
@@ -74,21 +160,103 @@ xychart-beta
 
 डेवलपर्स मजबूरी में क्या उपयोग करते हैं और खुशी से क्या सीखना चाहते हैं, इसका अंतर बताता है कि आने वाले वर्षों में कौन सी तकनीकें आगे रहेंगी।
 
-```mermaid
-xychart-beta
-    title "स्टैक ओवरफ्लो २०२६: डेवलपर संतुष्टि दर (%)"
-    x-axis ["रस्ट", "गो", "टाइपस्क्रिप्ट", "पायथन", "एसक्यूएल", "सी-शार्प", "जावा", "सी++"]
-    y-axis "संतुष्टि (%)" 0 --> 100
-    bar [84.6, 74.5, 73.2, 68.9, 65.4, 62.3, 47.8, 46.1]
-```
+<div class="stat-chart-card">
+  <div class="chart-header">
+    <h4>स्टैक ओवरफ्लो २०२६: डेवलपर संतुष्टि दर (%)</h4>
+    <span>डेवलपर सर्वे</span>
+  </div>
+  <div class="stat-bar-list">
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">रस्ट</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 85%;"></div></div>
+      <span class="stat-val">८४.६%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">गो</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 75%;"></div></div>
+      <span class="stat-val">७४.५%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">टाइपस्क्रिप्ट</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 73%;"></div></div>
+      <span class="stat-val">७३.२%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">पायथन</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 69%;"></div></div>
+      <span class="stat-val">६८.९%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">एसक्यूएल</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 65%;"></div></div>
+      <span class="stat-val">६५.४%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">सी-शार्प</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 62%;"></div></div>
+      <span class="stat-val">६२.३%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">जावा</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 48%;"></div></div>
+      <span class="stat-val">४७.८%</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">सी++</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 46%;"></div></div>
+      <span class="stat-val">४६.१%</span>
+    </div>
+  </div>
+</div>
 
-```mermaid
-xychart-beta
-    title "स्टैक ओवरफ्लो २०२६: औसत वार्षिक वेतन (हजार डॉलर)"
-    x-axis ["रस्ट", "गो", "सी++", "पायथन", "जावा", "सी-शार्प", "टाइपस्क्रिप्ट", "एसक्यूएल"]
-    y-axis "वेतन ($k)" 0 --> 140
-    bar [124, 112, 95, 92, 88, 86, 84, 78]
-```
+<div class="stat-chart-card">
+  <div class="chart-header">
+    <h4>स्टैक ओवरफ्लो २०२६: औसत वार्षिक वेतन (हजार डॉलर)</h4>
+    <span>वार्षिक पैकेज</span>
+  </div>
+  <div class="stat-bar-list">
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">रस्ट</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 89%;"></div></div>
+      <span class="stat-val">$१२४k</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">गो</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 80%;"></div></div>
+      <span class="stat-val">$११२k</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">सी++</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 68%;"></div></div>
+      <span class="stat-val">$९५k</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">पायथन</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 66%;"></div></div>
+      <span class="stat-val">$९२k</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">जावा</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 63%;"></div></div>
+      <span class="stat-val">$८८k</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">सी-शार्प</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 61%;"></div></div>
+      <span class="stat-val">$८६k</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">टाइपस्क्रिप्ट</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 60%;"></div></div>
+      <span class="stat-val">$८४k</span>
+    </div>
+    <div class="stat-bar-row">
+      <span class="stat-lang-name">एसक्यूएल</span>
+      <div class="stat-track"><div class="stat-fill" style="width: 56%;"></div></div>
+      <span class="stat-val">$७८k</span>
+    </div>
+  </div>
+</div>
 
 **मुख्य निष्कर्ष:** रस्ट ८४.६% की उच्चतम संतुष्टि और $१२४,००० के शीर्ष औसत वेतन के साथ सबसे आगे है, जिसके ठीक बाद गो ($११२,०००) का स्थान है। यह दिखाता है कि तेज इंफ्रास्ट्रक्चर बनाने वाले इंजीनियरों की बाजार में भारी मांग है।
 

@@ -28,16 +28,6 @@ Most people remember 2008 for the collapse of Lehman Brothers, government bailou
 
 In 2006, the subprime mortgage machine quietly broke while headlines celebrated a booming economy and home prices sat at all-time highs.
 
-```mermaid
-flowchart TD
-    H1["1. Cheap 2-Year Loan<br/>(3% teaser interest rate)"] --> H2["2. Rate Shock at Year 2<br/>(Interest jumps to 9%+)"]
-    H2 --> H3{"Did house price rise<br/>fast enough?"}
-    H3 -->|"YES: +15% to 20% / yr"| H4["Borrow more against higher value<br/>-> Pay off old loan with new debt"]
-    H4 --> H1
-    H3 -->|"NO: +8% / yr (slower growth)"| H5["Not enough equity for new loan<br/>-> Refinancing ladder breaks"]
-    H5 --> H6["Borrowers default on payments<br/>-> Mortgage market collapses"]
-```
-
 ### How the 2/28 loan carousel worked
 
 1. **The Teaser Rate:** A homebuyer signed a loan with an artificially cheap interest rate for the first 2 years (like 3%).
@@ -62,16 +52,12 @@ The collapse in 2008 was simply the mathematical outcome of a growth slowdown th
 
 The same debt replacement machine is running today inside the artificial intelligence industry.
 
-```mermaid
-flowchart TD
-    A1["1. AI Startup Burns Billions<br/>(Zero net profit on compute)"] --> A2["2. Signs $2.1T in Contracts<br/>(Promises future cash to cloud giants)"]
-    A2 --> A3["3. Cloud Giants Borrow $725B<br/>(Issue bonds to build data centers)"]
-    A3 --> A4["4. Startup Raises New Round<br/>(Huge valuation jump to $852B)"]
-    A4 --> A5["5. Pays Today's Server Bills<br/>(Using new investor money)"]
-    A5 --> A6{"Can startup double its<br/>valuation every round?"}
-    A6 -->|"YES (1.7x+ step-ups)"| A4
-    A6 -->|"NO (Cheap open models cut prices)"| A7["Funding carousel breaks<br/>-> Cloud giants left with unpaid debt"]
-```
+### The 2026 AI compute debt cycle
+
+1. **AI Startups Burn Billions:** Model training and inferencing operate at massive operational cash deficits.
+2. **Take-or-Pay Cloud Commitments:** Startups sign binding multi-year server contracts with major cloud providers.
+3. **Cloud Giants Issue Corporate Debt:** Hyperscalers borrow hundreds of billions to build gigawatt-scale data center facilities.
+4. **Valuation-Driven Debt Rollovers:** Startups raise larger equity rounds at higher valuations to pay yesterday's server bills with today's investor checks.
 
 | Funding Round | Company Valuation | Valuation Jump | What Happened |
 | --- | --- | --- | --- |
@@ -153,15 +139,10 @@ Just like in 2006, AI does not need to fail for the financial structure to break
 
 This is not just a problem for Silicon Valley venture capitalists. The debt is stacked across three connected layers:
 
-```mermaid
-flowchart TD
-    D1["1. Cheap Open AI Models Drop Prices<br/>(Kimi K3 & DeepSeek cut fees up to 65%)"]
-    D1 --> D2["2. Slower Revenue Growth for AI Startups<br/>(Valuation jumps shrink from 1.9x to 1.2x)"]
-    D2 --> D3["3. Startups Struggle to Pay Server Bills<br/>(Straining $2.1T in promised contracts)"]
-    D3 --> D4["4. Tech Giants Face Losses on Data Centers<br/>($725B in debt-financed construction)"]
-    D4 --> D5["5. S&P 500 & Retirement Accounts Fall<br/>(Top 10 tech stocks make up 40% of index)"]
-    D5 --> D6["6. Higher Interest on $39.8T US National Debt<br/>(Sovereign rollover costs spike as confidence slips)"]
-```
+1. **Tier 1 (Unprofitable AI Startups):** Burning tens of billions annually on compute commitments; dependent on valuation step-ups to fund payroll and GPU contracts.
+2. **Tier 2 (Open-Source Deflation):** Free and low-cost open models trigger 40%–65% price slashing across commercial APIs, compressing unit economics.
+3. **Tier 3 (Cloud Hyperscalers):** $2.1 Trillion in contract backlog supporting over $725 Billion in debt-funded datacenter infrastructure builds.
+4. **Tier 4 (S&P 500 & Sovereign Debt):** Top 10 stocks make up ~40% of the S&P 500, while the US Treasury faces $12 Trillion in debt rollovers by 2027 under higher yield scrutiny.
 
 | Layer | Who It Is | Total Exposure | Why It Is Vulnerable |
 | --- | --- | --- | --- |

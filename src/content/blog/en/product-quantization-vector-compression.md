@@ -9,12 +9,12 @@ previewImage: /assets/images/product-quantization-vector-compression.webp
 
 > **TL;DR**
 > * **The Problem:** 1M vectors at 128 dimensions (float32) consume 512 MB of RAM. At 768 dimensions, that grows to 3.07 GB. Brute-force search across these vectors runs at roughly 20 queries per second.
-> * **The Insight:** Product Quantization (PQ) splits each vector into $m$ subvectors, clusters each sub-space into 256 centroids, and replaces the original floats with 1-byte centroid IDs. Asymmetric Distance Computation (ADC) precomputes a small lookup table per query, reducing per-vector distance to $m$ table reads instead of $D$ float multiplications.
+> * **The Insight:** Product Quantization (PQ) splits each vector into `m` subvectors, clusters each sub-space into 256 centroids, and replaces the original floats with 1-byte centroid IDs. Asymmetric Distance Computation (ADC) precomputes a small lookup table per query, reducing per-vector distance to `m` table reads instead of `D` float multiplications.
 > * **The Result:** RAM drops from 512 MB to 8 MB (98.4% reduction). Pairing PQ with an Inverted File Index (IVF) pushes throughput from 20 QPS to 1,900+ QPS, a 92x speedup, while maintaining 79% recall@10.
 
 ## Why Vector Search Needs Compression
 
-Every vector in an index occupies $D \times 4$ bytes (float32). Here is what that costs at scale:
+Every vector in an index occupies `D × 4` bytes (float32). Here is what that costs at scale:
 
 | Vectors | Dimensions | Raw Size | Approximate Server RAM |
 |---|---|---|---|
@@ -47,19 +47,19 @@ QUANTIZATION (PQ)
                            Saved: same structure, 99.5% smaller representation
 ```
 
-**Dimensionality reduction** drops dimensions $D$ but keeps float32 precision. **Quantization** keeps all $D$ dimensions encoded but compresses each value's scope $S$ from infinite floats to a finite set of centroid codes. PQ is a quantization method.
+**Dimensionality reduction** drops dimensions `D` but keeps float32 precision. **Quantization** keeps all `D` dimensions encoded but compresses each value's scope `S` from infinite floats to a finite set of centroid codes. PQ is a quantization method.
 
 ---
 
 ## How Product Quantization Works
 
-Plain k-means with $k = 256$ centroids on 128-dim vectors stores $256 \times 128 = 32{,}768$ floats in the codebook and assigns each vector a single byte (its cluster ID). The problem: 256 centroids cannot represent the fine-grained structure of a 128-dimensional space. You need millions of centroids for high recall, but k-means does not scale to $k = 2^{64}$.
+Plain k-means with `k = 256` centroids on 128-dim vectors stores $256 \times 128 = 32{,}768$ floats in the codebook and assigns each vector a single byte (its cluster ID). The problem: 256 centroids cannot represent the fine-grained structure of a 128-dimensional space. You need millions of centroids for high recall, but k-means does not scale to `k = 2⁶⁴`.
 
 PQ solves this by decomposing the quantization into independent sub-problems.
 
 ### Step 1: Split Vectors into Subvectors
 
-Given a vector $x$ with $D = 128$ dimensions, PQ divides it into $m = 8$ contiguous subvectors, each with $D^* = D/m = 16$ dimensions:
+Given a vector `x` with `D = 128` dimensions, PQ divides it into `m = 8` contiguous subvectors, each with `D* = D/m = 16` dimensions:
 
 ```
 x = [x_1, x_2, ..., x_128]
@@ -69,7 +69,7 @@ x = [x_1, x_2, ..., x_128]
 
 ### Step 2: Train One Codebook per Sub-Space
 
-PQ runs k-means independently on each of the $m = 8$ sub-spaces. Each sub-quantizer clusters the training data into $k^* = 256$ centroids ($2^8$, fits in 1 byte).
+PQ runs k-means independently on each of the `m = 8` sub-spaces. Each sub-quantizer clusters the training data into `k* = 256` centroids (`2^8`, fits in 1 byte).
 
 This produces 8 codebooks, each containing 256 centroids of 16 dimensions:
 
@@ -82,11 +82,11 @@ Codebook 8: 256 centroids x 16 dims  (for u_8)
 
 Total codebook storage: $8 \times 256 \times 16 \times 4 = 131{,}072$ bytes (128 KB). This is a one-time fixed cost regardless of dataset size.
 
-The critical insight: 8 independent codebooks of 256 centroids each produce a combinatorial product of $256^8 = 2^{64}$ possible reproduction values. That is over 18 quintillion distinct quantized vectors, far more than plain k-means could ever produce.
+The critical insight: 8 independent codebooks of 256 centroids each produce a combinatorial product of `256⁸ = 2⁶⁴` possible reproduction values. That is over 18 quintillion distinct quantized vectors, far more than plain k-means could ever produce.
 
 ### Step 3: Encode Each Vector
 
-For every database vector $x$, PQ assigns each subvector $u_j$ to its nearest centroid $c_j$ in Codebook $j$, recording only the centroid index (0 to 255):
+For every database vector `x`, PQ assigns each subvector `u_j` to its nearest centroid `c_j` in Codebook `j`, recording only the centroid index (0 to 255):
 
 ```
 Original:    [float32 x 128] = 512 bytes
@@ -116,7 +116,7 @@ The reconstructed vector is an approximation. Quantization error (distortion) de
 
 ## Distance Computation: SDC vs ADC
 
-PQ supports two modes for computing distances between a query $q$ and database vectors:
+PQ supports two modes for computing distances between a query `q` and database vectors:
 
 ### Symmetric Distance Computation (SDC)
 
@@ -124,13 +124,13 @@ Both the query and database vectors are quantized. Distance is computed between 
 
 ### Asymmetric Distance Computation (ADC)
 
-Only the database vectors are quantized. The query vector $q$ stays in its original float32 form. This is more accurate because only one side carries quantization error.
+Only the database vectors are quantized. The query vector `q` stays in its original float32 form. This is more accurate because only one side carries quantization error.
 
 ADC works in two phases:
 
 **Phase 1: Build lookup table (once per query)**
 
-Split query $q$ into $m$ subvectors. For each sub-space $j$, compute the L2 distance from $q_j$ to all 256 centroids in Codebook $j$:
+Split query `q` into `m` subvectors. For each sub-space `j`, compute the L2 distance from `q_j` to all 256 centroids in Codebook `j`:
 
 ```
 Lookup Table (m=8 rows, k*=256 columns):
@@ -152,7 +152,7 @@ distance = table[0][42] + table[1][189] + table[2][7] + table[3][201]
          + table[4][55] + table[5][130] + table[6][88] + table[7][12]
 ```
 
-Cost per vector: $m = 8$ table lookups and 7 additions. No float multiplications. This is why PQ search is fast.
+Cost per vector: `m = 8` table lookups and 7 additions. No float multiplications. This is why PQ search is fast.
 
 ---
 
@@ -336,12 +336,12 @@ index.add(xb)
 
 OPQ typically improves recall by 5-10 percentage points over plain PQ at zero additional query-time cost.
 
-### Subvector Count ($m$) Selection
+### Subvector Count (`m`) Selection
 
-$D$ must be evenly divisible by $m$. For $D = 768$: valid values include $m = 8, 12, 16, 24, 32, 48, 64, 96$.
+`D` must be evenly divisible by `m`. For $D = 768$: valid values include $m = 8, 12, 16, 24, 32, 48, 64, 96$.
 
-Rule of thumb: start with $m = D / 4$ (i.e. 4-dimensional sub-spaces), which gives the highest recall. If RAM is tight, decrease $D^*$ to 2 or even 1 dimension per subvector, accepting lower recall.
+Rule of thumb: start with $m = D / 4$ (i.e. 4-dimensional sub-spaces), which gives the highest recall. If RAM is tight, decrease `D*` to 2 or even 1 dimension per subvector, accepting lower recall.
 
 ### Training Data Requirements
 
-Each sub-quantizer trains k-means with $k^* = 256$ centroids. k-means needs at least $30 \times k^*$ training points to converge reliably, which means a minimum of roughly 8,000 vectors. For best results, use 10x to 100x that number (65K to 650K training vectors).
+Each sub-quantizer trains k-means with `k* = 256` centroids. k-means needs at least $30 \times k^*$ training points to converge reliably, which means a minimum of roughly 8,000 vectors. For best results, use 10x to 100x that number (65K to 650K training vectors).

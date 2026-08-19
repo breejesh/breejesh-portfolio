@@ -28,16 +28,6 @@ Casi todo el mundo recuerda 2008 por la quiebra de Lehman Brothers, los rescates
 
 En 2006, la maquinaria de las hipotecas subprime se rompió en silencio mientras las noticias hablaban de una economía fuerte y las casas estaban en máximos históricos de precio.
 
-```mermaid
-flowchart TD
-    H1["1. Préstamo Barato a 2 Años<br/>(3% interés inicial gancho)"] --> H2["2. Salto de Interés al Año 2<br/>(El interés sube al 9%+)"]
-    H2 --> H3{"¿Subió el valor de la casa<br/>lo bastante rápido?"}
-    H3 -->|"SÍ: +15% a 20% / año"| H4["Pide préstamo mayor sobre nueva plusvalía<br/>-> Cancela préstamo viejo con nueva deuda"]
-    H4 --> H1
-    H3 -->|"NO: +8% / año (crece más lento)"| H5["Plusvalía insuficiente para nuevo préstamo<br/>-> La escalera de refinanciación quiebra"]
-    H5 --> H6["Compradores dejan de pagar cuotas<br/>-> El mercado hipotecario colapsa"]
-```
-
 ### Cómo funcionaba la rueda de los préstamos 2/28
 
 1. **La Tasa Gancho:** El comprador firmaba una hipoteca con un interés artificialmente bajo los primeros 2 años (ej. 3%).
@@ -62,16 +52,12 @@ El colapso de 2008 fue el resultado matemático de un frenazo que ocurrió dos a
 
 Esa misma máquina de sustitución de deuda está funcionando hoy dentro de la industria de la inteligencia artificial.
 
-```mermaid
-flowchart TD
-    A1["1. Startup de IA Pierde Miles de Millones<br/>(Cero beneficio neto en computación)"] --> A2["2. Firma $2.1B en Contratos con Nube<br/>(Promete pagos futuros a gigantes tech)"]
-    A2 --> A3["3. Gigantes de Nube Piden $725B<br/>(Emiten bonos para construir centros de datos)"]
-    A3 --> A4["4. Startup Recauda Nueva Ronda<br/>(Salto gigante de valoración a $852B)"]
-    A4 --> A5["5. Paga Facturas de Servidores de Hoy<br/>(Usando dinero de nuevos inversores)"]
-    A5 --> A6{"¿Puede la startup duplicar su<br/>valoración en cada ronda?"}
-    A6 -->|"SÍ (Saltos de 1.7x+)"| A4
-    A6 -->|"NO (Modelos abiertos bajan tarifas)"| A7["La rueda de fondos se rompe<br/>-> Gigantes de nube quedan con deuda impagada"]
-```
+### El ciclo de deuda de computación de IA en 2026
+
+1. **Startups de IA Queman Capital:** El entrenamiento de modelos genera déficits de caja masivos todos los meses.
+2. **Compromisos de Servidores Take-or-Pay:** Las startups firman contratos obligatorios plurianuales con los gigantes de la nube.
+3. **Gigantes de la Nube Emiten Bonos:** Las grandes tecnológicas piden prestados cientos de miles de millones para construir centros de datos a escala de gigavatios.
+4. **Renovación de Deuda por Mayor Valoración:** Las startups levantan nuevas rondas a precios más altos para pagar las facturas de ayer con el dinero de los inversores de hoy.
 
 | Ronda de Inversión | Valoración de la Empresa | Salto de Valoración | Qué Ocurrió |
 | --- | --- | --- | --- |
@@ -153,15 +139,10 @@ Al igual que en 2006, la IA no necesita fracasar para que el sistema financiero 
 
 Este problema no afecta únicamente a los fondos de capital riesgo de Silicon Valley. La deuda está conectada en tres niveles:
 
-```mermaid
-flowchart TD
-    D1["1. Modelos abiertos bajan precios<br/>(Kimi K3 y DeepSeek recortan tarifas hasta 65%)"]
-    D1 --> D2["2. Menor crecimiento de ingresos en IA<br/>(Saltos de valoración bajan de 1.9x a 1.2x)"]
-    D2 --> D3["3. Startups sufren para pagar facturas<br/>(Tensión sobre $2.1B en contratos prometidos)"]
-    D3 --> D4["4. Gigantes de nube asumen pérdidas<br/>($725B en centros de datos financiados con deuda)"]
-    D4 --> D5["5. El índice S&P 500 y pensiones caen<br/>(Las 10 mayores tecnológicas son 40% del índice)"]
-    D5 --> D6["6. Mayores intereses en deuda de EE. UU.<br/>(Costes de refinanciación suben en $39.8B de deuda)"]
-```
+1. **Nivel 1 (Startups de IA en Pérdidas):** Queman decenas de miles de millones al año en servidores; dependen de saltos de valoración constantes para pagar nóminas y GPUs.
+2. **Nivel 2 (Deflación por Modelos Libres):** Los modelos abiertos obligan a recortar precios de API entre un 40% y un 65%, reduciendo drásticamente los márgenes.
+3. **Nivel 3 (Gigantes de la Nube):** $2.1 Billones en contratos de papel que sustentan más de $725 Mil Millones en deuda emitida para construir centros de datos.
+4. **Nivel 4 (S&P 500 y Deuda Soberana):** Las 10 mayores empresas suponen cerca del 40% del S&P 500, mientras el Tesoro de EE. UU. debe renovar $12 Billones de deuda pública con intereses más altos.
 
 | Nivel | Quiénes Son | Exposición Total | Por Qué Es Vulnerable |
 | --- | --- | --- | --- |

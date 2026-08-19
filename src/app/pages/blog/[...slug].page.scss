@@ -244,6 +244,12 @@
   margin: 16px 0 24px;
 }
 
+:host ::ng-deep .post-content p:has(> img[src*="blog-data"]) {
+  display: block;
+  margin: 28px 0;
+  text-align: center;
+}
+
 :host ::ng-deep .post-content img {
   /* Keep HTML width="…" from markdown/README; only cap to container */
   max-width: 100%;
@@ -257,9 +263,19 @@
   box-shadow: none;
 }
 
-/* Caption lines under charts (markdown italic paragraphs) */
-:host ::ng-deep .post-content p:has(> em:only-child),
-:host ::ng-deep .post-content p > em:only-child {
+:host ::ng-deep .post-content img[src*="blog-data"] {
+  display: block;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  background: #090d16;
+}
+
+/* Caption lines under images/charts */
+:host ::ng-deep .post-content .fig-caption {
   display: block;
   font-size: 0.82rem;
   line-height: 1.4;

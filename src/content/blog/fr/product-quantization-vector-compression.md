@@ -9,12 +9,12 @@ previewImage: /assets/images/product-quantization-vector-compression.webp
 
 > **TL;DR**
 > * **Le Problème:** 1M de vecteurs en 128 dimensions (float32) consomment 512 Mo de RAM. A 768 dimensions, cela monte à 3,07 Go. La recherche par force brute plafonne à environ 20 requêtes par seconde.
-> * **Le Constat:** Product Quantization (PQ) découpe chaque vecteur en $m$ sous-vecteurs, regroupe chaque sous-espace en 256 centroïdes et remplace les valeurs float par des identifiants d'1 octet. Asymmetric Distance Computation (ADC) précalcule une table de correspondance par requête, réduisant le calcul de distance à $m$ lectures de table au lieu de $D$ multiplications flottantes.
+> * **Le Constat:** Product Quantization (PQ) découpe chaque vecteur en `m` sous-vecteurs, regroupe chaque sous-espace en 256 centroïdes et remplace les valeurs float par des identifiants d'1 octet. Asymmetric Distance Computation (ADC) précalcule une table de correspondance par requête, réduisant le calcul de distance à `m` lectures de table au lieu de `D` multiplications flottantes.
 > * **Le Résultat:** La RAM passe de 512 Mo à 8 Mo (réduction de 98,4%). En associant PQ à un index Inverted File (IVF), le débit monte de 20 QPS à plus de 1 900 QPS, soit une accélération de 92x, avec un rappel@10 de 79%.
 
 ## Pourquoi la Recherche Vectorielle a Besoin de Compression
 
-Chaque vecteur dans un index occupe $D \times 4$ octets (float32). Voici le coût à grande échelle:
+Chaque vecteur dans un index occupe `D × 4` octets (float32). Voici le coût à grande échelle:
 
 | Vecteurs | Dimensions | Taille Brute | RAM Serveur Approximative |
 |---|---|---|---|
@@ -47,19 +47,19 @@ QUANTIZATION (PQ)
                            Saved: same structure, 99.5% smaller representation
 ```
 
-**La réduction de dimensionnalité** supprime des dimensions $D$ mais conserve la précision float32. **La quantification** conserve les $D$ dimensions encodées mais compresse le champ $S$ des valeurs possibles de flottants infinis à un ensemble fini de codes de centroïde. PQ est une méthode de quantification.
+**La réduction de dimensionnalité** supprime des dimensions `D` mais conserve la précision float32. **La quantification** conserve les `D` dimensions encodées mais compresse le champ `S` des valeurs possibles de flottants infinis à un ensemble fini de codes de centroïde. PQ est une méthode de quantification.
 
 ---
 
 ## Comment Fonctionne Product Quantization
 
-k-means avec $k = 256$ centroïdes sur des vecteurs de 128 dimensions stocke $256 \times 128 = 32 768$ flottants dans le codebook et assigne un seul octet à chaque vecteur (son identifiant de cluster). Le problème: 256 centroïdes ne représentent pas la structure fine d'un espace à 128 dimensions. Il faudrait des millions de centroïdes, mais k-means ne passe pas à $k = 2^{64}$.
+k-means avec `k = 256` centroïdes sur des vecteurs de 128 dimensions stocke $256 \times 128 = 32 768$ flottants dans le codebook et assigne un seul octet à chaque vecteur (son identifiant de cluster). Le problème: 256 centroïdes ne représentent pas la structure fine d'un espace à 128 dimensions. Il faudrait des millions de centroïdes, mais k-means ne passe pas à `k = 2⁶⁴`.
 
 PQ résout le problème en décomposant la quantification en sous-problèmes indépendants.
 
 ### Étape 1: Découper les Vecteurs en Sous-vecteurs
 
-Pour un vecteur $x$ à $D = 128$ dimensions, PQ le divise en $m = 8$ sous-vecteurs contigus, chacun de $D^* = D/m = 16$ dimensions:
+Pour un vecteur `x` à `D = 128` dimensions, PQ le divise en `m = 8` sous-vecteurs contigus, chacun de `D* = D/m = 16` dimensions:
 
 ```
 x = [x_1, x_2, ..., x_128]
@@ -69,7 +69,7 @@ x = [x_1, x_2, ..., x_128]
 
 ### Étape 2: Entraîner un Codebook par Sous-espace
 
-PQ exécute k-means indépendamment sur chacun des $m = 8$ sous-espaces. Chaque sous-quantificateur regroupe les données d'entraînement en $k^* = 256$ centroïdes ($2^8$, tient dans 1 octet).
+PQ exécute k-means indépendamment sur chacun des `m = 8` sous-espaces. Chaque sous-quantificateur regroupe les données d'entraînement en `k* = 256` centroïdes (`2^8`, tient dans 1 octet).
 
 Cela produit 8 codebooks, chacun contenant 256 centroïdes de 16 dimensions:
 
@@ -82,11 +82,11 @@ Codebook 8: 256 centroids x 16 dims  (for u_8)
 
 Stockage total des codebooks: $8 \times 256 \times 16 \times 4 = 131 072$ octets (128 Ko). C'est un coût fixe indépendant de la taille du dataset.
 
-Le point fondamental: 8 codebooks indépendants de 256 centroïdes chacun produisent un produit combinatoire de $256^8 = 2^{64}$ valeurs de reproduction possibles. Cela dépasse largement ce que k-means pourrait produire avec un codebook unique.
+Le point fondamental: 8 codebooks indépendants de 256 centroïdes chacun produisent un produit combinatoire de `256⁸ = 2⁶⁴` valeurs de reproduction possibles. Cela dépasse largement ce que k-means pourrait produire avec un codebook unique.
 
 ### Étape 3: Encoder Chaque Vecteur
 
-Pour chaque vecteur $x$ de la base, PQ assigne chaque sous-vecteur $u_j$ à son centroïde le plus proche $c_j$ dans le Codebook $j$, en enregistrant uniquement l'indice du centroïde (0 à 255):
+Pour chaque vecteur `x` de la base, PQ assigne chaque sous-vecteur `u_j` à son centroïde le plus proche `c_j` dans le Codebook `j`, en enregistrant uniquement l'indice du centroïde (0 à 255):
 
 ```
 Original:    [float32 x 128] = 512 bytes
@@ -116,7 +116,7 @@ Le vecteur reconstruit est une approximation. L'erreur de quantification (distor
 
 ## Calcul de Distance: SDC vs ADC
 
-PQ propose deux modes pour calculer les distances entre une requête $q$ et les vecteurs de la base:
+PQ propose deux modes pour calculer les distances entre une requête `q` et les vecteurs de la base:
 
 ### Symmetric Distance Computation (SDC)
 
@@ -124,13 +124,13 @@ La requête et les vecteurs sont tous deux quantifiés. La distance est calculé
 
 ### Asymmetric Distance Computation (ADC)
 
-Seuls les vecteurs de la base sont quantifiés. Le vecteur de requête $q$ conserve sa forme float32 d'origine. C'est plus précis car un seul côté porte l'erreur de quantification.
+Seuls les vecteurs de la base sont quantifiés. Le vecteur de requête `q` conserve sa forme float32 d'origine. C'est plus précis car un seul côté porte l'erreur de quantification.
 
 ADC fonctionne en deux phases:
 
 **Phase 1: Construire la table de correspondance (une fois par requête)**
 
-Découper $q$ en $m$ sous-vecteurs. Pour chaque sous-espace $j$, calculer la distance L2 de $q_j$ aux 256 centroïdes du Codebook $j$:
+Découper `q` en `m` sous-vecteurs. Pour chaque sous-espace `j`, calculer la distance L2 de `q_j` aux 256 centroïdes du Codebook `j`:
 
 ```
 Lookup Table (m=8 rows, k*=256 columns):
@@ -152,7 +152,7 @@ distance = table[0][42] + table[1][189] + table[2][7] + table[3][201]
          + table[4][55] + table[5][130] + table[6][88] + table[7][12]
 ```
 
-Coût par vecteur: $m = 8$ lectures de table et 7 additions. Aucune multiplication flottante. C'est pour cela que PQ est rapide.
+Coût par vecteur: `m = 8` lectures de table et 7 additions. Aucune multiplication flottante. C'est pour cela que PQ est rapide.
 
 ---
 
@@ -329,12 +329,12 @@ index.add(xb)
 
 OPQ améliore typiquement le rappel de 5 à 10 points de pourcentage par rapport au PQ standard sans coût supplémentaire en temps de requête.
 
-### Choix du Nombre de Sous-vecteurs ($m$)
+### Choix du Nombre de Sous-vecteurs (`m`)
 
-$D$ doit être divisible par $m$. Pour $D = 768$: les valeurs valides incluent $m = 8, 12, 16, 24, 32, 48, 64, 96$.
+`D` doit être divisible par `m`. Pour $D = 768$: les valeurs valides incluent $m = 8, 12, 16, 24, 32, 48, 64, 96$.
 
-Règle empirique: commencer par $m = D / 4$ (sous-espaces de 4 dimensions), ce qui donne le meilleur rappel. Si la RAM est limitée, réduire $D^*$ à 2 ou 1 dimension par sous-vecteur, en acceptant un rappel moindre.
+Règle empirique: commencer par $m = D / 4$ (sous-espaces de 4 dimensions), ce qui donne le meilleur rappel. Si la RAM est limitée, réduire `D*` à 2 ou 1 dimension par sous-vecteur, en acceptant un rappel moindre.
 
 ### Exigences de Données d'Entraînement
 
-Chaque sous-quantificateur entraîne k-means avec $k^* = 256$ centroïdes. k-means nécessite au minimum $30 \times k^*$ points d'entraînement pour converger, soit environ 8 000 vecteurs. Pour de meilleurs résultats, utiliser 10x à 100x ce nombre (65K à 650K vecteurs d'entraînement).
+Chaque sous-quantificateur entraîne k-means avec `k* = 256` centroïdes. k-means nécessite au minimum $30 \times k^*$ points d'entraînement pour converger, soit environ 8 000 vecteurs. Pour de meilleurs résultats, utiliser 10x à 100x ce nombre (65K à 650K vecteurs d'entraînement).
