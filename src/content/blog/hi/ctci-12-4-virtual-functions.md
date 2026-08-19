@@ -13,14 +13,14 @@ previewImage: /assets/images/ctci-12-4-virtual-functions.webp
 > * **दृष्टिकोण:** सीटीसीआई problem १२.४: explaining dynamic dispatch, vtable, and vptr layout in C++ runtime polymorphism.
 > * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
 
-यह लेख सीटीसीआई समस्या **१२.४** का एक स्पष्ट विवरण प्रदान करता है।
+तकनीकी साक्षात्कार में आपसे समस्या **१२.४** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
 
 ## १. संदर्भ और समस्या कथन
 सीटीसीआई problem १२.४: explaining dynamic dispatch, vtable, and vptr layout in C++ runtime polymorphism.
 
 ## २. कोड और कार्यान्वयन
 
-```java
+```cpp
 class Shape {
 public:
     virtual void draw() { std::cout << "Shape" << std::endl; }

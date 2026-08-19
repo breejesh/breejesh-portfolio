@@ -295,7 +295,7 @@ def cache_aside(
     return loader()
 ```
 
-This is intentionally plain. Production adds metrics, circuit breakers, typed codecs, and often a soft-TTL wrapper. The structure is what matters: **get, lock, load, set with jitter, unlock, retry**.
+This is intentionally plain. Production adds metrics, circuit breakers, typed codecs, and often a soft-TTL wrapper. The structure is what matters: **get, acquire lock, load, set with jitter, release lock, retry**.
 
 ---
 

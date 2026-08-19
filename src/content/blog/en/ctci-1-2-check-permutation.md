@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-1-2-check-permutation.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** Decide if two strings are permutations of each other. Scrabble-tile analogy, sort vs count array vs HashMap in Java, complexity, and edge cases for beginners.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 Two words can look different and still be built from the exact same letters. Interviewers love that idea because it forces you to talk about **frequency**, not just equality.
 

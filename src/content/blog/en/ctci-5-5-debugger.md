@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-5-5-debugger.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 5.5 for beginners: prove that n & (n-1) equals zero only when n has at most one bit set. Power of two, the zero trap, binary walk-throughs, and Java code.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 Someone pastes this line into a code review and asks what it is for:
 

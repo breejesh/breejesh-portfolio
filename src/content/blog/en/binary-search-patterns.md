@@ -7,7 +7,7 @@ coverImage: /assets/images/binary-search-patterns.webp
 previewImage: /assets/images/binary-search-patterns.webp
 ---
 
-Binary search is not one trick. Interviews and production code keep reusing a few shapes: find a value, find a boundary, and search over the *answer* instead of the array. Most bugs are not "I forgot log n." They are off-by-one mistakes in the loop invariant.
+Binary search is not a single trick. Both interviews and real production systems reuse three core patterns: finding an exact target, finding a boundary, and searching over the monotonic answer space. Most bugs are not "I forgot log n." They are off-by-one mistakes in the loop invariant.
 
 This post is the short map I keep. Python templates, the mental model for each shape, and the traps that waste half an hour on a whiteboard.
 

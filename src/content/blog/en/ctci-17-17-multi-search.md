@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-17-17-multi-search.webp
 > * **The Approach:** CTCI problem 17.17: search a big string for all occurrences of a set of smaller target strings using Suffix Trie.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **17.17**.
+You walk into an interview and get handed problem **17.17**: search a big string for all occurrences of a set of smaller target strings using Suffix Trie. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 17.17: search a big string for all occurrences of a set of smaller target strings using Suffix Trie.

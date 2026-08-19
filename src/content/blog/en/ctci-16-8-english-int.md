@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-16-8-english-int.webp
 > * **The Approach:** CTCI problem 16.8: convert an integer into its English words representation (e.g. 1234 -> One Thousand Two Hundred Thirty Four).
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **16.8**.
+You walk into an interview and get handed problem **16.8**: convert an integer into its English words representation (e.g. 1234 -> One Thousand Two Hundred Thirty Four). The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 16.8: convert an integer into its English words representation (e.g. 1234 -> One Thousand Two Hundred Thirty Four).

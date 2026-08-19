@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-4-5-validate-bst.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 4.5 for beginners: check whether a binary tree is a binary search tree. Primary approach uses recursive min/max bounds; in-order sorted scan is the optional check.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A binary search tree is not "left child smaller, right child larger." That only checks the immediate kids. A real BST says: **every** value in the left subtree is less than the node, and **every** value in the right subtree is greater. Miss one distant grandchild and the tree is not a BST, even if every local parent-child pair looks fine.
 

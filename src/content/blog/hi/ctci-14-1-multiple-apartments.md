@@ -13,14 +13,14 @@ previewImage: /assets/images/ctci-14-1-multiple-apartments.webp
 > * **दृष्टिकोण:** सीटीसीआई problem १४.१: एसक्यूएल query using GROUP BY and HAVING to find tenants renting more than one apartment.
 > * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
 
-यह लेख सीटीसीआई समस्या **१४.१** का एक स्पष्ट विवरण प्रदान करता है।
+तकनीकी साक्षात्कार में आपसे समस्या **१४.१** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
 
 ## १. संदर्भ और समस्या कथन
 सीटीसीआई problem १४.१: एसक्यूएल query using GROUP BY and HAVING to find tenants renting more than one apartment.
 
 ## २. कोड और कार्यान्वयन
 
-```java
+```sql
 SELECT TenantID, COUNT(*) AS ApartmentCount
 FROM AptTenants
 GROUP BY TenantID

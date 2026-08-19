@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-16-26-calculator.webp
 > * **दृष्टिकोण:** सीटीसीआई problem १६.२६: evaluate arithmetic expression string containing addition, subtraction, multiplication, and division.
 > * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
 
-यह लेख सीटीसीआई समस्या **१६.२६** का एक स्पष्ट विवरण प्रदान करता है।
+तकनीकी साक्षात्कार में आपसे समस्या **१६.२६** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
 
 ## १. संदर्भ और समस्या कथन
 सीटीसीआई problem १६.२६: evaluate arithmetic expression string containing addition, subtraction, multiplication, and division.

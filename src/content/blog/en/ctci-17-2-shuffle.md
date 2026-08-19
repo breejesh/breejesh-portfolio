@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-17-2-shuffle.webp
 > * **The Approach:** CTCI problem 17.2: shuffle a deck of cards uniformly using the Fisher-Yates (Knuth) in-place algorithm.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **17.2**.
+You walk into an interview and get handed problem **17.2**: shuffle a deck of cards uniformly using the Fisher-Yates (Knuth) in-place algorithm. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 17.2: shuffle a deck of cards uniformly using the Fisher-Yates (Knuth) in-place algorithm.

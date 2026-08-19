@@ -9,7 +9,7 @@ previewImage: /assets/images/design-news-feed-system.webp
 
 
 > **TL;DR**
-> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
 > * **The Insight:** A plain-language guide to social news feeds: fan-out on write vs read as mailbox stuffing vs checking the bulletin board, ranking, cache, and the celebrity problem.
 > * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
 

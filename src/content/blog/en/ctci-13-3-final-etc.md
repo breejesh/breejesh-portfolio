@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-13-3-final-etc.webp
 > * **The Approach:** CTCI problem 13.3: clear distinction between final variable/method/class, try-finally block, and Object.finalize().
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **13.3**.
+You walk into an interview and get handed problem **13.3**: clear distinction between final variable/method/class, try-finally block, and Object.finalize(). The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 13.3: clear distinction between final variable/method/class, try-finally block, and Object.finalize().

@@ -20,7 +20,7 @@ CTCI problem 14.2: SQL query returning open maintenance requests per building us
 
 ## 2. Technical Code & Mechanics
 
-```java
+```sql
 SELECT Buildings.BuildingName, COUNT(Requests.RequestID) AS OpenRequests
 FROM Buildings
 LEFT JOIN Apartments ON Buildings.BuildingID = Apartments.BuildingID

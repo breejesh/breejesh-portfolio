@@ -30,7 +30,7 @@ Documents -> Chunker -> Embedder -> Vector store (+ BM25)
                               ^
 User query ------------------+--> Hybrid retrieve -> Rerank -> Prompt + LLM -> Answer
                                                               |
-                                                         Eval harness (offline)
+                                                         Offline evaluation suite
 ```
 
 ---

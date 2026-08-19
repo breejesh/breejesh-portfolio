@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-6-5-jugs-of-water.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 6.5 for beginners: two jugs of capacity 3 and 5 liters, measure exactly 4. Manual pour steps, Bézout identity, and optional Java BFS over jug states.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You have a 3-liter jug and a 5-liter jug. No other marks. An unlimited lake (or faucet) to fill from, and you can empty either jug on the ground. Can you end up with exactly **4 liters** in one of them?
 

@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-3-4-queue-via-stacks.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 3.4 for beginners: implement MyQueue with stackNewest and stackOldest. Push to one, shift only when dequeue or peek needs data. Amortized O(1) in plain Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You run a tiny café with two trays. New cups land on the **in tray**. You always drop a cup on top of that pile. When a customer wants a drink, you serve from the **out tray**, which also only lets you take from the top. When the out tray is empty, you flip every cup from the in tray onto the out tray, one by one. The first cup that went in is now sitting on top of the out tray, ready to go. That is a **queue built from two stacks**.
 

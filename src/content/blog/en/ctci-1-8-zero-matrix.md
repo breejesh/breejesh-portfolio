@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-1-8-zero-matrix.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** If a cell is 0, set its whole row and column to 0. Brute force first, then O(1) extra space with first-row and first-column flags in Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 Picture a seating chart for a theater. If one seat is broken, you close the whole row and the whole column so nobody sits in that cross. The chart is a matrix of integers. A zero means "broken." Your job is to apply every broken seat rule **in place**, without building a second full chart if you can avoid it.
 

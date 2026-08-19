@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-13-2-return-from-finally.webp
 > * **दृष्टिकोण:** सीटीसीआई problem १३.२: how return statements in try, catch, and finally blocks interact in जावा runtime execution.
 > * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
 
-यह लेख सीटीसीआई समस्या **१३.२** का एक स्पष्ट विवरण प्रदान करता है।
+तकनीकी साक्षात्कार में आपसे समस्या **१३.२** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
 
 ## १. संदर्भ और समस्या कथन
 सीटीसीआई problem १३.२: how return statements in try, catch, and finally blocks interact in जावा runtime execution.

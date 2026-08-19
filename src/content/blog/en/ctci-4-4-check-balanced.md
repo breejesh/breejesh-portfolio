@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-4-4-check-balanced.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 4.4 for beginners: decide if a binary tree is balanced. Compute height in one pass and return a fail signal as soon as any node has subtree heights that differ by more than one.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A tree is **height-balanced** when every node has left and right subtrees whose heights differ by at most one. Not only the root. Every node on the way down has to pass the same check. One deep left branch and a short right branch under some middle node is already unbalanced, even if the whole tree "looks fine" from the top.
 

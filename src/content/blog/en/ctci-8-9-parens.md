@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-8-9-parens.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 8.9 for beginners: generate every valid string of n pairs of parentheses. Backtrack with open and close remaining counts, prune illegal prefixes early, and count Catalan results.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You need every string made of **n** open parens and **n** close parens that is **valid**: never more closes than opens in any prefix, and equal counts at the end. For `n = 3` that is five strings, not all 20 ways to place three `(` and three `)`. Most random placements break mid-string.
 

@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-6-4-ants-on-a-triangle.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 6.4 for beginners: three ants on triangle vertices each pick a random direction. Count the 8 outcomes, find when they only chase, and get probability 1/4. Java enumeration included.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 Three ants sit on the three corners of a triangle. At the same moment each ant chooses left or right along an edge and starts walking at the same speed. Will they crash into each other? The interview question is not a simulation of physics. It is a tiny counting problem: how many direction combinations avoid a collision, out of every equally likely choice?
 

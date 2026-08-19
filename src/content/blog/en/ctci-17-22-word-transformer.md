@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-17-22-word-transformer.webp
 > * **The Approach:** CTCI problem 17.22: transform word A into word B by changing 1 letter at a time through dictionary words using Bidirectional BFS.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **17.22**.
+You walk into an interview and get handed problem **17.22**: transform word A into word B by changing 1 letter at a time through dictionary words using Bidirectional BFS. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 17.22: transform word A into word B by changing 1 letter at a time through dictionary words using Bidirectional BFS.

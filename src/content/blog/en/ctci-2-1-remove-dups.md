@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-2-1-remove-dups.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 2.1 for beginners: strip duplicate values from a singly linked list. HashSet walk in O(N), then a no-buffer runner pointer in O(N^2).
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 Your phone contact list has "Ana" three times, "Sam" twice, and a few clean names. You want each person once. You do not care about alphabetical order. You just walk the list, remember who you already kept, and drop the rest. That is remove dups on a linked list.
 

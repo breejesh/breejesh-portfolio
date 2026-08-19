@@ -9,7 +9,7 @@ previewImage: /assets/images/design-search-autocomplete.webp
 
 
 > **TL;DR**
-> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
 > * **The Insight:** Search autocomplete for beginners: prefixes, a letter tree (trie), top suggestions, why we precompute answers, and a letter-by-letter walk of typing din.
 > * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
 

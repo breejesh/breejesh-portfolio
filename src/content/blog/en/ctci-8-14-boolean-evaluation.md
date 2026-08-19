@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-8-14-boolean-evaluation.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 8.14 for beginners: count how many full parenthesizations of a 0/1 expression with &, |, and ^ evaluate to true or false. Memoized recursion on substrings in Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A boolean expression is a chain of bits and operators: `1^0|0|1`. Without parentheses it is ambiguous. With full parentheses every binary operator has a clear left and right subexpression. **Boolean Evaluation** asks: given the string and a target truth value, how many different full parenthesizations make the whole thing equal that target?
 

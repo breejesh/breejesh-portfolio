@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-7-4-parking-lot.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 7.4 for beginners: design a multi-level parking lot with motorcycle, compact, and large spots. Park motorcycles, cars, and buses under size rules, with clean Java classes.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A parking garage is not one big array of empty boxes. It has **floors**, **rows**, and **spots of different sizes**. A motorcycle fits almost anywhere. A car needs a compact or large bay. A bus needs **five large spots in a row**, not five random holes on different floors.
 

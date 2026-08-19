@@ -7,7 +7,7 @@ coverImage: /assets/images/github-actions-ci-from-scratch.webp
 previewImage: /assets/images/github-actions-ci-from-scratch.webp
 ---
 
-GitHub Actions is CI that lives next to your code. You drop YAML under `.github/workflows/`, push, and runners pick up jobs on events you choose: pull request, push to `main`, a schedule, or a manual click.
+GitHub Actions embeds continuous integration directly alongside source code. Workflows defined under `.github/workflows/` execute on pull requests, pushes, and schedules with matrix build parallelism. pull request, push to `main`, a schedule, or a manual click.
 
 This post is the minimal mental model plus the pieces that actually show up in production pipelines: **workflows, jobs, steps, caching, secrets, matrix builds**, and the mistakes that make green checks lie or make every run take 12 minutes.
 

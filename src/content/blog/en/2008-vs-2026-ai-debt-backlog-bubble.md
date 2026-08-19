@@ -12,7 +12,7 @@ previewImage: /assets/images/2008-vs-2026-ai-debt-backlog-bubble.webp
 > * **The Flaw:** Just like subprime home loans in 2006, these deals were never designed to be paid off with profits. They rely on companies doubling their valuation in each funding round so they can borrow more cash to pay yesterday's server bills.
 > * **The Trigger:** Cheap, open AI models like Kimi K3 and DeepSeek are slashing prices by up to 65%. When revenue growth slows down from 180% to 30%, the funding carousel stops, and unpaid bills ripple up to retirement funds and the $39.8 trillion US national debt.
 
-In March 2026, OpenAI raised $122 billion in the largest private funding round in history, valuing the company at $852 billion. 
+In March 2026, OpenAI raised $122 billion in the largest private funding round in history, valuing the company at $852 billion. We have seen this structure before. Different decade, same financial mechanics. 
 
 Here is the catch: OpenAI has never earned a single dollar of net profit. It loses tens of billions of dollars every year on computing chips, research, and engineer salaries.
 

@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-17-26-sparse-similarity.webp
 > * **The Approach:** CTCI problem 17.26: compute Jaccard similarity for pairs of documents with overlapping elements using Inverted Index in O(K) time.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **17.26**.
+You walk into an interview and get handed problem **17.26**: compute Jaccard similarity for pairs of documents with overlapping elements using Inverted Index in O(K) time. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 17.26: compute Jaccard similarity for pairs of documents with overlapping elements using Inverted Index in O(K) time.

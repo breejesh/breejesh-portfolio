@@ -9,7 +9,7 @@ previewImage: /assets/images/design-consistent-hashing.webp
 
 
 > **TL;DR**
-> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
 > * **The Insight:** Why hash(key) % N reseats almost everyone when one server leaves, how a hash ring maps keys by walking clockwise, virtual nodes for fair load, and where consistent hashing shows up in caches, databases, and load balancers.
 > * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
 

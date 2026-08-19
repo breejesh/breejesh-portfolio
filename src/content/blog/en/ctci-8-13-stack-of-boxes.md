@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-8-13-stack-of-boxes.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 8.13 for beginners: stack boxes only when width, depth, and height are all strictly smaller. Sort one dimension, then DP with memo for the max total height.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You have a pile of shipping boxes on the floor. Each box is a solid rectangle: width, depth, height. You want the tallest tower you can build, but the rule is harsh. A box may sit on another only if it is **strictly smaller in every dimension**: width, depth, and height. No tipping, no rotating mid-stack, no "close enough". That is **Stack of Boxes**.
 

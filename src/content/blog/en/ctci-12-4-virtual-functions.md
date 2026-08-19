@@ -13,14 +13,14 @@ previewImage: /assets/images/ctci-12-4-virtual-functions.webp
 > * **The Approach:** CTCI problem 12.4: explaining dynamic dispatch, vtable, and vptr layout in C++ runtime polymorphism.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **12.4**.
+You walk into an interview and get handed problem **12.4**: explaining dynamic dispatch, vtable, and vptr layout in C++ runtime polymorphism. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 12.4: explaining dynamic dispatch, vtable, and vptr layout in C++ runtime polymorphism.
 
 ## 2. Technical Code & Mechanics
 
-```java
+```cpp
 class Shape {
 public:
     virtual void draw() { std::cout << "Shape" << std::endl; }

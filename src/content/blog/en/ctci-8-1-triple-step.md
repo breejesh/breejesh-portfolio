@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-8-1-triple-step.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 8.1 for beginners: a child climbs n stairs taking 1, 2, or 3 steps at a time. Count the ways with recursion, memoization, and bottom-up DP in Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A child is running up a staircase with **n** steps. On each move she can take **1**, **2**, or **3** stairs. Order matters: 1 then 2 is different from 2 then 1. How many distinct ways can she climb to the top?
 

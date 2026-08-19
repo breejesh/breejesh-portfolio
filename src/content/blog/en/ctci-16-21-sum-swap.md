@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-16-21-sum-swap.webp
 > * **The Approach:** CTCI problem 16.21: find pair of values (one from each array) to swap so both arrays have equal sum in O(A + B) time.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **16.21**.
+You walk into an interview and get handed problem **16.21**: find pair of values (one from each array) to swap so both arrays have equal sum in O(A + B) time. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 16.21: find pair of values (one from each array) to swap so both arrays have equal sum in O(A + B) time.

@@ -9,7 +9,7 @@ previewImage: /assets/images/design-key-value-store.webp
 
 
 > **TL;DR**
-> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
 > * **The Insight:** A beginner-friendly walk through distributed key-value stores. Coat-check put and get, CAP as a simple choice, partitioning as books on shelves, replication as copies, and quorums as librarians who must agree.
 > * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
 

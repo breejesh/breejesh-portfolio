@@ -7,7 +7,7 @@ coverImage: /assets/images/postgres-indexes-that-matter.webp
 previewImage: /assets/images/postgres-indexes-that-matter.webp
 ---
 
-Indexes are the cheapest performance lever most teams still misuse. Add ten of them and writes crawl. Skip the right one and a weekly report locks the primary for minutes. Postgres will not save you from a bad shape. It will reward a good one.
+Indexes represent the highest-impact performance optimization in database management. Applying them strategically accelerates queries; misusing them degrades write throughput. Add ten of them and writes crawl. Skip the right one and a weekly report locks the primary for minutes. Postgres will not save you from a bad shape. It will reward a good one.
 
 This post is the short list I reach for on real apps: default B-tree, partial indexes for hot predicates, composite column order, covering indexes with `INCLUDE`, and the cases where an index makes things worse. No catalog tour of every access method. Just the ones that keep showing up in `EXPLAIN (ANALYZE, BUFFERS)`.
 

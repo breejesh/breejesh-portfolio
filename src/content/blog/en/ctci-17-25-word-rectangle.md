@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-17-25-word-rectangle.webp
 > * **The Approach:** CTCI problem 17.25: create largest rectangle of letters such that every row and column forms a valid dictionary word.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **17.25**.
+You walk into an interview and get handed problem **17.25**: create largest rectangle of letters such that every row and column forms a valid dictionary word. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 17.25: create largest rectangle of letters such that every row and column forms a valid dictionary word.

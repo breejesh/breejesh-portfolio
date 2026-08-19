@@ -121,7 +121,7 @@ Small models are not perfectly reliable. NomAI implements a multi-layer fallback
 Built with modern Android standards, NomAI is a practical implementation of on-device machine learning:
 
 * **Jetpack Compose:** A modern declarative UI toolkit that keeps the interface responsive, fluid, and beautiful. The reactive state model pairs naturally with asynchronous LLM inference, so partial results can stream directly into the UI.
-* **LiteRT-LM SDK:** Google's high-performance generative AI runtime, utilizing hardware acceleration (GPU/NPU) to run Gemma models with minimal battery drain. The model runs on `Dispatchers.IO` to keep the UI thread free.
+* **LiteRT-LM SDK:** Google's high-performance generative AI runtime, using hardware acceleration (GPU/NPU) to run Gemma models with minimal battery drain. The model runs on `Dispatchers.IO` to keep the UI thread free.
 * **Room Database:** A local SQLite abstraction layer for secure, fast storage of meal logs and user goals. Room's Flow-based queries enable real-time UI updates when new meals are logged: daily totals, weekly trends, and macro breakdowns all update instantly.
 * **Hilt (Dependency Injection):** The LLM engine is provided as a singleton scoped to the application lifecycle, ensuring the model is loaded once and shared across all features that need it.
 * **Kotlin Coroutines & Flow:** All LLM operations are wrapped in structured concurrency. StateFlow drives the UI, while SharedFlow handles one-off events like error toasts and navigation.
@@ -154,8 +154,8 @@ The model file is ~1.4 GB, far too large to bundle in an APK. NomAI downloads it
 
 ---
 
-## Conclusion
+## Zero Servers. Zero Subscriptions.
 
-NomAI is more than a fitness tracker. It is a proof-of-concept for a new generation of mobile applications: intelligent apps that respect user privacy, work fully offline, and run at zero ongoing cost to either the developer or the user. 
+Calorie trackers did not need to become monthly SaaS subscriptions with telemetry trackers. We just accepted it because running offline models on phones was hard.
 
-The source code is fully open on [GitHub](https://github.com/breejesh/nom.ai). If you care about on-device AI, privacy-first architecture, or just want a calorie tracker that does not sell your data, take a look and consider contributing.
+With Gemma 2B, LiteRT, and Room, it is not impossible anymore. The full source code is on [GitHub](https://github.com/breejesh/nom.ai). If you want an app that calculates macros without asking for your email or your credit card, build the APK and see for yourself.

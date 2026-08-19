@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-10-9-sorted-matrix-search.webp
 > * **The Approach:** CTCI problem 10.9 in Java: search for an element in an M x N matrix where every row and column is sorted in O(M + N) time.
 > * **Complexity:** Optimal Time and Space complexity trade-offs.
 
-This article provides a complete, novice-friendly breakdown of CTCI problem **10.9**. We examine the problem statement, compare brute-force vs. optimal approaches, and write idiomatic Java code.
+You walk into an interview and get handed problem **10.9**: search for an element in an M x N matrix where every row and column is sorted in O(M + N) time. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ---
 

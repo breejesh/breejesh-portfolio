@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-3-3-stack-of-plates.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 3.3 for beginners: when one plate stack is too tall, start another. Build SetOfStacks so push and pop still feel like one stack, then a short note on popAt(index).
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You are drying plates after dinner. One stack on the counter is fine until it wobbles. At some height you start a second stack beside it, then a third. From the outside you still take the top plate from the newest stack and put a clean plate on that same newest stack. Internally there are several short stacks, not one skyscraper. That is **SetOfStacks**.
 

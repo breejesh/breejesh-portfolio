@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-4-2-minimal-tree.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 4.2 for beginners: given a sorted array of unique ints, build a binary search tree of minimal height. Pick the mid as root, recurse on left and right halves.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A sorted line of unique numbers is already half a binary search tree. The only question is *which* value becomes the root so the tree stays short. If you always insert from left to right into an empty BST, you get a long stick of height N. Pick the middle of the array as the root, then do the same trick on each half, and the height drops to about log2(N).
 

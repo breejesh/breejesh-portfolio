@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-6-8-the-egg-drop-problem.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 6.8 for beginners: find the critical floor with two eggs and 100 floors while minimizing the worst-case number of drops. Use decreasing intervals so every path costs the same, and solve x(x+1)/2 >= 100.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A building has **100 floors**. You have **two eggs**. There is some critical floor `F` such that an egg dropped from floor `F` or higher breaks, and from any floor below `F` it survives. Eggs that survive can be reused. Eggs that break are gone. You do not know `F` (it can be 1 through 100, or even "never breaks," depending how you model the top). Goal: find `F` while **minimizing the number of drops in the worst case**.
 

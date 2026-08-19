@@ -7,7 +7,7 @@ coverImage: /assets/images/fastapi-rest-apis-guide.webp
 previewImage: /assets/images/fastapi-rest-apis-guide.webp
 ---
 
-FastAPI is the default answer when a Python team needs a typed HTTP API with OpenAPI for free. The framework stays small: declare routes, validate bodies with Pydantic, pull shared setup through dependencies, and prefer `async def` where I/O waits. This post is the path I use when spinning up a service that other teams will call next month.
+FastAPI is the standard choice when a backend team needs typed HTTP endpoints with automatic OpenAPI documentation. The framework keeps boilerplate minimal while enforcing strict validation. The framework stays small: declare routes, validate bodies with Pydantic, pull shared setup through dependencies, and prefer `async def` where I/O waits. This post is the path I use when spinning up a service that other teams will call next month.
 
 You will leave with a tiny item API: create, read, list, delete, plus validation, a shared DB session dependency, async handlers, and a couple of tests that actually fail when you break the contract.
 

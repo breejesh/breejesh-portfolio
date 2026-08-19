@@ -20,7 +20,7 @@ CTCI problem 12.10: implement aligned_malloc and aligned_free in C for memory al
 
 ## 2. Code et Implémentation
 
-```java
+```cpp
 void* aligned_malloc(size_t bytes, size_t alignment) {
     void* p1;
     void** p2;

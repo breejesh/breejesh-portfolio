@@ -64,7 +64,7 @@ One preference board is not the whole frontier. It is still a strong public sign
 
 ### Moonshot coding scores (vendor-reported)
 
-These numbers come from the [official full benchmark table](https://www.kimi.com/blog/kimi-k3#full-benchmark-table). Most K3 rows were run with Moonshot's **Kimi Code** harness at max reasoning effort. Other models often use their own best harness (Claude Code, Codex, Terminus). Treat this as product-level evidence, not a pure model bake-off.
+These numbers come from the [official full benchmark table](https://www.kimi.com/blog/kimi-k3#full-benchmark-table). Most K3 rows were run with Moonshot's **Kimi Code** evaluation framework at max reasoning effort. Other models often use their own best execution environment (Claude Code, Codex, Terminus). Treat this as product-level evidence, not a pure model bake-off.
 
 Official launch charts (self-reported suite):
 
@@ -87,9 +87,9 @@ Official launch charts (self-reported suite):
 Caveats that matter if you are buying this for a team:
 
 1. **Raw pass rate ≠ fully resolved.** ProgramBench's 77.8 is test-level pass rate, not "77.8% of programs fully rebuilt."
-2. **Harness is part of the score.** Moonshot warns K3 is sensitive to **preserved thinking history**. Drop that history and quality can wobble.
+2. **The evaluation framework shapes the score.** Moonshot warns K3 is sensitive to **preserved thinking history**. Drop that history and quality can wobble.
 3. **Dominance is pairwise win probability**, not percent of tasks completed.
-4. Several K3 rows were vendor-run against public harnesses before every owner board refreshed. Prefer independent pages once they update.
+4. Several K3 rows were vendor-run against public benchmark runners before every owner board refreshed. Prefer independent pages once they update.
 
 ### Cost, speed, and token hunger
 
@@ -121,7 +121,7 @@ For product surface area, Moonshot lists [kimi.com](https://www.kimi.com/), [Kim
 
 - Need low latency chat or high QPS cheap completions
 - Cannot tolerate proactive agents that improvise on ambiguous tasks
-- Need fully independent, same-harness coding boards for procurement this week
+- Need fully independent, identical evaluation boards for procurement this week
 
 ### The honest summary
 
@@ -131,7 +131,7 @@ Watch three concrete markers next:
 
 1. July 27 weight release (license, checkpoints, serving stack)
 2. Independent boards posting K3 with traces, costs, and confidence intervals
-3. Your own bake-off: fixed harness, fixed budget, real repos
+3. Your own bake-off: fixed test suite, fixed token budget, real repos
 
 ### Live charts and boards
 

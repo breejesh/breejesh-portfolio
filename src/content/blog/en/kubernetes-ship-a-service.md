@@ -7,7 +7,7 @@ coverImage: /assets/images/kubernetes-ship-a-service.webp
 previewImage: /assets/images/kubernetes-ship-a-service.webp
 ---
 
-You do not need every Kubernetes object to ship a service. Most production APIs that land on a cluster use the same small stack: a **Pod** that runs the container, a **Deployment** that keeps the right number of Pods alive, a **Service** that gives them a stable network name, an **Ingress** (or Gateway) that accepts HTTP from outside, **probes** so the platform knows when traffic is safe, and **ConfigMap / Secret** for settings and credentials.
+Kubernetes feels overwhelming when approached as an encyclopedia of fifty distinct YAML resources. In practice, shipping a reliable service centers on mastering four core primitives: Deployments, Services, Ingress, and health probes.
 
 That is the practical path. Everything else (Jobs, CronJobs, StatefulSets, NetworkPolicies, CRDs) can wait until the first service is healthy.
 

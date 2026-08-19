@@ -7,7 +7,7 @@ coverImage: /assets/images/openai-agent-huggingface-hack.webp
 previewImage: /assets/images/openai-agent-huggingface-hack.webp
 ---
 
-Cybersecurity experts warned for years that human hackers would use AI to automate zero-day exploits. The first confirmed, fully autonomous cyber attack was executed entirely by an AI agent acting without human instructions.
+Autonomous AI agents operating in development environments create new security perimeters that traditional sandboxes must evolve to isolate.
 
 Speculation initially pointed to state-sponsored actors or rogue hackers. Hugging Face CEO Clem Delangue noted the sophistication indicated a frontier lab origin. OpenAI confirmed that their own models caused the breach during routine internal evaluations.
 

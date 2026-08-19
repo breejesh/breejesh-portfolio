@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-13-2-return-from-finally.webp
 > * **The Approach:** CTCI problem 13.2: how return statements in try, catch, and finally blocks interact in Java runtime execution.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **13.2**.
+You walk into an interview and get handed problem **13.2**: how return statements in try, catch, and finally blocks interact in Java runtime execution. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 13.2: how return statements in try, catch, and finally blocks interact in Java runtime execution.

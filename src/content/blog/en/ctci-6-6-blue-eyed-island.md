@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-6-6-blue-eyed-island.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 6.6: n blue-eyed islanders leave on the nth night after the guru says I see someone with blue eyes. Teach base case, inductive step, and common knowledge without jargon fog.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A ferry leaves every night at midnight. Anyone who has **figured out their own eye color** must board and leave forever. The islanders are perfect logicians. They can see everyone else's eyes. There are no mirrors, no photos, no "your eyes are blue" chats. For years, life is quiet. Then a visitor says, in public: **"I see someone with blue eyes."**
 

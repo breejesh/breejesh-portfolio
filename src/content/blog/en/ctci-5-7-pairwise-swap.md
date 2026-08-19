@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-5-7-pairwise-swap.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 5.7 for beginners: swap every pair of odd and even bits in an int. Mask with 0xaaaaaaaa and 0x55555555, shift once each way, OR the halves.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You line up 32 people on numbered spots 0 through 31. Spot 0 and spot 1 swap. Spot 2 and spot 3 swap. Spot 4 and 5, and so on. Everyone moves at the same time. Nobody walks past their pair. That is **pairwise swap** on the bits of an integer: each even bit trades places with the odd bit next to it.
 

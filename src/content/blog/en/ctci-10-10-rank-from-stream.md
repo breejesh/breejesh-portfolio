@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-10-10-rank-from-stream.webp
 > * **The Approach:** CTCI problem 10.10 in Java: design a Binary Search Tree with left subtree size tracking to efficiently compute rank of a number in a stream.
 > * **Complexity:** Optimal Time and Space complexity trade-offs.
 
-This article provides a complete, novice-friendly breakdown of CTCI problem **10.10**. We examine the problem statement, compare brute-force vs. optimal approaches, and write idiomatic Java code.
+You walk into an interview and get handed problem **10.10**: design a Binary Search Tree with left subtree size tracking to efficiently compute rank of a number in a stream. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ---
 

@@ -20,7 +20,7 @@ CTCI problem 12.5: comparing pointer assignment vs memory allocation in copy con
 
 ## 2. Code et Implémentation
 
-```java
+```cpp
 class MyArray {
     int* data;
     int size;

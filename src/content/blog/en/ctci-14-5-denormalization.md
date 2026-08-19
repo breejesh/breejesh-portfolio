@@ -13,14 +13,14 @@ previewImage: /assets/images/ctci-14-5-denormalization.webp
 > * **The Approach:** CTCI problem 14.5: trade-offs between normalized relational schemas (3NF) and denormalized read-heavy architectures.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **14.5**.
+You walk into an interview and get handed problem **14.5**: trade-offs between normalized relational schemas (3NF) and denormalized read-heavy architectures. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 14.5: trade-offs between normalized relational schemas (3NF) and denormalized read-heavy architectures.
 
 ## 2. Technical Code & Mechanics
 
-```java
+```sql
 -- Normalized vs Denormalized Read Trade-off
 -- Denormalized: Pre-join customer details into Order table to eliminate join latency
 ```

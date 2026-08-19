@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-16-1-number-swapper.webp
 > * **The Approach:** CTCI problem 16.1: swap two numbers in-place using arithmetic addition/subtraction or bitwise XOR logic.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **16.1**.
+You walk into an interview and get handed problem **16.1**: swap two numbers in-place using arithmetic addition/subtraction or bitwise XOR logic. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 16.1: swap two numbers in-place using arithmetic addition/subtraction or bitwise XOR logic.

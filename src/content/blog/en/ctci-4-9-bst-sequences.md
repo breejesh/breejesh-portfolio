@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-4-9-bst-sequences.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 4.9 for beginners: given a BST built by left-to-right inserts, list every array that could have produced it. Root first, then weave left and right subtree sequences with a recursive helper.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You insert numbers into an empty binary search tree, one by one, always walking from the root and landing in the first empty child slot. The final tree shape depends on **order**. Different arrays can grow into the **same** tree. Problem 4.9 flips the usual question: given the finished BST, print every array that could have built it.
 

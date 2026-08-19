@@ -1,10 +1,11 @@
 <!doctype html>
-<html lang="en" xml:lang="en" xmlns= "http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
   <meta charset="utf-8">
   <meta name="google" content="notranslate">
   <meta http-equiv="Content-Language" content="en">
-  <meta name="google-adsense-account" content="ca-pub-9440946495662917">
+  <meta name="google-adsense-account" content="ca-pub-3859740544812178">
 
   <!-- Primary Meta Tags -->
   <title>Breejesh Rathod | Engineering Leader &amp; Software Developer</title>
@@ -46,7 +47,9 @@
 
   <!-- Prism CSS loaded async to avoid render-blocking -->
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"></noscript>
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+  </noscript>
 
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="stylesheet" href="/src/styles.scss">
@@ -57,19 +60,21 @@
 
   <!-- Immediate theme check to prevent flickering -->
   <script>
-    (function() {
+    (function () {
       try {
         const storedTheme = localStorage.getItem('theme');
         if (storedTheme === 'light' || (!storedTheme && window.matchMedia('(prefers-color-scheme: light)').matches)) {
           document.documentElement.classList.add('light-theme');
         }
-      } catch (e) {}
+      } catch (e) { }
     })();
   </script>
 </head>
+
 <body>
   <app-root></app-root>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
   <script type="module" src="/src/main.ts"></script>
 </body>
+
 </html>

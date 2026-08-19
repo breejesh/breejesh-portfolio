@@ -7,7 +7,7 @@ coverImage: /assets/images/ai-coding-agents-workflow.webp
 previewImage: /assets/images/ai-coding-agents-workflow.webp
 ---
 
-AI coding agents are excellent at producing plausible code quickly. They are also excellent at producing plausible bugs, wrong abstractions, and "fixes" that break three neighboring files. The gap between demos and production is not model IQ. It is process.
+AI coding agents produce plausible code at blistering speed. They also produce plausible bugs, subtle abstractions, and fixes that silently break neighboring modules. The gap between a weekend demo and production is not model IQ; it is engineering process.
 
 I treat Cursor-style agents and Copilot-style completions the same way I treat a very fast junior engineer: useful, tireless, and completely willing to invent something that looks right. Your job is not to type less. Your job is to control context, demand proof, and reject confidently.
 

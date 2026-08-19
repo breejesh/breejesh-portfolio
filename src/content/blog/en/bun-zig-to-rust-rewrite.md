@@ -12,7 +12,7 @@ previewImage: /assets/images/bun-zig-to-rust-rewrite.webp
 > * **The Insight:** Instead of a multi-year human effort, Bun ran 64 parallel Claude agents with adversarial reviewers to port 535,000 lines across 1,448 files in 11 days.
 > * **The Result:** 128 long-standing bugs fixed, 20% smaller binaries, dev server memory leak eliminated. Estimated compute cost: $165,000. Zig creator Andrew Kelley publicly called the benchmarks misleading.
 
-In 2000, Joel Spolsky wrote one of the most cited essays in software engineering, arguing that rewriting a production codebase from scratch is the worst strategic mistake a company can make. He pointed to Netscape, which spent three years rebuilding its browser while Microsoft ate its market share.
+In 2000, Joel Spolsky wrote one of software engineering's most cited essays, arguing that rewriting a production codebase from scratch is the single worst strategic mistake a team can make. For decades that rule held firm. In 2026, Bun challenged it. He pointed to Netscape, which spent three years rebuilding its browser while Microsoft ate its market share.
 
 For 26 years, that rule went mostly unchallenged. In May 2026, Bun broke it.
 

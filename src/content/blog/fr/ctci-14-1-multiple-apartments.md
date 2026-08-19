@@ -20,7 +20,7 @@ CTCI problem 14.1: SQL query using GROUP BY and HAVING to find tenants renting m
 
 ## 2. Technical Code & Mechanics
 
-```java
+```sql
 SELECT TenantID, COUNT(*) AS ApartmentCount
 FROM AptTenants
 GROUP BY TenantID

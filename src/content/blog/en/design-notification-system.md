@@ -9,7 +9,7 @@ previewImage: /assets/images/design-notification-system.webp
 
 
 > **TL;DR**
-> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
 > * **The Insight:** How a notification system works, explained for beginners: channels, user preferences, message templates, queues, retries, and the path from an order shipped event to a phone alert.
 > * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
 

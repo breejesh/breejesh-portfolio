@@ -126,11 +126,16 @@ Dos cajas pueden imprimir ambas "ítem 4" en el mismo segundo. El recibo sigue �
 Un layout de enseñanza habitual:
 
 ```
- 0                   41 bits                    5     5      12
-+-+----------------------------------------+-----+-----+----------+
-|0|          timestamp (ms)                | DC  | Wkr | sequence |
-+-+----------------------------------------+-----+-----+----------+
+Estructura de Bits: [1-bit Sin Uso] [41-bits Timestamp] [5-bits Datacenter] [5-bits Worker] [12-bits Secuencia]
 ```
+
+| Desplazamiento | Nombre del Campo | Tamaño | Propósito |
+| --- | --- | --- | --- |
+| Bit 63 | Bit de signo sin uso | 1 bit | Fijado en `0` para mantener el número positivo |
+| Bits 62-22 | Timestamp | 41 bits | Milisegundos transcurridos desde la época personalizada (hasta 69 años) |
+| Bits 21-17 | ID Datacenter | 5 bits | Índice de centro de datos o región (0-31) |
+| Bits 16-12 | ID Worker | 5 bits | ID de instancia de máquina/proceso (0-31) |
+| Bits 11-0 | Secuencia | 12 bits | Contador incremental por milisegundo (0-4095) |
 
 | Pieza | Bits | Rol en lenguaje sencillo |
 | --- | --- | --- |

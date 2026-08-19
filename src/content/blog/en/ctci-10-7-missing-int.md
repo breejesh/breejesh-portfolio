@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-10-7-missing-int.webp
 > * **The Approach:** CTCI problem 10.7 in Java: find an uncontained non-negative integer from 4 billion numbers using BitSet and two-pass chunking under tight RAM.
 > * **Complexity:** Optimal Time and Space complexity trade-offs.
 
-This article provides a complete, novice-friendly breakdown of CTCI problem **10.7**. We examine the problem statement, compare brute-force vs. optimal approaches, and write idiomatic Java code.
+You walk into an interview and get handed problem **10.7**: find an uncontained non-negative integer from 4 billion numbers using BitSet and two-pass chunking under tight RAM. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ---
 

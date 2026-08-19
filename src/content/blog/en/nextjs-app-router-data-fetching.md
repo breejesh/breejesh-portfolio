@@ -7,7 +7,7 @@ coverImage: /assets/images/nextjs-app-router-data-fetching.webp
 previewImage: /assets/images/nextjs-app-router-data-fetching.webp
 ---
 
-App Router data fetching is not hard once you drop the old `getServerSideProps` mental model. You fetch where the component lives. Default is server-side. Caching is opt-in (since Next.js 15). Client libraries are for interaction and browser-only APIs, not for every list on the page.
+The Next.js App Router fundamentally restructured data fetching in React applications by shifting execution to React Server Components and streaming UI at component boundaries.
 
 This post is the map I use on real projects: Server Components first, explicit cache policy, time or tag revalidation, and a short list of cases where client fetch is still the right call.
 

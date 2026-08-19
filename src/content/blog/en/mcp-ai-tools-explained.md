@@ -7,7 +7,7 @@ coverImage: /assets/images/mcp-ai-tools-explained.webp
 previewImage: /assets/images/mcp-ai-tools-explained.webp
 ---
 
-By late 2025, "my agent can use tools" stopped being a demos-only claim. Chat clients, IDEs, and custom agent runtimes all wanted the same thing: a stable way to list capabilities, pass structured arguments, stream results, and keep human context in the loop.
+The **Model Context Protocol (MCP)** standardizes how AI agents and IDE tools connect to external data sources, eliminating fragmented custom integration glue.
 
 **Model Context Protocol (MCP)** is that shared wire format. Anthropic open-sourced it in November 2024. Through 2025 it became the default glue many products use so one integration (a Postgres server, a GitHub server, a filesystem server) is not rewritten for every host app.
 

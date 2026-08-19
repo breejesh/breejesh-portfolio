@@ -39,7 +39,7 @@ The transition from partners to litigants highlights a fundamental conflict over
 
 ## What to Expect Next
 
-The litigation will reshape the consumer AI landscape over the coming years:
+The litigation will reshape the consumer AI hardware race over the coming years:
 
 ### 1. Injunctions and Hardware Delays
 Apple is seeking preliminary injunctions to block OpenAI from using disputed trade secrets in its upcoming hardware products. If granted, this could delay OpenAI's planned standalone AI device release beyond 2027 while internal R&D files undergo forensic audit by court-appointed experts.
@@ -52,7 +52,7 @@ The discovery phase will force both companies to produce internal emails, talent
 
 ---
 
-## Summary
+## The Physical Device Is the Whole War
 
 Apple's lawsuit against OpenAI is not a routine corporate dispute; it is a battle for control over the hardware layer of artificial intelligence.
 

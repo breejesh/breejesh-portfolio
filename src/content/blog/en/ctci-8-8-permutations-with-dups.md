@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-8-8-permutations-with-dups.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 8.8 for beginners: list every unique permutation of a string that may contain duplicate characters. Build a frequency map, backtrack by remaining counts, skip the n! blowup of naive swaps.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You already know how to list every ordering of distinct characters: pick a next letter, recurse, put it back. That is problem **8.7**. The moment the string has repeats (`"aab"`, `"mississippi"`), the naive tree prints the same string many times. Problem **8.8** asks for the **unique** permutations only, without dumping a giant list and filtering later.
 

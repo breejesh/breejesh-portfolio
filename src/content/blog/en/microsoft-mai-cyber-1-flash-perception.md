@@ -16,7 +16,7 @@ On July 27 in San Francisco, Mustafa Suleyman and the Microsoft Security team an
 
 This is not a side lab demo. Microsoft says the cyber stack is shipping into production paths immediately, with **public preview for Perception on August 3**.
 
-If you work in AppSec, SOC, or platform security, the real story is not "another cyber model." It is that the big labs are now racing on **specialized models + multi-agent harnesses + proprietary security data**, not just general chat scores.
+If you work in AppSec, SOC, or platform security, the real story is not "another cyber model." It is that the big labs are now racing on **specialized models + multi-agent orchestration frameworks + proprietary security data**, not just general chat scores.
 
 ---
 
@@ -41,13 +41,13 @@ Treat vendor benchmarks like you treat vendor latency charts. Useful, not gospel
 
 **MAI-Cyber-1-Flash** is a compact, code-heavy security model from the **MAI-Thinking-1** line. Microsoft built it to find hard vulnerabilities in large, messy codebases, not to write poems about threat models.
 
-It does not run alone in the marketing slide. It sits inside **MDASH**, Microsoft's multi-agent harness for vulnerability identification and remediation. MDASH already had a fleet of agents and models. Flash is the cost-efficient specialist that does most of the work so GPT-class models only touch the nasty edge cases.
+It does not run alone in the marketing slide. It sits inside **MDASH**, Microsoft's multi-agent runtime for vulnerability identification and remediation. MDASH already had a fleet of agents and models. Flash is the cost-efficient specialist that does most of the work so GPT-class models only touch the nasty edge cases.
 
 That routing story is the product insight:
 
 * Cheap, specialized model for volume
 * Expensive frontier model for the last hard 10%
-* Shared harness that finds, validates, and proposes fixes
+* Shared runtime that finds, validates, and proposes fixes
 
 Suleyman put it bluntly at the event: MAI-Cyber-1-Flash bound with GPT-5.4 inside MDASH beats Gemini, GPT-5.5 Cyber, GPT-5.6 Sol, and Mythos on CyberGym. Then: "We're shipping this into production immediately."
 
@@ -80,7 +80,7 @@ Microsoft is selling Perception as a full stack, not a chatbot bolted onto a SIE
 1. **Signals and sensors** across identities, endpoints, apps, data, cloud, and AI systems
 2. **Security context** that turns raw telemetry into token-efficient graphs and relationships
 3. **Models** (multi-model, not one god model)
-4. **Harness** that orchestrates agents and model choice
+4. **Orchestration layer** that directs agents and model choice
 5. **Agents** (red / blue / green)
 6. **Actuators** that turn decisions into real controls and remediations
 
@@ -94,10 +94,10 @@ Every lab can fine-tune a code model. Microsoft's claimed moat is uglier and mor
 
 * **Data:** decades of real exploits, remediations, and SOC outcomes across identity, endpoint, cloud, and network
 * **Scale:** 100+ trillion daily security signals, plus operational experience across a massive customer base
-* **Harness:** MDASH with 100+ agents already tuned by security practitioners
+* **Orchestrator:** MDASH with 100+ agents already tuned by security practitioners
 * **Distribution:** actuators inside Microsoft Security products customers already run
 
-Suleyman and Gallot put it as three words: **Model. Data. Harness.**
+Suleyman and Gallot put it as three words: **Model. Data. Orchestration.**
 
 The reinforcement learning loop argument is strong on paper. If you can connect "what was found" to "what was fixed" to "what actually blocked the next attack," you have a training flywheel general chat data cannot fake.
 
@@ -148,7 +148,7 @@ If Perception ships with weak human-in-the-loop defaults, it will create new inc
 
 If finding and fixing vulns costs half as much per successful remediation, you can scan more code, more often, and still stay inside budget. That is a bigger deal than a 2-point leaderboard bump.
 
-### 2. Harness quality will separate winners from demos
+### 2. Orchestration quality will separate winners from demos
 
 A cyber model without a reliable find-validate-fix loop is a fancy static analyzer with better vibes. MDASH and Perception are Microsoft betting the product is the orchestration layer.
 
@@ -190,7 +190,7 @@ None of that makes the launch small. It makes it a real systems problem instead 
 
 Microsoft did not just ship "a cyber model." It shipped a thesis:
 
-> Specialized cyber models + massive private security data + multi-agent harnesses + product actuators will define defense in the AI era.
+> Specialized cyber models + massive private security data + multi-agent frameworks + product actuators will define defense in the AI era.
 
 **MAI-Cyber-1-Flash** is the cost-efficient brain for hard code vulns. **MDASH** is the orchestration layer that turns model output into find-and-fix workflows. **Project Perception** is the wider red/blue/green system that tries to run security as a continuous loop instead of a ticket queue.
 

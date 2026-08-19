@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-8-12-eight-queens.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 8.12 for beginners: put eight queens on an 8x8 board so none share a row, column, or diagonal. Column-by-column placement, conflict checks, and clean Java backtracking.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A chess queen eats anything on her **row**, **column**, or either **diagonal**. Put eight queens on an 8x8 board so no one can capture anyone else. That is the classic **Eight Queens** puzzle, and in interviews it is the cleanest way to show you can **backtrack**: try a placement, go deeper, undo when you hit a dead end.
 

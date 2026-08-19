@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-16-17-contiguous-sequence.webp
 > * **The Approach:** CTCI problem 16.17: find contiguous sequence of integers with maximum sum using Kadane's dynamic programming algorithm.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **16.17**.
+You walk into an interview and get handed problem **16.17**: find contiguous sequence of integers with maximum sum using Kadane's dynamic programming algorithm. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 16.17: find contiguous sequence of integers with maximum sum using Kadane's dynamic programming algorithm.

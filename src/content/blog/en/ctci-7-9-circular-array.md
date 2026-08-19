@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-7-9-circular-array.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 7.9 for beginners: a generic CircularArray that rotates in O(1) by moving a head pointer, maps logical indices with modulo, and supports for-each via Iterable.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You want an array you can **spin** without paying for a full copy. Rotate left or right, then walk the elements from the new front with a normal `for (T x : array)` loop. Shifting every cell on each rotate is the slow path. The interview answer keeps the items where they sit and moves a **head** index, then maps every logical index through that head with modulo.
 

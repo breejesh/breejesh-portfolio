@@ -7,7 +7,7 @@ coverImage: /assets/images/nvidia-750b-circular-finance.webp
 previewImage: /assets/images/nvidia-750b-circular-finance.webp
 ---
 
-Nvidia is not just selling chips this week. It is underwriting the customers who buy them.
+The AI infrastructure buildout is sustained by a capital loop where GPU hardware revenues, cloud capacity reservations, and startup funding rounds cycle directly into one another.
 
 Bloomberg's July 27 report put a clean number on the pattern: a fresh round of AI infrastructure deals that, stacked together, top **$750 billion**. Late June, the **Bank for International Settlements** already flagged AI spending and circular financing as a risk to the broader economy. Big tech has gone from propping up growth to putting that growth on a balance sheet loop.
 

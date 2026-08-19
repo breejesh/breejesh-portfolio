@@ -7,7 +7,7 @@ coverImage: /assets/images/java-virtual-threads.webp
 previewImage: /assets/images/java-virtual-threads.webp
 ---
 
-For nearly two decades, the standard pattern for handling high concurrency in Java has been the thread pool. Whenever a server needed to process simultaneous requests, developers would configure executors to manage a fixed number of OS threads.
+Java Virtual Threads fundamentally rewrite the economics of concurrent backend services by decoupling lightweight application tasks from expensive kernel threads.
 
 **Java 21 virtual threads** (Project Loom) change that model. You can run a huge number of concurrent blocking tasks without sizing a classic worker pool for every request.
 

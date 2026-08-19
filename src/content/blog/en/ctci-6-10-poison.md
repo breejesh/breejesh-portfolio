@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-6-10-poison.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 6.10 for beginners: 1000 bottles, one poisoned, 10 test strips, results take a month. Encode each bottle as a bit pattern so one round of sips names the bottle.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You have **1000 bottles** of soda. Exactly **one** is poisoned. You have **10 test strips**. A strip either stays clean or turns positive after tasting poison. Each test needs a full **month** before you can read the result, and you only have one month. How do you find the poisoned bottle?
 

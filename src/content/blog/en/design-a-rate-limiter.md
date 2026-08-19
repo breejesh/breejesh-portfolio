@@ -9,7 +9,7 @@ previewImage: /assets/images/design-a-rate-limiter.webp
 
 
 > **TL;DR**
-> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
 > * **The Insight:** Rate limiting explained for absolute beginners: the club bouncer analogy, why limits exist, token buckets and sliding windows in plain language, Redis as a shared notebook, and one request walked end to end.
 > * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
 

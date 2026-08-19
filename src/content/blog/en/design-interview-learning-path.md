@@ -9,7 +9,7 @@ previewImage: /assets/images/design-interview-learning-path.webp
 
 
 > **TL;DR**
-> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
 > * **The Insight:** After the classic interview designs, learn the reusable building blocks in plain English, follow a beginner practice order, and use this blog series as your study map.
 > * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
 

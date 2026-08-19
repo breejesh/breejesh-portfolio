@@ -20,7 +20,7 @@ CTCI problem 12.11 in C: allocate a 2D array dynamically using a single malloc c
 
 ## 2. Code et Implémentation
 
-```java
+```cpp
 int** my2DAlloc(int rows, int cols) {
     int header = rows * sizeof(int*);
     int data = rows * cols * sizeof(int);

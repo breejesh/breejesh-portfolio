@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-series-guide.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** A complete, novice-friendly Java walkthrough of the classic CTCI-style interview problem set. How the series works, how to practice, and where to start.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 If you are preparing for coding interviews, you will meet the same families of problems over and over: arrays, strings, linked lists, trees, recursion, bits, sorting, and a long tail of "moderate" and "hard" puzzles.
 

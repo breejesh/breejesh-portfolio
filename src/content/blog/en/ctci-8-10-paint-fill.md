@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-8-10-paint-fill.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 8.10 for beginners: paint-bucket fill on a 2D screen of colors. Replace a connected region with a new color using recursive DFS or iterative BFS in Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 Image editors have a **paint bucket** tool. You click a pixel, pick a new color, and the whole connected blob of the old color flips. The screen is a 2D array of color values. The click is a row and column. The job is to recolor every pixel you can reach by stepping up, down, left, and right without leaving the original color.
 

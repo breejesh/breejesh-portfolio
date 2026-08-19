@@ -20,7 +20,7 @@ CTCI problem 14.4: writing SQL queries to join Students, Courses, and Teachers w
 
 ## 2. Technical Code & Mechanics
 
-```java
+```sql
 SELECT Students.StudentName, Courses.CourseName, StudentCourses.Grade
 FROM Students
 INNER JOIN StudentCourses ON Students.StudentID = StudentCourses.StudentID

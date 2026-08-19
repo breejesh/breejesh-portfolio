@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-7-1-deck-of-cards.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 7.1 for beginners: design reusable card classes (Card, Deck, Hand) and specialize them for blackjack with BlackJackCard and BlackJackHand, including soft aces.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A standard deck is fifty-two cards: four suits, thirteen ranks each. Blackjack sits on top of that deck with its own scoring rules (face cards worth ten, aces worth one or eleven). Interviewers want class design that stays general, then a clean specialization for the game.
 

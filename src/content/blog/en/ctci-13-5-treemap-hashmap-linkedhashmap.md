@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-13-5-treemap-hashmap-linkedhashmap.webp
 > * **The Approach:** CTCI problem 13.5: comparing HashMap O(1), TreeMap O(log N) sorted, and LinkedHashMap insertion-ordered maps in Java.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **13.5**.
+You walk into an interview and get handed problem **13.5**: comparing HashMap O(1), TreeMap O(log N) sorted, and LinkedHashMap insertion-ordered maps in Java. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 13.5: comparing HashMap O(1), TreeMap O(log N) sorted, and LinkedHashMap insertion-ordered maps in Java.

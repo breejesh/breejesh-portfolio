@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-4-1-route-between-nodes.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 4.1 for beginners: given a directed graph, decide if there is a route from node S to node E. BFS preferred over DFS, with a simple GraphNode neighbors list in Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 Cities run on one-way streets. You can leave home and reach the park in three turns, but the reverse path may not exist if every arrow points the wrong way. A **directed graph** is that map: edges have a direction. The question is simple: starting at node S, can you follow only legal arrows and land on node E?
 

@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-1-9-string-rotation.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** Check whether s2 is a rotation of s1 with a single isSubstring call: concatenate s1 with itself and ask if s2 lives inside. Java walkthrough for beginners.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A circular necklace of letter beads. You unclasp it between two beads, flip the loop so a new bead sits at the front, and close it again. The beads are the same, in the same cyclic order. Only the starting point moved. That is a **string rotation**.
 
@@ -38,7 +38,7 @@ Assume characters are case-sensitive. `"Abc"` is not a rotation of `"bca"`.
 
 For every cut point `i` from `0` to `n-1`, build `s1.substring(i) + s1.substring(0, i)` and compare to `s2`. That is O(n) candidates, each comparison O(n), so O(n²) time and lots of temporary strings. It also never uses the one-call rule.
 
-### The idea that unlocks the one-call limit
+### The trick for the one-call constraint
 
 If `s2` is a rotation of `s1`, then `s1` can be split as `x + y` and `s2` is `y + x` for some strings `x` and `y` (possibly empty).
 

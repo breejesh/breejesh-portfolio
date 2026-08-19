@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-9-3-web-crawler.webp
 > * **The Approach:** CTCI problem 9.3: architecture for a distributed web crawler that handles duplicate URLs, politeness policies, and host DNS bottlenecks.
 > * **Complexity:** Optimal Time and Space complexity trade-offs.
 
-This article provides a complete, novice-friendly breakdown of CTCI problem **9.3**. We examine the problem statement, compare brute-force vs. optimal approaches, and write idiomatic Java code.
+You walk into an interview and get handed problem **9.3**: architecture for a distributed web crawler that handles duplicate URLs, politeness policies, and host DNS bottlenecks. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ---
 

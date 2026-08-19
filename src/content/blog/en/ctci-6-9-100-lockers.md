@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-6-9-100-lockers.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 6.9 for beginners: 100 closed lockers, 100 people each toggle every i-th door. Open lockers are perfect squares (1, 4, 9, ..., 100) because only squares have an odd number of factors. Optional Java simulation.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 There are **100 lockers** in a hallway, all **closed**. **100 people** walk through. Person `i` toggles every `i`-th locker: person 1 flips all, person 2 flips 2, 4, 6, ..., person 100 flips only locker 100. When everyone is done, **which lockers are open?**
 

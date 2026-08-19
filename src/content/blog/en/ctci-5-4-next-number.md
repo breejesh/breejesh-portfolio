@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-5-4-next-number.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 5.4 for beginners: given a positive int, find the next larger and next smaller values that keep the same number of 1 bits. Count trailing zeros and ones, flip one bit, rearrange the rest.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You have a bag of binary digits with a fixed number of `1`s. You may rearrange them, but you cannot invent extra ones or throw any away. Among all numbers you can form that way, which one sits just above the current value, and which one sits just below? That is **Next Number**: same popcount, nearest neighbors on the integer line.
 

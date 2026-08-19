@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-2-8-loop-detection.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 2.8 for beginners: given a circular linked list, return the node where the loop begins. Floyd tortoise and hare, then the head reset trick, in plain Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You jog on a trail that starts straight and then joins a circular park path. You never notice the join until you start seeing the same tree again. A friend starts with you and runs twice as fast. You will meet somewhere on that circle. The cool part: once you meet, if your friend walks back to the trailhead and you both walk at the same pace, you meet again exactly at the entrance to the loop. That is **loop detection** on a linked list.
 

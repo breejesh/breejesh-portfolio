@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-9-2-social-network.webp
 > * **The Approach:** CTCI problem 9.2: design a distributed system to calculate degree of separation and shortest paths between two users in a billion-node social graph.
 > * **Complexity:** Optimal Time and Space complexity trade-offs.
 
-This article provides a complete, novice-friendly breakdown of CTCI problem **9.2**. We examine the problem statement, compare brute-force vs. optimal approaches, and write idiomatic Java code.
+You walk into an interview and get handed problem **9.2**: design a distributed system to calculate degree of separation and shortest paths between two users in a billion-node social graph. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ---
 

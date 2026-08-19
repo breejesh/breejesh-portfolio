@@ -7,7 +7,7 @@ coverImage: /assets/images/prompt-engineering-that-works.webp
 previewImage: /assets/images/prompt-engineering-that-works.webp
 ---
 
-Prompt engineering has a reputation problem. Half the internet sells magic phrases. The other half says prompts do not matter because models are "smart enough." Both sides are wrong for product work.
+Effective prompt engineering is not about finding magic words; it is about strictly constraining model output space through schema enforcement and few-shot calibration.
 
 In a product feature, the model is a component with inputs, outputs, latency budgets, and failure modes. Your prompt is the interface contract. Vague contracts produce vague software. Tight contracts produce boring, testable behavior.
 

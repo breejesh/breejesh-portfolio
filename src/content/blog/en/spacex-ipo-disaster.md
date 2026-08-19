@@ -7,7 +7,7 @@ coverImage: /assets/images/spacex-ipo-disaster.webp
 previewImage: /assets/images/spacex-ipo-disaster.webp
 ---
 
-The SpaceX IPO (trading under ticker SPCX) will go down in financial history. Blasting past a $2.3 trillion valuation in its first few hours of trading, it instantly became the seventh most valuable company on the planet, rivaling the GDP of entire G7 nations. 
+Analyzing aerospace capital efficiency requires contrasting vehicle manufacturing expenditures against recurring orbital launch revenue.
 
 To the casual observer, this was the crowning achievement of a legendary aerospace disruptor. After all, SpaceX brought orbital launch costs down by 85%, commercialized reusable rockets, and built Starlink, a profitable satellite constellation generating $4.4 billion in operating profit on $11.4 billion in revenue in 2025.
 

@@ -13,14 +13,14 @@ previewImage: /assets/images/ctci-14-2-open-requests.webp
 > * **The Approach:** CTCI problem 14.2: SQL query returning open maintenance requests per building using LEFT JOIN and GROUP BY.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **14.2**.
+You walk into an interview and get handed problem **14.2**: SQL query returning open maintenance requests per building using LEFT JOIN and GROUP BY. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 14.2: SQL query returning open maintenance requests per building using LEFT JOIN and GROUP BY.
 
 ## 2. Technical Code & Mechanics
 
-```java
+```sql
 SELECT Buildings.BuildingName, COUNT(Requests.RequestID) AS OpenRequests
 FROM Buildings
 LEFT JOIN Apartments ON Buildings.BuildingID = Apartments.BuildingID

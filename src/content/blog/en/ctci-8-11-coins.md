@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-8-11-coins.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 8.11 for beginners: count combinations that make n cents with quarters, dimes, nickels, and pennies. Bottom-up DP coin change, order does not matter, plain Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You have infinite coins of a few fixed values. Someone asks: how many different piles make exactly `n` cents? Not the fewest coins. The **count of combinations**. That is the classic **Coins** problem: quarters (25), dimes (10), nickels (5), pennies (1), and a target amount.
 

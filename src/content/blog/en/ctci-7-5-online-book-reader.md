@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-7-5-online-book-reader.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 7.5 for beginners: design an online book reader with User, Book, Library, Display, and a single active reading session. Original Java sketch, not a product build.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 Design the **data structures** for an **online book reader**. Not a full Kindle clone. Not a distributed content CDN. An interview-sized object model: users join and renew membership, books live in a library, one active reader has one open book, and a display shows the current page.
 

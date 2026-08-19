@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-5-6-conversion.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 5.6 for beginners: count the bits you must flip to convert integer A into B. XOR the two numbers, then count the ones. Brian Kernighan loop and Integer.bitCount.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You have two light switches, each with a row of on/off bulbs. Same number of bulbs, same positions. How many bulbs differ between the rows? That count is exactly how many times you need to flip a switch on the first row so it matches the second.
 

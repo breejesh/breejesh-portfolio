@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-4-6-successor.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 4.6 for beginners: find the in-order successor of a node in a binary search tree when every node has a parent link. Right-subtree leftmost, or climb parents until you are not a right child.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 In-order walk of a BST prints keys in sorted order. Given one node, the **successor** is the next key that walk would visit. You do not restart from the root and scan the whole tree. You already hold the node, and each node has a `parent` pointer.
 

@@ -13,14 +13,14 @@ previewImage: /assets/images/ctci-12-3-hash-table-vs-stl-map.webp
 > * **The Approach:** CTCI problem 12.3: deep technical breakdown comparing std::map (Red-Black Tree O(log N)) and std::unordered_map (Hash Table O(1)).
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **12.3**.
+You walk into an interview and get handed problem **12.3**: deep technical breakdown comparing std::map (Red-Black Tree O(log N)) and std::unordered_map (Hash Table O(1)). The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 12.3: deep technical breakdown comparing std::map (Red-Black Tree O(log N)) and std::unordered_map (Hash Table O(1)).
 
 ## 2. Technical Code & Mechanics
 
-```java
+```cpp
 #include <map>
 #include <unordered_map>
 

@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-1-4-palindrome-permutation.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** Check if any rearrangement of a string is a palindrome. Frequency counts, at most one odd character, optional space and case rules, and clean Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A **palindrome** reads the same left to right and right to left: `kayak`, `level`, `a man a plan a canal panama` if you ignore spaces. A **permutation** is any shuffle of the same multiset of characters. This problem asks a quieter question: *could some shuffle of this string be a palindrome?* You do not need to build that shuffle. You only need to know whether one is possible.
 

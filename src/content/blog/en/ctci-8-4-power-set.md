@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-8-4-power-set.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 8.4 for beginners: return every subset of a set, including empty and full. Recursive build from smaller power sets, optional bit-mask enumeration, and Java code.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You have a bag of distinct stickers: `{A, B, C}`. How many different bags can you make if each sticker is either in or out? Empty bag counts. Full bag counts. Pairs count. That list of bags is the **power set**: every subset of the original set.
 

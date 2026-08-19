@@ -20,7 +20,7 @@ CTCI problem 12.8: deep copying a data structure containing pointers and cycle r
 
 ## 2. Code et Implémentation
 
-```java
+```cpp
 struct Node {
     int data;
     Node* ptr1;

@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-2-7-intersection.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** Given two singly linked lists, return the first shared node by reference (not value). Same tail means they merge; align lengths, then walk together.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 Two country roads. Each starts in a different village. Somewhere past the hills they join into one highway and never split again. Cars on either road that reach the merge point share every mile after that. Linked lists can do the same: two chains of nodes, separate at the start, then one shared suffix of **the same node objects**.
 

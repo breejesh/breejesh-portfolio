@@ -20,7 +20,7 @@ CTCI problem 12.1 in C++: print the last K lines of a file using a circular arra
 
 ## 2. Code et Implémentation
 
-```java
+```cpp
 #include <iostream>
 #include <fstream>
 #include <string>

@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-2-4-partition.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** Partition a singly linked list so every node less than x comes before every node greater than or equal to x. Two-list merge in Java, plus a short head/tail grow note.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 Airport security has two lanes. One for bags under a weight limit, one for bags at or over it. People walk up in random order. You do not sort them by weight. You only care that every light bag ends up on the left lane and every heavy bag ends up on the right. That is **partition** for a linked list: a cut around a value `x`, not a full sort.
 

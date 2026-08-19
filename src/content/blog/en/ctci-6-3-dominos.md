@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-6-3-dominos.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 6.3 for beginners: 8x8 board with two opposite corners removed, 31 dominos. Coloring invariant proves it is impossible. Counts, board sketch, and optional Java visualization.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 An 8x8 chessboard has 64 squares. Chop off two opposite corners and you have 62 squares left. A domino covers two adjacent squares. So 31 dominos would cover exactly 62 squares if a tiling exists. The interview question is simple: **does it?**
 

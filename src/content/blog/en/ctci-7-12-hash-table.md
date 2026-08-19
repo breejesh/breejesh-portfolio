@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-7-12-hash-table.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 7.12 for beginners: build a simple HashMap with an array of linked-list buckets. put, get, and remove with collision chaining in Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A map that answers **get(key)** in roughly constant time is a **hash table**. You hash the key to a bucket index, then look only in that bucket. When two keys land in the same slot, you need a collision plan. The classic teaching plan is **chaining**: each bucket is a linked list of key-value cells.
 

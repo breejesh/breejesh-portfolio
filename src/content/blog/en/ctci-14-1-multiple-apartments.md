@@ -1,31 +1,53 @@
 ---
-title: "Multiple Apartments: Query Tenants with Multiple Apartments in SQL (CTCI 14.1)"
-description: "CTCI problem 14.1: SQL query using GROUP BY and HAVING to find tenants renting more than one apartment."
-date: "2026-04-03"
-tags: [Algorithms]
+title: "Multiple Apartments: SQL Query for Tenants with Multiple Leases (CTCI 14.1)"
+description: "CTCI problem 14.1 in SQL: write a query to find all tenants who are currently renting more than one apartment."
+date: "2026-03-24"
+tags: [SQL, Databases]
 coverImage: /assets/images/ctci-14-1-multiple-apartments.webp
 previewImage: /assets/images/ctci-14-1-multiple-apartments.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** CTCI problem 14.1 technical mechanics.
-> * **The Approach:** CTCI problem 14.1: SQL query using GROUP BY and HAVING to find tenants renting more than one apartment.
-> * **Complexity:** Optimal Time and Memory bounds.
+> * **The Goal:** Write an optimal SQL query to list tenant names and IDs who hold more than one active apartment lease.
+> * **The Insight:** Join `Tenants` to `AptTenants`, group by `TenantID`, and filter aggregate counts using `HAVING COUNT(*) > 1`.
+> * **Complexity:** $O(N \log N)$ or $O(N)$ with hash aggregation.
 
-This article provides a clear breakdown of CTCI problem **14.1**.
+In property management schemas, a tenant can hold leases across multiple units. Finding tenants with multiple apartments is a classic `GROUP BY ... HAVING` database query.
 
-## 1. Context and Problem Statement
-CTCI problem 14.1: SQL query using GROUP BY and HAVING to find tenants renting more than one apartment.
+---
 
-## 2. Technical Code & Mechanics
+## 1. Schema Definition
 
-```java
-SELECT TenantID, COUNT(*) AS ApartmentCount
-FROM AptTenants
-GROUP BY TenantID
-HAVING COUNT(*) > 1;
+```sql
+-- Tenants: TenantID, TenantName
+-- AptTenants: TenantID, AptID
 ```
 
-## 3. Key Takeaways and Edge Cases
-Always test boundary conditions and invalid input states.
+---
+
+## 2. Idiomatic SQL Solution
+
+```sql
+SELECT 
+    t.TenantID,
+    t.TenantName,
+    COUNT(at.AptID) AS ApartmentCount
+FROM 
+    Tenants t
+INNER JOIN 
+    AptTenants at ON t.TenantID = at.TenantID
+GROUP BY 
+    t.TenantID,
+    t.TenantName
+HAVING 
+    COUNT(at.AptID) > 1;
+```
+
+---
+
+## 3. Query Execution & Indexing Optimization
+
+| Without Index | With Index on `AptTenants(TenantID)` |
+| --- | --- |
+| Full table scan on `AptTenants` | Fast Index Scan / Hash Join |
+| Temp table sort for aggregation | Stream aggregation directly from sorted index |

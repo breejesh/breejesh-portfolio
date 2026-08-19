@@ -9,7 +9,7 @@ previewImage: /assets/images/design-web-crawler.webp
 
 
 > **TL;DR**
-> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
 > * **The Insight:** How a web crawler works in plain language: seed URLs, the frontier queue, politeness, fetch, parse, store, and dedup. One page walked through the pipeline, plus a short recap.
 > * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
 

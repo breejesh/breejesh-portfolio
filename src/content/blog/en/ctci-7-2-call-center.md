@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-7-2-call-center.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 7.2 for beginners: respondents, managers, and directors. Route every call to the lowest free rank that can handle it, escalate when needed, and implement dispatchCall.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A call lands at the front desk. It should go to a free **respondent** first. If that person cannot finish it, the call climbs to a **manager**. If managers cannot take it either, it goes to a **director**. Busy people do not steal work from free people at a lower rank. That is the whole design: ranks, free lists, and one method that assigns work.
 

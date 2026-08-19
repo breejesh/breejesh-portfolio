@@ -7,7 +7,7 @@ coverImage: /assets/images/python-type-hints-production.webp
 previewImage: /assets/images/python-type-hints-production.webp
 ---
 
-Python type hints are free at runtime and expensive when they lie. The teams that get value out of them do not annotate every private helper. They type the **seams**: public APIs, wire formats, shared domain objects, and plugin boundaries. Everything else can stay loose until a bug or a refactor forces a decision.
+Python type annotations have matured from optional documentation into an indispensable static analysis toolchain that catches contract failures before code reaches staging.
 
 This is a field guide for that approach. Not a catalog of every feature in `typing`, and not a purity contest between checkers. The goal is fewer production surprises with a budget you can defend in code review.
 

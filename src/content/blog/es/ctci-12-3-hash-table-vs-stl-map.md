@@ -20,7 +20,7 @@ CTCI problem 12.3: deep technical breakdown comparing std::map (Red-Black Tree O
 
 ## 2. Código e Implementación
 
-```java
+```cpp
 #include <map>
 #include <unordered_map>
 

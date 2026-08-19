@@ -13,14 +13,14 @@ previewImage: /assets/images/ctci-12-1-last-k-lines.webp
 > * **The Approach:** CTCI problem 12.1 in C++: print the last K lines of a file using a circular array buffer for O(K) memory.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **12.1**.
+You walk into an interview and get handed problem **12.1**: print the last K lines of a file using a circular array buffer for O(K) memory. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 12.1 in C++: print the last K lines of a file using a circular array buffer for O(K) memory.
 
 ## 2. Technical Code & Mechanics
 
-```java
+```cpp
 #include <iostream>
 #include <fstream>
 #include <string>

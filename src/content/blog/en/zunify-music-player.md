@@ -7,7 +7,7 @@ coverImage: /assets/images/zunify-music.webp
 previewImage: /assets/images/zunify-music.webp
 ---
 
-In the late 2000s, Microsoft introduced the Zune, a digital media player that struggled to capture market share from the iPod but still gained a passionate cult following for its design language. The "Metro" interface was typography-first, minimalist, high-contrast, and focused on clean digital layouts rather than mimicking physical objects (skeuomorphism).
+Developing a local music player application requires balancing audio streaming buffering, local metadata indexing, and clean reactive playback state across views.
 
 **Zunify** is a modern homage to that legendary interface. It is a lightweight, offline-first Progressive Web App (PWA) that syncs your local music library directly inside your browser, with zero server uploads, zero trackers, and complete privacy.
 

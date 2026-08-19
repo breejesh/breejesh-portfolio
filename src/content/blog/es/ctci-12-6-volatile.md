@@ -20,7 +20,7 @@ CTCI problem 12.6: when and why to use volatile to prevent compiler optimization
 
 ## 2. Código e Implementación
 
-```java
+```cpp
 volatile int* hardwareRegister = (int*) 0x40001000;
 while (*hardwareRegister == 0) {
     // Compiler will not optimize away this loop read

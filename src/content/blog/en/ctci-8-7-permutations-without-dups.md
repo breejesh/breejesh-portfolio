@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-8-7-permutations-without-dups.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 8.7 for beginners: list every permutation of a string whose characters are all different. Backtracking with a used-char set, plain Java, and a short walkthrough for abc.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You have a short word. Every letter is unique. How many ways can you rearrange those letters, and how do you list every arrangement without repeating work? That is **Permutations without Dups**: generate all orderings of a string with distinct characters.
 

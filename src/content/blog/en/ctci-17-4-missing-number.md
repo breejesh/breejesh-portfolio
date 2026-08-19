@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-17-4-missing-number.webp
 > * **The Approach:** CTCI problem 17.4: find missing integer in array from 0 to N where array elements can only be accessed via fetchBit(i, j).
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **17.4**.
+You walk into an interview and get handed problem **17.4**: find missing integer in array from 0 to N where array elements can only be accessed via fetchBit(i, j). The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 17.4: find missing integer in array from 0 to N where array elements can only be accessed via fetchBit(i, j).

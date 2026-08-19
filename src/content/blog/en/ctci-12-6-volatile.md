@@ -13,14 +13,14 @@ previewImage: /assets/images/ctci-12-6-volatile.webp
 > * **The Approach:** CTCI problem 12.6: when and why to use volatile to prevent compiler optimizations on hardware registers and memory-mapped IO.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **12.6**.
+You walk into an interview and get handed problem **12.6**: when and why to use volatile to prevent compiler optimizations on hardware registers and memory-mapped IO. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 12.6: when and why to use volatile to prevent compiler optimizations on hardware registers and memory-mapped IO.
 
 ## 2. Technical Code & Mechanics
 
-```java
+```cpp
 volatile int* hardwareRegister = (int*) 0x40001000;
 while (*hardwareRegister == 0) {
     // Compiler will not optimize away this loop read

@@ -13,14 +13,14 @@ previewImage: /assets/images/ctci-12-5-shallow-vs-deep-copy.webp
 > * **The Approach:** CTCI problem 12.5: comparing pointer assignment vs memory allocation in copy constructors to prevent double-free crashes.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **12.5**.
+You walk into an interview and get handed problem **12.5**: comparing pointer assignment vs memory allocation in copy constructors to prevent double-free crashes. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 12.5: comparing pointer assignment vs memory allocation in copy constructors to prevent double-free crashes.
 
 ## 2. Technical Code & Mechanics
 
-```java
+```cpp
 class MyArray {
     int* data;
     int size;

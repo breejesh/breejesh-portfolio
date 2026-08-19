@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-8-2-robot-in-a-grid.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 8.2 for beginners: robot goes top-left to bottom-right with only right and down moves. Some cells are off. Memoized DFS (or DP) finds one path in Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You stand at the northwest corner of a city block grid. You may only walk **east** or **south**. Some intersections are closed for construction. Can you reach the southeast corner, and if so, which sequence of corners do you walk through?
 

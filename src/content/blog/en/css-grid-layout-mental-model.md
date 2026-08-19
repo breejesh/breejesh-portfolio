@@ -7,7 +7,7 @@ coverImage: /assets/images/css-grid-layout-mental-model.webp
 previewImage: /assets/images/css-grid-layout-mental-model.webp
 ---
 
-Flexbox is great for a row or a column. Grid is the tool for **two axes at once**: rows and columns that line up, overlap in controlled ways, and reflow without a pile of nested wrappers.
+Flexbox excels along a single axis. CSS Grid is the definitive tool for **two axes simultaneously**: rows and columns that line up, overlap in controlled ways, and reflow without a pile of nested wrappers.
 
 Most Grid bugs come from a fuzzy model of what a track is, how `fr` shares leftover space, and what `auto-fit` does when columns collapse. This post is that model, plus the patterns I paste into real pages.
 

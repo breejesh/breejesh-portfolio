@@ -9,7 +9,7 @@ previewImage: /assets/images/design-interview-framework.webp
 
 
 > **TL;DR**
-> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
 > * **The Insight:** A scared-candidate checklist for system design interviews: ask first, plan the boxes, then add detail. Plain English steps, sample dialogue, and a reusable time budget for 45-60 minutes.
 > * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
 

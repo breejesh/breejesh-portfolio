@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-10-8-find-duplicates.webp
 > * **The Approach:** CTCI problem 10.8 in Java: print all duplicate numbers in an array of numbers from 1 to 32,000 using a BitSet with only 4 KB of memory.
 > * **Complexity:** Optimal Time and Space complexity trade-offs.
 
-This article provides a complete, novice-friendly breakdown of CTCI problem **10.8**. We examine the problem statement, compare brute-force vs. optimal approaches, and write idiomatic Java code.
+You walk into an interview and get handed problem **10.8**: print all duplicate numbers in an array of numbers from 1 to 32,000 using a BitSet with only 4 KB of memory. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ---
 

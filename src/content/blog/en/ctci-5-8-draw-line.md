@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-5-8-draw-line.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 5.8 for beginners: monochrome screen stored as a byte array, eight pixels per byte. Draw a horizontal line from (x1, y) to (x2, y) with bit masks on partial bytes and 0xFF on full ones.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A cheap old display has no color. Every pixel is on or off. Memory is tight, so the hardware packs **eight pixels into one byte**. You get a flat `byte[]` and a width. Your job: light every pixel on one horizontal line, from column `x1` to column `x2` on row `y`, without wasting a loop on every single bit when whole bytes sit in the middle.
 

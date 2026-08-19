@@ -11,7 +11,7 @@ Large container images slow down deployments, burn registry storage, and widen y
 
 **Multi-stage builds** fix the packaging side of that problem. You compile in a heavy builder stage, then copy only the runtime artifact into a small final image.
 
-I also measured this against two common alternatives (single-stage and a pre-built deps base) across four ecosystems. The full harness, Dockerfiles, and raw numbers live in:
+I also measured this against two common alternatives (single-stage and a pre-built deps base) across four ecosystems. The full test suite, Dockerfiles, and raw benchmark numbers live in:
 
 * **GitHub:** [github.com/breejesh/multi-stage-docker-benchmarking](https://github.com/breejesh/multi-stage-docker-benchmarking)
 
@@ -287,10 +287,10 @@ This helps most in CI, where classic layer caches are often cold. It complements
 
 ---
 
-## Conclusion
+## The Reality on the Ground
 
 Multi-stage builds are the default I want for production images. The benchmark backs the size story across Go, Node, Java, and Python, with drops from about a quarter to over 90% depending on how much runtime you still need.
 
 They are not free on every axis. Pre-built bases can rebuild pure code changes faster. Cold and dependency rebuilds depend on the ecosystem. Measure your own apps if rebuild latency is the bottleneck.
 
-Stack the basics together: multi-stage for what you ship, `.dockerignore` for context, non-root (and distroless/`scratch` when it fits) for security, health checks for ops, BuildKit caches for CI. For the harness and charts behind this post, see [multi-stage-docker-benchmarking](https://github.com/breejesh/multi-stage-docker-benchmarking).
+Stack the basics together: multi-stage for what you ship, `.dockerignore` for context, non-root (and distroless/`scratch` when it fits) for security, health checks for ops, BuildKit caches for CI. For the benchmark suite and charts behind this post, see [multi-stage-docker-benchmarking](https://github.com/breejesh/multi-stage-docker-benchmarking).

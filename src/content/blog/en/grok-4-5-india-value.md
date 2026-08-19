@@ -9,7 +9,7 @@ previewImage: /assets/images/grok-4-5-india-value-cover.webp
 
 **₹6,500 a year** for near-frontier AI. Or **~₹2,000 a month** for ChatGPT Plus, Claude Pro, or Gemini AI Pro.
 
-If you pay from a personal Indian bank account, that is the whole argument. SuperGrok with **Grok 4.5** is not "the best model on Earth." Independent boards put it in the high-50s pack on intelligence, not above Fable 5. For freelancers, students, and indie builders, the interesting metric is **intelligence per rupee**.
+If you pay from a personal Indian bank account, that is the whole argument. SuperGrok with **Grok 4.5** is not marketed as the absolute frontier model across every benchmark, but its price-to-performance ratio delivers compelling value for developers and indie teams. Independent boards put it in the high-50s pack on intelligence, not above Fable 5. For freelancers, students, and indie builders, the interesting metric is **intelligence per rupee**.
 
 Here is the cost math, then the receipts from [Artificial Analysis](https://artificialanalysis.ai/models/grok-4-5), with live chart links and source credits.
 

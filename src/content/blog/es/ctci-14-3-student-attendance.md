@@ -20,7 +20,7 @@ CTCI problem 14.3: SQL update query to update student attendance status and comp
 
 ## 2. Technical Code & Mechanics
 
-```java
+```sql
 UPDATE StudentCourses
 SET Status = 'Passed'
 WHERE Grade >= 60;

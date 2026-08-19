@@ -7,7 +7,7 @@ coverImage: /assets/images/sql-window-functions-guide.webp
 previewImage: /assets/images/sql-window-functions-guide.webp
 ---
 
-Most analytics SQL you write is the same five shapes: latest row per key, top N per group, rank with ties, value vs previous period, and a cumulative total. Window functions solve those shapes without self-joins that melt the query planner.
+SQL window functions allow performing analytical calculations across row partitions without collapsing individual rows, replacing complex self-joins with clean, readable queries.
 
 This post is the mental model I keep, plus the queries I paste into real work. Postgres, BigQuery, Snowflake, and modern MySQL all support the same core syntax. Dialects differ on small extras, not on the idea.
 

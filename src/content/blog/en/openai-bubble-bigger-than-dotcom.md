@@ -7,7 +7,7 @@ coverImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 previewImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 ---
 
-Sam Altman once said, in effect: we do not know how we will make money. When the general system exists, we will ask it how to return capital to investors.
+Evaluating the AI market against the 1990s dot-com boom requires contrasting actual software revenue multiples against massive ongoing capital expenditure on compute.
 
 That line used to land as a joke. In 2026 it reads like a confession. The AI trade has grown so large that a leaked US Treasury draft reportedly warns the sector is **more embedded in the economy than the dotcom firms were**. Stock markets, private credit, data-center lenders, cloud providers, chip makers, and utilities all sit on the same assumption: demand for frontier models will eventually pay for the iron.
 

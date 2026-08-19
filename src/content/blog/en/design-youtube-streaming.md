@@ -9,7 +9,7 @@ previewImage: /assets/images/design-youtube-streaming.webp
 
 
 > **TL;DR**
-> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
 > * **The Insight:** A beginner-friendly map of video streaming: a filmmaker drops off one tape, the platform makes many quality copies, stores them near viewers, and plays them through a CDN. Why the original alone is not enough, and how cost shows up in plain words.
 > * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
 

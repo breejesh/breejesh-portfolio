@@ -226,7 +226,7 @@ Nearest neighbor over the whole corpus returns the right doc for the wrong tenan
 
 `k=5` forever. Sometimes you need 20 candidates into a reranker. Sometimes 3 tight chunks beat 15 noisy ones that fill the context window. Tune with an eval set, not vibes.
 
-### 7. No evaluation harness
+### 7. No evaluation framework or metric tracking
 
 Without labeled queries (or at least a fixed golden set), every change is storytelling. Track retrieval metrics (recall@k, MRR) and end-to-end answer quality separately. Retrieval can be fine while generation is wrong, and the reverse.
 

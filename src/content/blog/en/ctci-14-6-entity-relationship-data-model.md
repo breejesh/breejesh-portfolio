@@ -13,14 +13,14 @@ previewImage: /assets/images/ctci-14-6-entity-relationship-data-model.webp
 > * **The Approach:** CTCI problem 14.6: principles of Entity-Relationship modeling, primary keys, foreign keys, and 1-to-N relationships.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **14.6**.
+You walk into an interview and get handed problem **14.6**: principles of Entity-Relationship modeling, primary keys, foreign keys, and 1-to-N relationships. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 14.6: principles of Entity-Relationship modeling, primary keys, foreign keys, and 1-to-N relationships.
 
 ## 2. Technical Code & Mechanics
 
-```java
+```sql
 -- Entity Relationship Schema:
 -- Users (id PK, name, email)
 -- Orders (id PK, user_id FK -> Users.id, total_amount)

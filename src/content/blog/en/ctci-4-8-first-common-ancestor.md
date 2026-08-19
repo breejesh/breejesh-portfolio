@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-4-8-first-common-ancestor.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 4.8 for beginners: find the deepest common ancestor of two nodes in a binary tree (not necessarily a BST). Prefer one recursive pass that returns a status object; parent-link climb is the alternate.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 Two people in a family tree. Walk up from each person toward the oldest root. The first person you both hit on those climbs is a common ancestor. The **first** common ancestor is the deepest one: as close to the two people as possible, not the root unless the root is the only shared point.
 

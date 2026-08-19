@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-1-5-one-away.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** Check if two strings differ by at most one insert, remove, or replace. Walk through the length rule, a single pointer scan, and clean Java you can explain out loud.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You type a password once, mistype it once, and the system still unlocks. That is not magic. Someone decided that **one small edit** is close enough, and two edits are not.
 

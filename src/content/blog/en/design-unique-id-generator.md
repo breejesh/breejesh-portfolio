@@ -9,7 +9,7 @@ previewImage: /assets/images/design-unique-id-generator.webp
 
 
 > **TL;DR**
-> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
 > * **The Insight:** Unique IDs explained for beginners: why one database counter fails with many writers, then UUID, ticket servers, and Snowflake as time plus machine number plus counter, like a receipt, including clocks that jump backward.
 > * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
 
@@ -123,14 +123,17 @@ Still, someone central owns the ranges. That is the trade-off.
 
 Two registers can both print "item 4" at the same second. The receipt is still unique because the register number differs. One register printing two items in the same millisecond bumps the local counter.
 
-A common teaching layout:
+```
+Bit Layout: [1-bit Unused] [41-bit Timestamp] [5-bit Datacenter] [5-bit Worker] [12-bit Sequence]
+```
 
-```
- 0                   41 bits                    5     5      12
-+-+----------------------------------------+-----+-----+----------+
-|0|          timestamp (ms)                | DC  | Wkr | sequence |
-+-+----------------------------------------+-----+-----+----------+
-```
+| Bit Offset | Field Name | Width | Purpose |
+| --- | --- | --- | --- |
+| Bit 63 | Unused sign bit | 1 bit | Fixed to `0` to keep the integer positive |
+| Bits 62-22 | Timestamp | 41 bits | Milliseconds elapsed since custom epoch (up to 69 years) |
+| Bits 21-17 | Datacenter ID | 5 bits | Datacenter or region index (0-31) |
+| Bits 16-12 | Worker ID | 5 bits | Worker / machine instance ID (0-31) |
+| Bits 11-0 | Sequence | 12 bits | Incrementing counter per millisecond (0-4095) |
 
 | Piece | Bits | Role in plain English |
 | --- | --- | --- |

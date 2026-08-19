@@ -9,7 +9,7 @@ previewImage: /assets/images/design-back-of-envelope-estimation.webp
 
 
 > **TL;DR**
-> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
 > * **The Insight:** Learn rough capacity math for interviews: QPS, storage, bandwidth, and latency with everyday analogies, one slow worked example, and a friend-level recap.
 > * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
 

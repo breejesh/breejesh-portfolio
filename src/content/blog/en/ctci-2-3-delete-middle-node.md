@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-2-3-delete-middle-node.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 2.3: delete a middle node of a singly linked list when you only hold a pointer to that node. Copy the next value, skip the next node, and know why the last node fails.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You are in a conga line. Someone taps you on the shoulder and says: remove yourself. You cannot reach the person behind you, so you cannot ask them to skip you. The only move that works is weird: you become the person in front of you. Copy their costume, their name tag, then step them out of the line and close the gap. Everyone else still thinks the chain is intact. That is delete middle node on a singly linked list.
 

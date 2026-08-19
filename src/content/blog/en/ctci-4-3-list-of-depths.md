@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-4-3-list-of-depths.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 4.3 for beginners: turn a binary tree into a list of linked lists, one list per depth. BFS level-order first, optional DFS with a depth index, in plain Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A building has floors. Everyone on floor 0 is one group. Everyone on floor 1 is another group. Same idea for a binary tree: **depth 0** is the root alone, **depth 1** is the root's children, and so on. The job is not to walk the tree randomly. It is to produce one list of nodes for each depth, so you can hand a caller "everyone on this level" without re-walking the tree.
 

@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-10-2-group-anagrams.webp
 > * **The Approach:** CTCI problem 10.2 in Java: group an array of strings such that all anagrams are placed next to each other using HashMap bucket sorting.
 > * **Complexity:** Optimal Time and Space complexity trade-offs.
 
-This article provides a complete, novice-friendly breakdown of CTCI problem **10.2**. We examine the problem statement, compare brute-force vs. optimal approaches, and write idiomatic Java code.
+You walk into an interview and get handed problem **10.2**: group an array of strings such that all anagrams are placed next to each other using HashMap bucket sorting. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ---
 

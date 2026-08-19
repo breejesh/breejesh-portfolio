@@ -7,9 +7,7 @@ coverImage: /assets/images/aws-cost-spike.webp
 previewImage: /assets/images/aws-cost-spike.webp
 ---
 
-We've all been there. You look at your monthly AWS bill, expecting the usual predictable numbers, only to find a massive spike staring back at you. Your mind starts racing, trying to figure out what went wrong. Did a script go rogue? Did traffic suddenly double? 
-
-Then you dig into the Cost Explorer and find the culprit: **NAT Gateway**. 
+We have all been there. You look at your monthly cloud bill, expecting predictable numbers, only to find a massive spike staring back at you. One side of you hopes it is legitimate traffic; the other side knows a misconfigured route table just burned thousands of dollars. Then you open Cost Explorer and find the culprit: **NAT Gateway**. 
 
 It feels like a punch in the gut, especially when you realize you are being charged not just for having the gateway active, but for every single gigabyte of data that passes through it. If you are running data-heavy workloads, pulling large container images, or constantly talking to external APIs, NAT Gateway data processing fees can quickly become your biggest hidden cloud tax. 
 

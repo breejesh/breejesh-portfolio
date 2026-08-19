@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-17-9-kth-multiple.webp
 > * **The Approach:** CTCI problem 17.9: find Kth number with prime factors 3, 5, 7 using 3 pointer queues in O(K) time.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **17.9**.
+You walk into an interview and get handed problem **17.9**: find Kth number with prime factors 3, 5, 7 using 3 pointer queues in O(K) time. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 17.9: find Kth number with prime factors 3, 5, 7 using 3 pointer queues in O(K) time.

@@ -20,7 +20,7 @@ CTCI problem 14.7: complete relational database schema design for tracking stude
 
 ## 2. Technical Code & Mechanics
 
-```java
+```sql
 CREATE TABLE Students (StudentID INT PRIMARY KEY, Name VARCHAR(100));
 CREATE TABLE Courses (CourseID INT PRIMARY KEY, Name VARCHAR(100));
 CREATE TABLE Grades (StudentID INT, CourseID INT, Grade FLOAT, PRIMARY KEY(StudentID, CourseID));

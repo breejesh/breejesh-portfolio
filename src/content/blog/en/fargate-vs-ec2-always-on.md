@@ -7,7 +7,7 @@ coverImage: /assets/images/fargate-vs-ec2-always-on.webp
 previewImage: /assets/images/fargate-vs-ec2-always-on.webp
 ---
 
-Fargate is the default answer in a lot of architecture reviews. No AMIs. No capacity providers. No "who patched the node." You define CPU and memory, ship a task, and AWS runs it.
+Fargate is often the default choice in architecture reviews: zero node management, zero AMIs, automated capacity. For steady, always-on workloads, however, that managed convenience carries a steep pricing premium. No "who patched the node." You define CPU and memory, ship a task, and AWS runs it.
 
 That is the right product for a lot of work. It is the wrong product for a lot of **always-on** work. The bill makes that clear after a few months of steady 24/7 traffic.
 

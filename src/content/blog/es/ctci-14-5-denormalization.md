@@ -20,7 +20,7 @@ CTCI problem 14.5: trade-offs between normalized relational schemas (3NF) and de
 
 ## 2. Technical Code & Mechanics
 
-```java
+```sql
 -- Normalized vs Denormalized Read Trade-off
 -- Denormalized: Pre-join customer details into Order table to eliminate join latency
 ```

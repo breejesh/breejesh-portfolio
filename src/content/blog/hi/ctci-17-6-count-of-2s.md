@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-17-6-count-of-2s.webp
 > * **दृष्टिकोण:** सीटीसीआई problem १७.६: count occurrences of digit २ in all numbers from ० to N using digit-by-digit math in O(log N) time.
 > * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
 
-यह लेख सीटीसीआई समस्या **१७.६** का एक स्पष्ट विवरण प्रदान करता है।
+तकनीकी साक्षात्कार में आपसे समस्या **१७.६** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
 
 ## १. संदर्भ और समस्या कथन
 सीटीसीआई problem १७.६: count occurrences of digit २ in all numbers from ० to N using digit-by-digit math in O(log N) time.

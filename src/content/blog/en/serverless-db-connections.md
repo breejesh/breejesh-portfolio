@@ -243,7 +243,7 @@ const client = new Client({
 
 ---
 
-## Conclusion
+## The Reality on the Ground
 
 Scaling serverless architectures requires fundamentally rethinking how you manage relational databases. The connection model that works perfectly for traditional servers (persistent pools shared across concurrent requests) actively works against you when every function invocation is an isolated container.
 

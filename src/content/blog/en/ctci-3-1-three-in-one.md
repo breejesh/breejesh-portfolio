@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-3-1-three-in-one.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 3.1 for beginners: implement three stacks with one array. Fixed equal slices, a sizes[] array, and a clean FixedMultiStack in Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You have one long shelf and three roommates. Each person gets a fixed slice of the shelf for their own stack of books. You never put Roommate A's books into B's slice. When a slice is full, that person is stuck even if the others still have empty space. That is **three stacks in one array** with fixed division.
 

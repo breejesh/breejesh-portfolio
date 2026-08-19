@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-17-19-missing-two.webp
 > * **The Approach:** CTCI problem 17.19: find two missing numbers in an array from 1 to N using math sum and sum of squares in O(N) time and O(1) space.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **17.19**.
+You walk into an interview and get handed problem **17.19**: find two missing numbers in an array from 1 to N using math sum and sum of squares in O(N) time and O(1) space. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 17.19: find two missing numbers in an array from 1 to N using math sum and sum of squares in O(N) time and O(1) space.

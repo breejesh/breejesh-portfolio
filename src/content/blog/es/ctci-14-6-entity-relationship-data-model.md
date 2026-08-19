@@ -20,7 +20,7 @@ CTCI problem 14.6: principles of Entity-Relationship modeling, primary keys, for
 
 ## 2. Technical Code & Mechanics
 
-```java
+```sql
 -- Entity Relationship Schema:
 -- Users (id PK, name, email)
 -- Orders (id PK, user_id FK -> Users.id, total_amount)

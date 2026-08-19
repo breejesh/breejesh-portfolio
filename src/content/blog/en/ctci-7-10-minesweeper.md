@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-7-10-minesweeper.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 7.10 for beginners: design a text Minesweeper with Cell and Board, random bomb placement, neighbor counts, click rules, and flood fill when you open a zero.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 Design a **text-based Minesweeper**. An `N x N` board hides `B` bombs. Other cells hold a number (how many bombs sit in the eight neighbors) or zero (blank). Click a bomb and you lose. Click a number and that cell alone opens. Click a zero and the board expands: that blank, every connected blank, and the numbered ring around that blank region all open. Flag cells you think are bombs so you do not click them by accident. Win when every non-bomb cell is exposed.
 
@@ -29,7 +29,7 @@ You peel one sticky note:
 * A number: only that note comes off.
 * Blank: you keep peeling every blank sticky that touches this one, and you also peel the numbered notes that sit on the edge of that blank patch. You stop at numbers; you never peel through a number into the next blank unless that blank was already connected through zeros.
 
-That blank expansion is **flood fill**. The board is a 2D grid of cells. The game object tracks whether you are still playing, already lost, or already won.
+That blank expansion is **flood fill**. The board is a 2D grid of cells. The game object tracks if you are still playing, already lost, or already won.
 
 ---
 

@@ -7,7 +7,7 @@ coverImage: /assets/images/event-driven-architecture-intro.webp
 previewImage: /assets/images/event-driven-architecture-intro.webp
 ---
 
-Synchronous request/response is easy to reason about. Service A calls Service B, waits, gets an answer or an error. That model breaks down when one action must fan out to many independent systems, when those systems scale at different rates, or when a temporary outage in one dependency should not block the whole checkout path.
+Synchronous request/response is simple to reason about until one downstream service stumbles and the entire checkout flow freezes. Event-driven architecture shifts the contract from blocking commands to asynchronous facts. That model breaks down when one action must fan out to many independent systems, when those systems scale at different rates, or when a temporary outage in one dependency should not block the whole checkout path.
 
 **Event-driven architecture** shifts the contract: a producer publishes a fact about something that already happened, and consumers react in their own time. You gain decoupling and horizontal scale. You pay with eventual consistency, harder debugging, and failure modes that do not show up in a single stack trace.
 

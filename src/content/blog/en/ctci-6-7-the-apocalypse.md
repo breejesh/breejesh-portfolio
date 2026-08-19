@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-6-7-the-apocalypse.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 6.7 for beginners: families keep having kids until a boy, then stop. Ratio of boys to girls is still about 1:1. Infinite series proof and a short Java simulation.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A dystopian government issues one rule: every family must keep having children until they get a boy, then they stop. No more kids after the first boy. Intuition screams that the world will fill with girls, long strings of GGG...B, more daughters than sons.
 

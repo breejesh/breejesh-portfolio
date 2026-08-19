@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-8-5-recursive-multiply.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 8.5 for beginners: multiply two positive ints without * or /. Recurse on half the smaller factor, double the half-product, add once when odd. Plain Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 Multiplication is repeated addition, but adding `a` to itself `b` times is slow when both numbers are large. You can do better with **halve and double**: cut the smaller factor in half, solve the smaller problem, then double the answer (and add the larger factor once when the smaller one was odd). No `*`, no `/`. Only `+`, `-`, and bit shifts if you want them.
 

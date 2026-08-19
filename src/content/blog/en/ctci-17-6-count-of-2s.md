@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-17-6-count-of-2s.webp
 > * **The Approach:** CTCI problem 17.6: count occurrences of digit 2 in all numbers from 0 to N using digit-by-digit math in O(log N) time.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **17.6**.
+You walk into an interview and get handed problem **17.6**: count occurrences of digit 2 in all numbers from 0 to N using digit-by-digit math in O(log N) time. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 17.6: count occurrences of digit 2 in all numbers from 0 to N using digit-by-digit math in O(log N) time.

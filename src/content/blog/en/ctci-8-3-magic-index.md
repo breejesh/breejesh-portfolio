@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-8-3-magic-index.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 8.3 for beginners: in a sorted array find an index i with A[i] == i. Distinct values get a binary search. Duplicates need both sides with narrowed bounds.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 Hotel rooms sit in a row numbered 0, 1, 2, ... The guest list is sorted by room preference number. A **magic index** is a room where the guest number matches the room number: `A[i] == i`. You want any such room, or proof that none exists, without scanning every door when you can avoid it.
 

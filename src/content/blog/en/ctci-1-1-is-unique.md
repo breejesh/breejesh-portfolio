@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-1-1-is-unique.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 1.1 for beginners: decide whether every character in a string appears only once. Analogy, brute force, boolean array, HashSet, sort, and complexity.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You are checking guest names at a small party. Every person must enter once. If someone already signed the list, you stop them. That is the whole idea behind "is unique": walk through characters and notice the first repeat.
 

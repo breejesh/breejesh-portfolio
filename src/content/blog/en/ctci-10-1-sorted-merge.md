@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-10-1-sorted-merge.webp
 > * **The Approach:** CTCI problem 10.1 in Java: merge two sorted arrays A and B into A in sorted order, working backwards to avoid shifting elements.
 > * **Complexity:** Optimal Time and Space complexity trade-offs.
 
-This article provides a complete, novice-friendly breakdown of CTCI problem **10.1**. We examine the problem statement, compare brute-force vs. optimal approaches, and write idiomatic Java code.
+You walk into an interview and get handed problem **10.1**: merge two sorted arrays A and B into A in sorted order, working backwards to avoid shifting elements. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ---
 

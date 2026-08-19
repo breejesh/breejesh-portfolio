@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-1-6-string-compression.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** Compress runs of letters (aabcccccaaa to a2b1c5a3) with StringBuilder, then return the original when compression does not help. Java walkthrough with edge cases.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 Imagine packing a suitcase where you own five identical black socks. You do not write "sock, sock, sock, sock, sock" on the packing list. You write "sock x 5". That is the whole idea of this problem: replace a run of the same character with the character plus how many times it appears in a row.
 

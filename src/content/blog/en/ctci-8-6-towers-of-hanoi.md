@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-8-6-towers-of-hanoi.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 8.6 for beginners: classic Towers of Hanoi with three pegs and n disks. Recursive move of the top tower, Java stacks for each peg.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You have three rods and a stack of disks. Disks start on the first rod, largest at the bottom, smallest on top. You must move the whole stack to the last rod. One disk moves at a time. You may never put a larger disk on a smaller one. The middle rod is your only parking space. That puzzle is **Towers of Hanoi**, and the clean interview solution is recursion plus a stack per peg.
 

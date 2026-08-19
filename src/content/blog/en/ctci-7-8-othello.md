@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-7-8-othello.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 7.8 for beginners: design Othello (Reversi) with Board, Piece color, Game flow, and capture flip logic. Original Java sketch, not a book copy.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 **Othello** (also called Reversi) is a two-player board game. Each disc is black on one face and white on the other. When you sandwich opponent discs between your new disc and another of yours, those discs flip to your color. On your turn you must capture at least one piece. When neither player has a legal move, the game ends. Whoever has more discs wins.
 

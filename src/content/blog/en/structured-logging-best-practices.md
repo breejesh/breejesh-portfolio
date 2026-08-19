@@ -7,7 +7,7 @@ coverImage: /assets/images/structured-logging-best-practices.webp
 previewImage: /assets/images/structured-logging-best-practices.webp
 ---
 
-Plain text logs worked when one box ran one app. Once you have many services, many replicas, and a log shipper that turns every line into a queryable event, free-form strings become expensive noise. Structured logs fix the shape: every line is a small document with stable keys. You search by field, not by regex on prose.
+Unstructured plain-text logs are an operational liability during production outages. Emitting structured JSON logs with correlation IDs enables immediate filtering across distributed services.
 
 This is the checklist I want on every production service: JSON (or equivalent), correlation IDs, honest levels, no raw PII, and strict rules on high-cardinality fields. Skip the theory catalog. Ship the habits that cut mean time to understand.
 

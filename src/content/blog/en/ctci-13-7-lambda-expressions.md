@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-13-7-lambda-expressions.webp
 > * **The Approach:** CTCI problem 13.7: using Java 8+ Lambda expressions and Streams to filter, map, and reduce collections cleanly.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **13.7**.
+You walk into an interview and get handed problem **13.7**: using Java 8+ Lambda expressions and Streams to filter, map, and reduce collections cleanly. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 13.7: using Java 8+ Lambda expressions and Streams to filter, map, and reduce collections cleanly.

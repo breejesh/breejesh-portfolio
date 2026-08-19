@@ -13,14 +13,14 @@ previewImage: /assets/images/ctci-12-8-copy-node.webp
 > * **दृष्टिकोण:** सीटीसीआई problem १२.८: deep copying a data structure containing pointers and cycle references using std::map pointer lookup.
 > * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
 
-यह लेख सीटीसीआई समस्या **१२.८** का एक स्पष्ट विवरण प्रदान करता है।
+तकनीकी साक्षात्कार में आपसे समस्या **१२.८** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
 
 ## १. संदर्भ और समस्या कथन
 सीटीसीआई problem १२.८: deep copying a data structure containing pointers and cycle references using std::map pointer lookup.
 
 ## २. कोड और कार्यान्वयन
 
-```java
+```cpp
 struct Node {
     int data;
     Node* ptr1;

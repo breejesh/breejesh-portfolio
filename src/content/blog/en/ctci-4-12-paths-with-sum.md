@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-4-12-paths-with-sum.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 4.12 for beginners: count every path in a binary tree that sums to a target. Paths go parent to child only. Brute force from each node, then running sum plus a HashMap of prefix counts.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You walk down a mountain trail. Markers on each fork show a number: climb gain or drop. You want every stretch of trail where the net change equals a target, say 8. A stretch can start mid-trail, stop mid-trail, and never climb back up. That is **paths with sum** on a binary tree: only parent to child, any start, any end.
 

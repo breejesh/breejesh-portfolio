@@ -13,14 +13,14 @@ previewImage: /assets/images/ctci-12-7-virtual-base-class.webp
 > * **The Approach:** CTCI problem 12.7: resolving the diamond inheritance conflict in C++ using virtual base classes.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **12.7**.
+You walk into an interview and get handed problem **12.7**: resolving the diamond inheritance conflict in C++ using virtual base classes. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 12.7: resolving the diamond inheritance conflict in C++ using virtual base classes.
 
 ## 2. Technical Code & Mechanics
 
-```java
+```cpp
 class PoweredDevice {};
 class Scanner : virtual public PoweredDevice {};
 class Printer : virtual public PoweredDevice {};

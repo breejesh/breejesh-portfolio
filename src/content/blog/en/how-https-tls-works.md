@@ -7,7 +7,7 @@ coverImage: /assets/images/how-https-tls-works.webp
 previewImage: /assets/images/how-https-tls-works.webp
 ---
 
-HTTPS is HTTP over TLS. The browser (or your service client) opens a TCP connection, then runs a **TLS handshake** so both sides agree on keys and the client can check that the server is who it claims to be. After that, application bytes (HTTP/1.1, HTTP/2, HTTP/3 over QUIC) ride encrypted on the record layer.
+HTTPS is not just an extra letter on a URL bar. It is a multi-stage cryptographic handshake establishing symmetric encryption, certificate integrity, and mutual authentication.
 
 You do not need to implement crypto. You do need to know what fails when a cert expires, a SAN is wrong, SNI is missing behind a reverse proxy, or you "fixed" a mixed-content warning by turning off verification in a backend client. This post is that map: handshake intuition, certificates, SNI, and the misconfigs that show up in status pages and incident channels.
 

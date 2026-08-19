@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-2-2-return-kth-to-last.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** Find the kth node from the end of a singly linked list. Walk the classic two-pointer gap of k, then a short recursive index wrapper, in plain Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You and a friend walk a single-file trail. Your friend starts **k steps** ahead. When your friend hits the end of the trail, you are standing on the kth rock from the end. You never needed the total length. You only needed the gap.
 

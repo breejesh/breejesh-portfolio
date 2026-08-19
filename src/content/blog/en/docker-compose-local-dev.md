@@ -7,7 +7,7 @@ coverImage: /assets/images/docker-compose-local-dev.webp
 previewImage: /assets/images/docker-compose-local-dev.webp
 ---
 
-"Works on my machine" usually means your laptop is not running the same process graph as production. Different Postgres version. No Redis. API process starts before the database accepts connections. Env vars set in a shell profile that CI never sees.
+"Works on my machine" usually means a local laptop is not running the same process graph as production. Different database versions, missing caches, and unpinned dependencies create subtle bugs. Different Postgres version. No Redis. API process starts before the database accepts connections. Env vars set in a shell profile that CI never sees.
 
 **Docker Compose** will not make local identical to Kubernetes or ECS. It can get close enough that startup order, config, and dependency health behave the same way on every developer machine and in most CI jobs. Close enough is the goal.
 

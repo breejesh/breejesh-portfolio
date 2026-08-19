@@ -7,7 +7,7 @@ coverImage: /assets/images/websockets-realtime-basics.webp
 previewImage: /assets/images/websockets-realtime-basics.webp
 ---
 
-HTTP is request and response. Real-time products need the server to push without waiting for the next poll: chat, live dashboards, multiplayer state, trading ticks, collaborative cursors. **WebSockets** give you a long-lived, full-duplex channel over a single TCP connection. The hard part is not opening one socket. The hard part is keeping thousands of them honest under network blips, auth expiry, and multi-pod deploy.
+Standard HTTP follows a strict request-response lifecycle. Real-time applications require full-duplex communication channels where servers push events instantaneously without polling overhead. chat, live dashboards, multiplayer state, trading ticks, collaborative cursors. **WebSockets** give you a long-lived, full-duplex channel over a single TCP connection. The hard part is not opening one socket. The hard part is keeping thousands of them honest under network blips, auth expiry, and multi-pod deploy.
 
 This post is the production checklist I wish I had the first time a "simple live feed" met load balancers and mobile clients.
 

@@ -1,33 +1,100 @@
 ---
-title: "LRU Cache: Implement Least Recently Used Cache (CTCI 16.25)"
-description: "CTCI problem 16.25: design and build a data structure for Least Recently Used (LRU) cache with O(1) get and put."
+title: "एलआरयू कैश: लीस्ट रीसेंटली यूज्ड कैश कार्यान्वयन (सीटीसीआई १६.२५)"
+description: "जावा में सीटीसीआई प्रश्न १६.२५: हैशमैप और डबली लिंक्ड लिस्ट का उपयोग करके ओ(१) समय में एलआरयू कैश का निर्माण।"
 date: "2026-04-09"
-tags: [Algorithms]
+tags: [एल्गोरिदम, डेटा संरचनाएं]
 coverImage: /assets/images/ctci-16-25-lru-cache.webp
 previewImage: /assets/images/ctci-16-25-lru-cache.webp
 ---
 
+> **संक्षेप**
+> * **समस्या:** एक सीमित क्षमता वाली कैश संरचना तैयार करना जो भर जाने पर सबसे कम उपयोग की गई वस्तु को हटा दे, और `get` तथा `put` दोनों को ओ(१) समय में पूरा करे।
+> * **समाधान:** हैशमैप कुंजी खोजने में ओ(१) समय देता है, जबकि डबली लिंक्ड लिस्ट नोड को स्थानांतरित करने और हटाने में ओ(१) समय प्रदान करती है।
+> * **जटिलता:** दोनों संचालन ओ(१) समय में, मेमोरी क्षमता अनुसार सीमित।
 
-> **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १६.२५ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १६.२५: design and build a data structure for Least Recently Used (LRU) cache with O(१) get and put.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+---
 
-यह लेख सीटीसीआई समस्या **१६.२५** का एक स्पष्ट विवरण प्रदान करता है।
-
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १६.२५: design and build a data structure for Least Recently Used (LRU) cache with O(१) get and put.
-
-## २. कोड और कार्यान्वयन
+## १. जावा कार्यान्वयन
 
 ```java
+import java.util.HashMap;
+import java.util.Map;
+
 public class LRUCacheCustom {
-    class Node { int key, value; Node prev, next; }
-    private final Map<Integer, Node> map = new HashMap<>();
+    private static class Node {
+        int key;
+        int value;
+        Node prev;
+        Node next;
+
+        Node(int key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+
     private final int capacity;
-    public LRUCacheCustom(int capacity) { this.capacity = capacity; }
+    private final Map<Integer, Node> map;
+    private final Node head;
+    private final Node tail;
+
+    public LRUCacheCustom(int capacity) {
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("Capacity must be positive");
+        }
+        this.capacity = capacity;
+        this.map = new HashMap<>();
+
+        this.head = new Node(0, 0);
+        this.tail = new Node(0, 0);
+        this.head.next = this.tail;
+        this.tail.prev = this.head;
+    }
+
+    public int get(int key) {
+        Node node = map.get(key);
+        if (node == null) {
+            return -1;
+        }
+        moveToHead(node);
+        return node.value;
+    }
+
+    public void put(int key, int value) {
+        Node existingNode = map.get(key);
+
+        if (existingNode != null) {
+            existingNode.value = value;
+            moveToHead(existingNode);
+            return;
+        }
+
+        if (map.size() >= capacity) {
+            Node lru = tail.prev;
+            removeNode(lru);
+            map.remove(lru.key);
+        }
+
+        Node newNode = new Node(key, value);
+        map.put(key, newNode);
+        addToHead(newNode);
+    }
+
+    private void addToHead(Node node) {
+        node.prev = head;
+        node.next = head.next;
+        head.next.prev = node;
+        head.next = node;
+    }
+
+    private void removeNode(Node node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    private void moveToHead(Node node) {
+        removeNode(node);
+        addToHead(node);
+    }
 }
 ```
-
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।

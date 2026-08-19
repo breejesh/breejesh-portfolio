@@ -9,11 +9,11 @@ previewImage: /assets/images/ctci-1-7-rotate-matrix.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** Rotate an NxN matrix 90 degrees clockwise without a second matrix. Layer-by-layer 4-way swap in Java, with text diagrams and edge cases for interviews.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
-Imagine a square photo on a table. You want it upright for landscape mode, so you spin the whole print **90 degrees clockwise**. Every corner moves to a new corner. The center stays the center. You do not buy a second photo and copy pixels onto it. You flip the same sheet.
+Imagine a square photo on a table. You want it turned to horizontal orientation, so you spin the whole print **90 degrees clockwise**. Every corner moves to a new corner. The center stays the center. You do not buy a second photo and copy pixels onto it. You flip the same sheet.
 
 That is this problem: rotate an **N by N** matrix by 90 degrees **in place**. No second full matrix.
 

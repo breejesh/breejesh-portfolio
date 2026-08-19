@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-11-4-no-test-tools.webp
 > * **The Approach:** CTCI problem 11.4: how to build an in-house testing apply and load test without third-party frameworks.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **11.4**.
+You walk into an interview and get handed problem **11.4**: how to build an in-house testing apply and load test without third-party frameworks. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 11.4: how to build an in-house testing apply and load test without third-party frameworks.

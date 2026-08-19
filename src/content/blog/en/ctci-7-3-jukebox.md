@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-7-3-jukebox.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 7.3 for beginners: design a musical jukebox with object-oriented classes. Model Song, Playlist, CD catalog, User, and coin payment, then wire a focused Java sketch around a play queue.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A **jukebox** is a music machine people walk up to, pick tracks, and hear them play in order. In an interview this is not about MP3 codecs. It is about **objects**, **who owns what**, and **which methods move a request from coin drop to speakers**.
 

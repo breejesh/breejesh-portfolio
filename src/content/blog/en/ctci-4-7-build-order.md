@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-4-7-build-order.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 4.7 for beginners: projects and dependency pairs, find a valid build order or fail if a cycle exists. Kahn indegree queue and DFS in plain Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You ship a small monorepo. Package `d` needs `a` and `b` first. Package `c` needs `d`. Package `b` needs `f`. If you compile in the wrong order, the build dies. If two packages need each other, no order works and you must stop with an error. That is **build order**: a list of projects plus dependency edges, and a safe sequence that respects every edge.
 

@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-6-2-basketball.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 6.2 for beginners: with make probability p, choose Game 1 (one make) or Game 2 (at least two makes in three shots). Algebra: p vs 3p^2(1-p)+p^3, and when each wins.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You stand under a hoop. Someone offers two carnival-style games. **Game 1:** take one shot; you win if it goes in. **Game 2:** take three shots; you win if at least two go in. Same shooter every time. Same make chance `p` on every attempt. Shots are independent. Which game do you pick?
 

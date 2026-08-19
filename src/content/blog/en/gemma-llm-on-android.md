@@ -229,7 +229,7 @@ Before committing to on-device LLMs, be aware of these real-world challenges:
 
 ---
 
-## Conclusion
+## The Reality on the Ground
 
 Running Gemma locally via LiteRT represents a genuine shift in mobile application design. It empowers developers to build deeply interactive, intelligent systems that respect user privacy, run offline, and incur zero cloud hosting costs. 
 

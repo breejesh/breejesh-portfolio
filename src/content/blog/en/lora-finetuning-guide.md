@@ -7,7 +7,7 @@ coverImage: /assets/images/lora-finetuning-guide.webp
 previewImage: /assets/images/lora-finetuning-guide.webp
 ---
 
-Full fine-tunes still win on some jobs. For most product work, they are the wrong default. **LoRA** freezes the base weights and trains a pair of low-rank matrices per chosen layer. **QLoRA** keeps that idea and loads the base model in 4-bit, so a 7B or 13B model can train on a single 24 GB card.
+Fine-tuning modern foundation models from scratch is financially impractical for most engineering teams. Low-Rank Adaptation (LoRA) solves this by freezing base weights and training small rank decomposition matrices.
 
 This is the checklist I use before burning GPU hours.
 

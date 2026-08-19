@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-5-2-binary-to-string.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 5.2 for beginners: take a double in (0, 1), print its binary fraction string, or ERROR if it needs more than 32 bits after the point. Multiply-by-2 method in plain Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You have a measuring cup marked only in halves, quarters, eighths, and so on. Someone pours a bit of water: more than empty, less than full. You want to write how full it is using only 0 and 1 after a binary point: `0.101` means half plus an eighth. Some amounts fit in a short binary string. Others keep needing smaller marks forever. If you run out of space after 32 marks, you stop and say ERROR. That is **binary to string** for a real number between 0 and 1.
 

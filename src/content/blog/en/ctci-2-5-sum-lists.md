@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-2-5-sum-lists.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 2.5: two numbers live as linked lists, one digit per node, least significant digit at the head. Walk both lists with a carry and build the sum list. Brief note on the forward-order follow-up.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You add two big numbers on paper the way school taught you: line them up on the **right**, start at the ones place, write a digit, pass a carry left. Digits live in columns. Carry is one bit of memory between columns.
 

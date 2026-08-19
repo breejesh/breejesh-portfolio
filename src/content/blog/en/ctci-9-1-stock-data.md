@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-9-1-stock-data.webp
 > * **The Approach:** CTCI problem 9.1: design an architecture to deliver real-time stock ticker updates and historical chart data to millions of concurrent clients.
 > * **Complexity:** Optimal Time and Space complexity trade-offs.
 
-This article provides a complete, novice-friendly breakdown of CTCI problem **9.1**. We examine the problem statement, compare brute-force vs. optimal approaches, and write idiomatic Java code.
+You walk into an interview and get handed problem **9.1**: design an architecture to deliver real-time stock ticker updates and historical chart data to millions of concurrent clients. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ---
 

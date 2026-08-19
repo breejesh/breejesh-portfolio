@@ -7,7 +7,7 @@ coverImage: /assets/images/git-interactive-rebase-guide.webp
 previewImage: /assets/images/git-interactive-rebase-guide.webp
 ---
 
-Interactive rebase is the tool I reach for when a feature branch looks like a lab notebook: five "wip" commits, one typo fix on a typo fix, and a message I would never merge as-is. Used well, it turns that noise into a short story a reviewer can follow. Used on the wrong branch, it rewrites history other people already built on and lights up the group chat.
+Interactive rebase is the tool of choice when a feature branch looks like a scratchpad: messy work-in-progress commits, typo fixes on typo fixes, and uninformative commit messages. Used properly, it crafts a clean, reviewable history. Used well, it turns that noise into a short story a reviewer can follow. Used on the wrong branch, it rewrites history other people already built on and lights up the group chat.
 
 This is the playbook I use on real teams: the commands, the todo verbs that matter, when to stop, and how to get out when you botch it.
 

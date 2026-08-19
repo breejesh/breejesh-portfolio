@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-7-7-chat-server.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 7.7 for beginners: design a chat server in Java with User, PrivateChat and GroupChat, Message, presence status, and friend add requests. Scope first, then classes.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A chat server is a product, not a single method. Interviewers know that. They want you to **scope** the work, name the objects, and show how friends, private chats, group chats, messages, and online status hang together. Networking, push delivery, and full multi-region scale usually stay out of the first sketch unless they ask.
 

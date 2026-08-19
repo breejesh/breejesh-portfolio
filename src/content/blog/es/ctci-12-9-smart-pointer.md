@@ -20,7 +20,7 @@ CTCI problem 12.9: implementing a custom SmartPointer class with ref count incre
 
 ## 2. Código e Implementación
 
-```java
+```cpp
 template <typename T>
 class SmartPointer {
     T* ref;

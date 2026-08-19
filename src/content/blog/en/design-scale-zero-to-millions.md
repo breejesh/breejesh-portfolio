@@ -9,7 +9,7 @@ previewImage: /assets/images/design-scale-zero-to-millions.webp
 
 
 > **TL;DR**
-> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
 > * **The Insight:** A beginner-friendly path from one computer to millions of users: split tiers, load balancers, read replicas, cache, CDN, stateless servers, queues, multi-region, and database sharding, with plain analogies and trade-offs at every step.
 > * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
 

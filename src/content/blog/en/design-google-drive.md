@@ -9,7 +9,7 @@ previewImage: /assets/images/design-google-drive.webp
 
 
 > **TL;DR**
-> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
 > * **The Insight:** Google Drive style storage for absolute beginners: upload, download, sync, chunks, versions, sharing, and what happens when two phones edit the same file offline.
 > * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
 

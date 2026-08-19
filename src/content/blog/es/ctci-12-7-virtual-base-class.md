@@ -20,7 +20,7 @@ CTCI problem 12.7: resolving the diamond inheritance conflict in C++ using virtu
 
 ## 2. Código e Implementación
 
-```java
+```cpp
 class PoweredDevice {};
 class Scanner : virtual public PoweredDevice {};
 class Printer : virtual public PoweredDevice {};

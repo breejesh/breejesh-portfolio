@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-5-1-insertion.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 5.1 for beginners: clear bits i through j in N, shift M by i, then OR. Bit masks, a walk-through on the classic example, and Java code.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You have a long shelf of books (integer `N`). A short run of slots in the middle is reserved for a new set (`M`). You empty those slots, slide the new books into place, and leave everything else alone. That is **bit insertion**: write the bits of `M` into `N` from bit `i` up through bit `j`.
 

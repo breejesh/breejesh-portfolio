@@ -9,7 +9,7 @@ previewImage: /assets/images/design-url-shortener.webp
 
 
 > **TL;DR**
-> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
 > * **The Insight:** URL shortener system design explained for beginners: coat-check codes, create and redirect walk-throughs, Base62 encoding, storage, cache, and how to scale step by step.
 > * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
 

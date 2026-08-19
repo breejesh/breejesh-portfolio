@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-3-2-stack-min.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 3.2 for beginners: design a stack that returns the current minimum in constant time. Track mins with a second stack (or store min-so-far on each node), with clear Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You keep score chips in a cup. You only ever add a chip on top or take the top chip off. Sometimes a friend asks, "What is the lowest score in the cup right now?" If you dump everything out to scan, that is slow. If you keep a second, smaller cup that only holds new lows, you answer in one glance. That second cup is the idea behind **Stack Min**.
 

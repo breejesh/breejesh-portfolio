@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-4-11-random-node.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 4.11 for beginners: build a BST with insert, find, delete, and getRandomNode so every node is equally likely. Store subtree size on each node and walk a random index.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You run a raffle where every person in a family tree must have the same chance of winning. You cannot dump everyone into a list every time someone asks for a winner. That would work, but it is slow and wasteful. If each person already knows how many people sit under them, you can roll one die and walk down the tree until you land on the chosen seat. That is **Random Node**.
 

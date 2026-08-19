@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-17-10-majority-element.webp
 > * **The Approach:** CTCI problem 17.10: find the element that appears more than N/2 times in an array in O(N) time and O(1) space.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **17.10**.
+You walk into an interview and get handed problem **17.10**: find the element that appears more than N/2 times in an array in O(N) time and O(1) space. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 17.10: find the element that appears more than N/2 times in an array in O(N) time and O(1) space.

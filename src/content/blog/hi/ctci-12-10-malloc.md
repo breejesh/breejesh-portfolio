@@ -13,14 +13,14 @@ previewImage: /assets/images/ctci-12-10-malloc.webp
 > * **दृष्टिकोण:** सीटीसीआई problem १२.१०: implement aligned_malloc and aligned_free in C for memory alignment requirements.
 > * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
 
-यह लेख सीटीसीआई समस्या **१२.१०** का एक स्पष्ट विवरण प्रदान करता है।
+तकनीकी साक्षात्कार में आपसे समस्या **१२.१०** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
 
 ## १. संदर्भ और समस्या कथन
 सीटीसीआई problem १२.१०: implement aligned_malloc and aligned_free in C for memory alignment requirements.
 
 ## २. कोड और कार्यान्वयन
 
-```java
+```cpp
 void* aligned_malloc(size_t bytes, size_t alignment) {
     void* p1;
     void** p2;

@@ -20,7 +20,7 @@ CTCI problem 12.4: explaining dynamic dispatch, vtable, and vptr layout in C++ r
 
 ## 2. Code et Implémentation
 
-```java
+```cpp
 class Shape {
 public:
     virtual void draw() { std::cout << "Shape" << std::endl; }

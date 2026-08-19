@@ -20,7 +20,7 @@ CTCI problem 12.2 in C++: reverse a null-terminated C-style string in-place usin
 
 ## 2. Code et Implémentation
 
-```java
+```cpp
 void reverse(char* str) {
     char* end = str;
     char tmp;

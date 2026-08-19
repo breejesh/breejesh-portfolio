@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-6-1-the-heavy-pill.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 6.1 for beginners: 20 pill bottles, one bottle has 1.1g pills instead of 1.0g. Identify it with a single scale weighing by taking 1, 2, ..., 20 pills and reading the weight excess.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You have **20 bottles** of pills. Nineteen bottles hold normal pills of **1.0 gram** each. One bottle holds heavy pills of **1.1 grams** each. The bottles look identical. You have a scale that reports exact weight, and you may use it **only once**. Which bottle is heavy?
 

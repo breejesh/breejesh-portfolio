@@ -9,7 +9,7 @@ previewImage: /assets/images/design-chat-system.webp
 
 
 > **TL;DR**
-> * **The Problem:** Designing scale-ready architectures requires balancing trade-offs between availability, throughput, and operational complexity.
+> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
 > * **The Insight:** Chat system design for absolute beginners: live online path vs history storage, 1:1 and small groups, presence, delivery ticks, and how to explain the whole design to a friend.
 > * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
 

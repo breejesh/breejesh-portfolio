@@ -76,7 +76,7 @@ The famous scaling cost: naive full attention is **O(n²)** in sequence length f
 
 The original 2017 transformer paper used an **encoder-decoder** stack for translation: encoder reads the source sentence fully, decoder generates the target with causal attention plus cross-attention into the encoder states.
 
-Today's landscape for working engineers is simpler in practice:
+The options for working engineers are simpler in practice:
 
 | Family | Pattern | Typical use |
 | --- | --- | --- |

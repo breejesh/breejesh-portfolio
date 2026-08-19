@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-5-3-flip-bit-to-win.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 5.3 for beginners: flip one 0-bit in an integer to maximize consecutive 1s. Track runs of ones separated by zeros, merge across a single zero, plain Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You look at a row of light switches. Most are ON. A few are OFF. You may flip **exactly one** OFF switch to ON. You want the longest stretch of consecutive ON lights you can create. That is **Flip Bit to Win**: one free zero-to-one change, then measure the longest run of ones.
 

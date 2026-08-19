@@ -7,7 +7,7 @@ coverImage: /assets/images/oauth2-for-developers.webp
 previewImage: /assets/images/oauth2-for-developers.webp
 ---
 
-OAuth 2.0 is the protocol most apps use when a user says "let this app call my calendar" without handing over a password. Teams still ship broken implementations: missing PKCE on SPAs, tokens in query strings, `state` skipped "for MVP," refresh tokens stored like session cookies, and implicit flow leftovers from 2018 sample code.
+OAuth 2.0 and OpenID Connect form the security backbone of modern web authentication. PKCE is now standard across all public and confidential client flows.
 
 This post is a practical map for **authorization code + PKCE**, the token types you will touch every day, and the bugs that show up in code review and incident channels.
 

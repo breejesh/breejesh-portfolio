@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-7-6-jigsaw.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 7.6 for beginners: model jigsaw pieces with four edges (INNER, OUTER, FLAT), rotate them, and fill an N by N board by matching opposite sides. Object design plus a simple solver sketch in Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A jigsaw is a board of pieces. Each piece has four sides. A side is either a **tab** (sticks out), a **socket** (cuts in), or **flat** (straight, only on the outer rim of the finished puzzle). Two pieces lock when a tab meets a socket. Flat sides only sit against the table edge, not against another piece's flat in the middle.
 

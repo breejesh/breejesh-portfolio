@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-4-10-check-subtree.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** T1 is much larger than T2. Decide if T2 is a subtree of T1: search for T2's root in T1 then matchTree, or serialize preorder with null markers and test contains. Java, O(n + km) vs O(n + m).
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You have a big binary tree **T1** and a much smaller tree **T2**. The question is simple to say and easy to get wrong: is **T2 a subtree of T1**? That means some node `n` in T1 owns a whole branch that looks exactly like T2, same structure and same values, all the way down to the leaves. Cut the tree at `n` and you should get T2, not "something that starts like T2."
 

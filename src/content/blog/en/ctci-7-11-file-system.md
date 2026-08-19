@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-7-11-file-system.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 7.11 for beginners: design an in-memory file system. Shared Entry base, File leaves, Directory nodes, recursive size, and path helpers in Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 An interview says: design an **in-memory file system**. No disk drivers. No block allocation. Just the objects and algorithms you would use for folders and files in RAM, with a small code sketch.
 

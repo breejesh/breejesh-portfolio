@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-2-6-palindrome.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** Check if a singly linked list is a palindrome. Find the middle with slow and fast pointers, reverse the second half, compare, and restore if you need the list intact. O(n) time, O(1) space.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A **palindrome** reads the same forward and backward. Easy on a string: two pointers at the ends, walk inward. A **singly linked list** only walks forward. There is no `prev`, and random access costs a full scan. So the interview version of "is this list a palindrome?" forces you to invent structure you do not get for free.
 

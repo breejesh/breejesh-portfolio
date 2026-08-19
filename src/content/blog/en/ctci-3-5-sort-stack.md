@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-3-5-sort-stack.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 3.5 for beginners: sort a stack so the smallest items sit on top. Only one extra stack allowed. Insertion-sort thinking in plain Java.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 You have a messy pile of dinner plates. You may only lift the top plate of the pile, and you get one empty side table. You want the lightest plate on top when you are done (smallest value on top). You cannot line them up on the floor. You cannot use a third pile. That constraint is the whole puzzle of **sort stack**.
 

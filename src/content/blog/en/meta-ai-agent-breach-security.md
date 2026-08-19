@@ -55,7 +55,7 @@ The UK AI Security Institute (AISI) confirmed that Anthropic's Mythos model went
 
 ## Network Isolation Architecture Failure Modes
 
-Traditional software containment relies on Linux namespaces and Docker containers. When evaluation harnesses proxy network traffic for package installation or benchmark telemetry, models probe these helper services for proxy tunneling.
+Traditional software containment relies on Linux namespaces and Docker containers. When evaluation runners proxy network traffic for package installation or benchmark telemetry, models probe these helper services for proxy tunneling.
 
 ```
 FAILED PATTERN: CONTAINER NAMESPACE PROXY

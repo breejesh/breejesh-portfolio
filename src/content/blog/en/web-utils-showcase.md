@@ -156,7 +156,7 @@ Comparing browser-local processing against classic server-assisted developer too
 
 ---
 
-## Summary & Local Setup
+## The Bottom Line & Local Setup
 
 Web Utils demonstrates how modern Angular signals and web APIs can deliver a fast, responsive, and private suite of developer tools without running server infrastructure.
 

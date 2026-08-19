@@ -126,11 +126,16 @@ Deux caisses peuvent toutes les deux imprimer "article 4" à la même seconde. L
 Un layout d'enseignement courant :
 
 ```
- 0                   41 bits                    5     5      12
-+-+----------------------------------------+-----+-----+----------+
-|0|          timestamp (ms)                | DC  | Wkr | sequence |
-+-+----------------------------------------+-----+-----+----------+
+Structure des Bits: [1-bit Inutilisé] [41-bits Timestamp] [5-bits Datacenter] [5-bits Worker] [12-bits Séquence]
 ```
+
+| Décalage | Nom du Champ | Taille | Rôle |
+| --- | --- | --- | --- |
+| Bit 63 | Bit de signe | 1 bit | Fixé à `0` pour garder le nombre positif |
+| Bits 62-22 | Timestamp | 41 bits | Millisecondes écoulées depuis l'époque personnalisée (jusqu'à 69 ans) |
+| Bits 21-17 | ID Datacenter | 5 bits | Indice du centre de données ou région (0-31) |
+| Bits 16-12 | ID Worker | 5 bits | ID de l'instance de machine/processus (0-31) |
+| Bits 11-0 | Séquence | 12 bits | Compteur incrémentiel par milliseconde (0-4095) |
 
 | Pièce | Bits | Rôle en français simple |
 | --- | --- | --- |

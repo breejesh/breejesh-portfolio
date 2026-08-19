@@ -7,7 +7,7 @@ coverImage: /assets/images/ram-prices-bubble.webp
 previewImage: /assets/images/ram-prices-bubble.webp
 ---
 
-If you have tried to build a PC, upgrade your laptop, or purchase a premium smartphone recently, you have likely noticed a quiet, frustrating trend: prices are going up, hardware specs are stagnating, and expected product releases are slipping. 
+High Bandwidth Memory (HBM) demand driven by AI accelerators has tightened global semiconductor capacity, altering server component costs.
 
 We aren't seeing massive public supply-chain headlines like the pandemic-era chip shortages, but the pinch is real. And it is being driven by one critical component that the tech industry is quietly fighting over: **Random Access Memory (RAM)**. 
 

@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-3-6-animal-shelter.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** CTCI-style problem 3.6 for beginners: an animal shelter holds only dogs and cats on a strict first-in first-out line. Build enqueue, dequeueAny, dequeueDog, and dequeueCat with two queues plus an arrival order.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 A shelter runs a fair line. Animals arrive one by one. Adopters can take the animal that has waited the longest overall, or they can ask only for a dog or only for a cat and get the oldest of that type. Nobody gets to point at a specific pet by name. That rule is pure **FIFO**, with a type filter on top.
 

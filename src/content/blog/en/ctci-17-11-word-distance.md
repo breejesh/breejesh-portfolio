@@ -13,7 +13,7 @@ previewImage: /assets/images/ctci-17-11-word-distance.webp
 > * **The Approach:** CTCI problem 17.11: compute minimum word index distance between two words in a file in O(N) single pass time.
 > * **Complexity:** Optimal Time and Memory bounds.
 
-This article provides a clear breakdown of CTCI problem **17.11**.
+You walk into an interview and get handed problem **17.11**: compute minimum word index distance between two words in a file in O(N) single pass time. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
 
 ## 1. Context and Problem Statement
 CTCI problem 17.11: compute minimum word index distance between two words in a file in O(N) single pass time.

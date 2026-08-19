@@ -1,43 +1,73 @@
 ---
-title: "Volume of Histogram: Trapping Rain Water DP / Two-Pointer Solution (CTCI 17.21)"
-description: "CTCI problem 17.21: compute total volume of water trapped between bars in a 2D histogram in O(N) time."
-date: "2026-03-01"
-tags: [Algorithms]
+title: "Volume of Histogram: Trapping Rain Water in Java (CTCI 17.21)"
+description: "CTCI problem 17.21 in Java: compute total water trapped between bars in a 2D histogram in O(N) time and O(1) space."
+date: "2026-05-18"
+tags: [Algorithms, Two Pointers]
 coverImage: /assets/images/ctci-17-21-volume-of-histogram.webp
 previewImage: /assets/images/ctci-17-21-volume-of-histogram.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** CTCI problem 17.21 technical mechanics.
-> * **The Approach:** CTCI problem 17.21: compute total volume of water trapped between bars in a 2D histogram in O(N) time.
-> * **Complexity:** Optimal Time and Memory bounds.
+> * **The Problem:** Given an array of bar heights representing a 2D histogram, calculate how much water can be trapped after rain.
+> * **The Insight:** The water above any bar is determined by $\min(	ext{maxLeft}, 	ext{maxRight}) - 	ext{height}[i]$. Using two converging pointers eliminates extra array storage.
+> * **Complexity:** $O(N)$ Time and optimal $O(1)$ Space.
 
-This article provides a clear breakdown of CTCI problem **17.21**.
+Imagine a city skyline during a monsoon. Water pools between tall buildings. At any single building, the depth of water trapped above the roof is strictly limited by the shorter of the two tallest buildings to its left and right.
 
-## 1. Context and Problem Statement
-CTCI problem 17.21: compute total volume of water trapped between bars in a 2D histogram in O(N) time.
+---
 
-## 2. Technical Code & Mechanics
+## 1. Algorithmic Approaches
+
+| Approach | Time | Space | Mechanics |
+| --- | --- | --- | --- |
+| **Brute Force** | $O(N^2)$ | $O(1)$ | Scan left and right for maximums at every index |
+| **Precomputed Arrays** | $O(N)$ | $O(N)$ | Store `leftMax[]` and `rightMax[]` arrays |
+| **Two Pointers (Optimal)** | **$O(N)$** | **$O(1)$** | Converge pointers from boundaries inward |
+
+---
+
+## 2. Complete Java Solution (Two Pointers)
 
 ```java
-public static int computeVolume(int[] histo) {
-    int left = 0, right = histo.length - 1;
-    int leftMax = 0, rightMax = 0, volume = 0;
-    while (left < right) {
-        if (histo[left] < histo[right]) {
-            if (histo[left] >= leftMax) leftMax = histo[left];
-            else volume += leftMax - histo[left];
-            left++;
-        } else {
-            if (histo[right] >= rightMax) rightMax = histo[right];
-            else volume += rightMax - histo[right];
-            right--;
+public class HistogramVolume {
+    public static int computeVolume(int[] heights) {
+        if (heights == null || heights.length < 3) {
+            return 0;
         }
+
+        int left = 0;
+        int right = heights.length - 1;
+        int maxLeft = 0;
+        int maxRight = 0;
+        int totalVolume = 0;
+
+        while (left < right) {
+            if (heights[left] <= heights[right]) {
+                if (heights[left] >= maxLeft) {
+                    maxLeft = heights[left];
+                } else {
+                    totalVolume += maxLeft - heights[left];
+                }
+                left++;
+            } else {
+                if (heights[right] >= maxRight) {
+                    maxRight = heights[right];
+                } else {
+                    totalVolume += maxRight - heights[right];
+                }
+                right--;
+            }
+        }
+
+        return totalVolume;
     }
-    return volume;
 }
 ```
 
-## 3. Key Takeaways and Edge Cases
-Always test boundary conditions and invalid input states.
+---
+
+## 3. Edge Cases & Verification
+
+- **Monotonically increasing or decreasing heights**: Returns `0` (water spills off the sides).
+- **Arrays with length $< 3$**: Returns `0` (no containment basin possible).
+- **Plateaus with equal heights**: Correctly processed without double counting.

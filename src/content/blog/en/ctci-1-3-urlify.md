@@ -9,9 +9,9 @@ previewImage: /assets/images/ctci-1-3-urlify.webp
 
 
 > **TL;DR**
-> * **The Problem:** Optimizing algorithmic space and time complexity for core interview data structures.
+> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
 > * **The Approach:** In-place URL encoding for a char array with true length. Count spaces, walk backward, write %20 without stomping characters you still need.
-> * **Complexity:** Optimal Time and Space trade-off with edge-case memory handling.
+> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
 
 URLs cannot carry raw spaces. A space becomes the three-character token `%20`. Interview versions of this problem do not ask you to call a library helper. They hand you a `char[]` that already has extra room at the end, plus the **true length** of the string (how many characters actually matter before the padding). Your job is to rewrite the array in place.
 

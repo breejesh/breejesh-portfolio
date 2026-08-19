@@ -7,7 +7,7 @@ coverImage: /assets/images/gemini-3-6-flash-cover.webp
 previewImage: /assets/images/gemini-3-6-flash-cover.webp
 ---
 
-Google shipped three lightweight models in one go: **Gemini 3.6 Flash**, **Gemini 3.5 Flash-Lite**, and **Gemini 3.5 Flash Cyber**.
+Google released three lightweight models in a coordinated deployment: **Gemini 3.6 Flash**, **Gemini 3.5 Flash-Lite**, and **Gemini 3.5 Flash Cyber**, targeting production token efficiency and low-latency agent loops.
 
 If you run agents in production, you already know the bottleneck is rarely "is the model smart enough?" It is usually token burn, latency, and cost per finished task. This release is aimed at that loop: less verbose output, faster decode, and a security-tuned variant for CodeMender.
 
