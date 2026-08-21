@@ -95,7 +95,7 @@ function getMarkdownParser() {
     markedHighlight({
       langPrefix: 'language-',
       highlight(code, lang) {
-        if (!lang || lang === 'mermaid') return escapeHtml(code);
+        if (!lang) return escapeHtml(code);
         const langName = String(lang).replace(/^diff-/, '');
         if (!Prism.languages[langName]) return escapeHtml(code);
         return Prism.highlight(code, Prism.languages[langName], langName);

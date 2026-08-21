@@ -377,45 +377,8 @@
   overflow: visible;
 }
 
-:host ::ng-deep .post-content .mermaid-wrap {
-  width: 100%;
-  max-width: 740px;
-  margin: 28px auto;
-  padding: 24px 20px;
-  background: var(--surface-elevated, var(--bg-primary));
-  border: 1px solid var(--border-color);
-  border-radius: 14px;
-  box-sizing: border-box;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  svg {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    overflow: visible;
-
-    text, .nodeText, .label {
-      font-size: 14px !important;
-      font-weight: 500;
-    }
-  }
-}
-
-:host ::ng-deep .post-content .mermaid-wrap + p,
 :host ::ng-deep .post-content .md-table-wrap + p {
   margin-top: -6px;
-}
-
-:host-context(body.light-theme) ::ng-deep .post-content .mermaid-wrap,
-:host-context(html.light-theme) ::ng-deep .post-content .mermaid-wrap {
-  background: #ffffff;
-  border-color: #e2e8f0;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
 :host ::ng-deep .post-content .stat-chart-card {
@@ -586,13 +549,6 @@
 :host-context(html.light-theme) ::ng-deep .post-content .md-table-wrap {
   background: var(--bg-secondary);
   box-shadow: none;
-}
-
-:host-context(body.light-theme) ::ng-deep .post-content .mermaid-wrap,
-:host-context(html.light-theme) ::ng-deep .post-content .mermaid-wrap {
-  background: #ffffff;
-  border-color: #e2e8f0;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
 :host-context(body.light-theme) ::ng-deep .post-content thead,
