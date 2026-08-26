@@ -2,7 +2,7 @@
 title: "WebSockets para apps en tiempo real: handshake, heartbeats, reconexión, auth y escala"
 description: "Cómo funcionan los WebSockets en producción: el upgrade HTTP, ping y pong, reconexión con backoff, auth sin filtrar tokens y fan-out multi-nodo con pub/sub."
 date: "2026-07-01"
-tags: [Ciberseguridad y Redes, Backend y Bases de Datos, Frontend y Desarrollo Web]
+tags: [Frontend y Desarrollo Web]
 coverImage: /assets/images/websockets-realtime-basics.webp
 previewImage: /assets/images/websockets-realtime-basics.webp
 ---

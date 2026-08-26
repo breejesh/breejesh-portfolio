@@ -2,7 +2,7 @@
 title: "La Fin du Developpeur Isole: Slack Code et le Tournant Multijoueur du Logiciel"
 description: "Salesforce et Slack lancent Slack Code, integrant Devin, Claude Code et Copilot au coeur des canaux d'equipe pour transformer le developpement assiste par IA."
 date: "2026-08-14"
-tags: [IA et Machine Learning, Cloud et DevOps]
+tags: [Outils Développeur, IA et Machine Learning]
 coverImage: /assets/images/slack-code-multiplayer-ai-coding-agents.webp
 previewImage: /assets/images/slack-code-multiplayer-ai-coding-agents.webp
 ---

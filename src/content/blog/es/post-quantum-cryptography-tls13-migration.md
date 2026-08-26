@@ -2,7 +2,7 @@
 title: "La Gran Migracion Post-Cuantica: Que se Rompe en TLS 1.3 con ML-KEM"
 description: "Como el despliegue del estandar NIST ML-KEM-768 expande el handshake de TLS a mas de 2 KB y provoca fragmentacion de paquetes MTU en redes globales."
 date: "2026-08-20"
-tags: [Ciberseguridad y Redes, Backend y Bases de Datos]
+tags: [Ciberseguridad y Redes]
 coverImage: /assets/images/post-quantum-cryptography-tls13-migration.webp
 previewImage: /assets/images/post-quantum-cryptography-tls13-migration.webp
 ---

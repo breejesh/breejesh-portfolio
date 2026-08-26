@@ -2,7 +2,7 @@
 title: "शुरू से बनाएँ क्रोम मैनिफ़ेस्ट वी३ एक्सटेंशन"
 description: "सर्विस वर्कर, कंटेंट स्क्रिप्ट, अनुमतियाँ, और वे गलतियाँ जो दोपहर बर्बाद करती हैं। आज अनपैक्ड लोड करने लायक छोटा शब्द-गिनती एक्सटेंशन।"
 date: "2026-06-25"
-tags: [फ्रंटएंड और वेब डेवलपमेंट]
+tags: [डेवलपर टूल्स]
 coverImage: /assets/images/chrome-extension-manifest-v3.webp
 previewImage: /assets/images/chrome-extension-manifest-v3.webp
 ---

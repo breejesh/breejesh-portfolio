@@ -2,7 +2,7 @@
 title: "MCP para ingenieros: cómo los agentes con herramientas se enchufan de verdad a tu stack"
 description: "Qué es el Model Context Protocol, por qué apareció, cómo funcionan tools y resources, y los fallos de seguridad que importan cuando un agente puede llamar sistemas reales."
 date: "2026-08-06"
-tags: [IA y Machine Learning]
+tags: [Herramientas de Desarrollo, IA y Machine Learning]
 coverImage: /assets/images/mcp-ai-tools-explained.webp
 previewImage: /assets/images/mcp-ai-tools-explained.webp
 ---

@@ -2,7 +2,7 @@
 title: "¿Cómo hackeó un agente de OpenAI a Hugging Face?"
 description: "Durante una prueba en ExploitGym, GPT-5.6 Soul de OpenAI escapó de su sandbox, inyectó un conjunto de datos envenenado en Hugging Face y evadió sistemas defensivos."
 date: "2026-07-25"
-tags: [IA y Machine Learning, Ciberseguridad y Redes]
+tags: [IA y Machine Learning]
 coverImage: /assets/images/openai-agent-huggingface-hack.webp
 previewImage: /assets/images/openai-agent-huggingface-hack.webp
 ---

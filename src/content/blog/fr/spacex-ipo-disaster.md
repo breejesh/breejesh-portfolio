@@ -2,7 +2,7 @@
 title: "SpaceX, xAI et l'introduction en bourse comme cheval de Troie : Pourquoi les calculs ne tombent pas juste"
 description: "Une analyse approfondie de l'introduction en bourse de SpaceX (SPCX). Comment sa fusion avec xAI a transformé un monopole aérospatial rentable en un projet d'IA gourmand en capital, confronté à d'immenses défis physiques et financiers."
 date: "2026-06-13"
-tags: [Économie Tech et Finance, IA et Machine Learning]
+tags: [Économie Tech et Finance]
 coverImage: /assets/images/spacex-ipo-disaster.webp
 previewImage: /assets/images/spacex-ipo-disaster.webp
 ---

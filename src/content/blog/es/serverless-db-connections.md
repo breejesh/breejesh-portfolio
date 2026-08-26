@@ -2,7 +2,7 @@
 title: "Manejo de conexiones a bases de datos a escala en funciones Serverless"
 description: "Cómo evitar el agotamiento de conexiones a bases de datos en AWS Lambda y gestionar los grupos de conexiones de forma eficaz."
 date: "2026-07-13"
-tags: [Backend y Bases de Datos, Cloud y DevOps]
+tags: [Cloud y DevOps]
 coverImage: /assets/images/serverless-database.webp
 previewImage: /assets/images/serverless-database.webp
 ---

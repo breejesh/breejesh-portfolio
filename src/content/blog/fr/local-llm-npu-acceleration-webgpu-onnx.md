@@ -2,7 +2,7 @@
 title: "Le Modele d'Inference a Marge Zero: Pourquoi les Puces NPU Changent la Donne"
 description: "Mesures d'autonomie et de vitesse d'inference sur Snapdragon X Elite, processeurs Apple Silicon et WebGPU dans le navigateur."
 date: "2026-08-21"
-tags: [IA et Machine Learning, Matériel et Semiconducteurs]
+tags: [Matériel et Semiconducteurs, IA et Machine Learning]
 coverImage: /assets/images/local-llm-npu-acceleration-webgpu-onnx.webp
 previewImage: /assets/images/local-llm-npu-acceleration-webgpu-onnx.webp
 ---

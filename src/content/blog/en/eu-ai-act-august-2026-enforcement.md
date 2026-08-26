@@ -2,7 +2,7 @@
 title: "The Brussels Effect Hits Frontier AI: Inside the August 2026 EU AI Act Enforcement Wave"
 description: "The European Union AI Act entered its primary operational enforcement phase, mandating cryptographic C2PA watermarks on synthetic media and giving the EU AI Office sweeping audit powers over frontier foundation models."
 date: "2026-08-17"
-tags: [AI & Machine Learning, Developer Tools & Policy, Cybersecurity & Networking]
+tags: [Tech Policy & Law, AI & Machine Learning]
 coverImage: /assets/images/eu-ai-act-august-2026-enforcement.webp
 previewImage: /assets/images/eu-ai-act-august-2026-enforcement.webp
 ---

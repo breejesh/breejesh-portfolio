@@ -2,7 +2,7 @@
 title: "Word Distance: Shortest Distance Between Two Words in Large Text (CTCI 17.11)"
 description: "CTCI problem 17.11: compute minimum word index distance between two words in a file in O(N) single pass time."
 date: "2026-04-19"
-tags: [Algorithmes et Structures, Outils Développeur et Régulation]
+tags: [Algorithmes et Structures, Outils Développeur]
 coverImage: /assets/images/ctci-17-11-word-distance.webp
 previewImage: /assets/images/ctci-17-11-word-distance.webp
 ---

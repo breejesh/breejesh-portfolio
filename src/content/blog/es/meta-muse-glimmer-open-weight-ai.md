@@ -2,7 +2,7 @@
 title: "Meta lanza Muse Glimmer 30B: IA agéntica local y el impulso de código abierto de Zuckerberg"
 description: "Meta Superintelligence Labs publicó Muse Glimmer, un modelo de IA agéntica de 30B parámetros ejecutable localmente en GPUs individuales, junto con un ensayo de 14 páginas de Mark Zuckerberg y un fondo de $1.000 millones."
 date: "2026-08-10"
-tags: [IA y Machine Learning, Herramientas y Políticas Tech]
+tags: [IA y Machine Learning]
 coverImage: /assets/images/meta-muse-glimmer-cover.webp
 previewImage: /assets/images/meta-muse-glimmer-cover.webp
 ---

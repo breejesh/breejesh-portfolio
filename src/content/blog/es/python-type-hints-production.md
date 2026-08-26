@@ -2,7 +2,7 @@
 title: "Type hints de Python que de verdad rinden en producción"
 description: "Qué tipado de Python atrapa bugs reales: Protocols, TypedDict, mypy y pyright graduales. Qué tipar primero, qué omitir y cómo mantener el CI útil."
 date: "2026-06-30"
-tags: [Backend y Bases de Datos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/python-type-hints-production.webp
 previewImage: /assets/images/python-type-hints-production.webp
 ---

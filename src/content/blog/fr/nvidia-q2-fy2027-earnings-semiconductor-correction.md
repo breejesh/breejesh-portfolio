@@ -2,7 +2,7 @@
 title: "Nvidia affiche $92 milliards en un trimestre pendant que le secteur des puces s'effondre autour d'elle"
 description: "Résultats records pour le T2 FY2027, chiffre d'affaires des centres de données doublant à $85 milliards et un bond de 2x du BPA, alors même que l'indice SOX corrige de 29% depuis son sommet de juin. Cette divergence révèle où atterrit réellement l'argent de l'infrastructure IA."
 date: "2026-08-26"
-tags: [IA et Machine Learning, Matériel et Semiconducteurs, Économie Tech et Finance]
+tags: [Matériel et Semiconducteurs, Économie Tech et Finance]
 coverImage: /assets/images/nvidia-q2-fy2027-earnings-semiconductor-correction.webp
 previewImage: /assets/images/nvidia-q2-fy2027-earnings-semiconductor-correction.webp
 ---

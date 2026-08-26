@@ -2,7 +2,7 @@
 title: "OpenAI y la burbuja de IA más grande que la de las puntocom"
 description: "Quemado de caja, facturas de IA impagables, modelos chinos baratos, arriendos de data centers y un borrador filtrado del Tesoro. Por qué el trade de IA está más clavado en la economía que el boom de 2000."
 date: "2026-07-29"
-tags: [IA y Machine Learning, Negocios Tech y Finanzas]
+tags: [Negocios Tech y Finanzas, IA y Machine Learning]
 coverImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 previewImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 ---

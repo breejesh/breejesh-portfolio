@@ -2,7 +2,7 @@
 title: "File System: árbol en memoria con Entry, File y Directory (Java)"
 description: "Problema estilo CTCI 7.11 para principiantes: diseñar un sistema de archivos en memoria. Base Entry compartida, hojas File, nodos Directory, tamaño recursivo y rutas en Java."
 date: "2025-11-09"
-tags: [Algoritmos y Estructuras, Herramientas y Políticas Tech, Diseño de Sistemas y Arquitectura]
+tags: [Algoritmos y Estructuras, Herramientas de Desarrollo, Diseño de Sistemas y Arquitectura]
 coverImage: /assets/images/ctci-7-11-file-system.webp
 previewImage: /assets/images/ctci-7-11-file-system.webp
 ---

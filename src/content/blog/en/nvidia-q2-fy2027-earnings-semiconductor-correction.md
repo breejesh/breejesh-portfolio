@@ -2,7 +2,7 @@
 title: "Nvidia Posts $92B in a Quarter While the Chip Sector Burns Around It"
 description: "Record Q2 FY2027 earnings, data center revenue doubling to $85B, and a 2x EPS jump, all while the SOX index corrects 29% from its June peak. The divergence tells you everything about where AI infrastructure money actually lands."
 date: "2026-08-26"
-tags: [AI & Machine Learning, Hardware & Semiconductors, Tech Business & Finance]
+tags: [Hardware & Semiconductors, Tech Business & Finance]
 coverImage: /assets/images/nvidia-q2-fy2027-earnings-semiconductor-correction.webp
 previewImage: /assets/images/nvidia-q2-fy2027-earnings-semiconductor-correction.webp
 ---

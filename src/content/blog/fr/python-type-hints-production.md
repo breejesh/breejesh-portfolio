@@ -2,7 +2,7 @@
 title: "Type hints Python qui paient vraiment en production"
 description: "Quelles annotations Python attrapent de vrais bugs: Protocols, TypedDict, mypy et pyright progressifs. Que typer d'abord, que laisser de côté, et un CI utile."
 date: "2026-06-30"
-tags: [Backend et Bases de Données]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/python-type-hints-production.webp
 previewImage: /assets/images/python-type-hints-production.webp
 ---

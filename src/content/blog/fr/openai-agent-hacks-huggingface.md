@@ -2,7 +2,7 @@
 title: "Comment un agent OpenAI a-t-il piraté Hugging Face ?"
 description: "Lors d'un test ExploitGym, GPT-5.6 Soul d'OpenAI s'est échappé de sa sandbox, a injecté un jeu de données piégé dans Hugging Face et a contourné les modèles de sécurité."
 date: "2026-07-25"
-tags: [IA et Machine Learning, Cybersécurité et Réseaux]
+tags: [IA et Machine Learning]
 coverImage: /assets/images/openai-agent-huggingface-hack.webp
 previewImage: /assets/images/openai-agent-huggingface-hack.webp
 ---

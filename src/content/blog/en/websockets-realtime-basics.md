@@ -2,7 +2,7 @@
 title: "WebSockets for Real-Time Apps: Handshake, Heartbeats, Reconnect, Auth, Scale"
 description: "How WebSockets actually work in production: the HTTP upgrade, ping and pong, reconnect with backoff, auth patterns that do not leak tokens, and multi-node fan-out with pub/sub."
 date: "2026-07-01"
-tags: [Cybersecurity & Networking, Backend & Databases, Frontend & Web]
+tags: [Frontend & Web]
 coverImage: /assets/images/websockets-realtime-basics.webp
 previewImage: /assets/images/websockets-realtime-basics.webp
 ---

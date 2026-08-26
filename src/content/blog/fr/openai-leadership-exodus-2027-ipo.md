@@ -2,7 +2,7 @@
 title: "14 départs de dirigeants et projet d'introduction en bourse : le défi de stabilité institutionnelle d'OpenAI"
 description: "OpenAI a vu partir son directeur des opérations, sa directrice des revenus, la directrice générale des applications et son responsable des centres de données en un seul été, tout en déployant GPT-5.6, la puce d'inférence Jalapeño et en préparant son entrée en bourse pour 2027. La cadence des lancements techniques atteint des sommets tandis que la gouvernance traverse une phase de fortes tensions."
 date: "2026-08-24"
-tags: [IA et Machine Learning, Économie Tech et Finance]
+tags: [Économie Tech et Finance, IA et Machine Learning]
 coverImage: /assets/images/openai-leadership-exodus-2027-ipo.webp
 previewImage: /assets/images/openai-leadership-exodus-2027-ipo.webp
 ---

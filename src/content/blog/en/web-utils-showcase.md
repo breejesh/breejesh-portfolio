@@ -2,7 +2,7 @@
 title: "Web Utils: Building a 100% Client-Side Developer Suite in Angular 19"
 description: "An technical look at Web Utils, a privacy-first web suite featuring 28 developer tools that run entirely inside your browser using Angular 19, Signals, and Web Workers."
 date: "2026-08-09"
-tags: [Frontend & Web, Cybersecurity & Networking]
+tags: [Frontend & Web]
 coverImage: /assets/images/web-utils-showcase.webp
 previewImage: /assets/images/web-utils-showcase.webp
 ---

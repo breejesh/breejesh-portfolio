@@ -2,7 +2,7 @@
 title: "La Fin du Mythe de l'AGI: Comment les Entreprises Ont Choisi le Pragmatisme"
 description: "Apres l'echec de 74% des projets pilotes d'IA generative, les directions informatiques abandonnent les promesses d'AGI pour des gains concrets."
 date: "2026-08-18"
-tags: [Outils Développeur et Régulation, IA et Machine Learning]
+tags: [IA et Machine Learning]
 coverImage: /assets/images/context-compaction-kv-cache-compression.webp
 previewImage: /assets/images/context-compaction-kv-cache-compression.webp
 ---

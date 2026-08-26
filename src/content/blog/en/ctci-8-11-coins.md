@@ -2,7 +2,7 @@
 title: "Coins: Number of Ways to Make Change (Java)"
 description: "CTCI-style problem 8.11 for beginners: count combinations that make n cents with quarters, dimes, nickels, and pennies. Bottom-up DP coin change, order does not matter, plain Java."
 date: "2026-01-14"
-tags: [Algorithms & Data Structures, Developer Tools & Policy]
+tags: [Algorithms & Data Structures, Developer Tools]
 coverImage: /assets/images/ctci-8-11-coins.webp
 previewImage: /assets/images/ctci-8-11-coins.webp
 ---

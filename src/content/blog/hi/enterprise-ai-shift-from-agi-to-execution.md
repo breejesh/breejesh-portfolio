@@ -2,7 +2,7 @@
 title: "एजीआई के भ्रम का अंत: उद्यमों ने अपनाया व्यावहारिक एआई का मार्ग"
 description: "करोड़ों रुपये के अनिश्चित एआई प्रयोगों के बाद बड़ी कंपनियों ने सामान्य बुद्धिमत्ता के दावों को छोड़कर ठोस व्यावसायिक स्वचालन को चुना।"
 date: "2026-08-18"
-tags: [डेवलपर टूल्स और नीतियां, एआई और मशीन लर्निंग]
+tags: [एआई और मशीन लर्निंग]
 coverImage: /assets/images/context-compaction-kv-cache-compression.webp
 previewImage: /assets/images/context-compaction-kv-cache-compression.webp
 ---

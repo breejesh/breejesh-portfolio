@@ -2,7 +2,7 @@
 title: "ओपनएआई और डॉटकॉम से बड़ी एआई बुलबुला"
 description: "कैश बर्न, एआई के भारी बिल, सस्ते चीनी मॉडल, डेटा सेंटर किराया, और ट्रेजरी का लीक ड्राफ्ट। एआई ट्रेड अर्थव्यवस्था में २००० के इंटरनेट बूम से ज्यादा गहरा क्यों बैठ गया है।"
 date: "2026-07-29"
-tags: [एआई और मशीन लर्निंग, टेक व्यापार और वित्त]
+tags: [टेक व्यापार और वित्त, एआई और मशीन लर्निंग]
 coverImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 previewImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 ---

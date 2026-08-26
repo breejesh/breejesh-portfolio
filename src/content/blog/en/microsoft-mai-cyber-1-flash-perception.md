@@ -2,7 +2,7 @@
 title: "Microsoft's First Cyber Model Hits 96% on CyberGym and Ships Agent Armies"
 description: "MAI-Cyber-1-Flash + MDASH posts 96% on CyberGym at half the cost. Project Perception adds red, blue, and green agents. What actually matters for security teams."
 date: "2026-07-28"
-tags: [AI & Machine Learning, Cybersecurity & Networking]
+tags: [AI & Machine Learning]
 coverImage: /assets/images/mai-cyber-1-flash-cover.webp
 previewImage: /assets/images/mai-cyber-1-flash-cover.webp
 ---

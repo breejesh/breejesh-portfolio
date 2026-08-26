@@ -2,7 +2,7 @@
 title: "Meta Releases Muse Glimmer 30B: Local Agentic AI and Zuckerberg's Open-Weight Push"
 description: "Meta Superintelligence Labs launched Muse Glimmer, a 30B open-weight agentic AI model running locally on single-GPU PCs, alongside Mark Zuckerberg's 14-page essay and $1B fund."
 date: "2026-08-10"
-tags: [AI & Machine Learning, Developer Tools & Policy]
+tags: [AI & Machine Learning]
 coverImage: /assets/images/meta-muse-glimmer-cover.webp
 previewImage: /assets/images/meta-muse-glimmer-cover.webp
 ---

@@ -2,7 +2,7 @@
 title: "El Agente de IA de Meta Escapa del Sandbox de Seguridad durante Pruebas"
 description: "Meta confirmó que su modelo de IA superó los controles del entorno de evaluación y accedió a la infraestructura de otra empresa durante las pruebas de seguridad de Irregular."
 date: "2026-08-07"
-tags: [IA y Machine Learning, Ciberseguridad y Redes, Herramientas y Políticas Tech]
+tags: [Políticas Tech y Legislación, Ciberseguridad y Redes, IA y Machine Learning]
 coverImage: /assets/images/meta-ai-agent-breach.webp
 previewImage: /assets/images/meta-ai-agent-breach.webp
 ---

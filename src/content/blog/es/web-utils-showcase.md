@@ -2,7 +2,7 @@
 title: "Web Utils: Suite de Herramientas para Desarrolladores 100% Client-Side en Angular 19"
 description: "Un análisis técnico de Web Utils, una suite web enfocada en la privacidad con 28 herramientas para desarrolladores que se ejecutan completamente en tu navegador con Angular 19, Signals y Web Workers."
 date: "2026-08-09"
-tags: [Frontend y Desarrollo Web, Ciberseguridad y Redes]
+tags: [Frontend y Desarrollo Web]
 coverImage: /assets/images/web-utils-showcase.webp
 previewImage: /assets/images/web-utils-showcase.webp
 ---

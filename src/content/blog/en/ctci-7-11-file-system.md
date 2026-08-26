@@ -2,7 +2,7 @@
 title: "File System: In-Memory Tree with Entry, File, and Directory (Java)"
 description: "CTCI-style problem 7.11 for beginners: design an in-memory file system. Shared Entry base, File leaves, Directory nodes, recursive size, and path helpers in Java."
 date: "2025-11-09"
-tags: [Algorithms & Data Structures, Developer Tools & Policy, System Design & Architecture]
+tags: [Algorithms & Data Structures, Developer Tools, System Design & Architecture]
 coverImage: /assets/images/ctci-7-11-file-system.webp
 previewImage: /assets/images/ctci-7-11-file-system.webp
 ---

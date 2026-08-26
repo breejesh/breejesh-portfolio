@@ -2,7 +2,7 @@
 title: "Multiple Apartments: Query Tenants with Multiple Apartments in SQL (CTCI 14.1)"
 description: "CTCI problem 14.1: SQL query using GROUP BY and HAVING to find tenants renting more than one apartment."
 date: "2026-04-03"
-tags: [Backend y Bases de Datos, Algoritmos y Estructuras]
+tags: [Algoritmos y Estructuras, Backend y Bases de Datos]
 coverImage: /assets/images/ctci-14-1-multiple-apartments.webp
 previewImage: /assets/images/ctci-14-1-multiple-apartments.webp
 ---

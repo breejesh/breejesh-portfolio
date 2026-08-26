@@ -2,7 +2,7 @@
 title: "SpaceX, xAI y la salida a bolsa como Caballo de Troya: Por qué los números no cuadran"
 description: "Un análisis detallado de la salida a bolsa de SpaceX (SPCX). Cómo la fusión con xAI transformó un monopolio aeroespacial rentable en un negocio de IA con grandes desafíos financieros y físicos."
 date: "2026-06-13"
-tags: [Negocios Tech y Finanzas, IA y Machine Learning]
+tags: [Negocios Tech y Finanzas]
 coverImage: /assets/images/spacex-ipo-disaster.webp
 previewImage: /assets/images/spacex-ipo-disaster.webp
 ---

@@ -2,7 +2,7 @@
 title: "असली टीमों के लिए गिट इंटरैक्टिव रीबेस: स्क्वैश, फिक्सअप और साफ इतिहास"
 description: "गिट रीबेस -i की व्यावहारिक गाइड: स्क्वैश, रीवर्ड, फिक्सअप, कमिट क्रम बदलना, साझा ब्रांच पर रीबेस कब न करें, और गलती पर रेफलॉग से वापसी।"
 date: "2026-07-04"
-tags: [डेवलपर टूल्स और नीतियां, क्लाउड और डेवऑप्स]
+tags: [डेवलपर टूल्स]
 coverImage: /assets/images/git-interactive-rebase-guide.webp
 previewImage: /assets/images/git-interactive-rebase-guide.webp
 ---

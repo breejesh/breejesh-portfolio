@@ -2,7 +2,7 @@
 title: "How to Actually Use AI Coding Agents Without Shipping Garbage"
 description: "Practical Cursor and Copilot-style habits: context windows, review loops, test-first with agents, and clear rules for when to reject AI code."
 date: "2026-08-05"
-tags: [AI & Machine Learning, Developer Tools & Policy]
+tags: [AI & Machine Learning]
 coverImage: /assets/images/ai-coding-agents-workflow.webp
 previewImage: /assets/images/ai-coding-agents-workflow.webp
 ---

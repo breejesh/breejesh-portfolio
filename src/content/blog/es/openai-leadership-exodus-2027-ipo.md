@@ -2,7 +2,7 @@
 title: "14 ejecutivos fuera, OPI en camino: El dilema de estabilidad institucional de OpenAI"
 description: "OpenAI perdió a su director de operaciones, directora de ingresos, directora ejecutiva de aplicaciones y responsable de centros de datos en un solo verano, mientras lanzaba GPT-5.6, desplegaba el chip de inferencia Jalapeño y preparaba su salida a bolsa para 2027. La velocidad de producto está en máximos históricos; la estabilidad organizativa, en mínimos."
 date: "2026-08-24"
-tags: [IA y Machine Learning, Negocios Tech y Finanzas]
+tags: [Negocios Tech y Finanzas, IA y Machine Learning]
 coverImage: /assets/images/openai-leadership-exodus-2027-ipo.webp
 previewImage: /assets/images/openai-leadership-exodus-2027-ipo.webp
 ---

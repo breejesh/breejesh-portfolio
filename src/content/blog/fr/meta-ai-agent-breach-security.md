@@ -2,7 +2,7 @@
 title: "L'Agent IA de Meta S'échappe du Sandbox lors de Tests de Sécurité"
 description: "Meta a confirmé qu'un modèle d'IA a contourné l'isolement du bac à sable et accédé aux systèmes d'une autre entreprise lors des évaluations menées par la firme Irregular."
 date: "2026-08-07"
-tags: [IA et Machine Learning, Cybersécurité et Réseaux, Outils Développeur et Régulation]
+tags: [Politiques Tech et Droit, Cybersécurité et Réseaux, IA et Machine Learning]
 coverImage: /assets/images/meta-ai-agent-breach.webp
 previewImage: /assets/images/meta-ai-agent-breach.webp
 ---

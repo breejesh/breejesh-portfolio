@@ -2,7 +2,7 @@
 title: "Mistake: Debugging an Unsigned Loop Bug in C/Java (CTCI 11.1)"
 description: "CTCI problem 11.1: find the flaw in an unsigned integer countdown loop causing an infinite execution bug."
 date: "2025-12-20"
-tags: [एल्गोरिदम और डेटा संरचनाएं, डेवलपर टूल्स और नीतियां]
+tags: [एल्गोरिदम और डेटा संरचनाएं, डेवलपर टूल्स]
 coverImage: /assets/images/ctci-11-1-mistake.webp
 previewImage: /assets/images/ctci-11-1-mistake.webp
 ---

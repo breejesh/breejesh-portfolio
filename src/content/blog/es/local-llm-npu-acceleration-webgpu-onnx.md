@@ -2,7 +2,7 @@
 title: "El Modelo de Inferencia a Margen Cero: Por Que las NPUs Locales Transforman el Software"
 description: "Evaluacion de rendimiento, consumo de bateria y latencia en procesadores Snapdragon X Elite, Apple Silicon y shaders WebGPU."
 date: "2026-08-21"
-tags: [IA y Machine Learning, Hardware y Semiconductores]
+tags: [Hardware y Semiconductores, IA y Machine Learning]
 coverImage: /assets/images/local-llm-npu-acceleration-webgpu-onnx.webp
 previewImage: /assets/images/local-llm-npu-acceleration-webgpu-onnx.webp
 ---

@@ -2,7 +2,7 @@
 title: "Multiple Apartments: SQL Query for Tenants with Multiple Leases (CTCI 14.1)"
 description: "CTCI problem 14.1 in SQL: write a query to find all tenants who are currently renting more than one apartment."
 date: "2026-03-24"
-tags: [Backend & Databases, Algorithms & Data Structures]
+tags: [Algorithms & Data Structures, Backend & Databases]
 coverImage: /assets/images/ctci-14-1-multiple-apartments.webp
 previewImage: /assets/images/ctci-14-1-multiple-apartments.webp
 ---

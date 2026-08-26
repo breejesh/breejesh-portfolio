@@ -2,7 +2,7 @@
 title: "Por Que la Busqueda Vectorial Pura Fue un Error: El Retorno a la Recuperacion Hibrida"
 description: "Por que las bases de datos vectoriales fallan con codigos exactos y como la combinacion de BM25, ColBERT y vectores densos resuelve la recuperacion empresarial."
 date: "2026-08-22"
-tags: [IA y Machine Learning, Diseño de Sistemas y Arquitectura]
+tags: [IA y Machine Learning]
 coverImage: /assets/images/hybrid-search-bm25-colbert-dense-rag.webp
 previewImage: /assets/images/hybrid-search-bm25-colbert-dense-rag.webp
 ---

@@ -2,7 +2,7 @@
 title: "Debugger: What ((n & (n-1)) == 0) Really Checks (Java)"
 description: "CTCI-style problem 5.5 for beginners: prove that n & (n-1) equals zero only when n has at most one bit set. Power of two, the zero trap, binary walk-throughs, and Java code."
 date: "2026-01-25"
-tags: [Algorithms & Data Structures]
+tags: [Algorithms & Data Structures, Developer Tools]
 coverImage: /assets/images/ctci-5-5-debugger.webp
 previewImage: /assets/images/ctci-5-5-debugger.webp
 ---

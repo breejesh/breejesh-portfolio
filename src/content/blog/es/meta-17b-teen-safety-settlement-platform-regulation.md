@@ -2,7 +2,7 @@
 title: "El acuerdo de seguridad infantil de $17 mil millones de Meta y la cláusula condicional que podría transformar todas las redes sociales"
 description: "52 fiscales generales estatales, $17-18 mil millones en diez años, límites obligatorios de 2 horas diarias para menores y un tramo de $5.3 mil millones que solo se activa si TikTok y YouTube adoptan salvaguardas similares. El mayor acuerdo de seguridad de plataformas en la historia es también un caballo de Troya regulatorio."
 date: "2026-08-26"
-tags: [Herramientas y Políticas Tech]
+tags: [Políticas Tech y Legislación]
 coverImage: /assets/images/meta-17b-teen-safety-settlement-platform-regulation.webp
 previewImage: /assets/images/meta-17b-teen-safety-settlement-platform-regulation.webp
 ---

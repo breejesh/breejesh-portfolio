@@ -2,7 +2,7 @@
 title: "La stratégie d'Intel à Hot Chips 2026 : les 256 coeurs de Diamond Rapids et le pari sans HBM de Crescent Island"
 description: "Intel a dévoilé deux architectures à Hot Chips visant directement l'hégémonie de Nvidia sur les accélérateurs. Diamond Rapids intègre 256 coeurs P en 18A-P pour l'IA agentique. Crescent Island se passe complètement de mémoire HBM, exploitant 480 Go de LPDDR5X pour une inférence refroidie par air à 350W."
 date: "2026-08-24"
-tags: [Matériel et Semiconducteurs, IA et Machine Learning]
+tags: [Matériel et Semiconducteurs]
 coverImage: /assets/images/intel-hot-chips-2026-diamond-rapids-crescent-island.webp
 previewImage: /assets/images/intel-hot-chips-2026-diamond-rapids-crescent-island.webp
 ---

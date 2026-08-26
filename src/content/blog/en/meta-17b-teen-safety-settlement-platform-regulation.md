@@ -2,7 +2,7 @@
 title: "Meta's $17 Billion Teen Safety Settlement and the Conditional Clause That Could Reshape All of Social Media"
 description: "52 state attorneys general, $17-18B over ten years, mandatory 2-hour daily limits for minors, and a $5.3B portion that only triggers if TikTok and YouTube adopt similar safeguards. The largest platform safety settlement ever is also a regulatory Trojan horse."
 date: "2026-08-26"
-tags: [Developer Tools & Policy]
+tags: [Tech Policy & Law]
 coverImage: /assets/images/meta-17b-teen-safety-settlement-platform-regulation.webp
 previewImage: /assets/images/meta-17b-teen-safety-settlement-platform-regulation.webp
 ---

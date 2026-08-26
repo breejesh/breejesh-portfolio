@@ -2,7 +2,7 @@
 title: "APIs REST avec FastAPI: routing, Pydantic, dépendances et tests"
 description: "Parcours pratique FastAPI: routes path et query, modèles Pydantic, injection de dépendances, handlers async et bases TestClient à livrer cette semaine."
 date: "2026-07-26"
-tags: [Backend et Bases de Données, Frontend et Développement Web]
+tags: [Backend et Bases de Données]
 coverImage: /assets/images/fastapi-rest-apis-guide.webp
 previewImage: /assets/images/fastapi-rest-apis-guide.webp
 ---

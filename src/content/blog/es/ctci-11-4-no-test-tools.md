@@ -2,7 +2,7 @@
 title: "No Test Tools: Testing Software Without Automation Frameworks (CTCI 11.4)"
 description: "CTCI problem 11.4: how to build an in-house testing apply and load test without third-party frameworks."
 date: "2025-09-22"
-tags: [Algoritmos y Estructuras, Herramientas y Políticas Tech]
+tags: [Algoritmos y Estructuras, Herramientas de Desarrollo]
 coverImage: /assets/images/ctci-11-4-no-test-tools.webp
 previewImage: /assets/images/ctci-11-4-no-test-tools.webp
 ---

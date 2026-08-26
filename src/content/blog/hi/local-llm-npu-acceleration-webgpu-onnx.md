@@ -2,7 +2,7 @@
 title: "स्थानीय एआई त्वरण: एनपीयू, एप्पल सिलिकॉन और वेबजीपीयू का बेंचमार्क"
 description: "उपभोक्ता लैपटॉप पर ८ अरब पैरामीटर वाले भाषा मॉडलों की गति, बिजली खपत और बैटरी दक्षता का व्यापक तुलनात्मक विश्लेषण।"
 date: "2026-08-21"
-tags: [एआई और मशीन लर्निंग, हार्डवेयर और सेमीकंडक्टर]
+tags: [हार्डवेयर और सेमीकंडक्टर, एआई और मशीन लर्निंग]
 coverImage: /assets/images/local-llm-npu-acceleration-webgpu-onnx.webp
 previewImage: /assets/images/local-llm-npu-acceleration-webgpu-onnx.webp
 ---

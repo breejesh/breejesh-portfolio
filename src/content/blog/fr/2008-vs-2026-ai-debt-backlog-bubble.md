@@ -2,7 +2,7 @@
 title: "2008 vs 2026: Pourquoi le boom de 2,1 T$ de l'IA repose sur la même illusion que les crédits subprimes"
 description: "Comment les prêts immobiliers à taux d'appel de 2006 et les contrats de serveurs d'IA de 2026 partagent la même faille: des dettes conçues pour être renouvelées par de nouveaux emprunts plutôt que payées par de vrais bénéfices, qui s'effondrent dès que la croissance ralentit."
 date: "2026-08-11"
-tags: [IA et Machine Learning, Économie Tech et Finance]
+tags: [Économie Tech et Finance, IA et Machine Learning]
 coverImage: /assets/images/2008-vs-2026-ai-debt-backlog-bubble.webp
 previewImage: /assets/images/2008-vs-2026-ai-debt-backlog-bubble.webp
 ---

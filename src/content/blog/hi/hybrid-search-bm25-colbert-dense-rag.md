@@ -2,7 +2,7 @@
 title: "उद्यमों में एकल वेक्टर खोज की सीमाएं: हाइब्रिड सर्च का नया ढांचा"
 description: "सटीक कोड और मॉडल नंबर खोजने में वेक्टर डेटाबेस की विफलता और बीएम२५, कोलबर्ट व सघन वेक्टर्स के एकीकरण का विश्लेषण।"
 date: "2026-08-22"
-tags: [एआई और मशीन लर्निंग, सिस्टम डिजाइन और आर्किटेक्चर]
+tags: [एआई और मशीन लर्निंग]
 coverImage: /assets/images/hybrid-search-bm25-colbert-dense-rag.webp
 previewImage: /assets/images/hybrid-search-bm25-colbert-dense-rag.webp
 ---

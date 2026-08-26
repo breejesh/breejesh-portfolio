@@ -54,8 +54,8 @@ previewImage: /assets/images/[slug-name].webp
 ---
 ```
 
-#### Frozen 10 Canonical Topics Taxonomy
-Every blog post MUST use 1 to 3 tags drawn strictly from this frozen 10-topic taxonomy (with localized equivalents per language):
+#### Frozen 11 Canonical Topics Taxonomy
+Every blog post MUST use 1 to 3 tags drawn strictly from this frozen 11-topic taxonomy (with localized equivalents per language):
 
 | # | English (`en`) | Spanish (`es`) | French (`fr`) | Hindi (`hi`) |
 |---|---|---|---|---|
@@ -64,11 +64,12 @@ Every blog post MUST use 1 to 3 tags drawn strictly from this frozen 10-topic ta
 | 3 | System Design & Architecture | Diseño de Sistemas y Arquitectura | Design Système et Architecture | सिस्टम डिजाइन और आर्किटेक्चर |
 | 4 | AI & Machine Learning | IA y Machine Learning | IA et Machine Learning | एआई और मशीन लर्निंग |
 | 5 | Cloud & DevOps | Cloud y DevOps | Cloud et DevOps | क्लाउड और डेवऑप्स |
-| 6 | Developer Tools & Policy | Herramientas y Políticas Tech | Outils Développeur et Régulation | डेवलपर टूल्स और नीतियां |
-| 7 | Frontend & Web | Frontend y Desarrollo Web | Frontend et Développement Web | फ्रंटएंड और वेब डेवलपमेंट |
-| 8 | Tech Business & Finance | Negocios Tech y Finanzas | Économie Tech et Finance | टेक व्यापार और वित्त |
-| 9 | Cybersecurity & Networking | Ciberseguridad y Redes | Cybersécurité et Réseaux | साइबर सुरक्षा और नेटवर्किंग |
-| 10 | Hardware & Semiconductors | Hardware y Semiconductores | Matériel et Semiconducteurs | हार्डवेयर और सेमीकंडक्टर |
+| 6 | Developer Tools | Herramientas de Desarrollo | Outils Développeur | डेवलपर टूल्स |
+| 7 | Tech Policy & Law | Políticas Tech y Legislación | Politiques Tech et Droit | टेक नीतियां और कानून |
+| 8 | Frontend & Web | Frontend y Desarrollo Web | Frontend et Développement Web | फ्रंटएंड और वेब डेवलपमेंट |
+| 9 | Tech Business & Finance | Negocios Tech y Finanzas | Économie Tech et Finance | टेक व्यापार और वित्त |
+| 10 | Cybersecurity & Networking | Ciberseguridad y Redes | Cybersécurité et Réseaux | साइबर सुरक्षा और नेटवर्किंग |
+| 11 | Hardware & Semiconductors | Hardware y Semiconductores | Matériel et Semiconducteurs | हार्डवेयर और सेमीकंडक्टर |
 
 
 ### 2.2 Executive Summary (TL;DR Box)

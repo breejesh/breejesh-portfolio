@@ -2,7 +2,7 @@
 title: "OpenAI and the AI Bubble Bigger Than Dotcom"
 description: "Burn rates, unpaid AI bills, Chinese open models, data-center lease-backs, and a leaked Treasury draft. Why the AI trade now sits deeper in the economy than the 2000 internet boom."
 date: "2026-07-29"
-tags: [AI & Machine Learning, Tech Business & Finance]
+tags: [Tech Business & Finance, AI & Machine Learning]
 coverImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 previewImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 ---

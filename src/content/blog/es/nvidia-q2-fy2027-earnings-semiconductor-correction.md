@@ -2,7 +2,7 @@
 title: "Nvidia registra $92 mil millones en un trimestre mientras el sector de chips se desploma a su alrededor"
 description: "Ganancias récord del Q2 FY2027, ingresos del segmento de centros de datos duplicándose a $85 mil millones y un salto de 2x en EPS, todo mientras el índice SOX corrige un 29% desde su pico de junio. La divergencia dice todo sobre dónde aterriza realmente el dinero de la infraestructura de IA."
 date: "2026-08-26"
-tags: [IA y Machine Learning, Hardware y Semiconductores, Negocios Tech y Finanzas]
+tags: [Hardware y Semiconductores, Negocios Tech y Finanzas]
 coverImage: /assets/images/nvidia-q2-fy2027-earnings-semiconductor-correction.webp
 previewImage: /assets/images/nvidia-q2-fy2027-earnings-semiconductor-correction.webp
 ---

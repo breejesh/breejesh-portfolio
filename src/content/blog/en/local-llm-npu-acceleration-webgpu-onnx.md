@@ -2,7 +2,7 @@
 title: "The Zero-Margin Inference Model: Why PC Makers and Startups Are Betting Everything on On-Device NPUs"
 description: "An empirical hardware audit measuring token throughput, power draw, and latency across Qualcomm Snapdragon X Elite NPUs, Apple Silicon, and browser WebGPU runtimes."
 date: "2026-08-21"
-tags: [AI & Machine Learning, Hardware & Semiconductors]
+tags: [Hardware & Semiconductors, AI & Machine Learning]
 coverImage: /assets/images/local-llm-npu-acceleration-webgpu-onnx.webp
 previewImage: /assets/images/local-llm-npu-acceleration-webgpu-onnx.webp
 ---

@@ -2,7 +2,7 @@
 title: "OpenAI et la bulle d'IA plus grosse que la bulle internet"
 description: "Burn, factures d'IA incontrôlables, modèles chinois bon marché, locations de data centers et une note filtrée du Trésor. Pourquoi le trade IA est plus ancré dans l'économie que le boom de 2000."
 date: "2026-07-29"
-tags: [IA et Machine Learning, Économie Tech et Finance]
+tags: [Économie Tech et Finance, IA et Machine Learning]
 coverImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 previewImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 ---

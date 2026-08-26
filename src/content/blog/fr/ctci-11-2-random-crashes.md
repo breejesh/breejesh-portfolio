@@ -2,7 +2,7 @@
 title: "Random Crashes: Debugging Intermittent Application Failure (CTCI 11.2)"
 description: "CTCI problem 11.2: step-by-step methodology to isolate and diagnose random, non-deterministic crashes in production."
 date: "2026-01-09"
-tags: [Outils Développeur et Régulation, Backend et Bases de Données, Algorithmes et Structures]
+tags: [Algorithmes et Structures, Outils Développeur]
 coverImage: /assets/images/ctci-11-2-random-crashes.webp
 previewImage: /assets/images/ctci-11-2-random-crashes.webp
 ---

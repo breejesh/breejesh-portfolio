@@ -2,7 +2,7 @@
 title: "मेटा का १७ अरब डॉलर का बाल सुरक्षा समझौता और वह शर्त जो सोशल मीडिया का स्वरूप बदल सकती है"
 description: "५२ अमेरिकी राज्यों के अटॉर्नी जनरल, दस वर्षों में १७ से १८ अरब डॉलर का भुगतान, नाबालिगों के लिए प्रतिदिन २ घंटे की अनिवार्य समय-सीमा और ५.३ अरब डॉलर का वह हिस्सा जो टिकटॉक और यूट्यूब द्वारा समान नियम अपनाने पर ही लागू होगा।"
 date: "2026-08-26"
-tags: [डेवलपर टूल्स और नीतियां]
+tags: [टेक नीतियां और कानून]
 coverImage: /assets/images/meta-17b-teen-safety-settlement-platform-regulation.webp
 previewImage: /assets/images/meta-17b-teen-safety-settlement-platform-regulation.webp
 ---

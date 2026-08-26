@@ -2,7 +2,7 @@
 title: "Build a Manifest V3 Chrome Extension from Scratch"
 description: "Service workers, content scripts, permissions, and the pitfalls that waste an afternoon. A small word-count extension you can load unpacked today."
 date: "2026-06-25"
-tags: [Frontend & Web]
+tags: [Developer Tools]
 coverImage: /assets/images/chrome-extension-manifest-v3.webp
 previewImage: /assets/images/chrome-extension-manifest-v3.webp
 ---

@@ -2,7 +2,7 @@
 title: "Random Node: elección uniforme en un BST (Java)"
 description: "Problema estilo CTCI 4.11 para principiantes: construye un BST con insert, find, delete y getRandomNode para que cada nodo sea igual de probable. Guarda el tamaño del subárbol en cada nodo y camina un índice aleatorio."
 date: "2026-03-17"
-tags: [Algoritmos y Estructuras, Herramientas y Políticas Tech]
+tags: [Algoritmos y Estructuras, Herramientas de Desarrollo]
 coverImage: /assets/images/ctci-4-11-random-node.webp
 previewImage: /assets/images/ctci-4-11-random-node.webp
 ---

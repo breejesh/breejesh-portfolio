@@ -2,7 +2,7 @@
 title: "2008 vs 2026: Why the $2.1 Trillion AI Boom is Built on the Same Broken Promise as Subprime Mortgages"
 description: "How 2006 teaser-rate home loans and 2026 AI data center contracts share the exact same flaw: debts designed to be rolled into new loans rather than paid off with real profits, which collapse the moment growth slows down."
 date: "2026-08-11"
-tags: [AI & Machine Learning, Tech Business & Finance]
+tags: [Tech Business & Finance, AI & Machine Learning]
 coverImage: /assets/images/2008-vs-2026-ai-debt-backlog-bubble.webp
 previewImage: /assets/images/2008-vs-2026-ai-debt-backlog-bubble.webp
 ---

@@ -2,7 +2,7 @@
 title: "Les accords à 750 milliards de dollars de Nvidia : la machine circulaire de l'IA à plein régime"
 description: "Plus de 500 milliards avec SK Group, un possible filet de 250 milliards pour OpenAI, 18 cents de chaque dollar d'IA en production, et un free cash flow en chute libre. La boucle d'argent est le produit."
 date: "2026-07-27"
-tags: [IA et Machine Learning, Économie Tech et Finance]
+tags: [Économie Tech et Finance]
 coverImage: /assets/images/nvidia-750b-circular-finance.webp
 previewImage: /assets/images/nvidia-750b-circular-finance.webp
 ---

@@ -2,7 +2,7 @@
 title: "The Great Post-Quantum Migration: What Breaks When TLS 1.3 Swallows ML-KEM-768"
 description: "Inside the global transition to NIST-standardized post-quantum cryptography in TLS 1.3: why expanded lattice key sizes trigger packet fragmentation and how edge networks prevent middlebox freezes."
 date: "2026-08-20"
-tags: [Cybersecurity & Networking, Backend & Databases]
+tags: [Cybersecurity & Networking]
 coverImage: /assets/images/post-quantum-cryptography-tls13-migration.webp
 previewImage: /assets/images/post-quantum-cryptography-tls13-migration.webp
 ---

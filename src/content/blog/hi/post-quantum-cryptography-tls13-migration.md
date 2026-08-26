@@ -2,7 +2,7 @@
 title: "पोस्ट-क्वांटम इंटरनेट संक्रमण: टीएलएस १.३ में एमएल-केईएम का नया मानक"
 description: "एनआईएसटी द्वारा मानकीकृत एमएल-केईएम-७६८ के उपयोग से टीएलएस हैंडशेक पैकेट का आकार बढ़ने और नेटवर्क विखंडन की चुनौतियों का विश्लेषण।"
 date: "2026-08-20"
-tags: [साइबर सुरक्षा और नेटवर्किंग, बैकएंड और डेटाबेस]
+tags: [साइबर सुरक्षा और नेटवर्किंग]
 coverImage: /assets/images/post-quantum-cryptography-tls13-migration.webp
 previewImage: /assets/images/post-quantum-cryptography-tls13-migration.webp
 ---
