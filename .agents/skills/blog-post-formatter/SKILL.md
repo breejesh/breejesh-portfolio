@@ -64,7 +64,7 @@ Every blog post MUST use 1 to 3 tags drawn strictly from this frozen 11-topic ta
 | 3 | System Design & Architecture | Diseño de Sistemas y Arquitectura | Design Système et Architecture | सिस्टम डिजाइन और आर्किटेक्चर |
 | 4 | AI & Machine Learning | IA y Machine Learning | IA et Machine Learning | एआई और मशीन लर्निंग |
 | 5 | Cloud & DevOps | Cloud y DevOps | Cloud et DevOps | क्लाउड और डेवऑप्स |
-| 6 | Developer Tools | Herramientas de Desarrollo | Outils Développeur | डेवलपर टूल्स |
+| 6 | Development | Desarrollo | Développement | डेवलपमेंट |
 | 7 | Tech Policy & Law | Políticas Tech y Legislación | Politiques Tech et Droit | टेक नीतियां और कानून |
 | 8 | Frontend & Web | Frontend y Desarrollo Web | Frontend et Développement Web | फ्रंटएंड और वेब डेवलपमेंट |
 | 9 | Tech Business & Finance | Negocios Tech y Finanzas | Économie Tech et Finance | टेक व्यापार और वित्त |
