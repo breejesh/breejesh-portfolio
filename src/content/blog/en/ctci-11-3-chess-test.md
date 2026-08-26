@@ -2,7 +2,7 @@
 title: "Chess Test: How to Test a Computer Chess Game (CTCI 11.3)"
 description: "CTCI problem 11.3: comprehensive test suite design for a chess application covering game rules, AI engine, and UI."
 date: "2026-03-06"
-tags: [Algorithms & Data Structures, Developer Tools]
+tags: [Algorithms & Data Structures, Development]
 coverImage: /assets/images/ctci-11-3-chess-test.webp
 previewImage: /assets/images/ctci-11-3-chess-test.webp
 ---

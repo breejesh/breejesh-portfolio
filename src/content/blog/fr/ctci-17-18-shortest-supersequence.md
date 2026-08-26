@@ -2,7 +2,7 @@
 title: "Shortest Supersequence: Shortest Subarray Containing All Target Elements (CTCI 17.18)"
 description: "CTCI problem 17.18: find the shortest subarray of a larger array that contains all elements from a smaller target set using sliding window."
 date: "2025-08-14"
-tags: [Algorithmes et Structures, Outils Développeur]
+tags: [Algorithmes et Structures, Développement]
 coverImage: /assets/images/ctci-17-18-shortest-supersequence.webp
 previewImage: /assets/images/ctci-17-18-shortest-supersequence.webp
 ---

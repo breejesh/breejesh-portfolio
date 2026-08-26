@@ -2,7 +2,7 @@
 title: "Test an ATM: End-to-End System Testing for Banking Hardware (CTCI 11.6)"
 description: "CTCI problem 11.6: test strategy for an automated teller machine (ATM) covering hardware, transaction processing, and failure recovery."
 date: "2025-10-27"
-tags: [एल्गोरिदम और डेटा संरचनाएं, डेवलपर टूल्स]
+tags: [एल्गोरिदम और डेटा संरचनाएं, डेवलपमेंट]
 coverImage: /assets/images/ctci-11-6-test-an-atm.webp
 previewImage: /assets/images/ctci-11-6-test-an-atm.webp
 ---

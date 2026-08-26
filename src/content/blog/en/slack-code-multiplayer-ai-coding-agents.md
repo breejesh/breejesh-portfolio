@@ -2,7 +2,7 @@
 title: "The End of the Solo Coder: Inside Slack's Push to Turn Software Engineering into a Multiplayer Chat Game"
 description: "Salesforce and Slack launched Slack Code, embedding Devin, Claude Code, GitHub Copilot, and Vercel agents directly into shared team channels, shifting software development from isolated terminal sessions to live multiplayer workflows."
 date: "2026-08-14"
-tags: [Developer Tools, AI & Machine Learning]
+tags: [Development, AI & Machine Learning]
 coverImage: /assets/images/slack-code-multiplayer-ai-coding-agents.webp
 previewImage: /assets/images/slack-code-multiplayer-ai-coding-agents.webp
 ---

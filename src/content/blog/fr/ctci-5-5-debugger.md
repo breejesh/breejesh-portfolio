@@ -2,7 +2,7 @@
 title: "Debugger: Ce que ((n & (n-1)) == 0) vérifie vraiment (Java)"
 description: "Problème style CTCI 5.5 pour débutants: prouver que n & (n-1) vaut zéro seulement quand n a au plus un bit à 1. Puissance de deux, le piège du zéro, parcours en binaire et code Java."
 date: "2026-01-25"
-tags: [Algorithmes et Structures, Outils Développeur]
+tags: [Algorithmes et Structures, Développement]
 coverImage: /assets/images/ctci-5-5-debugger.webp
 previewImage: /assets/images/ctci-5-5-debugger.webp
 ---

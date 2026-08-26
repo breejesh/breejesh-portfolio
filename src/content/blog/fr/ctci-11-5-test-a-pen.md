@@ -2,7 +2,7 @@
 title: "Test a Pen: Physical Product System Testing (CTCI 11.5)"
 description: "CTCI problem 11.5: structured test plan for a physical ballpoint pen covering operational, stress, and environmental scenarios."
 date: "2026-05-05"
-tags: [Algorithmes et Structures, Outils Développeur]
+tags: [Algorithmes et Structures, Développement]
 coverImage: /assets/images/ctci-11-5-test-a-pen.webp
 previewImage: /assets/images/ctci-11-5-test-a-pen.webp
 ---

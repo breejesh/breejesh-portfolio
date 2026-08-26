@@ -2,7 +2,7 @@
 title: "Coins: nombre de façons de faire la monnaie (Java)"
 description: "Problème style CTCI 8.11 pour débutants: compter les combinaisons qui font n cents avec des pièces de 25, 10, 5 et 1. DP bottom-up du rendu de monnaie, l'ordre ne compte pas, Java clair."
 date: "2026-01-14"
-tags: [Algorithmes et Structures, Outils Développeur]
+tags: [Algorithmes et Structures, Développement]
 coverImage: /assets/images/ctci-8-11-coins.webp
 previewImage: /assets/images/ctci-8-11-coins.webp
 ---

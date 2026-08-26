@@ -2,7 +2,7 @@
 title: "Coins: número de formas de dar cambio (Java)"
 description: "Problema estilo CTCI 8.11 para principiantes: cuenta combinaciones que suman n centavos con monedas de 25, 10, 5 y 1. DP bottom-up de cambio de monedas, el orden no importa, Java claro."
 date: "2026-01-14"
-tags: [Algoritmos y Estructuras, Herramientas de Desarrollo]
+tags: [Algoritmos y Estructuras, Desarrollo]
 coverImage: /assets/images/ctci-8-11-coins.webp
 previewImage: /assets/images/ctci-8-11-coins.webp
 ---

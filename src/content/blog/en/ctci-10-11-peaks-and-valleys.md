@@ -2,7 +2,7 @@
 title: "Peaks and Valleys: Sort Array into Alternating Sequence (CTCI 10.11)"
 description: "CTCI problem 10.11 in Java: rearrange an array of integers into an alternating sequence of peaks and valleys in O(N) single-pass time."
 date: "2026-06-06"
-tags: [Algorithms & Data Structures, Developer Tools]
+tags: [Algorithms & Data Structures, Development]
 coverImage: /assets/images/ctci-10-11-peaks-and-valleys.webp
 previewImage: /assets/images/ctci-10-11-peaks-and-valleys.webp
 ---

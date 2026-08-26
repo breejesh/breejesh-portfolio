@@ -2,7 +2,7 @@
 title: "Crea una extensión Chrome Manifest V3 desde cero"
 description: "Service workers, content scripts, permisos y los fallos que te queman una tarde. Una extensión pequeña de conteo de palabras para cargar unpacked hoy."
 date: "2026-06-25"
-tags: [Herramientas de Desarrollo]
+tags: [Desarrollo]
 coverImage: /assets/images/chrome-extension-manifest-v3.webp
 previewImage: /assets/images/chrome-extension-manifest-v3.webp
 ---

@@ -2,7 +2,7 @@
 title: "Rebase interactivo de Git para equipos reales: squash, fixup e historial limpio"
 description: "Guía práctica de git rebase -i: squash, reword, fixup, reordenar commits, cuándo no reescribir ramas compartidas y cómo recuperarte con reflog si algo sale mal."
 date: "2026-07-04"
-tags: [Herramientas de Desarrollo]
+tags: [Desarrollo]
 coverImage: /assets/images/git-interactive-rebase-guide.webp
 previewImage: /assets/images/git-interactive-rebase-guide.webp
 ---
