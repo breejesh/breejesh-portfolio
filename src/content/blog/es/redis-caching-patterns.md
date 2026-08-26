@@ -2,7 +2,7 @@
 title: "Patrones de caché Redis que aguantan en producción"
 description: "Cache-aside, control de stampede, jitter de TTL, invalidación y hot keys. Patrones para que Redis sirva de verdad bajo tráfico real sin derretir la base de datos."
 date: "2026-07-15"
-tags: [Bases de datos, Backend]
+tags: [Backend y Bases de Datos]
 coverImage: /assets/images/redis-caching-patterns.webp
 previewImage: /assets/images/redis-caching-patterns.webp
 ---

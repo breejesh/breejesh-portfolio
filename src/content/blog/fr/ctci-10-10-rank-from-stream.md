@@ -2,7 +2,7 @@
 title: "Rank from Stream: Calculer le Rang d'un Nombre dans un Flux (CTCI 10.10)"
 description: "Problème CTCI 10.10 en Java: arbre binaire de recherche avec suivi du sous-arbre gauche pour calculer le rang."
 date: "2026-01-18"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-10-10-rank-from-stream.webp
 previewImage: /assets/images/ctci-10-10-rank-from-stream.webp
 ---

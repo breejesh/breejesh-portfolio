@@ -2,7 +2,7 @@
 title: "CTCI 1.8 ज़ीरो मैट्रिक्स: पंक्ति और स्तंभ को जगह पर शून्य करें (जावा)"
 description: "अगर कोई सेल 0 है तो पूरी पंक्ति और स्तंभ 0 कर दें। पहले ब्रूट फोर्स, फिर जावा में पहली पंक्ति/स्तंभ फ्लैग से O(1) अतिरिक्त जगह।"
 date: "2025-10-06"
-tags: [एल्गोरिदम]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-1-8-zero-matrix.webp
 previewImage: /assets/images/ctci-1-8-zero-matrix.webp
 ---

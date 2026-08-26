@@ -2,7 +2,7 @@
 title: "Web Crawler: Design a Scalable Distributed Web Crawler (CTCI 9.3)"
 description: "CTCI problem 9.3: architecture for a distributed web crawler that handles duplicate URLs, politeness policies, and host DNS bottlenecks."
 date: "2025-10-12"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures, System Design & Architecture]
 coverImage: /assets/images/ctci-9-3-web-crawler.webp
 previewImage: /assets/images/ctci-9-3-web-crawler.webp
 ---

@@ -2,7 +2,7 @@
 title: "Sum Swap: Find Element Pair to Swap for Equal Array Sums (CTCI 16.21)"
 description: "CTCI problem 16.21: find pair of values (one from each array) to swap so both arrays have equal sum in O(A + B) time."
 date: "2026-01-01"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-16-21-sum-swap.webp
 previewImage: /assets/images/ctci-16-21-sum-swap.webp
 ---

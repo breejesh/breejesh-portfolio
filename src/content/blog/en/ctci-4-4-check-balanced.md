@@ -2,7 +2,7 @@
 title: "Check Balanced: Height Difference at Most One (Java)"
 description: "CTCI-style problem 4.4 for beginners: decide if a binary tree is balanced. Compute height in one pass and return a fail signal as soon as any node has subtree heights that differ by more than one."
 date: "2026-01-08"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-4-4-check-balanced.webp
 previewImage: /assets/images/ctci-4-4-check-balanced.webp
 ---

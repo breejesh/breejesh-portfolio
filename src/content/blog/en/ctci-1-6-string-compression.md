@@ -2,7 +2,7 @@
 title: "CTCI 1.6 String Compression in Java: Counts and StringBuilder"
 description: "Compress runs of letters (aabcccccaaa to a2b1c5a3) with StringBuilder, then return the original when compression does not help. Java walkthrough with edge cases."
 date: "2025-11-13"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-1-6-string-compression.webp
 previewImage: /assets/images/ctci-1-6-string-compression.webp
 ---

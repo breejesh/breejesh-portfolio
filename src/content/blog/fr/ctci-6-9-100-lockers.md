@@ -2,7 +2,7 @@
 title: "100 casiers: lesquels restent ouverts après 100 bascules ? (Java)"
 description: "Problème style CTCI 6.9 pour débutants: 100 casiers fermés, 100 personnes basculent chaque i-ème porte. Les ouverts sont les carrés parfaits (1, 4, 9, ..., 100) car seuls les carrés ont un nombre impair de facteurs. Simulation Java optionnelle."
 date: "2026-06-17"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-6-9-100-lockers.webp
 previewImage: /assets/images/ctci-6-9-100-lockers.webp
 ---

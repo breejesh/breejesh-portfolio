@@ -2,7 +2,7 @@
 title: "Hash Table: chaînage avec seaux LinkedList (Java)"
 description: "Problème style CTCI 7.12 pour débutants: un HashMap simple avec un tableau de listes chaînées. put, get et remove avec collisions par chaining en Java."
 date: "2026-02-28"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-7-12-hash-table.webp
 previewImage: /assets/images/ctci-7-12-hash-table.webp
 ---

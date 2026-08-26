@@ -2,7 +2,7 @@
 title: "Continuous Median: Track Streaming Median via Dual Heaps (CTCI 17.20)"
 description: "CTCI problem 17.20: track and maintain the median of a numerical data stream using a Max-Heap and Min-Heap."
 date: "2025-10-29"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-17-20-continuous-median.webp
 previewImage: /assets/images/ctci-17-20-continuous-median.webp
 ---

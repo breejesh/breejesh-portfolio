@@ -2,7 +2,7 @@
 title: "Pond Sizes: Compute Connected Water Regions in Matrix (CTCI 16.19)"
 description: "CTCI problem 16.19: compute sizes of all connected water ponds in a land matrix using 8-directional DFS traversal."
 date: "2026-02-02"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-16-19-pond-sizes.webp
 previewImage: /assets/images/ctci-16-19-pond-sizes.webp
 ---

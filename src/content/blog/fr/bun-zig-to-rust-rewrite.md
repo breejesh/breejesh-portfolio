@@ -2,7 +2,7 @@
 title: "Bun a réécrit 535 000 lignes de Zig vers Rust en 11 jours avec 64 agents Claude"
 description: "Soutenu par Anthropic, Bun a migré l'intégralité de son code de Zig vers Rust grâce à 64 agents IA en parallèle, corrigeant 128 bugs et réduisant les binaires de 20%, mais le mouvement a déclenché une dispute publique avec le créateur de Zig."
 date: "2026-08-13"
-tags: [Bun, Rust, Zig, AI, Systems]
+tags: [IA et Machine Learning, Backend et Bases de Données]
 coverImage: /assets/images/bun-zig-to-rust-rewrite.webp
 previewImage: /assets/images/bun-zig-to-rust-rewrite.webp
 ---

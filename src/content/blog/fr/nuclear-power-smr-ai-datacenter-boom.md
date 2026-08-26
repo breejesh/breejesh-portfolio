@@ -2,7 +2,7 @@
 title: "Le Goulot d'Etranglement des 10 Gigawatts: Pourquoi les Geants de la Tech Reinvestissent dans le Nucleaire"
 description: "Face a 5 ans d'attente sur les reseaux electriques publics, les geants du cloud achetent des reacteurs nucleaires pour alimenter l'IA."
 date: "2026-08-16"
-tags: [Energie, IA, Nucleaire, Datacenters, Infrastructure]
+tags: [IA et Machine Learning]
 coverImage: /assets/images/nvme-zns-spdk-database-storage.webp
 previewImage: /assets/images/nvme-zns-spdk-database-storage.webp
 ---

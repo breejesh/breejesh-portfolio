@@ -2,7 +2,7 @@
 title: "Is Unique: comprobar si un string tiene todos los caracteres distintos (Java)"
 description: "Problema estilo CTCI 1.1 para principiantes: decidir si cada caracter de un string aparece solo una vez. Analogia, fuerza bruta, array booleano, HashSet, ordenacion y complejidad."
 date: "2025-09-11"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-1-1-is-unique.webp
 previewImage: /assets/images/ctci-1-1-is-unique.webp
 ---

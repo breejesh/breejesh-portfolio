@@ -2,7 +2,7 @@
 title: "BST Sequences: todos los arrays que construyen el mismo árbol (Java)"
 description: "Problema estilo CTCI 4.9 para principiantes: dado un BST construido por inserciones de izquierda a derecha, lista cada array que pudo generarlo. Raíz primero, luego entrelaza (weave) las secuencias de los subárboles izquierdo y derecho con un helper recursivo."
 date: "2025-08-22"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-4-9-bst-sequences.webp
 previewImage: /assets/images/ctci-4-9-bst-sequences.webp
 ---

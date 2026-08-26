@@ -2,7 +2,7 @@
 title: "Entity Relationship Data Model: Designing ER Diagrams (CTCI 14.6)"
 description: "CTCI problem 14.6: principles of Entity-Relationship modeling, primary keys, foreign keys, and 1-to-N relationships."
 date: "2025-09-03"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras, Backend y Bases de Datos]
 coverImage: /assets/images/ctci-14-6-entity-relationship-data-model.webp
 previewImage: /assets/images/ctci-14-6-entity-relationship-data-model.webp
 ---

@@ -2,7 +2,7 @@
 title: "Word Rectangle: Largest Grid of Words Valid in Rows and Columns (CTCI 17.25)"
 description: "CTCI problem 17.25: create largest rectangle of letters such that every row and column forms a valid dictionary word."
 date: "2026-02-11"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-17-25-word-rectangle.webp
 previewImage: /assets/images/ctci-17-25-word-rectangle.webp
 ---

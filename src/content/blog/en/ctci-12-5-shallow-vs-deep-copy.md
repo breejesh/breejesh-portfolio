@@ -2,7 +2,7 @@
 title: "Shallow vs Deep Copy: C++ Copy Constructors & Memory Safety (CTCI 12.5)"
 description: "CTCI problem 12.5: comparing pointer assignment vs memory allocation in copy constructors to prevent double-free crashes."
 date: "2025-12-25"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-12-5-shallow-vs-deep-copy.webp
 previewImage: /assets/images/ctci-12-5-shallow-vs-deep-copy.webp
 ---

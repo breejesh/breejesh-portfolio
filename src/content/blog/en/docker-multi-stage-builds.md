@@ -2,7 +2,7 @@
 title: "Shrinking Your Docker Images: The Power of Multi-Stage Builds"
 description: "How multi-stage Docker builds cut production image size, with real benchmarks across Go, Node, Java, and Python."
 date: "2026-06-28"
-tags: [Containers, DevOps]
+tags: [Cloud & DevOps]
 coverImage: /assets/images/docker-optimization.webp
 previewImage: /assets/images/docker-optimization.webp
 ---

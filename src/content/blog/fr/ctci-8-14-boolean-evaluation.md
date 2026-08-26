@@ -2,7 +2,7 @@
 title: "Boolean Evaluation: compter les parenthésages d'une expression (Java)"
 description: "Problème style CTCI 8.14 pour débutants: compter combien de parenthésages complets d'une expression 0/1 avec &, | et ^ valent true ou false. Récursion mémoïsée sur sous-chaînes en Java."
 date: "2025-11-27"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures, Backend et Bases de Données]
 coverImage: /assets/images/ctci-8-14-boolean-evaluation.webp
 previewImage: /assets/images/ctci-8-14-boolean-evaluation.webp
 ---

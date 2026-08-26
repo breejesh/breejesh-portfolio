@@ -2,7 +2,7 @@
 title: "How DNS Works for Engineers: Resolution Path, Records, TTL, and dig"
 description: "The DNS resolution path from stub resolver to authoritative nameserver, the records you actually edit (A, AAAA, CNAME, MX, TXT), how TTL and caching shape outages, and how to debug with dig."
 date: "2026-07-02"
-tags: [Networking]
+tags: [Cybersecurity & Networking]
 coverImage: /assets/images/how-dns-works-for-engineers.webp
 previewImage: /assets/images/how-dns-works-for-engineers.webp
 ---

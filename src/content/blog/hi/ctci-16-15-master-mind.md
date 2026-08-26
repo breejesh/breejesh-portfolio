@@ -2,7 +2,7 @@
 title: "Master Mind: Calculate Hits and Pseudo-Hits in Mastermind (CTCI 16.15)"
 description: "CTCI problem 16.15: compute the number of hits (exact match) and pseudo-hits (color match wrong slot) in Mastermind."
 date: "2025-10-23"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं, बैकएंड और डेटाबेस]
 coverImage: /assets/images/ctci-16-15-master-mind.webp
 previewImage: /assets/images/ctci-16-15-master-mind.webp
 ---

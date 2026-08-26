@@ -2,7 +2,7 @@
 title: "Circular Array: rotation O(1) avec un index head (Java)"
 description: "Problème style CTCI 7.9 pour débutants: un CircularArray générique qui tourne en O(1) en déplaçant un pointeur head, mappe les indices logiques avec modulo, et supporte for-each via Iterable."
 date: "2026-02-03"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-7-9-circular-array.webp
 previewImage: /assets/images/ctci-7-9-circular-array.webp
 ---

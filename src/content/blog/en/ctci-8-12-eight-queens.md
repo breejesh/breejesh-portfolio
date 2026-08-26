@@ -2,7 +2,7 @@
 title: "Eight Queens: Place 8 Non-Attacking Queens with Backtracking (Java)"
 description: "CTCI-style problem 8.12 for beginners: put eight queens on an 8x8 board so none share a row, column, or diagonal. Column-by-column placement, conflict checks, and clean Java backtracking."
 date: "2025-09-16"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-8-12-eight-queens.webp
 previewImage: /assets/images/ctci-8-12-eight-queens.webp
 ---

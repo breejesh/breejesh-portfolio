@@ -2,7 +2,7 @@
 title: "Design a Key-Value Store Like a Coat Check: Put, Get, CAP, and Quorums"
 description: "A beginner-friendly walk through distributed key-value stores. Coat-check put and get, CAP as a simple choice, partitioning as books on shelves, replication as copies, and quorums as librarians who must agree."
 date: "2025-10-28"
-tags: [System Design]
+tags: [System Design & Architecture, Backend & Databases]
 coverImage: /assets/images/design-key-value-store.webp
 previewImage: /assets/images/design-key-value-store.webp
 ---

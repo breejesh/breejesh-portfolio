@@ -2,7 +2,7 @@
 title: "CTCI 1.9 स्ट्रिंग रोटेशन: एक isSubstring कॉल"
 description: "एक isSubstring कॉल से जांचें कि s2, s1 का रोटेशन है या नहीं: s1 को खुद से जोड़ें और पूछें कि s2 अंदर है या नहीं। शुरुआती लोगों के लिए जावा वॉकथ्रू।"
 date: "2026-05-13"
-tags: [एल्गोरिदम]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-1-9-string-rotation.webp
 previewImage: /assets/images/ctci-1-9-string-rotation.webp
 ---

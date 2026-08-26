@@ -2,7 +2,7 @@
 title: "सर्च ऑटोकम्प्लीट सिस्टम डिज़ाइन करें: टाइपअहेड असल में कैसे काम करता है"
 description: "शुरुआती लोगों के लिए सर्च ऑटोकम्प्लीट: प्रीफ़िक्स, अक्षरों का पेड़ (ट्राइ), टॉप सुझाव, जवाब पहले से क्यों बनाते हैं, और डिन टाइप करते हुए अक्षर-अक्षर की सैर।"
 date: "2025-11-14"
-tags: [सिस्टम डिजाइन]
+tags: [सिस्टम डिजाइन और आर्किटेक्चर]
 coverImage: /assets/images/design-search-autocomplete.webp
 previewImage: /assets/images/design-search-autocomplete.webp
 ---

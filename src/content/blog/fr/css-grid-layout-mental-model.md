@@ -2,7 +2,7 @@
 title: "Modèle mental CSS Grid: tracks, zones, fr et minmax"
 description: "Un modèle mental concret de CSS Grid: tracks, zones, unités fr, minmax, auto-fit vs auto-fill, et les layouts que vous montez chaque semaine."
 date: "2026-07-14"
-tags: [Développement Web, Frontend]
+tags: [Frontend et Développement Web]
 coverImage: /assets/images/css-grid-layout-mental-model.webp
 previewImage: /assets/images/css-grid-layout-mental-model.webp
 ---

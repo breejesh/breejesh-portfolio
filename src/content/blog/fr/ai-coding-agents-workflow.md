@@ -2,7 +2,7 @@
 title: "Comment utiliser vraiment les agents de code IA sans livrer de la camelote"
 description: "Habitudes pratiques style Cursor et Copilot: fenêtres de contexte, boucles de revue, tests d'abord avec des agents, et quand rejeter le code IA."
 date: "2026-08-05"
-tags: [IA, Productivité]
+tags: [IA et Machine Learning, Outils Développeur et Régulation]
 coverImage: /assets/images/ai-coding-agents-workflow.webp
 previewImage: /assets/images/ai-coding-agents-workflow.webp
 ---

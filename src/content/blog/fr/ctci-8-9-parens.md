@@ -2,7 +2,7 @@
 title: "Parens: toutes les chaînes de parenthèses valides via compteurs gauche/droite (Java)"
 description: "Problème style CTCI 8.9 pour débutants: générer chaque chaîne valide de n paires de parenthèses. Backtracking avec compteurs d'ouvrantes et fermantes restantes, élaguer tôt les préfixes illégaux, compter les Catalan."
 date: "2026-02-09"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-8-9-parens.webp
 previewImage: /assets/images/ctci-8-9-parens.webp
 ---

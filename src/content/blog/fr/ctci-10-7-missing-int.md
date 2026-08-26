@@ -2,7 +2,7 @@
 title: "Missing Int: Trouver l'Entier Manquant Parmi 4 Milliards de Nombres (CTCI 10.7)"
 description: "Problème CTCI 10.7 en Java: trouver un entier absent de 4 milliards d'entiers avec une mémoire limitée."
 date: "2026-05-08"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-10-7-missing-int.webp
 previewImage: /assets/images/ctci-10-7-missing-int.webp
 ---

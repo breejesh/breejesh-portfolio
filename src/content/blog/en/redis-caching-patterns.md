@@ -2,7 +2,7 @@
 title: "Redis Caching Patterns That Survive Production"
 description: "Cache-aside, stampede control, TTL jitter, invalidation, and hot keys. Patterns that keep Redis useful under real traffic without melting the database."
 date: "2026-07-15"
-tags: [Databases, Backend]
+tags: [Backend & Databases]
 coverImage: /assets/images/redis-caching-patterns.webp
 previewImage: /assets/images/redis-caching-patterns.webp
 ---

@@ -2,7 +2,7 @@
 title: "Validate BST: Min/Max Ranges on a Binary Tree (Java)"
 description: "CTCI-style problem 4.5 for beginners: check whether a binary tree is a binary search tree. Primary approach uses recursive min/max bounds; in-order sorted scan is the optional check."
 date: "2026-03-07"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-4-5-validate-bst.webp
 previewImage: /assets/images/ctci-4-5-validate-bst.webp
 ---

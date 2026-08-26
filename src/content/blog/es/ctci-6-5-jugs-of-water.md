@@ -2,7 +2,7 @@
 title: "Jarras de agua: medir exactamente 4 litros con 3 y 5 (Java)"
 description: "Problema estilo CTCI 6.5 para principiantes: dos jarras de capacidad 3 y 5 litros, medir exactamente 4. Pasos manuales de llenado, identidad de Bézout y BFS opcional en Java sobre estados."
 date: "2025-08-19"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-6-5-jugs-of-water.webp
 previewImage: /assets/images/ctci-6-5-jugs-of-water.webp
 ---

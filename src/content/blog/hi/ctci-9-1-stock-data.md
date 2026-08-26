@@ -2,7 +2,7 @@
 title: "स्टॉक डेटा: उच्च थ्रूपुट वाले वित्तीय डेटा सर्वर का डिजाइन (CTCI 9.1)"
 description: "सीटीसीआई समस्या ९.१: लाखों समवर्ती ग्राहकों को वास्तविक समय में स्टॉक टिकर अपडेट प्रदान करने के लिए वास्तुकला तैयार करें।"
 date: "2026-05-06"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-9-1-stock-data.webp
 previewImage: /assets/images/ctci-9-1-stock-data.webp
 ---

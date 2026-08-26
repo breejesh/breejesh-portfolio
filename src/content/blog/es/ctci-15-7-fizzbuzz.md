@@ -2,7 +2,7 @@
 title: "FizzBuzz: Multi-Threaded Concurrent FizzBuzz in Java (CTCI 15.7)"
 description: "CTCI problem 15.7: multi-threaded FizzBuzz using 4 concurrent threads for numbers divisible by 3, 5, 15, and others."
 date: "2026-03-19"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras, Backend y Bases de Datos]
 coverImage: /assets/images/ctci-15-7-fizzbuzz.webp
 previewImage: /assets/images/ctci-15-7-fizzbuzz.webp
 ---

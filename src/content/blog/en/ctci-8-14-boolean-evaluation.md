@@ -2,7 +2,7 @@
 title: "Boolean Evaluation: Count Ways to Parenthesize an Expression (Java)"
 description: "CTCI-style problem 8.14 for beginners: count how many full parenthesizations of a 0/1 expression with &, |, and ^ evaluate to true or false. Memoized recursion on substrings in Java."
 date: "2025-11-27"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures, Backend & Databases]
 coverImage: /assets/images/ctci-8-14-boolean-evaluation.webp
 previewImage: /assets/images/ctci-8-14-boolean-evaluation.webp
 ---

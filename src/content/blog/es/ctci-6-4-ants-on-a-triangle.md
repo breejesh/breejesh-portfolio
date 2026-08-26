@@ -2,7 +2,7 @@
 title: "Hormigas en un triángulo: probabilidad de que no choquen (Java)"
 description: "Problema estilo CTCI 6.4 para principiantes: tres hormigas en los vértices eligen dirección al azar. Cuenta los 8 casos, marca cuándo solo se persiguen y llega a probabilidad 1/4. Incluye enumeración en Java."
 date: "2025-10-22"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-6-4-ants-on-a-triangle.webp
 previewImage: /assets/images/ctci-6-4-ants-on-a-triangle.webp
 ---

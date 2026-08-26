@@ -2,7 +2,7 @@
 title: "Sales Rank: Classement des Meilleures Ventes E-Commerce en Temps Réel (CTCI 9.6)"
 description: "Problème CTCI 9.6: concevoir un système de classement des ventes e-commerce sur plusieurs fenêtres temporelles."
 date: "2026-04-11"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-9-6-sales-rank.webp
 previewImage: /assets/images/ctci-9-6-sales-rank.webp
 ---

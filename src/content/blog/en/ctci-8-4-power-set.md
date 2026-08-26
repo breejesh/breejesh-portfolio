@@ -2,7 +2,7 @@
 title: "Power Set: All Subsets via Recursion and Bit Masks (Java)"
 description: "CTCI-style problem 8.4 for beginners: return every subset of a set, including empty and full. Recursive build from smaller power sets, optional bit-mask enumeration, and Java code."
 date: "2025-12-13"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-8-4-power-set.webp
 previewImage: /assets/images/ctci-8-4-power-set.webp
 ---

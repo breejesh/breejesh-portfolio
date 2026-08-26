@@ -2,7 +2,7 @@
 title: "CTCI 1.8 Matriz cero: poner filas y columnas a cero in situ (Java)"
 description: "Si una celda es 0, pon toda su fila y columna a 0. Primero fuerza bruta, luego O(1) de espacio extra con banderas en la primera fila y columna en Java."
 date: "2025-10-06"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-1-8-zero-matrix.webp
 previewImage: /assets/images/ctci-1-8-zero-matrix.webp
 ---

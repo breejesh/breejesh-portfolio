@@ -2,7 +2,7 @@
 title: "Sorted Search No Size: Recherche dans une Liste sans Méthode Taille (CTCI 10.4)"
 description: "Problème CTCI 10.4 en Java: rechercher un élément dans une structure Listy sans connaître sa taille."
 date: "2025-11-01"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-10-4-sorted-search-no-size.webp
 previewImage: /assets/images/ctci-10-4-sorted-search-no-size.webp
 ---

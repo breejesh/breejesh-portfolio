@@ -2,7 +2,7 @@
 title: "Letters and Numbers: Find Longest Subarray with Equal Letters and Digits (CTCI 17.5)"
 description: "CTCI problem 17.5: find the longest contiguous subarray containing an equal number of letters and numbers in O(N) time."
 date: "2026-01-10"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-17-5-letters-and-numbers.webp
 previewImage: /assets/images/ctci-17-5-letters-and-numbers.webp
 ---

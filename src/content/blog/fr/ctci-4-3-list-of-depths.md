@@ -2,7 +2,7 @@
 title: "List of Depths: une linked list par niveau d'arbre (Java)"
 description: "Problème style CTCI 4.3 pour débutants: transforme un arbre binaire en une liste de linked lists, une par profondeur. BFS niveau par niveau d'abord, DFS optionnel avec un index de profondeur, en Java clair."
 date: "2025-10-19"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-4-3-list-of-depths.webp
 previewImage: /assets/images/ctci-4-3-list-of-depths.webp
 ---

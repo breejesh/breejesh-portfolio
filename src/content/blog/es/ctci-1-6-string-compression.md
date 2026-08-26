@@ -2,7 +2,7 @@
 title: "CTCI 1.6 Compresión de cadenas en Java: conteos y StringBuilder"
 description: "Comprime rachas de letras (aabcccccaaa a a2b1c5a3) con StringBuilder y devuelve el original cuando la compresión no acorta. Guía en Java con casos límite."
 date: "2025-11-13"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-1-6-string-compression.webp
 previewImage: /assets/images/ctci-1-6-string-compression.webp
 ---

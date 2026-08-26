@@ -2,7 +2,7 @@
 title: "Peaks and Valleys: Trier un Tableau en Pics et Vallées Alternés (CTCI 10.11)"
 description: "Problème CTCI 10.11 en Java: réorganiser un tableau d'entiers en une séquence alternée de pics et vallées en O(N)."
 date: "2026-06-06"
-tags: [Algorithms]
+tags: [Algorithmes et Structures, Outils Développeur et Régulation]
 coverImage: /assets/images/ctci-10-11-peaks-and-valleys.webp
 previewImage: /assets/images/ctci-10-11-peaks-and-valleys.webp
 ---

@@ -2,7 +2,7 @@
 title: "CTCI 2.4 Partition: partir una lista enlazada alrededor de x"
 description: "Reordena una lista enlazada simple para que todo nodo menor que x quede antes que los nodos mayores o iguales a x. Fusión de dos listas en Java y una nota breve de crecimiento head/tail."
 date: "2026-02-01"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-2-4-partition.webp
 previewImage: /assets/images/ctci-2-4-partition.webp
 ---

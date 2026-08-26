@@ -2,7 +2,7 @@
 title: "Conversion: How Many Bits Flip to Turn A into B (Java)"
 description: "CTCI-style problem 5.6 for beginners: count the bits you must flip to convert integer A into B. XOR the two numbers, then count the ones. Brian Kernighan loop and Integer.bitCount."
 date: "2026-02-19"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-5-6-conversion.webp
 previewImage: /assets/images/ctci-5-6-conversion.webp
 ---

@@ -2,7 +2,7 @@
 title: "La crisis de la memoria RAM en 2026: Cómo la burbuja de la IA está asfixiando la tecnología de consumo"
 description: "Cómo la escasez de memoria de 2026, la fiebre de los centros de datos de IA y la demanda de HBM están afectando precios de PC, móviles y consolas."
 date: "2026-07-18"
-tags: [Hardware]
+tags: [Hardware y Semiconductores, Negocios Tech y Finanzas]
 coverImage: /assets/images/ram-prices-bubble.webp
 previewImage: /assets/images/ram-prices-bubble.webp
 ---

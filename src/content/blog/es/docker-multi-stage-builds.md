@@ -2,7 +2,7 @@
 title: "Reduciendo tus imágenes de Docker: El poder de las construcciones multi-etapa"
 description: "Cómo las builds multi-etapa de Docker reducen el tamaño en producción, con benchmarks reales en Go, Node, Java y Python."
 date: "2026-06-28"
-tags: [Contenedores, DevOps]
+tags: [Cloud y DevOps]
 coverImage: /assets/images/docker-optimization.webp
 previewImage: /assets/images/docker-optimization.webp
 ---

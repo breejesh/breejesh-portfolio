@@ -2,7 +2,7 @@
 title: "Loop Detection: trouver le début d'un cycle dans une liste chaînée (Java)"
 description: "Problème style CTCI 2.8 pour débutants: étant donnée une liste chaînée circulaire, renvoyer le nœud où commence la boucle. Tortue et lièvre de Floyd, puis le reset vers head, en Java clair."
 date: "2026-02-12"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-2-8-loop-detection.webp
 previewImage: /assets/images/ctci-2-8-loop-detection.webp
 ---

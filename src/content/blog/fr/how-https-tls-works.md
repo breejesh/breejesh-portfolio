@@ -2,7 +2,7 @@
 title: "Comment HTTPS et TLS fonctionnent pour les développeurs : handshake, certificats, SNI, erreurs"
 description: "Carte pratique du TLS pour ceux qui livrent des apps web : ce que fait vraiment le handshake, comment les certificats prouvent l'identité, pourquoi le SNI compte sur les IP partagées, et les erreurs de config qui cassent encore la prod."
 date: "2026-06-24"
-tags: [Sécurité, Réseaux]
+tags: [Cybersécurité et Réseaux]
 coverImage: /assets/images/how-https-tls-works.webp
 previewImage: /assets/images/how-https-tls-works.webp
 ---

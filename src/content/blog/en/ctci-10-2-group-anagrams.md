@@ -2,7 +2,7 @@
 title: "Group Anagrams: Sort Array of Strings so Anagrams Are Adjacent (CTCI 10.2)"
 description: "CTCI problem 10.2 in Java: group an array of strings such that all anagrams are placed next to each other using HashMap bucket sorting."
 date: "2026-06-19"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-10-2-group-anagrams.webp
 previewImage: /assets/images/ctci-10-2-group-anagrams.webp
 ---

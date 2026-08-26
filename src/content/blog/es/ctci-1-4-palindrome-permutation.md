@@ -2,7 +2,7 @@
 title: "CTCI 1.4 Permutación palíndromo en Java: cuenta impares, no reordenamientos"
 description: "Comprueba si algún reordenamiento de una cadena es un palíndromo. Conteos de frecuencia, como máximo un carácter impar, reglas opcionales de espacio y mayúsculas, y Java claro."
 date: "2025-12-10"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-1-4-palindrome-permutation.webp
 previewImage: /assets/images/ctci-1-4-palindrome-permutation.webp
 ---

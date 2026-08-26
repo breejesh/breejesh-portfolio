@@ -2,7 +2,7 @@
 title: "Paint Fill: Flood Fill a Color Region with DFS or BFS (Java)"
 description: "CTCI-style problem 8.10 for beginners: paint-bucket fill on a 2D screen of colors. Replace a connected region with a new color using recursive DFS or iterative BFS in Java."
 date: "2025-12-26"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-8-10-paint-fill.webp
 previewImage: /assets/images/ctci-8-10-paint-fill.webp
 ---

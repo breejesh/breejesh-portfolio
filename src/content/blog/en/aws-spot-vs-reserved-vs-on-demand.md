@@ -2,7 +2,7 @@
 title: "AWS EC2 Pricing Demystified: On-Demand, Spot, and Reserved Instances"
 description: "Compare AWS EC2 pricing models with real hourly costs, spot interruption mechanics, commitment risks, and a production hybrid strategy."
 date: "2026-06-22"
-tags: [AWS, Cloud]
+tags: [Cloud & DevOps]
 coverImage: /assets/images/aws-spot-reserved-ondemand.webp
 previewImage: /assets/images/aws-spot-reserved-ondemand.webp
 ---

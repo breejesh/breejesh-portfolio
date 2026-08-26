@@ -2,7 +2,7 @@
 title: "Delete Middle Node: borrar un nodo sin acceso al head (Java)"
 description: "Problema estilo CTCI 2.3: borrar un nodo del medio de una lista enlazada simple cuando solo tienes puntero a ese nodo. Copia el valor del siguiente, saltalo, y entiende por que el ultimo nodo no se puede."
 date: "2026-05-14"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-2-3-delete-middle-node.webp
 previewImage: /assets/images/ctci-2-3-delete-middle-node.webp
 ---

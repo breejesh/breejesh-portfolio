@@ -2,7 +2,7 @@
 title: "First Common Ancestor: LCA sin enlaces al padre (Java)"
 description: "Problema estilo CTCI 4.8 para principiantes: encuentra el ancestro común más profundo de dos nodos en un árbol binario (no tiene que ser BST). Prefiere un pase recursivo que devuelve un objeto de estado; subir por parent es la alternativa."
 date: "2026-05-09"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-4-8-first-common-ancestor.webp
 previewImage: /assets/images/ctci-4-8-first-common-ancestor.webp
 ---

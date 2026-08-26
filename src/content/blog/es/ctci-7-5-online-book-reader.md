@@ -2,7 +2,7 @@
 title: "Lector de libros online: User, Library, Display y sesión de lectura (Java OOD)"
 description: "Problema estilo CTCI 7.5 para principiantes: diseña un lector de libros online con User, Book, Library, Display y una sola sesión de lectura activa. Esbozo Java original, no un producto completo."
 date: "2026-04-24"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-7-5-online-book-reader.webp
 previewImage: /assets/images/ctci-7-5-online-book-reader.webp
 ---

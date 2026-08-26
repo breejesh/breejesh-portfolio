@@ -2,7 +2,7 @@
 title: "Boolean Evaluation: contar formas de parentizar una expresión (Java)"
 description: "Problema estilo CTCI 8.14 para principiantes: cuenta cuántas parentizaciones completas de una expresión 0/1 con &, | y ^ dan true o false. Recursión con memo sobre subcadenas en Java."
 date: "2025-11-27"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras, Backend y Bases de Datos]
 coverImage: /assets/images/ctci-8-14-boolean-evaluation.webp
 previewImage: /assets/images/ctci-8-14-boolean-evaluation.webp
 ---

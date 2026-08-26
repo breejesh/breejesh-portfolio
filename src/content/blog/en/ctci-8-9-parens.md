@@ -2,7 +2,7 @@
 title: "Parens: All Valid Parenthesis Strings via Left/Right Counts (Java)"
 description: "CTCI-style problem 8.9 for beginners: generate every valid string of n pairs of parentheses. Backtrack with open and close remaining counts, prune illegal prefixes early, and count Catalan results."
 date: "2026-02-09"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-8-9-parens.webp
 previewImage: /assets/images/ctci-8-9-parens.webp
 ---

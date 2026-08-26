@@ -2,7 +2,7 @@
 title: "Design a Notification System: Push, SMS, Email, Queues, and Reliability"
 description: "How a notification system works, explained for beginners: channels, user preferences, message templates, queues, retries, and the path from an order shipped event to a phone alert."
 date: "2026-06-07"
-tags: [System Design]
+tags: [System Design & Architecture]
 coverImage: /assets/images/design-notification-system.webp
 previewImage: /assets/images/design-notification-system.webp
 ---

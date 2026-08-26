@@ -2,7 +2,7 @@
 title: "सिस्टम डिज़ाइन सीखना जारी रखें: बिल्डिंग ब्लॉक्स, प्रैक्टिस क्रम और यह सीरीज़"
 description: "क्लासिक इंटरव्यू डिज़ाइनों के बाद साधारण भाषा में पुन: प्रयोज्य बिल्डिंग ब्लॉक्स सीखें, शुरुआती प्रैक्टिस क्रम अपनाएँ, और इस ब्लॉग सीरीज़ को अपने अध्ययन मानचित्र की तरह इस्तेमाल करें।"
 date: "2026-01-30"
-tags: [सिस्टम डिजाइन]
+tags: [सिस्टम डिजाइन और आर्किटेक्चर]
 coverImage: /assets/images/design-interview-learning-path.webp
 previewImage: /assets/images/design-interview-learning-path.webp
 ---

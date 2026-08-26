@@ -2,7 +2,7 @@
 title: "Find Duplicates: Trouver les Doublons avec 4 Ko de RAM (CTCI 10.8)"
 description: "Problème CTCI 10.8 en Java: afficher les doublons d'un tableau d'entiers avec un vecteur de bits de 4 Ko."
 date: "2025-08-12"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-10-8-find-duplicates.webp
 previewImage: /assets/images/ctci-10-8-find-duplicates.webp
 ---

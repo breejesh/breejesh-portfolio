@@ -2,7 +2,7 @@
 title: "Diseñar consistent hashing: anillos, nodos virtuales y reasignación mínima"
 description: "Por qué hash(key) % N reseata a casi todos cuando un servidor se va, cómo un anillo de hash mapea claves caminando en sentido horario, nodos virtuales para carga justa, y dónde aparece consistent hashing en cachés, bases de datos y balanceadores."
 date: "2026-01-13"
-tags: [Diseño de sistemas]
+tags: [Diseño de Sistemas y Arquitectura]
 coverImage: /assets/images/design-consistent-hashing.webp
 previewImage: /assets/images/design-consistent-hashing.webp
 ---

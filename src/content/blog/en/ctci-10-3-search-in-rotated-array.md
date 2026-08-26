@@ -2,7 +2,7 @@
 title: "Search in Rotated Array: Find Element in Rotated Sorted Array (CTCI 10.3)"
 description: "CTCI problem 10.3 in Java: modified binary search to locate an element in a sorted array that has been rotated by an unknown offset."
 date: "2026-03-11"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-10-3-search-in-rotated-array.webp
 previewImage: /assets/images/ctci-10-3-search-in-rotated-array.webp
 ---

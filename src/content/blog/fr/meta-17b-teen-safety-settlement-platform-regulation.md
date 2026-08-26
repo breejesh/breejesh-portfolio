@@ -2,7 +2,7 @@
 title: "L'accord de $17 milliards de Meta sur la sécurité des adolescents et la clause conditionnelle qui pourrait transformer les réseaux sociaux"
 description: "52 procureurs généraux d'États, $17-18 milliards sur dix ans, des limites obligatoires de 2 heures par jour pour les mineurs, et une tranche de $5.3 milliards qui ne s'applique que si TikTok et YouTube adoptent des règles comparables. Le plus grand accord sur la sécurité des plateformes constitue aussi un instrument de régulation sans précédent."
 date: "2026-08-26"
-tags: [Meta, Regulation, ReseauxSociaux]
+tags: [Outils Développeur et Régulation]
 coverImage: /assets/images/meta-17b-teen-safety-settlement-platform-regulation.webp
 previewImage: /assets/images/meta-17b-teen-safety-settlement-platform-regulation.webp
 ---

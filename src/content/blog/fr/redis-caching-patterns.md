@@ -2,7 +2,7 @@
 title: "Patterns de cache Redis qui tiennent en production"
 description: "Cache-aside, contrôle de stampede, jitter de TTL, invalidation et hot keys. Patterns pour que Redis reste utile sous trafic réel sans faire fondre la base."
 date: "2026-07-15"
-tags: [Bases de données, Backend]
+tags: [Backend et Bases de Données]
 coverImage: /assets/images/redis-caching-patterns.webp
 previewImage: /assets/images/redis-caching-patterns.webp
 ---

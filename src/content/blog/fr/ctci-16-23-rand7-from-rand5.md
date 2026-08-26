@@ -2,7 +2,7 @@
 title: "Rand7 from Rand5: Implement Random Number Generator 1 to 7 (CTCI 16.23)"
 description: "CTCI problem 16.23: generate uniform random number from 1 to 7 using only a rand5() random generator."
 date: "2025-10-09"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-16-23-rand7-from-rand5.webp
 previewImage: /assets/images/ctci-16-23-rand7-from-rand5.webp
 ---

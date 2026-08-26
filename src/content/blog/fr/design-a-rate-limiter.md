@@ -2,7 +2,7 @@
 title: "Concevoir un rate limiter : algorithmes, patterns Redis et réalité des gateways"
 description: "Le rate limiting pour débutants absolus : analogie du videur de boîte, pourquoi les limites existent, token bucket et sliding window en langage clair, Redis comme carnet partagé, et une requête de bout en bout."
 date: "2026-04-10"
-tags: [Conception de systèmes]
+tags: [Design Système et Architecture]
 coverImage: /assets/images/design-a-rate-limiter.webp
 previewImage: /assets/images/design-a-rate-limiter.webp
 ---

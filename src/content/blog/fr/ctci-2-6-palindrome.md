@@ -2,7 +2,7 @@
 title: "CTCI 2.6 Palindrome en liste chaînée en Java: inverser la seconde moitié"
 description: "Vérifier si une liste chaînée simple est un palindrome. Trouver le milieu avec lente et rapide, inverser la seconde moitié, comparer, restaurer si besoin. O(n) temps, O(1) espace."
 date: "2026-04-01"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-2-6-palindrome.webp
 previewImage: /assets/images/ctci-2-6-palindrome.webp
 ---

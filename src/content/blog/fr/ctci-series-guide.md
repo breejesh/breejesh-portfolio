@@ -2,7 +2,7 @@
 title: "Cracking the Coding Interview en Java: la série complète de problèmes"
 description: "Parcours Java clair pour débutants sur le set classique de problèmes d'entretien style CTCI. Comment la série fonctionne et par où commencer."
 date: "2026-06-03"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-series-guide.webp
 previewImage: /assets/images/ctci-series-guide.webp
 ---

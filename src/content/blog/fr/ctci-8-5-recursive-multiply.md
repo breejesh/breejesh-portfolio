@@ -2,7 +2,7 @@
 title: "Recursive Multiply: produit par doublement et moitié (Java)"
 description: "Problème style CTCI 8.5 pour débutants: multiplier deux entiers positifs sans * ni /. Récursion sur la moitié du plus petit facteur, double le demi-produit, ajoute une fois si impair. Java simple."
 date: "2025-12-29"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-8-5-recursive-multiply.webp
 previewImage: /assets/images/ctci-8-5-recursive-multiply.webp
 ---

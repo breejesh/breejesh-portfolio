@@ -2,7 +2,7 @@
 title: "एआई कोडिंग एजेंटों का सही इस्तेमाल: कचरा कोड बिना उत्पादन में भेजे"
 description: "कर्सर और कोपायलट शैली के व्यावहारिक स्वभाव: संदर्भ विंडो, समीक्षा चक्र, एजेंट के साथ पहले परीक्षण, और एआई कोड कब अस्वीकार करें।"
 date: "2026-08-05"
-tags: [एआई, उत्पादकता]
+tags: [एआई और मशीन लर्निंग, डेवलपर टूल्स और नीतियां]
 coverImage: /assets/images/ai-coding-agents-workflow.webp
 previewImage: /assets/images/ai-coding-agents-workflow.webp
 ---

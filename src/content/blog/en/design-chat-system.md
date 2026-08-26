@@ -2,7 +2,7 @@
 title: "Design a Chat System: Walkie-Talkies, Post Offices, and Green Ticks"
 description: "Chat system design for absolute beginners: live online path vs history storage, 1:1 and small groups, presence, delivery ticks, and how to explain the whole design to a friend."
 date: "2025-11-19"
-tags: [System Design]
+tags: [System Design & Architecture, Backend & Databases]
 coverImage: /assets/images/design-chat-system.webp
 previewImage: /assets/images/design-chat-system.webp
 ---

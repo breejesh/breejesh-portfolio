@@ -2,7 +2,7 @@
 title: "Duplicate URLs: Détecter les Doublons Parmi 10 Milliards d'URLs (CTCI 9.4)"
 description: "Problème CTCI 9.4: identifier les URLs en double dans un ensemble de 10 milliards d'URLs avec une mémoire limitée."
 date: "2026-04-23"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-9-4-duplicate-urls.webp
 previewImage: /assets/images/ctci-9-4-duplicate-urls.webp
 ---

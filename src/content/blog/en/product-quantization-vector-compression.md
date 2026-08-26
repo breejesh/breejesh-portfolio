@@ -2,7 +2,7 @@
 title: "Product Quantization: Compressing High-Dimensional Vectors by 97%"
 description: "How Product Quantization splits vectors into subvector codebooks, compresses 3,072 bytes down to 8 bytes per vector, and uses ADC lookup tables to search 92x faster in Faiss."
 date: "2026-08-08"
-tags: [VectorSearch, MachineLearning, Faiss, Python]
+tags: [Backend & Databases, AI & Machine Learning]
 coverImage: /assets/images/product-quantization-vector-compression.webp
 previewImage: /assets/images/product-quantization-vector-compression.webp
 ---

@@ -2,7 +2,7 @@
 title: "El Fin del Programador Solitario: Slack Code y el Desarrollo de Software Colaborativo"
 description: "Salesforce y Slack presentan Slack Code, integrando Devin, Claude Code y Copilot en canales de equipo para transformar la programacion con IA en un flujo colaborativo."
 date: "2026-08-14"
-tags: [IA, IngenieriaDeSoftware, Slack, Anthropic, DevOps]
+tags: [IA y Machine Learning, Cloud y DevOps]
 coverImage: /assets/images/slack-code-multiplayer-ai-coding-agents.webp
 previewImage: /assets/images/slack-code-multiplayer-ai-coding-agents.webp
 ---

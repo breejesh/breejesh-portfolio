@@ -2,7 +2,7 @@
 title: "SQL Window Functions That Stick: ROW_NUMBER, RANK, LAG, and Running Totals"
 description: "A practical guide to SQL window functions: partitions, ROW_NUMBER vs RANK, LAG/LEAD period diffs, running totals, and the CTE filter pattern you need every week."
 date: "2026-07-12"
-tags: [Databases]
+tags: [Backend & Databases]
 coverImage: /assets/images/sql-window-functions-guide.webp
 previewImage: /assets/images/sql-window-functions-guide.webp
 ---

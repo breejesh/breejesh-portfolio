@@ -2,7 +2,7 @@
 title: "Most Popular Programming Languages in 2026: Trends, Data, and What to Learn Next"
 description: "A visual, data-driven look at programming language popularity in 2026, featuring TIOBE pie charts, GitHub contributor bar charts, Stack Overflow developer sentiment, and career insights."
 date: "2026-08-12"
-tags: [Programming, Software Engineering, Career]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/most-popular-programming-languages-trends-2026.webp
 previewImage: /assets/images/most-popular-programming-languages-trends-2026.webp
 ---

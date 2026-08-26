@@ -2,7 +2,7 @@
 title: "मिडिल नोड मिटाओ: हेड के बिना नोड हटाएँ (जावा)"
 description: "सीटीसीआई शैली समस्या २.३: सिंगली लिंक्ड लिस्ट के बीच का नोड सिर्फ उसी नोड के पॉइंटर से मिटाएँ। अगला मान कॉपी करो, अगला छोड़ो, और समझो आखिरी नोड क्यों फेल होता है।"
 date: "2026-05-14"
-tags: [एल्गोरिदम]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-2-3-delete-middle-node.webp
 previewImage: /assets/images/ctci-2-3-delete-middle-node.webp
 ---

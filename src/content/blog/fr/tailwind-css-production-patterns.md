@@ -2,7 +2,7 @@
 title: "Patterns Tailwind CSS en production: layouts, composants, dark mode"
 description: "Comment les équipes gardent Tailwind maintenable à l'échelle: systèmes de layout, extraction de composants, dark mode stable, et habitudes anti class soup."
 date: "2026-07-22"
-tags: [Développement Web, Frontend]
+tags: [Frontend et Développement Web]
 coverImage: /assets/images/tailwind-css-production-patterns.webp
 previewImage: /assets/images/tailwind-css-production-patterns.webp
 ---

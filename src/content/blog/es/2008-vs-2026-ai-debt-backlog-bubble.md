@@ -2,7 +2,7 @@
 title: "2008 vs 2026: Por qué el auge de $2.1B en IA se basa en la misma promesa rota que las hipotecas subprime"
 description: "Cómo los préstamos hipotecarios con tasa gancho de 2006 y los contratos de centros de datos de IA de 2026 comparten el mismo fallo: deudas diseñadas para renovarse con nuevos préstamos en lugar de pagarse con beneficios reales, que se rompen en cuanto el crecimiento se frena."
 date: "2026-08-11"
-tags: [IA, Finanzas, Economía]
+tags: [IA y Machine Learning, Negocios Tech y Finanzas]
 coverImage: /assets/images/2008-vs-2026-ai-debt-backlog-bubble.webp
 previewImage: /assets/images/2008-vs-2026-ai-debt-backlog-bubble.webp
 ---

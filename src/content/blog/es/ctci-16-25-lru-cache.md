@@ -2,7 +2,7 @@
 title: "LRU Cache: Implementar Caché Menos Utilizada Recientemente (CTCI 16.25)"
 description: "Problema CTCI 16.25 en Java: diseñar y construir una caché LRU con operaciones get y put en tiempo O(1) usando HashMap y Lista Doblemente Enlazada."
 date: "2026-04-09"
-tags: [Algoritmos, Estructuras de Datos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-16-25-lru-cache.webp
 previewImage: /assets/images/ctci-16-25-lru-cache.webp
 ---

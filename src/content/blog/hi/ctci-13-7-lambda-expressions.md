@@ -2,7 +2,7 @@
 title: "Lambda Expressions: Functional Interfaces & Streams in Java (CTCI 13.7)"
 description: "CTCI problem 13.7: using Java 8+ Lambda expressions and Streams to filter, map, and reduce collections cleanly."
 date: "2026-04-04"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-13-7-lambda-expressions.webp
 previewImage: /assets/images/ctci-13-7-lambda-expressions.webp
 ---

@@ -2,7 +2,7 @@
 title: "CTCI 2.7 Intersection: Find Where Two Lists Share a Node (Java)"
 description: "Given two singly linked lists, return the first shared node by reference (not value). Same tail means they merge; align lengths, then walk together."
 date: "2025-12-18"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-2-7-intersection.webp
 previewImage: /assets/images/ctci-2-7-intersection.webp
 ---

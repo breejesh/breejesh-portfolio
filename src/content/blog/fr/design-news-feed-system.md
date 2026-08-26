@@ -2,7 +2,7 @@
 title: "Concevoir un système de news feed (guide débutant): fan-out, ranking et cache"
 description: "Guide en langage simple du news feed social: fan-out à l'écriture vs à la lecture comme remplir les boîtes aux lettres vs consulter le tableau d'affichage, ranking, cache et le problème des célébrités."
 date: "2025-10-05"
-tags: [Conception de systèmes]
+tags: [Design Système et Architecture, Backend et Bases de Données]
 coverImage: /assets/images/design-news-feed-system.webp
 previewImage: /assets/images/design-news-feed-system.webp
 ---

@@ -2,7 +2,7 @@
 title: "The Apocalypse: Boys, Girls, and a Policy That Still Hits 50/50 (Java)"
 description: "CTCI-style problem 6.7 for beginners: families keep having kids until a boy, then stop. Ratio of boys to girls is still about 1:1. Infinite series proof and a short Java simulation."
 date: "2026-04-18"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-6-7-the-apocalypse.webp
 previewImage: /assets/images/ctci-6-7-the-apocalypse.webp
 ---

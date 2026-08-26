@@ -2,7 +2,7 @@
 title: "Index PostgreSQL qui comptent: B-tree, partiels, composites, covering"
 description: "Quels index Postgres baissent vraiment la latence: B-tree par défaut, filtres partiels, ordre des colonnes composites, INCLUDE covering, et quand un index vous freine."
 date: "2026-07-16"
-tags: [Bases de données]
+tags: [Backend et Bases de Données]
 coverImage: /assets/images/postgres-indexes-that-matter.webp
 previewImage: /assets/images/postgres-indexes-that-matter.webp
 ---

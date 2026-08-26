@@ -2,7 +2,7 @@
 title: "Handling Database Connections at Scale in Serverless Functions"
 description: "How to avoid database connection exhaustion in AWS Lambda and manage connection pools effectively."
 date: "2026-07-13"
-tags: [Databases, Cloud, Backend]
+tags: [Backend & Databases, Cloud & DevOps]
 coverImage: /assets/images/serverless-database.webp
 previewImage: /assets/images/serverless-database.webp
 ---

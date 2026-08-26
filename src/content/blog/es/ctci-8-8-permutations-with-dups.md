@@ -2,7 +2,7 @@
 title: "Permutaciones con duplicados: cadenas únicas con mapa de frecuencias (Java)"
 description: "Problema estilo CTCI 8.8 para principiantes: lista cada permutación única de un string que puede tener caracteres repetidos. Mapa de frecuencias, backtracking por conteos restantes, sin el estallido n! de swaps ingenuos."
 date: "2026-01-05"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-8-8-permutations-with-dups.webp
 previewImage: /assets/images/ctci-8-8-permutations-with-dups.webp
 ---

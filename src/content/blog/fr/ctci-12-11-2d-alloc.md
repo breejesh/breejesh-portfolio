@@ -2,7 +2,7 @@
 title: "2D Alloc: Allocate 2D Array in C with Single Malloc (CTCI 12.11)"
 description: "CTCI problem 12.11 in C: allocate a 2D array dynamically using a single malloc call to guarantee memory contiguity."
 date: "2025-09-30"
-tags: [Algorithms]
+tags: [Algorithmes et Structures, Backend et Bases de Données, Outils Développeur et Régulation]
 coverImage: /assets/images/ctci-12-11-2d-alloc.webp
 previewImage: /assets/images/ctci-12-11-2d-alloc.webp
 ---

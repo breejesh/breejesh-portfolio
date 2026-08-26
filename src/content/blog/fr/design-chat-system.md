@@ -2,7 +2,7 @@
 title: "Concevoir un système de chat : talkies-walkies, bureau de poste et coches vertes"
 description: "Conception d'un système de chat pour débutants absolus : chemin en ligne en direct contre stockage de l'historique, 1:1 et petits groupes, présence, coches de livraison, et comment tout expliquer à un ami."
 date: "2025-11-19"
-tags: [Conception de systèmes]
+tags: [Design Système et Architecture, Backend et Bases de Données]
 coverImage: /assets/images/design-chat-system.webp
 previewImage: /assets/images/design-chat-system.webp
 ---

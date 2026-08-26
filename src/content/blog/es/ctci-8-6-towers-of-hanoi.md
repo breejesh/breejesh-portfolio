@@ -2,7 +2,7 @@
 title: "Torres de Hanoi: Mover n discos con tres postes (Java)"
 description: "Problema 8.6 estilo CTCI para principiantes: Torres de Hanoi clásicas con tres postes y n discos. Movimiento recursivo de la torre superior, stacks de Java en cada poste."
 date: "2025-08-02"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-8-6-towers-of-hanoi.webp
 previewImage: /assets/images/ctci-8-6-towers-of-hanoi.webp
 ---

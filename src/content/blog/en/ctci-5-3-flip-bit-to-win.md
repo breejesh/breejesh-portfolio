@@ -2,7 +2,7 @@
 title: "Flip Bit to Win: Longest Ones After One Flip (Java)"
 description: "CTCI-style problem 5.3 for beginners: flip one 0-bit in an integer to maximize consecutive 1s. Track runs of ones separated by zeros, merge across a single zero, plain Java."
 date: "2026-01-16"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-5-3-flip-bit-to-win.webp
 previewImage: /assets/images/ctci-5-3-flip-bit-to-win.webp
 ---

@@ -2,7 +2,7 @@
 title: "Jugs of Water: Measure Exactly 4 Liters with 3 and 5 (Java)"
 description: "CTCI-style problem 6.5 for beginners: two jugs of capacity 3 and 5 liters, measure exactly 4. Manual pour steps, Bézout identity, and optional Java BFS over jug states."
 date: "2025-08-19"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-6-5-jugs-of-water.webp
 previewImage: /assets/images/ctci-6-5-jugs-of-water.webp
 ---

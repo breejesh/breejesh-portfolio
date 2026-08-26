@@ -2,7 +2,7 @@
 title: "Ingeniería de prompts que sí funciona para ingenieros de producto"
 description: "Estructura, few-shot, restricciones duras, bucles de evaluación y fallos habituales. Manual práctico para features con LLM, no demos de chat."
 date: "2026-07-31"
-tags: [IA]
+tags: [IA y Machine Learning]
 coverImage: /assets/images/prompt-engineering-that-works.webp
 previewImage: /assets/images/prompt-engineering-that-works.webp
 ---

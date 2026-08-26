@@ -2,7 +2,7 @@
 title: "Sorted Merge: Fusionner deux Tableaux Triés sur Place (CTCI 10.1)"
 description: "Problème CTCI 10.1 en Java: fusionner deux tableaux triés A et B dans A en travaillant de la fin vers le début."
 date: "2026-02-18"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-10-1-sorted-merge.webp
 previewImage: /assets/images/ctci-10-1-sorted-merge.webp
 ---

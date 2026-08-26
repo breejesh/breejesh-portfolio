@@ -2,7 +2,7 @@
 title: "PostgreSQL Indexes That Matter: B-tree, Partial, Composite, Covering"
 description: "Which Postgres indexes actually move latency: B-tree defaults, partial filters, composite column order, covering INCLUDE, and when indexes slow you down."
 date: "2026-07-16"
-tags: [Databases]
+tags: [Backend & Databases]
 coverImage: /assets/images/postgres-indexes-that-matter.webp
 previewImage: /assets/images/postgres-indexes-that-matter.webp
 ---

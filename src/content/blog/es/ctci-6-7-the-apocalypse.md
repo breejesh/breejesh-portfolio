@@ -2,7 +2,7 @@
 title: "The Apocalypse: niños, niñas y una regla que sigue en 50/50 (Java)"
 description: "Problema estilo CTCI 6.7 para principiantes: las familias tienen hijos hasta un niño y paran. La proporción niños/niñas sigue cerca de 1:1. Serie infinita y una simulación corta en Java."
 date: "2026-04-18"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-6-7-the-apocalypse.webp
 previewImage: /assets/images/ctci-6-7-the-apocalypse.webp
 ---

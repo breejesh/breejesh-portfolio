@@ -2,7 +2,7 @@
 title: "Design Consistent Hashing: Rings, Virtual Nodes, and Minimal Remapping"
 description: "Why hash(key) % N reseats almost everyone when one server leaves, how a hash ring maps keys by walking clockwise, virtual nodes for fair load, and where consistent hashing shows up in caches, databases, and load balancers."
 date: "2026-01-13"
-tags: [System Design]
+tags: [System Design & Architecture]
 coverImage: /assets/images/design-consistent-hashing.webp
 previewImage: /assets/images/design-consistent-hashing.webp
 ---

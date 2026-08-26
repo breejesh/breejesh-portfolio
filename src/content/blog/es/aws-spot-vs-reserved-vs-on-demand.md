@@ -2,7 +2,7 @@
 title: "Modelos de Precios de AWS EC2: Comparativa de On-Demand, Spot e Instancias Reservadas"
 description: "Compara los modelos de precios de AWS EC2 con costes por hora reales, mecanica de interrupcion spot, riesgos de compromiso y estrategia hibrida."
 date: "2026-06-22"
-tags: [AWS, Nube]
+tags: [Cloud y DevOps]
 coverImage: /assets/images/aws-spot-reserved-ondemand.webp
 previewImage: /assets/images/aws-spot-reserved-ondemand.webp
 ---

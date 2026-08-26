@@ -2,7 +2,7 @@
 title: "Design Grade Database: Relational Database Schema for School Grades (CTCI 14.7)"
 description: "CTCI problem 14.7: complete relational database schema design for tracking students, courses, professors, and grade histories."
 date: "2025-10-14"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं, बैकएंड और डेटाबेस]
 coverImage: /assets/images/ctci-14-7-design-grade-database.webp
 previewImage: /assets/images/ctci-14-7-design-grade-database.webp
 ---

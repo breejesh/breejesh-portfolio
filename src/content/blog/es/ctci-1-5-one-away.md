@@ -2,7 +2,7 @@
 title: "CTCI 1.5 One Away: una edición, un pase en Java"
 description: "Comprueba si dos cadenas difieren en como máximo un insert, un remove o un replace. Regla de longitudes, un solo recorrido con punteros y Java claro para explicar en voz alta."
 date: "2025-08-05"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-1-5-one-away.webp
 previewImage: /assets/images/ctci-1-5-one-away.webp
 ---

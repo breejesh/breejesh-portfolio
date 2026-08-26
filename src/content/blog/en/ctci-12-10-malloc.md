@@ -2,7 +2,7 @@
 title: "Malloc: Implement Aligned Malloc and Free in C (CTCI 12.10)"
 description: "CTCI problem 12.10 in C: implement aligned_malloc and aligned_free to meet hardware memory alignment constraints."
 date: "2026-03-16"
-tags: [Algorithms, Systems]
+tags: [Algorithms & Data Structures, Backend & Databases]
 coverImage: /assets/images/ctci-12-10-malloc.webp
 previewImage: /assets/images/ctci-12-10-malloc.webp
 ---

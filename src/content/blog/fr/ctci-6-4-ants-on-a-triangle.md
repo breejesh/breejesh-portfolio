@@ -2,7 +2,7 @@
 title: "Fourmis sur un triangle: probabilité qu'elles ne se rencontrent pas (Java)"
 description: "Problème style CTCI 6.4 pour débutants: trois fourmis aux sommets choisissent une direction au hasard. Compte les 8 cas, marque quand elles ne font que se suivre, et obtient la probabilité 1/4. Énumération Java incluse."
 date: "2025-10-22"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-6-4-ants-on-a-triangle.webp
 previewImage: /assets/images/ctci-6-4-ants-on-a-triangle.webp
 ---

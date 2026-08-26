@@ -2,7 +2,7 @@
 title: "CTCI 1.2 Check Permutation: Same Letters, Different Order (Java)"
 description: "Decide if two strings are permutations of each other. Scrabble-tile analogy, sort vs count array vs HashMap in Java, complexity, and edge cases for beginners."
 date: "2026-01-24"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-1-2-check-permutation.webp
 previewImage: /assets/images/ctci-1-2-check-permutation.webp
 ---

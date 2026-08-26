@@ -2,7 +2,7 @@
 title: "Jigsaw: Emparejar bordes IN OUT FLAT para armar el tablero (Java)"
 description: "Problema 7.6 estilo CTCI para principiantes: modela piezas de rompecabezas con cuatro bordes (INNER, OUTER, FLAT), rotalas y llena un tablero N por N emparejando lados opuestos. Diseño de objetos y un esbozo de solver en Java."
 date: "2026-01-20"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-7-6-jigsaw.webp
 previewImage: /assets/images/ctci-7-6-jigsaw.webp
 ---

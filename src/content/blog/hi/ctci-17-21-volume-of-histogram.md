@@ -2,7 +2,7 @@
 title: "Volume of Histogram: Trapping Rain Water DP / Two-Pointer Solution (CTCI 17.21)"
 description: "CTCI problem 17.21: compute total volume of water trapped between bars in a 2D histogram in O(N) time."
 date: "2026-03-01"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-17-21-volume-of-histogram.webp
 previewImage: /assets/images/ctci-17-21-volume-of-histogram.webp
 ---

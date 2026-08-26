@@ -2,7 +2,7 @@
 title: "सीटीसीआई २.७ इंटरसेक्शन: जहाँ दो लिस्ट एक ही नोड साझा करती हैं (जावा)"
 description: "दो सिंगली लिंक्ड लिस्ट दी हों तो संदर्भ से पहला साझा नोड लौटाओ (मान से नहीं)। एक ही टेल मतलब मिलन; लंबाई मिलाओ, फिर साथ चलो।"
 date: "2025-12-18"
-tags: [एल्गोरिदम]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-2-7-intersection.webp
 previewImage: /assets/images/ctci-2-7-intersection.webp
 ---

@@ -2,7 +2,7 @@
 title: "Personal Financial Manager: Bank Account Aggregation System (CTCI 9.7)"
 description: "CTCI problem 9.7: architecture for a personal finance app connecting multiple bank feeds, categorizing transactions, and generating insights."
 date: "2026-01-28"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-9-7-personal-financial-manager.webp
 previewImage: /assets/images/ctci-9-7-personal-financial-manager.webp
 ---

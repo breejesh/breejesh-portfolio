@@ -2,7 +2,7 @@
 title: "CTCI 1.7 Rotate Matrix: girar una cuadrícula NxN 90 grados in place (Java)"
 description: "Rota una matriz NxN 90 grados en sentido horario sin una segunda matriz. Intercambio de 4 celdas capa a capa en Java, con diagramas en texto y casos límite."
 date: "2025-11-12"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-1-7-rotate-matrix.webp
 previewImage: /assets/images/ctci-1-7-rotate-matrix.webp
 ---

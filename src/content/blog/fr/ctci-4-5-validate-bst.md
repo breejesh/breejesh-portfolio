@@ -2,7 +2,7 @@
 title: "Validate BST: plages min/max sur un arbre binaire (Java)"
 description: "Problème style CTCI 4.5 pour débutants: vérifier si un arbre binaire est un arbre binaire de recherche. L'approche principale utilise des bornes min/max récursives; le parcours infixe trié est le contrôle optionnel."
 date: "2026-03-07"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-4-5-validate-bst.webp
 previewImage: /assets/images/ctci-4-5-validate-bst.webp
 ---

@@ -2,7 +2,7 @@
 title: "Diseñar un limitador de tasa: algoritmos, patrones Redis y la realidad del gateway"
 description: "Rate limiting para principiantes absolutos: analogía del portero del club, por qué existen los límites, token bucket y sliding window en lenguaje claro, Redis como cuaderno compartido, y una petición de principio a fin."
 date: "2026-04-10"
-tags: [Diseño de sistemas]
+tags: [Diseño de Sistemas y Arquitectura]
 coverImage: /assets/images/design-a-rate-limiter.webp
 previewImage: /assets/images/design-a-rate-limiter.webp
 ---

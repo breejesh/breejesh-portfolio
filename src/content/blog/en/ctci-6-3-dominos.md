@@ -2,7 +2,7 @@
 title: "Dominos: Why a Mutilated Chessboard Cannot Be Tiled (Java)"
 description: "CTCI-style problem 6.3 for beginners: 8x8 board with two opposite corners removed, 31 dominos. Coloring invariant proves it is impossible. Counts, board sketch, and optional Java visualization."
 date: "2025-11-20"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-6-3-dominos.webp
 previewImage: /assets/images/ctci-6-3-dominos.webp
 ---

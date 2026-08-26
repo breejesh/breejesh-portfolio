@@ -2,7 +2,7 @@
 title: "Pastebin: Service de Stockage de Extraits de Texte Évolutif (CTCI 9.8)"
 description: "Problème CTCI 9.8: conception complète d'un service Pastebin avec génération de cles courtes et expiration."
 date: "2026-06-11"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-9-8-pastebin.webp
 previewImage: /assets/images/ctci-9-8-pastebin.webp
 ---

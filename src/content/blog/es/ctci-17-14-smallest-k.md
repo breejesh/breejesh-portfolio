@@ -2,7 +2,7 @@
 title: "Smallest K: Find Smallest K Elements via QuickSelect / Max-Heap (CTCI 17.14)"
 description: "CTCI problem 17.14: find the smallest K numbers in an array using QuickSelect in O(N) average time."
 date: "2025-08-24"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras, Backend y Bases de Datos]
 coverImage: /assets/images/ctci-17-14-smallest-k.webp
 previewImage: /assets/images/ctci-17-14-smallest-k.webp
 ---

@@ -2,7 +2,7 @@
 title: "Zunify: Reimaginando el Icónico Reproductor Zune para la Web Moderna"
 description: "Una mirada a Zunify, un reproductor de música ligero y offline-first que revive la interfaz tipográfica de finales de los 2000 usando Angular 19, Dexie.js y File System Access API."
 date: "2026-07-09"
-tags: [Desarrollo Web, Frontend]
+tags: [Frontend y Desarrollo Web]
 coverImage: /assets/images/zunify-music.webp
 previewImage: /assets/images/zunify-music.webp
 ---

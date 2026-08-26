@@ -2,7 +2,7 @@
 title: "Call Center: Ranks, Escalation, and dispatchCall (Java)"
 description: "CTCI-style problem 7.2 for beginners: respondents, managers, and directors. Route every call to the lowest free rank that can handle it, escalate when needed, and implement dispatchCall."
 date: "2025-09-26"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-7-2-call-center.webp
 previewImage: /assets/images/ctci-7-2-call-center.webp
 ---

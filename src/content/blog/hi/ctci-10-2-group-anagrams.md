@@ -2,7 +2,7 @@
 title: "ग्रुप अनाग्राम्स: स्ट्रिंग्स के ऐरे को इस तरह व्यवस्थित करें कि अनाग्राम्स एक साथ हों (CTCI 10.2)"
 description: "सीटीसीआई समस्या १०.२: हैशमैप बकेट सॉर्टिंग का उपयोग करके सभी अनाग्राम्स को एक साथ समूहित करें।"
 date: "2026-06-19"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-10-2-group-anagrams.webp
 previewImage: /assets/images/ctci-10-2-group-anagrams.webp
 ---

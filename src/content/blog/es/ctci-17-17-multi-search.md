@@ -2,7 +2,7 @@
 title: "Multi Search: Search Multiple Small Strings in Large Text via Aho-Corasick / Trie (CTCI 17.17)"
 description: "CTCI problem 17.17: search a big string for all occurrences of a set of smaller target strings using Suffix Trie."
 date: "2025-12-04"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-17-17-multi-search.webp
 previewImage: /assets/images/ctci-17-17-multi-search.webp
 ---

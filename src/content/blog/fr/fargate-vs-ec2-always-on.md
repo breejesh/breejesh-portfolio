@@ -2,7 +2,7 @@
 title: "Fargate vs EC2 pour les services always-on : quand la prime n'a plus de sens"
 description: "Fargate convient bien au travail en pics. Pour les API et workers qui ne dorment jamais, la prime par vCPU s'accumule. Voici le calcul 2026 et le trade-off ops."
 date: "2026-06-23"
-tags: [AWS, Cloud]
+tags: [Cloud et DevOps]
 coverImage: /assets/images/fargate-vs-ec2-always-on.webp
 previewImage: /assets/images/fargate-vs-ec2-always-on.webp
 ---

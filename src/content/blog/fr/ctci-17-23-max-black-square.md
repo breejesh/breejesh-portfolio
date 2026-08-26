@@ -2,7 +2,7 @@
 title: "Max Black Square: Find Largest Square Submatrix with Black Borders (CTCI 17.23)"
 description: "CTCI problem 17.23: find largest square in N x N grid where all 4 borders are black pixels."
 date: "2025-12-15"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-17-23-max-black-square.webp
 previewImage: /assets/images/ctci-17-23-max-black-square.webp
 ---

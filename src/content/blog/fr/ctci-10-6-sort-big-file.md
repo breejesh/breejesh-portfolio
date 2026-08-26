@@ -2,7 +2,7 @@
 title: "Sort Big File: Tri Externe pour Fichier de 20 Go avec 2 Go de RAM (CTCI 10.6)"
 description: "Problème CTCI 10.6: algorithme de tri par fusion externe pour trier un fichier massif de 20 Go avec 2 Go de RAM."
 date: "2025-09-13"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-10-6-sort-big-file.webp
 previewImage: /assets/images/ctci-10-6-sort-big-file.webp
 ---

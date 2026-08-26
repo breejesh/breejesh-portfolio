@@ -2,7 +2,7 @@
 title: "Insertion: Slot Integer M into N Between Bits i and j (Java)"
 description: "CTCI-style problem 5.1 for beginners: clear bits i through j in N, shift M by i, then OR. Bit masks, a walk-through on the classic example, and Java code."
 date: "2025-10-17"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-5-1-insertion.webp
 previewImage: /assets/images/ctci-5-1-insertion.webp
 ---

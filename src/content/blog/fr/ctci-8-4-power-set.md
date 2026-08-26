@@ -2,7 +2,7 @@
 title: "Power Set: tous les sous-ensembles par récursion et masques de bits (Java)"
 description: "Problème style CTCI 8.4 pour débutants: renvoyer chaque sous-ensemble d'un ensemble, y compris le vide et le complet. Construction récursive, énumération optionnelle par masques de bits, et code Java."
 date: "2025-12-13"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-8-4-power-set.webp
 previewImage: /assets/images/ctci-8-4-power-set.webp
 ---

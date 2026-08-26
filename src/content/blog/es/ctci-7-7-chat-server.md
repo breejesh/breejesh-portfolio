@@ -2,7 +2,7 @@
 title: "Chat Server: usuarios, conversaciones, mensajes y estado (OOD en Java)"
 description: "Problema estilo CTCI 7.7 para principiantes: diseña un servidor de chat en Java con User, PrivateChat y GroupChat, Message, presencia y solicitudes de amistad. Primero el alcance, luego las clases."
 date: "2026-03-04"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras, Diseño de Sistemas y Arquitectura]
 coverImage: /assets/images/ctci-7-7-chat-server.webp
 previewImage: /assets/images/ctci-7-7-chat-server.webp
 ---

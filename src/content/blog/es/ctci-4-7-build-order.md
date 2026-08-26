@@ -2,7 +2,7 @@
 title: "Build Order: dependencias de proyectos con orden topológico (Java)"
 description: "Problema estilo CTCI 4.7 para principiantes: proyectos y pares de dependencias, encuentra un orden de compilación válido o falla si hay un ciclo. Cola de indegree de Kahn y DFS en Java claro."
 date: "2026-04-28"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-4-7-build-order.webp
 previewImage: /assets/images/ctci-4-7-build-order.webp
 ---

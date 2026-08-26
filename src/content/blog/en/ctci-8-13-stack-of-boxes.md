@@ -2,7 +2,7 @@
 title: "Stack of Boxes: Tallest Strictly Decreasing Stack (Java)"
 description: "CTCI-style problem 8.13 for beginners: stack boxes only when width, depth, and height are all strictly smaller. Sort one dimension, then DP with memo for the max total height."
 date: "2026-02-26"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-8-13-stack-of-boxes.webp
 previewImage: /assets/images/ctci-8-13-stack-of-boxes.webp
 ---

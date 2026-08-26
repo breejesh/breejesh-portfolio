@@ -2,7 +2,7 @@
 title: "CTCI 1.7 Rotate Matrix: Turn an NxN Grid 90 Degrees In Place (Java)"
 description: "Rotate an NxN matrix 90 degrees clockwise without a second matrix. Layer-by-layer 4-way swap in Java, with text diagrams and edge cases for interviews."
 date: "2025-11-12"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-1-7-rotate-matrix.webp
 previewImage: /assets/images/ctci-1-7-rotate-matrix.webp
 ---

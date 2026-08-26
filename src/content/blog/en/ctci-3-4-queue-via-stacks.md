@@ -2,7 +2,7 @@
 title: "Queue via Stacks: Build a FIFO Queue with Two LIFO Stacks (Java)"
 description: "CTCI-style problem 3.4 for beginners: implement MyQueue with stackNewest and stackOldest. Push to one, shift only when dequeue or peek needs data. Amortized O(1) in plain Java."
 date: "2025-10-24"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-3-4-queue-via-stacks.webp
 previewImage: /assets/images/ctci-3-4-queue-via-stacks.webp
 ---

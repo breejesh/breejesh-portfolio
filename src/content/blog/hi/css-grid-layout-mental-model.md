@@ -2,7 +2,7 @@
 title: "सीएसएस ग्रिड लेआउट मानसिक मॉडल: ट्रैक, एरिया, फ्र और मिनमैक्स"
 description: "सीएसएस ग्रिड का व्यावहारिक मानसिक मॉडल: ट्रैक, एरिया, फ्र इकाई, मिनमैक्स, ऑटो-फिट बनाम ऑटो-फिल, और वे लेआउट जो हर हफ्ते बनते हैं।"
 date: "2026-07-14"
-tags: [वेब विकास, फ्रंटएंड]
+tags: [फ्रंटएंड और वेब डेवलपमेंट]
 coverImage: /assets/images/css-grid-layout-mental-model.webp
 previewImage: /assets/images/css-grid-layout-mental-model.webp
 ---

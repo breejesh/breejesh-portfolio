@@ -2,7 +2,7 @@
 title: "FizzBuzz Multithreaded: Concurrency Synchronization in Java (CTCI 15.7)"
 description: "CTCI problem 15.7 in Java: implement a multithreaded FizzBuzz using synchronized state coordination across four worker threads."
 date: "2026-04-03"
-tags: [Algorithms, Concurrency]
+tags: [Algorithms & Data Structures, Backend & Databases]
 coverImage: /assets/images/ctci-15-7-fizzbuzz.webp
 previewImage: /assets/images/ctci-15-7-fizzbuzz.webp
 ---

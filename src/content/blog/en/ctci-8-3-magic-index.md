@@ -2,7 +2,7 @@
 title: "Magic Index: Find i Where A[i] Equals i (Java)"
 description: "CTCI-style problem 8.3 for beginners: in a sorted array find an index i with A[i] == i. Distinct values get a binary search. Duplicates need both sides with narrowed bounds."
 date: "2026-05-01"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-8-3-magic-index.webp
 previewImage: /assets/images/ctci-8-3-magic-index.webp
 ---

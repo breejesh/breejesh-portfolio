@@ -2,7 +2,7 @@
 title: "CTCI 1.4 Palindrome Permutation in Java: Count Odds, Not Rearrangements"
 description: "Check if any rearrangement of a string is a palindrome. Frequency counts, at most one odd character, optional space and case rules, and clean Java."
 date: "2025-12-10"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-1-4-palindrome-permutation.webp
 previewImage: /assets/images/ctci-1-4-palindrome-permutation.webp
 ---

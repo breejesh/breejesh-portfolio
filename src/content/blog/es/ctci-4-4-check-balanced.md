@@ -2,7 +2,7 @@
 title: "Check Balanced: diferencia de altura como mucho uno (Java)"
 description: "Problema estilo CTCI 4.4 para principiantes: decide si un árbol binario está equilibrado. Calcula la altura en una sola pasada y devuelve una señal de fallo en cuanto un nodo tenga subárboles con alturas que difieren en más de uno."
 date: "2026-01-08"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-4-4-check-balanced.webp
 previewImage: /assets/images/ctci-4-4-check-balanced.webp
 ---

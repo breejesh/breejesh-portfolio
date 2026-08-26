@@ -2,7 +2,7 @@
 title: "CTCI 4.10 Check Subtree: Is T2 Hiding Inside T1? (Java)"
 description: "T1 is much larger than T2. Decide if T2 is a subtree of T1: search for T2's root in T1 then matchTree, or serialize preorder with null markers and test contains. Java, O(n + km) vs O(n + m)."
 date: "2026-05-24"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-4-10-check-subtree.webp
 previewImage: /assets/images/ctci-4-10-check-subtree.webp
 ---

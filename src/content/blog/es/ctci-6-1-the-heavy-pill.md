@@ -2,7 +2,7 @@
 title: "The Heavy Pill: encuentra el frasco pesado con una sola pesada (Java)"
 description: "Problema estilo CTCI 6.1 para principiantes: 20 frascos de pastillas, uno tiene pastillas de 1.1 g en lugar de 1.0 g. Identifícalo con una sola pesada tomando 1, 2, ..., 20 pastillas y leyendo el exceso de peso."
 date: "2026-04-05"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-6-1-the-heavy-pill.webp
 previewImage: /assets/images/ctci-6-1-the-heavy-pill.webp
 ---

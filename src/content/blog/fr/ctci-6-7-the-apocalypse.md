@@ -2,7 +2,7 @@
 title: "The Apocalypse: garçons, filles, et une règle qui reste à 50/50 (Java)"
 description: "Problème style CTCI 6.7 pour débutants: les familles ont des enfants jusqu'à un garçon, puis s'arrêtent. Le ratio garçons/filles reste environ 1:1. Série infinie et courte simulation Java."
 date: "2026-04-18"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-6-7-the-apocalypse.webp
 previewImage: /assets/images/ctci-6-7-the-apocalypse.webp
 ---

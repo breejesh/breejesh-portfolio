@@ -2,7 +2,7 @@
 title: "Permutations without Dups: todos los órdenes de un string único (Java)"
 description: "Problema estilo CTCI 8.7 para principiantes: lista cada permutación de un string con caracteres todos distintos. Backtracking con un array used, Java claro y un recorrido corto para abc."
 date: "2025-10-18"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-8-7-permutations-without-dups.webp
 previewImage: /assets/images/ctci-8-7-permutations-without-dups.webp
 ---

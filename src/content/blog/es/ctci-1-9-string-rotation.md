@@ -2,7 +2,7 @@
 title: "CTCI 1.9 Rotación de cadenas: una sola llamada a isSubstring"
 description: "Comprueba si s2 es una rotación de s1 con una sola llamada a isSubstring: concatena s1 consigo misma y pregunta si s2 vive dentro. Recorrido en Java para principiantes."
 date: "2026-05-13"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-1-9-string-rotation.webp
 previewImage: /assets/images/ctci-1-9-string-rotation.webp
 ---

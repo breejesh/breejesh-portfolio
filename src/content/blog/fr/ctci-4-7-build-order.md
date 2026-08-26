@@ -2,7 +2,7 @@
 title: "Build Order: dépendances de projets et tri topologique (Java)"
 description: "Problème style CTCI 4.7 pour débutants: projets et paires de dépendances, trouve un ordre de compilation valide ou échoue s'il y a un cycle. File d'indegree de Kahn et DFS en Java clair."
 date: "2026-04-28"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-4-7-build-order.webp
 previewImage: /assets/images/ctci-4-7-build-order.webp
 ---

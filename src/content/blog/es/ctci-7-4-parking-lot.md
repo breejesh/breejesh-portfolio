@@ -2,7 +2,7 @@
 title: "Parking Lot: plazas multiplanta para moto, coche y autobús (Java)"
 description: "Problema estilo CTCI 7.4 para principiantes: diseña un parking multiplanta con plazas de moto, compactas y grandes. Aparca motos, coches y autobuses con reglas de tamaño y clases Java claras."
 date: "2025-12-11"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-7-4-parking-lot.webp
 previewImage: /assets/images/ctci-7-4-parking-lot.webp
 ---

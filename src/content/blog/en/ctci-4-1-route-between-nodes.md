@@ -2,7 +2,7 @@
 title: "Route Between Nodes: Path Search in a Directed Graph (Java)"
 description: "CTCI-style problem 4.1 for beginners: given a directed graph, decide if there is a route from node S to node E. BFS preferred over DFS, with a simple GraphNode neighbors list in Java."
 date: "2025-09-14"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-4-1-route-between-nodes.webp
 previewImage: /assets/images/ctci-4-1-route-between-nodes.webp
 ---

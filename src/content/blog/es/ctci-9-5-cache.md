@@ -2,7 +2,7 @@
 title: "Cache: Caché en Memoria para Motor de Búsqueda (CTCI 9.5)"
 description: "Problema CTCI 9.5: diseña un sistema de caché en memoria de múltiples niveles para un motor de búsqueda de alta frecuencia."
 date: "2025-09-23"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-9-5-cache.webp
 previewImage: /assets/images/ctci-9-5-cache.webp
 ---

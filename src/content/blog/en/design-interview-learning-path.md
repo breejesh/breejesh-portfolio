@@ -2,7 +2,7 @@
 title: "Keep Learning System Design: Building Blocks, Practice Order, and This Series"
 description: "After the classic interview designs, learn the reusable building blocks in plain English, follow a beginner practice order, and use this blog series as your study map."
 date: "2026-01-30"
-tags: [System Design]
+tags: [System Design & Architecture]
 coverImage: /assets/images/design-interview-learning-path.webp
 previewImage: /assets/images/design-interview-learning-path.webp
 ---

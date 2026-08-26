@@ -2,7 +2,7 @@
 title: "Recursive Multiply: producto por doblar y dividir a la mitad (Java)"
 description: "Problema estilo CTCI 8.5 para principiantes: multiplica dos enteros positivos sin * ni /. Recurre sobre la mitad del factor menor, dobla el semi-producto y suma una vez si es impar. Java claro."
 date: "2025-12-29"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-8-5-recursive-multiply.webp
 previewImage: /assets/images/ctci-8-5-recursive-multiply.webp
 ---

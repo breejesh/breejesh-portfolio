@@ -2,7 +2,7 @@
 title: "एआई स्टार्टअप्स का मार्जिन संकट: १५% ग्रॉस मार्जिन का कड़वा सच"
 description: "एआई एप्लीकेशन स्टार्टअप्स का वित्तीय विश्लेषण, जो महंगे फाउंडेशन मॉडल्स और असीमित फ्लैट-रेट प्लान के कारण नुकसान में चल रहे हैं।"
 date: "2026-08-15"
-tags: [स्टार्टअप, वेंचरकैपिटल, सास, एआई, अर्थव्यवस्था]
+tags: [टेक व्यापार और वित्त, एआई और मशीन लर्निंग]
 coverImage: /assets/images/runaway-ai-agents-enterprise-spending-crisis.webp
 previewImage: /assets/images/runaway-ai-agents-enterprise-spending-crisis.webp
 ---

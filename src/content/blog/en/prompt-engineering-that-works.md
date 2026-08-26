@@ -2,7 +2,7 @@
 title: "Prompt Engineering That Actually Works for Product Engineers"
 description: "Structure, few-shot examples, hard constraints, eval loops, and common failure modes. A practical playbook for shipping LLM features, not chat demos."
 date: "2026-07-31"
-tags: [AI]
+tags: [AI & Machine Learning]
 coverImage: /assets/images/prompt-engineering-that-works.webp
 previewImage: /assets/images/prompt-engineering-that-works.webp
 ---

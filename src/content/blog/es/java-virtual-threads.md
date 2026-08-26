@@ -2,7 +2,7 @@
 title: "Hilos virtuales en Java 21: benchmarks, thread pools y cuándo usarlos"
 description: "Hilos virtuales de Java 21 frente a platform threads con números de carga en Spring Boot. Project Loom, Thread.ofVirtual(), pinning y cuándo siguen importando los pools."
 date: "2026-07-30"
-tags: [Java, Backend]
+tags: [Backend y Bases de Datos]
 coverImage: /assets/images/java-virtual-threads.webp
 previewImage: /assets/images/java-virtual-threads.webp
 ---

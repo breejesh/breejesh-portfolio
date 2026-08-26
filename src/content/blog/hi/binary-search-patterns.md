@@ -2,7 +2,7 @@
 title: "बाइनरी सर्च पैटर्न जो बार-बार आते हैं"
 description: "क्लासिक बाइनरी सर्च, लोअर और अपर बाउंड, उत्तर-स्थान सर्च, और वे ऑफ-बाय-वन गलतियां जो इंटरव्यू और प्रोडक्शन दोनों में काटती हैं। दोबारा इस्तेमाल करने लायक टेम्पलेट।"
 date: "2026-06-27"
-tags: [एल्गोरिदम]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/binary-search-patterns.webp
 previewImage: /assets/images/binary-search-patterns.webp
 ---

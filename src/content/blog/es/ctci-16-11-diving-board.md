@@ -2,7 +2,7 @@
 title: "Diving Board: Generate All Possible Board Lengths (CTCI 16.11)"
 description: "CTCI problem 16.11: compute all possible total lengths of a diving board built using K planks of shorter or longer size."
 date: "2025-11-23"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras, Herramientas y Políticas Tech]
 coverImage: /assets/images/ctci-16-11-diving-board.webp
 previewImage: /assets/images/ctci-16-11-diving-board.webp
 ---

@@ -2,7 +2,7 @@
 title: "Sum Lists: additionner des nombres stockés en listes chaînées (Java)"
 description: "Problème style CTCI 2.5: deux nombres vivent en listes chaînées, un chiffre par nœud, le chiffre des unités en tête. Parcourir les deux avec une retenue et construire la liste somme. Note courte sur le follow-up en ordre direct."
 date: "2025-12-22"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-2-5-sum-lists.webp
 previewImage: /assets/images/ctci-2-5-sum-lists.webp
 ---

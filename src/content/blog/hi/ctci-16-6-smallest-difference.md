@@ -2,7 +2,7 @@
 title: "Smallest Difference: Minimum Pairwise Difference Between Two Arrays (CTCI 16.6)"
 description: "CTCI problem 16.6: find pair of values (one from each array) with smallest non-negative difference using sorting and two pointers."
 date: "2026-01-27"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-16-6-smallest-difference.webp
 previewImage: /assets/images/ctci-16-6-smallest-difference.webp
 ---

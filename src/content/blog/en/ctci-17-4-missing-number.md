@@ -2,7 +2,7 @@
 title: "Missing Number: Find Missing Integer from 0 to N Using Bit Operations (CTCI 17.4)"
 description: "CTCI problem 17.4: find missing integer in array from 0 to N where array elements can only be accessed via fetchBit(i, j)."
 date: "2026-03-23"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-17-4-missing-number.webp
 previewImage: /assets/images/ctci-17-4-missing-number.webp
 ---

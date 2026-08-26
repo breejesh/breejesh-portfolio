@@ -2,7 +2,7 @@
 title: "व्यावहारिक आरएजी पाइपलाइन बनाएं: चंकिंग, एम्बेडिंग, रिट्रीवल, रीरैंक, इवल"
 description: "प्रोडक्शन-उन्मुख आरएजी गाइड: चंकिंग रणनीतियाँ, एम्बेडिंग, हाइब्रिड रिट्रीवल, रीरैंकिंग, मूल्यांकन मेट्रिक्स, और जब आरएजी चुपचाप फेल हो जाता है।"
 date: "2026-08-03"
-tags: [एआई]
+tags: [एआई और मशीन लर्निंग]
 coverImage: /assets/images/practical-rag-pipeline.webp
 previewImage: /assets/images/practical-rag-pipeline.webp
 ---

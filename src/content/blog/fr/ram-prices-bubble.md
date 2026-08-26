@@ -2,7 +2,7 @@
 title: "La crise de la mémoire RAM en 2026 : Comment la bulle de l'IA asphyxie la technologie grand public"
 description: "Comment la pénurie de mémoire de 2026, la ruée vers les centres de données d'IA et la demande de HBM font grimper les prix des PC et smartphones et retardent les consoles."
 date: "2026-07-18"
-tags: [Matériel]
+tags: [Matériel et Semiconducteurs, Économie Tech et Finance]
 coverImage: /assets/images/ram-prices-bubble.webp
 previewImage: /assets/images/ram-prices-bubble.webp
 ---

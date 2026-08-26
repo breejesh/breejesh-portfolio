@@ -2,7 +2,7 @@
 title: "Check Balanced: différence de hauteur au plus un (Java)"
 description: "Problème style CTCI 4.4 pour débutants: décider si un arbre binaire est équilibré. Calcule la hauteur en une seule passe et renvoie un signal d'échec dès qu'un nœud a des sous-arbres dont les hauteurs diffèrent de plus d'un."
 date: "2026-01-08"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-4-4-check-balanced.webp
 previewImage: /assets/images/ctci-4-4-check-balanced.webp
 ---

@@ -2,7 +2,7 @@
 title: "Sparse Search: Search String Array Interspersed with Empty Strings (CTCI 10.5)"
 description: "CTCI problem 10.5 in Java: locate a target string in a sorted array of strings interspersed with empty strings using modified binary search."
 date: "2026-01-23"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-10-5-sparse-search.webp
 previewImage: /assets/images/ctci-10-5-sparse-search.webp
 ---

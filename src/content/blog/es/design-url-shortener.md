@@ -2,7 +2,7 @@
 title: "Diseñar un acortador de URL: codificación, almacenamiento, caché, redirecciones y escala"
 description: "Diseño de un acortador de URL explicado para principiantes: códigos de guardarropa, recorrido de creación y redirección, Base62, almacenamiento, caché y cómo escalar paso a paso."
 date: "2026-04-02"
-tags: [Diseño de sistemas]
+tags: [Diseño de Sistemas y Arquitectura]
 coverImage: /assets/images/design-url-shortener.webp
 previewImage: /assets/images/design-url-shortener.webp
 ---

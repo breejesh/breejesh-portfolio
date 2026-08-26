@@ -2,7 +2,7 @@
 title: "CTCI 1.6 Compression de chaînes en Java: comptages et StringBuilder"
 description: "Compresse les plages de lettres (aabcccccaaa vers a2b1c5a3) avec StringBuilder, puis renvoie l'original si la compression n'aide pas. Parcours Java avec cas limites."
 date: "2025-11-13"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-1-6-string-compression.webp
 previewImage: /assets/images/ctci-1-6-string-compression.webp
 ---

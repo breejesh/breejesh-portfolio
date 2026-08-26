@@ -2,7 +2,7 @@
 title: "Call Center: rangos, escalado y dispatchCall (Java)"
 description: "Problema estilo CTCI 7.2 para principiantes: respondents, managers y directors. Enruta cada llamada al rango libre más bajo que pueda atenderla, escala cuando haga falta e implementa dispatchCall."
 date: "2025-09-26"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-7-2-call-center.webp
 previewImage: /assets/images/ctci-7-2-call-center.webp
 ---

@@ -2,7 +2,7 @@
 title: "Three in One: Three Stacks in a Single Array (Java)"
 description: "CTCI-style problem 3.1 for beginners: implement three stacks with one array. Fixed equal slices, a sizes[] array, and a clean FixedMultiStack in Java."
 date: "2026-03-12"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-3-1-three-in-one.webp
 previewImage: /assets/images/ctci-3-1-three-in-one.webp
 ---

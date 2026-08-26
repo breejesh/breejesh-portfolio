@@ -2,7 +2,7 @@
 title: "Paint Fill: rellenar una region de color con DFS o BFS (Java)"
 description: "Problema estilo CTCI 8.10 para principiantes: bote de pintura en una pantalla 2D de colores. Sustituye una region conexa con un color nuevo usando DFS recursivo o BFS iterativo en Java."
 date: "2025-12-26"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-8-10-paint-fill.webp
 previewImage: /assets/images/ctci-8-10-paint-fill.webp
 ---

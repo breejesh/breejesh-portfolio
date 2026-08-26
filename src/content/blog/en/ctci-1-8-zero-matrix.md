@@ -2,7 +2,7 @@
 title: "CTCI 1.8 Zero Matrix: Clear Rows and Columns in Place (Java)"
 description: "If a cell is 0, set its whole row and column to 0. Brute force first, then O(1) extra space with first-row and first-column flags in Java."
 date: "2025-10-06"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-1-8-zero-matrix.webp
 previewImage: /assets/images/ctci-1-8-zero-matrix.webp
 ---

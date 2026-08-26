@@ -2,7 +2,7 @@
 title: "BST Sequences: tous les tableaux qui construisent le même arbre (Java)"
 description: "Problème style CTCI 4.9 pour débutants: étant donné un BST construit par insertions de gauche à droite, lister chaque tableau qui a pu le produire. Racine d'abord, puis entrelacer (weave) les séquences des sous-arbres gauche et droit avec un helper récursif."
 date: "2025-08-22"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-4-9-bst-sequences.webp
 previewImage: /assets/images/ctci-4-9-bst-sequences.webp
 ---

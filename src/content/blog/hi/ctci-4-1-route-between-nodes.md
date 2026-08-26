@@ -2,7 +2,7 @@
 title: "नोड्स के बीच रूट: निर्देशित ग्राफ में रास्ता खोज (जावा)"
 description: "शुरुआती लोगों के लिए सीटीसीआई शैली की समस्या ४.१: निर्देशित ग्राफ में नोड एस से नोड ई तक रास्ता है या नहीं। डीएफएस से बेहतर बीएफएस, जावा में ग्राफनोड पड़ोसी सूची के साथ।"
 date: "2025-09-14"
-tags: [एल्गोरिदम]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-4-1-route-between-nodes.webp
 previewImage: /assets/images/ctci-4-1-route-between-nodes.webp
 ---

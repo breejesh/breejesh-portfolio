@@ -2,7 +2,7 @@
 title: "Loop Detection: encontrar el inicio del ciclo en una lista enlazada (Java)"
 description: "Problema estilo CTCI 2.8 para principiantes: dada una lista enlazada circular, devuelve el nodo donde empieza el bucle. Tortuga y liebre de Floyd, luego el truco de resetear al head, en Java claro."
 date: "2026-02-12"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-2-8-loop-detection.webp
 previewImage: /assets/images/ctci-2-8-loop-detection.webp
 ---

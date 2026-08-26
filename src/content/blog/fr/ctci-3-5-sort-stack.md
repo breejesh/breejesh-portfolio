@@ -2,7 +2,7 @@
 title: "Sort Stack: trier une pile avec une pile temporaire (Java)"
 description: "Problème style CTCI 3.5 pour débutants: trier une pile pour que les plus petites valeurs soient au sommet. Une seule pile extra. Raisonnement insertion sort en Java clair."
 date: "2025-11-28"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-3-5-sort-stack.webp
 previewImage: /assets/images/ctci-3-5-sort-stack.webp
 ---

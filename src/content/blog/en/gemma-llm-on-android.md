@@ -2,7 +2,7 @@
 title: "Running LLMs Locally on Android: Gemma 2B with LiteRT"
 description: "How to run Google's Gemma models offline on Android using LiteRT, with a real-world look at NomAI, the open-source offline calorie tracker."
 date: "2026-07-17"
-tags: [AI, Mobile Development]
+tags: [AI & Machine Learning, Developer Tools & Policy]
 coverImage: /assets/images/gemma-android.webp
 previewImage: /assets/images/gemma-android.webp
 ---

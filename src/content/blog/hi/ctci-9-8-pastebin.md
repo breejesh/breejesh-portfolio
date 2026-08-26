@@ -2,7 +2,7 @@
 title: "पेस्टबिन: एक स्केलेबल टेक्स्ट स्टोरेज सर्विस डिजाइन करें (CTCI 9.8)"
 description: "सीटीसीआई समस्या ९.८: यूनिक शॉर्ट की जनरेशन और कंटेंट एक्सपायरी के साथ एक स्केलेबल पेस्टबिन सेवा का सिस्टम डिजाइन।"
 date: "2026-06-11"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-9-8-pastebin.webp
 previewImage: /assets/images/ctci-9-8-pastebin.webp
 ---

@@ -2,7 +2,7 @@
 title: "OAuth 2.0 pour les développeurs : authorization code, PKCE, tokens et bugs courants"
 description: "Comment fonctionne vraiment le authorization code flow avec PKCE, à quoi servent access et refresh tokens, et les erreurs d'implémentation qui fuient des sessions ou cassent les clients mobiles."
 date: "2026-07-06"
-tags: [Sécurité, Développement Web]
+tags: [Cybersécurité et Réseaux, Frontend et Développement Web]
 coverImage: /assets/images/oauth2-for-developers.webp
 previewImage: /assets/images/oauth2-for-developers.webp
 ---

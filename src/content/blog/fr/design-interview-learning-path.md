@@ -2,7 +2,7 @@
 title: "Continuer à apprendre le system design : blocs, ordre de pratique et cette série"
 description: "Après les designs d'entretien classiques, apprenez les blocs réutilisables en langage simple, suivez un ordre de pratique pour débutants, et utilisez cette série du blog comme carte d'étude."
 date: "2026-01-30"
-tags: [Conception de systèmes]
+tags: [Design Système et Architecture]
 coverImage: /assets/images/design-interview-learning-path.webp
 previewImage: /assets/images/design-interview-learning-path.webp
 ---

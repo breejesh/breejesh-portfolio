@@ -2,7 +2,7 @@
 title: "Data fetching en Next.js App Router: Server Components, caché y revalidate"
 description: "Patrones prácticos para cargar datos en el App Router: Server Components async, opciones de caché en fetch, revalidate y tags, unstable_cache para la base de datos, y cuándo sigue valiendo el fetch en el cliente."
 date: "2026-07-24"
-tags: [Desarrollo Web, Frontend]
+tags: [Frontend y Desarrollo Web]
 coverImage: /assets/images/nextjs-app-router-data-fetching.webp
 previewImage: /assets/images/nextjs-app-router-data-fetching.webp
 ---

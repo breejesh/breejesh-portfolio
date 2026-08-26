@@ -2,7 +2,7 @@
 title: "Mistake: Debugging an Unsigned Loop Bug in C/C++ (CTCI 11.1)"
 description: "CTCI problem 11.1 in C: find the flaw in an unsigned integer countdown loop causing an infinite loop underflow bug."
 date: "2025-12-20"
-tags: [Algorithms, Debugging]
+tags: [Algorithms & Data Structures, Developer Tools & Policy]
 coverImage: /assets/images/ctci-11-1-mistake.webp
 previewImage: /assets/images/ctci-11-1-mistake.webp
 ---

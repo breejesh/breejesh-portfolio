@@ -2,7 +2,7 @@
 title: "सॉर्टेड मर्ज: एरे बी को सॉर्टेड एरे ए में इन-प्लेस मर्ज करें (CTCI 10.1)"
 description: "सीटीसीआई समस्या १०.१: दो सॉर्ट किए गए एरे ए और बी को पीछे से काम करते हुए बिना किसी अतिरिक्त स्पेस के मर्ज करें।"
 date: "2026-02-18"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-10-1-sorted-merge.webp
 previewImage: /assets/images/ctci-10-1-sorted-merge.webp
 ---

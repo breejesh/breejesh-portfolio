@@ -2,7 +2,7 @@
 title: "Word Frequencies: Efficient Frequency Lookup in Large Text (CTCI 16.2)"
 description: "CTCI problem 16.2: design a precomputed HashMap lookup table to query word frequencies in O(1) time."
 date: "2025-12-24"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-16-2-word-frequencies.webp
 previewImage: /assets/images/ctci-16-2-word-frequencies.webp
 ---

@@ -2,7 +2,7 @@
 title: "CTCI 2.2 Return Kth to Last: Two Pointers on a Linked List"
 description: "Find the kth node from the end of a singly linked list. Walk the classic two-pointer gap of k, then a short recursive index wrapper, in plain Java."
 date: "2026-02-20"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-2-2-return-kth-to-last.webp
 previewImage: /assets/images/ctci-2-2-return-kth-to-last.webp
 ---

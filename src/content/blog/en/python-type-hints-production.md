@@ -2,7 +2,7 @@
 title: "Python Type Hints That Actually Pay Off in Production"
 description: "Which Python typing features catch real bugs: Protocols, TypedDict, gradual mypy and pyright. What to type first, what to skip, and how to keep CI useful."
 date: "2026-06-30"
-tags: [Python, Backend]
+tags: [Backend & Databases]
 coverImage: /assets/images/python-type-hints-production.webp
 previewImage: /assets/images/python-type-hints-production.webp
 ---

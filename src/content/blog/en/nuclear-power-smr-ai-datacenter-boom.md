@@ -2,7 +2,7 @@
 title: "The 10-Gigawatt Bottleneck: Why Big Tech Is Buying Up Nuclear Power Plants to Feed AI Datacenters"
 description: "Hyperscalers face 5-year public utility grid interconnection queues, driving multi-billion-dollar power purchase agreements with nuclear operators and Small Modular Reactor startups."
 date: "2026-08-16"
-tags: [Energy, AI, Nuclear, Datacenters, Infrastructure]
+tags: [AI & Machine Learning]
 coverImage: /assets/images/nvme-zns-spdk-database-storage.webp
 previewImage: /assets/images/nvme-zns-spdk-database-storage.webp
 ---

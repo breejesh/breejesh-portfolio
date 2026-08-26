@@ -2,7 +2,7 @@
 title: "Baby Names: Merge Synonym Name Frequencies Using Disjoint Set (CTCI 17.7)"
 description: "CTCI problem 17.7: aggregate total frequencies of synonymous baby names using Connected Components / Union-Find."
 date: "2025-12-12"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-17-7-baby-names.webp
 previewImage: /assets/images/ctci-17-7-baby-names.webp
 ---

@@ -2,7 +2,7 @@
 title: "Cache: System de Cache en Mémoire pour Moteur de Recherche (CTCI 9.5)"
 description: "Problème CTCI 9.5: concevoir un système de cache en mémoire distribué pour un moteur de recherche."
 date: "2025-09-23"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-9-5-cache.webp
 previewImage: /assets/images/ctci-9-5-cache.webp
 ---

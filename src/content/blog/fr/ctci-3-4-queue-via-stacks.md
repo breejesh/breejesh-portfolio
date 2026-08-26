@@ -2,7 +2,7 @@
 title: "Queue via Stacks: file FIFO avec deux piles LIFO (Java)"
 description: "Problème style CTCI 3.4 pour débutants: implémenter MyQueue avec stackNewest et stackOldest. Push sur l'une, shift seulement quand dequeue ou peek a besoin des données. Amorti O(1) en Java clair."
 date: "2025-10-24"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-3-4-queue-via-stacks.webp
 previewImage: /assets/images/ctci-3-4-queue-via-stacks.webp
 ---

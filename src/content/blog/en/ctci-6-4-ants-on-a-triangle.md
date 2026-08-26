@@ -2,7 +2,7 @@
 title: "Ants on a Triangle: Probability They Never Collide (Java)"
 description: "CTCI-style problem 6.4 for beginners: three ants on triangle vertices each pick a random direction. Count the 8 outcomes, find when they only chase, and get probability 1/4. Java enumeration included."
 date: "2025-10-22"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-6-4-ants-on-a-triangle.webp
 previewImage: /assets/images/ctci-6-4-ants-on-a-triangle.webp
 ---

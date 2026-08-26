@@ -2,7 +2,7 @@
 title: "CTCI 1.7 Rotate Matrix: NxN ग्रिड को जगह पर 90 डिग्री घुमाएँ (Java)"
 description: "बिना दूसरी मैट्रिक्स के NxN मैट्रिक्स को 90 डिग्री क्लॉकवाइज घुमाएँ। Java में परत-दर-परत 4-वे स्वैप, टेक्स्ट डायग्राम और इंटरव्यू के एज केस।"
 date: "2025-11-12"
-tags: [एल्गोरिदम]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-1-7-rotate-matrix.webp
 previewImage: /assets/images/ctci-1-7-rotate-matrix.webp
 ---

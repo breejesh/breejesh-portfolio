@@ -2,7 +2,7 @@
 title: "Tours de Hanoï: Déplacer n disques avec trois piquets (Java)"
 description: "Problème 8.6 style CTCI pour débutants: Tours de Hanoï classiques avec trois piquets et n disques. Déplacement récursif de la tour du dessus, stacks Java pour chaque piquet."
 date: "2025-08-02"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-8-6-towers-of-hanoi.webp
 previewImage: /assets/images/ctci-8-6-towers-of-hanoi.webp
 ---

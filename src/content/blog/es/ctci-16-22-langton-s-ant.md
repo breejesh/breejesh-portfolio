@@ -2,7 +2,7 @@
 title: "Langton's Ant: Simulate Grid Cellular Automata Ant Traversal (CTCI 16.22)"
 description: "CTCI problem 16.22: simulate K steps of Langton's Ant cellular automata on an infinite grid."
 date: "2026-03-24"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-16-22-langton-s-ant.webp
 previewImage: /assets/images/ctci-16-22-langton-s-ant.webp
 ---

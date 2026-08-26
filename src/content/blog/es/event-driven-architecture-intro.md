@@ -2,7 +2,7 @@
 title: "Arquitectura orientada a eventos para backend: eventos, brokers, idempotencia y outbox"
 description: "Introducción práctica a sistemas orientados a eventos: eventos vs comandos, brokers, idempotencia del consumidor, outbox transaccional y cuándo request/response sigue siendo mejor."
 date: "2026-07-11"
-tags: [Backend, Nube]
+tags: [Backend y Bases de Datos, Cloud y DevOps]
 coverImage: /assets/images/event-driven-architecture-intro.webp
 previewImage: /assets/images/event-driven-architecture-intro.webp
 ---

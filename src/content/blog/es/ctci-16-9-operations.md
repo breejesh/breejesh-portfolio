@@ -2,7 +2,7 @@
 title: "Operations: Implement Multiply, Subtract, Divide Using Only Addition (CTCI 16.9)"
 description: "CTCI problem 16.9: write arithmetic operations (multiply, subtract, divide) for integers using only addition and bitwise ops."
 date: "2025-09-07"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-16-9-operations.webp
 previewImage: /assets/images/ctci-16-9-operations.webp
 ---

@@ -2,7 +2,7 @@
 title: "सॉर्टेड मैट्रिक्स सर्च: पंक्तियों और कॉलमों द्वारा सॉर्ट की गई M x N मैट्रिक्स में खोजें (CTCI 10.9)"
 description: "सीटीसीआई समस्या १०.९: पंक्तियों और स्तंभों द्वारा सॉर्ट की गई M x N मैट्रिक्स में O(M + N) समय में तत्व खोजें।"
 date: "2026-04-29"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-10-9-sorted-matrix-search.webp
 previewImage: /assets/images/ctci-10-9-sorted-matrix-search.webp
 ---

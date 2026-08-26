@@ -2,7 +2,7 @@
 title: "CTCI 1.5 One Away: une édition, un passage en Java"
 description: "Vérifier si deux chaînes diffèrent d'au plus une insertion, suppression ou substitution. Règle des longueurs, un seul parcours à deux index, et du Java clair à expliquer à voix haute."
 date: "2025-08-05"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-1-5-one-away.webp
 previewImage: /assets/images/ctci-1-5-one-away.webp
 ---

@@ -2,7 +2,7 @@
 title: "100 Lockers: Which Stay Open After 100 Toggles? (Java)"
 description: "CTCI-style problem 6.9 for beginners: 100 closed lockers, 100 people each toggle every i-th door. Open lockers are perfect squares (1, 4, 9, ..., 100) because only squares have an odd number of factors. Optional Java simulation."
 date: "2026-06-17"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-6-9-100-lockers.webp
 previewImage: /assets/images/ctci-6-9-100-lockers.webp
 ---

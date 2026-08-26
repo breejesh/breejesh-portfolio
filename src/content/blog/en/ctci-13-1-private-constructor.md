@@ -2,7 +2,7 @@
 title: "Private Constructor: Use Cases and Inheritance Constraints in Java (CTCI 13.1)"
 description: "CTCI problem 13.1 in Java: why declare a constructor private, how it prevents subclassing, and its role in Singleton and Utility classes."
 date: "2026-03-18"
-tags: [Java, Object-Oriented Design]
+tags: [Backend & Databases, Algorithms & Data Structures]
 coverImage: /assets/images/ctci-13-1-private-constructor.webp
 previewImage: /assets/images/ctci-13-1-private-constructor.webp
 ---

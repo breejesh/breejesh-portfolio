@@ -2,7 +2,7 @@
 title: "सॉर्टेड सर्च नो साइज: साइज मेथड के बिना लिस्ती में सर्च करें (CTCI 10.4)"
 description: "सीटीसीआई समस्या १०.४: साइज मेथड के बिना डेटा स्ट्रक्चर लिस्ती में एक्सपोनेंशियल बाउंडिंग तकनीक से तत्व खोजें।"
 date: "2025-11-01"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-10-4-sorted-search-no-size.webp
 previewImage: /assets/images/ctci-10-4-sorted-search-no-size.webp
 ---

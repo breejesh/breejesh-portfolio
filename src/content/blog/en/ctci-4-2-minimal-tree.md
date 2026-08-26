@@ -2,7 +2,7 @@
 title: "Minimal Tree: Build a Balanced BST from a Sorted Array (Java)"
 description: "CTCI-style problem 4.2 for beginners: given a sorted array of unique ints, build a binary search tree of minimal height. Pick the mid as root, recurse on left and right halves."
 date: "2026-02-06"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-4-2-minimal-tree.webp
 previewImage: /assets/images/ctci-4-2-minimal-tree.webp
 ---

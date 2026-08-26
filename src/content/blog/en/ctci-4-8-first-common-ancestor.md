@@ -2,7 +2,7 @@
 title: "First Common Ancestor: LCA Without Parent Links (Java)"
 description: "CTCI-style problem 4.8 for beginners: find the deepest common ancestor of two nodes in a binary tree (not necessarily a BST). Prefer one recursive pass that returns a status object; parent-link climb is the alternate."
 date: "2026-05-09"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-4-8-first-common-ancestor.webp
 previewImage: /assets/images/ctci-4-8-first-common-ancestor.webp
 ---

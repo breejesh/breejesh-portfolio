@@ -2,7 +2,7 @@
 title: "Pairwise Swap: échanger bits impairs et pairs avec des masques (Java)"
 description: "Problème style CTCI 5.7 pour débutants: échange chaque paire de bits impair et pair dans un int. Masques 0xaaaaaaaa et 0x55555555, un décalage de chaque côté, OR des moitiés."
 date: "2025-11-10"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-5-7-pairwise-swap.webp
 previewImage: /assets/images/ctci-5-7-pairwise-swap.webp
 ---

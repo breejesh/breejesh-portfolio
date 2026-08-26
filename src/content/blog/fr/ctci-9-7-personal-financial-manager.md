@@ -2,7 +2,7 @@
 title: "Personal Financial Manager: Agrégateur de Comptes Bancaires (CTCI 9.7)"
 description: "Problème CTCI 9.7: architecture pour une application de gestion financiera personnelle synchronisant plusieurs banques."
 date: "2026-01-28"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-9-7-personal-financial-manager.webp
 previewImage: /assets/images/ctci-9-7-personal-financial-manager.webp
 ---

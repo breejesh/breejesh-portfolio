@@ -2,7 +2,7 @@
 title: "CTCI 4.10 Check Subtree: T2 se cache-t-il dans T1? (Java)"
 description: "T1 est bien plus grand que T2. Décide si T2 est un sous-arbre de T1: cherche la racine de T2 dans T1 puis matchTree, ou sérialise en préordre avec nulls et teste contains. Java, O(n + km) vs O(n + m)."
 date: "2026-05-24"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-4-10-check-subtree.webp
 previewImage: /assets/images/ctci-4-10-check-subtree.webp
 ---

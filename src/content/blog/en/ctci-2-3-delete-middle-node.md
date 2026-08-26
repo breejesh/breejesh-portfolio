@@ -2,7 +2,7 @@
 title: "Delete Middle Node: Remove a Node Without Head Access (Java)"
 description: "CTCI-style problem 2.3: delete a middle node of a singly linked list when you only hold a pointer to that node. Copy the next value, skip the next node, and know why the last node fails."
 date: "2026-05-14"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-2-3-delete-middle-node.webp
 previewImage: /assets/images/ctci-2-3-delete-middle-node.webp
 ---

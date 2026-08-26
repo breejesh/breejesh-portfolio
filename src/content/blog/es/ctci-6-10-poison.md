@@ -2,7 +2,7 @@
 title: "Poison: encontrar la botella envenenada con 10 tiras en un mes (Java)"
 description: "Problema estilo CTCI 6.10 para principiantes: 1000 botellas, una envenenada, 10 tiras de prueba, el resultado tarda un mes. Codifica cada botella como patrón de bits para que una ronda de sorbos la nombre."
 date: "2026-03-22"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-6-10-poison.webp
 previewImage: /assets/images/ctci-6-10-poison.webp
 ---

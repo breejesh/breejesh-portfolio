@@ -2,7 +2,7 @@
 title: "Context Switch: Measuring Thread vs Process Context Switching (CTCI 15.2)"
 description: "CTCI problem 15.2: mechanics of OS context switching, CPU register saving, TLB flushing, and cache misses."
 date: "2026-03-27"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं, बैकएंड और डेटाबेस]
 coverImage: /assets/images/ctci-15-2-context-switch.webp
 previewImage: /assets/images/ctci-15-2-context-switch.webp
 ---

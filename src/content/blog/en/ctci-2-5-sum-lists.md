@@ -2,7 +2,7 @@
 title: "Sum Lists: Add Numbers Stored as Linked Lists (Java)"
 description: "CTCI-style problem 2.5: two numbers live as linked lists, one digit per node, least significant digit at the head. Walk both lists with a carry and build the sum list. Brief note on the forward-order follow-up."
 date: "2025-12-22"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-2-5-sum-lists.webp
 previewImage: /assets/images/ctci-2-5-sum-lists.webp
 ---

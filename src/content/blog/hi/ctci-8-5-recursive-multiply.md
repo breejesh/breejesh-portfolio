@@ -2,7 +2,7 @@
 title: "रिकर्सिव मल्टीप्लाई: आधा करके दोगुना करना (जावा)"
 description: "शुरुआती लोगों के लिए सीटीसीआई शैली की समस्या ८.५: दो धनात्मक पूर्णांक बिना गुणा चिह्न के। छोटे गुणक के आधे पर रिकर्शन, आधे गुणनफल को दोगुना करो, विषम हो तो एक बार जोड़ो। सादा जावा।"
 date: "2025-12-29"
-tags: [एल्गोरिदम]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-8-5-recursive-multiply.webp
 previewImage: /assets/images/ctci-8-5-recursive-multiply.webp
 ---

@@ -2,7 +2,7 @@
 title: "Denormalization: Pros and Cons of Database Denormalization (CTCI 14.5)"
 description: "CTCI problem 14.5: trade-offs between normalized relational schemas (3NF) and denormalized read-heavy architectures."
 date: "2025-08-30"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं, बैकएंड और डेटाबेस]
 coverImage: /assets/images/ctci-14-5-denormalization.webp
 previewImage: /assets/images/ctci-14-5-denormalization.webp
 ---

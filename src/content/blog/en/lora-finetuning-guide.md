@@ -2,7 +2,7 @@
 title: "LoRA Fine-Tuning for LLMs: Ranks, Target Modules, and Memory Math"
 description: "A practical engineer guide to LoRA and QLoRA: when adapters beat full fine-tunes, how to pick rank and modules, rough VRAM math, and failures that waste a weekend."
 date: "2026-08-04"
-tags: [AI]
+tags: [AI & Machine Learning]
 coverImage: /assets/images/lora-finetuning-guide.webp
 previewImage: /assets/images/lora-finetuning-guide.webp
 ---

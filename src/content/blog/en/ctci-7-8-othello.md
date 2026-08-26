@@ -2,7 +2,7 @@
 title: "Othello: Board, Color, Game, and Flip Rules in Java OOD"
 description: "CTCI-style problem 7.8 for beginners: design Othello (Reversi) with Board, Piece color, Game flow, and capture flip logic. Original Java sketch, not a book copy."
 date: "2025-08-23"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-7-8-othello.webp
 previewImage: /assets/images/ctci-7-8-othello.webp
 ---

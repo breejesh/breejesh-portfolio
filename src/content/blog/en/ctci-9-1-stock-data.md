@@ -2,7 +2,7 @@
 title: "Stock Data: Design a High-Throughput Financial Data Server (CTCI 9.1)"
 description: "CTCI problem 9.1: design an architecture to deliver real-time stock ticker updates and historical chart data to millions of concurrent clients."
 date: "2026-05-06"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-9-1-stock-data.webp
 previewImage: /assets/images/ctci-9-1-stock-data.webp
 ---

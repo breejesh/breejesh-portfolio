@@ -2,7 +2,7 @@
 title: "Is Unique: Check if a String Has All Distinct Characters (Java)"
 description: "CTCI-style problem 1.1 for beginners: decide whether every character in a string appears only once. Analogy, brute force, boolean array, HashSet, sort, and complexity."
 date: "2025-09-11"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-1-1-is-unique.webp
 previewImage: /assets/images/ctci-1-1-is-unique.webp
 ---

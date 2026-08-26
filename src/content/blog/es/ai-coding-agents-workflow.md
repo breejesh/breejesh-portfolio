@@ -2,7 +2,7 @@
 title: "Cómo usar agentes de código con IA sin enviar basura a producción"
 description: "Hábitos prácticos al estilo Cursor y Copilot: ventanas de contexto, bucles de revisión, tests primero con agentes y cuándo rechazar código de IA."
 date: "2026-08-05"
-tags: [IA, Productividad]
+tags: [IA y Machine Learning, Herramientas y Políticas Tech]
 coverImage: /assets/images/ai-coding-agents-workflow.webp
 previewImage: /assets/images/ai-coding-agents-workflow.webp
 ---

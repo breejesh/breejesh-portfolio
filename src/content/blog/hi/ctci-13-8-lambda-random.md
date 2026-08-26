@@ -2,7 +2,7 @@
 title: "Lambda Random: Random Subset Generation with Java Streams (CTCI 13.8)"
 description: "CTCI problem 13.8: generating a random subset of a list using Java Streams and lambda expressions."
 date: "2026-02-14"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-13-8-lambda-random.webp
 previewImage: /assets/images/ctci-13-8-lambda-random.webp
 ---

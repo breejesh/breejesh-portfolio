@@ -2,7 +2,7 @@
 title: "एनवीडिया का गणितीय आविष्कार: बिना दोबारा गणना के मॉडलों के बीच केवी कैश ट्रांसफर"
 description: "एनवीडिया के शोधकर्ताओं ने एक रेखीय मैपिंग तकनीक पेश की है जो भाषा मॉडलों के बीच संदर्भ ट्रांसफर को २५ गुना तेज बनाती है।"
 date: "2026-08-19"
-tags: [एनवीडिया, एआई, हार्डवेयर, एलएलएम, सिस्टम्स]
+tags: [हार्डवेयर और सेमीकंडक्टर, एआई और मशीन लर्निंग, बैकएंड और डेटाबेस]
 coverImage: /assets/images/nvidia-cross-model-kv-cache-transfer.webp
 previewImage: /assets/images/nvidia-cross-model-kv-cache-transfer.webp
 ---

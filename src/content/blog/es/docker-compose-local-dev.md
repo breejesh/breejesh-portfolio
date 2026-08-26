@@ -2,7 +2,7 @@
 title: "Docker Compose para desarrollo local lo bastante cerca de producción"
 description: "Arma un stack de Compose con servicios, volúmenes, env y healthchecks para que los fallos locales se parezcan a los de prod, no a bugs raros del portátil."
 date: "2026-07-05"
-tags: [Contenedores, DevOps]
+tags: [Cloud y DevOps]
 coverImage: /assets/images/docker-compose-local-dev.webp
 previewImage: /assets/images/docker-compose-local-dev.webp
 ---

@@ -2,7 +2,7 @@
 title: "Diseñar un almacén clave-valor como un guardarropa: put, get, CAP y quórums"
 description: "Guía para principiantes de almacenes clave-valor distribuidos. Put y get como guardar y buscar, CAP con una historia simple, particiones como libros en estantes, réplicas como copias y quórums como bibliotecarios que deben acordar."
 date: "2025-10-28"
-tags: [Diseño de sistemas]
+tags: [Diseño de Sistemas y Arquitectura, Backend y Bases de Datos]
 coverImage: /assets/images/design-key-value-store.webp
 previewImage: /assets/images/design-key-value-store.webp
 ---

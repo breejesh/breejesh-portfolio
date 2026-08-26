@@ -2,7 +2,7 @@
 title: "Clean architecture pour des backends qui restent maintenables"
 description: "Couches, règle de dépendance et cas d'usage dans de vrais services backend. Ce qui paie, ce qui devient cérémonie, et quand un design plus simple est le meilleur choix."
 date: "2026-06-26"
-tags: [Backend]
+tags: [Backend et Bases de Données]
 coverImage: /assets/images/clean-architecture-backends.webp
 previewImage: /assets/images/clean-architecture-backends.webp
 ---

@@ -2,7 +2,7 @@
 title: "सेल्स रैंक: ई-कॉमर्स रियल-टाइम बेस्ट सेलर्स रैंक सिस्टम (CTCI 9.6)"
 description: "सीटीसीआई समस्या ९.६: विभिन्न समय खिड़कियों के तहत श्रेणी के आधार पर टॉप-सेलिंग उत्पादों को ट्रैक करने वाला रैंकिंग सिस्टम डिजाइन करें।"
 date: "2026-04-11"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-9-6-sales-rank.webp
 previewImage: /assets/images/ctci-9-6-sales-rank.webp
 ---

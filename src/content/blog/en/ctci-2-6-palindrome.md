@@ -2,7 +2,7 @@
 title: "CTCI 2.6 Palindrome Linked List in Java: Reverse the Second Half"
 description: "Check if a singly linked list is a palindrome. Find the middle with slow and fast pointers, reverse the second half, compare, and restore if you need the list intact. O(n) time, O(1) space."
 date: "2026-04-01"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-2-6-palindrome.webp
 previewImage: /assets/images/ctci-2-6-palindrome.webp
 ---

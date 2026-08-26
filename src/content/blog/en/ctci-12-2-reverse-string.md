@@ -2,7 +2,7 @@
 title: "Reverse String: In-Place C-Style Null-Terminated String Reverse (CTCI 12.2)"
 description: "CTCI problem 12.2 in C++: reverse a null-terminated C-style string in-place using pointer arithmetic."
 date: "2025-08-20"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-12-2-reverse-string.webp
 previewImage: /assets/images/ctci-12-2-reverse-string.webp
 ---

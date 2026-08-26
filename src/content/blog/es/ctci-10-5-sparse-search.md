@@ -2,7 +2,7 @@
 title: "Sparse Search: Búsqueda en Arreglo Esparcido de Cadenas (CTCI 10.5)"
 description: "Problema CTCI 10.5 en Java: encuentra una cadena en un arreglo ordenado intercalado con cadenas vacías."
 date: "2026-01-23"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-10-5-sparse-search.webp
 previewImage: /assets/images/ctci-10-5-sparse-search.webp
 ---

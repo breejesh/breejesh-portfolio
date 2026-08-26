@@ -2,7 +2,7 @@
 title: "Apple demanda a OpenAI: La batalla legal por robo de secretos de hardware"
 description: "Apple presentó una demanda federal contra OpenAI acusándola de robar secretos comerciales y prototipos de hardware. Todos los detalles del caso y las consecuencias para la industria."
 date: "2026-07-23"
-tags: [IA]
+tags: [IA y Machine Learning]
 coverImage: /assets/images/apple-vs-openai-cover.webp
 previewImage: /assets/images/apple-vs-openai-cover.webp
 ---

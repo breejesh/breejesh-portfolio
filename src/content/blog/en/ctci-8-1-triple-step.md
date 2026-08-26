@@ -2,7 +2,7 @@
 title: "Triple Step: Count Ways to Climb n Stairs with 1, 2, or 3 Hops (Java)"
 description: "CTCI-style problem 8.1 for beginners: a child climbs n stairs taking 1, 2, or 3 steps at a time. Count the ways with recursion, memoization, and bottom-up DP in Java."
 date: "2026-01-04"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-8-1-triple-step.webp
 previewImage: /assets/images/ctci-8-1-triple-step.webp
 ---

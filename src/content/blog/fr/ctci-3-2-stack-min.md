@@ -2,7 +2,7 @@
 title: "Stack Min: push, pop et min() en O(1) (Java)"
 description: "Problème style CTCI 3.2 pour débutants: concevoir une pile qui renvoie le minimum courant en temps constant. Suivre les mins avec une seconde pile (ou min-jusqu'ici sur chaque nœud), en Java clair."
 date: "2025-11-29"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-3-2-stack-min.webp
 previewImage: /assets/images/ctci-3-2-stack-min.webp
 ---

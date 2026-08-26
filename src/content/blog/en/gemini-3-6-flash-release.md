@@ -2,7 +2,7 @@
 title: "Gemini 3.6 Flash: 17% fewer tokens, 350 tok/s Lite, and a cyber specialist"
 description: "Google shipped Gemini 3.6 Flash, 3.5 Flash-Lite, and 3.5 Flash Cyber in CodeMender. Benchmarks, $1.50/$7.50 pricing, 350 tok/s, and native computer use."
 date: "2026-07-21"
-tags: [AI]
+tags: [AI & Machine Learning]
 coverImage: /assets/images/gemini-3-6-flash-cover.webp
 previewImage: /assets/images/gemini-3-6-flash-cover.webp
 ---

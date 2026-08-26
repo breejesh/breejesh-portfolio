@@ -2,7 +2,7 @@
 title: "Dominos: Pourquoi un échiquier mutilé ne se paves pas (Java)"
 description: "Problème style CTCI 6.3 pour débutants: plateau 8x8 sans deux coins opposés, 31 dominos. L'invariant de coloration prouve l'impossibilité. Comptes, croquis et visualisation Java optionnelle."
 date: "2025-11-20"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-6-3-dominos.webp
 previewImage: /assets/images/ctci-6-3-dominos.webp
 ---

@@ -2,7 +2,7 @@
 title: "The Egg Drop Problem: 100 etages, 2 oeufs, minimiser le pire cas (Java)"
 description: "Probleme style CTCI 6.8 pour debutants: trouver l'etage critique avec deux oeufs et 100 etages en minimisant le nombre de chutes dans le pire cas. Utilise des intervalles decroissants pour egaliser chaque chemin et resous x(x+1)/2 >= 100."
 date: "2026-03-29"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-6-8-the-egg-drop-problem.webp
 previewImage: /assets/images/ctci-6-8-the-egg-drop-problem.webp
 ---

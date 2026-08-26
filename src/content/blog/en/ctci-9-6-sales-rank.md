@@ -2,7 +2,7 @@
 title: "Sales Rank: E-Commerce Real-Time Best Sellers Rank System (CTCI 9.6)"
 description: "CTCI problem 9.6: design an e-commerce ranking system that tracks top-selling products by category across multiple time windows."
 date: "2026-04-11"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-9-6-sales-rank.webp
 previewImage: /assets/images/ctci-9-6-sales-rank.webp
 ---

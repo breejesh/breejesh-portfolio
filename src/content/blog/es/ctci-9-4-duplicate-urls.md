@@ -2,7 +2,7 @@
 title: "Duplicate URLs: Detección de Duplicados en 10 Mil Millones de URLs (CTCI 9.4)"
 description: "Problema CTCI 9.4: cómo identificar URLs duplicadas en 10 mil millones de registros con memoria limitada usando Filtros de Bloom."
 date: "2026-04-23"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-9-4-duplicate-urls.webp
 previewImage: /assets/images/ctci-9-4-duplicate-urls.webp
 ---

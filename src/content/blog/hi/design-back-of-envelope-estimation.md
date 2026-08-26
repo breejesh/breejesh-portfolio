@@ -2,7 +2,7 @@
 title: "सिस्टम डिज़ाइन इंटरव्यू के लिए बैक-ऑफ़-द-एनवेलप अनुमान"
 description: "इंटरव्यू के लिए मोटा क्षमता गणित सीखें: क्यूपीएस, स्टोरेज, बैंडविड्थ और लेटेंसी रोज़मर्रा की उपमाओं, एक धीमा हल उदाहरण, और दोस्त को समझाने वाला सारांश के साथ।"
 date: "2026-02-13"
-tags: [सिस्टम डिजाइन]
+tags: [सिस्टम डिजाइन और आर्किटेक्चर]
 coverImage: /assets/images/design-back-of-envelope-estimation.webp
 previewImage: /assets/images/design-back-of-envelope-estimation.webp
 ---

@@ -2,7 +2,7 @@
 title: "CTCI 2.4 Partition: Split a Linked List Around x"
 description: "Partition a singly linked list so every node less than x comes before every node greater than or equal to x. Two-list merge in Java, plus a short head/tail grow note."
 date: "2026-02-01"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-2-4-partition.webp
 previewImage: /assets/images/ctci-2-4-partition.webp
 ---

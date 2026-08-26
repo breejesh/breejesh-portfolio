@@ -2,7 +2,7 @@
 title: "Permutations without Dups: All Orders of a Unique String (Java)"
 description: "CTCI-style problem 8.7 for beginners: list every permutation of a string whose characters are all different. Backtracking with a used-char set, plain Java, and a short walkthrough for abc."
 date: "2025-10-18"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-8-7-permutations-without-dups.webp
 previewImage: /assets/images/ctci-8-7-permutations-without-dups.webp
 ---

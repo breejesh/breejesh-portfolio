@@ -2,7 +2,7 @@
 title: "टेलविंड सीएसएस प्रोडक्शन पैटर्न: लेआउट, कंपोनेंट, डार्क मोड"
 description: "टीमें टेलविंड को स्केल पर कैसे संभालती हैं: लेआउट सिस्टम, कंपोनेंट निकालना, स्थिर डार्क मोड, और क्लास सूप रोकने की आदतें।"
 date: "2026-07-22"
-tags: [वेब विकास, फ्रंटएंड]
+tags: [फ्रंटएंड और वेब डेवलपमेंट]
 coverImage: /assets/images/tailwind-css-production-patterns.webp
 previewImage: /assets/images/tailwind-css-production-patterns.webp
 ---

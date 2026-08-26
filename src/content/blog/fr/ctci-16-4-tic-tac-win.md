@@ -2,7 +2,7 @@
 title: "Tic Tac Win: Detect Winner in Tic-Tac-Toe Board (CTCI 16.4)"
 description: "CTCI problem 16.4: design an algorithm to check if someone has won a Tic-Tac-Toe game on an N x N board."
 date: "2025-09-21"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-16-4-tic-tac-win.webp
 previewImage: /assets/images/ctci-16-4-tic-tac-win.webp
 ---

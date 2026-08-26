@@ -2,7 +2,7 @@
 title: "El Efecto Bruselas Llega a la IA: La Ola de Aplicacion de la Ley de IA de la UE"
 description: "Entran en vigor las normas de transparencia y modelos GPAI de la Ley de IA de la UE, obligando al uso de marcas de agua C2PA y auditorias oficiales."
 date: "2026-08-17"
-tags: [IA, Politica, Regulacion, UE, Seguridad]
+tags: [IA y Machine Learning, Herramientas y Políticas Tech, Ciberseguridad y Redes]
 coverImage: /assets/images/eu-ai-act-august-2026-enforcement.webp
 previewImage: /assets/images/eu-ai-act-august-2026-enforcement.webp
 ---

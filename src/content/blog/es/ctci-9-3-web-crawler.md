@@ -2,7 +2,7 @@
 title: "Web Crawler: Diseño de un Rastreador Web Distribuido y Escalable (CTCI 9.3)"
 description: "Problema CTCI 9.3: arquitectura para un rastreador web distribuido que gestiona URLs duplicadas y políticas de cortesía."
 date: "2025-10-12"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras, Diseño de Sistemas y Arquitectura]
 coverImage: /assets/images/ctci-9-3-web-crawler.webp
 previewImage: /assets/images/ctci-9-3-web-crawler.webp
 ---

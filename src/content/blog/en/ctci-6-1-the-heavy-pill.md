@@ -2,7 +2,7 @@
 title: "The Heavy Pill: Find the Heavy Bottle with One Weighing (Java)"
 description: "CTCI-style problem 6.1 for beginners: 20 pill bottles, one bottle has 1.1g pills instead of 1.0g. Identify it with a single scale weighing by taking 1, 2, ..., 20 pills and reading the weight excess."
 date: "2026-04-05"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-6-1-the-heavy-pill.webp
 previewImage: /assets/images/ctci-6-1-the-heavy-pill.webp
 ---

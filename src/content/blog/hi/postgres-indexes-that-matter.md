@@ -2,7 +2,7 @@
 title: "पोस्टग्रेस इंडेक्स जो वाकई मायने रखते हैं: बी-ट्री, आंशिक, मिश्रित, कवरिंग"
 description: "कौन से पोस्टग्रेस इंडेक्स विलंब घटाते हैं: बी-ट्री डिफ़ॉल्ट, आंशिक फ़िल्टर, मिश्रित स्तंभ क्रम, कवरिंग इंक्लूड, और कब इंडेक्स नुकसान करते हैं।"
 date: "2026-07-16"
-tags: [डेटाबेस]
+tags: [बैकएंड और डेटाबेस]
 coverImage: /assets/images/postgres-indexes-that-matter.webp
 previewImage: /assets/images/postgres-indexes-that-matter.webp
 ---

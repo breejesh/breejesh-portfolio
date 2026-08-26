@@ -2,7 +2,7 @@
 title: "Contiguous Sequence: Maximum Sum Subarray via Kadane's Algorithm (CTCI 16.17)"
 description: "CTCI problem 16.17: find contiguous sequence of integers with maximum sum using Kadane's dynamic programming algorithm."
 date: "2026-03-02"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-16-17-contiguous-sequence.webp
 previewImage: /assets/images/ctci-16-17-contiguous-sequence.webp
 ---

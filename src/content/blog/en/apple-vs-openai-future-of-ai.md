@@ -2,7 +2,7 @@
 title: "Apple Sues OpenAI: Inside the Stolen Hardware Lawsuit That Shattered Their Alliance"
 description: "Apple filed a federal trade secret lawsuit against OpenAI, alleging stolen hardware prototypes and systematic insider data theft. Here is what happened and what comes next."
 date: "2026-07-23"
-tags: [AI]
+tags: [AI & Machine Learning]
 coverImage: /assets/images/apple-vs-openai-cover.webp
 previewImage: /assets/images/apple-vs-openai-cover.webp
 ---

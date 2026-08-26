@@ -2,7 +2,7 @@
 title: "Paths with Sum: compter les chemins descendants qui atteignent une cible (Java)"
 description: "Problème style CTCI 4.12 pour débutants: compter chaque chemin d'un arbre binaire qui somme à une cible. Uniquement parent vers enfant. Force brute depuis chaque nœud, puis somme courante plus HashMap des préfixes."
 date: "2026-06-20"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-4-12-paths-with-sum.webp
 previewImage: /assets/images/ctci-4-12-paths-with-sum.webp
 ---

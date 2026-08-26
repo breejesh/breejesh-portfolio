@@ -2,7 +2,7 @@
 title: "Comment fonctionne le DNS pour les ingénieurs : chemin de résolution, enregistrements, TTL et dig"
 description: "Le chemin de résolution DNS du stub au nameserver autoritaire, les enregistrements que vous éditez vraiment (A, AAAA, CNAME, MX, TXT), comment TTL et caches retardent chaque changement, et comment déboguer avec dig."
 date: "2026-07-02"
-tags: [Réseaux]
+tags: [Cybersécurité et Réseaux]
 coverImage: /assets/images/how-dns-works-for-engineers.webp
 previewImage: /assets/images/how-dns-works-for-engineers.webp
 ---

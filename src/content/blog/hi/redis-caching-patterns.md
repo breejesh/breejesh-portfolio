@@ -2,7 +2,7 @@
 title: "रेडिस कैश पैटर्न जो प्रोडक्शन में टिकते हैं"
 description: "कैश-असाइड, स्टैंपीड नियंत्रण, टीटीएल जिटर, इनवैलिडेशन और हॉट कीज़। असली ट्रैफ़िक में रेडिस को उपयोगी रखने वाले पैटर्न, बिना डेटाबेस पिघलाए।"
 date: "2026-07-15"
-tags: [डेटाबेस, बैकएंड]
+tags: [बैकएंड और डेटाबेस]
 coverImage: /assets/images/redis-caching-patterns.webp
 previewImage: /assets/images/redis-caching-patterns.webp
 ---

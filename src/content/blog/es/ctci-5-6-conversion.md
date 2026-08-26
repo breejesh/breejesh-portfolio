@@ -2,7 +2,7 @@
 title: "Conversion: cuántos bits hay que voltear para pasar de A a B (Java)"
 description: "Problema estilo CTCI 5.6 para principiantes: cuenta los bits que debes voltear para convertir el entero A en B. XOR de ambos y luego cuenta los unos. Bucle de Brian Kernighan e Integer.bitCount."
 date: "2026-02-19"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-5-6-conversion.webp
 previewImage: /assets/images/ctci-5-6-conversion.webp
 ---

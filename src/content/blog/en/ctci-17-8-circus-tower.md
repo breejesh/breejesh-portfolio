@@ -2,7 +2,7 @@
 title: "Circus Tower: Longest Increasing Subsequence for Height and Weight (CTCI 17.8)"
 description: "CTCI problem 17.8: build tallest human tower where each person is shorter and lighter than the person below."
 date: "2026-04-12"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-17-8-circus-tower.webp
 previewImage: /assets/images/ctci-17-8-circus-tower.webp
 ---

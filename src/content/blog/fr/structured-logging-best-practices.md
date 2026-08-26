@@ -2,7 +2,7 @@
 title: "Bonnes pratiques de logging structuré pour les services en production"
 description: "Logs JSON, IDs de corrélation, niveaux, rédaction du PII et contrôle de cardinalité. Ce qui accélère les incidents sans faire exploser la facture de logs."
 date: "2026-07-03"
-tags: [DevOps, Backend]
+tags: [Cloud et DevOps, Backend et Bases de Données]
 coverImage: /assets/images/structured-logging-best-practices.webp
 previewImage: /assets/images/structured-logging-best-practices.webp
 ---

@@ -2,7 +2,7 @@
 title: "Conversion: combien de bits basculer pour passer de A à B (Java)"
 description: "Problème style CTCI 5.6 pour débutants: compte les bits à basculer pour convertir l'entier A en B. XOR des deux, puis compte les uns. Boucle de Brian Kernighan et Integer.bitCount."
 date: "2026-02-19"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-5-6-conversion.webp
 previewImage: /assets/images/ctci-5-6-conversion.webp
 ---

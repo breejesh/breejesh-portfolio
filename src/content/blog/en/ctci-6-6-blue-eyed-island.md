@@ -2,7 +2,7 @@
 title: "Blue-Eyed Island: Common Knowledge and Induction for Beginners"
 description: "CTCI-style problem 6.6: n blue-eyed islanders leave on the nth night after the guru says I see someone with blue eyes. Teach base case, inductive step, and common knowledge without jargon fog."
 date: "2025-12-23"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-6-6-blue-eyed-island.webp
 previewImage: /assets/images/ctci-6-6-blue-eyed-island.webp
 ---

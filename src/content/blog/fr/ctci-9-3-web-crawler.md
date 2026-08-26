@@ -2,7 +2,7 @@
 title: "Web Crawler: Conception d'un Robot d'Exploration Web Évolutif (CTCI 9.3)"
 description: "Problème CTCI 9.3: architecture pour un crawler web distribué gérant les doublons et les règles de politesse d'hôte."
 date: "2025-10-12"
-tags: [Algorithms]
+tags: [Algorithmes et Structures, Design Système et Architecture]
 coverImage: /assets/images/ctci-9-3-web-crawler.webp
 previewImage: /assets/images/ctci-9-3-web-crawler.webp
 ---

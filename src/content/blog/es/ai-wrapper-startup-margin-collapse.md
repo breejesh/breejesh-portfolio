@@ -2,7 +2,7 @@
 title: "El Colapso de Margenes en Startups de IA: La Trampa del 15% de Margen Bruto"
 description: "Radiografia financiera de startups de software de IA atrapadas entre altos costes de computacion de modelos y modelos de suscripcion plana."
 date: "2026-08-15"
-tags: [Startups, VentureCapital, SaaS, IA, Economia]
+tags: [Negocios Tech y Finanzas, IA y Machine Learning]
 coverImage: /assets/images/runaway-ai-agents-enterprise-spending-crisis.webp
 previewImage: /assets/images/runaway-ai-agents-enterprise-spending-crisis.webp
 ---

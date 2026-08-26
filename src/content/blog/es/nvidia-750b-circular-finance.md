@@ -2,7 +2,7 @@
 title: "Los acuerdos de 750.000 millones de Nvidia son la máquina circular de IA a toda potencia"
 description: "SK Group por más de 500.000 millones, un posible respaldo de 250.000 millones a OpenAI, 18 céntimos de cada dólar de IA en producción y un free cash flow en caída libre. El bucle de dinero es el producto."
 date: "2026-07-27"
-tags: [IA, Finanzas]
+tags: [IA y Machine Learning, Negocios Tech y Finanzas]
 coverImage: /assets/images/nvidia-750b-circular-finance.webp
 previewImage: /assets/images/nvidia-750b-circular-finance.webp
 ---

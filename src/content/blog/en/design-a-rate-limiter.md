@@ -2,7 +2,7 @@
 title: "Design a Rate Limiter: Algorithms, Redis Patterns, and Gateway Reality"
 description: "Rate limiting explained for absolute beginners: the club bouncer analogy, why limits exist, token buckets and sliding windows in plain language, Redis as a shared notebook, and one request walked end to end."
 date: "2026-04-10"
-tags: [System Design]
+tags: [System Design & Architecture]
 coverImage: /assets/images/design-a-rate-limiter.webp
 previewImage: /assets/images/design-a-rate-limiter.webp
 ---

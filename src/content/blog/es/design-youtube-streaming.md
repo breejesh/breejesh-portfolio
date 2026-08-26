@@ -2,7 +2,7 @@
 title: "Cómo funciona de verdad un servicio de vídeo tipo YouTube: subir, convertir, guardar, reproducir"
 description: "Mapa para principiantes del streaming de vídeo: un cineasta deja una cinta maestra, la plataforma hace muchas copias de distinta calidad, las guarda cerca de los espectadores y las sirve con un CDN. Por qué el original solo no basta, y la intuición de coste en palabras simples."
 date: "2025-09-29"
-tags: [Diseño de sistemas]
+tags: [Diseño de Sistemas y Arquitectura, Backend y Bases de Datos]
 coverImage: /assets/images/design-youtube-streaming.webp
 previewImage: /assets/images/design-youtube-streaming.webp
 ---

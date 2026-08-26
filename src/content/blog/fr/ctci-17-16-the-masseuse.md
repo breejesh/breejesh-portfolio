@@ -2,7 +2,7 @@
 title: "The Masseuse: Maximize Non-Adjacent Appointment Minutes (CTCI 17.16)"
 description: "CTCI problem 17.16: optimal dynamic programming allocation of appointments with mandatory 15-min break between bookings."
 date: "2026-06-01"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-17-16-the-masseuse.webp
 previewImage: /assets/images/ctci-17-16-the-masseuse.webp
 ---

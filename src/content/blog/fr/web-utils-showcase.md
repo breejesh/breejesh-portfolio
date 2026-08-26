@@ -2,7 +2,7 @@
 title: "Web Utils: Suite d'Outils Développeurs 100% Côté Client avec Angular 19"
 description: "Un examen technique de Web Utils, une suite d'outils web axée sur la confidentialité comprenant 28 outils développeurs exécutés dans le navigateur via Angular 19, Signals et Web Workers."
 date: "2026-08-09"
-tags: [Développement Web, Sécurité, Angular]
+tags: [Frontend et Développement Web, Cybersécurité et Réseaux]
 coverImage: /assets/images/web-utils-showcase.webp
 previewImage: /assets/images/web-utils-showcase.webp
 ---

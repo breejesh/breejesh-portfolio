@@ -2,7 +2,7 @@
 title: "Sort Stack: Order a Stack With One Temporary Stack (Java)"
 description: "CTCI-style problem 3.5 for beginners: sort a stack so the smallest items sit on top. Only one extra stack allowed. Insertion-sort thinking in plain Java."
 date: "2025-11-28"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-3-5-sort-stack.webp
 previewImage: /assets/images/ctci-3-5-sort-stack.webp
 ---

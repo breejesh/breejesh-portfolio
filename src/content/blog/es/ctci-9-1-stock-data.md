@@ -2,7 +2,7 @@
 title: "Stock Data: Diseño de un Servidor de Datos Financieros de Alto Rendimiento (CTCI 9.1)"
 description: "Problema CTCI 9.1: diseña una arquitectura para entregar actualizaciones de cotizaciones de acciones en tiempo real a millones de clientes simultáneos."
 date: "2026-05-06"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-9-1-stock-data.webp
 previewImage: /assets/images/ctci-9-1-stock-data.webp
 ---

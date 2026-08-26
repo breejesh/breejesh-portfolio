@@ -2,7 +2,7 @@
 title: "Successor: nœud suivant en parcours in-order d'un BST (Java)"
 description: "Problème style CTCI 4.6 pour débutants: trouve le successeur in-order d'un nœud dans un arbre de recherche binaire quand chaque nœud a un lien parent. Plus à gauche du sous-arbre droit, ou remonte les parents tant que tu es fils droit."
 date: "2026-02-22"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-4-6-successor.webp
 previewImage: /assets/images/ctci-4-6-successor.webp
 ---

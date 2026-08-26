@@ -2,7 +2,7 @@
 title: "Triple Step: contar formas de subir n escalones con saltos de 1, 2 o 3 (Java)"
 description: "Problema estilo CTCI 8.1 para principiantes: un niño sube n escalones con pasos de 1, 2 o 3. Cuenta las formas con recursión, memoización y DP bottom-up en Java."
 date: "2026-01-04"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-8-1-triple-step.webp
 previewImage: /assets/images/ctci-8-1-triple-step.webp
 ---

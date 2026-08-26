@@ -2,7 +2,7 @@
 title: "Cruches d'eau: mesurer exactement 4 litres avec 3 et 5 (Java)"
 description: "Problème style CTCI 6.5 pour débutants: deux cruches de capacités 3 et 5 litres, mesurer exactement 4. Étapes manuelles de versement, identité de Bézout et BFS optionnel en Java sur les états."
 date: "2025-08-19"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-6-5-jugs-of-water.webp
 previewImage: /assets/images/ctci-6-5-jugs-of-water.webp
 ---

@@ -2,7 +2,7 @@
 title: "Dominos: Por qué un tablero mutilado no se puede embaldosar (Java)"
 description: "Problema estilo CTCI 6.3 para principiantes: tablero 8x8 con dos esquinas opuestas quitadas, 31 dominós. El invariante de coloración prueba que es imposible. Cuentas, boceto y visualización opcional en Java."
 date: "2025-11-20"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-6-3-dominos.webp
 previewImage: /assets/images/ctci-6-3-dominos.webp
 ---

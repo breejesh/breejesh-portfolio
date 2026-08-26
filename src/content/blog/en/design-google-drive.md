@@ -2,7 +2,7 @@
 title: "Design Google Drive: How a Magic Folder Works on Every Device"
 description: "Google Drive style storage for absolute beginners: upload, download, sync, chunks, versions, sharing, and what happens when two phones edit the same file offline."
 date: "2026-02-10"
-tags: [System Design]
+tags: [System Design & Architecture]
 coverImage: /assets/images/design-google-drive.webp
 previewImage: /assets/images/design-google-drive.webp
 ---

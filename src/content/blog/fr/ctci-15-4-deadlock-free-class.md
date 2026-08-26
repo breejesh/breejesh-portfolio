@@ -2,7 +2,7 @@
 title: "Deadlock-Free Class: Designing a Lock Manager (CTCI 15.4)"
 description: "CTCI problem 15.4: architecture for a thread-safe LockManager class that prevents circular wait conditions."
 date: "2026-01-19"
-tags: [Algorithms]
+tags: [Algorithmes et Structures, Backend et Bases de Données]
 coverImage: /assets/images/ctci-15-4-deadlock-free-class.webp
 previewImage: /assets/images/ctci-15-4-deadlock-free-class.webp
 ---

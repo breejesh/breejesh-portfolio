@@ -2,7 +2,7 @@
 title: "प्रोडक्ट इंजीनियरों के लिए प्रॉम्प्ट इंजीनियरिंग जो सच में काम करे"
 description: "संरचना, फ्यू-शॉट, सख्त बाधाएँ, इवल लूप और आम फेल मोड। एलएलएम फीचर शिप करने का व्यावहारिक प्लेबुक, चैट डेमो नहीं।"
 date: "2026-07-31"
-tags: [एआई]
+tags: [एआई और मशीन लर्निंग]
 coverImage: /assets/images/prompt-engineering-that-works.webp
 previewImage: /assets/images/prompt-engineering-that-works.webp
 ---

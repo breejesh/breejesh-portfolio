@@ -2,7 +2,7 @@
 title: "Shuffle: Fisher-Yates Card Deck Shuffling Algorithm (CTCI 17.2)"
 description: "CTCI problem 17.2: shuffle a deck of cards uniformly using the Fisher-Yates (Knuth) in-place algorithm."
 date: "2026-05-23"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-17-2-shuffle.webp
 previewImage: /assets/images/ctci-17-2-shuffle.webp
 ---

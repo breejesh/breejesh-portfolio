@@ -2,7 +2,7 @@
 title: "Return from Finally: Try-Catch-Finally Execution Order in Java (CTCI 13.2)"
 description: "CTCI problem 13.2: how return statements in try, catch, and finally blocks interact in Java runtime execution."
 date: "2025-08-07"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-13-2-return-from-finally.webp
 previewImage: /assets/images/ctci-13-2-return-from-finally.webp
 ---

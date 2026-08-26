@@ -48,11 +48,28 @@ Articles must **not** follow a rigid, repetitive formula. Choose the appropriate
 title: "[Compelling, Specific Title — e.g. The Sovereign AI Split: Why Nations Are Caught Between US and Chinese Compute Stacks]"
 description: "[1-2 sentence high-signal summary of the core insight, investigation, or outcome]"
 date: YYYY-MM-DD
-tags: [PrimaryTopic, IndustryCategory, StrategyOrTech]
+tags: [Topic1, Topic2]
 coverImage: /assets/images/[slug-name].webp
 previewImage: /assets/images/[slug-name].webp
 ---
 ```
+
+#### Frozen 10 Canonical Topics Taxonomy
+Every blog post MUST use 1 to 3 tags drawn strictly from this frozen 10-topic taxonomy (with localized equivalents per language):
+
+| # | English (`en`) | Spanish (`es`) | French (`fr`) | Hindi (`hi`) |
+|---|---|---|---|---|
+| 1 | Algorithms & Data Structures | Algoritmos y Estructuras | Algorithmes et Structures | एल्गोरिदम और डेटा संरचनाएं |
+| 2 | Backend & Databases | Backend y Bases de Datos | Backend et Bases de Données | बैकएंड और डेटाबेस |
+| 3 | System Design & Architecture | Diseño de Sistemas y Arquitectura | Design Système et Architecture | सिस्टम डिजाइन और आर्किटेक्चर |
+| 4 | AI & Machine Learning | IA y Machine Learning | IA et Machine Learning | एआई और मशीन लर्निंग |
+| 5 | Cloud & DevOps | Cloud y DevOps | Cloud et DevOps | क्लाउड और डेवऑप्स |
+| 6 | Developer Tools & Policy | Herramientas y Políticas Tech | Outils Développeur et Régulation | डेवलपर टूल्स और नीतियां |
+| 7 | Frontend & Web | Frontend y Desarrollo Web | Frontend et Développement Web | फ्रंटएंड और वेब डेवलपमेंट |
+| 8 | Tech Business & Finance | Negocios Tech y Finanzas | Économie Tech et Finance | टेक व्यापार और वित्त |
+| 9 | Cybersecurity & Networking | Ciberseguridad y Redes | Cybersécurité et Réseaux | साइबर सुरक्षा और नेटवर्किंग |
+| 10 | Hardware & Semiconductors | Hardware y Semiconductores | Matériel et Semiconducteurs | हार्डवेयर और सेमीकंडक्टर |
+
 
 ### 2.2 Executive Summary (TL;DR Box)
 Place an executive summary box directly after frontmatter to respect the reader's time:

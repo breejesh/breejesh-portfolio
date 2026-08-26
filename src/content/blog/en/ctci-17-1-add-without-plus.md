@@ -2,7 +2,7 @@
 title: "Add Without Plus: Arithmetic Addition via Bitwise XOR and AND (CTCI 17.1)"
 description: "CTCI problem 17.1: add two numbers without using + or any arithmetic operators using bitwise XOR for sum and bitwise AND for carry."
 date: "2026-02-21"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-17-1-add-without-plus.webp
 previewImage: /assets/images/ctci-17-1-add-without-plus.webp
 ---

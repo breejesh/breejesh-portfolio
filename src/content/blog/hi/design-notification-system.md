@@ -2,7 +2,7 @@
 title: "नोटिफिकेशन सिस्टम डिज़ाइन करें: पुश, एसएमएस, ईमेल, कतारें और विश्वसनीयता"
 description: "नोटिफिकेशन सिस्टम कैसे काम करता है, शुरुआती लोगों के लिए: चैनल, यूज़र प्राथमिकताएँ, टेम्पलेट, कतारें, रिट्राई, और ऑर्डर शिप होने से फोन अलर्ट तक का पूरा रास्ता।"
 date: "2026-06-07"
-tags: [सिस्टम डिजाइन]
+tags: [सिस्टम डिजाइन और आर्किटेक्चर]
 coverImage: /assets/images/design-notification-system.webp
 previewImage: /assets/images/design-notification-system.webp
 ---

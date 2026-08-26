@@ -2,7 +2,7 @@
 title: "थ्री इन वन: एक ही ऐरे में तीन स्टैक (जावा)"
 description: "शुरुआती लोगों के लिए सीटीसीआई शैली की समस्या ३.१: एक ऐरे से तीन स्टैक बनाओ। बराबर स्थिर हिस्सों, sizes[] ऐरे, और साफ FixedMultiStack जावा में।"
 date: "2026-03-12"
-tags: [एल्गोरिदम]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-3-1-three-in-one.webp
 previewImage: /assets/images/ctci-3-1-three-in-one.webp
 ---

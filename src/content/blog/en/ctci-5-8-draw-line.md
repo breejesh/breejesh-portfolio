@@ -2,7 +2,7 @@
 title: "Draw Line: Paint a Horizontal Line on a Byte-Packed Screen (Java)"
 description: "CTCI-style problem 5.8 for beginners: monochrome screen stored as a byte array, eight pixels per byte. Draw a horizontal line from (x1, y) to (x2, y) with bit masks on partial bytes and 0xFF on full ones."
 date: "2026-02-16"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-5-8-draw-line.webp
 previewImage: /assets/images/ctci-5-8-draw-line.webp
 ---

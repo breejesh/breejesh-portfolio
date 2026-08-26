@@ -2,7 +2,7 @@
 title: "Draw Line: tracer une ligne horizontale sur un écran empaqueté en octets (Java)"
 description: "Problème style CTCI 5.8 pour débutants: écran monochrome stocké en tableau d'octets, huit pixels par octet. Trace une ligne horizontale de (x1, y) à (x2, y) avec des masques de bits sur les octets partiels et 0xFF sur les complets."
 date: "2026-02-16"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-5-8-draw-line.webp
 previewImage: /assets/images/ctci-5-8-draw-line.webp
 ---

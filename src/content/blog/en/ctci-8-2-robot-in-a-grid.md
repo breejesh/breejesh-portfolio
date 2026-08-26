@@ -2,7 +2,7 @@
 title: "Robot in a Grid: Find a Right/Down Path Around Blocked Cells (Java)"
 description: "CTCI-style problem 8.2 for beginners: robot goes top-left to bottom-right with only right and down moves. Some cells are off. Memoized DFS (or DP) finds one path in Java."
 date: "2026-05-10"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-8-2-robot-in-a-grid.webp
 previewImage: /assets/images/ctci-8-2-robot-in-a-grid.webp
 ---

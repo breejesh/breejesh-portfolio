@@ -2,7 +2,7 @@
 title: "Search in Rotated Array: Buscar en Arreglo Ordenado Rotado (CTCI 10.3)"
 description: "Problema CTCI 10.3 en Java: búsqueda binaria modificada para encontrar un elemento en un arreglo rotado."
 date: "2026-03-11"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-10-3-search-in-rotated-array.webp
 previewImage: /assets/images/ctci-10-3-search-in-rotated-array.webp
 ---

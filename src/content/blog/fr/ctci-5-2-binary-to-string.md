@@ -2,7 +2,7 @@
 title: "Binary to String: afficher une fraction en bits ou ERROR (Java)"
 description: "Probleme style CTCI 5.2 pour debutants: prendre un double dans (0, 1), afficher sa chaine de fraction binaire, ou ERROR s'il faut plus de 32 bits apres le point. Methode multiplier-par-2 en Java simple."
 date: "2026-04-16"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-5-2-binary-to-string.webp
 previewImage: /assets/images/ctci-5-2-binary-to-string.webp
 ---

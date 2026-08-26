@@ -2,7 +2,7 @@
 title: "Paths with Sum: contar caminos hacia abajo que suman un objetivo (Java)"
 description: "Problema estilo CTCI 4.12 para principiantes: cuenta cada camino en un árbol binario que sume un valor objetivo. Solo padre a hijo. Fuerza bruta desde cada nodo, luego suma acumulada más un HashMap de prefijos."
 date: "2026-06-20"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-4-12-paths-with-sum.webp
 previewImage: /assets/images/ctci-4-12-paths-with-sum.webp
 ---

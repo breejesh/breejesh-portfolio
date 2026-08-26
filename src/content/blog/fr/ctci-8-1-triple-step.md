@@ -2,7 +2,7 @@
 title: "Triple Step: compter les façons de monter n marches avec des sauts de 1, 2 ou 3 (Java)"
 description: "Problème style CTCI 8.1 pour débutants: un enfant monte n marches en pas de 1, 2 ou 3. Compter les façons avec récursion, mémoïsation et DP bottom-up en Java."
 date: "2026-01-04"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-8-1-triple-step.webp
 previewImage: /assets/images/ctci-8-1-triple-step.webp
 ---

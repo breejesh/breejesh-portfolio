@@ -2,7 +2,7 @@
 title: "The 2026 RAM Crisis: How the AI Bubble is Starving Consumer Tech"
 description: "How the 2026 memory hardware shortage, the AI data center gold rush, and HBM demand are squeezing PC parts, smartphone prices, and console releases."
 date: "2026-07-18"
-tags: [Hardware]
+tags: [Hardware & Semiconductors, Tech Business & Finance]
 coverImage: /assets/images/ram-prices-bubble.webp
 previewImage: /assets/images/ram-prices-bubble.webp
 ---

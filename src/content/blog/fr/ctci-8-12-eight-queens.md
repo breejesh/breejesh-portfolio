@@ -2,7 +2,7 @@
 title: "Huit dames: placer 8 dames sans s'attaquer avec backtracking (Java)"
 description: "Problème style CTCI 8.12 pour débutants: place huit dames sur un échiquier 8x8 sans partager ligne, colonne ni diagonale. Placement ligne par ligne, contrôles de conflit et backtracking propre en Java."
 date: "2025-09-16"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-8-12-eight-queens.webp
 previewImage: /assets/images/ctci-8-12-eight-queens.webp
 ---

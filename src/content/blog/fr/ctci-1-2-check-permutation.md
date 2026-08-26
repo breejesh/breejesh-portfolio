@@ -2,7 +2,7 @@
 title: "CTCI 1.2 Check Permutation : mêmes lettres, autre ordre (Java)"
 description: "Décider si deux chaînes sont des permutations l'une de l'autre. Analogie Scrabble, tri vs tableau de comptage vs HashMap en Java, complexité et cas limites pour débutants."
 date: "2026-01-24"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-1-2-check-permutation.webp
 previewImage: /assets/images/ctci-1-2-check-permutation.webp
 ---

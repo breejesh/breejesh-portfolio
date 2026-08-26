@@ -2,7 +2,7 @@
 title: "Concevoir un système d'autocomplétion de recherche : comment le typeahead marche vraiment"
 description: "Autocomplétion de recherche pour débutants : préfixes, arbre de lettres (trie), meilleures suggestions, pourquoi on précalcule les réponses, et une marche lettre par lettre en tapant din."
 date: "2025-11-14"
-tags: [Conception de systèmes]
+tags: [Design Système et Architecture]
 coverImage: /assets/images/design-search-autocomplete.webp
 previewImage: /assets/images/design-search-autocomplete.webp
 ---

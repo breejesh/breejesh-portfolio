@@ -2,7 +2,7 @@
 title: "Pastebin: Servicio de Almacenamiento de Texto Escalable (CTCI 9.8)"
 description: "Problema CTCI 9.8: diseño completo de un servicio estilo Pastebin con claves cortas únicas y expiración de contenido."
 date: "2026-06-11"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-9-8-pastebin.webp
 previewImage: /assets/images/ctci-9-8-pastebin.webp
 ---

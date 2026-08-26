@@ -2,7 +2,7 @@
 title: "स्पार्स सर्च: खाली स्ट्रिंग्स से भरे ऐरे में टारगेट स्ट्रिंग खोजें (CTCI 10.5)"
 description: "सीटीसीआई समस्या १०.५: खाली स्ट्रिंग्स वाले सॉर्ट किए गए एरे में लक्षित स्ट्रिंग खोजने के लिए संशोधित बाइनरी सर्च।"
 date: "2026-01-23"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-10-5-sparse-search.webp
 previewImage: /assets/images/ctci-10-5-sparse-search.webp
 ---

@@ -2,7 +2,7 @@
 title: "CTCI 1.3 URLify: reemplazar espacios con %20 desde el final"
 description: "Codificación URL in-place sobre un char array con longitud real. Cuenta espacios, recorre hacia atrás y escribe %20 sin pisar caracteres que aún necesitas."
 date: "2025-10-31"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-1-3-urlify.webp
 previewImage: /assets/images/ctci-1-3-urlify.webp
 ---

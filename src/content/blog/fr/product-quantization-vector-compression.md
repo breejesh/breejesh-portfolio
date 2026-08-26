@@ -2,7 +2,7 @@
 title: "Product Quantization: Compresser les Vecteurs Haute Dimension de 97%"
 description: "Comment Product Quantization divise les vecteurs en codebooks de sous-vecteurs, compresse 3 072 octets en 8 octets par vecteur et accélère la recherche 92x dans Faiss."
 date: "2026-08-08"
-tags: [VectorSearch, MachineLearning, Faiss, Python]
+tags: [Backend et Bases de Données, IA et Machine Learning]
 coverImage: /assets/images/product-quantization-vector-compression.webp
 previewImage: /assets/images/product-quantization-vector-compression.webp
 ---

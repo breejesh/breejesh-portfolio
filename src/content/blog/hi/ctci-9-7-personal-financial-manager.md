@@ -2,7 +2,7 @@
 title: "व्यक्तिगत वित्तीय प्रबंधक: बैंक खाता एकत्रीकरण प्रणाली (CTCI 9.7)"
 description: "सीटीसीआई समस्या ९.७: कई बैंक खातों को जोड़ने और लेनदेन को स्वचालित रूप से श्रेणीबद्ध करने वाला वित्तीय प्रबंधक सिस्टम डिजाइन करें।"
 date: "2026-01-28"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-9-7-personal-financial-manager.webp
 previewImage: /assets/images/ctci-9-7-personal-financial-manager.webp
 ---

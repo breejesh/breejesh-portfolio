@@ -2,7 +2,7 @@
 title: "2D Alloc: Dynamic 2D Array Allocation in C (CTCI 12.11)"
 description: "CTCI problem 12.11 in C: allocate and free a 2D array dynamically with contiguous memory to optimize cache locality."
 date: "2026-03-17"
-tags: [Algorithms, Systems]
+tags: [Algorithms & Data Structures, Backend & Databases, Developer Tools & Policy]
 coverImage: /assets/images/ctci-12-11-2d-alloc.webp
 previewImage: /assets/images/ctci-12-11-2d-alloc.webp
 ---

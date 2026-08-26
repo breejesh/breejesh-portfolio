@@ -2,7 +2,7 @@
 title: "Event-Driven Architecture for Backend Engineers: Events, Brokers, Idempotency, Outbox"
 description: "A practical intro to event-driven systems: events vs commands, broker choices, consumer idempotency, transactional outbox, and when request/response is still the better call."
 date: "2026-07-11"
-tags: [Backend, Cloud]
+tags: [Backend & Databases, Cloud & DevOps]
 coverImage: /assets/images/event-driven-architecture-intro.webp
 previewImage: /assets/images/event-driven-architecture-intro.webp
 ---

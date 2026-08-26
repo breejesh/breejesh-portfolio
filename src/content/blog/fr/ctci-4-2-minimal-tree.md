@@ -2,7 +2,7 @@
 title: "Minimal Tree: BST équilibré depuis un tableau trié (Java)"
 description: "Problème style CTCI 4.2 pour débutants: à partir d'un tableau trié d'entiers uniques, construire un arbre de recherche binaire de hauteur minimale. Prendre le milieu comme racine, récursion sur chaque moitié."
 date: "2026-02-06"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-4-2-minimal-tree.webp
 previewImage: /assets/images/ctci-4-2-minimal-tree.webp
 ---

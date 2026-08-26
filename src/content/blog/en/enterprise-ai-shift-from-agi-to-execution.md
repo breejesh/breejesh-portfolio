@@ -2,7 +2,7 @@
 title: "The Death of AGI Fever: How Enterprise AI Quietly Pivoted from Moonshots to Boring Pragmatism"
 description: "After spending billions on open-ended generative AI pilots with single-digit production success rates, Fortune 500 CIOs are rejecting AGI hype in favor of deterministic workflow automation."
 date: "2026-08-18"
-tags: [Enterprise, AI, Strategy, IndustryTrends, ROI]
+tags: [Developer Tools & Policy, AI & Machine Learning]
 coverImage: /assets/images/context-compaction-kv-cache-compression.webp
 previewImage: /assets/images/context-compaction-kv-cache-compression.webp
 ---

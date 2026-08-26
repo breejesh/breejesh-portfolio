@@ -2,7 +2,7 @@
 title: "Design a Web Crawler: Frontier, Politeness, Fetch, Dedup, and Scale"
 description: "How a web crawler works in plain language: seed URLs, the frontier queue, politeness, fetch, parse, store, and dedup. One page walked through the pipeline, plus a short recap."
 date: "2025-10-30"
-tags: [System Design]
+tags: [System Design & Architecture]
 coverImage: /assets/images/design-web-crawler.webp
 previewImage: /assets/images/design-web-crawler.webp
 ---

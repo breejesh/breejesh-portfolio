@@ -2,7 +2,7 @@
 title: "Count of 2s: Count Total Occurrences of Digit 2 Between 0 and N (CTCI 17.6)"
 description: "CTCI problem 17.6: count occurrences of digit 2 in all numbers from 0 to N using digit-by-digit math in O(log N) time."
 date: "2025-10-16"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-17-6-count-of-2s.webp
 previewImage: /assets/images/ctci-17-6-count-of-2s.webp
 ---

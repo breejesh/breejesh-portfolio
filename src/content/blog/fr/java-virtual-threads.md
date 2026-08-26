@@ -2,7 +2,7 @@
 title: "Threads virtuels Java 21: benchmarks, pools de threads et cas d'usage"
 description: "Threads virtuels Java 21 vs platform threads avec des chiffres de charge Spring Boot. Project Loom, Thread.ofVirtual(), pinning, et quand les pools comptent encore."
 date: "2026-07-30"
-tags: [Java, Backend]
+tags: [Backend et Bases de Données]
 coverImage: /assets/images/java-virtual-threads.webp
 previewImage: /assets/images/java-virtual-threads.webp
 ---

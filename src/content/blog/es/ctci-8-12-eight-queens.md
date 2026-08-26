@@ -2,7 +2,7 @@
 title: "Ocho reinas: colocar 8 reinas sin atacarse con backtracking (Java)"
 description: "Problema estilo CTCI 8.12 para principiantes: pon ocho reinas en un tablero 8x8 sin compartir fila, columna ni diagonal. Colocación por filas, chequeos de conflicto y backtracking limpio en Java."
 date: "2025-09-16"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-8-12-eight-queens.webp
 previewImage: /assets/images/ctci-8-12-eight-queens.webp
 ---

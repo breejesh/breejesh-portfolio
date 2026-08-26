@@ -2,7 +2,7 @@
 title: "CTCI 2.4 Partition: couper une liste chaînée autour de x"
 description: "Réordonner une liste chaînée simple pour que chaque nœud strictement inférieur à x précède les nœuds supérieurs ou égaux à x. Fusion de deux listes en Java, plus une note courte head/tail."
 date: "2026-02-01"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-2-4-partition.webp
 previewImage: /assets/images/ctci-2-4-partition.webp
 ---

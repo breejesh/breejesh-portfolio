@@ -2,7 +2,7 @@
 title: "Group Anagrams: Agrupar Anagramas en un Arreglo de Cadenas (CTCI 10.2)"
 description: "Problema CTCI 10.2 en Java: ordena un arreglo de cadenas para colocar los anagramas juntos usando HashMap."
 date: "2026-06-19"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-10-2-group-anagrams.webp
 previewImage: /assets/images/ctci-10-2-group-anagrams.webp
 ---

@@ -2,7 +2,7 @@
 title: "Best Line: Find Line Passing Through Maximum Number of Points (CTCI 16.14)"
 description: "CTCI problem 16.14: find 2D line passing through the maximum number of 2D points using slope HashMap hash counting."
 date: "2025-09-05"
-tags: [Algorithms]
+tags: [Algorithmes et Structures, Backend et Bases de Données]
 coverImage: /assets/images/ctci-16-14-best-line.webp
 previewImage: /assets/images/ctci-16-14-best-line.webp
 ---

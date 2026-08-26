@@ -2,7 +2,7 @@
 title: "Design a Unique ID Generator: UUID, Ticket Servers, and Snowflake"
 description: "Unique IDs explained for beginners: why one database counter fails with many writers, then UUID, ticket servers, and Snowflake as time plus machine number plus counter, like a receipt, including clocks that jump backward."
 date: "2025-11-16"
-tags: [System Design]
+tags: [System Design & Architecture]
 coverImage: /assets/images/design-unique-id-generator.webp
 previewImage: /assets/images/design-unique-id-generator.webp
 ---

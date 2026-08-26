@@ -2,7 +2,7 @@
 title: "Concepts Kubernetes pour publier un service"
 description: "Pods, Deployments, Services, Ingress, probes, ConfigMaps et Secrets : le chemin minimal pour faire tourner un service HTTP sur Kubernetes sans fiche de certification."
 date: "2026-06-21"
-tags: [Conteneurs, DevOps, Cloud]
+tags: [Cloud et DevOps]
 coverImage: /assets/images/kubernetes-ship-a-service.webp
 previewImage: /assets/images/kubernetes-ship-a-service.webp
 ---

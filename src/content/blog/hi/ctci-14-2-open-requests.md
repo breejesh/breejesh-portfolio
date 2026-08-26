@@ -2,7 +2,7 @@
 title: "Open Requests: SQL Left Join for Open Maintenance Requests (CTCI 14.2)"
 description: "CTCI problem 14.2: SQL query returning open maintenance requests per building using LEFT JOIN and GROUP BY."
 date: "2026-06-05"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं, बैकएंड और डेटाबेस]
 coverImage: /assets/images/ctci-14-2-open-requests.webp
 previewImage: /assets/images/ctci-14-2-open-requests.webp
 ---

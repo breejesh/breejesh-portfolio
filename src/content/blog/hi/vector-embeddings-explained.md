@@ -2,7 +2,7 @@
 title: "वेक्टर एम्बेडिंग समझाई: इंजीनियर को असल में क्या चाहिए"
 description: "एम्बेडिंग क्या कूटबद्ध करती हैं, समानता कैसे काम करती है, आयाम क्या खरीदते हैं, खोज और आरएजी उन्हें कैसे इस्तेमाल करते हैं, और वे गलतियाँ जो रिट्रीवल की गुणवत्ता चुपचाप बिगाड़ देती हैं।"
 date: "2026-08-01"
-tags: [एआई]
+tags: [एआई और मशीन लर्निंग]
 coverImage: /assets/images/vector-embeddings-explained.webp
 previewImage: /assets/images/vector-embeddings-explained.webp
 ---

@@ -2,7 +2,7 @@
 title: "Diseñar un crawler web: frontera, cortesía, fetch, dedup y escala"
 description: "Cómo funciona un crawler web en lenguaje sencillo: seeds, cola frontier, cortesía, fetch, parse, store y dedup. Un recorrido de una página por el pipeline y un resumen para un amigo."
 date: "2025-10-30"
-tags: [Diseño de sistemas]
+tags: [Diseño de Sistemas y Arquitectura]
 coverImage: /assets/images/design-web-crawler.webp
 previewImage: /assets/images/design-web-crawler.webp
 ---

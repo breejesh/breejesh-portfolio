@@ -2,7 +2,7 @@
 title: "XML Encoding: Compress XML Element Tree to Byte Stream (CTCI 16.12)"
 description: "CTCI problem 16.12: encode an XML element tree into a compact byte format using integer token lookup tables."
 date: "2025-10-03"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-16-12-xml-encoding.webp
 previewImage: /assets/images/ctci-16-12-xml-encoding.webp
 ---

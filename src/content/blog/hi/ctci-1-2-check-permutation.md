@@ -2,7 +2,7 @@
 title: "CTCI 1.2 Check Permutation: वही अक्षर, अलग क्रम (Java)"
 description: "दो स्ट्रिंग एक-दूसरे की permutation हैं या नहीं, यह तय करें। स्क्रैबल टाइल उपमा, Java में sort बनाम count array बनाम HashMap, जटिलता, और शुरुआती के लिए एज केस।"
 date: "2026-01-24"
-tags: [एल्गोरिदम]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-1-2-check-permutation.webp
 previewImage: /assets/images/ctci-1-2-check-permutation.webp
 ---

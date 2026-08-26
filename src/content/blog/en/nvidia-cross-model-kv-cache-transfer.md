@@ -2,7 +2,7 @@
 title: "Nvidia's Linear Algebra Hack: How Closed-Form KV Cache Transfer Solves the Multi-Model Latency Tax"
 description: "Nvidia Research introduced a mathematical breakthrough allowing Key-Value caches to transfer between small and large language models without recomputing context, slashing agent handoff times by 25x."
 date: "2026-08-19"
-tags: [Nvidia, AI, Hardware, LLM, Systems]
+tags: [Hardware & Semiconductors, AI & Machine Learning, Backend & Databases]
 coverImage: /assets/images/nvidia-cross-model-kv-cache-transfer.webp
 previewImage: /assets/images/nvidia-cross-model-kv-cache-transfer.webp
 ---

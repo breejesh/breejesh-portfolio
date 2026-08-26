@@ -2,7 +2,7 @@
 title: "Docker Compose for Local Dev That Matches Production Closely Enough"
 description: "Shape a Compose stack with services, volumes, env files, and healthchecks so local failures look like prod failures, not random laptop bugs."
 date: "2026-07-05"
-tags: [Containers, DevOps]
+tags: [Cloud & DevOps]
 coverImage: /assets/images/docker-compose-local-dev.webp
 previewImage: /assets/images/docker-compose-local-dev.webp
 ---

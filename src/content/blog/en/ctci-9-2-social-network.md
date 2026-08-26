@@ -2,7 +2,7 @@
 title: "Social Network: Find Shortest Connection Paths at Scale (CTCI 9.2)"
 description: "CTCI problem 9.2: design a distributed system to calculate degree of separation and shortest paths between two users in a billion-node social graph."
 date: "2026-04-26"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-9-2-social-network.webp
 previewImage: /assets/images/ctci-9-2-social-network.webp
 ---

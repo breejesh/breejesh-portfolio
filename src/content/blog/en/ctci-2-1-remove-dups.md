@@ -2,7 +2,7 @@
 title: "Remove Dups: Delete Duplicates from an Unsorted Linked List (Java)"
 description: "CTCI-style problem 2.1 for beginners: strip duplicate values from a singly linked list. HashSet walk in O(N), then a no-buffer runner pointer in O(N^2)."
 date: "2026-04-08"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-2-1-remove-dups.webp
 previewImage: /assets/images/ctci-2-1-remove-dups.webp
 ---

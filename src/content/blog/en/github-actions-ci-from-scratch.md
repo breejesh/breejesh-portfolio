@@ -2,7 +2,7 @@
 title: "GitHub Actions CI from Scratch"
 description: "Workflows, jobs, caching, secrets, matrix builds, and the pitfalls that waste hours when you set up CI on GitHub for the first time."
 date: "2026-07-07"
-tags: [DevOps]
+tags: [Cloud & DevOps]
 coverImage: /assets/images/github-actions-ci-from-scratch.webp
 previewImage: /assets/images/github-actions-ci-from-scratch.webp
 ---

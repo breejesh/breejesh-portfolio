@@ -2,7 +2,7 @@
 title: "List of Depths: One Linked List per Tree Level (Java)"
 description: "CTCI-style problem 4.3 for beginners: turn a binary tree into a list of linked lists, one list per depth. BFS level-order first, optional DFS with a depth index, in plain Java."
 date: "2025-10-19"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-4-3-list-of-depths.webp
 previewImage: /assets/images/ctci-4-3-list-of-depths.webp
 ---

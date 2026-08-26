@@ -2,7 +2,7 @@
 title: "Find Duplicates: Find All Duplicates in N Numbers with 4 KB RAM (CTCI 10.8)"
 description: "CTCI problem 10.8 in Java: print all duplicate numbers in an array of numbers from 1 to 32,000 using a BitSet with only 4 KB of memory."
 date: "2025-08-12"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-10-8-find-duplicates.webp
 previewImage: /assets/images/ctci-10-8-find-duplicates.webp
 ---

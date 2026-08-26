@@ -2,7 +2,7 @@
 title: "Design a URL Shortener: Encoding, Storage, Cache, Redirects, and Scale"
 description: "URL shortener system design explained for beginners: coat-check codes, create and redirect walk-throughs, Base62 encoding, storage, cache, and how to scale step by step."
 date: "2026-04-02"
-tags: [System Design]
+tags: [System Design & Architecture]
 coverImage: /assets/images/design-url-shortener.webp
 previewImage: /assets/images/design-url-shortener.webp
 ---

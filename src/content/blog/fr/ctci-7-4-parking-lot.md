@@ -2,7 +2,7 @@
 title: "Parking Lot: places multi-niveaux pour moto, voiture et bus (Java)"
 description: "Problème style CTCI 7.4 pour débutants: concevoir un parking multi-niveaux avec places moto, compactes et grandes. Stationner motos, voitures et bus sous des règles de taille, avec des classes Java claires."
 date: "2025-12-11"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-7-4-parking-lot.webp
 previewImage: /assets/images/ctci-7-4-parking-lot.webp
 ---

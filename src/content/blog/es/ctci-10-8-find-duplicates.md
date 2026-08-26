@@ -2,7 +2,7 @@
 title: "Find Duplicates: Encontrar Duplicados con Memoria de 4 KB (CTCI 10.8)"
 description: "Problema CTCI 10.8 en Java: imprime todos los números duplicados en un arreglo usando BitSet de 4 KB."
 date: "2025-08-12"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-10-8-find-duplicates.webp
 previewImage: /assets/images/ctci-10-8-find-duplicates.webp
 ---

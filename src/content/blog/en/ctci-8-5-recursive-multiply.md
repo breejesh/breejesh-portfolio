@@ -2,7 +2,7 @@
 title: "Recursive Multiply: Product by Double and Halve (Java)"
 description: "CTCI-style problem 8.5 for beginners: multiply two positive ints without * or /. Recurse on half the smaller factor, double the half-product, add once when odd. Plain Java."
 date: "2025-12-29"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-8-5-recursive-multiply.webp
 previewImage: /assets/images/ctci-8-5-recursive-multiply.webp
 ---

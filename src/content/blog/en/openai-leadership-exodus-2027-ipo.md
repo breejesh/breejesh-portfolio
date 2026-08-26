@@ -2,7 +2,7 @@
 title: "14 Executives Out, IPO In: OpenAI's Institutional Stability Problem"
 description: "OpenAI lost its COO, CRO, Apps CEO, and head of data centers in a single summer while simultaneously shipping GPT-5.6, deploying the Jalapeño inference chip, and prepping for a 2027 IPO. Product velocity is at all-time highs. Organizational stability is at an all-time low."
 date: "2026-08-24"
-tags: [OpenAI, AI, Startups]
+tags: [AI & Machine Learning, Tech Business & Finance]
 coverImage: /assets/images/openai-leadership-exodus-2027-ipo.webp
 previewImage: /assets/images/openai-leadership-exodus-2027-ipo.webp
 ---

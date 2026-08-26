@@ -2,7 +2,7 @@
 title: "Re-Space: Restore Spaces in Unspaced String Using Dynamic Programming (CTCI 17.13)"
 description: "CTCI problem 17.13: re-insert spaces into a text string to minimize unrecognized characters using DP and Trie."
 date: "2025-08-09"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-17-13-re-space.webp
 previewImage: /assets/images/ctci-17-13-re-space.webp
 ---

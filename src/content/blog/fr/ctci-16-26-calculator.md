@@ -2,7 +2,7 @@
 title: "Calculator: Evaluate Mathematical Expression String (CTCI 16.26)"
 description: "CTCI problem 16.26: evaluate arithmetic expression string containing addition, subtraction, multiplication, and division."
 date: "2026-06-15"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-16-26-calculator.webp
 previewImage: /assets/images/ctci-16-26-calculator.webp
 ---

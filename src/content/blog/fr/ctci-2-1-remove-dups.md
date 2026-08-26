@@ -2,7 +2,7 @@
 title: "Remove Dups: supprimer les doublons d'une liste chaînée non triée (Java)"
 description: "Problème style CTCI 2.1 pour débutants: retirer les valeurs en double d'une liste simplement chaînée. Parcours HashSet en O(N), puis pointeur runner sans buffer en O(N^2)."
 date: "2026-04-08"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-2-1-remove-dups.webp
 previewImage: /assets/images/ctci-2-1-remove-dups.webp
 ---

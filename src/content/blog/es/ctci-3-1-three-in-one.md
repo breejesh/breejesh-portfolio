@@ -2,7 +2,7 @@
 title: "Three in One: tres pilas en un solo array (Java)"
 description: "Problema estilo CTCI 3.1 para principiantes: implementa tres pilas con un solo array. Trozo fijo e igual, array sizes[], y un FixedMultiStack claro en Java."
 date: "2026-03-12"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-3-1-three-in-one.webp
 previewImage: /assets/images/ctci-3-1-three-in-one.webp
 ---

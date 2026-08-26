@@ -2,7 +2,7 @@
 title: "Longest Word: Find Longest Word Built from Other Words (CTCI 17.15)"
 description: "CTCI problem 17.15: find the longest word in an array that can be built by concatenating other words in the array."
 date: "2025-10-02"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures, Backend & Databases]
 coverImage: /assets/images/ctci-17-15-longest-word.webp
 previewImage: /assets/images/ctci-17-15-longest-word.webp
 ---

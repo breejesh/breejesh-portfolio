@@ -2,7 +2,7 @@
 title: "CTCI 1.9 Rotation de chaînes: un seul appel à isSubstring"
 description: "Vérifier si s2 est une rotation de s1 avec un seul appel à isSubstring: concaténer s1 avec elle-même et demander si s2 s'y trouve. Parcours Java pour débutants."
 date: "2026-05-13"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-1-9-string-rotation.webp
 previewImage: /assets/images/ctci-1-9-string-rotation.webp
 ---

@@ -2,7 +2,7 @@
 title: "Sorted Matrix Search: Search M x N Matrix Sorted by Rows and Columns (CTCI 10.9)"
 description: "CTCI problem 10.9 in Java: search for an element in an M x N matrix where every row and column is sorted in O(M + N) time."
 date: "2026-04-29"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-10-9-sorted-matrix-search.webp
 previewImage: /assets/images/ctci-10-9-sorted-matrix-search.webp
 ---

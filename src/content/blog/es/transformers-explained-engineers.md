@@ -2,7 +2,7 @@
 title: "Cómo funcionan los transformers: un mapa práctico para ingenieros"
 description: "Atención, embeddings, stacks encoder/decoder, ventanas de contexto y caché KV sin la niebla de los papers. Lo que importa cuando despliegas o sirves LLMs."
 date: "2026-08-02"
-tags: [IA]
+tags: [IA y Machine Learning]
 coverImage: /assets/images/transformers-explained-engineers.webp
 previewImage: /assets/images/transformers-explained-engineers.webp
 ---

@@ -2,7 +2,7 @@
 title: "Missing Int: Encontrar Entero Faltante Entre 4 Mil Millones de Números (CTCI 10.7)"
 description: "Problema CTCI 10.7 en Java: encuentra un entero no contenido en 4 mil millones de registros usando BitSet."
 date: "2026-05-08"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-10-7-missing-int.webp
 previewImage: /assets/images/ctci-10-7-missing-int.webp
 ---

@@ -2,7 +2,7 @@
 title: "Isla de ojos azules: conocimiento común e inducción para principiantes"
 description: "Problema estilo CTCI 6.6: n isleños de ojos azules se van la noche n después de que el gurú diga veo a alguien con ojos azules. Caso base, paso inductivo y conocimiento común sin jerga densa."
 date: "2025-12-23"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-6-6-blue-eyed-island.webp
 previewImage: /assets/images/ctci-6-6-blue-eyed-island.webp
 ---

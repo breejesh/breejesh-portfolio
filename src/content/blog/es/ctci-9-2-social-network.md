@@ -2,7 +2,7 @@
 title: "Social Network: Redes Sociales y Rutas Más Cortas a Gran Escala (CTCI 9.2)"
 description: "Problema CTCI 9.2: diseña un sistema distribuido para calcular el grado de separación entre dos usuarios en una red social masiva."
 date: "2026-04-26"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-9-2-social-network.webp
 previewImage: /assets/images/ctci-9-2-social-network.webp
 ---

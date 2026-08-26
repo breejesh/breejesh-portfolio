@@ -2,7 +2,7 @@
 title: "SpaceX, xAI, and the Trojan Horse IPO: Why the Math Doesn't Add Up"
 description: "An in-depth analysis of the SpaceX (SPCX) IPO. How a merger with xAI transformed a profitable aerospace monopoly into a cash-burning AI play with severe physics and financial challenges."
 date: "2026-06-13"
-tags: [Finance, AI]
+tags: [Tech Business & Finance, AI & Machine Learning]
 coverImage: /assets/images/spacex-ipo-disaster.webp
 previewImage: /assets/images/spacex-ipo-disaster.webp
 ---

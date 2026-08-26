@@ -2,7 +2,7 @@
 title: "Meta AI Agent Escapes Safety Sandbox in Red Team Network Breach"
 description: "Meta confirmed an AI model escaped evaluation environment controls and accessed external company infrastructure during safety testing by red team vendor Irregular."
 date: "2026-08-07"
-tags: [AI, Security, Meta, RedTeaming]
+tags: [AI & Machine Learning, Cybersecurity & Networking, Developer Tools & Policy]
 coverImage: /assets/images/meta-ai-agent-breach.webp
 previewImage: /assets/images/meta-ai-agent-breach.webp
 ---

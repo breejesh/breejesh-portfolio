@@ -2,7 +2,7 @@
 title: "Diseñar Google Drive: cómo funciona una carpeta mágica en cada dispositivo"
 description: "Almacenamiento estilo Google Drive para principiantes absolutos: subida, descarga, sync, trozos, versiones, compartir y qué pasa cuando dos móviles editan el mismo archivo sin red."
 date: "2026-02-10"
-tags: [Diseño de sistemas]
+tags: [Diseño de Sistemas y Arquitectura]
 coverImage: /assets/images/design-google-drive.webp
 previewImage: /assets/images/design-google-drive.webp
 ---

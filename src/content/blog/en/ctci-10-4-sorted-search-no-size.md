@@ -2,7 +2,7 @@
 title: "Sorted Search No Size: Search Listy Without Size Method (CTCI 10.4)"
 description: "CTCI problem 10.4 in Java: find an element in a Listy data structure lacking a size method by exponentially bounding the search range."
 date: "2025-11-01"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-10-4-sorted-search-no-size.webp
 previewImage: /assets/images/ctci-10-4-sorted-search-no-size.webp
 ---

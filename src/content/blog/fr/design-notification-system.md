@@ -2,7 +2,7 @@
 title: "Concevoir un système de notifications : push, SMS, email, files et fiabilité"
 description: "Comment fonctionne un système de notifications, expliqué pour débutants : canaux, préférences, modèles, files d'attente, retries, et le chemin d'un événement commande expédiée jusqu'à l'alerte sur le téléphone."
 date: "2026-06-07"
-tags: [Conception de systèmes]
+tags: [Design Système et Architecture]
 coverImage: /assets/images/design-notification-system.webp
 previewImage: /assets/images/design-notification-system.webp
 ---

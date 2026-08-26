@@ -2,7 +2,7 @@
 title: "Diseñar un sistema de chat: walkie-talkies, correos y ticks verdes"
 description: "Diseño de un sistema de chat para principiantes absolutos: ruta en línea en vivo frente a almacenamiento de historial, 1:1 y grupos pequeños, presencia, ticks de entrega y cómo explicárselo a un amigo."
 date: "2025-11-19"
-tags: [Diseño de sistemas]
+tags: [Diseño de Sistemas y Arquitectura, Backend y Bases de Datos]
 coverImage: /assets/images/design-chat-system.webp
 previewImage: /assets/images/design-chat-system.webp
 ---

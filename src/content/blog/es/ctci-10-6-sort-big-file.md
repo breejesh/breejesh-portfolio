@@ -2,7 +2,7 @@
 title: "Sort Big File: Ordenamiento Externo para Archivo de 20 GB con 2 GB RAM (CTCI 10.6)"
 description: "Problema CTCI 10.6: algoritmo de ordenamiento por fusión externa para ordenar un archivo de 20 GB con memoria limitada a 2 GB."
 date: "2025-09-13"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-10-6-sort-big-file.webp
 previewImage: /assets/images/ctci-10-6-sort-big-file.webp
 ---

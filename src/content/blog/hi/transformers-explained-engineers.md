@@ -2,7 +2,7 @@
 title: "ट्रांसफॉर्मर कैसे काम करते हैं: कामकाजी इंजीनियरों के लिए व्यावहारिक नक्शा"
 description: "अटेंशन, एम्बेडिंग, एनकोडर/डिकोडर स्टैक, कॉन्टेक्स्ट विंडो और केवी कैश, बिना शोध-पत्र के धुंध के। जब आप एलएलएम चलाते या होस्ट करते हैं तो असल में क्या मायने रखता है।"
 date: "2026-08-02"
-tags: [एआई]
+tags: [एआई और मशीन लर्निंग]
 coverImage: /assets/images/transformers-explained-engineers.webp
 previewImage: /assets/images/transformers-explained-engineers.webp
 ---

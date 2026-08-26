@@ -2,7 +2,7 @@
 title: "Poison: trouver la bouteille empoisonnée avec 10 bandelettes en un mois (Java)"
 description: "Problème style CTCI 6.10 pour débutants: 1000 bouteilles, une empoisonnée, 10 bandelettes, le résultat prend un mois. Encode chaque bouteille en motif de bits pour qu'un seul tour de gorgées la nomme."
 date: "2026-03-22"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-6-10-poison.webp
 previewImage: /assets/images/ctci-6-10-poison.webp
 ---

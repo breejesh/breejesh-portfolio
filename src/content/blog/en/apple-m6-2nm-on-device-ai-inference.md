@@ -2,7 +2,7 @@
 title: "Apple's M6 at 2nm and the M5 Ultra's 512GB: The On-Device AI Bet Gets Concrete"
 description: "Apple ships the first consumer 2nm chip in the Mac Mini and a quad-die M5 Ultra with 512GB unified memory in the Mac Studio. The strategic play is running production LLMs locally, cutting cloud API dependency entirely."
 date: "2026-08-25"
-tags: [Apple, AI, Hardware]
+tags: [Hardware & Semiconductors, AI & Machine Learning]
 coverImage: /assets/images/apple-m6-2nm-on-device-ai-inference.webp
 previewImage: /assets/images/apple-m6-2nm-on-device-ai-inference.webp
 ---

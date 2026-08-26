@@ -2,7 +2,7 @@
 title: "Group Anagrams: Regrouper les Anagrammes d'un Tableau de Chaînes (CTCI 10.2)"
 description: "Problème CTCI 10.2 en Java: trier un tableau de chaînes de sorte que tous les anagrammes soient adjacents."
 date: "2026-06-19"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-10-2-group-anagrams.webp
 previewImage: /assets/images/ctci-10-2-group-anagrams.webp
 ---

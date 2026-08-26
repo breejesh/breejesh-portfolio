@@ -2,7 +2,7 @@
 title: "Pairwise Swap: Swap Odd and Even Bits With Masks (Java)"
 description: "CTCI-style problem 5.7 for beginners: swap every pair of odd and even bits in an int. Mask with 0xaaaaaaaa and 0x55555555, shift once each way, OR the halves."
 date: "2025-11-10"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-5-7-pairwise-swap.webp
 previewImage: /assets/images/ctci-5-7-pairwise-swap.webp
 ---

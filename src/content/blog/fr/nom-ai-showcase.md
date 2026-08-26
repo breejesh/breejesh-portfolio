@@ -2,7 +2,7 @@
 title: "Présentation de NomAI : Le suivi de calories hors ligne propulsé par des LLM locaux"
 description: "Une analyse approfondie de NomAI, le premier tracker de calories pour Android open-source, gratuit et entièrement hors ligne, conçu avec Google Gemma et Jetpack Compose."
 date: "2026-07-10"
-tags: [IA, Développement Mobile]
+tags: [IA et Machine Learning, Outils Développeur et Régulation, Frontend et Développement Web]
 coverImage: /assets/images/nom-ai-showcase.webp
 previewImage: /assets/images/nom-ai-showcase.webp
 ---

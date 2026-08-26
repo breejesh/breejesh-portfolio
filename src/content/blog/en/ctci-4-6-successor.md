@@ -2,7 +2,7 @@
 title: "Successor: In-Order Next Node in a BST (Java)"
 description: "CTCI-style problem 4.6 for beginners: find the in-order successor of a node in a binary search tree when every node has a parent link. Right-subtree leftmost, or climb parents until you are not a right child."
 date: "2026-02-22"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-4-6-successor.webp
 previewImage: /assets/images/ctci-4-6-successor.webp
 ---

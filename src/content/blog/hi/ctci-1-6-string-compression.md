@@ -2,7 +2,7 @@
 title: "सीटीसीआई १.६ जावा में स्ट्रिंग कंप्रेशन: गिनती और स्ट्रिंगबिल्डर"
 description: "अक्षरों की लगातार पंक्तियों को कंप्रेस करें (`aabcccccaaa` से `a2b1c5a3`) स्ट्रिंगबिल्डर से, और जब छोटा न बने तो मूल लौटाएं। किनारे के मामलों सहित जावा वॉकथ्रू।"
 date: "2025-11-13"
-tags: [एल्गोरिदम]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-1-6-string-compression.webp
 previewImage: /assets/images/ctci-1-6-string-compression.webp
 ---

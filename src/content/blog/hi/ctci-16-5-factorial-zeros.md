@@ -2,7 +2,7 @@
 title: "Factorial Zeros: Count Trailing Zeros in n! (CTCI 16.5)"
 description: "CTCI problem 16.5: count trailing zeros in n! by summing factors of 5 in O(log n) time."
 date: "2025-11-04"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-16-5-factorial-zeros.webp
 previewImage: /assets/images/ctci-16-5-factorial-zeros.webp
 ---

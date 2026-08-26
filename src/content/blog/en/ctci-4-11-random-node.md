@@ -2,7 +2,7 @@
 title: "Random Node: Uniform Pick From a BST (Java)"
 description: "CTCI-style problem 4.11 for beginners: build a BST with insert, find, delete, and getRandomNode so every node is equally likely. Store subtree size on each node and walk a random index."
 date: "2026-03-17"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures, Developer Tools & Policy]
 coverImage: /assets/images/ctci-4-11-random-node.webp
 previewImage: /assets/images/ctci-4-11-random-node.webp
 ---

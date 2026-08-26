@@ -2,7 +2,7 @@
 title: "Cómo funciona DNS para ingenieros: ruta de resolución, registros, TTL y dig"
 description: "La ruta de resolución DNS del stub al nameserver autoritativo, los registros que sí editas (A, AAAA, CNAME, MX, TXT), cómo TTL y cachés retrasan cada cambio, y cómo depurar con dig."
 date: "2026-07-02"
-tags: [Redes]
+tags: [Ciberseguridad y Redes]
 coverImage: /assets/images/how-dns-works-for-engineers.webp
 previewImage: /assets/images/how-dns-works-for-engineers.webp
 ---

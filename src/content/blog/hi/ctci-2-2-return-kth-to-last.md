@@ -2,7 +2,7 @@
 title: "सीटीसीआई २.२ रिटर्न केथ टू लास्ट: लिंक्ड लिस्ट पर दो पॉइंटर"
 description: "सिंगली लिंक्ड लिस्ट के अंत से के-वाँ नोड निकालें। क्लासिक दो-पॉइंटर गैप के, फिर छोटा रिकर्सिव इंडेक्स रैपर, सादे जावा में।"
 date: "2026-02-20"
-tags: [एल्गोरिदम]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-2-2-return-kth-to-last.webp
 previewImage: /assets/images/ctci-2-2-return-kth-to-last.webp
 ---

@@ -2,7 +2,7 @@
 title: "Intersection: Find Intersection Point of Two Line Segments (CTCI 16.3)"
 description: "CTCI problem 16.3: compute the intersection point of two 2D line segments handling collinearity and slopes."
 date: "2026-01-15"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-16-3-intersection.webp
 previewImage: /assets/images/ctci-16-3-intersection.webp
 ---

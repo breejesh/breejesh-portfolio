@@ -2,7 +2,7 @@
 title: "Concevoir un crawler web : frontier, politesse, fetch, dedup et scale"
 description: "Comment fonctionne un crawler web en langage simple : seeds, file frontier, politesse, fetch, parse, store et dedup. Une page suivie dans le pipeline, plus un récap pour un ami."
 date: "2025-10-30"
-tags: [Conception de systèmes]
+tags: [Design Système et Architecture]
 coverImage: /assets/images/design-web-crawler.webp
 previewImage: /assets/images/design-web-crawler.webp
 ---

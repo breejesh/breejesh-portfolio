@@ -2,7 +2,7 @@
 title: "Social Network: Recherche des Plus Courts Chemins sur un Réseau Social (CTCI 9.2)"
 description: "Problème CTCI 9.2: concevoir un système distribué pour calculer la séparation entre deux utilisateurs dans un graphe social géant."
 date: "2026-04-26"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-9-2-social-network.webp
 previewImage: /assets/images/ctci-9-2-social-network.webp
 ---

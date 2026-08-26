@@ -2,7 +2,7 @@
 title: "How HTTPS and TLS Work for Developers: Handshake, Certificates, SNI, Misconfigs"
 description: "A practical map of TLS for people who ship web apps: what the handshake actually does, how certificates prove identity, why SNI matters on shared IPs, and the misconfigs that still break production."
 date: "2026-06-24"
-tags: [Security, Networking]
+tags: [Cybersecurity & Networking]
 coverImage: /assets/images/how-https-tls-works.webp
 previewImage: /assets/images/how-https-tls-works.webp
 ---

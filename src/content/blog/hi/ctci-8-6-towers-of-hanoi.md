@@ -2,7 +2,7 @@
 title: "हनोई के टावर: तीन खूँटों से न डिस्क खिसकाओ (जावा)"
 description: "शुरुआती लोगों के लिए सीटीसीआई शैली की समस्या ८.६: तीन खूँटे और न डिस्क वाला क्लासिक हनोई टावर। ऊपर के टावर का रिकर्सिव मूव, हर खूँटे पर जावा स्टैक।"
 date: "2025-08-02"
-tags: [एल्गोरिदम]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-8-6-towers-of-hanoi.webp
 previewImage: /assets/images/ctci-8-6-towers-of-hanoi.webp
 ---

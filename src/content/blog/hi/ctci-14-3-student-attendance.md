@@ -2,7 +2,7 @@
 title: "Student Attendance: SQL Query for Student Course Grades (CTCI 14.3)"
 description: "CTCI problem 14.3: SQL update query to update student attendance status and compute GPA averages."
 date: "2026-02-15"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं, बैकएंड और डेटाबेस]
 coverImage: /assets/images/ctci-14-3-student-attendance.webp
 previewImage: /assets/images/ctci-14-3-student-attendance.webp
 ---

@@ -2,7 +2,7 @@
 title: "Route Between Nodes: chercher un chemin dans un graphe orienté (Java)"
 description: "Problème style CTCI 4.1 pour débutants: graphe orienté donné, décider s'il existe une route du nœud S au nœud E. BFS préféré au DFS, avec une simple liste de voisins GraphNode en Java."
 date: "2025-09-14"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-4-1-route-between-nodes.webp
 previewImage: /assets/images/ctci-4-1-route-between-nodes.webp
 ---

@@ -2,7 +2,7 @@
 title: "क्रैकिंग द कोडिंग इंटरव्यू जावा में: पूरी समस्या श्रृंखला"
 description: "सीटीसीआई-शैली क्लासिक इंटरव्यू समस्याओं का शुरुआती-अनुकूल जावा गाइड। श्रृंखला कैसे चलती है और कहाँ से शुरू करें।"
 date: "2026-06-03"
-tags: [एल्गोरिदम]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-series-guide.webp
 previewImage: /assets/images/ctci-series-guide.webp
 ---

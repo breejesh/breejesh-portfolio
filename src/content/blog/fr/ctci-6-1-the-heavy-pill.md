@@ -2,7 +2,7 @@
 title: "The Heavy Pill: trouver le flacon lourd avec une seule pesée (Java)"
 description: "Problème style CTCI 6.1 pour débutants: 20 flacons de pilules, un a des pilules de 1.1 g au lieu de 1.0 g. Identifiez-le avec une seule pesée en prenant 1, 2, ..., 20 pilules et en lisant l'excès de poids."
 date: "2026-04-05"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-6-1-the-heavy-pill.webp
 previewImage: /assets/images/ctci-6-1-the-heavy-pill.webp
 ---

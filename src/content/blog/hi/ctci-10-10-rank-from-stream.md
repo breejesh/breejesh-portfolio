@@ -2,7 +2,7 @@
 title: "रैंक फ्रॉम स्ट्रीम: रियल-टाइम में डेटा स्ट्रीम में नंबर का रैंक ट्रैक करें (CTCI 10.10)"
 description: "सीटीसीआई समस्या १०.१०: किसी नंबर का स्ट्रीम रैंक तुरंत प्राप्त करने के लिए लेफ्ट सबट्री साइज ट्रैकिंग के साथ बीएसटी बनाएं।"
 date: "2026-01-18"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-10-10-rank-from-stream.webp
 previewImage: /assets/images/ctci-10-10-rank-from-stream.webp
 ---

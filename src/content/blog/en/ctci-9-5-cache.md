@@ -2,7 +2,7 @@
 title: "Cache: Design a Search Engine In-Memory Query Cache (CTCI 9.5)"
 description: "CTCI problem 9.5: design a multi-tiered in-memory caching system for a search engine serving millions of queries per second."
 date: "2025-09-23"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-9-5-cache.webp
 previewImage: /assets/images/ctci-9-5-cache.webp
 ---

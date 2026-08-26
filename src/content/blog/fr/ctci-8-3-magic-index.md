@@ -2,7 +2,7 @@
 title: "Magic Index: Trouver i tel que A[i] égale i (Java)"
 description: "Problème style CTCI 8.3 pour débutants: dans un tableau trié, trouver un indice i avec A[i] == i. Valeurs distinctes: recherche binaire. Doublons: les deux côtés avec bornes resserrées."
 date: "2026-05-01"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-8-3-magic-index.webp
 previewImage: /assets/images/ctci-8-3-magic-index.webp
 ---

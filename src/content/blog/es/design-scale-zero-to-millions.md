@@ -2,7 +2,7 @@
 title: "Escalar de cero a millones de usuarios: crece una capa a la vez"
 description: "Camino para principiantes desde un solo ordenador hasta millones de usuarios: separar capas, balanceadores, réplicas de lectura, caché, CDN, servidores sin estado, colas, multi-región y sharding de base de datos, con analogías claras y trade-offs en cada paso."
 date: "2026-04-15"
-tags: [Diseño de sistemas]
+tags: [Diseño de Sistemas y Arquitectura]
 coverImage: /assets/images/design-scale-zero-to-millions.webp
 previewImage: /assets/images/design-scale-zero-to-millions.webp
 ---

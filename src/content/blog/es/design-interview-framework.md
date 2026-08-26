@@ -2,7 +2,7 @@
 title: "Un marco práctico para entrevistas de diseño de sistemas"
 description: "Una checklist para candidatos nerviosos en entrevistas de diseño de sistemas: primero preguntas, luego el plan de cajas, después el detalle. Pasos en lenguaje claro, diálogo de ejemplo y presupuesto de tiempo reutilizable de 45-60 minutos."
 date: "2026-01-22"
-tags: [Diseño de sistemas]
+tags: [Diseño de Sistemas y Arquitectura]
 coverImage: /assets/images/design-interview-framework.webp
 previewImage: /assets/images/design-interview-framework.webp
 ---

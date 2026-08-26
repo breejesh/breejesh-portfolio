@@ -2,7 +2,7 @@
 title: "L'ingénierie de prompts qui marche vraiment pour les product engineers"
 description: "Structure, few-shot, contraintes dures, boucles d'eval et modes de panne. Un guide pratique pour shipper des features LLM, pas des démos de chat."
 date: "2026-07-31"
-tags: [IA]
+tags: [IA et Machine Learning]
 coverImage: /assets/images/prompt-engineering-that-works.webp
 previewImage: /assets/images/prompt-engineering-that-works.webp
 ---

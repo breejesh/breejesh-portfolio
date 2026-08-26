@@ -2,7 +2,7 @@
 title: "Basketball: One Shot vs Make 2 of 3 (Probability)"
 description: "CTCI-style problem 6.2 for beginners: with make probability p, choose Game 1 (one make) or Game 2 (at least two makes in three shots). Algebra: p vs 3p^2(1-p)+p^3, and when each wins."
 date: "2026-01-12"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-6-2-basketball.webp
 previewImage: /assets/images/ctci-6-2-basketball.webp
 ---

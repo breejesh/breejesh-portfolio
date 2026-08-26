@@ -2,7 +2,7 @@
 title: "Call Center: rangs, escalade et dispatchCall (Java)"
 description: "Problème style CTCI 7.2 pour débutants: respondents, managers et directors. Achemine chaque appel vers le rang libre le plus bas qui peut le traiter, escalade au besoin et implémente dispatchCall."
 date: "2025-09-26"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-7-2-call-center.webp
 previewImage: /assets/images/ctci-7-2-call-center.webp
 ---

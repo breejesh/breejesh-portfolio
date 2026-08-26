@@ -2,7 +2,7 @@
 title: "Online Book Reader: User, Library, Display, and Reading Session (Java OOD)"
 description: "CTCI-style problem 7.5 for beginners: design an online book reader with User, Book, Library, Display, and a single active reading session. Original Java sketch, not a product build."
 date: "2026-04-24"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-7-5-online-book-reader.webp
 previewImage: /assets/images/ctci-7-5-online-book-reader.webp
 ---

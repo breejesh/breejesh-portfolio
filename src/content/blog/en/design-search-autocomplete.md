@@ -2,7 +2,7 @@
 title: "Design a Search Autocomplete System: How Typeahead Really Works"
 description: "Search autocomplete for beginners: prefixes, a letter tree (trie), top suggestions, why we precompute answers, and a letter-by-letter walk of typing din."
 date: "2025-11-14"
-tags: [System Design]
+tags: [System Design & Architecture]
 coverImage: /assets/images/design-search-autocomplete.webp
 previewImage: /assets/images/design-search-autocomplete.webp
 ---

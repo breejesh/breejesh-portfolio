@@ -2,7 +2,7 @@
 title: "Volatile: Demystifying the C/C++ Volatile Keyword (CTCI 12.6)"
 description: "CTCI problem 12.6: when and why to use volatile to prevent compiler optimizations on hardware registers and memory-mapped IO."
 date: "2026-02-07"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-12-6-volatile.webp
 previewImage: /assets/images/ctci-12-6-volatile.webp
 ---

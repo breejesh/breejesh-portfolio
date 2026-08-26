@@ -2,7 +2,7 @@
 title: "Vector Embeddings Explained: What Engineers Actually Need"
 description: "What embeddings encode, how similarity works, what dimensions buy you, how search and RAG use them, and the mistakes that quietly wreck retrieval quality."
 date: "2026-08-01"
-tags: [AI]
+tags: [AI & Machine Learning]
 coverImage: /assets/images/vector-embeddings-explained.webp
 previewImage: /assets/images/vector-embeddings-explained.webp
 ---

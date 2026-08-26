@@ -2,7 +2,7 @@
 title: "Animal Shelter: adopción FIFO con perros y gatos (Java)"
 description: "Problema estilo CTCI 3.6 para principiantes: un refugio solo tiene perros y gatos en cola estricta FIFO. Implementa enqueue, dequeueAny, dequeueDog y dequeueCat con dos colas y un orden de llegada."
 date: "2025-09-28"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-3-6-animal-shelter.webp
 previewImage: /assets/images/ctci-3-6-animal-shelter.webp
 ---

@@ -2,7 +2,7 @@
 title: "How a YouTube-like Video Service Really Works: Upload, Convert, Store, Play"
 description: "A beginner-friendly map of video streaming: a filmmaker drops off one tape, the platform makes many quality copies, stores them near viewers, and plays them through a CDN. Why the original alone is not enough, and how cost shows up in plain words."
 date: "2025-09-29"
-tags: [System Design]
+tags: [System Design & Architecture, Backend & Databases]
 coverImage: /assets/images/design-youtube-streaming.webp
 previewImage: /assets/images/design-youtube-streaming.webp
 ---

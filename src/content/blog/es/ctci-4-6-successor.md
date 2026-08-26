@@ -2,7 +2,7 @@
 title: "Successor: siguiente nodo in-order en un BST (Java)"
 description: "Problema estilo CTCI 4.6 para principiantes: halla el sucesor in-order de un nodo en un árbol de búsqueda binaria cuando cada nodo tiene enlace al padre. Más a la izquierda del subárbol derecho, o sube padres hasta no ser hijo derecho."
 date: "2026-02-22"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-4-6-successor.webp
 previewImage: /assets/images/ctci-4-6-successor.webp
 ---

@@ -2,7 +2,7 @@
 title: "Peaks and Valleys: Ordenar Arreglo en Secuencia Alternada de Picos y Valles (CTCI 10.11)"
 description: "Problema CTCI 10.11 en Java: reorganiza un arreglo de enteros en picos y valles alternados en O(N)."
 date: "2026-06-06"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras, Herramientas y Políticas Tech]
 coverImage: /assets/images/ctci-10-11-peaks-and-valleys.webp
 previewImage: /assets/images/ctci-10-11-peaks-and-valleys.webp
 ---

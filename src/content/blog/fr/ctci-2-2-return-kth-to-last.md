@@ -2,7 +2,7 @@
 title: "CTCI 2.2 Return Kth to Last: deux pointeurs sur une liste chaînée"
 description: "Trouver le k-ième nœud depuis la fin d'une liste chaînée simple. Parcourir l'écart classique de k avec deux pointeurs, puis un petit wrapper récursif, en Java clair."
 date: "2026-02-20"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-2-2-return-kth-to-last.webp
 previewImage: /assets/images/ctci-2-2-return-kth-to-last.webp
 ---

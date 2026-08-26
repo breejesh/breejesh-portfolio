@@ -2,7 +2,7 @@
 title: "एलएलएम के लिए लोरा फाइन-ट्यूनिंग: रैंक, टारगेट मॉड्यूल और मेमोरी गणित"
 description: "लोरा और क्यूलोरा की व्यावहारिक इंजीनियर गाइड: कब एडाप्टर पूरा फाइन-ट्यून हराते हैं, रैंक और मॉड्यूल कैसे चुनें, मोटा वीरैम हिसाब, और वो गलतियाँ जो वीकेंड बर्बाद करती हैं।"
 date: "2026-08-04"
-tags: [एआई]
+tags: [एआई और मशीन लर्निंग]
 coverImage: /assets/images/lora-finetuning-guide.webp
 previewImage: /assets/images/lora-finetuning-guide.webp
 ---

@@ -2,7 +2,7 @@
 title: "स्थानीय विकास के लिए डॉकर कंपोज़ जो उत्पादन के काफ़ी क़रीब हो"
 description: "सेवाएँ, वॉल्यूम, एनव फ़ाइलें और हेल्थचेक के साथ ऐसा कंपोज़ स्टैक बनाएँ कि स्थानीय विफलताएँ प्रोड जैसी दिखें, लैपटॉप की अजीब गड़बड़ियाँ नहीं।"
 date: "2026-07-05"
-tags: [कंटेनर, डेवऑप्स]
+tags: [क्लाउड और डेवऑप्स]
 coverImage: /assets/images/docker-compose-local-dev.webp
 previewImage: /assets/images/docker-compose-local-dev.webp
 ---

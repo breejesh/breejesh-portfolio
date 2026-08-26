@@ -2,7 +2,7 @@
 title: "CTCI 1.5 One Away: One Edit, One Pass in Java"
 description: "Check if two strings differ by at most one insert, remove, or replace. Walk through the length rule, a single pointer scan, and clean Java you can explain out loud."
 date: "2025-08-05"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-1-5-one-away.webp
 previewImage: /assets/images/ctci-1-5-one-away.webp
 ---

@@ -2,7 +2,7 @@
 title: "Sort Big File: External Merge Sort for 20 GB File with 2 GB RAM (CTCI 10.6)"
 description: "CTCI problem 10.6: design external merge sort algorithm to sort a massive 20 GB text file when system memory is restricted to 2 GB."
 date: "2025-09-13"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-10-6-sort-big-file.webp
 previewImage: /assets/images/ctci-10-6-sort-big-file.webp
 ---

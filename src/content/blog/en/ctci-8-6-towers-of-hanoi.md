@@ -2,7 +2,7 @@
 title: "Towers of Hanoi: Move n Disks With Three Pegs (Java)"
 description: "CTCI-style problem 8.6 for beginners: classic Towers of Hanoi with three pegs and n disks. Recursive move of the top tower, Java stacks for each peg."
 date: "2025-08-02"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-8-6-towers-of-hanoi.webp
 previewImage: /assets/images/ctci-8-6-towers-of-hanoi.webp
 ---

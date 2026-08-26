@@ -2,7 +2,7 @@
 title: "Virtual Base Class: Resolving the Diamond Problem in C++ (CTCI 12.7)"
 description: "CTCI problem 12.7: resolving the diamond inheritance conflict in C++ using virtual base classes."
 date: "2026-01-11"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-12-7-virtual-base-class.webp
 previewImage: /assets/images/ctci-12-7-virtual-base-class.webp
 ---

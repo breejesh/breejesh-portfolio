@@ -2,7 +2,7 @@
 title: "L'Effet Bruxelles Frappe l'IA: L'Entree en Vigueur Active de l'AI Act Europeen"
 description: "Le reglement europeen sur l'IA entre dans sa phase active en aout 2026 avec des obligations strictes de tracabilite C2PA et d'audit des modeles."
 date: "2026-08-17"
-tags: [IA, Politique, Regulation, UE, Securite]
+tags: [IA et Machine Learning, Outils Développeur et Régulation, Cybersécurité et Réseaux]
 coverImage: /assets/images/eu-ai-act-august-2026-enforcement.webp
 previewImage: /assets/images/eu-ai-act-august-2026-enforcement.webp
 ---

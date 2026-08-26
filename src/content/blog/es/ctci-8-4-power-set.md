@@ -2,7 +2,7 @@
 title: "Power Set: todos los subconjuntos con recursión y máscaras de bits (Java)"
 description: "Problema estilo CTCI 8.4 para principiantes: devolver cada subconjunto de un conjunto, incluido el vacío y el completo. Construcción recursiva, enumeración opcional con máscaras de bits y código Java."
 date: "2025-12-13"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-8-4-power-set.webp
 previewImage: /assets/images/ctci-8-4-power-set.webp
 ---

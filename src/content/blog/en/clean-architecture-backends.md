@@ -2,7 +2,7 @@
 title: "Clean Architecture for Backends That Stay Maintainable"
 description: "Layers, the dependency rule, and use cases in real backend services. What pays off, what turns into ceremony, and when a simpler layout is the better call."
 date: "2026-06-26"
-tags: [Backend]
+tags: [Backend & Databases]
 coverImage: /assets/images/clean-architecture-backends.webp
 previewImage: /assets/images/clean-architecture-backends.webp
 ---

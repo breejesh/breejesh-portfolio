@@ -2,7 +2,7 @@
 title: "Robot en una cuadrícula: camino solo derecha/abajo con celdas bloqueadas (Java)"
 description: "Problema estilo CTCI 8.2 para principiantes: el robot va de arriba-izquierda a abajo-derecha solo con movimientos derecha y abajo. Algunas celdas están cerradas. DFS con memo (o DP) encuentra un camino en Java."
 date: "2026-05-10"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-8-2-robot-in-a-grid.webp
 previewImage: /assets/images/ctci-8-2-robot-in-a-grid.webp
 ---

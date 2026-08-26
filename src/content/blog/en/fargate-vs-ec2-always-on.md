@@ -2,7 +2,7 @@
 title: "Fargate vs EC2 for Always-On Services: When the Premium Stops Making Sense"
 description: "Fargate is great for bursty work. For APIs and workers that never sleep, the per-vCPU premium adds up. Here is the 2026 cost math and the ops trade-offs."
 date: "2026-06-23"
-tags: [AWS, Cloud]
+tags: [Cloud & DevOps]
 coverImage: /assets/images/fargate-vs-ec2-always-on.webp
 previewImage: /assets/images/fargate-vs-ec2-always-on.webp
 ---

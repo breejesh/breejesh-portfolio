@@ -2,7 +2,7 @@
 title: "Max Submatrix: Maximum Sum 2D Submatrix via Kadane 2D (CTCI 17.24)"
 description: "CTCI problem 17.24: find 2D submatrix with largest sum in N x N matrix in O(N^3) time."
 date: "2026-04-13"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-17-24-max-submatrix.webp
 previewImage: /assets/images/ctci-17-24-max-submatrix.webp
 ---

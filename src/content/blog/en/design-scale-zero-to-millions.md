@@ -2,7 +2,7 @@
 title: "Scale From Zero to Millions of Users: Grow One Layer at a Time"
 description: "A beginner-friendly path from one computer to millions of users: split tiers, load balancers, read replicas, cache, CDN, stateless servers, queues, multi-region, and database sharding, with plain analogies and trade-offs at every step."
 date: "2026-04-15"
-tags: [System Design]
+tags: [System Design & Architecture]
 coverImage: /assets/images/design-scale-zero-to-millions.webp
 previewImage: /assets/images/design-scale-zero-to-millions.webp
 ---

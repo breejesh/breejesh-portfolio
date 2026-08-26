@@ -2,7 +2,7 @@
 title: "Robot dans une grille: un chemin droite/bas autour des cases bloquées (Java)"
 description: "Problème style CTCI 8.2 pour débutants: le robot va du haut-gauche au bas-droit avec seulement droite et bas. Certaines cases sont interdites. DFS mémorisé (ou DP) trouve un chemin en Java."
 date: "2026-05-10"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-8-2-robot-in-a-grid.webp
 previewImage: /assets/images/ctci-8-2-robot-in-a-grid.webp
 ---

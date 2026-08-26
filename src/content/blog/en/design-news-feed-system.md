@@ -2,7 +2,7 @@
 title: "Design a News Feed System (Beginner Guide): Fan-out, Ranking, and Cache"
 description: "A plain-language guide to social news feeds: fan-out on write vs read as mailbox stuffing vs checking the bulletin board, ranking, cache, and the celebrity problem."
 date: "2025-10-05"
-tags: [System Design]
+tags: [System Design & Architecture, Backend & Databases]
 coverImage: /assets/images/design-news-feed-system.webp
 previewImage: /assets/images/design-news-feed-system.webp
 ---

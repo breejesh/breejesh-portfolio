@@ -2,7 +2,7 @@
 title: "Three in One: trois piles dans un seul tableau (Java)"
 description: "Problème style CTCI 3.1 pour débutants: implémenter trois piles avec un seul tableau. Tranches fixes égales, tableau sizes[], et un FixedMultiStack clair en Java."
 date: "2026-03-12"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-3-1-three-in-one.webp
 previewImage: /assets/images/ctci-3-1-three-in-one.webp
 ---

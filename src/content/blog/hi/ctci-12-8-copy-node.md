@@ -2,7 +2,7 @@
 title: "Copy Node: Deep Copy a Graph / Data Structure in C++ (CTCI 12.8)"
 description: "CTCI problem 12.8: deep copying a data structure containing pointers and cycle references using std::map pointer lookup."
 date: "2026-02-24"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-12-8-copy-node.webp
 previewImage: /assets/images/ctci-12-8-copy-node.webp
 ---

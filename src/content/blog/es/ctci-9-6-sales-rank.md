@@ -2,7 +2,7 @@
 title: "Sales Rank: Sistema de Ranking de Ventas en Tiempo Real (CTCI 9.6)"
 description: "Problema CTCI 9.6: diseña un sistema de ranking de comercio electrónico que rastrea los productos más vendidos por categoría."
 date: "2026-04-11"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-9-6-sales-rank.webp
 previewImage: /assets/images/ctci-9-6-sales-rank.webp
 ---

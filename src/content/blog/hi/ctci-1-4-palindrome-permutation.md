@@ -2,7 +2,7 @@
 title: "सीटीसीआई १.४ पैलिंड्रोम परम्यूटेशन जावा में: विषम गिनो, फेरबदल नहीं"
 description: "जांचें कि स्ट्रिंग के किसी पुनर्व्यवस्था से पैलिंड्रोम बन सकता है या नहीं। आवृत्ति गणना, अधिकतम एक विषम अक्षर, वैकल्पिक स्पेस और केस नियम, और साफ जावा।"
 date: "2025-12-10"
-tags: [एल्गोरिदम]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-1-4-palindrome-permutation.webp
 previewImage: /assets/images/ctci-1-4-palindrome-permutation.webp
 ---

@@ -2,7 +2,7 @@
 title: "Embeddings vectoriales explicados: lo que de verdad necesita un ingeniero"
 description: "Qué codifican los embeddings, cómo funciona la similitud, qué compran las dimensiones, cómo los usan búsqueda y RAG, y los errores que rompen la calidad de retrieval en silencio."
 date: "2026-08-01"
-tags: [IA]
+tags: [IA y Machine Learning]
 coverImage: /assets/images/vector-embeddings-explained.webp
 previewImage: /assets/images/vector-embeddings-explained.webp
 ---

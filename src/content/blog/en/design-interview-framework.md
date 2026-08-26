@@ -2,7 +2,7 @@
 title: "A Practical Framework for System Design Interviews"
 description: "A scared-candidate checklist for system design interviews: ask first, plan the boxes, then add detail. Plain English steps, sample dialogue, and a reusable time budget for 45-60 minutes."
 date: "2026-01-22"
-tags: [System Design]
+tags: [System Design & Architecture]
 coverImage: /assets/images/design-interview-framework.webp
 previewImage: /assets/images/design-interview-framework.webp
 ---

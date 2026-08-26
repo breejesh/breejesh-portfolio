@@ -2,7 +2,7 @@
 title: "Le M6 d'Apple en 2nm et les 512 Go du M5 Ultra : le pari sur l'IA embarquée prend forme"
 description: "Apple livre la première puce grand public en 2nm dans le Mac Mini et un M5 Ultra quad-die avec 512 Go de mémoire unifiée dans le Mac Studio. La stratégie : exécuter des LLM en production localement, sans aucune dépendance aux API cloud."
 date: "2026-08-25"
-tags: [Apple, IA, Matériel]
+tags: [Matériel et Semiconducteurs, IA et Machine Learning]
 coverImage: /assets/images/apple-m6-2nm-on-device-ai-inference.webp
 previewImage: /assets/images/apple-m6-2nm-on-device-ai-inference.webp
 ---

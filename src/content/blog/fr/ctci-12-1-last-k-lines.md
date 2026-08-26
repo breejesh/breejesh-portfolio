@@ -2,7 +2,7 @@
 title: "Last K Lines: Print Last K Lines of File in C++ (CTCI 12.1)"
 description: "CTCI problem 12.1 in C++: print the last K lines of a file using a circular array buffer for O(K) memory."
 date: "2026-01-06"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-12-1-last-k-lines.webp
 previewImage: /assets/images/ctci-12-1-last-k-lines.webp
 ---

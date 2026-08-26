@@ -2,7 +2,7 @@
 title: "BiNode: Convert Binary Search Tree to Doubly Linked List In-Place (CTCI 17.12)"
 description: "CTCI problem 17.12: convert a BST into a sorted doubly linked list in-place using BiNode data structures."
 date: "2025-11-03"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-17-12-binode.webp
 previewImage: /assets/images/ctci-17-12-binode.webp
 ---

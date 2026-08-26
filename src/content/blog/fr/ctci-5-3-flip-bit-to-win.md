@@ -2,7 +2,7 @@
 title: "Flip Bit to Win: plus longue série de 1 après un flip (Java)"
 description: "Problème style CTCI 5.3 pour débutants: inverser un bit 0 dans un entier pour maximiser les 1 consécutifs. Suivre les runs de uns séparés par des zéros, fusionner à travers un seul zéro, Java clair."
 date: "2026-01-16"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-5-3-flip-bit-to-win.webp
 previewImage: /assets/images/ctci-5-3-flip-bit-to-win.webp
 ---

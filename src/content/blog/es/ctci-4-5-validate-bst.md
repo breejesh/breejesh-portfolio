@@ -2,7 +2,7 @@
 title: "Validate BST: rangos min/max en un árbol binario (Java)"
 description: "Problema estilo CTCI 4.5 para principiantes: comprobar si un árbol binario es un árbol de búsqueda binaria. El enfoque principal usa límites min/max recursivos; el recorrido in-order ordenado es la comprobación opcional."
 date: "2026-03-07"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-4-5-validate-bst.webp
 previewImage: /assets/images/ctci-4-5-validate-bst.webp
 ---

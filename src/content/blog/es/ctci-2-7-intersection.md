@@ -2,7 +2,7 @@
 title: "CTCI 2.7 Intersección: dónde dos listas comparten un nodo (Java)"
 description: "Dadas dos listas enlazadas simples, devuelve el primer nodo compartido por referencia (no por valor). Misma cola implica fusión; alinea longitudes y camina juntos."
 date: "2025-12-18"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-2-7-intersection.webp
 previewImage: /assets/images/ctci-2-7-intersection.webp
 ---

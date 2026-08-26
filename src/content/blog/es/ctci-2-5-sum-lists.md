@@ -2,7 +2,7 @@
 title: "Sum Lists: sumar números guardados como listas enlazadas (Java)"
 description: "Problema estilo CTCI 2.5: dos números viven como listas enlazadas, un dígito por nodo, el dígito menos significativo en la cabeza. Recorre ambas con acarreo y construye la lista suma. Nota breve del follow-up en orden directo."
 date: "2025-12-22"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-2-5-sum-lists.webp
 previewImage: /assets/images/ctci-2-5-sum-lists.webp
 ---

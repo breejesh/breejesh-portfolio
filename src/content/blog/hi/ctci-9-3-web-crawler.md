@@ -2,7 +2,7 @@
 title: "वेब क्रॉलर: एक स्केलेबल डिस्ट्रीब्यूटेड वेब क्रॉलर डिजाइन करें (CTCI 9.1)"
 description: "सीटीसीआई समस्या ९.३: एक वितरित वेब क्रॉलर की वास्तुकला जो डुप्लिकेट यूआरएल और होस्ट शिष्टाचार नीतियों को संभालती है।"
 date: "2025-10-12"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं, सिस्टम डिजाइन और आर्किटेक्चर]
 coverImage: /assets/images/ctci-9-3-web-crawler.webp
 previewImage: /assets/images/ctci-9-3-web-crawler.webp
 ---

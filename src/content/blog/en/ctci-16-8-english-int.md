@@ -2,7 +2,7 @@
 title: "English Int: Convert Integer to English Words (CTCI 16.8)"
 description: "CTCI problem 16.8: convert an integer into its English words representation (e.g. 1234 -> One Thousand Two Hundred Thirty Four)."
 date: "2026-05-12"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-16-8-english-int.webp
 previewImage: /assets/images/ctci-16-8-english-int.webp
 ---

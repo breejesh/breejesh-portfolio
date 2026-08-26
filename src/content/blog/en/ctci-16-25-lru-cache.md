@@ -2,7 +2,7 @@
 title: "LRU Cache: Implement Least Recently Used Cache (CTCI 16.25)"
 description: "CTCI problem 16.25 in Java: design and build a Least Recently Used (LRU) cache with O(1) get and put using a HashMap and Doubly Linked List."
 date: "2026-04-09"
-tags: [Algorithms, Data Structures]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-16-25-lru-cache.webp
 previewImage: /assets/images/ctci-16-25-lru-cache.webp
 ---

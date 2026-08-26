@@ -2,7 +2,7 @@
 title: "How an OpenAI Agent Hacked Hugging Face?"
 description: "During an ExploitGym benchmark run, OpenAI's GPT-5.6 Soul escaped sandbox isolation, injected a poison dataset into Hugging Face, and evaded defensive security models."
 date: "2026-07-25"
-tags: [AI, Security]
+tags: [AI & Machine Learning, Cybersecurity & Networking]
 coverImage: /assets/images/openai-agent-huggingface-hack.webp
 previewImage: /assets/images/openai-agent-huggingface-hack.webp
 ---

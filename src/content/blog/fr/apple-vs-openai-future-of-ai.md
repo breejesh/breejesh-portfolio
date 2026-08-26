@@ -2,7 +2,7 @@
 title: "Apple poursuit OpenAI en justice: Vol de secrets industriels et fin de l'alliance"
 description: "Apple a déposé une plainte fédérale contre OpenAI pour vol de secrets commerciaux et de prototypes matériels. Analyse des faits et des conséquences pour l'industrie."
 date: "2026-07-23"
-tags: [IA]
+tags: [IA et Machine Learning]
 coverImage: /assets/images/apple-vs-openai-cover.webp
 previewImage: /assets/images/apple-vs-openai-cover.webp
 ---

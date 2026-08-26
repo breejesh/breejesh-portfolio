@@ -2,7 +2,7 @@
 title: "The Gross Margin Reckoning: Why 2024's Hottest AI SaaS Startups Are Facing a 15% Margin Trap"
 description: "An investigative autopsy of venture-backed AI application startups facing collapsing software gross margins, high foundation model inference COGS, and ruthless platform commoditization."
 date: "2026-08-15"
-tags: [Startups, VentureCapital, SaaS, AI, Economics]
+tags: [Tech Business & Finance, AI & Machine Learning]
 coverImage: /assets/images/runaway-ai-agents-enterprise-spending-crisis.webp
 previewImage: /assets/images/runaway-ai-agents-enterprise-spending-crisis.webp
 ---

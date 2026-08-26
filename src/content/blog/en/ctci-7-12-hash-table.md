@@ -2,7 +2,7 @@
 title: "Hash Table: Chaining with LinkedList Buckets (Java)"
 description: "CTCI-style problem 7.12 for beginners: build a simple HashMap with an array of linked-list buckets. put, get, and remove with collision chaining in Java."
 date: "2026-02-28"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-7-12-hash-table.webp
 previewImage: /assets/images/ctci-7-12-hash-table.webp
 ---

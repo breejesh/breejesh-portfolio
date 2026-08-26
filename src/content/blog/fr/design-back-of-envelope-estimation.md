@@ -2,7 +2,7 @@
 title: "Estimation back-of-the-envelope pour les entretiens system design"
 description: "Apprenez le calcul de capacité à la louche pour les entretiens : QPS, stockage, bande passante et latence avec des analogies du quotidien, un exemple détaillé pas à pas, et un récap à expliquer à un ami."
 date: "2026-02-13"
-tags: [Conception de systèmes]
+tags: [Design Système et Architecture]
 coverImage: /assets/images/design-back-of-envelope-estimation.webp
 previewImage: /assets/images/design-back-of-envelope-estimation.webp
 ---

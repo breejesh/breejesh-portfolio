@@ -2,7 +2,7 @@
 title: "Loop Detection: Find the Start of a Cycle in a Linked List (Java)"
 description: "CTCI-style problem 2.8 for beginners: given a circular linked list, return the node where the loop begins. Floyd tortoise and hare, then the head reset trick, in plain Java."
 date: "2026-02-12"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-2-8-loop-detection.webp
 previewImage: /assets/images/ctci-2-8-loop-detection.webp
 ---

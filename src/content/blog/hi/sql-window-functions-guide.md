@@ -2,7 +2,7 @@
 title: "एसक्यूएल विंडो फंक्शन जो याद रहें: रो_नंबर, रैंक, लैग और चल योग"
 description: "एसक्यूएल विंडो फंक्शन की व्यावहारिक गाइड: पार्टीशन, रो_नंबर बनाम रैंक, लैग/लीड से अवधि अंतर, चल योग, और हर हफ्ते चाहिए वाला सीटीई फिल्टर पैटर्न।"
 date: "2026-07-12"
-tags: [डेटाबेस]
+tags: [बैकएंड और डेटाबेस]
 coverImage: /assets/images/sql-window-functions-guide.webp
 previewImage: /assets/images/sql-window-functions-guide.webp
 ---

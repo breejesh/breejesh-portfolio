@@ -2,7 +2,7 @@
 title: "Deck of Cards: Card, Deck, Hand et Blackjack (Java)"
 description: "Problème style CTCI 7.1 pour débutants: concevoir des classes de cartes réutilisables (Card, Deck, Hand) et les spécialiser pour le blackjack avec BlackJackCard et BlackJackHand, as souples inclus."
 date: "2025-12-19"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-7-1-deck-of-cards.webp
 previewImage: /assets/images/ctci-7-1-deck-of-cards.webp
 ---

@@ -2,7 +2,7 @@
 title: "Jukebox: chansons, playlists, catalogue, utilisateurs et paiement (OOD Java)"
 description: "Problème style CTCI 7.3 pour débutants: concevoir une jukebox musicale avec des classes orientées objet. Modéliser Song, Playlist, catalogue de CD, User et paiement en pièces, puis brancher un croquis Java ciblé autour d'une file de lecture."
 date: "2025-08-06"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-7-3-jukebox.webp
 previewImage: /assets/images/ctci-7-3-jukebox.webp
 ---

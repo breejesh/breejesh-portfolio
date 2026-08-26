@@ -2,7 +2,7 @@
 title: "बैकएंड के लिए क्लीन आर्किटेक्चर जो लंबे समय तक संभलता रहे"
 description: "परतें, निर्भरता नियम और यूज़ केस वास्तविक बैकएंड सेवाओं में। क्या फायदा देता है, क्या सिर्फ रस्म बन जाता है, और कब सरल डिज़ाइन बेहतर फैसला है।"
 date: "2026-06-26"
-tags: [बैकएंड]
+tags: [बैकएंड और डेटाबेस]
 coverImage: /assets/images/clean-architecture-backends.webp
 previewImage: /assets/images/clean-architecture-backends.webp
 ---

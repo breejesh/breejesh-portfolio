@@ -2,7 +2,7 @@
 title: "Route Between Nodes: buscar un camino en un grafo dirigido (Java)"
 description: "Problema estilo CTCI 4.1 para principiantes: dado un grafo dirigido, decide si hay una ruta del nodo S al nodo E. BFS preferido frente a DFS, con una lista simple de vecinos GraphNode en Java."
 date: "2025-09-14"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-4-1-route-between-nodes.webp
 previewImage: /assets/images/ctci-4-1-route-between-nodes.webp
 ---

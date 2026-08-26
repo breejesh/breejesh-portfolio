@@ -2,7 +2,7 @@
 title: "Estimación back-of-the-envelope para entrevistas de system design"
 description: "Aprende math de capacidad a ojo para entrevistas: QPS, almacenamiento, ancho de banda y latencia con analogías cotidianas, un ejemplo resuelto paso a paso y un resumen para un amigo."
 date: "2026-02-13"
-tags: [Diseño de sistemas]
+tags: [Diseño de Sistemas y Arquitectura]
 coverImage: /assets/images/design-back-of-envelope-estimation.webp
 previewImage: /assets/images/design-back-of-envelope-estimation.webp
 ---

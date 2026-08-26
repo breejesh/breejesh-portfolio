@@ -2,7 +2,7 @@
 title: "Minimal Tree: BST equilibrado desde un array ordenado (Java)"
 description: "Problema estilo CTCI 4.2 para principiantes: dado un array ordenado de enteros únicos, construye un árbol de búsqueda binaria de altura mínima. Elige el medio como raíz y recurre en cada mitad."
 date: "2026-02-06"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-4-2-minimal-tree.webp
 previewImage: /assets/images/ctci-4-2-minimal-tree.webp
 ---

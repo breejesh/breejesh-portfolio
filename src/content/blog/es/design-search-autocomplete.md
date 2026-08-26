@@ -2,7 +2,7 @@
 title: "Diseñar un sistema de autocompletado de búsqueda: cómo funciona el typeahead de verdad"
 description: "Autocompletado de búsqueda para principiantes: prefijos, un árbol de letras (trie), mejores sugerencias, por qué precomputamos respuestas y un paseo letra a letra al escribir din."
 date: "2025-11-14"
-tags: [Diseño de sistemas]
+tags: [Diseño de Sistemas y Arquitectura]
 coverImage: /assets/images/design-search-autocomplete.webp
 previewImage: /assets/images/design-search-autocomplete.webp
 ---

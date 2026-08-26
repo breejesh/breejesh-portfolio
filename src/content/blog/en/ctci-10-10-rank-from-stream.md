@@ -2,7 +2,7 @@
 title: "Rank from Stream: Track Stream Rank of Number in Real-Time (CTCI 10.10)"
 description: "CTCI problem 10.10 in Java: design a Binary Search Tree with left subtree size tracking to efficiently compute rank of a number in a stream."
 date: "2026-01-18"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-10-10-rank-from-stream.webp
 previewImage: /assets/images/ctci-10-10-rank-from-stream.webp
 ---

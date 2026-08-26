@@ -2,7 +2,7 @@
 title: "Debugger: Qué comprueba de verdad ((n & (n-1)) == 0) (Java)"
 description: "Problema estilo CTCI 5.5 para principiantes: demostrar que n & (n-1) es cero solo cuando n tiene como mucho un bit en 1. Potencia de dos, la trampa del cero, recorridos en binario y código Java."
 date: "2026-01-25"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-5-5-debugger.webp
 previewImage: /assets/images/ctci-5-5-debugger.webp
 ---

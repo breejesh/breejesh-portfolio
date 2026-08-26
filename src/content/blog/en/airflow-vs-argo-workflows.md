@@ -2,7 +2,7 @@
 title: "Airflow vs Argo Workflows: Pick the Orchestrator That Matches Your Runtime"
 description: "Python DAGs and a metadata DB, or Kubernetes-native steps and YAML. When Airflow still wins, when Argo Workflows is the cleaner fit, and when people mix them up with Argo CD."
 date: "2026-06-29"
-tags: [DevOps, Backend]
+tags: [Cloud & DevOps, Backend & Databases]
 coverImage: /assets/images/airflow-vs-argo-workflows.webp
 previewImage: /assets/images/airflow-vs-argo-workflows.webp
 ---

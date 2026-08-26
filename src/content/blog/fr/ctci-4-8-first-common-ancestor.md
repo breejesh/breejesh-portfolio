@@ -2,7 +2,7 @@
 title: "First Common Ancestor: LCA sans liens parent (Java)"
 description: "Problème style CTCI 4.8 pour débutants: trouver l'ancêtre commun le plus profond de deux nœuds dans un arbre binaire (pas forcément un BST). Préférer un parcours récursif qui renvoie un statut; monter via parent est l'alternative."
 date: "2026-05-09"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-4-8-first-common-ancestor.webp
 previewImage: /assets/images/ctci-4-8-first-common-ancestor.webp
 ---

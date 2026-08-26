@@ -2,7 +2,7 @@
 title: "Intel's Hot Chips 2026 Gambit: Diamond Rapids' 256 Cores and Crescent Island's No-HBM Inference Play"
 description: "Intel revealed two architectures at Hot Chips that take dead aim at Nvidia's accelerator dominance. Diamond Rapids packs 256 P-cores on 18A-P for agentic AI workloads. Crescent Island skips HBM entirely, using 480GB of LPDDR5X for air-cooled inference at 350W."
 date: "2026-08-24"
-tags: [Intel, Semiconductors, AI]
+tags: [Hardware & Semiconductors, AI & Machine Learning]
 coverImage: /assets/images/intel-hot-chips-2026-diamond-rapids-crescent-island.webp
 previewImage: /assets/images/intel-hot-chips-2026-diamond-rapids-crescent-island.webp
 ---

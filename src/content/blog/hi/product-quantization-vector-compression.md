@@ -2,7 +2,7 @@
 title: "प्रोडक्ट क्वांटाइजेशन: उच्च-आयामी वैक्टर को ९७% तक छोटा करना"
 description: "जानिए कैसे प्रोडक्ट क्वांटाइजेशन वैक्टर को सब-वेक्टर कोडबुक में बांटता है, ३,०७२ बाइट्स को ८ बाइट्स में सिकोड़ता है, और एडीसी लुकअप तालिकाओं से फ़ैस में ९२ गुना तेज खोज करता है।"
 date: "2026-08-08"
-tags: [वेक्टरखोज, मशीनलर्निंग, फ़ैस, पायथन]
+tags: [बैकएंड और डेटाबेस, एआई और मशीन लर्निंग]
 coverImage: /assets/images/product-quantization-vector-compression.webp
 previewImage: /assets/images/product-quantization-vector-compression.webp
 ---

@@ -2,7 +2,7 @@
 title: "अकेले कोडिंग का अंत: स्लैक कोड और बहु-उपयोगकर्ता सॉफ्टवेयर विकास का नया युग"
 description: "सेल्सफोर्स और स्लैक ने स्लैक कोड लॉन्च किया, जिसमें डेविन, क्लाउड कोड और कोपायलट को सीधे टीम चैनलों में एकीकृत करके सामूहिक विकास को सक्षम बनाया गया है।"
 date: "2026-08-14"
-tags: [एआई, सॉफ्टवेयरविकास, स्लैक, एंथ्रोपिक, देवऑप्स]
+tags: [एआई और मशीन लर्निंग, क्लाउड और डेवऑप्स]
 coverImage: /assets/images/slack-code-multiplayer-ai-coding-agents.webp
 previewImage: /assets/images/slack-code-multiplayer-ai-coding-agents.webp
 ---

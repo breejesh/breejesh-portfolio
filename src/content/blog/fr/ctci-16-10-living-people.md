@@ -2,7 +2,7 @@
 title: "Living People: Find Year with Maximum Living Population (CTCI 16.10)"
 description: "CTCI problem 16.10: find the calendar year with the maximum number of living people using prefix sum array."
 date: "2025-11-05"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-16-10-living-people.webp
 previewImage: /assets/images/ctci-16-10-living-people.webp
 ---

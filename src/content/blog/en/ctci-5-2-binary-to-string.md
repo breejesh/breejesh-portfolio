@@ -2,7 +2,7 @@
 title: "Binary to String: Print a Fraction as Bits or ERROR (Java)"
 description: "CTCI-style problem 5.2 for beginners: take a double in (0, 1), print its binary fraction string, or ERROR if it needs more than 32 bits after the point. Multiply-by-2 method in plain Java."
 date: "2026-04-16"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-5-2-binary-to-string.webp
 previewImage: /assets/images/ctci-5-2-binary-to-string.webp
 ---

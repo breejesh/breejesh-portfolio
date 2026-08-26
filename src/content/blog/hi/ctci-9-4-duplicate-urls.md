@@ -2,7 +2,7 @@
 title: "डुप्लिकेट यूआरएल: १० अरब यूआरएल में डुप्लिकेट खोजें (CTCI 9.4)"
 description: "सीटीसीआई समस्या ९.४: ब्लूम फिल्टर और एक्सटर्नल हैश पार्टीशनिंग का उपयोग करके सीमित रैम में डुप्लिकेट यूआरएल की पहचान करें।"
 date: "2026-04-23"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-9-4-duplicate-urls.webp
 previewImage: /assets/images/ctci-9-4-duplicate-urls.webp
 ---

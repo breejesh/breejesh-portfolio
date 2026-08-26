@@ -2,7 +2,7 @@
 title: "CTCI 2.6 Palíndromo en lista enlazada en Java: invierte la segunda mitad"
 description: "Comprueba si una lista enlazada simple es un palíndromo. Encuentra el medio con punteros lento y rápido, invierte la segunda mitad, compara y restaura si hace falta. O(n) tiempo, O(1) espacio."
 date: "2026-04-01"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-2-6-palindrome.webp
 previewImage: /assets/images/ctci-2-6-palindrome.webp
 ---

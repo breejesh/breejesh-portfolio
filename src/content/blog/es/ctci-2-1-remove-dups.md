@@ -2,7 +2,7 @@
 title: "Remove Dups: borrar duplicados de una lista enlazada desordenada (Java)"
 description: "Problema estilo CTCI 2.1 para principiantes: quitar valores duplicados de una lista simplemente enlazada. Recorrido con HashSet en O(N) y puntero runner sin buffer en O(N^2)."
 date: "2026-04-08"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-2-1-remove-dups.webp
 previewImage: /assets/images/ctci-2-1-remove-dups.webp
 ---

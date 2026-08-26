@@ -2,7 +2,7 @@
 title: "Embeddings vectoriels expliqués : ce dont un ingénieur a vraiment besoin"
 description: "Ce que les embeddings encodent, comment marche la similarité, ce que changent les dimensions, comment la recherche et le RAG s'en servent, et les erreurs qui cassent discrètement la qualité du retrieval."
 date: "2026-08-01"
-tags: [IA]
+tags: [IA et Machine Learning]
 coverImage: /assets/images/vector-embeddings-explained.webp
 previewImage: /assets/images/vector-embeddings-explained.webp
 ---

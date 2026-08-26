@@ -2,7 +2,7 @@
 title: "नेक्स्ट.जेएस ऐप राउटर डेटा फेचिंग: सर्वर कंपोनेंट, कैश, रिवैलिडेट"
 description: "ऐप राउटर में डेटा लोड करने के व्यावहारिक पैटर्न: एसिंक सर्वर कंपोनेंट, फेच कैश विकल्प, रिवैलिडेट और टैग, डीबी के लिए अनस्टेबल_कैश, और क्लाइंट फेच कब सही रहता है।"
 date: "2026-07-24"
-tags: [वेब विकास, फ्रंटएंड]
+tags: [फ्रंटएंड और वेब डेवलपमेंट]
 coverImage: /assets/images/nextjs-app-router-data-fetching.webp
 previewImage: /assets/images/nextjs-app-router-data-fetching.webp
 ---

@@ -2,7 +2,7 @@
 title: "शुरू से गिटहब एक्शन्स सीआई"
 description: "वर्कफ़्लो, जॉब, कैश, सीक्रेट, मैट्रिक्स बिल्ड, और गिटहब पर पहली बार सीआई लगाते समय घंटे बर्बाद करने वाली गलतियाँ।"
 date: "2026-07-07"
-tags: [डेवऑप्स]
+tags: [क्लाउड और डेवऑप्स]
 coverImage: /assets/images/github-actions-ci-from-scratch.webp
 previewImage: /assets/images/github-actions-ci-from-scratch.webp
 ---

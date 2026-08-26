@@ -2,7 +2,7 @@
 title: "Sorted Merge: Mezclar Arreglo B en Arreglo A Ordenado in-place (CTCI 10.1)"
 description: "Problema CTCI 10.1 en Java: fusiona dos arreglos ordenados A y B dentro de A trabajando hacia atrás."
 date: "2026-02-18"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-10-1-sorted-merge.webp
 previewImage: /assets/images/ctci-10-1-sorted-merge.webp
 ---

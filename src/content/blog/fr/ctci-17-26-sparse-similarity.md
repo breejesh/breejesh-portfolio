@@ -2,7 +2,7 @@
 title: "Sparse Similarity: Compute Jaccard Similarity Over Documents (CTCI 17.26)"
 description: "CTCI problem 17.26: compute Jaccard similarity for pairs of documents with overlapping elements using Inverted Index in O(K) time."
 date: "2025-11-15"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-17-26-sparse-similarity.webp
 previewImage: /assets/images/ctci-17-26-sparse-similarity.webp
 ---

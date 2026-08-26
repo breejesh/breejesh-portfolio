@@ -2,7 +2,7 @@
 title: "Sorted Merge: Merge Array B into Sorted Array A In-Place (CTCI 10.1)"
 description: "CTCI problem 10.1 in Java: merge two sorted arrays A and B into A in sorted order, working backwards to avoid shifting elements."
 date: "2026-02-18"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-10-1-sorted-merge.webp
 previewImage: /assets/images/ctci-10-1-sorted-merge.webp
 ---

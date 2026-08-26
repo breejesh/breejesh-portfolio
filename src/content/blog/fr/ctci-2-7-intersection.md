@@ -2,7 +2,7 @@
 title: "CTCI 2.7 Intersection: trouver le nœud partagé de deux listes (Java)"
 description: "Étant données deux listes chaînées simples, renvoyer le premier nœud partagé par référence (pas par valeur). Même queue signifie fusion; aligner les longueurs, puis marcher ensemble."
 date: "2025-12-18"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-2-7-intersection.webp
 previewImage: /assets/images/ctci-2-7-intersection.webp
 ---

@@ -2,7 +2,7 @@
 title: "How Transformers Work: A Practical Map for Working Engineers"
 description: "Attention, embeddings, encoder/decoder stacks, context windows, and KV cache explained without the research paper fog. What actually matters when you ship or host LLMs."
 date: "2026-08-02"
-tags: [AI]
+tags: [AI & Machine Learning]
 coverImage: /assets/images/transformers-explained-engineers.webp
 previewImage: /assets/images/transformers-explained-engineers.webp
 ---

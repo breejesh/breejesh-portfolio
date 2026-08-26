@@ -2,7 +2,7 @@
 title: "Funciones de ventana SQL que se quedan: ROW_NUMBER, RANK, LAG y totales acumulados"
 description: "Guía práctica de window functions en SQL: particiones, ROW_NUMBER vs RANK, diffs con LAG/LEAD, totales acumulados y el patrón CTE para filtrar que usas cada semana."
 date: "2026-07-12"
-tags: [Bases de datos]
+tags: [Backend y Bases de Datos]
 coverImage: /assets/images/sql-window-functions-guide.webp
 previewImage: /assets/images/sql-window-functions-guide.webp
 ---

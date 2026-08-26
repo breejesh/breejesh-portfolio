@@ -2,7 +2,7 @@
 title: "Number Max: Find Maximum of Two Numbers Without Comparison Operators (CTCI 16.7)"
 description: "CTCI problem 16.7: find maximum of two integers without using if-else or comparison operators using bitwise sign shift."
 date: "2026-01-03"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-16-7-number-max.webp
 previewImage: /assets/images/ctci-16-7-number-max.webp
 ---

@@ -2,7 +2,7 @@
 title: "Jigsaw: Match Piece Edges IN OUT FLAT to Solve the Board (Java)"
 description: "CTCI-style problem 7.6 for beginners: model jigsaw pieces with four edges (INNER, OUTER, FLAT), rotate them, and fill an N by N board by matching opposite sides. Object design plus a simple solver sketch in Java."
 date: "2026-01-20"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-7-6-jigsaw.webp
 previewImage: /assets/images/ctci-7-6-jigsaw.webp
 ---

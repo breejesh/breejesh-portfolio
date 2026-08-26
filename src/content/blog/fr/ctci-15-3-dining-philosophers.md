@@ -2,7 +2,7 @@
 title: "Dining Philosophers: Preventing Deadlock with Resource Ordering (CTCI 15.3)"
 description: "CTCI problem 15.3: solving the classic Dining Philosophers deadlock using lock hierarchy and strict resource acquisition order."
 date: "2026-04-27"
-tags: [Algorithms]
+tags: [Algorithmes et Structures, Backend et Bases de Données]
 coverImage: /assets/images/ctci-15-3-dining-philosophers.webp
 previewImage: /assets/images/ctci-15-3-dining-philosophers.webp
 ---

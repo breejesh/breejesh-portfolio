@@ -2,7 +2,7 @@
 title: "Synchronized Methods: Java Object Locks & Class Locks (CTCI 15.6)"
 description: "CTCI problem 15.6: understanding thread blocking behavior between synchronized instance methods vs static class methods in Java."
 date: "2026-03-14"
-tags: [Algorithms]
+tags: [Algorithmes et Structures, Backend et Bases de Données]
 coverImage: /assets/images/ctci-15-6-synchronized-methods.webp
 previewImage: /assets/images/ctci-15-6-synchronized-methods.webp
 ---

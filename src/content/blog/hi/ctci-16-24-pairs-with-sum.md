@@ -2,7 +2,7 @@
 title: "Pairs with Sum: Find All Pairs in Array Summing to Target Value (CTCI 16.24)"
 description: "CTCI problem 16.24: find all pairs of integers in an array that sum to a target value in O(N) time."
 date: "2025-08-27"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-16-24-pairs-with-sum.webp
 previewImage: /assets/images/ctci-16-24-pairs-with-sum.webp
 ---

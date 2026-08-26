@@ -2,7 +2,7 @@
 title: "Sigue aprendiendo system design: bloques, orden de práctica y esta serie"
 description: "Después de los diseños clásicos de entrevista, aprende los bloques reutilizables en lenguaje claro, sigue un orden de práctica para principiantes y usa esta serie del blog como mapa de estudio."
 date: "2026-01-30"
-tags: [Diseño de sistemas]
+tags: [Diseño de Sistemas y Arquitectura]
 coverImage: /assets/images/design-interview-learning-path.webp
 previewImage: /assets/images/design-interview-learning-path.webp
 ---

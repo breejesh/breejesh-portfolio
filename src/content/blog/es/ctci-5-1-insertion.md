@@ -2,7 +2,7 @@
 title: "Insertion: insertar el entero M en N entre los bits i y j (Java)"
 description: "Problema estilo CTCI 5.1 para principiantes: limpia los bits i a j en N, desplaza M por i y haz OR. Máscaras de bits, recorrido del ejemplo clásico y código Java."
 date: "2025-10-17"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-5-1-insertion.webp
 previewImage: /assets/images/ctci-5-1-insertion.webp
 ---

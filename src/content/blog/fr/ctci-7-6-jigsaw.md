@@ -2,7 +2,7 @@
 title: "Jigsaw: Apparier les bords IN OUT FLAT pour remplir le plateau (Java)"
 description: "Problème 7.6 style CTCI pour débutants: modélise des pièces de puzzle avec quatre bords (INNER, OUTER, FLAT), tourne-les et remplis un plateau N sur N en appariant les côtés opposés. Conception objet et esquisse de solveur en Java."
 date: "2026-01-20"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-7-6-jigsaw.webp
 previewImage: /assets/images/ctci-7-6-jigsaw.webp
 ---

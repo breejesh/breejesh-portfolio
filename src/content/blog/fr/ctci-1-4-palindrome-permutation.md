@@ -2,7 +2,7 @@
 title: "CTCI 1.4 Permutation palindrome en Java: compter les impairs, pas les réarrangements"
 description: "Vérifier si un réarrangement d'une chaîne peut être un palindrome. Comptes de fréquence, au plus un caractère impair, règles optionnelles d'espaces et de casse, et Java clair."
 date: "2025-12-10"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-1-4-palindrome-permutation.webp
 previewImage: /assets/images/ctci-1-4-palindrome-permutation.webp
 ---

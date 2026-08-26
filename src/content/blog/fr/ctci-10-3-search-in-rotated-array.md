@@ -2,7 +2,7 @@
 title: "Search in Rotated Array: Recherche dans un Tableau Trié Et Pivoté (CTCI 10.3)"
 description: "Problème CTCI 10.3 en Java: recherche binaire modifiée dans un tableau trié ayant subi une rotation."
 date: "2026-03-11"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-10-3-search-in-rotated-array.webp
 previewImage: /assets/images/ctci-10-3-search-in-rotated-array.webp
 ---

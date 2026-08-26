@@ -2,7 +2,7 @@
 title: "Concevoir un générateur d'IDs uniques : UUID, ticket servers et Snowflake"
 description: "IDs uniques pour débutants : pourquoi un compteur d'une seule base casse avec beaucoup d'écrivains, puis UUID, ticket servers et Snowflake comme heure plus numéro de machine plus compteur, comme un ticket de caisse, y compris les horloges qui reculent d'un coup."
 date: "2025-11-16"
-tags: [Conception de systèmes]
+tags: [Design Système et Architecture]
 coverImage: /assets/images/design-unique-id-generator.webp
 previewImage: /assets/images/design-unique-id-generator.webp
 ---

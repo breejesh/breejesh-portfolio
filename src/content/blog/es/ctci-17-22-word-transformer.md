@@ -2,7 +2,7 @@
 title: "Word Transformer: Transform One Word to Another via BFS (CTCI 17.22)"
 description: "CTCI problem 17.22: transform word A into word B by changing 1 letter at a time through dictionary words using Bidirectional BFS."
 date: "2025-08-10"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-17-22-word-transformer.webp
 previewImage: /assets/images/ctci-17-22-word-transformer.webp
 ---

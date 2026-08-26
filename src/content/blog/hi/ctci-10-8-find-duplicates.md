@@ -2,7 +2,7 @@
 title: "फाइंड डुप्लिकेट्स: ४ केबी रैम के साथ एन संख्याओं में सभी डुप्लिकेट खोजें (CTCI 10.8)"
 description: "सीटीसीआई समस्या १०.८: केवल ४ केबी रैम का उपयोग करके १ से ३२,००० तक की संख्याओं के एरे में सभी डुप्लिकेट खोजें।"
 date: "2025-08-12"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-10-8-find-duplicates.webp
 previewImage: /assets/images/ctci-10-8-find-duplicates.webp
 ---

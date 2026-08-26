@@ -2,7 +2,7 @@
 title: "Structured Logging Best Practices for Production Services"
 description: "JSON logs, correlation IDs, log levels, PII redaction, and cardinality control. What keeps incident response fast without drowning your log bill."
 date: "2026-07-03"
-tags: [DevOps, Backend]
+tags: [Cloud & DevOps, Backend & Databases]
 coverImage: /assets/images/structured-logging-best-practices.webp
 previewImage: /assets/images/structured-logging-best-practices.webp
 ---

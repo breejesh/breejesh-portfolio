@@ -2,7 +2,7 @@
 title: "Permutations with Dups: Unique Strings via Frequency Map (Java)"
 description: "CTCI-style problem 8.8 for beginners: list every unique permutation of a string that may contain duplicate characters. Build a frequency map, backtrack by remaining counts, skip the n! blowup of naive swaps."
 date: "2026-01-05"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-8-8-permutations-with-dups.webp
 previewImage: /assets/images/ctci-8-8-permutations-with-dups.webp
 ---

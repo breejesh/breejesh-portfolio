@@ -2,7 +2,7 @@
 title: "Binary Search Patterns That Keep Showing Up"
 description: "Classic binary search, lower and upper bound, answer-space search, and the off-by-one traps that burn interviews and production code. Templates you can reuse."
 date: "2026-06-27"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/binary-search-patterns.webp
 previewImage: /assets/images/binary-search-patterns.webp
 ---

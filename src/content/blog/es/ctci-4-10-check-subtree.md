@@ -2,7 +2,7 @@
 title: "CTCI 4.10 Check Subtree: ¿T2 está dentro de T1? (Java)"
 description: "T1 es mucho mayor que T2. Decide si T2 es subárbol de T1: busca la raíz de T2 en T1 y haz matchTree, o serializa preorden con nulos y usa contains. Java, O(n + km) vs O(n + m)."
 date: "2026-05-24"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-4-10-check-subtree.webp
 previewImage: /assets/images/ctci-4-10-check-subtree.webp
 ---

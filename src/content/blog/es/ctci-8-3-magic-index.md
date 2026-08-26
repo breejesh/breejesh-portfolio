@@ -2,7 +2,7 @@
 title: "Magic Index: Encontrar i donde A[i] es igual a i (Java)"
 description: "Problema estilo CTCI 8.3 para principiantes: en un array ordenado encuentra un índice i con A[i] == i. Valores distintos usan búsqueda binaria. Duplicados exigen ambos lados con rangos acotados."
 date: "2026-05-01"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-8-3-magic-index.webp
 previewImage: /assets/images/ctci-8-3-magic-index.webp
 ---

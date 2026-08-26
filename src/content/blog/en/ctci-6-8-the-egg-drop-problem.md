@@ -2,7 +2,7 @@
 title: "The Egg Drop Problem: 100 Floors, 2 Eggs, Minimize Worst Case (Java)"
 description: "CTCI-style problem 6.8 for beginners: find the critical floor with two eggs and 100 floors while minimizing the worst-case number of drops. Use decreasing intervals so every path costs the same, and solve x(x+1)/2 >= 100."
 date: "2026-03-29"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-6-8-the-egg-drop-problem.webp
 previewImage: /assets/images/ctci-6-8-the-egg-drop-problem.webp
 ---

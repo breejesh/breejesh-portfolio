@@ -2,7 +2,7 @@
 title: "Concevoir un store clé-valeur comme un vestiaire : put, get, CAP et quorums"
 description: "Guide pour débutants des stores clé-valeur distribués. Put et get comme ranger et récupérer, CAP en histoire simple, partitions comme des livres sur des rayons, réplication comme des copies, quorums comme des bibliothécaires qui doivent se mettre d'accord."
 date: "2025-10-28"
-tags: [Conception de systèmes]
+tags: [Design Système et Architecture, Backend et Bases de Données]
 coverImage: /assets/images/design-key-value-store.webp
 previewImage: /assets/images/design-key-value-store.webp
 ---

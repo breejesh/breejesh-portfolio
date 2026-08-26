@@ -2,7 +2,7 @@
 title: "Parking Lot: Multi-Level Spots for Motorcycle, Car, and Bus (Java)"
 description: "CTCI-style problem 7.4 for beginners: design a multi-level parking lot with motorcycle, compact, and large spots. Park motorcycles, cars, and buses under size rules, with clean Java classes."
 date: "2025-12-11"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-7-4-parking-lot.webp
 previewImage: /assets/images/ctci-7-4-parking-lot.webp
 ---

@@ -2,7 +2,7 @@
 title: "शॉर्ट बिग फाइल: २ जीबी रैम के साथ २० जीबी फाइल के लिए एक्सटर्नल मर्ज सॉर्ट (CTCI 10.6)"
 description: "सीटीसीआई समस्या १०.६: सीमित २ जीबी रैम में विशाल २० जीबी टेक्स्ट फाइल को सॉर्ट करने के लिए एक्सटर्नल मर्ज सॉर्ट तकनीक।"
 date: "2025-09-13"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-10-6-sort-big-file.webp
 previewImage: /assets/images/ctci-10-6-sort-big-file.webp
 ---

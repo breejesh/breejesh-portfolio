@@ -2,7 +2,7 @@
 title: "Call In Order: Synchronizing Method Execution Sequence (CTCI 15.5)"
 description: "CTCI problem 15.5: enforce execution order of first(), second(), third() methods across concurrent threads using CountDownLatch / Semaphores."
 date: "2026-06-02"
-tags: [Algorithms]
+tags: [Algorithmes et Structures, Backend et Bases de Données]
 coverImage: /assets/images/ctci-15-5-call-in-order.webp
 previewImage: /assets/images/ctci-15-5-call-in-order.webp
 ---

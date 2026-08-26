@@ -2,7 +2,7 @@
 title: "El Fin de la Fiebre de la AGI: Como la Empresa Giro Hacia la IA Pragmatica"
 description: "Tras gastar miles de millones en pilotos de IA sin retorno, las grandes empresas abandonan las promesas de AGI y eligen la automatizacion determinista."
 date: "2026-08-18"
-tags: [Empresas, IA, Estrategia, Tendencias, ROI]
+tags: [Herramientas y Políticas Tech, IA y Machine Learning]
 coverImage: /assets/images/context-compaction-kv-cache-compression.webp
 previewImage: /assets/images/context-compaction-kv-cache-compression.webp
 ---

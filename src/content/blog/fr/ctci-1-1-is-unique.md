@@ -2,7 +2,7 @@
 title: "Is Unique: verifier qu'une chaine a tous ses caracteres distincts (Java)"
 description: "Probleme style CTCI 1.1 pour debutants: decide si chaque caractere d'une chaine n'apparait qu'une fois. Analogie, force brute, tableau booleen, HashSet, tri et complexite."
 date: "2025-09-11"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-1-1-is-unique.webp
 previewImage: /assets/images/ctci-1-1-is-unique.webp
 ---

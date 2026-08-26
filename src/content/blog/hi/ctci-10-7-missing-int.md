@@ -2,7 +2,7 @@
 title: "मिसिंग इंट: ४ अरब संख्याओं में से गायब पूर्णांक खोजें (CTCI 10.7)"
 description: "सीटीसीआई समस्या १०.७: सीमित रैम में बिटसेट और टू-पास चंकिंग का उपयोग करके ४ अरब नंबरों में से गायब संख्या खोजें।"
 date: "2026-05-08"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-10-7-missing-int.webp
 previewImage: /assets/images/ctci-10-7-missing-int.webp
 ---

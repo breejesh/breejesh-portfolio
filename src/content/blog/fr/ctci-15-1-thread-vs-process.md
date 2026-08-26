@@ -2,7 +2,7 @@
 title: "Thread vs Process: Concurrency Fundamentals (CTCI 15.1)"
 description: "CTCI problem 15.1: core differences between process-level isolation and shared memory thread execution."
 date: "2026-06-16"
-tags: [Algorithms]
+tags: [Algorithmes et Structures, Backend et Bases de Données]
 coverImage: /assets/images/ctci-15-1-thread-vs-process.webp
 previewImage: /assets/images/ctci-15-1-thread-vs-process.webp
 ---

@@ -2,7 +2,7 @@
 title: "Majority Element: Boyer-Moore Majority Vote Algorithm (CTCI 17.10)"
 description: "CTCI problem 17.10: find the element that appears more than N/2 times in an array in O(N) time and O(1) space."
 date: "2025-12-08"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-17-10-majority-element.webp
 previewImage: /assets/images/ctci-17-10-majority-element.webp
 ---

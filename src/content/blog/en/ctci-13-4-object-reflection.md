@@ -2,7 +2,7 @@
 title: "Object Reflection: How Java Reflection Works (CTCI 13.4)"
 description: "CTCI problem 13.4: how Java Reflection API allows inspecting classes, invoking methods, and instantiating objects at runtime."
 date: "2026-01-07"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-13-4-object-reflection.webp
 previewImage: /assets/images/ctci-13-4-object-reflection.webp
 ---

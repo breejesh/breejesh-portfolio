@@ -2,7 +2,7 @@
 title: "Pattern Matching: Match String to Pattern of a and b (CTCI 16.18)"
 description: "CTCI problem 16.18: check if a value string matches a pattern string composed of 'a' and 'b' variables."
 date: "2025-10-10"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-16-18-pattern-matching.webp
 previewImage: /assets/images/ctci-16-18-pattern-matching.webp
 ---

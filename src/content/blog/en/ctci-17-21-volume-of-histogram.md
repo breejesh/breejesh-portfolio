@@ -2,7 +2,7 @@
 title: "Volume of Histogram: Trapping Rain Water in Java (CTCI 17.21)"
 description: "CTCI problem 17.21 in Java: compute total water trapped between bars in a 2D histogram in O(N) time and O(1) space."
 date: "2026-05-18"
-tags: [Algorithms, Two Pointers]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-17-21-volume-of-histogram.webp
 previewImage: /assets/images/ctci-17-21-volume-of-histogram.webp
 ---

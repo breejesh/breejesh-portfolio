@@ -2,7 +2,7 @@
 title: "Animal Shelter: adoption FIFO chiens et chats (Java)"
 description: "Problème style CTCI 3.6 pour débutants: un refuge n'accueille que chiens et chats en file FIFO stricte. Implémente enqueue, dequeueAny, dequeueDog et dequeueCat avec deux files et un ordre d'arrivée."
 date: "2025-09-28"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-3-6-animal-shelter.webp
 previewImage: /assets/images/ctci-3-6-animal-shelter.webp
 ---

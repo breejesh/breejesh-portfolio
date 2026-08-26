@@ -2,7 +2,7 @@
 title: "Fargate vs EC2 para servicios always-on: cuándo la prima deja de tener sentido"
 description: "Fargate va bien para trabajo con picos. Para APIs y workers que no duermen, la prima por vCPU se acumula. Aquí va la matemática de 2026 y el trade-off de ops."
 date: "2026-06-23"
-tags: [AWS, Nube]
+tags: [Cloud y DevOps]
 coverImage: /assets/images/fargate-vs-ec2-always-on.webp
 previewImage: /assets/images/fargate-vs-ec2-always-on.webp
 ---

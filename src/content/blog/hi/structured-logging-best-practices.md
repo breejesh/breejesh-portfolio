@@ -2,7 +2,7 @@
 title: "प्रोडक्शन सेवाओं के लिए संरचित लॉगिंग की अच्छी आदतें"
 description: "जेसन लॉग, सहसंबंध आईडी, स्तर, व्यक्तिगत डेटा की छँटाई और कार्डिनैलिटी नियंत्रण। घटनाओं को तेज़ रखते हुए लॉग बिल न बढ़ाएँ।"
 date: "2026-07-03"
-tags: [डेवऑप्स, बैकएंड]
+tags: [क्लाउड और डेवऑप्स, बैकएंड और डेटाबेस]
 coverImage: /assets/images/structured-logging-best-practices.webp
 previewImage: /assets/images/structured-logging-best-practices.webp
 ---

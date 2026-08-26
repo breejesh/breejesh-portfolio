@@ -2,7 +2,7 @@
 title: "Insertion: glisser l'entier M dans N entre les bits i et j (Java)"
 description: "Problème style CTCI 5.1 pour débutants: efface les bits i à j dans N, décale M de i, puis OR. Masques de bits, parcours de l'exemple classique, et code Java."
 date: "2025-10-17"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-5-1-insertion.webp
 previewImage: /assets/images/ctci-5-1-insertion.webp
 ---

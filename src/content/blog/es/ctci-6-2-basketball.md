@@ -2,7 +2,7 @@
 title: "Baloncesto: Un tiro frente a encestar 2 de 3 (probabilidad)"
 description: "Problema estilo CTCI 6.2 para principiantes: con probabilidad p de acierto, elige Juego 1 (un enceste) o Juego 2 (al menos dos de tres). Álgebra: p frente a 3p^2(1-p)+p^3, y cuándo gana cada uno."
 date: "2026-01-12"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-6-2-basketball.webp
 previewImage: /assets/images/ctci-6-2-basketball.webp
 ---

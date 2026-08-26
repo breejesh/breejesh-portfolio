@@ -2,7 +2,7 @@
 title: "Stack of Boxes: la pile strictement décroissante la plus haute (Java)"
 description: "Problème style CTCI 8.13 pour débutants: empiler des boîtes seulement si largeur, profondeur et hauteur sont toutes strictement plus petites. Trier une dimension, puis DP avec mémo pour la hauteur totale max."
 date: "2026-02-26"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-8-13-stack-of-boxes.webp
 previewImage: /assets/images/ctci-8-13-stack-of-boxes.webp
 ---

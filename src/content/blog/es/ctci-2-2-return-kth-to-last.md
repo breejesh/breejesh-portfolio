@@ -2,7 +2,7 @@
 title: "CTCI 2.2 Return Kth to Last: dos punteros en una lista enlazada"
 description: "Encuentra el k-ésimo nodo desde el final de una lista enlazada simple. Recorre el clásico hueco de k con dos punteros y un wrapper recursivo breve, en Java claro."
 date: "2026-02-20"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-2-2-return-kth-to-last.webp
 previewImage: /assets/images/ctci-2-2-return-kth-to-last.webp
 ---

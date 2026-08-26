@@ -2,7 +2,7 @@
 title: "Delete Middle Node: supprimer un noeud sans acces a la tete (Java)"
 description: "Probleme style CTCI 2.3: supprimer un noeud du milieu d'une liste chainee simple quand on n'a qu'un pointeur vers ce noeud. Copie la valeur suivante, saute le suivant, et explique pourquoi le dernier noeud echoue."
 date: "2026-05-14"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-2-3-delete-middle-node.webp
 previewImage: /assets/images/ctci-2-3-delete-middle-node.webp
 ---

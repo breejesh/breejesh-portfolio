@@ -2,7 +2,7 @@
 title: "Next Number: mismo conteo de bits, el mayor y el menor vecinos (Java)"
 description: "Problema estilo CTCI 5.4 para principiantes: dado un int positivo, encuentra el siguiente valor mayor y el menor que conserven el mismo número de bits 1. Cuenta ceros y unos finales, voltea un bit y reordena el resto."
 date: "2026-05-31"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-5-4-next-number.webp
 previewImage: /assets/images/ctci-5-4-next-number.webp
 ---

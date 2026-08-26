@@ -2,7 +2,7 @@
 title: "Diseñar un sistema de notificaciones: push, SMS, email, colas y fiabilidad"
 description: "Cómo funciona un sistema de notificaciones, explicado para principiantes: canales, preferencias, plantillas, colas, reintentos y el camino desde un pedido enviado hasta una alerta en el teléfono."
 date: "2026-06-07"
-tags: [Diseño de sistemas]
+tags: [Diseño de Sistemas y Arquitectura]
 coverImage: /assets/images/design-notification-system.webp
 previewImage: /assets/images/design-notification-system.webp
 ---

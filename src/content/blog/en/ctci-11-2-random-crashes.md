@@ -2,7 +2,7 @@
 title: "Random Crashes: Diagnosing Non-Deterministic Bugs (CTCI 11.2)"
 description: "CTCI problem 11.2: a systematic 6-step engineering methodology to isolate, reproduce, and fix non-deterministic production crashes."
 date: "2025-12-21"
-tags: [Debugging, Systems]
+tags: [Developer Tools & Policy, Backend & Databases, Algorithms & Data Structures]
 coverImage: /assets/images/ctci-11-2-random-crashes.webp
 previewImage: /assets/images/ctci-11-2-random-crashes.webp
 ---

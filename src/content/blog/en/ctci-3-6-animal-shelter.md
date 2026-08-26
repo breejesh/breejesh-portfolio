@@ -2,7 +2,7 @@
 title: "Animal Shelter: FIFO Adoption with Dogs and Cats (Java)"
 description: "CTCI-style problem 3.6 for beginners: an animal shelter holds only dogs and cats on a strict first-in first-out line. Build enqueue, dequeueAny, dequeueDog, and dequeueCat with two queues plus an arrival order."
 date: "2025-09-28"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-3-6-animal-shelter.webp
 previewImage: /assets/images/ctci-3-6-animal-shelter.webp
 ---

@@ -2,7 +2,7 @@
 title: "Back-of-the-Envelope Estimation for System Design Interviews"
 description: "Learn rough capacity math for interviews: QPS, storage, bandwidth, and latency with everyday analogies, one slow worked example, and a friend-level recap."
 date: "2026-02-13"
-tags: [System Design]
+tags: [System Design & Architecture]
 coverImage: /assets/images/design-back-of-envelope-estimation.webp
 previewImage: /assets/images/design-back-of-envelope-estimation.webp
 ---

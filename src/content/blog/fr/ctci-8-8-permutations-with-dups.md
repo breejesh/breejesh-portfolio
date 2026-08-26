@@ -2,7 +2,7 @@
 title: "Permutations avec doublons: chaînes uniques via carte de fréquences (Java)"
 description: "Problème style CTCI 8.8 pour débutants: lister chaque permutation unique d'une chaîne qui peut contenir des caractères en double. Carte de fréquences, backtracking sur les comptes restants, sans l'explosion n! des swaps naïfs."
 date: "2026-01-05"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-8-8-permutations-with-dups.webp
 previewImage: /assets/images/ctci-8-8-permutations-with-dups.webp
 ---

@@ -2,7 +2,7 @@
 title: "CTCI 1.7 Rotate Matrix: tourner une grille NxN de 90 degrés in place (Java)"
 description: "Faire pivoter une matrice NxN de 90 degrés dans le sens horaire sans seconde matrice. Échange 4 cellules couche par couche en Java, avec schémas texte et cas limites."
 date: "2025-11-12"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-1-7-rotate-matrix.webp
 previewImage: /assets/images/ctci-1-7-rotate-matrix.webp
 ---

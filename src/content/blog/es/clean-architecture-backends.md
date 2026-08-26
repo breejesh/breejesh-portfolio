@@ -2,7 +2,7 @@
 title: "Arquitectura limpia para backends que se mantienen"
 description: "Capas, la regla de dependencia y casos de uso en servicios backend reales. Qué rinde, qué se vuelve ceremonia y cuándo un diseño más simple es la mejor opción."
 date: "2026-06-26"
-tags: [Backend]
+tags: [Backend y Bases de Datos]
 coverImage: /assets/images/clean-architecture-backends.webp
 previewImage: /assets/images/clean-architecture-backends.webp
 ---

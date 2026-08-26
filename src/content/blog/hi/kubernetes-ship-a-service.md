@@ -2,7 +2,7 @@
 title: "सेवा भेजने के लिए जरूरी कुबेरनेटीस अवधारणाएँ"
 description: "पॉड, डिप्लॉयमेंट, सर्विस, इंग्रेस, प्रोब, कॉन्फ़िगमैप और सीक्रेट: सर्टिफिकेशन सूची नहीं, एक एचटीटीपी सेवा चलाने का न्यूनतम रास्ता।"
 date: "2026-06-21"
-tags: [कंटेनर, डेवऑप्स, क्लाउड]
+tags: [क्लाउड और डेवऑप्स]
 coverImage: /assets/images/kubernetes-ship-a-service.webp
 previewImage: /assets/images/kubernetes-ship-a-service.webp
 ---

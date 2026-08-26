@@ -2,7 +2,7 @@
 title: "CTCI 1.8 Zero Matrix: mettre lignes et colonnes à zéro en place (Java)"
 description: "Si une case vaut 0, mettez toute sa ligne et sa colonne à 0. Force brute d'abord, puis O(1) d'espace extra avec drapeaux sur la première ligne et colonne en Java."
 date: "2025-10-06"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-1-8-zero-matrix.webp
 previewImage: /assets/images/ctci-1-8-zero-matrix.webp
 ---

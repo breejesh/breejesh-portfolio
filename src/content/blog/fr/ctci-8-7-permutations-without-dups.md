@@ -2,7 +2,7 @@
 title: "Permutations without Dups: tous les ordres d'une chaîne unique (Java)"
 description: "Problème style CTCI 8.7 pour débutants: lister chaque permutation d'une chaîne aux caractères tous distincts. Backtracking avec un tableau used, Java clair et un parcours court pour abc."
 date: "2025-10-18"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-8-7-permutations-without-dups.webp
 previewImage: /assets/images/ctci-8-7-permutations-without-dups.webp
 ---

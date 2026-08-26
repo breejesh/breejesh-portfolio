@@ -2,7 +2,7 @@
 title: "Next Number: même nombre de bits 1, voisin plus grand et plus petit (Java)"
 description: "Problème style CTCI 5.4 pour débutants: à partir d'un int positif, trouver le suivant plus grand et le suivant plus petit qui gardent le même nombre de bits 1. Compter les zéros et uns de fin, basculer un bit, réarranger le reste."
 date: "2026-05-31"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-5-4-next-number.webp
 previewImage: /assets/images/ctci-5-4-next-number.webp
 ---

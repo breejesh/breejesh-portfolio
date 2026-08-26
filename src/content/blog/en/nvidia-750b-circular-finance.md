@@ -2,7 +2,7 @@
 title: "Nvidia's $750B Deals Are the Circular AI Machine on Full Display"
 description: "SK Group $500B+, a possible $250B OpenAI backstop, 18¢ of every AI dollar in production, and free cash flow that fell off a cliff. The money loop is the product."
 date: "2026-07-27"
-tags: [AI, Finance]
+tags: [AI & Machine Learning, Tech Business & Finance]
 coverImage: /assets/images/nvidia-750b-circular-finance.webp
 previewImage: /assets/images/nvidia-750b-circular-finance.webp
 ---

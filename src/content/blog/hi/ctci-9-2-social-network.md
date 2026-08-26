@@ -2,7 +2,7 @@
 title: "सोशल नेटवर्क: बड़े पैमाने पर सबसे छोटा कनेक्शन पथ खोजें (CTCI 9.2)"
 description: "सीटीसीआई समस्या ९.२: एक अरब-नोड वाले सोशल ग्राफ में दो उपयोगकर्ताओं के बीच कनेक्शन पथ की गणना करने वाला वितरित सिस्टम डिजाइन करें।"
 date: "2026-04-26"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-9-2-social-network.webp
 previewImage: /assets/images/ctci-9-2-social-network.webp
 ---

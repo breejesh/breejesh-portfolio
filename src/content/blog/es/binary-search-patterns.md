@@ -2,7 +2,7 @@
 title: "Patrones de búsqueda binaria que no dejan de aparecer"
 description: "Búsqueda binaria clásica, lower y upper bound, búsqueda en el espacio de la respuesta y los errores off-by-one que queman entrevistas y producción. Plantillas reutilizables."
 date: "2026-06-27"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/binary-search-patterns.webp
 previewImage: /assets/images/binary-search-patterns.webp
 ---

@@ -2,7 +2,7 @@
 title: "Rank from Stream: Rango de un Número en un Flujo de Datos (CTCI 10.10)"
 description: "Problema CTCI 10.10 en Java: rastrea números en flujo con un árbol BST para calcular el rango en tiempo real."
 date: "2026-01-18"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-10-10-rank-from-stream.webp
 previewImage: /assets/images/ctci-10-10-rank-from-stream.webp
 ---

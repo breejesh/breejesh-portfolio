@@ -2,7 +2,7 @@
 title: "कैश: सर्च इंजन इन-मेमोरी क्वेरी कैश डिजाइन करें (CTCI 9.5)"
 description: "सीटीसीआई समस्या ९.५: प्रति सेकंड लाखों प्रश्नों को सेवा देने वाले सर्च इंजन के लिए इन-मेमोरी कैशिंग सिस्टम डिजाइन करें।"
 date: "2025-09-23"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-9-5-cache.webp
 previewImage: /assets/images/ctci-9-5-cache.webp
 ---

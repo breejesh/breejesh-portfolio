@@ -2,7 +2,7 @@
 title: "100 casilleros: ¿cuáles quedan abiertos tras 100 conmutaciones? (Java)"
 description: "Problema estilo CTCI 6.9 para principiantes: 100 casilleros cerrados, 100 personas conmutan cada i-ésima puerta. Los abiertos son cuadrados perfectos (1, 4, 9, ..., 100) porque solo los cuadrados tienen un número impar de factores. Simulación opcional en Java."
 date: "2026-06-17"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-6-9-100-lockers.webp
 previewImage: /assets/images/ctci-6-9-100-lockers.webp
 ---

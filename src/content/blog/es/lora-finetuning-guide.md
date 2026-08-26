@@ -2,7 +2,7 @@
 title: "Fine-tuning LoRA para LLMs: rangos, módulos objetivo y cuentas de memoria"
 description: "Guía práctica de LoRA y QLoRA: cuándo los adapters ganan al fine-tune completo, cómo elegir rank y módulos, VRAM aproximada y fallos que te queman un fin de semana."
 date: "2026-08-04"
-tags: [IA]
+tags: [IA y Machine Learning]
 coverImage: /assets/images/lora-finetuning-guide.webp
 previewImage: /assets/images/lora-finetuning-guide.webp
 ---

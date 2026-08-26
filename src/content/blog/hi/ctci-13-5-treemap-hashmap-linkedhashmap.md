@@ -2,7 +2,7 @@
 title: "TreeMap vs HashMap vs LinkedHashMap: Java Map Selection Guide (CTCI 13.5)"
 description: "CTCI problem 13.5: comparing HashMap O(1), TreeMap O(log N) sorted, and LinkedHashMap insertion-ordered maps in Java."
 date: "2025-10-04"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-13-5-treemap-hashmap-linkedhashmap.webp
 previewImage: /assets/images/ctci-13-5-treemap-hashmap-linkedhashmap.webp
 ---

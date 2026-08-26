@@ -2,7 +2,7 @@
 title: "Flip Bit to Win: la racha más larga de unos tras un flip (Java)"
 description: "Problema estilo CTCI 5.3 para principiantes: voltea un bit 0 en un entero para maximizar los 1 consecutivos. Rastrea rachas de unos separadas por ceros, une a través de un solo cero, Java claro."
 date: "2026-01-16"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-5-3-flip-bit-to-win.webp
 previewImage: /assets/images/ctci-5-3-flip-bit-to-win.webp
 ---

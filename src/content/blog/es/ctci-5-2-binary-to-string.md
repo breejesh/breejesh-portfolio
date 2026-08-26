@@ -2,7 +2,7 @@
 title: "Binary to String: imprime una fraccion en bits o ERROR (Java)"
 description: "Problema estilo CTCI 5.2 para principiantes: toma un double en (0, 1), imprime su cadena de fraccion binaria, o ERROR si necesita mas de 32 bits tras el punto. Metodo multiplicar por 2 en Java claro."
 date: "2026-04-16"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-5-2-binary-to-string.webp
 previewImage: /assets/images/ctci-5-2-binary-to-string.webp
 ---

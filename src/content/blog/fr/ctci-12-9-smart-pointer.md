@@ -2,7 +2,7 @@
 title: "Smart Pointer: Building a Custom Reference Counting Pointer in C++ (CTCI 12.9)"
 description: "CTCI problem 12.9: implementing a custom SmartPointer class with ref count incrementing and automatic memory deallocation."
 date: "2026-04-20"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-12-9-smart-pointer.webp
 previewImage: /assets/images/ctci-12-9-smart-pointer.webp
 ---

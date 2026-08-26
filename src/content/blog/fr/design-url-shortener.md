@@ -2,7 +2,7 @@
 title: "Concevoir un raccourcisseur d'URL : encodage, stockage, cache, redirections et scale"
 description: "System design d'un raccourcisseur d'URL expliqué aux débutants : tickets de vestiaire, parcours création et redirection, Base62, stockage, cache, et scale étape par étape."
 date: "2026-04-02"
-tags: [Conception de systèmes]
+tags: [Design Système et Architecture]
 coverImage: /assets/images/design-url-shortener.webp
 previewImage: /assets/images/design-url-shortener.webp
 ---

@@ -2,7 +2,7 @@
 title: "Random Set: Generate Uniform Random Subset of Size M from Array of Size N (CTCI 17.3)"
 description: "CTCI problem 17.3: sample a random subset of size m from an array of n elements uniformly."
 date: "2025-08-29"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-17-3-random-set.webp
 previewImage: /assets/images/ctci-17-3-random-set.webp
 ---

@@ -2,7 +2,7 @@
 title: "Sparse Search: Recherche dans un Tableau Clairsemé de Chaînes (CTCI 10.5)"
 description: "Problème CTCI 10.5 en Java: chercher une chaîne dans un tableau trié entrecoupé de chaînes vides."
 date: "2026-01-23"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-10-5-sparse-search.webp
 previewImage: /assets/images/ctci-10-5-sparse-search.webp
 ---

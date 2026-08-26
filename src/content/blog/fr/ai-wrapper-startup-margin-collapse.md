@@ -2,7 +2,7 @@
 title: "La Chute des Marges Brutes des Startups d'IA: Le Piege des 15% de Marge"
 description: "Autopsie financiere des startups SaaS d'intelligence artificielle confrontees a l'explosion des couts d'inference des modeles d'IA."
 date: "2026-08-15"
-tags: [Startups, CapitalRisque, SaaS, IA, Economie]
+tags: [Économie Tech et Finance, IA et Machine Learning]
 coverImage: /assets/images/runaway-ai-agents-enterprise-spending-crisis.webp
 previewImage: /assets/images/runaway-ai-agents-enterprise-spending-crisis.webp
 ---

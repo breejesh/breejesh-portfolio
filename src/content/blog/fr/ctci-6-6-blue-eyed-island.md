@@ -2,7 +2,7 @@
 title: "Île aux yeux bleus: connaissance commune et induction pour débutants"
 description: "Problème style CTCI 6.6: n insulaires aux yeux bleus partent la nuit n après que le gourou dise je vois quelqu'un aux yeux bleus. Cas de base, étape inductive et connaissance commune sans jargon opaque."
 date: "2025-12-23"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-6-6-blue-eyed-island.webp
 previewImage: /assets/images/ctci-6-6-blue-eyed-island.webp
 ---

@@ -2,7 +2,7 @@
 title: "Personal Financial Manager: Sistema de Agregación de Cuentas Bancarias (CTCI 9.7)"
 description: "Problema CTCI 9.7: arquitectura para una aplicación de finanzas personales que conecta cuentas bancarias y categoriza transacciones."
 date: "2026-01-28"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-9-7-personal-financial-manager.webp
 previewImage: /assets/images/ctci-9-7-personal-financial-manager.webp
 ---

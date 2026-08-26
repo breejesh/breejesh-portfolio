@@ -2,7 +2,7 @@
 title: "Missing Int: Find Missing Integer in 4 Billion Numbers (CTCI 10.7)"
 description: "CTCI problem 10.7 in Java: find an uncontained non-negative integer from 4 billion numbers using BitSet and two-pass chunking under tight RAM."
 date: "2026-05-08"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-10-7-missing-int.webp
 previewImage: /assets/images/ctci-10-7-missing-int.webp
 ---

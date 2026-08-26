@@ -2,7 +2,7 @@
 title: "Sub Sort: Find Minimum Subarray Index Range to Sort Entire Array (CTCI 16.16)"
 description: "CTCI problem 16.16: find smallest index range (m, n) such that sorting subarray array[m..n] sorts the entire array."
 date: "2026-01-02"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-16-16-sub-sort.webp
 previewImage: /assets/images/ctci-16-16-sub-sort.webp
 ---

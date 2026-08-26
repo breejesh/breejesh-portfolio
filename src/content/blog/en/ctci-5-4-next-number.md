@@ -2,7 +2,7 @@
 title: "Next Number: Same Bit Count, Next Larger and Smaller (Java)"
 description: "CTCI-style problem 5.4 for beginners: given a positive int, find the next larger and next smaller values that keep the same number of 1 bits. Count trailing zeros and ones, flip one bit, rearrange the rest."
 date: "2026-05-31"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-5-4-next-number.webp
 previewImage: /assets/images/ctci-5-4-next-number.webp
 ---

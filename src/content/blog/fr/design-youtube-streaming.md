@@ -2,7 +2,7 @@
 title: "Comment marche vraiment un service vidéo type YouTube : envoyer, convertir, stocker, lire"
 description: "Carte débutant du streaming vidéo : un cinéaste dépose une bande master, la plateforme fabrique plein de copies de qualités différentes, les stocke près des spectateurs et les sert via un CDN. Pourquoi l'original seul ne suffit pas, et l'intuition du coût en mots simples."
 date: "2025-09-29"
-tags: [Conception de systèmes]
+tags: [Design Système et Architecture, Backend et Bases de Données]
 coverImage: /assets/images/design-youtube-streaming.webp
 previewImage: /assets/images/design-youtube-streaming.webp
 ---

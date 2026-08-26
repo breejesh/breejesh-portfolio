@@ -2,7 +2,7 @@
 title: "Hash Table vs STL Map: C++ Container Differences (CTCI 12.3)"
 description: "CTCI problem 12.3: deep technical breakdown comparing std::map (Red-Black Tree O(log N)) and std::unordered_map (Hash Table O(1))."
 date: "2025-11-22"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-12-3-hash-table-vs-stl-map.webp
 previewImage: /assets/images/ctci-12-3-hash-table-vs-stl-map.webp
 ---

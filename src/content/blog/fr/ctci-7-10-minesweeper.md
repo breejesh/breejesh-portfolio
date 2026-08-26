@@ -2,7 +2,7 @@
 title: "Minesweeper: Board, Cell, bombes et flood fill des zéros (Java)"
 description: "Problème style CTCI 7.10 pour débutants: conçois un Minesweeper texte avec Cell et Board, placement aléatoire des bombes, comptes de voisins, règles de clic et flood fill à l'ouverture d'un zéro."
 date: "2025-12-30"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-7-10-minesweeper.webp
 previewImage: /assets/images/ctci-7-10-minesweeper.webp
 ---

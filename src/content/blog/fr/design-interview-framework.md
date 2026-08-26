@@ -2,7 +2,7 @@
 title: "Un cadre pratique pour les entretiens de system design"
 description: "Une checklist pour candidats stressés en entretien de system design: d'abord les questions, puis le plan des boîtes, ensuite le détail. Étapes en langage simple, dialogue d'exemple et budget temps réutilisable de 45-60 minutes."
 date: "2026-01-22"
-tags: [Conception de systèmes]
+tags: [Design Système et Architecture]
 coverImage: /assets/images/design-interview-framework.webp
 previewImage: /assets/images/design-interview-framework.webp
 ---

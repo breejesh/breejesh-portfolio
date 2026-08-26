@@ -2,7 +2,7 @@
 title: "की-वैल्यू स्टोर को कोट-चेक की तरह डिज़ाइन करें: put, get, CAP और क्वोरम"
 description: "शुरुआती लोगों के लिए वितरित की-वैल्यू स्टोर। put/get मतलब रखना और निकालना, CAP एक सरल कहानी में, पार्टीशन किताबों को अलमारियों में बाँटना, रेप्लिकेशन नकलें रखना, क्वोरम लाइब्रेरियन की सहमति।"
 date: "2025-10-28"
-tags: [सिस्टम डिजाइन]
+tags: [सिस्टम डिजाइन और आर्किटेक्चर, बैकएंड और डेटाबेस]
 coverImage: /assets/images/design-key-value-store.webp
 previewImage: /assets/images/design-key-value-store.webp
 ---

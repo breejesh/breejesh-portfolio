@@ -2,7 +2,7 @@
 title: "Hash Table: encadenamiento con cubos LinkedList (Java)"
 description: "Problema estilo CTCI 7.12 para principiantes: un HashMap simple con un array de listas enlazadas. put, get y remove con colisiones por chaining en Java."
 date: "2026-02-28"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-7-12-hash-table.webp
 previewImage: /assets/images/ctci-7-12-hash-table.webp
 ---

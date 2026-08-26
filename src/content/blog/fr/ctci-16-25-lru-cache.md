@@ -2,7 +2,7 @@
 title: "Cache LRU: Implémentation du Cache le Moins Récemment Utilisé (CTCI 16.25)"
 description: "Problème CTCI 16.25 en Java: concevoir et implémenter un cache LRU avec des opérations get et put en temps O(1) à l'aide d'une HashMap et d'une liste doublement chaînée."
 date: "2026-04-09"
-tags: [Algorithmes, Structures de Données]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-16-25-lru-cache.webp
 previewImage: /assets/images/ctci-16-25-lru-cache.webp
 ---

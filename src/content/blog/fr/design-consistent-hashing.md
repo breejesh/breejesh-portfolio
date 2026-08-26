@@ -2,7 +2,7 @@
 title: "Concevoir le consistent hashing : anneaux, nœuds virtuels et remapping minimal"
 description: "Pourquoi hash(key) % N réassigne presque tout le monde quand un serveur part, comment un anneau de hachage place les clés en marchant dans le sens horaire, les nœuds virtuels pour une charge équitable, et où le consistent hashing apparaît dans les caches, bases et load balancers."
 date: "2026-01-13"
-tags: [Conception de systèmes]
+tags: [Design Système et Architecture]
 coverImage: /assets/images/design-consistent-hashing.webp
 previewImage: /assets/images/design-consistent-hashing.webp
 ---

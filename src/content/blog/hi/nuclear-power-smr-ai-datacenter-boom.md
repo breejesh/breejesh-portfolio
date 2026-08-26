@@ -2,7 +2,7 @@
 title: "१० गीगावाट की ऊर्जा चुनौती: टेक कंपनियों ने क्यों खरीदे परमाणु ऊर्जा संयंत्र"
 description: "एआई डेटा सेंटरों को लगातार बिजली देने के लिए क्लाउड कंपनियों द्वारा परमाणु संयंत्रों और छोटे मॉड्यूलर रिएक्टरों के साथ ऐतिहासिक सौदों का विश्लेषण।"
 date: "2026-08-16"
-tags: [ऊर्जा, एआई, परमाणु, डेटासेंटर, बुनियादीढांचा]
+tags: [एआई और मशीन लर्निंग]
 coverImage: /assets/images/nvme-zns-spdk-database-storage.webp
 previewImage: /assets/images/nvme-zns-spdk-database-storage.webp
 ---

@@ -2,7 +2,7 @@
 title: "Build Order: Project Dependencies with Topological Sort (Java)"
 description: "CTCI-style problem 4.7 for beginners: projects and dependency pairs, find a valid build order or fail if a cycle exists. Kahn indegree queue and DFS in plain Java."
 date: "2026-04-28"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-4-7-build-order.webp
 previewImage: /assets/images/ctci-4-7-build-order.webp
 ---

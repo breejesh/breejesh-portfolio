@@ -2,7 +2,7 @@
 title: "बिना डुप्लिकेट के क्रमचय: अनोखे अक्षरों वाली स्ट्रिंग के सभी क्रम (जावा)"
 description: "शुरुआती लोगों के लिए सीटीसीआई शैली की समस्या ८.७: हर अक्षर अलग हो तो स्ट्रिंग के सभी क्रमचय छापो। प्रयुक्त-अक्षर झंडे वाला बैकट्रैकिंग, सादा जावा, और एबीसी का छोटा चलन।"
 date: "2025-10-18"
-tags: [एल्गोरिदम]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-8-7-permutations-without-dups.webp
 previewImage: /assets/images/ctci-8-7-permutations-without-dups.webp
 ---

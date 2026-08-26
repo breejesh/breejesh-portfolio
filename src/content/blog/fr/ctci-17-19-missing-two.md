@@ -2,7 +2,7 @@
 title: "Missing Two: Find Two Missing Numbers from 1 to N (CTCI 17.19)"
 description: "CTCI problem 17.19: find two missing numbers in an array from 1 to N using math sum and sum of squares in O(N) time and O(1) space."
 date: "2026-06-14"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-17-19-missing-two.webp
 previewImage: /assets/images/ctci-17-19-missing-two.webp
 ---

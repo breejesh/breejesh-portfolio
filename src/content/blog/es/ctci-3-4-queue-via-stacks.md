@@ -2,7 +2,7 @@
 title: "Queue via Stacks: cola FIFO con dos pilas LIFO (Java)"
 description: "Problema estilo CTCI 3.4 para principiantes: implementa MyQueue con stackNewest y stackOldest. Push a una, shift solo cuando dequeue o peek necesitan datos. Amortizado O(1) en Java claro."
 date: "2025-10-24"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-3-4-queue-via-stacks.webp
 previewImage: /assets/images/ctci-3-4-queue-via-stacks.webp
 ---

@@ -2,7 +2,7 @@
 title: "Tarification AWS EC2 : Comparatif des Instances On-Demand, Spot et Réservées"
 description: "Comparez les modèles de tarification AWS EC2 avec les coûts horaires réels, la mécanique d'interruption spot, les risques d'engagement et la stratégie hybride."
 date: "2026-06-22"
-tags: [AWS, Cloud]
+tags: [Cloud et DevOps]
 coverImage: /assets/images/aws-spot-reserved-ondemand.webp
 previewImage: /assets/images/aws-spot-reserved-ondemand.webp
 ---

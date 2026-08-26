@@ -2,7 +2,7 @@
 title: "Stack of Boxes: la pila estrictamente decreciente más alta (Java)"
 description: "Problema estilo CTCI 8.13 para principiantes: apila cajas solo si ancho, profundidad y altura son todos estrictamente menores. Ordena una dimensión y usa DP con memo para la altura total máxima."
 date: "2026-02-26"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-8-13-stack-of-boxes.webp
 previewImage: /assets/images/ctci-8-13-stack-of-boxes.webp
 ---

@@ -2,7 +2,7 @@
 title: "पीक्स एंड वैलीज़: ऐरे को चोटियों और घाटियों के अनुक्रम में व्यवस्थित करें (CTCI 10.11)"
 description: "सीटीसीआई समस्या १०.११: O(N) समय में पूर्णांकों के एरे को बारी-बारी से आने वाले पीक्स और वैलीज़ के अनुक्रम में पुनर्गठित करें।"
 date: "2026-06-06"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं, डेवलपर टूल्स और नीतियां]
 coverImage: /assets/images/ctci-10-11-peaks-and-valleys.webp
 previewImage: /assets/images/ctci-10-11-peaks-and-valleys.webp
 ---

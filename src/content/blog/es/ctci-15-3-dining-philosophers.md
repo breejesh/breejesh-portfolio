@@ -2,7 +2,7 @@
 title: "Filósofos Comensales: Prevención de Deadlock y Orden de Recursos (CTCI 15.3)"
 description: "Problema CTCI 15.3 en Java: resolver el clásico interbloqueo de los filósofos comensales mediante jerarquía estricta de adquisición de bloqueos."
 date: "2026-03-31"
-tags: [Algoritmos, Concurrencia]
+tags: [Algoritmos y Estructuras, Backend y Bases de Datos]
 coverImage: /assets/images/ctci-15-3-dining-philosophers.webp
 previewImage: /assets/images/ctci-15-3-dining-philosophers.webp
 ---

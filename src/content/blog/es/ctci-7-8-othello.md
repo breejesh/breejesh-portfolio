@@ -2,7 +2,7 @@
 title: "Othello: tablero, color, partida y reglas de volteo en Java OOD"
 description: "Problema estilo CTCI 7.8 para principiantes: diseña Othello (Reversi) con Board, color de Piece, flujo de Game y lógica de captura. Esbozo Java original, no copia de libro."
 date: "2025-08-23"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-7-8-othello.webp
 previewImage: /assets/images/ctci-7-8-othello.webp
 ---

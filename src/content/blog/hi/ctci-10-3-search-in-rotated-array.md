@@ -2,7 +2,7 @@
 title: "सर्च इन रोटेटेड ऐरे: रोटेटेड सॉर्टेड ऐरे में तत्व खोजें (CTCI 10.3)"
 description: "सीटीसीआई समस्या १०.३: किसी अज्ञात ऑफ़सेट द्वारा घुमाए गए सॉर्ट किए गए एरे में तत्व खोजने के लिए संशोधित बाइनरी सर्च।"
 date: "2026-03-11"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-10-3-search-in-rotated-array.webp
 previewImage: /assets/images/ctci-10-3-search-in-rotated-array.webp
 ---

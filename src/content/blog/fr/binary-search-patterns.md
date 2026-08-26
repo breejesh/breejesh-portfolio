@@ -2,7 +2,7 @@
 title: "Les motifs de recherche dichotomique qui reviennent sans cesse"
 description: "Recherche binaire classique, lower et upper bound, recherche sur l'espace des réponses, et les pièges off-by-one qui coûtent cher en entretien et en production. Des modèles réutilisables."
 date: "2026-06-27"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/binary-search-patterns.webp
 previewImage: /assets/images/binary-search-patterns.webp
 ---

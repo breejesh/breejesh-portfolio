@@ -2,7 +2,7 @@
 title: "CTCI 1.9 String Rotation: One isSubstring Call"
 description: "Check whether s2 is a rotation of s1 with a single isSubstring call: concatenate s1 with itself and ask if s2 lives inside. Java walkthrough for beginners."
 date: "2026-05-13"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-1-9-string-rotation.webp
 previewImage: /assets/images/ctci-1-9-string-rotation.webp
 ---

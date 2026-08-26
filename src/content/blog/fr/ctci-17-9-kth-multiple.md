@@ -2,7 +2,7 @@
 title: "Kth Multiple: Find Kth Number Whose Only Prime Factors Are 3, 5, 7 (CTCI 17.9)"
 description: "CTCI problem 17.9: find Kth number with prime factors 3, 5, 7 using 3 pointer queues in O(K) time."
 date: "2025-08-25"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-17-9-kth-multiple.webp
 previewImage: /assets/images/ctci-17-9-kth-multiple.webp
 ---

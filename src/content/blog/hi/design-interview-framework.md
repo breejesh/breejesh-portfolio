@@ -2,7 +2,7 @@
 title: "सिस्टम डिज़ाइन इंटरव्यू के लिए एक व्यावहारिक ढाँचा"
 description: "डर लगे तो भी चलने वाली सिस्टम डिज़ाइन इंटरव्यू चेकलिस्ट: पहले सवाल, फिर डब्बों का प्लान, फिर विस्तार। साधारण भाषा में कदम, नमूना संवाद, और ४५-६० मिनट का समय बजट।"
 date: "2026-01-22"
-tags: [सिस्टम डिजाइन]
+tags: [सिस्टम डिजाइन और आर्किटेक्चर]
 coverImage: /assets/images/design-interview-framework.webp
 previewImage: /assets/images/design-interview-framework.webp
 ---

@@ -2,7 +2,7 @@
 title: "Sort Stack: ordenar una pila con una pila temporal (Java)"
 description: "Problema estilo CTCI 3.5 para principiantes: ordena una pila para que los valores más pequeños queden arriba. Solo una pila extra. Pensamiento tipo insertion sort en Java claro."
 date: "2025-11-28"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-3-5-sort-stack.webp
 previewImage: /assets/images/ctci-3-5-sort-stack.webp
 ---

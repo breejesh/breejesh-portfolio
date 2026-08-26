@@ -2,7 +2,7 @@
 title: "Paths with Sum: Count Downward Paths That Hit a Target (Java)"
 description: "CTCI-style problem 4.12 for beginners: count every path in a binary tree that sums to a target. Paths go parent to child only. Brute force from each node, then running sum plus a HashMap of prefix counts."
 date: "2026-06-20"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-4-12-paths-with-sum.webp
 previewImage: /assets/images/ctci-4-12-paths-with-sum.webp
 ---

@@ -2,7 +2,7 @@
 title: "Grade Dictionary: Outer Joins and Aggregations (CTCI 14.4)"
 description: "CTCI problem 14.4: writing SQL queries to join Students, Courses, and Teachers with aggregate functions."
 date: "2025-10-21"
-tags: [Algorithms]
+tags: [Algorithmes et Structures, Backend et Bases de Données]
 coverImage: /assets/images/ctci-14-4-grade-dictionary.webp
 previewImage: /assets/images/ctci-14-4-grade-dictionary.webp
 ---

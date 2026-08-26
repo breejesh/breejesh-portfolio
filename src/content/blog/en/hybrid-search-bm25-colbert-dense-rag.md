@@ -2,7 +2,7 @@
 title: "Why Pure Vector Search Was an Expensive Mistake: The 2026 Return to Hybrid Information Retrieval"
 description: "Why single-representation vector databases fail on exact SKU numbers and technical error codes, and how unifying BM25, ColBERT late interaction, and dense embeddings fixes enterprise retrieval."
 date: "2026-08-22"
-tags: [RAG, Search, AI, InformationRetrieval, Architecture]
+tags: [AI & Machine Learning, System Design & Architecture]
 coverImage: /assets/images/hybrid-search-bm25-colbert-dense-rag.webp
 previewImage: /assets/images/hybrid-search-bm25-colbert-dense-rag.webp
 ---

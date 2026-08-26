@@ -2,7 +2,7 @@
 title: "Pairwise Swap: Intercambiar bits impares y pares con máscaras (Java)"
 description: "Problema estilo CTCI 5.7 para principiantes: intercambia cada par de bits impar y par en un int. Máscaras 0xaaaaaaaa y 0x55555555, un shift a cada lado, OR de las mitades."
 date: "2025-11-10"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-5-7-pairwise-swap.webp
 previewImage: /assets/images/ctci-5-7-pairwise-swap.webp
 ---

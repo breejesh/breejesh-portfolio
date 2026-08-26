@@ -2,7 +2,7 @@
 title: "Parens: todas las cadenas válidas de paréntesis con contadores izq/der (Java)"
 description: "Problema estilo CTCI 8.9 para principiantes: generar cada cadena válida de n pares de paréntesis. Backtracking con contadores de apertura y cierre restantes, podar prefijos ilegales pronto y contar resultados Catalán."
 date: "2026-02-09"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-8-9-parens.webp
 previewImage: /assets/images/ctci-8-9-parens.webp
 ---

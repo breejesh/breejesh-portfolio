@@ -2,7 +2,7 @@
 title: "Basket: Un tir contre marquer 2 sur 3 (probabilité)"
 description: "Problème style CTCI 6.2 pour débutants: avec une proba p de réussite, choisir Jeu 1 (un panier) ou Jeu 2 (au moins deux sur trois). Algèbre: p contre 3p^2(1-p)+p^3, et quand chacun gagne."
 date: "2026-01-12"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-6-2-basketball.webp
 previewImage: /assets/images/ctci-6-2-basketball.webp
 ---

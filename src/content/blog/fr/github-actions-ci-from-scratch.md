@@ -2,7 +2,7 @@
 title: "GitHub Actions CI depuis zéro"
 description: "Workflows, jobs, cache, secrets, builds matrix et les pièges qui coûtent des heures la première fois que vous montez du CI sur GitHub."
 date: "2026-07-07"
-tags: [DevOps]
+tags: [Cloud et DevOps]
 coverImage: /assets/images/github-actions-ci-from-scratch.webp
 previewImage: /assets/images/github-actions-ci-from-scratch.webp
 ---

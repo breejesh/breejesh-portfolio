@@ -2,7 +2,7 @@
 title: "BST Sequences: All Arrays That Build the Same Tree (Java)"
 description: "CTCI-style problem 4.9 for beginners: given a BST built by left-to-right inserts, list every array that could have produced it. Root first, then weave left and right subtree sequences with a recursive helper."
 date: "2025-08-22"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-4-9-bst-sequences.webp
 previewImage: /assets/images/ctci-4-9-bst-sequences.webp
 ---

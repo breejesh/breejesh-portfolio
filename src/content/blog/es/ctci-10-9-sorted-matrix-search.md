@@ -2,7 +2,7 @@
 title: "Sorted Matrix Search: Buscar en Matriz Ordenada M x N (CTCI 10.9)"
 description: "Problema CTCI 10.9 en Java: busca un elemento en una matriz M x N ordenada por filas y columnas en O(M + N)."
 date: "2026-04-29"
-tags: [Algorithms]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-10-9-sorted-matrix-search.webp
 previewImage: /assets/images/ctci-10-9-sorted-matrix-search.webp
 ---

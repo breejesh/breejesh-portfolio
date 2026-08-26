@@ -2,7 +2,7 @@
 title: "Pastebin: Design a Scalable Text Storage & Snippet Service (CTCI 9.8)"
 description: "CTCI problem 9.8: full system design of a Pastebin service supporting unique short key generation, custom expiration, and high-throughput reads."
 date: "2026-06-11"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-9-8-pastebin.webp
 previewImage: /assets/images/ctci-9-8-pastebin.webp
 ---

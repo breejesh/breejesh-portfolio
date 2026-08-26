@@ -2,7 +2,7 @@
 title: "Passer de zéro à des millions d'utilisateurs : une couche à la fois"
 description: "Chemin pour débutants d'un seul ordinateur à des millions d'utilisateurs : séparer les couches, load balancers, réplicas de lecture, cache, CDN, serveurs sans état, files, multi-région et sharding de base de données, avec des analogies simples et les trade-offs à chaque étape."
 date: "2026-04-15"
-tags: [Conception de systèmes]
+tags: [Design Système et Architecture]
 coverImage: /assets/images/design-scale-zero-to-millions.webp
 previewImage: /assets/images/design-scale-zero-to-millions.webp
 ---

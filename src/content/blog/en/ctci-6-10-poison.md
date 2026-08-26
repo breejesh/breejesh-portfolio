@@ -2,7 +2,7 @@
 title: "Poison: Find One Poisoned Bottle with 10 Strips in One Month (Java)"
 description: "CTCI-style problem 6.10 for beginners: 1000 bottles, one poisoned, 10 test strips, results take a month. Encode each bottle as a bit pattern so one round of sips names the bottle."
 date: "2026-03-22"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-6-10-poison.webp
 previewImage: /assets/images/ctci-6-10-poison.webp
 ---

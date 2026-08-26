@@ -2,7 +2,7 @@
 title: "Kubernetes Concepts You Need to Ship a Service"
 description: "Pods, Deployments, Services, Ingress, probes, ConfigMaps, and Secrets: the minimal path to run one HTTP service on Kubernetes without a certification dump."
 date: "2026-06-21"
-tags: [Containers, DevOps, Cloud]
+tags: [Cloud & DevOps]
 coverImage: /assets/images/kubernetes-ship-a-service.webp
 previewImage: /assets/images/kubernetes-ship-a-service.webp
 ---

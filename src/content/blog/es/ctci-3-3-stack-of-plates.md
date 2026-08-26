@@ -2,7 +2,7 @@
 title: "Stack of Plates: SetOfStacks con capacidad y popAt (Java)"
 description: "Problema estilo CTCI 3.3 para principiantes: cuando una pila de platos es demasiado alta, empiezas otra. Construye SetOfStacks para que push y pop sigan sintiéndose como una sola pila, y una nota breve sobre popAt(index)."
 date: "2025-10-26"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-3-3-stack-of-plates.webp
 previewImage: /assets/images/ctci-3-3-stack-of-plates.webp
 ---

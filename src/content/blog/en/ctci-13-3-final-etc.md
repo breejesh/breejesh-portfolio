@@ -2,7 +2,7 @@
 title: "Final vs Finally vs Finalize: Java Keyword Breakdown (CTCI 13.3)"
 description: "CTCI problem 13.3: clear distinction between final variable/method/class, try-finally block, and Object.finalize()."
 date: "2025-12-16"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-13-3-final-etc.webp
 previewImage: /assets/images/ctci-13-3-final-etc.webp
 ---

@@ -2,7 +2,7 @@
 title: "The Egg Drop Problem: 100 pisos, 2 huevos, minimizar el peor caso (Java)"
 description: "Problema estilo CTCI 6.8 para principiantes: halla el piso critico con dos huevos y 100 pisos minimizando el numero de caidas en el peor caso. Usa intervalos decrecientes para igualar cada camino y resuelve x(x+1)/2 >= 100."
 date: "2026-03-29"
-tags: [Algoritmos]
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-6-8-the-egg-drop-problem.webp
 previewImage: /assets/images/ctci-6-8-the-egg-drop-problem.webp
 ---

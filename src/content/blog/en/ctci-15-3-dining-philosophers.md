@@ -2,7 +2,7 @@
 title: "Dining Philosophers: Deadlock Prevention and Resource Ordering (CTCI 15.3)"
 description: "CTCI problem 15.3 in Java: solving Dijkstra's classic Dining Philosophers concurrency deadlock using strict resource hierarchy and lock ordering."
 date: "2026-03-31"
-tags: [Algorithms, Concurrency]
+tags: [Algorithms & Data Structures, Backend & Databases]
 coverImage: /assets/images/ctci-15-3-dining-philosophers.webp
 previewImage: /assets/images/ctci-15-3-dining-philosophers.webp
 ---

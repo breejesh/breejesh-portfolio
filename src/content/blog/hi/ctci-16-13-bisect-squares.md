@@ -2,7 +2,7 @@
 title: "Bisect Squares: Find Line Bisecting Two Squares in 2D Space (CTCI 16.13)"
 description: "CTCI problem 16.13: compute the 2D line equation that cuts two arbitrary squares in half by connecting their center points."
 date: "2025-09-15"
-tags: [Algorithms]
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-16-13-bisect-squares.webp
 previewImage: /assets/images/ctci-16-13-bisect-squares.webp
 ---

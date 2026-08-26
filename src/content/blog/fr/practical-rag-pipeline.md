@@ -2,7 +2,7 @@
 title: "Construire un pipeline RAG pratique : chunking, embeddings, retrieval, rerank, eval"
 description: "Parcours RAG orienté production : stratégies de chunking, embeddings, retrieval hybride, reranking, métriques d'évaluation et cas où le RAG échoue discrètement."
 date: "2026-08-03"
-tags: [IA]
+tags: [IA et Machine Learning]
 coverImage: /assets/images/practical-rag-pipeline.webp
 previewImage: /assets/images/practical-rag-pipeline.webp
 ---

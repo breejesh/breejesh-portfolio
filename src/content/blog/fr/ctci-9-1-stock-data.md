@@ -2,7 +2,7 @@
 title: "Stock Data: Conception d'un Serveur de Données Financières à Fort Débit (CTCI 9.1)"
 description: "Problème CTCI 9.1: concevoir une architecture pour livrer des mises à jour boursières en temps réel à des millions de clients simultanés."
 date: "2026-05-06"
-tags: [Algorithms]
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-9-1-stock-data.webp
 previewImage: /assets/images/ctci-9-1-stock-data.webp
 ---

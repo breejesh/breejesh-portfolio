@@ -2,7 +2,7 @@
 title: "Random Node: tirage uniforme dans un BST (Java)"
 description: "Problème style CTCI 4.11 pour débutants: construis un BST avec insert, find, delete et getRandomNode pour que chaque nœud soit équiprobable. Stocke la taille du sous-arbre sur chaque nœud et parcours un index aléatoire."
 date: "2026-03-17"
-tags: [Algorithmes]
+tags: [Algorithmes et Structures, Outils Développeur et Régulation]
 coverImage: /assets/images/ctci-4-11-random-node.webp
 previewImage: /assets/images/ctci-4-11-random-node.webp
 ---

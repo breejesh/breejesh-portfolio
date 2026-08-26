@@ -2,7 +2,7 @@
 title: "Concevoir Google Drive : comment un dossier magique marche sur chaque appareil"
 description: "Stockage façon Google Drive pour débutants absolus : upload, download, sync, morceaux, versions, partage, et ce qui se passe quand deux téléphones éditent le même fichier hors ligne."
 date: "2026-02-10"
-tags: [Conception de systèmes]
+tags: [Design Système et Architecture]
 coverImage: /assets/images/design-google-drive.webp
 previewImage: /assets/images/design-google-drive.webp
 ---

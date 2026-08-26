@@ -2,7 +2,7 @@
 title: "Duplicate URLs: Detect Duplicates in 10 Billion URLs (CTCI 9.4)"
 description: "CTCI problem 9.4: how to identify duplicate URLs in a dataset of 10 billion URLs with strict RAM constraints using Bloom Filters and External Hash Partitioning."
 date: "2026-04-23"
-tags: [Algorithms]
+tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-9-4-duplicate-urls.webp
 previewImage: /assets/images/ctci-9-4-duplicate-urls.webp
 ---
