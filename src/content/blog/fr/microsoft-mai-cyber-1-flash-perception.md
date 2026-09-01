@@ -7,6 +7,7 @@ coverImage: /assets/images/mai-cyber-1-flash-cover.webp
 previewImage: /assets/images/mai-cyber-1-flash-cover.webp
 ---
 
+
 Microsoft vient de poser un chiffre que le timeline sécu va se disputer pendant des semaines: **96% sur CyberGym**, avec une **baisse de coût d'environ 50%** par rapport à son setup multi-modèles précédent.
 
 Le 27 juillet à San Francisco, Mustafa Suleyman et l'équipe Microsoft Security ont annoncé deux choses en même temps:
@@ -203,3 +204,4 @@ C'est ça qu'il faut surveiller. Les leaderboards s'effacent. Les factures de to
 * [Introducing MAI-Cyber-1-Flash inside MDASH](https://microsoft.ai/news/introducing-mai-cyber-1-flash-inside-mdash/)
 * [Rethinking security for the age of AI (Project Perception)](https://blogs.microsoft.com/blog/2026/07/27/rethinking-security-for-the-age-of-ai/)
 * [TechCrunch: Microsoft launches its first cyber model and agentic cybersecurity system](https://techcrunch.com/2026/07/27/microsoft-launches-its-first-cyber-model-and-a-new-agentic-cybersecurity-system/)
+

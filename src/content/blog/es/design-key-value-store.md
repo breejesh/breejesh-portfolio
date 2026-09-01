@@ -336,3 +336,4 @@ Con tres bibliotecarios, **N** es cuántos tienen la ficha, **W** cuántos deben
 Las copias a veces discrepan. Arregla huecos cortos con handoffs y pistas. Arregla la deriva larga con reparación en segundo plano. Mantén la API del cliente minúscula para que el trabajo duro se quede dentro del clúster.
 
 Eso es un almacén clave-valor distribuido: no un mapa hash mágico en la red, sino un plan de estantes, un plan de copias y un reglamento del personal para los días en que algo se rompe.
+

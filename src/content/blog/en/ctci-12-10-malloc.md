@@ -1,84 +1,107 @@
 ---
-title: "Malloc: Implement Aligned Malloc and Free in C (CTCI 12.10)"
-description: "CTCI problem 12.10 in C: implement aligned_malloc and aligned_free to meet hardware memory alignment constraints."
-date: "2026-03-16"
+title: "Aligned Malloc: Custom Byte-Aligned Memory Allocator in C (CTCI 12.10)"
+description: "Implement aligned_malloc and aligned_free in C to satisfy hardware cache-line and SIMD alignment constraints with pointer header storage in O(1) time."
+date: "2026-05-06"
 tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-12-10-malloc.webp
 previewImage: /assets/images/ctci-12-10-malloc.webp
 ---
 
 > **TL;DR**
-> * **The Problem:** Allocate a block of memory whose starting address is an exact multiple of a given power of two, while retaining the ability to safely free the original block.
-> * **The Insight:** Allocate extra padding plus pointer storage space, round the returned address up to the nearest alignment boundary, and store the original heap pointer immediately preceding the aligned address.
-> * **Complexity:** $O(1)$ Time for allocation and release, minimal $O(	ext{alignment})$ constant memory padding.
+> * **The Book Problem:** Write an `aligned_malloc` and `aligned_free` function that takes the number of bytes and an alignment (a power of 2) and returns a pointer to memory whose address is a multiple of the alignment.
+> * **The Optimal Solution:** **Padded Allocation with Hidden Pointer Header**: (1) Allocate `total = bytes + alignment - 1 + sizeof(void*)` using standard `malloc()`; (2) Calculate the aligned address by shifting past the header slot and applying bitmask: `aligned = (raw + sizeof(void*) + alignment - 1) & ~(alignment - 1)`; (3) Store the original `raw` address in the hidden pointer slot immediately preceding the aligned address: `((void**)aligned)[-1] = raw`; (4) Return `aligned`; (5) `aligned_free(p)`: Retrieve `raw = ((void**)p)[-1]` and invoke `free(raw)`; (6) Executes in **$O(1)$ time** with minimal byte overhead.
+> * **Production Reality:** POSIX `posix_memalign()`, C11 `aligned_alloc()`, and AVX-512 / GPU direct memory alignment.
 
-Hardware architectures frequently require memory addresses to be aligned to cache line boundaries (e.g. 16, 32, or 64 bytes) for SIMD vector instructions and DMA transfers. A standard `malloc()` call guarantees natural alignment for primitive types, but not custom power-of-two alignments.
+## 1. The Book Problem Formulation
 
-The tricky part of `aligned_malloc` is not computing the aligned address; it is saving the original unaligned pointer so `aligned_free` can pass it back to the standard C heap allocator.
+In *Cracking the Coding Interview* (Problem 12.10), we are asked:
 
----
+*"Write an aligned malloc and free function in C that takes the requested size and alignment boundary (power of 2) and returns an aligned pointer."*
 
-## 1. Memory Layout Strategy
+**Example:**
+`aligned_malloc(1000, 128)` must return an address $P$ such that $P \pmod{128} == 0$, pointing to at least 1,000 contiguous bytes.
+
+## 2. Memory Layout: Header Offset & Bitmasking
+
+To free the block later, we must retain the original pointer returned by `malloc()`. We store this pointer directly in front of the returned address:
 
 ```
-[ Unaligned Pointer p1 ] ... [ Stored p1 Pointer (p2[-1]) ] | [ Aligned Pointer p2 Returned to Caller ]
-<------------------- Extra Offset Padding ----------------->
+[Raw Malloc Block]
+┌──────────────┬───────────────────┬──────────────────────────────────────────┐
+│ Unused Bytes │ Raw Pointer Slot  │ Aligned Data Payload (Address % A == 0) │
+│              │ ((void**)addr)[-1]│ (Requested Bytes)                        │
+└──────────────┴───────────────────┴──────────────────────────────────────────┘
+▲                                  ▲
+raw                                aligned (Returned to caller)
 ```
 
-1. Request `bytes + alignment - 1 + sizeof(void*)` bytes from standard `malloc`.
-2. Compute the aligned address `p2` by rounding up.
-3. Store the original `p1` pointer at `p2[-1]`.
-4. Return `p2` to the user.
+### Alignment Bitmask Formula:
+For any power-of-2 alignment $A$:
+$$\text{aligned} = (\text{raw} + \text{sizeof(void*)} + A - 1) \ \& \ \sim(A - 1)$$
 
----
-
-## 2. Complete C Implementation
+## Production Implementation
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 
+/**
+ * Allocates byte-aligned memory.
+ * Time Complexity: O(1)
+ * Space Overhead: O(alignment + sizeof(void*))
+ */
 void* aligned_malloc(size_t bytes, size_t alignment) {
-    // Alignment must be a power of two
+    // Alignment must be a power of 2
     if (alignment == 0 || (alignment & (alignment - 1)) != 0) {
         return NULL;
     }
 
-    void* p1; // Original pointer returned by system malloc
-    void** p2; // Aligned pointer returned to caller
-    size_t offset = alignment - 1 + sizeof(void*);
+    size_t header_size = sizeof(void*);
+    size_t total_bytes = bytes + alignment - 1 + header_size;
 
-    if ((p1 = (void*)malloc(bytes + offset)) == NULL) {
-        return NULL;
-    }
+    void* raw = malloc(total_bytes);
+    if (!raw) return NULL;
 
-    // Round up address and leave space for storing p1
-    size_t raw_address = (size_t)p1 + sizeof(void*);
-    size_t aligned_address = (raw_address + (alignment - 1)) & ~(alignment - 1);
+    // Compute aligned pointer address
+    uintptr_t raw_addr = (uintptr_t)raw + header_size;
+    uintptr_t aligned_addr = (raw_addr + alignment - 1) & ~(alignment - 1);
+    void* aligned_ptr = (void*)aligned_addr;
 
-    p2 = (void**)aligned_address;
-    p2[-1] = p1; // Store original pointer immediately before aligned block
+    // Store raw pointer immediately preceding aligned_ptr
+    ((void**)aligned_ptr)[-1] = raw;
 
-    return (void*)p2;
+    return aligned_ptr;
 }
 
+/**
+ * Frees memory allocated with aligned_malloc.
+ */
 void aligned_free(void* p) {
-    if (p == NULL) {
-        return;
-    }
-    // Retrieve the original unaligned pointer stored just before the aligned address
-    void* original_p1 = ((void**)p)[-1];
-    free(original_p1);
+    if (!p) return;
+
+    // Retrieve original raw malloc pointer stored in the hidden header
+    void* raw = ((void**)p)[-1];
+    free(raw);
 }
 ```
 
----
+## Complexity & Overhead Analysis
 
-## 3. Complexity & Boundary Analysis
+| Metric | Complexity | Technical Detail |
+|---|---|---|
+| Allocation Time | `O(1)` | Constant-time arithmetic bitmask and pointer assignment. |
+| Deallocation Time | `O(1)` | Single pointer lookup and standard `free()` call. |
+| Memory Padding | $\le A + 7\text{ Bytes}$ | Bounded by the alignment size $A$ on 64-bit platforms. |
 
-| Metric | Measure | Details |
-| --- | --- | --- |
-| **Allocation Time** | $O(1)$ | Single `malloc` plus bitwise masking |
-| **Free Time** | $O(1)$ | Single pointer indirection and `free` |
-| **Memory Overhead** | $\le 	ext{alignment} + 	ext{sizeof(void*)}$ | Overhead strictly bounded by alignment size |
+## Real-World Systems Engineering Discussion
+
+### Production Systems Architecture: SIMD Vectorization & Cache Lines
+
+1. **AVX-512 & Neon Alignment:** Vector SIMD load instructions (`_mm512_load_si512`) require 64-byte aligned pointers; unaligned access incurs significant hardware bus penalties or CPU trap faults (`#GP`).
+2. **Direct I/O (`O_DIRECT`):** Linux Direct I/O operations bypass the page cache and require memory buffers aligned to the physical 4,096-byte disk sector boundary.
+
+## Edge Cases & Production Hardening
+
+1. **Non-Power-of-Two Alignment:** Caught by bitwise power-of-two check `(A & (A - 1)) != 0`.
+2. **Freeing Null Pointer:** Handled safely with immediate return.

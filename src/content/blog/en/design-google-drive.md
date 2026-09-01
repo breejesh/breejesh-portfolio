@@ -217,3 +217,4 @@ Google Drive is a **magic folder** that seems to live on every device. Really, e
 Protect bytes. Agree on latest. Only ship what changed. Tell the truth when two edits collide.
 
 That is the design.
+

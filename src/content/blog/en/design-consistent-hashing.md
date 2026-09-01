@@ -415,3 +415,4 @@ Same idea powers cache clusters, sharded databases, and sticky load balancers: p
 `hash(key) % N` is fine until the pool moves. Then it remaps almost everything and turns a scale event into a reliability event.
 
 Consistent hashing puts keys and servers on a shared ring, assigns each key to the next server clockwise, and limits remapping to a local arc when nodes join or leave. Virtual nodes fix unfair arcs. If you can draw the ring, explain the remapping bound, and defend virtual node count plus membership, you own the interview chapter and the production instincts that sit on top of it.
+

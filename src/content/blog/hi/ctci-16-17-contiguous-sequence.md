@@ -1,37 +1,90 @@
 ---
-title: "Contiguous Sequence: Maximum Sum Subarray via Kadane's Algorithm (CTCI 16.17)"
-description: "CTCI problem 16.17: find contiguous sequence of integers with maximum sum using Kadane's dynamic programming algorithm."
-date: "2026-03-02"
+title: "निरंतर अनुक्रम (Contiguous Sequence): कडाने एल्गोरिदम द्वारा अधिकतम उप-सरणी योग (सीटीसीआई १६.१७)"
+description: "धनात्मक और ऋणात्मक पूर्णांकों की सरणी में डायनामिक प्रोग्रामिंग और कडाने के एल्गोरिदम (Kadane's Algorithm) द्वारा O(N) में अधिकतम निरंतर योग ज्ञात करना।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-16-17-contiguous-sequence.webp
 previewImage: /assets/images/ctci-16-17-contiguous-sequence.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १६.१७ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १६.१७: find contiguous sequence of integers with maximum sum using Kadane's dynamic programming algorithm.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** पूर्णांकों की एक सरणी दी गई है (धनात्मक और ऋणात्मक दोनों)। सबसे बड़े योग वाला निरंतर अनुक्रम खोजें और योग लौटाएं (उदा. `[2, -8, 3, -2, 4, -10]` $\to$ `5` जो `[3, -2, 4]` से आता है)।
+> * **मुख्य समाधान:** **कडाने का एल्गोरिदम (Kadane's Algorithm)**:
+>   1. दो चर रखें: `maxSum = 0` और `runningSum = 0`।
+>   2. प्रत्येक तत्व $x$ के लिए:
+>      * जोड़ें: `runningSum += x;`
+>      * अधिकतम अपडेट करें: `maxSum = Math.max(maxSum, runningSum);`
+>      * प्रीफिक्स रीसेट: यदि `runningSum < 0`, तो `runningSum = 0;` (ऋणात्मक उपसर्ग भविष्य के योग को घटाता है)।
+>   3. यह **$O(N)$ समय** और **$O(1)$ सहायक स्पेस** में चलता है।
+> * **रियल-वर्ल्ड सिस्टम:** हाई-फ्रीक्वेंसी ट्रेडिंग में अधिकतम लाभ विश्लेषण और जीनोमिक्स डीएनए क्लस्टरिंग।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१६.१७** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १६.१७: find contiguous sequence of integers with maximum sum using Kadane's dynamic programming algorithm.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १६.१७) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"मिश्रित पूर्णांक सरणी में से किसी भी निरंतर उप-सरणी (Subarray) के अधिकतम योग की गणना करें।"*
+
+## २. कडाने के एल्गोरिदम की कार्यप्रणाली
+
+$$DP[i] = \max(A[i], DP[i-1] + A[i])$$
+
+जब भी संचयी योग ऋणात्मक हो जाता है, उसे त्यागकर शून्य से नई उप-सरणी शुरू की जाती है।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public static int getMaxSum(int[] a) {
-    int maxSum = 0;
-    int currentSum = 0;
-    for (int i = 0; i < a.length; i++) {
-        currentSum += a[i];
-        if (maxSum < currentSum) maxSum = currentSum;
-        else if (currentSum < 0) currentSum = 0;
+public class ContiguousSequence {
+
+    public static int getMaxSum(int[] array) {
+        if (array == null || array.length == 0) return 0;
+
+        int maxSum = 0;
+        int runningSum = 0;
+
+        for (int x : array) {
+            runningSum += x;
+            if (runningSum > maxSum) {
+                maxSum = runningSum;
+            } else if (runningSum < 0) {
+                runningSum = 0;
+            }
+        }
+
+        return maxSum;
     }
-    return maxSum;
+
+    public static int getMaxSumNonEmpty(int[] array) {
+        if (array == null || array.length == 0) {
+            throw new IllegalArgumentException("सरणी खाली नहीं होनी चाहिए");
+        }
+
+        int maxSoFar = array[0];
+        int currentMax = array[0];
+
+        for (int i = 1; i < array.length; i++) {
+            currentMax = Math.max(array[i], currentMax + array[i]);
+            maxSoFar = Math.max(maxSoFar, currentMax);
+        }
+
+        return maxSoFar;
+    }
 }
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## जटिलता विश्लेषण
+
+| मापदंड | जटिलता | तकनीकी विवरण |
+|---|---|---|
+| समय जटिलता | `O(N)` | सरणी का एकल रैखिक स्कैन। |
+| सहायक स्पेस | `O(1)` | स्थिर मेमोरी उपयोग। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: वित्तीय ट्रेडिंग और सिग्नल विश्लेषण
+
+१. **ट्रेडिंग वोलाटिलिटी:** हाई-फ्रीक्वेंसी ट्रेडिंग इंजन स्ट्रीमिंग टिक डेटा में अधिकतम लाभ अवधि का पता लगाने के लिए कडाने के सिद्धांत का उपयोग करते हैं।
+२. **जीनोमिक्स:** डीएनए अनुक्रमों में उच्च घनत्व वाले क्षेत्रों की पहचान।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **सभी ऋणात्मक तत्व:** सीटीसीआई संस्करण `०` (खाली उप-सरणी) लौटाता है, जबकि गैर-खाली संस्करण सबसे बड़ा एकल ऋणात्मक तत्व लौटाता है।

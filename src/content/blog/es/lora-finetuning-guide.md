@@ -7,6 +7,7 @@ coverImage: /assets/images/lora-finetuning-guide.webp
 previewImage: /assets/images/lora-finetuning-guide.webp
 ---
 
+
 El fine-tune completo sigue ganando en algunos trabajos. En la mayor parte del trabajo de producto, es el default equivocado. **LoRA** congela los pesos base y entrena un par de matrices de bajo rango en cada capa elegida. **QLoRA** mantiene esa idea y carga el modelo base en 4 bits, así un modelo de 7B o 13B puede entrenar en una sola tarjeta de 24 GB.
 
 Esta es la lista que uso antes de gastar horas de GPU.
@@ -144,3 +145,4 @@ Empaqueta los datos a la plantilla de chat, enmascara tokens del prompt si solo 
 LoRA no sustituye la calidad de los datos. Gasta presupuesto de GPU en las rebanadas de la red que mueven tu métrica de producto. Empieza con **QLoRA + rank 16 + módulos completos de atención/MLP** sobre una base instruction fuerte. Mide con los mismos prompts que envías a producción. Sube rank o descongela más solo cuando la eval diga que necesitas capacidad.
 
 Si el fine-tune completo sigue ganando en tu suite offline y puedes pagar el hardware, úsalo. Si no, publica el adapter y deja la base congelada.
+

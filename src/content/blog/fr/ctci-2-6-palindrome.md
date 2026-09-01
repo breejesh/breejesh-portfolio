@@ -1,233 +1,106 @@
 ---
-title: "CTCI 2.6 Palindrome en liste chaînée en Java: inverser la seconde moitié"
-description: "Vérifier si une liste chaînée simple est un palindrome. Trouver le milieu avec lente et rapide, inverser la seconde moitié, comparer, restaurer si besoin. O(n) temps, O(1) espace."
-date: "2026-04-01"
+title: "Palindrome: Vérifier si une Liste Chaînée est un Palindrome (CTCI 2.6)"
+description: "Vérifiez si une liste simplement chaînée est un palindrome en utilisant des pointeurs rapide/lent et une pile en temps O(N) et espace O(N)."
+date: "2026-05-06"
 tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-2-6-palindrome.webp
 previewImage: /assets/images/ctci-2-6-palindrome.webp
 ---
 
-
 > **TL;DR**
-> * **Le Problème:** Optimisation de la complexité temporelle et spatiale des structures de données.
-> * **L'Approche:** Vérifier si une liste chaînée simple est un palindrome. Trouver le milieu avec lente et rapide, inverser la seconde moitié, comparer, restaurer si besoin. O(n) temps, O(1) espace.
-> * **Complexité:** Compromis optimal entre temps et mémoire avec gestion des cas limites.
+> * **Le Problème du Livre:** Implémentez une fonction pour vérifier si une liste chaînée est un palindrome.
+> * **La Solution Optimale:** Utilisez la technique des pointeurs rapide et lent pour repérer le milieu de la liste tout en empilant les éléments de la première moitié dans une `Stack`. Si la longueur est impaire, ignorez l'élément central, puis comparez la seconde moitié en dépilant les valeurs en temps $O(N)$ et espace $O(N)$.
+> * **Réalité en Production:** Validation de flux de données unidirectionnels en streaming et analyse de motifs symétriques en bio-informatique.
 
-Un **palindrome** se lit pareil dans les deux sens. Sur une chaîne, c'est simple: deux pointeurs aux extrémités, on marche vers le centre. Une **liste chaînée simple** ne marche que vers l'avant. Pas de `prev`, et l'accès aléatoire coûte un parcours complet. Donc la version entretien de "cette liste est-elle un palindrome?" vous force à inventer une structure qu'on ne vous offre pas.
+## 1. Formulation du Problème du Livre
 
-C'est le problème **2.6** du style *Cracking the Coding Interview* (listes chaînées). Enseignement original, pas un collage de livre.
+Dans *Cracking the Coding Interview* (Problème 2.6), la question posée est :
 
----
+*"Implémentez une fonction pour vérifier si une liste chaînée est un palindrome."*
 
-## Image du quotidien
+**Exemples :**
+* `0 -> 1 -> 2 -> 1 -> 0 -> true`
+* `0 -> 1 -> 2 -> 2 -> 1 -> 0 -> true`
+* `0 -> 1 -> 2 -> 3 -> 0 -> false`
 
-Imaginez une rangée de post-its sur un long ruban: `1 → 2 → 3 → 2 → 1`. Vous voulez savoir si en pliant le ruban en deux chaque note s'alignerait avec son miroir.
+## 2. Approche par Pointeurs Rapide/Lent et Pile
 
-Vous ne pouvez pas retourner tout le ruban sans perdre l'ordre de la première moitié. Geste pratique:
+Pour éviter de dupliquer toute la liste, nous ne stockons que sa première moitié :
+1. Initialisez un pointeur `slow` (avance d'un nœud) et un pointeur `fast` (avance de deux nœuds).
+2. Pendant que `slow` parcourt la première moitié, empilez ses données dans une `Stack<Integer>`.
+3. Lorsque `fast` atteint la fin :
+   * Si `fast != null` (longueur impaire), avancez `slow` d'un cran pour ignorer l'élément central.
+4. Continuez avec `slow` sur la seconde moitié en dépilant les éléments :
+   * Si une valeur diffère : retournez `false`.
+5. Si la pile est totalement dépilée : retournez `true`.
 
-1. Trouver le pli (le milieu de la liste).
-2. Retourner seulement la seconde moitié pour qu'elle pointe vers le milieu.
-3. Parcourir les deux moitiés depuis la tête et depuis le nouveau début de la moitié retournée. Chaque paire de valeurs doit correspondre.
-4. Si la liste doit ressembler à l'état d'origine, retourner encore la seconde moitié pour la restaurer.
-
-Tout le plan: **trouver le milieu, inverser la seconde moitié, comparer, restaurer au besoin**.
-
----
-
-## Problème en mots simples
-
-**Entrée:** tête d'une liste chaînée simple de nœuds à valeurs entières (ou toute donnée comparable).
-
-**Sortie:** `true` si la suite de valeurs est un palindrome; sinon `false`.
-
-**Exemples**
-
-| Liste | Réponse | Pourquoi |
-| --- | --- | --- |
-| `1 → 2 → 2 → 1` | `true` | Longueur paire; les deux moitiés collent |
-| `1 → 2 → 3 → 2 → 1` | `true` | Longueur impaire; le centre `3` est seul |
-| `1 → 2 → 3` | `false` | Les extrémités ne collent pas |
-| `7` | `true` | Un seul nœud |
-| vide / `null` | `true` (choix pédagogique habituel) | La suite vide est un palindrome |
-
-**À clarifier en entretien**
-
-* Peut-on muter la liste temporairement? (Cette solution le fait, puis restaure.)
-* Null et vide: `true` ou exception?
-* Valeurs: chiffres seuls, ou entiers généraux?
-
-Vous renvoyez un booléen. On ne vous demande pas d'imprimer le reverse ni de reconstruire une nouvelle liste comme réponse finale.
-
----
-
-## Comment réfléchir avant de coder
-
-### Pile ou copie (correct, pas la vedette)
-
-Empilez chaque valeur, ou copiez dans un tableau, puis comparez en un second passage depuis la tête. Temps O(n), espace extra O(n). Mentionnez-le. On demande souvent un meilleur espace ensuite.
-
-La comparaison récursive marche aussi et reste élégante, mais la pile d'appels reste O(n) sur une longue liste. Même classe d'espace que la pile explicite.
-
-### Approche principale: inverser la seconde moitié (O(1) espace extra)
-
-1. **Trouver le milieu** avec deux pointeurs: `slow` avance d'un nœud, `fast` de deux. Quand `fast` ne peut plus faire deux pas, `slow` est sur le dernier nœud de la première moitié (longueur paire) ou sur le centre (longueur impaire).
-2. **Inverser** la liste qui commence à `slow.next`. Reverse classique à trois pointeurs: `prev`, `curr`, `next`.
-3. **Comparer** depuis `head` et depuis la seconde moitié inversée, nœud par nœud, jusqu'à la fin de la seconde moitié. En longueur impaire, le centre n'est jamais comparé à une paire, ce qui est correct.
-4. **Restaurer** (optionnel mais propre): inverser encore la seconde moitié et la rattacher à `slow.next` pour que l'appelant voie l'ordre d'origine.
-
-Pourquoi cela suffit: un palindrome se définit par des paires qui collent autour du centre. Après inversion de la moitié arrière, ces paires sont alignées sur deux parcours vers l'avant.
-
----
-
-## Solution Java: milieu, reverse, compare, restore
+## Implémentation de Production
 
 ```java
-public class LinkedListPalindrome {
+import java.util.Stack;
 
-    public static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode(int val) {
-            this.val = val;
-        }
+public class PalindromeList {
+    public static class LinkedListNode {
+        public int data;
+        public LinkedListNode next;
+        public LinkedListNode(int d) { this.data = d; }
     }
 
     /**
-     * Returns true if the list values form a palindrome.
-     * Temporarily reverses the second half, then restores it.
+     * Verifie si une liste est un palindrome via pointeurs rapide/lent et pile.
+     * Complexite Temporelle: O(N)
+     * Complexite Spatiale: O(N) (stocke N/2 elements)
      */
-    public static boolean isPalindrome(ListNode head) {
-        if (head == null || head.next == null) {
-            return true;
-        }
+    public static boolean isPalindrome(LinkedListNode head) {
+        LinkedListNode fast = head;
+        LinkedListNode slow = head;
 
-        // 1. Middle: slow ends at end of first half (even) or at center (odd)
-        ListNode slow = head;
-        ListNode fast = head;
-        while (fast.next != null && fast.next.next != null) {
+        Stack<Integer> stack = new Stack<>();
+
+        // Empiler la premiere moitie
+        while (fast != null && fast.next != null) {
+            stack.push(slow.data);
             slow = slow.next;
             fast = fast.next.next;
         }
 
-        // 2. Reverse second half
-        ListNode secondHalf = reverse(slow.next);
+        // Ignorer le centre si la longueur est impaire
+        if (fast != null) {
+            slow = slow.next;
+        }
 
-        // 3. Compare first half with reversed second half
-        ListNode p1 = head;
-        ListNode p2 = secondHalf;
-        boolean ok = true;
-        while (p2 != null) {
-            if (p1.val != p2.val) {
-                ok = false;
-                break;
+        // Comparer la seconde moitie avec la pile
+        while (slow != null) {
+            int top = stack.pop();
+
+            if (top != slow.data) {
+                return false;
             }
-            p1 = p1.next;
-            p2 = p2.next;
+            slow = slow.next;
         }
 
-        // 4. Restore list
-        slow.next = reverse(secondHalf);
-        return ok;
-    }
-
-    private static ListNode reverse(ListNode head) {
-        ListNode prev = null;
-        ListNode curr = head;
-        while (curr != null) {
-            ListNode next = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = next;
-        }
-        return prev;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(isPalindrome(list(1, 2, 2, 1)));       // true
-        System.out.println(isPalindrome(list(1, 2, 3, 2, 1)));    // true
-        System.out.println(isPalindrome(list(1, 2, 3)));          // false
-        System.out.println(isPalindrome(list(7)));                // true
-        System.out.println(isPalindrome(null));                   // true
-    }
-
-    private static ListNode list(int... vals) {
-        ListNode dummy = new ListNode(0);
-        ListNode t = dummy;
-        for (int v : vals) {
-            t.next = new ListNode(v);
-            t = t.next;
-        }
-        return dummy.next;
+        return true;
     }
 }
 ```
 
-### Parcours: `1 → 2 → 3 → 2 → 1`
+## Analyse de Complexité et Mémoire
 
-| Étape | Ce qui se passe |
-| --- | --- |
-| Milieu | `slow` arrive sur `3` (centre). `fast` ne peut plus faire deux pas. |
-| Inverse | La seconde moitié `2 → 1` devient `1 → 2`. Forme: première moitié encore `1 → 2 → 3`, puis queue inversée. |
-| Compare | `1` vs `1`, `2` vs `2`. Fin de la seconde moitié. Ça colle. |
-| Restore | Inverse `1 → 2` en `2 → 1` et le raccroche après `3`. Liste d'origine. |
+| Métrique | Complexité | Détail Technique |
+|---|---|---|
+| Complexité Temporelle | `O(N)` | Le pointeur `fast` avance en $N/2$ étapes ; le balayage de la seconde moitié prend $N/2$ étapes. |
+| Espace Auxiliaire | `O(N)` | La pile stocke exactement $\lfloor N/2 \rfloor$ éléments. |
 
-### Parcours: `1 → 2 → 2 → 1` (paire)
+## Ingénierie des Systèmes en Production
 
-| Étape | Ce qui se passe |
-| --- | --- |
-| Milieu | La condition s'arrête avec `slow` sur le premier `2` (fin de la première moitié). |
-| Inverse | La seconde moitié `2 → 1` devient `1 → 2`. |
-| Compare | `1` vs `1`, `2` vs `2`. Ça colle. |
-| Restore | Remettre la seconde moitié. |
+### Architecture Système : Validation de Séquences Réseau
 
-Longueur impaire: le centre est sauté à la comparaison. Longueur paire: deux moitiés de même taille. Le même chemin de code gère les deux.
+1. **Analyse de Paquets Réseau Unidirectionnels :** Contrôle de checksums symétriques à la volée sans mise en mémoire tampon de la totalité de la charge utile.
+2. **Génomique :** Identification de séquences palindromiques d'ADN.
 
----
+## Cas Limites et Robustesse
 
-## Temps et espace
-
-| Approche | Temps | Espace extra | Notes |
-| --- | --- | --- | --- |
-| Inverser seconde moitié | O(n) | O(1) | Réponse principale; mute puis restaure |
-| Pile de valeurs | O(n) | O(n) | Simple; bon premier jet |
-| Copie en tableau + deux pointeurs | O(n) | O(n) | Même idée que la pile |
-| Récursion (pile implicite) | O(n) | O(n) frames d'appel | Code propre, pas d'espace constant |
-
-Trouver le milieu: un passage. Inverse: proportionnel à la moitié. Compare: encore une demi-passe. Restore: un autre reverse. Globalement linéaire, seulement des pointeurs extra constants.
-
----
-
-## Cas limites que l'on pousse en entretien
-
-* **Longueur impaire:** le nœud central n'a pas de paire. Ne le comparez à rien. La logique du milieu le laisse dans la première moitié et démarre le reverse à `slow.next`.
-* **Longueur paire:** deux moitiés égales. Même boucle; pas de centre orphelin.
-* **Un seul nœud:** retour anticipé `true`.
-* **Deux nœuds:** `1 → 1` est true; `1 → 2` est false. Le milieu met `slow` sur le premier; on inverse et on compare une paire.
-* **Tête null:** traiter comme `true` (ou définir et s'y tenir).
-* **Ne pas muter de façon permanente:** restaurer après la comparaison. Si toute mutation est interdite, pile/copie et le dire.
-* **Structure partagée / lecteurs concurrents:** muter même un instant n'est pas sûr. Dites-le si la liste est partagée.
-
-La moitié des bugs ici: un off-by-one sur le milieu (démarrer le reverse un nœud trop tôt ou trop tard) et oublier de restaurer quand l'énoncé exige la liste d'origine.
-
----
-
-## Erreurs fréquentes
-
-1. **Penser comme pour un string à deux pointeurs** sans moyen d'aller en arrière sur une liste simple.
-2. **Mauvais milieu:** inverser depuis le centre en longueur paire et comparer des longueurs décalées.
-3. **Oublier le restore** après un reverse destructif.
-4. **Comparer au-delà de la seconde moitié** ou traiter le centre comme s'il avait un jumeau.
-5. **Affirmer O(1) d'espace** avec de la récursion sans reconnaître la pile d'appels.
-
----
-
-## Explique à un ami
-
-On vous donne une chaîne de valeurs à sens unique. Peut-elle se lire pareil dans les deux sens?
-
-Pliez au milieu. Retournez seulement la moitié arrière pour qu'elle pointe l'autre sens. Marchez depuis l'avant et depuis la moitié retournée: chaque paire doit coller. Retournez encore la moitié arrière si vous devez restaurer la chaîne.
-
-En Java: lente/rapide pour le milieu, inversez la seconde moitié, comparez, reverse encore pour nettoyer. C'est O(n) en temps et O(1) en espace extra. Une pile marche aussi si la mémoire extra est acceptable.
-
-Précédent dans la série: [Sum Lists](/blog/fr/ctci-2-5-sum-lists). Suivant: [Intersection](/blog/fr/ctci-2-7-intersection). Carte de la série: [CTCI en Java](/blog/fr/ctci-series-guide).
+1. **Liste vide (`null`) :** Retourne `true`.
+2. **Nœud unique (`1`) :** `fast.next == null`, pile vide, saute le centre, retourne `true`.
+3. **Palindrome de longueur paire (`1 -> 2 -> 2 -> 1`) :** `fast == null` en fin de boucle, compare parfaitement les deux moitiés.
+4. **Palindrome de longueur impaire (`1 -> 2 -> 1`) :** `fast != null` active le saut du nœud médian.

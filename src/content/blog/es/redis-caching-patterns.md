@@ -7,6 +7,7 @@ coverImage: /assets/images/redis-caching-patterns.webp
 previewImage: /assets/images/redis-caching-patterns.webp
 ---
 
+
 La caché parece simple hasta que el tráfico es irregular, las claves caducan a la vez y un id de producto famoso quema un solo shard de Redis. La mayoría de incidentes que he visto no eran "Redis va lento". Eran stampede, datos viejos para siempre, o una hot key que nadie midió.
 
 Esta es la lista corta que aparece en servicios reales: **cache-aside**, **control de stampede**, **TTL con jitter**, **invalidación** y **hot keys**. No es un catálogo de cada comando Redis. Solo los patrones que necesitas antes de poner caché en el camino de lectura.
@@ -317,3 +318,4 @@ A propósito es llano. Producción añade métricas, circuit breakers, codecs ti
 La caché Redis no es "poner GET/SET alrededor de la query". Es un conjunto de contratos sobre **frescura**, **carga bajo miss** y **quién posee la clave tras un write**. Cache-aside cubre la mayor parte del código de app. Control de stampede y jitter de TTL mantienen viva la base cuando mueren claves populares. La invalidación mantiene honesta la verdad de producto. Los planes de hot key evitan que un blob famoso se dueño del cluster.
 
 Empieza por un path, mide hit ratio y QPS de DB en ese path, y añade locks y L1 donde los gráficos lo pidan. Los patrones de arriba son aburridos a propósito. Lo aburrido es lo que sobrevive al on-call.
+

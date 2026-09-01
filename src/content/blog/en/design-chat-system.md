@@ -423,3 +423,4 @@ A chat system is not "WebSockets plus a database." It is sticky real-time sessio
 Interview spine: **HTTP for boring CRUD, WebSocket for the live wire, store as source of truth, push as fast path, per-user inbox for small groups, heartbeats for presence.** Everything else is sizing, failure handling, and product scope.
 
 When someone asks "what if the group has a million members?" change the fan-out model. Do not only add servers to a walkie-talkie design and hope.
+

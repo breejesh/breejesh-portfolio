@@ -7,6 +7,7 @@ coverImage: /assets/images/bun-zig-to-rust-rewrite.webp
 previewImage: /assets/images/bun-zig-to-rust-rewrite.webp
 ---
 
+
 > **TL;DR**
 > * **Le problème :** Le code Zig de Bun souffrait de bugs mémoire chroniques dus au mélange d'allocateurs manuels avec le ramasse-miettes de JavaScriptCore. Les politiques anti-IA de Zig et son instabilité pré-1.0 empêchaient toute maintenance automatisée après l'acquisition par Anthropic.
 > * **L'approche :** Plutôt qu'une migration humaine de plusieurs années, Bun a déployé 64 agents Claude en parallèle avec des réviseurs contradictoires pour porter 535 000 lignes dans 1 448 fichiers en 11 jours.
@@ -97,3 +98,4 @@ La vraie question est ce que cela signifie pour les réécritures pilotées par 
 * [Things You Should Never Do, Part I, Joel Spolsky (2000)](https://www.joelonsoftware.com/2000/04/06/things-you-should-never-do-part-i/)
 * [Bun Official Documentation](https://bun.sh/docs)
 * [The Zig Programming Language](https://ziglang.org/documentation/master/)
+

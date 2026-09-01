@@ -415,3 +415,4 @@ La misma idea mueve clusters de caché, bases fragmentadas y balanceadores stick
 `hash(key) % N` va bien hasta que el pool se mueve. Entonces reasigna casi todo y convierte un evento de escala en un evento de fiabilidad.
 
 Consistent hashing pone claves y servidores en un anillo compartido, asigna cada clave al siguiente servidor en horario y limita la reasignación a un arco local cuando entran o salen nodos. Los nodos virtuales corrigen arcos injustos. Si puedes dibujar el anillo, explicar el límite de reasignación y defender el número de nodos virtuales más la membresía, tienes el capítulo de entrevista y los instintos de producción que van encima.
+

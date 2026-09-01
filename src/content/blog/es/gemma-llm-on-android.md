@@ -7,6 +7,7 @@ coverImage: /assets/images/gemma-android.webp
 previewImage: /assets/images/gemma-android.webp
 ---
 
+
 La ejecución de modelos de lenguaje grandes (LLM) solía ser dominio exclusivo de clústeres en la nube con múltiples GPUs. Hoy en día, el hardware de consumo ha progresado hasta el punto en que podemos ejecutar modelos de 2 mil millones de parámetros directamente dentro de nuestros bolsillos.
 
 Con **LiteRT** de Google (anteriormente TensorFlow Lite) y la familia de modelos abiertos **Gemma**, los desarrolladores de Android pueden integrar IA generativa local que es rápida, 100% privada y funciona completamente sin conexión.
@@ -234,3 +235,4 @@ Antes de comprometerte con LLMs en el dispositivo, ten en cuenta estos desafíos
 Ejecutar Gemma localmente a través de LiteRT representa un cambio genuino en el diseño de aplicaciones móviles. Permite a los desarrolladores crear sistemas profundamente interactivos e inteligentes que respetan la privacidad del usuario, funcionan sin conexión y generan cero costos de alojamiento en la nube.
 
 La tecnología no está exenta de compromisos. La precisión del modelo, la compatibilidad de dispositivos y el tamaño de descarga son restricciones reales. Pero para casos de uso como el registro de alimentos, diarios personales, traducción de idiomas y asistentes personales, los LLMs en el dispositivo ya son un patrón de diseño viable y listo para producción. Proyectos como **NomAI** demuestran que el futuro de la IA móvil no está en la nube: está en tu bolsillo.
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/nom-ai-showcase.webp
 previewImage: /assets/images/nom-ai-showcase.webp
 ---
 
+
 Calorie tracking is a staple of modern fitness apps. Almost every popular calorie tracker on the market shares a common set of frustrations: they demand monthly subscriptions, show constant ads, require continuous internet connectivity, and send your personal eating habits to third-party data brokers.
 
 **NomAI takes a different approach.** It is a free, open-source, and entirely offline calorie tracking app for Android, built on absolute privacy and on-device AI.
@@ -159,3 +160,4 @@ The model file is ~1.4 GB, far too large to bundle in an APK. NomAI downloads it
 Calorie trackers did not need to become monthly SaaS subscriptions with telemetry trackers. We just accepted it because running offline models on phones was hard.
 
 With Gemma 2B, LiteRT, and Room, it is not impossible anymore. The full source code is on [GitHub](https://github.com/breejesh/nom.ai). If you want an app that calculates macros without asking for your email or your credit card, build the APK and see for yourself.
+

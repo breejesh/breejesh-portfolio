@@ -310,3 +310,4 @@ Una entrevista de diseño de sistemas no es "dibuja todos los servidores de la e
 Practica ese esqueleto en tres problemas distintos (almacenamiento, chat en tiempo real, feed pesado en lecturas) hasta que los cambios de fase se sientan automáticos. El objetivo no es un diagrama bonito. El objetivo es una conversación de diseño que no te avergonzaría con un ingeniero senior en tu primera semana.
 
 Si quieres el camino de crecimiento completo antes de más prompts de entrevista, empieza por [escalar de cero a millones](/blog/es/design-scale-zero-to-millions). Para un orden de práctica de esta serie, ver la [ruta de aprendizaje](/blog/es/design-interview-learning-path).
+

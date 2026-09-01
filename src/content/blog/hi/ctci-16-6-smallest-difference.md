@@ -1,40 +1,86 @@
 ---
-title: "Smallest Difference: Minimum Pairwise Difference Between Two Arrays (CTCI 16.6)"
-description: "CTCI problem 16.6: find pair of values (one from each array) with smallest non-negative difference using sorting and two pointers."
-date: "2026-01-27"
+title: "न्यूनतम अंतर (Smallest Difference): सॉर्टेड सरणियों पर टू-पॉइंटर अनुकूलन (सीटीसीआई १६.६)"
+description: "दो पूर्णांक सरणियों के बीच न्यूनतम गैर-ऋणात्मक अंतर ज्ञात करने के लिए दोहरी छंटाई (Dual Sorting) और टू-पॉइंटर ट्रैवर्सल का O(A log A + B log B) एल्गोरिदम।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-16-6-smallest-difference.webp
 previewImage: /assets/images/ctci-16-6-smallest-difference.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १६.६ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १६.६: find pair of values (one from each array) with smallest non-negative difference using sorting and two pointers.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** पूर्णांकों की दो सरणियाँ दी गई हैं, मानों की एक जोड़ी (प्रत्येक सरणी से एक मान) की गणना करें जिसका अंतर सबसे छोटा (गैर-ऋणात्मक) हो। अंतर लौटाएं।
+> * **मुख्य समाधान:** **दोहरी सॉर्टिंग + टू-पॉइंटर अभिसरण (Two-Pointer Convergence)**:
+>   1. दोनों सरणियों को आरोही क्रम में सॉर्ट करें: `Arrays.sort(a); Arrays.sort(b);`।
+>   2. दो पॉइंटर्स $i = 0$ और $j = 0$ इनिशियलाइज़ करें।
+>   3. प्रत्येक चरण पर अंतर निकालें: `diff = Math.abs((long)a[i] - (long)b[j])` और न्यूनतम अंतर को अपडेट करें।
+>   4. यदि अंतर ० है, तो तुरंत ० लौटाएं।
+>   5. छोटे मान वाले पॉइंटर को आगे बढ़ाएं: यदि `a[i] < b[j]` तो $i++$; अन्यथा $j++$।
+>   6. ३२-बिट पूर्णांक ओवरफ्लो से बचने के लिए ६४-बिट `long` में घटाव करें।
+>   7. यह **$O(A \log A + B \log B)$ समय** और **$O(1)$ सहायक स्पेस** में चलता है।
+> * **रियल-वर्ल्ड सिस्टम:** वितरित लॉग में टाइमस्टैम्प संरेखण और ऑडियो वेवफॉर्म मिलान।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१६.६** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १६.६: find pair of values (one from each array) with smallest non-negative difference using sorting and two pointers.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १६.६) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"दो पूर्णांक सरणियों में से ऐसे दो तत्वों की जोड़ी खोजें जिनका पूर्ण अंतर न्यूनतम हो।"*
+
+## २. टू-पॉइंटर ट्रैवर्सल का सिद्धांत
+
+दोनों सरणियों को सॉर्ट करने के बाद, छोटे मान वाले पॉइंटर को आगे बढ़ाने से खोज हमेशा निकटतम मानों की ओर बढ़ती है, जिससे सॉर्टिंग के बाद केवल $O(A + B)$ समय लगता है।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public static int findSmallestDifference(int[] a, int[] b) {
-    Arrays.sort(a);
-    Arrays.sort(b);
-    int aIdx = 0, bIdx = 0;
-    int minDiff = Integer.MAX_VALUE;
-    while (aIdx < a.length && bIdx < b.length) {
-        int diff = Math.abs(a[aIdx] - b[bIdx]);
-        if (diff < minDiff) minDiff = diff;
-        if (a[aIdx] < b[bIdx]) aIdx++;
-        else bIdx++;
+import java.util.Arrays;
+
+public class SmallestDifference {
+
+    public static long findSmallestDifference(int[] a, int[] b) {
+        if (a == null || b == null || a.length == 0 || b.length == 0) {
+            return -1;
+        }
+
+        Arrays.sort(a);
+        Arrays.sort(b);
+
+        int i = 0;
+        int j = 0;
+        long minDifference = Long.MAX_VALUE;
+
+        while (i < a.length && j < b.length) {
+            long diff = Math.abs((long) a[i] - (long) b[j]);
+            minDifference = Math.min(minDifference, diff);
+
+            if (minDifference == 0) return 0;
+
+            if (a[i] < b[j]) {
+                i++;
+            } else {
+                j++;
+            }
+        }
+
+        return minDifference;
     }
-    return minDiff;
 }
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## जटिलता विश्लेषण
+
+| चरण | समय जटिलता | सहायक स्पेस |
+|---|---|---|
+| दोहरी सॉर्टिंग | $O(A \log A + B \log B)$ | $O(\log A + \log B)$ रिकर्शन स्टैक |
+| टू-पॉइंटर स्कैन | $O(A + B)$ | $O(1)$ |
+| **कुल** | **$O(A \log A + B \log B)$** | **$O(1)$ सहायक** |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: वितरित ट्रेस टाइमस्टैम्प संरेखण
+
+१. **वितरित ट्रेसिंग (OpenTelemetry):** माइक्रोसेवाओं के स्वतंत्र नोड्स के बीच घड़ी के छोटे अंतरों को ठीक करने के लिए न्यूनतम अंतर टू-पॉइंटर स्कैन द्वारा घटनाओं का मिलान किया जाता है।
+२. **सिग्नल प्रोसेसिंग:** ऑडियो ट्रैक सिंक्रोनाइज़ेशन।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **पूर्णांक अंडरफ्लो/ओवरफ्लो:** `(long) a[i] - (long) b[j]` कास्टिंग `Integer.MIN_VALUE` से जुड़े घटाव में ओवरफ्लो को रोकती है।

@@ -1,44 +1,99 @@
 ---
-title: "BiNode: Convert Binary Search Tree to Doubly Linked List In-Place (CTCI 17.12)"
-description: "CTCI problem 17.12: convert a BST into a sorted doubly linked list in-place using BiNode data structures."
-date: "2025-11-03"
+title: "बाइनोड (BiNode): बीएसटी से डबली लिंक्ड लिस्ट में इन-प्लेस रूपांतरण (सीटीसीआई १७.१२)"
+description: "इन-ऑर्डर ट्रैवर्सल और पॉइंटर रीवायरिंग का उपयोग करके बाइनरी सर्च ट्री (BST) को क्रमबद्ध डबली लिंक्ड लिस्ट में O(N) समय में इन-प्लेस बदलना।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-17-12-binode.webp
 previewImage: /assets/images/ctci-17-12-binode.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १७.१२ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १७.१२: convert a बीएसटी into a sorted doubly linked list स्थान पर ही (इन-प्लेस) using BiNode data structures.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** एक `BiNode` संरचना में `node1`, `node2`, और `data` होते हैं (जो बीएसटी में बायां/दायां या डबली लिंक्ड लिस्ट में पिछला/अगला नोड दर्शाते हैं)। एक बाइनरी सर्च ट्री को बिना कोई नया नोड बनाए उसी स्थान पर (In-place) क्रमबद्ध डबली लिंक्ड लिस्ट में बदलें।
+> * **मुख्य समाधान:** **इन-ऑर्डर ट्रैवर्सल और पॉइंटर रीवायरिंग**:
+>   1. इन-ऑर्डर ट्रैवर्सल (`Left -> Root -> Right`) चलाएं।
+>   2. पिछले विज़िट किए गए नोड को `prev` पॉइंटर में ट्रैक करें।
+>   3. प्रत्येक वर्तमान नोड पर:
+>      * यदि `prev == null`, तो `head = current` सेट करें (सबसे छोटा तत्व)।
+>      * अन्यथा, `prev.node2 = current` और `current.node1 = prev` को जोड़ें।
+>      * `prev = current` अपडेट करें।
+>   4. यह **$O(N)$ समय** और **$O(H)$ रिकर्शन स्पेस** में चलता है और **० अतिरिक्त हीप मेमोरी** लेता है।
+> * **रियल-वर्ल्ड सिस्टम:** डेटाबेस इंजनों (MySQL InnoDB) में बी+ ट्री लीफ नोड चेनिंग और मेमोरी ब्लॉक रिसाइकिलिंग।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१७.१२** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १७.१२: convert a बीएसटी into a sorted doubly linked list स्थान पर ही (इन-प्लेस) using BiNode data structures.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १७.१२) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"मौजूदा पॉइंटर्स को पुनः जोड़कर बाइनरी सर्च ट्री को उसी स्थान पर क्रमबद्ध डबली लिंक्ड लिस्ट में परिवर्तित करें।"*
+
+## २. इन-ऑर्डर पॉइंटर रीवायरिंग सिद्धांत
+
+इन-ऑर्डर ट्रैवर्सल तत्वों को उनके प्राकृतिक आरोही क्रम में संसाधित करता है, जिससे बिना किसी अतिरिक्त डेटा आवंटन के सीधे नोड पॉइंटर्स को बदला जा सकता है।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public class BiNode {
-    public BiNode node1, node2;
-    public int data;
-    public BiNode(int d) { data = d; }
-}
-public class BSTToLinkedList {
-    public BiNode convert(BiNode root) {
-        if (root == null) return null;
-        BiNode part1 = convert(root.node1);
-        BiNode part2 = convert(root.node2);
-        if (part1 != null) { concat(getTail(part1), root); }
-        if (part2 != null) { concat(root, part2); }
-        return part1 == null ? root : part1;
+public class BiNodeConverter {
+
+    public static class BiNode {
+        public int data;
+        public BiNode node1; // BST में बायां / लिस्ट में पिछला
+        public BiNode node2; // BST में दायां / लिस्ट में अगला
+
+        public BiNode(int data) {
+            this.data = data;
+        }
     }
-    private void concat(BiNode x, BiNode y) { x.node2 = y; y.node1 = x; }
-    private BiNode getTail(BiNode node) { while (node.node2 != null) node = node.node2; return node; }
+
+    private static BiNode head = null;
+    private static BiNode prev = null;
+
+    /**
+     * O(N) समय में BST को डबली लिंक्ड लिस्ट में इन-प्लेस बदलना।
+     */
+    public static BiNode convert(BiNode root) {
+        head = null;
+        prev = null;
+        inOrderFlatten(root);
+        return head;
+    }
+
+    private static void inOrderFlatten(BiNode current) {
+        if (current == null) return;
+
+        // 1. बायां सब-ट्री
+        inOrderFlatten(current.node1);
+
+        // 2. वर्तमान नोड को लिस्ट में जोड़ना
+        if (prev == null) {
+            head = current; // पहला इन-ऑर्डर तत्व हेड बनता है
+        } else {
+            prev.node2 = current;
+            current.node1 = prev;
+        }
+        prev = current;
+
+        // 3. दायां सब-ट्री
+        inOrderFlatten(current.node2);
+    }
 }
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## जटिलता विश्लेषण
+
+| मापदंड | जटिलता | तकनीकी विवरण |
+|---|---|---|
+| समय जटिलता | `O(N)` | सभी N नोड्स का एकल इन-ऑर्डर दौरा। |
+| सहायक स्पेस | `O(H)` | ट्री की ऊंचाई के समानुपाती कॉल स्टैक ($O(\log N)$ संतुलित)। |
+| मेमोरी आवंटन | `० बाइट` | मौजूदा ट्री नोड्स को उसी स्थान पर बदलना। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: MySQL InnoDB में बी+ ट्री लीफ चेनिंग
+
+१. **इंडेक्स रेंज स्कैन:** डेटाबेस स्टोरेज इंजन बी+ ट्री की पत्तियों को डबली लिंक्ड लिस्ट के रूप में जोड़ते हैं ताकि `BETWEEN 10 AND 100` रेंज क्वेरी को त्वरित लीनियर स्कैन द्वारा पूरा किया जा सके।
+२. **मेमरी फ्रीलिस्ट रीसाइक्लिंग:** मेमोरी एलोकेटर निष्कासित बाइनरी नोड्स को बिना मेटाडेटा ओवरहेड के फ्रीलिस्ट में बदलते हैं।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **खाली ट्री:** सुरक्षित रूप से `null` लौटाना।
+२. **एकल नोड ट्री:** बिना त्रुटि के हेड पर सेट होना।

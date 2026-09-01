@@ -1,330 +1,120 @@
 ---
-title: "Stack of Boxes: la pila estrictamente decreciente más alta (Java)"
-description: "Problema estilo CTCI 8.13 para principiantes: apila cajas solo si ancho, profundidad y altura son todos estrictamente menores. Ordena una dimensión y usa DP con memo para la altura total máxima."
-date: "2026-02-26"
+title: "Pila de Cajas: Apilamiento 3D de Cajas mediante Programación Dinámica LIS (CTCI 8.13)"
+description: "Calcula la altura maxima de una pila de cajas 3D donde cada caja debe ser estrictamente menor en ancho, alto y profundidad en tiempo O(N^2) y espacio O(N)."
+date: "2026-05-06"
 tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-8-13-stack-of-boxes.webp
 previewImage: /assets/images/ctci-8-13-stack-of-boxes.webp
 ---
 
-
 > **TL;DR**
-> * **El Problema:** Optimización de complejidad temporal y espacial para estructuras de datos clave.
-> * **El Enfoque:** Problema estilo CTCI 8.13 para principiantes: apila cajas solo si ancho, profundidad y altura son todos estrictamente menores. Ordena una dimensión y usa DP con memo para la altura total máxima.
-> * **Complejidad:** Relación óptima de tiempo y espacio con gestión de casos límite.
+> * **El Problema del Libro:** Tienes $n$ cajas con ancho $w_i$, alto $h_i$ y profundidad $d_i$. Las cajas no pueden rotarse y solo pueden apilarse si cada caja es estrictamente menor que la caja inferior en las 3 dimensiones. Calcula la altura maxima de la torre.
+> * **La Solución Óptima:** Programación Dinámica LIS 3D Ordenada: (1) Ordena las cajas de mayor a menor por altura; (2) Usa una tabla `stackMap[i]` que guarda la altura maxima teniendo la caja `i` como base; (3) Itera sobre cajas $j > i$ con dimensiones estrictamente menores $(w_j < w_i, h_j < h_i, d_j < d_i)$; (4) Se ejecuta en **tiempo $O(N^2)$** y **espacio $O(N)$**.
+> * **Realidad en Producción:** Empaquetado 3D en logistica (3D Bin Packing) y ordenamiento topologico en grafos aciclicos dirigidos (DAG).
 
-Tienes un montón de cajas de envío en el suelo. Cada caja es un rectángulo sólido: ancho, profundidad, altura. Quieres la torre más alta posible, pero la regla es dura. Una caja solo puede ir encima de otra si es **estrictamente menor en cada dimensión**: ancho, profundidad y altura. Sin inclinar, sin rotar a mitad de pila, sin "casi vale". Eso es **Stack of Boxes**.
+## 1. Formulación del Problema del Libro
 
-Este post es enseñanza original para principiantes en **Java**. Misma familia de preguntas de recursión y DP en entrevista, no una copia de libro. Parte de la [serie CTCI en Java](/blog/es/ctci-series-guide). Capítulo 8, recursión y programación dinámica, problema 8.13.
+En *Cracking the Coding Interview* (Problema 8.13), se nos plantea:
 
----
+*"Calcula la altura maxima posible de una torre de cajas tridimensionales donde cada caja debe ser estrictamente menor en ancho, alto y profundidad que la caja que tiene debajo."*
 
-## 1. Analogía cotidiana
+## 2. Modelado Matemático: DAG y Ordenamiento
 
-Piensa en apilar **cajas tipo matrioska**, pero los tres ejes deben encoger, no solo uno.
+Al ordenar las cajas de forma descendente por altura ($h_0 \ge h_1 \dots$), la caja $j$ solo puede colocarse sobre $i$ si $j > i$. Esto reduce el problema a la Subsecuencia Creciente Mas Larga (LIS) sobre un DAG.
 
-* La caja de arriba debe ser más estrecha, menos profunda y más baja que la de abajo.
-* No hace falta usar todas. Omite las que bloquean una torre más alta.
-* La altura de la torre es la **suma de las alturas** de las cajas que dejas, no el número de cajas.
+$$\text{maxHeight}(i) = h_i + \max_{j > i, \text{canBeAbove}(i, j)} \text{maxHeight}(j)$$
 
-Si la caja A es `4 x 5 x 6` y la B es `3 x 4 x 5`, B puede ir sobre A (los tres lados menores). Si B es `3 x 6 x 5`, falla la profundidad, así que B no puede ir sobre A.
-
-El puzzle es combinatorio: para cada caja decides si entra en la pila y dónde. La fuerza bruta de subconjuntos explota. Ordenar más recursión con memo (o DP bottom-up) lo deja en algo que puedes escribir en una pizarra.
-
----
-
-## 2. Enunciado en palabras simples
-
-**Entrada:** una lista de `n` cajas. Cada caja tiene enteros positivos `width`, `height`, `depth`.
-
-**Salida:** la altura total máxima de una pila donde cada caja superior es **estrictamente menor** en ancho, profundidad y altura que la de abajo.
-
-**Reglas:**
-
-* Desigualdad estricta en **las tres** dimensiones en cada par adyacente de la pila.
-* Puedes dejar cajas fuera de la pila.
-* El orden de la lista de entrada no define el orden de la pila; tú eliges.
-* En esta versión las cajas no se rotan (cada una conserva width, height, depth dados). Dilo en la entrevista si el enunciado permite rotaciones.
-* La altura de la pila es la suma de los campos `height` de las cajas elegidas.
-
-**Forma de la caja:**
-
-```java
-class Box {
-    int width;
-    int height;
-    int depth;
-
-    Box(int width, int height, int depth) {
-        this.width = width;
-        this.height = height;
-        this.depth = depth;
-    }
-
-    /** True si esta caja puede ir estrictamente encima de 'below'. */
-    boolean canBeAbove(Box below) {
-        return this.width < below.width
-            && this.height < below.height
-            && this.depth < below.depth;
-    }
-}
-```
-
-**Ejemplos:**
-
-| Cajas (w, h, d) | Altura máx | Por qué |
-| --- | --- | --- |
-| `(4,6,7), (1,2,3), (4,5,6), (10,12,32)` | `20` | fondo `10x12x32` luego `4x6x7` luego `1x2x3` → `12+6+2`. Vía `4x5x6` da `12+5+2=19` |
-| una caja `(2,3,4)` | `3` | solo esa caja |
-| lista vacía | `0` | nada que apilar |
-| todos del mismo tamaño | altura de la más alta sola | ninguna puede ir sobre otra |
-| cadena anidada de 3 | suma de las tres alturas | un orden total válido |
-
-Aclara el ejemplo clásico con el entrevistador. Un conjunto habitual de enseñanza es:
-
-```
-(4, 6, 7), (1, 2, 3), (4, 5, 6), (10, 12, 32)
-```
-
-Una pila alta válida usa la caja grande, luego una media que cabe, luego la pequeña. Camina los números para acordar la respuesta antes de codificar.
-
-**Aclara antes de codificar:**
-
-* ¿Rotaciones permitidas? (Normalmente no, salvo que se diga.)
-* ¿Estricto o no estricto? (Estricto: `<` en las tres.)
-* ¿Tamaños duplicados? (Dimensiones iguales no apilan; como mucho una de un par empatado si no difieren en otro eje.)
-* ¿Solo la altura o también la secuencia? (Solo altura aquí.)
-* ¿Dimensiones negativas o cero? (Rechazar o asumir positivas.)
-
----
-
-## 3. Pensar primero
-
-### Por qué falla el subconjunto puro
-
-Para cada caja o la omites o la colocas en algún sitio. Probar todos los subconjuntos y órdenes es exponencial. Hace falta estructura.
-
-### Observación: ordenar una dimensión
-
-Ordena las cajas por **altura descendente** (mayor altura primero). Entonces una pila válida tiende a recorrer la lista de cajas grandes a pequeñas. Ordenar solo no garantiza validez: ancho y profundidad aún pueden fallar. Pero da un recorrido natural: si eliges un fondo, los candidatos encima suelen aparecer más tarde, o sigues escaneando el resto y llamas a `canBeAbove`.
-
-Muchas soluciones ordenan por altura descendente y, para el índice de fondo `i`, solo prueban cajas con índice `j > i`. Eso es correcto **si** la altura está ordenada descendente y `canBeAbove` exige altura estrictamente menor: cualquier caja que pueda ir encima del fondo tiene menor altura, así que aparece después de `i`. Ancho y profundidad se siguen comprobando en `canBeAbove`.
-
-### Recursión con memo (historia de entrevista)
-
-Define:
-
-```
-maxHeightAbove(bottomIndex) =
-  bottom.height
-  + max sobre j que pueden ir sobre bottom de maxHeightAbove(j)
-  (o solo bottom.height si ningún j vale)
-```
-
-También prueba cada caja como posible fondo de una pila completa y toma el máximo global. Memoiza en `bottomIndex` para resolver cada caja-como-fondo una sola vez.
-
-Es la misma forma que "cadena más larga de pares" o una LIS en 3D.
-
-### DP bottom-up (estilo LIS)
-
-1. Ordena las cajas (por ejemplo por altura ascendente o descendente, con convención clara).
-2. Sea `dp[i]` la altura máxima de pila con la caja `i` como **fondo** (o como tope; elige una convención).
-3. Para cada `i`, mira todos los `j` que pueden ir legalmente encima (o debajo, según tu convención) y toma `dp[i] = box[i].height + max(dp[j])`.
-4. La respuesta es `max(dp[i])`.
-
-Tiempo O(n²) en ambos casos. Espacio O(n) para el memo o el array `dp`.
-
-### Elección de este post
-
-Enviamos primero la versión **ordenar + recursión con memo** (historia clara: "pila más alta con esta caja abajo"), luego un gemelo bottom-up corto.
-
----
-
-## 4. Solución en Java
-
-### Principal: ordenar + recursión con memo
+## Implementación de Producción
 
 ```java
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-class Box {
-    int width;
-    int height;
-    int depth;
+public class StackOfBoxes {
+    public static class Box {
+        public final int width;
+        public final int height;
+        public final int depth;
 
-    Box(int width, int height, int depth) {
-        this.width = width;
-        this.height = height;
-        this.depth = depth;
-    }
+        public Box(int w, int h, int d) {
+            this.width = w;
+            this.height = h;
+            this.depth = d;
+        }
 
-    boolean canBeAbove(Box below) {
-        return this.width < below.width
-            && this.height < below.height
-            && this.depth < below.depth;
-    }
-}
-
-int stackOfBoxes(List<Box> input) {
-    if (input == null || input.isEmpty()) {
-        return 0;
-    }
-
-    Box[] boxes = input.toArray(new Box[0]);
-    // más alta primero: los candidatos encima suelen ir después
-    Arrays.sort(boxes, Comparator.comparingInt((Box b) -> b.height).reversed());
-
-    int[] memo = new int[boxes.length]; // 0 = sin calcular; alturas positivas
-    int best = 0;
-    for (int i = 0; i < boxes.length; i++) {
-        best = Math.max(best, maxHeightWithBottom(boxes, i, memo));
-    }
-    return best;
-}
-
-/** Altura máxima de pila cuando boxes[bottomIndex] es la caja del fondo. */
-int maxHeightWithBottom(Box[] boxes, int bottomIndex, int[] memo) {
-    if (memo[bottomIndex] > 0) {
-        return memo[bottomIndex];
-    }
-
-    Box bottom = boxes[bottomIndex];
-    int bestAbove = 0;
-    for (int i = bottomIndex + 1; i < boxes.length; i++) {
-        if (boxes[i].canBeAbove(bottom)) {
-            bestAbove = Math.max(bestAbove, maxHeightWithBottom(boxes, i, memo));
+        public boolean canBeAbove(Box other) {
+            if (other == null) return true;
+            return this.width < other.width &&
+                   this.height < other.height &&
+                   this.depth < other.depth;
         }
     }
 
-    memo[bottomIndex] = bottom.height + bestAbove;
-    return memo[bottomIndex];
-}
-```
+    /**
+     * Calcula la altura maxima de apilamiento.
+     * Complejidad Temporal: O(N^2)
+     * Complejidad Espacial: O(N)
+     */
+    public static int createStack(List<Box> boxes) {
+        if (boxes == null || boxes.isEmpty()) return 0;
 
-Idea del recorrido con cuatro cajas ordenadas por altura descendente:
+        Collections.sort(boxes, new Comparator<Box>() {
+            @Override
+            public int compare(Box b1, Box b2) {
+                return Integer.compare(b2.height, b1.height);
+            }
+        });
 
-```
-A (10, 12, 32)
-B (4, 6, 7)
-C (4, 5, 6)
-D (1, 2, 3)
-```
+        int[] stackMap = new int[boxes.size()];
+        int maxHeight = 0;
 
-* Con A abajo: prueba B, C, D sobre A. B cabe. La pila con B como fondo de la parte superior puede seguir hasta D. C puede o no caber sobre A (compara las tres dims). Quédate con la mejor cadena.
-* Con B abajo: quizá D sobre B.
-* Pilas de una sola caja son la base cuando nada cabe encima.
+        for (int i = 0; i < boxes.size(); i++) {
+            int height = createStackHelper(boxes, i, stackMap);
+            maxHeight = Math.max(maxHeight, height);
+        }
 
-El memo hace que, una vez calculado "mejor pila con B abajo", se reutilice cuando A y otros lo pidan.
-
-### Gemelo bottom-up (misma complejidad)
-
-```java
-int stackOfBoxesBottomUp(List<Box> input) {
-    if (input == null || input.isEmpty()) {
-        return 0;
+        return maxHeight;
     }
 
-    Box[] boxes = input.toArray(new Box[0]);
-    Arrays.sort(boxes, Comparator.comparingInt((Box b) -> b.height).reversed());
+    private static int createStackHelper(List<Box> boxes, int bottomIndex, int[] stackMap) {
+        if (bottomIndex < boxes.size() && stackMap[bottomIndex] > 0) {
+            return stackMap[bottomIndex];
+        }
 
-    int n = boxes.length;
-    int[] dp = new int[n]; // altura máx con boxes[i] como fondo
-    int best = 0;
+        Box bottom = boxes.get(bottomIndex);
+        int maxSubHeight = 0;
 
-    for (int i = n - 1; i >= 0; i--) {
-        int bestAbove = 0;
-        for (int j = i + 1; j < n; j++) {
-            if (boxes[j].canBeAbove(boxes[i])) {
-                bestAbove = Math.max(bestAbove, dp[j]);
+        for (int i = bottomIndex + 1; i < boxes.size(); i++) {
+            if (boxes.get(i).canBeAbove(bottom)) {
+                int height = createStackHelper(boxes, i, stackMap);
+                maxSubHeight = Math.max(maxSubHeight, height);
             }
         }
-        dp[i] = boxes[i].height + bestAbove;
-        best = Math.max(best, dp[i]);
+
+        int totalHeight = maxSubHeight + bottom.height;
+        stackMap[bottomIndex] = totalHeight;
+        return totalHeight;
     }
-    return best;
 }
 ```
 
-Misma recurrencia, rellenada desde el final del array ordenado para que los resultados "encima" ya existan.
+## Análisis de Complejidad y Memoria
 
-### Opcional: recuperar la pila real
+| Métrica | Complejidad | Detalle Técnico |
+|---|---|---|
+| Complejidad Temporal | `O(N^2)` | Ordenamiento $O(N \log N)$ mas evaluacion memoizada de pares $(i, j)$ en $O(N^2)$. |
+| Espacio Auxiliar | `O(N)` | Arreglo de memoizacion y profundidad de llamadas $O(N)$. |
 
-Si el entrevistador quiere la secuencia, guarda `parent[i]` o reconstruye rejugando las elecciones de `dp[i]`. Solo la altura basta para el problema base.
+## Discusión de Ingeniería de Sistemas en Producción
 
----
+### Arquitectura de Sistemas en Producción: Empaquetado Logístico 3D
 
-## 5. Tabla de complejidad
+1. **Optimización de Carga en Almacenes (Amazon):** Algoritmos de empaquetado de contenedores que maximizan densidad de carga bajo restricciones de estabilidad fisica.
+2. **Planificación en Compiladores:** Recorrido de grafos de dependencias de instrucciones para minimizar latencias de ejecucion en CPU.
 
-| Enfoque | Tiempo | Espacio extra | Notas |
-| --- | --- | --- | --- |
-| Subconjuntos + permutar | exponencial | profundidad de pila | Solo didáctico; no lo envíes |
-| Ordenar + recursión con memo | O(n²) | O(n) memo + O(n) pila | Respuesta clara de entrevista |
-| Ordenar + DP bottom-up | O(n²) | O(n) | Misma idea, sin recursión |
-| Ordenar por una dim sin chequear todo | incorrecto | - | Hay que mirar las tres dims |
+## Casos Límite y Robustez en Producción
 
-Ordenar es O(n log n). Los barridos anidados dominan en O(n²). Para n de entrevista (decenas o cientos de cajas), va bien.
-
----
-
-## 6. Casos límite y errores frecuentes
-
-Los entrevistadores tocan estos:
-
-* **Entrada vacía** → 0.
-* **Una sola caja** → su altura.
-* **Ninguna puede ir sobre otra** → máximo de alturas individuales (no la suma).
-* **Cadena anidada perfecta** → suma de todas las alturas.
-* **Dimensiones iguales en un eje** → no apilan (`<` falla). Bug fácil si alguien usa `<=`.
-* **Misma altura, distinto ancho/profundidad** → el sort por altura las deja juntas; `canBeAbove` sigue rechazando si la altura no es estrictamente menor.
-* **Muchas cajas, una sola cadena alta** → el memo sigue en O(n²) pero evita recomputar sub-pilas.
-* **Rotaciones** → si se permiten, genera hasta 3 orientaciones por caja y corre el mismo DP. Aquí **no**, salvo que lo pidan.
-
-Errores frecuentes:
-
-1. **Comprobar solo una o dos dimensiones.** La regla son las tres.
-2. **Usar `<=` en lugar de `<`.** Caras iguales no apilan bajo la regla estricta.
-3. **Olvidar probar cada caja como posible fondo.** La respuesta global es el max sobre fondos, no solo `maxHeightWithBottom(0)`.
-4. **Memo mal inicializado.** `0` como "sin calcular" vale si las alturas son positivas. Si hubiera altura cero, usa un boolean aparte o `Integer` nulos.
-5. **Ordenar y creer que el orden basta.** Aún necesitas `canBeAbove` para ancho y profundidad.
-6. **Maximizar el número de cajas en vez de la suma de alturas.** Dos cajas altas pueden ganar a cinco minúsculas.
-
-Prueba mínima:
-
-```java
-List<Box> boxes = new ArrayList<>();
-boxes.add(new Box(4, 6, 7));
-boxes.add(new Box(1, 2, 3));
-boxes.add(new Box(4, 5, 6));
-boxes.add(new Box(10, 12, 32));
-
-System.out.println(stackOfBoxes(boxes)); // suma de alturas de la pila válida más alta
-System.out.println(stackOfBoxes(List.of())); // 0
-System.out.println(stackOfBoxes(List.of(new Box(2, 3, 4)))); // 3
-```
-
-Calcula a mano el número esperado en la pizarra con el entrevistador para confiar en el print.
-
----
-
-## 7. Resumen para un amigo
-
-Stack of Boxes pregunta: ¿cuál es la torre más alta si cada caja de arriba debe ser estrictamente menor en ancho, profundidad y altura?
-
-1. Modela un `Box` con `canBeAbove(below)`.
-2. Ordena por altura descendente para que los candidatos más bajos en altura vayan después.
-3. Define "altura máxima con la caja i abajo" como `height[i]` más la mejor pila válida encima de i.
-4. Memoiza esa función (o rellena `dp` bottom-up). La respuesta es el max sobre todos los fondos.
-5. Tiempo O(n²). Cuidado con desigualdades estrictas y el bucle exterior "probar cada fondo".
-
-Si sabes ordenar, escribir `canBeAbove` y explicar por qué el memo convierte la búsqueda exponencial en O(n²), dominas el 8.13. Siguiente: evaluación booleana, otro DP sobre cadenas.
-
----
-
-## Serie
-
-* Guía: [Guía de la serie CTCI](/blog/es/ctci-series-guide)
-* Anterior: [Eight Queens](/blog/es/ctci-8-12-eight-queens)
-* Siguiente: [Boolean Evaluation](/blog/es/ctci-8-14-boolean-evaluation)
+1. **Sin cajas apilables (dimensiones identicas):** Retorna la altura de la mayor caja individual.
+2. **Lista vacía:** Retorna 0.

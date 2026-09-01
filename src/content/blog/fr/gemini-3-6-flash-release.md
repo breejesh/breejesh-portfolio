@@ -7,6 +7,7 @@ coverImage: /assets/images/gemini-3-6-flash-cover.webp
 previewImage: /assets/images/gemini-3-6-flash-cover.webp
 ---
 
+
 Google a publié trois modèles légers d'un coup : **Gemini 3.6 Flash**, **Gemini 3.5 Flash-Lite** et **Gemini 3.5 Flash Cyber**.
 
 Si vous faites tourner des agents en production, le goulot n'est presque jamais seulement "le modèle est-il assez intelligent ?". C'est souvent la brûlure de tokens, la latence et le coût par tâche finie. Cette sortie vise cette boucle : moins de verbiage, décodage plus rapide, et une variante sécurité pour CodeMender.
@@ -120,3 +121,4 @@ Les tarifs Flash publics sont ceux listés par Google. Revérifiez toujours la [
 Si vous ne testez qu'une chose cette semaine, lancez la même suite d'agents sur 3.5 Flash vs 3.6 Flash et logguez **tokens par tâche finie** plus le taux de réussite. Cet A/B dit souvent plus qu'un graphe de blog.
 
 Annonce complète : [Google Blog](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-6-flash-3-5-flash-lite-3-5-flash-cyber/).
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/how-https-tls-works.webp
 previewImage: /assets/images/how-https-tls-works.webp
 ---
 
+
 HTTPS is not just an extra letter on a URL bar. It is a multi-stage cryptographic handshake establishing symmetric encryption, certificate integrity, and mutual authentication.
 
 You do not need to implement crypto. You do need to know what fails when a cert expires, a SAN is wrong, SNI is missing behind a reverse proxy, or you "fixed" a mixed-content warning by turning off verification in a backend client. This post is that map: handshake intuition, certificates, SNI, and the misconfigs that show up in status pages and incident channels.
@@ -321,3 +322,4 @@ Browser DevTools → Security panel shows the cert chain the browser accepted. T
 HTTPS is HTTP plus a TLS session that buys you **encryption, integrity, and server identity** (and optionally client identity). The handshake negotiates keys; **certificates** bind names to keys through a chain you trust; **SNI** tells multi-cert servers which identity to present. Most production TLS incidents are not novel cryptanalysis. They are **expiry**, **broken chains**, **name mismatch**, **verification turned off**, and **the wrong hop** presenting an old cert.
 
 When something is red, ask in order: Can I TCP connect? Does the handshake complete? Which cert is presented for this SNI name? Does the chain and hostname verify on a clean client? Which device in the path terminated TLS? That sequence beats random config churn and gets you back to a boring green padlock faster.
+

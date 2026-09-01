@@ -7,6 +7,7 @@ coverImage: /assets/images/how-https-tls-works.webp
 previewImage: /assets/images/how-https-tls-works.webp
 ---
 
+
 HTTPS, c'est HTTP sur TLS. Le navigateur (ou votre client de service) ouvre une connexion TCP, puis enchaîne un **handshake TLS** pour que les deux côtés s'accordent sur des clés et que le client vérifie que le serveur est bien celui qu'il prétend. Ensuite, les octets applicatifs (HTTP/1.1, HTTP/2, HTTP/3 sur QUIC) circulent chiffrés dans la couche d'enregistrements.
 
 Vous n'avez pas à implémenter la crypto. Vous devez savoir ce qui casse quand un cert expire, qu'un SAN est faux, que le SNI manque derrière un reverse proxy, ou que vous avez "corrigé" un avertissement mixed content en désactivant la vérification côté client backend. Ce billet est cette carte : intuition du handshake, certificats, SNI, et les erreurs qui sortent sur les status pages et dans les canaux d'incident.
@@ -321,3 +322,4 @@ DevTools navigateur → panneau Security montre la chaîne de cert acceptée par
 HTTPS, c'est HTTP plus une session TLS qui vous achète le **chiffrement, l'intégrité et l'identité serveur** (et optionnellement l'identité client). Le handshake négocie les clés ; les **certificats** lient des noms à des clés via une chaîne de confiance ; le **SNI** dit aux serveurs multi-cert quelle identité présenter. La plupart des incidents TLS en prod ne sont pas de la cryptanalyse exotique. Ce sont **l'expiration**, les **chaînes cassées**, le **nom qui ne match pas**, la **vérification coupée**, et le **mauvais hop** qui présente un vieux cert.
 
 Quand c'est rouge, demandez dans l'ordre : Est-ce que le TCP connecte ? Est-ce que le handshake finit ? Quel cert est présenté pour ce nom SNI ? La chaîne et le hostname vérifient-ils sur un client propre ? Quel équipement du chemin a terminé le TLS ? Cette séquence bat le bricolage de config au hasard et vous ramène plus vite à un cadenas vert ennuyeux.
+

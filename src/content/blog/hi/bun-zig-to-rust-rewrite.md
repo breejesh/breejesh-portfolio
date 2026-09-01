@@ -7,6 +7,7 @@ coverImage: /assets/images/bun-zig-to-rust-rewrite.webp
 previewImage: /assets/images/bun-zig-to-rust-rewrite.webp
 ---
 
+
 > **मुख्य सारांश**
 > * **समस्या:** बुन का ज़िग कोडबेस जावास्क्रिप्टकोर के गार्बेज कलेक्टर के साथ मैन्युअल एलोकेटर्स मिलाने से लगातार मेमोरी बग झेल रहा था। ज़िग की एआई-विरोधी नीतियों और १.० से पहले की अस्थिरता ने ऐंथ्रोपिक द्वारा अधिग्रहण के बाद स्वचालित रखरखाव को रोक दिया था।
 > * **समाधान:** कई वर्षों के मानवीय प्रयास के बजाय, बुन ने विरोधी समीक्षकों के साथ ६४ समानांतर क्लॉड एजेंट्स चलाकर ११ दिनों में १,४४८ फाइलों की ५,३५,००० पंक्तियां बदल डालीं।
@@ -94,6 +95,7 @@ previewImage: /assets/images/bun-zig-to-rust-rewrite.webp
 ## संदर्भ
 
 * [द मोस्ट कंट्रोवर्शियल रीराइट इन हिस्ट्री जस्ट शिप्ड, फायरशिप / द कोड रिपोर्ट](https://www.youtube.com/watch?v=CXSvKcLovAk)
-* [थिंग्स यू शुड नेवर डू, पार्ट १, जोएल स्पोल्स्की (२०००)](https://www.joelonsoftware.com/2000/04/06/things-you-should-never-do-part-i/)
+* [थिंग्स यू शुड नेवर डू, पार्ट १, जोएल स्पोल्स्की (२०००)](https://www.joelonsoftware.com/२०००/०४/०६/things-you-should-never-do-part-i/)
 * [बुन आधिकारिक प्रलेखन](https://bun.sh/docs)
 * [ज़िग प्रोग्रामिंग भाषा](https://ziglang.org/documentation/master/)
+

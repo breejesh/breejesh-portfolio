@@ -7,6 +7,7 @@ coverImage: /assets/images/sql-window-functions-guide.webp
 previewImage: /assets/images/sql-window-functions-guide.webp
 ---
 
+
 La plupart du SQL analytique que vous écrivez, ce sont les mêmes cinq formes: dernière ligne par clé, top N par groupe, classement avec ex aequo, valeur face à la période précédente, et un total cumulé. Les fonctions de fenêtre résolvent ces formes sans self-joins qui font fondre le planner.
 
 Ce billet est le modèle mental que je garde, plus les requêtes que je colle en prod. Postgres, BigQuery, Snowflake et MySQL moderne partagent la même syntaxe de base. Les dialectes divergent sur des extras, pas sur l'idée.
@@ -473,3 +474,4 @@ Un seul passage remplace une pile de sous-requêtes corrélées. Lisez de haut e
 3. Cassez un total cumulé avec des lignes le même jour, puis corrigez avec `ROWS` et un `ORDER BY` unique.
 
 Quand ces trois gestes sont automatiques, le reste du catalogue (`NTILE`, `CUME_DIST`, clauses `WINDOW` nommées) n'est que du vocabulaire sur le même modèle: partition, ordre, frame.
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/zunify-music.webp
 previewImage: /assets/images/zunify-music.webp
 ---
 
+
 Developing a local music player application requires balancing audio streaming buffering, local metadata indexing, and clean reactive playback state across views.
 
 **Zunify** is a modern homage to that legendary interface. It is a lightweight, offline-first Progressive Web App (PWA) that syncs your local music library directly inside your browser, with zero server uploads, zero trackers, and complete privacy.
@@ -206,3 +207,4 @@ Zunify is more than a nostalgic tribute. It is part of a broader shift toward lo
 * Deliver native-app performance inside the browser sandbox.
 
 If you want Metro-style Zune aesthetics or a concrete example of the File System Access API for offline-first apps, Zunify is open-source and open to contributions. Grab a local music folder, open [Zunify](https://zunify.breejeshrathod.com/), and try your library in a clean, typography-focused layout.
+

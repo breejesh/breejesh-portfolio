@@ -180,3 +180,4 @@ A creator **uploads** a master into a warehouse with a temporary ticket, not thr
 You do not stream only the original because it is too big, too inflexible, and too unfriendly to weak networks. Cost follows the audience: **delivery of bytes and shelves full of copies** usually matter more than the servers that store titles. Design so heavy files skip the app tier, conversion is async, and happy-path watch traffic lives at the edge.
 
 If you remember one line: **the filmmaker drops off one tape; the studio makes many reels and stocks them near the audience.**
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/grok-4-5-india-value-cover.webp
 previewImage: /assets/images/grok-4-5-india-value-cover.webp
 ---
 
+
 **₹6 500 par an** pour de l'IA near-frontier. Ou **~₹2 000 par mois** pour ChatGPT Plus, Claude Pro ou Gemini AI Pro.
 
 Si vous payez depuis un compte bancaire personnel en Inde, c'est tout l'argument. SuperGrok avec **Grok 4.5** n'est pas "le meilleur modèle au monde". Les boards indépendants le placent dans le pack high-50s en intelligence, pas au-dessus de Fable 5. Pour freelances, étudiants et indie builders, la métrique utile est **l'intelligence par roupie**.
@@ -132,3 +133,4 @@ Si votre métrique est **l'intelligence utile par roupie**, SuperGrok est l'un d
 8. SuperGrok annuel Inde utilisé ici : **₹6 500/an**
 
 Images de graphiques issues d'Artificial Analysis (CDN de leur article Grok 4.5). Prix et classements changent. Préférez le checkout live et la page AA pour un achat.
+

@@ -1,37 +1,92 @@
 ---
-title: "Shallow vs Deep Copy: C++ Copy Constructors & Memory Safety (CTCI 12.5)"
-description: "CTCI problem 12.5: comparing pointer assignment vs memory allocation in copy constructors to prevent double-free crashes."
-date: "2025-12-25"
+title: "उथली बनाम गहरी कॉपी (Shallow vs. Deep Copy): मेमोरी स्वामित्व और सी++ में पांच का नियम (सीटीसीआई १२.५)"
+description: "सी++ में शैलो (Shallow) और डीप (Deep) कॉपी सेमेंटिक्स, पॉइंटर एलियासिंग, डबल-फ्री त्रुटियों और पांच के नियम (Rule of Five) का विस्तृत विश्लेषण।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-12-5-shallow-vs-deep-copy.webp
 previewImage: /assets/images/ctci-12-5-shallow-vs-deep-copy.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १२.५ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १२.५: comparing pointer assignment vs memory allocation in copy constructors to prevent double-free crashes.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** डीप कॉपी और शैलो कॉपी में क्या अंतर है? बताएं कि आप प्रत्येक का उपयोग कब और कैसे करेंगे।
+> * **मौलिक अंतर:** (१) **शैलो कॉपी (Shallow Copy)**: ऑब्जेक्ट के सदस्यों की बिट-दर-बिट कॉपी करती है; पॉइंटर्स के लिए यह केवल मेमोरी पता कॉपी करती है, जिससे दोनों ऑब्जेक्ट्स एक ही हीप मेमोरी को साझा करते हैं (डिस्ट्रक्टर चलने पर डबल-फ्री क्रैश होता है); (२) **डीप कॉपी (Deep Copy)**: हीप पर एक अलग स्वतंत्र मेमोरी ब्लॉक आवंटित करती है और डेटा को कॉपी करती है, जिससे पूर्ण जीवनचक्र स्वतंत्रता मिलती है; (३) **पांच का नियम (Rule of Five)**: हीप मेमोरी प्रबंधित करने वाली किसी भी C++ क्लास को Destructor, Copy Constructor, Copy Assignment, Move Constructor और Move Assignment लागू करना चाहिए।
+> * **रियल-वर्ल्ड सिस्टम:** लिनक्स `fork()` में कॉपी-ऑन-राइट (COW) और स्मार्ट पॉइंटर्स द्वारा RAII मेमोरी स्वामित्व।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१२.५** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १२.५: comparing pointer assignment vs memory allocation in copy constructors to prevent double-free crashes.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १२.५) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"शैलो कॉपी और डीप कॉपी के बीच अंतर स्पष्ट करें, मेमोरी स्वामित्व और संसाधन प्रबंधन के उपयोग के नियम बताएं।"*
+
+## २. मेमोरी में प्रतिनिधित्व
+
+* **शैलो कॉपी:** दोनों ऑब्जेक्ट्स समान हीप पते की ओर इशारा करते हैं। एक ऑब्जेक्ट नष्ट होने पर दूसरा डैंगलिंग पॉइंटर बन जाता है और डबल-फ्री क्रैश का कारण बनता है।
+* **डीप कॉपी:** दोनों ऑब्जेक्ट्स के पास अपना अलग हीप मेमोरी ब्लॉक होता है।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```cpp
-class MyArray {
-    int* data;
-    int size;
+#include <iostream>
+#include <cstring>
+#include <utility>
+
+class DeepString {
+private:
+    char* data;
+    size_t length;
+
 public:
-    MyArray(const MyArray& other) { // Deep copy
-        size = other.size;
-        data = new int[size];
-        std::copy(other.data, other.data + size, data);
+    DeepString(const char* str = "") {
+        length = std::strlen(str);
+        data = new char[length + 1];
+        std::strcpy(data, str);
     }
+
+    ~DeepString() {
+        delete[] data;
+    }
+
+    DeepString(const DeepString& other) {
+        length = other.length;
+        data = new char[length + 1];
+        std::strcpy(data, other.data);
+    }
+
+    DeepString& operator=(DeepString other) {
+        swap(*this, other);
+        return *this;
+    }
+
+    DeepString(DeepString&& other) noexcept : data(nullptr), length(0) {
+        swap(*this, other);
+    }
+
+    friend void swap(DeepString& first, DeepString& second) noexcept {
+        using std::swap;
+        swap(first.data, second.data);
+        swap(first.length, second.length);
+    }
+
+    const char* c_str() const { return data; }
 };
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और शून्य इनपुट की जांच करें।
+## तुलनात्मक मैट्रिक्स और उपयोग के मामले
+
+| मापदंड | शैलो कॉपी | डीप कॉपी |
+|---|---|---|
+| **तंत्र** | सीधी मेमोरी कॉपी (`memcpy`)। | नया हीप आवंटन और डेटा की प्रतिलिपि। |
+| **गति** | तात्कालिक ($O(1)$)। | आकार के समानुपाती ($O(N)$)। |
+| **सुरक्षा जोखिम** | डैंगलिंग पॉइंटर्स और डबल-फ्री क्रैश। | पूरी तरह पृथक और सुरक्षित। |
+| **सर्वोत्तम उपयोग** | प्रिमिटिव प्रकार, अपरिवर्तनीय दृश्य (`string_view`), संदर्भ गणना (`shared_ptr`)। | डायनामिक हीप मेमोरी या फ़ाइल हैंडल प्रबंधित करने वाली क्लासेस। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: कॉपी-ऑन-राइट (COW)
+
+१. **लिनक्स `fork()` प्रक्रिया निर्माण:** पेज टेबल को केवल-पठन शैलो कॉपी के रूप में तुरंत साझा करता है। वास्तविक डीप कॉपी केवल तब होती है जब कोई प्रक्रिया डेटा लिखने का प्रयास करती है।
+२. **सी++ स्मार्ट पॉइंटर्स:** `std::unique_ptr` शैलो कॉपी को हटाकर सुरक्षित मूव सिमेंटिक्स लागू करता है।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **स्व-असाइनमेंट (`a = a`):** कॉपी-एंड-स्वैप मुहावरे द्वारा सुरक्षित प्रबंधन।

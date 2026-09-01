@@ -1,41 +1,83 @@
 ---
-title: "Continuous Median: Track Streaming Median via Dual Heaps (CTCI 17.20)"
-description: "CTCI problem 17.20: track and maintain the median of a numerical data stream using a Max-Heap and Min-Heap."
-date: "2025-10-29"
+title: "Mediana Continua: Mantenimiento de Mediana en Flujo con Doble Heap (CTCI 17.20)"
+description: "Mantén la mediana acumulada de un flujo de datos en tiempo O(log N) por insercion y O(1) por consulta usando un max-heap para la mitad inferior y un min-heap para la superior."
+date: "2026-05-06"
 tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-17-20-continuous-median.webp
 previewImage: /assets/images/ctci-17-20-continuous-median.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** CTCI problem 17.20 technical mechanics.
-> * **The Approach:** CTCI problem 17.20: track and maintain the median of a numerical data stream using a Max-Heap and Min-Heap.
-> * **Complexity:** Optimal Time and Memory bounds.
+> * **El Problema del Libro:** Recibes un flujo de numeros. Despues de cada numero, calcula la mediana de todos los vistos hasta ahora.
+> * **La Solución Óptima:** **Doble Heap (Max-Heap Inferior + Min-Heap Superior)**:
+>   1. Mantener dos montículos: `lower` (Max-Heap para la mitad menor) y `upper` (Min-Heap para la mitad mayor).
+>   2. **Invariante de Tamaño**: `lower.size() == upper.size()` o `lower.size() == upper.size() + 1`.
+>   3. **Insercion**: Dirigir el nuevo numero al montículo correcto y rebalancear si las diferencias de tamano superan 1.
+>   4. **Consulta**: Si cantidad par, mediana = `(lower.top() + upper.top()) / 2.0`. Si impar, mediana = `lower.top()`.
+>   5. **$O(\log N)$ insercion**, **$O(1)$ consulta**.
+> * **Realidad en Producción:** Seguimiento de latencia P50 en Prometheus/Grafana y precios de mercado en tiempo real.
 
-This article provides a clear breakdown of CTCI problem **17.20**.
+## 1. Formulación del Problema del Libro
 
-## 1. Context and Problem Statement
-CTCI problem 17.20: track and maintain the median of a numerical data stream using a Max-Heap and Min-Heap.
+En *Cracking the Coding Interview* (Problema 17.20), se nos plantea:
 
-## 2. Technical Code & Mechanics
+*"Los numeros se generan aleatoriamente y se pasan a un metodo. Escribe un programa para encontrar y mantener la mediana a medida que llegan nuevos valores."*
+
+## 2. Invariante de Partición con Doble Montículo
+
+Al dividir el flujo en dos mitades complementarias, se puede leer la mediana en $O(1)$ tiempo de consulta sin ordenar el flujo completo.
+
+## Implementación de Producción
 
 ```java
+import java.util.*;
+
 public class ContinuousMedian {
-    private final PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder()); // Left lower half
-    private final PriorityQueue<Integer> minHeap = new PriorityQueue<>(); // Right upper half
-    public void insert(int num) {
-        if (maxHeap.isEmpty() || num <= maxHeap.peek()) maxHeap.offer(num);
-        else minHeap.offer(num);
-        if (maxHeap.size() > minHeap.size() + 1) minHeap.offer(maxHeap.poll());
-        else if (minHeap.size() > maxHeap.size()) maxHeap.offer(minHeap.poll());
+
+    private final PriorityQueue<Integer> lower = new PriorityQueue<>(Collections.reverseOrder());
+    private final PriorityQueue<Integer> upper = new PriorityQueue<>();
+
+    public void addNumber(int num) {
+        if (lower.isEmpty() || num <= lower.peek()) {
+            lower.add(num);
+        } else {
+            upper.add(num);
+        }
+        rebalance();
     }
+
+    private void rebalance() {
+        if (lower.size() > upper.size() + 1) {
+            upper.add(lower.poll());
+        } else if (upper.size() > lower.size()) {
+            lower.add(upper.poll());
+        }
+    }
+
     public double getMedian() {
-        if (maxHeap.size() == minHeap.size()) return (maxHeap.peek() + minHeap.peek()) / 2.0;
-        return maxHeap.peek();
+        if (lower.isEmpty()) throw new IllegalStateException("Sin numeros aun.");
+        if (lower.size() == upper.size()) {
+            return (lower.peek() + upper.peek()) / 2.0;
+        }
+        return lower.peek();
     }
 }
 ```
 
-## 3. Key Takeaways and Edge Cases
-Always test boundary conditions and invalid input states.
+## Análisis de Complejidad
+
+| Operación | Complejidad | Detalle |
+|---|---|---|
+| `addNumber()` | $O(\log N)$ | Insercion en heap y rebalanceo. |
+| `getMedian()` | $O(1)$ | Lectura de la cima de los heaps. |
+| Espacio | $O(N)$ | Ambos heaps almacenan N elementos. |
+
+## Discusión de Ingeniería de Sistemas en Producción
+
+1. **Prometheus/Grafana P50:** Calculo de mediana de latencias para paneles de SLO en tiempo real.
+2. **Analítica de Mercado Financiero:** Calculo en tiempo real del precio mediano del libro de ordenes.
+
+## Casos Límite y Robustez
+
+1. **Flujo Vacío:** Lanzar `IllegalStateException` antes de la primera consulta.
+2. **Valores Duplicados:** Ambos heaps manejan duplicados de forma natural.

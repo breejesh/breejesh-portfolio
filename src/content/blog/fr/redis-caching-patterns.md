@@ -7,6 +7,7 @@ coverImage: /assets/images/redis-caching-patterns.webp
 previewImage: /assets/images/redis-caching-patterns.webp
 ---
 
+
 Le cache a l'air simple jusqu'à ce que le trafic soit irrégulier, que les clés expirent en même temps, et qu'un id produit célèbre brûle un seul shard Redis. La plupart des incidents que j'ai vus n'étaient pas "Redis est lent". C'étaient un stampede, des données périmées pour toujours, ou une hot key que personne ne mesurait.
 
 Voici la liste courte qui revient sur de vrais services : **cache-aside**, **contrôle de stampede**, **TTL avec jitter**, **invalidation** et **hot keys**. Pas un catalogue de chaque commande Redis. Juste les patterns à avoir avant de mettre un cache sur le chemin de lecture.
@@ -317,3 +318,4 @@ C'est volontairement plat. La prod ajoute métriques, circuit breakers, codecs t
 Le cache Redis n'est pas "mettre GET/SET autour de la requête". C'est un ensemble de contrats sur la **fraîcheur**, la **charge sous miss**, et **qui possède la clé après un write**. Le cache-aside couvre la plupart du code app. Le contrôle de stampede et le jitter de TTL gardent la base en vie quand des clés populaires meurent. L'invalidation garde la vérité produit honnête. Les plans hot key empêchent un blob célèbre de posséder le cluster.
 
 Commencez par un chemin, mesurez hit ratio et QPS DB sur ce chemin, puis ajoutez locks et L1 là où les graphes l'exigent. Les patterns ci-dessus sont ennuyeux exprès. L'ennuyeux, c'est ce qui survit à l'on-call.
+

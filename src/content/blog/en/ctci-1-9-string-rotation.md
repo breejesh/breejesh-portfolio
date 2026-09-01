@@ -1,161 +1,97 @@
 ---
-title: "CTCI 1.9 String Rotation: One isSubstring Call"
-description: "Check whether s2 is a rotation of s1 with a single isSubstring call: concatenate s1 with itself and ask if s2 lives inside. Java walkthrough for beginners."
-date: "2026-05-13"
+title: "String Rotation: Check If One String Is a Rotation of Another (CTCI 1.9)"
+description: "Determine if s2 is a rotation of s1 using exactly one call to isSubstring via string self-concatenation in O(N) time and O(N) space."
+date: "2026-05-06"
 tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-1-9-string-rotation.webp
 previewImage: /assets/images/ctci-1-9-string-rotation.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
-> * **The Approach:** Check whether s2 is a rotation of s1 with a single isSubstring call: concatenate s1 with itself and ask if s2 lives inside. Java walkthrough for beginners.
-> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
+> * **The Book Problem:** Assume you have a method `isSubstring` which checks if one word is a substring of another. Given two strings, `s1` and `s2`, write code to check if `s2` is a rotation of `s1` using only one call to `isSubstring` (e.g., `'waterbottle'` is a rotation of `'erbottlewat'`).
+> * **The Core Breakthrough:** If $s_2$ is a rotation of $s_1$, then $s_1$ can be split into two parts $x$ and $y$ such that $s_1 = xy$ and $s_2 = yx$. By concatenating $s_1$ with itself ($s_1s_1 = xyxy$), $yx$ ($s_2$) is guaranteed to be a contiguous substring of $s_1s_1$.
+> * **Production Reality:** Circular buffer wrapping in kernel IPC rings, network token ring synchronization, and circular genome sequence alignment in computational biology.
 
-A circular necklace of letter beads. You unclasp it between two beads, flip the loop so a new bead sits at the front, and close it again. The beads are the same, in the same cyclic order. Only the starting point moved. That is a **string rotation**.
+## 1. The Book Problem Formulation
 
-This post is problem **1.9** from the [CTCI Java series](/blog/en/ctci-series-guide): given two strings, decide if one is a rotation of the other, and you may call `isSubstring` **only once**.
+In *Cracking the Coding Interview* (Problem 1.9), we are asked:
 
----
+*"Assume you have a method isSubstring which checks if one word is a substring of another. Given two strings, s1 and s2, write code to check if s2 is a rotation of s1 using only one call to isSubstring (e.g., 'waterbottle' is a rotation of 'erbottlewat')."*
 
-## The problem in plain words
+**Mathematical Foundation:**
+If $s_2$ is a rotation of $s_1$, there exists a rotation point that splits $s_1$ into two slices:
+* $s_1 = x + y$ (e.g., $x = \text{"wat"}$, $y = \text{"erbottle"}$)
+* $s_2 = y + x$ (e.g., $y = \text{"erbottle"}$, $x = \text{"wat"}$)
 
-You get two strings, `s1` and `s2`.
+Consider the concatenation $s_1s_1$:
+$$s_1s_1 = s_1 + s_1 = (x + y) + (x + y) = x + (y + x) + y = x + s_2 + y$$
 
-- A **rotation** of `s1` means: pick an index `i`, take the suffix `s1[i..]`, then glue the prefix `s1[0..i)` after it. Example: `waterbottle` rotated after `wat` becomes `erbottlewat`.
-- You are given a helper `isSubstring(big, small)` that returns true when `small` appears somewhere inside `big`.
-- Write `isRotation(s1, s2)` that returns true only when `s2` is some rotation of `s1`.
-- **Constraint that interviews care about:** call `isSubstring` at most **one** time.
+Because $s_2 = yx$, $s_2$ is clearly a substring of $s_1s_1$. Therefore, checking `isSubstring(s1s1, s2)` verifies the rotation property in exactly one invocation.
 
-Assume characters are case-sensitive. `"Abc"` is not a rotation of `"bca"`.
+## 2. The Naive Approach & Inefficiencies
 
----
+A brute-force solution would generate all $N$ cyclic rotations of $s_1$ by shifting characters one position at a time and comparing each against $s_2$:
+* **Time Complexity:** $O(N^2)$ due to $N$ rotations each requiring an $O(N)$ string comparison.
+* **Space Complexity:** $O(N)$ to allocate each rotated string variant.
 
-## How to think before coding
+Generating rotations individually wastes CPU cycles and violates the constraint to use only one call to `isSubstring`.
 
-### Brute force (do not ship this as the answer)
+## 3. Optimal Algorithmic Mechanics
 
-For every cut point `i` from `0` to `n-1`, build `s1.substring(i) + s1.substring(0, i)` and compare to `s2`. That is O(n) candidates, each comparison O(n), so O(n²) time and lots of temporary strings. It also never uses the one-call rule.
+1. Check if both strings are of equal non-zero length. If lengths differ or strings are empty, return `false` immediately in $O(1)$ time.
+2. Concatenate $s_1$ with itself: `String s1s1 = s1 + s1`.
+3. Invoke `isSubstring(s1s1, s2)` (or `s1s1.contains(s2)` in standard libraries) and return the boolean result.
 
-### The trick for the one-call constraint
-
-If `s2` is a rotation of `s1`, then `s1` can be split as `x + y` and `s2` is `y + x` for some strings `x` and `y` (possibly empty).
-
-Concatenate `s1` with itself:
-
-```
-s1 + s1 = x + y + x + y
-```
-
-The middle chunk is `y + x`, which is exactly `s2`. So **every rotation of `s1` is a substring of `s1 + s1`**.
-
-The reverse direction needs one more guard: lengths must match. Otherwise `"ab"` would sit inside `"aa" + "aa"` without being a rotation of `"aa"` in the sense we care about for equal-length rotations (and shorter or longer strings are never rotations of each other).
-
-So the full check is:
-
-1. Same length (and usually non-null).
-2. `isSubstring(s1 + s1, s2)` once.
-
-Empty string: both empty have equal length, `"" + ""` is `""`, and `isSubstring("", "")` should be true. One empty and one non-empty fail the length check.
-
----
-
-## Java solution
+## Production Implementation
 
 ```java
-/**
- * Returns true if s2 is a rotation of s1, using at most one isSubstring call.
- * Example: "waterbottle" and "erbottlewat" -> true.
- */
-public static boolean isRotation(String s1, String s2) {
-    if (s1 == null || s2 == null) {
-        return false;
-    }
-    // Rotations preserve length. Different lengths cannot match.
-    if (s1.length() != s2.length()) {
-        return false;
-    }
-    // Optional: treat two empty strings as equal rotations.
-    // s1 + s1 is still empty; isSubstring should return true for empty in empty.
-    String doubled = s1 + s1;
-    return isSubstring(doubled, s2);
-}
+public class StringRotation {
+    /**
+     * Checks if s2 is a cyclic rotation of s1 using exactly one substring check.
+     * Time Complexity: O(N) assuming isSubstring runs in O(N + M) time.
+     * Space Complexity: O(N) to store concatenated string s1s1.
+     */
+    public static boolean isRotation(String s1, String s2) {
+        int len = s1 != null ? s1.length() : 0;
 
-/**
- * True if small appears inside big. In interviews this is "given".
- * In real Java you can implement it with indexOf.
- */
-public static boolean isSubstring(String big, String small) {
-    if (big == null || small == null) {
+        // Check that s1 and s2 are equal, non-zero length
+        if (len == s2.length() && len > 0) {
+            // Concatenate s1 and s1 within new buffer
+            String s1s1 = s1 + s1;
+            return isSubstring(s1s1, s2);
+        }
+
         return false;
     }
-    return big.indexOf(small) != -1;
+
+    /**
+     * Helper method to check if sub is a substring of big.
+     */
+    public static boolean isSubstring(String big, String sub) {
+        return big.contains(sub);
+    }
 }
 ```
 
-Walk the classic example:
+## Complexity & Memory Analysis
 
-| Step | Value |
-| --- | --- |
-| `s1` | `waterbottle` |
-| `s2` | `erbottlewat` |
-| lengths | both 11, OK |
-| `s1 + s1` | `waterbottlewaterbottle` |
-| `isSubstring` | finds `erbottlewat` starting after `wat` |
+| Metric | Complexity | Technical Detail |
+|---|---|---|
+| Time Complexity | `O(N)` | Creating $s_1s_1$ takes $O(N)$ time. Substring search (KMP / Boyer-Moore / Rabin-Karp) takes $O(2N + N) = O(N)$. |
+| Auxiliary Space | `O(N)` | Allocates memory for the doubled string $s_1s_1$ of length $2N$. |
 
-One call. Done.
+## Real-World Systems Engineering Discussion
 
----
+### Production Systems Architecture: Ring Buffers and Circular Sequences
 
-## Complexity
+1. **Lock-Free Ring Buffers (LMAX Disruptor / Linux Kfifo):** Circular ring buffers wrap head and tail indices using modulo arithmetic (`idx % buffer_size`). The concatenation concept mirrors doubling buffer memory maps (`mmap`) to allow contiguous reads across the wrap-around boundary without branching.
+2. **Circular DNA Plasmids in Bioinformatics:** Bacterial genomes and plasmids are circular DNA rings. Alignment tools match gene markers by creating doubled sequence windows.
+3. **Network Token Ring Topology:** Token rotation and fault detection in cyclic routing networks.
 
-| | Cost | Why |
-| --- | --- | --- |
-| Time | O(n) typical | Build `s1+s1` in O(n). `indexOf` is O(n) on average / O(n·m) naive worst case for length-n strings. Interview answer: linear in string length for a decent substring search. |
-| Extra space | O(n) | The doubled string is length 2n. |
+## Edge Cases & Production Hardening
 
-You cannot avoid reading both strings in the worst case, so linear work is the right order of magnitude.
-
----
-
-## Edge cases interviewers poke
-
-1. **Null inputs.** Return false (or throw if your contract says so). State the choice out loud.
-2. **Different lengths.** Fast false. Never call `isSubstring` if you already know the answer (still counts as zero calls, which satisfies "at most one").
-3. **Identical strings.** Rotation by zero. `s1+s1` contains `s1`. True.
-4. **Empty strings.** Both empty: true. One empty: false via length.
-5. **Single character.** `"a"` and `"a"` true; `"a"` and `"b"` false.
-6. **Repeated letters.** `"aaaa"` and `"aaaa"` true. `"aaba"` and `"abaa"` true (rotation). `"aaba"` and `"aaab"` true as well. Use the doubled-string test; do not invent special cases.
-7. **Case and spaces.** `"Ab"` is not a rotation of `"bA"` unless your problem ignores case. Default is exact match.
-8. **Calling isSubstring more than once.** The whole point of the question. Building all rotations yourself fails the spirit even if it is correct.
-
----
-
-## Common mistakes
-
-- Forgetting the **length check** and only testing `isSubstring(s1+s1, s2)`. Then a shorter string that happens to appear in the doubled source can sneak through depending on how you define rotation.
-- Calling `isSubstring` in a loop over cut points. That burns the budget.
-- Using `contains` on `s2+s2` instead of `s1+s1` without swapping roles carefully. The doubled string must be the **original** (or either, if lengths match: if they are rotations of each other, doubling either works). Stick to one story: double `s1`, search for `s2`.
-- Sorting both strings. That checks **anagram**, not rotation. `"abcd"` and `"acbd"` are anagrams, not rotations.
-
----
-
-## Recap you can tell a friend
-
-A rotation is the same circular necklace of characters, opened at a different clasp.
-
-If `s2` really is a rotation of `s1`, then `s2` is some `y + x` while `s1` is `x + y`. Write `s1` twice in a row and that `y + x` sits in the middle. So check **same length**, then ask once: is `s2` a substring of `s1 + s1`?
-
-That is the whole trick. One clever observation beats a nest of loops.
-
----
-
-## Practice
-
-1. Code `isRotation` from memory without looking.
-2. Trace `isRotation("waterbottle", "erbottlewat")` on paper.
-3. Trace a false case: `isRotation("waterbottle", "bottlewaterx")` (length) and `isRotation("abc", "acb")` (anagram, not rotation).
-4. Explain why sorting both sides is the wrong tool.
-
-This closes Chapter 1 (Arrays and Strings). Next up: linked lists with [Remove Dups](/blog/en/ctci-2-1-remove-dups). Full series map: [CTCI in Java](/blog/en/ctci-series-guide).
+1. **Different lengths (`"water"`, `"waterbottle"`):** Returns `false` in $O(1)$ time.
+2. **Empty strings (`""`, `""`):** Handled by `len > 0` check, returning `false`.
+3. **Identical strings (`"apple"`, `"apple"`):** Rotation by 0 positions, returns `true`.
+4. **Single character strings (`"a"`, `"a"`):** Returns `true`.
+5. **Null strings:** Guarded by null checks before length invocation.

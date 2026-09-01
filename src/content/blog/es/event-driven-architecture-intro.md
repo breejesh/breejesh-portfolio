@@ -7,6 +7,7 @@ coverImage: /assets/images/event-driven-architecture-intro.webp
 previewImage: /assets/images/event-driven-architecture-intro.webp
 ---
 
+
 Request/response síncrono es fácil de razonar. El servicio A llama al servicio B, espera, obtiene respuesta o error. Ese modelo se rompe cuando una acción debe repartirse a muchos sistemas independientes, cuando escalan a ritmos distintos, o cuando un fallo temporal en una dependencia no debería bloquear todo el checkout.
 
 La **arquitectura orientada a eventos** cambia el contrato: un productor publica un hecho sobre algo que ya ocurrió, y los consumidores reaccionan a su ritmo. Ganas desacoplamiento y escala horizontal. Pagas con consistencia eventual, depuración más dura y modos de fallo que no caben en un solo stack trace.
@@ -299,3 +300,4 @@ Antes de publicar un camino de eventos en un flujo de alta demanda:
 La arquitectura orientada a eventos se gana su sitio cuando sistemas independientes deben reaccionar a los mismos hechos a distintas velocidades, y cuando los caminos de request no pueden esperar a cada side effect. El coste de ingeniería es real: brokers, esquemas, idempotencia, outboxes y monitorización de lag son parte de la feature, no extras.
 
 Empieza con un hecho claro (`OrderPlaced`), un outbox, un consumidor idempotente y métricas de lag. Amplía solo cuando el siguiente fan-out duela más como llamada síncrona que como otro suscriptor. Esa secuencia mantiene flexibles los sistemas de alta demanda sin convertir cada write en un misterio distribuido.
+

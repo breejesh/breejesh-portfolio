@@ -1,36 +1,98 @@
 ---
-title: "Dining Philosophers: Preventing Deadlock with Resource Ordering (CTCI 15.3)"
-description: "CTCI problem 15.3: solving the classic Dining Philosophers deadlock using lock hierarchy and strict resource acquisition order."
-date: "2026-04-27"
-tags: [एल्गोरिदम और डेटा संरचनाएं, बैकएंड और डेटाबेस]
+title: "भोजन करते दार्शनिक (Dining Philosophers): डेडलॉक रोकथाम और रिसोर्स ऑर्डरिंग (सीटीसीआई १५.३)"
+description: "सख्त लॉक पदानुक्रम और सममित संसाधन क्रम द्वारा परिपत्र प्रतीक्षा (Circular Wait) को समाप्त करके डिज्कस्त्रा की दार्शनिक समवर्ती समस्या का समाधान।"
+date: "2026-05-06"
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-15-3-dining-philosophers.webp
 previewImage: /assets/images/ctci-15-3-dining-philosophers.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १५.३ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १५.३: solving the classic Dining Philosophers deadlock using lock hierarchy and strict resource acquisition order.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** ५ दार्शनिक एक गोल मेज के चारों ओर ५ चॉपस्टिक्स के साथ बैठे हैं। प्रत्येक दार्शनिक को खाने के लिए २ चॉपस्टिक्स की आवश्यकता होती है। एक ऐसा एल्गोरिदम डिज़ाइन करें जिससे दार्शनिक बिना डेडलॉक (Deadlock) या भुखमरी (Starvation) के खा सकें।
+> * **डेडलॉक जाल:** यदि सभी ५ दार्शनिक एक साथ अपनी बाईं चॉपस्टिक उठाते हैं, तो सभी ५ लॉक हो जाते हैं, जिससे **सर्कुलर वेट (Circular Wait)** डेडलॉक उत्पन्न होता है।
+> * **समाधान (संसाधन पदानुक्रम):** चॉपस्टिक्स को $०$ से $४$ क्रमांकित करें। प्रत्येक दार्शनिक को उच्च-संख्या वाली चॉपस्टिक से पहले हमेशा **कम-संख्या वाली चॉपस्टिक पहले प्राप्त करनी होगी**।
+> * **रियल-वर्ल्ड सिस्टम:** PostgreSQL डेटाबेस में रो-लेवल लॉकिंग और लिनक्स VFS इनोड लॉकिंग।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१५.३** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १५.३: solving the classic Dining Philosophers deadlock using lock hierarchy and strict resource acquisition order.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १५.३) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"डिज्कस्त्रा की क्लासिक डाइनिंग फिलॉसॉफर्स समस्या को हल करने के लिए सख्त लॉक पदानुक्रम लागू करें ताकि सिस्टम डेडलॉक-मुक्त रहे।"*
+
+## २. कॉफ़मैन की ४ डेडलॉक स्थितियां
+
+१. **म्युचुअल एक्सक्लूजन:** संसाधनों को एक साथ साझा नहीं किया जा सकता।
+२. **होल्ड एंड वेट:** एक संसाधन को रोककर दूसरे की प्रतीक्षा करना।
+३. **नो प्रीमेम्प्शन:** संसाधन जबरन नहीं छीने जा सकते।
+४. **सर्कुलर वेट:** निर्भरताओं का एक बंद चक्र ($P_0 \to P_1 \to \dots \to P_0$)।
+
+संसाधनों को आईडी के अनुसार क्रमबद्ध करके दार्शनिक ४ चॉपस्टिक ० (दाईं) को चॉपस्टिक ४ (बाईं) से पहले उठाता है, जिससे चक्र टूट जाता है।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public void pickUpChopsticks(int left, int right) {
-    int first = Math.min(left, right);
-    int second = Math.max(left, right);
-    synchronized (chopsticks[first]) {
-        synchronized (chopsticks[second]) {
-            // Eat safely without deadlock
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class Philosopher extends Thread {
+    private final int id;
+    private final Lock lower;
+    private final Lock higher;
+
+    public Philosopher(int id, Lock left, Lock right) {
+        this.id = id;
+        if (System.identityHashCode(left) < System.identityHashCode(right)) {
+            this.lower = left;
+            this.higher = right;
+        } else {
+            this.lower = right;
+            this.higher = left;
+        }
+    }
+
+    private void eat() throws InterruptedException {
+        lower.lock();
+        try {
+            higher.lock();
+            try {
+                System.out.println("दार्शनिक " + id + " भोजन कर रहा है।");
+                Thread.sleep(10);
+            } finally {
+                higher.unlock();
+            }
+        } finally {
+            lower.unlock();
+        }
+    }
+
+    @Override
+    public void run() {
+        try {
+            for (int i = 0; i < 100; i++) {
+                Thread.sleep(5);
+                eat();
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 }
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## जटिलता विश्लेषण
+
+| मापदंड | जटिलता | तकनीकी विवरण |
+|---|---|---|
+| लॉक ओवरहेड | `O(1)` | प्रति भोजन ठीक २ रीएन्ट्रेंट लॉक ऑपरेशन। |
+| डेडलॉक जोखिम | `शून्य` | संसाधन ग्राफ़ में चक्र बनना गणितीय रूप से असंभव। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: डेटाबेस रो-लेवल लॉकिंग
+
+१. **प्राइमरी की सॉर्टिंग:** PostgreSQL और MySQL InnoDB मल्टी-रो अपडेट्स (`UPDATE ... WHERE id IN (10, 20)`) में डेडलॉक से बचने के लिए आईडी को आरोही क्रम में सॉर्ट करके लॉक करते हैं।
+२. **लिनक्स VFS लॉकिंग:** डायरेक्टरी रीनेम करते समय कर्नल इनोड्स को मेमोरी पते के क्रम में लॉक करता है।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **थ्रेड इंटरप्शन:** नेस्टेड `try-finally` ब्लॉक्स द्वारा यह सुनिश्चित करना कि यदि दूसरा लॉक विफल हो जाए तो पहला लॉक तुरंत मुक्त हो जाए।

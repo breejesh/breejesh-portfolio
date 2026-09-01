@@ -223,3 +223,4 @@ La compétence en system design n'est pas "j'ai mémorisé YouTube". C'est "je p
 Commencez là où vous êtes faible. Si les chiffres font peur, faites l'estimation. Si l'async embrouille, faites crawler et notifications avant Drive. Si vous bloquez sur la structure, lancez le billet framework deux fois avec un timer.
 
 Puis continuez. Une pratique régulière suffit. Pas besoin d'être dramatique. Il faut seulement venir à la prochaine session.
+

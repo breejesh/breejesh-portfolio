@@ -7,6 +7,7 @@ coverImage: /assets/images/aws-spot-reserved-ondemand.webp
 previewImage: /assets/images/aws-spot-reserved-ondemand.webp
 ---
 
+
 Le calcul informatique représente souvent plus de la moitié de la facture mensuelle AWS d'une entreprise. Pourtant, de nombreuses équipes d'ingénierie choisissent par défaut des instances On-Demand par habitude. D'autres évitent totalement les instances Spot après avoir subi une seule interruption inattendue, ou s'engagent sur 3 ans pour des charges de travail qui évoluent en six mois.
 
 Choisir un mauvais modèle de tarification EC2 entraîne des dépenses superflues. Comprendre les différences exactes entre On-Demand, Spot et Instances Réservées (y compris les Savings Plans) permet de réduire les coûts d'infrastructure de 50% à 70% sans compromettre la disponibilité.
@@ -177,3 +178,4 @@ Avant de choisir un modèle de tarification pour vos instances EC2, évaluez vos
 * S'agit-il d'une base de données avec état ou d'un composant d'infrastructure central fonctionnant 24h/24 ? **Choisissez un Savings Plan.**
 * S'agit-il d'un prototype récent ou d'un pic de charge imprévisible de courte durée ? **Choisissez On-Demand.**
 * Envisagez-vous de faire évoluer vos architectures ou types d'instances d'ici 12 mois ? **Privilégiez les Compute Savings Plans par rapport aux EC2 Instance Savings Plans.**
+

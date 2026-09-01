@@ -303,3 +303,4 @@ Deux images restent :
 Plusieurs serveurs avec chacun un **carnet privé** multiplient en silence ta limite. Un **carnet partagé** (souvent Redis) garde le vrai budget. Parcours une requête : client → load balancer → auth → check partagé → allow vers le vrai travail ou 429 avec "réessaie plus tard."
 
 Si tu ne retiens qu'une leçon de production : **les compteurs partagés battent la maths locale maline**, et **les horloges mentent** si tu n'imposes pas une seule source de temps. Commence par token bucket ou sliding window counter sur Redis, mets des limites grossières à l'edge, garde les quotas produit près de l'auth, et mesure les denys avant de les "réparer" en montant le chiffre.
+

@@ -1,45 +1,90 @@
 ---
-title: "Majority Element: Boyer-Moore Majority Vote Algorithm (CTCI 17.10)"
-description: "CTCI problem 17.10: find the element that appears more than N/2 times in an array in O(N) time and O(1) space."
-date: "2025-12-08"
+title: "बहुमत तत्व (Majority Element): बॉयर-मूर स्ट्रीमिंग वोटिंग एल्गोरिदम (सीटीसीआई १७.१०)"
+description: "दो-चरणीय बॉयर-मूर वोटिंग एल्गोरिदम (Boyer-Moore Voting) का उपयोग करके सरणी में बहुमत तत्व (> ५०% आवृत्ति) को O(N) समय और O(1) स्पेस में खोजना।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-17-10-majority-element.webp
 previewImage: /assets/images/ctci-17-10-majority-element.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १७.१० का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १७.१०: find the element that appears more than N/२ times in an array in O(N) time and O(१) space.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** एक बहुमत तत्व वह तत्व है जो सरणी में आधे से अधिक ($> \lfloor N/2 \rfloor$) बार आता है। दिए गए धनात्मक पूर्णांक सरणी में बहुमत तत्व खोजें। यदि कोई बहुमत तत्व नहीं है, तो -१ लौटाएं। इसे $O(N)$ समय और $O(1)$ स्पेस में करें।
+> * **मुख्य समाधान:** **बॉयर-मूर वोटिंग एल्गोरिदम (Boyer-Moore Voting Algorithm)**:
+>   1. **चरण १ (उम्मीदवार चयन)**:
+>      * `candidate = 0` और `count = 0` इनिशियलाइज़ करें।
+>      * प्रत्येक तत्व $x$ के लिए: यदि `count == 0` तो `candidate = x, count = 1`; यदि $x == \text{candidate}$ तो `count++`; अन्यथा `count--`।
+>   2. **चरण २ (सत्यापन)**:
+>      * सरणी में उम्मीदवार की वास्तविक आवृत्ति गिनें।
+>      * यदि आवृत्ति $> \lfloor N / 2 \rfloor$, तो उम्मीदवार लौटाएं; अन्यथा -१ लौटाएं।
+>   3. यह **$O(N)$ समय** (दो रैखिक स्कैन) और **$O(1)$ सहायक स्पेस** में चलता है।
+> * **रियल-वर्ल्ड सिस्टम:** नेटवर्क राउटर (Cisco NetFlow) में भारी ट्रैफ़िक स्ट्रीम डिटेक्शन और वितरित सर्वसम्मति (Paxos / Raft)।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१७.१०** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १७.१०: find the element that appears more than N/२ times in an array in O(N) time and O(१) space.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १७.१०) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"बिना किसी हैश मैप या सॉर्टिंग के O(N) समय और O(1) स्पेस में बहुमत तत्व (> ५०%) की पहचान करें।"*
+
+## २. बॉयर-मूर युग्म रद्दीकरण सिद्धांत
+
+दो भिन्न तत्वों के एक साथ मिलने पर दोनों को रद्द करने से वास्तविक बहुमत तत्व के प्रभुत्व पर कोई प्रभाव नहीं पड़ता।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public static int findMajorityElement(int[] array) {
-    int candidate = getCandidate(array);
-    return validate(array, candidate) ? candidate : -1;
-}
-private static int getCandidate(int[] array) {
-    int majority = 0, count = 0;
-    for (int n : array) {
-        if (count == 0) majority = n;
-        if (n == majority) count++;
-        else count--;
+public class MajorityElement {
+
+    /**
+     * O(N) समय और O(1) स्पेस में बहुमत तत्व की खोज।
+     */
+    public static int findMajorityElement(int[] array) {
+        if (array == null || array.length == 0) {
+            return -1;
+        }
+
+        // चरण 1: उम्मीदवार चयन
+        int candidate = 0;
+        int count = 0;
+
+        for (int x : array) {
+            if (count == 0) {
+                candidate = x;
+                count = 1;
+            } else if (x == candidate) {
+                count++;
+            } else {
+                count--;
+            }
+        }
+
+        // चरण 2: वास्तविक आवृत्ति सत्यापन
+        int actualCount = 0;
+        for (int x : array) {
+            if (x == candidate) {
+                actualCount++;
+            }
+        }
+
+        return (actualCount > array.length / 2) ? candidate : -1;
     }
-    return majority;
-}
-private static boolean validate(int[] array, int candidate) {
-    int count = 0;
-    for (int n : array) if (n == candidate) count++;
-    return count > array.length / 2;
 }
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## जटिलता विश्लेषण
+
+| मापदंड | जटिलता | तकनीकी विवरण |
+|---|---|---|
+| समय जटिलता | `O(N)` | ठीक दो रैखिक सरणी पास। |
+| सहायक स्पेस | `O(1)` | स्थिर रजिस्टर मेमोरी। |
+| अनुपस्थिति सत्यापन | उपलब्ध | चरण २ द्वारा गैर-बहुमत मामलों में -१ लौटाना। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: नेटवर्क डेटा स्ट्रीम माइनिंग
+
+१. **मिसरा-ग्रीस हेवी हिटर्स (Misra-Gries Top-K):** हाई-स्पीड पैकेट राउटर डीडीओएस (DDoS) हमलों से संबंधित आईपी पतों को प्रति पैकेट $O(1)$ समय में ट्रैक करते हैं।
+२. **वितरित सर्वसम्मति (Raft / Paxos):** ब्लॉकचेन और डेटाबेस क्लस्टर में लेनदेन लॉग को मान्य करने के लिए बहुमत वोटिंग।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **कोई बहुमत तत्व न होना (`[1, 2, 3, 4]`):** चरण २ वास्तविक गणना की जांच करके सुरक्षित रूप से `-१` लौटाता है।

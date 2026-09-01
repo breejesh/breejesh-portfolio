@@ -7,6 +7,7 @@ coverImage: /assets/images/post-quantum-cryptography-tls13-migration.webp
 previewImage: /assets/images/post-quantum-cryptography-tls13-migration.webp
 ---
 
+
 > **TL;DR**
 > * **The Catalyst:** Nation-state intelligence agencies are executing "Store Now, Decrypt Later" campaigns, recording encrypted internet traffic to break retroactively once quantum computers arrive.
 > * **The Mechanism:** The IETF and NIST finalized ML-KEM-768 (FIPS 203) lattice cryptography, expanding TLS 1.3 handshake flights from 320 bytes to 2,420 bytes and exceeding the 1,500-byte Ethernet MTU limit.
@@ -66,3 +67,4 @@ With major web browsers (Chrome, Edge, Safari) and global edge networks (Cloudfl
 * [Post-Quantum TLS in the Real World: Lessons from Cloudflare, Cloudflare Research](https://blog.cloudflare.com)
 * [Why the Post-Quantum Internet Breaks Traditional Networking Limits, The Verge](https://theverge.com)
 * [IETF TLS Working Group Hybrid Key Exchange Draft, IETF](https://ietf.org)
+

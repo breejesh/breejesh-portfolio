@@ -7,6 +7,7 @@ coverImage: /assets/images/apple-m6-2nm-on-device-ai-inference.webp
 previewImage: /assets/images/apple-m6-2nm-on-device-ai-inference.webp
 ---
 
+
 > **TL;DR**
 > * **The Hardware:** Apple announced the M6 (first 2nm consumer chip) in the Mac Mini and the M5 Ultra (quad-die, 512GB unified memory) in the Mac Studio on August 25. Pre-orders opened immediately; availability September 22.
 > * **The Strategic Shift:** 4x faster AI inference and 512GB unified memory means running 70B+ parameter LLMs locally. Apple is positioning on-device compute as a credible alternative to cloud inference APIs.
@@ -67,3 +68,4 @@ The September 22 launch date puts these machines in developers' hands before Q4 
 ---
 
 *Product specifications from Apple press releases (August 25, 2026). Process node analysis from MacRumors, 9to5Mac, and Forbes. Cloud infrastructure contrast based on Anthropic's Nscale deal reporting.*
+

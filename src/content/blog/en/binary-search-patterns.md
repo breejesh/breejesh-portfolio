@@ -7,6 +7,7 @@ coverImage: /assets/images/binary-search-patterns.webp
 previewImage: /assets/images/binary-search-patterns.webp
 ---
 
+
 Binary search is not a single trick. Both interviews and real production systems reuse three core patterns: finding an exact target, finding a boundary, and searching over the monotonic answer space. Most bugs are not "I forgot log n." They are off-by-one mistakes in the loop invariant.
 
 This post is the short map I keep. Python templates, the mental model for each shape, and the traps that waste half an hour on a whiteboard.
@@ -297,3 +298,4 @@ Memorize the **invariants**, not twelve problem names. Once lower/upper bound an
 Binary search fails when the range does not shrink, the predicate is not monotone, or you mix closed and half-open updates. Nail those three and the rest is naming.
 
 If you only practice one drill this week: implement lower_bound and min-feasible from scratch twice, without looking, and run them on empty, one-element, and all-duplicates arrays. That covers most of what interviews and production actually ask for.
+

@@ -399,3 +399,4 @@ A strong answer has:
 If time remains: scale the web tier horizontally, shard posts, multi-region read replicas, and why the feed is a derived index rather than one giant SQL join of "everything my friends ever wrote."
 
 Related on this blog: [Redis caching patterns](/blog/en/redis-caching-patterns), [event-driven architecture](/blog/en/event-driven-architecture-intro), [design a rate limiter](/blog/en/design-a-rate-limiter).
+

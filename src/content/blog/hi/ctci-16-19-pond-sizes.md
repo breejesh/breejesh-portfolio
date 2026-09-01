@@ -1,47 +1,97 @@
 ---
-title: "Pond Sizes: Compute Connected Water Regions in Matrix (CTCI 16.19)"
-description: "CTCI problem 16.19: compute sizes of all connected water ponds in a land matrix using 8-directional DFS traversal."
-date: "2026-02-02"
+title: "तालाब के आकार (Pond Sizes): ८-दिशात्मक कनेक्टेड कंपोनेंट्स फ्लड-फिल (सीटीसीआई १६.१९)"
+description: "२डी स्थलाकृतिक मैट्रिक्स में ८-दिशात्मक गहराई-प्रथम खोज (DFS) और फ्लड-फिल एल्गोरिदम का उपयोग करके जल निकायों के आकार की O(R * C) में गणना करना।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-16-19-pond-sizes.webp
 previewImage: /assets/images/ctci-16-19-pond-sizes.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १६.१९ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १६.१९: compute sizes of all connected water ponds in a land matrix using ८-directional डीएफएस traversal.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** आपके पास भूमि के एक टुकड़े का प्रतिनिधित्व करने वाली एक पूर्णांक मैट्रिक्स है, जहां ० पानी को दर्शाता है और धनात्मक संख्याएं समुद्र तल से ऊंचाई को दर्शाती हैं। एक तालाब पानी का एक ऐसा क्षेत्र है जो लंबवत, क्षैतिज या तिरछे (८-दिशात्मक) जुड़ा हुआ है। मैट्रिक्स में सभी तालाबों के आकार की गणना करें।
+> * **मुख्य समाधान:** **८-दिशात्मक डेप्थ-फर्स्ट सर्च (DFS / Flood-Fill)**:
+>   1. **मैट्रिक्स स्कैन**: $R \times C$ मैट्रिक्स के सभी निर्देशांकों $(r, c)$ पर लूप चलाएं।
+>   2. **DFS अन्वेषण**: जब पानी की कोशिका ($०$) मिले:
+>      * कोशिका को विज़िटेड चिह्नित करें (उदा. `matrix[r][c] = -1`)।
+>      * सभी ८ पड़ोसी दिशाओं में रिकर्सिव रूप से खोज करें।
+>      * जुड़े हुए जल कक्षों का योग ($१ + \sum \text{DFS}(\text{neighbor})$) निकालें।
+>   3. यह **$O(R \cdot C)$ समय** और **$O(R \cdot C)$ सहायक स्पेस** में चलता है।
+> * **रियल-वर्ल्ड सिस्टम:** उपग्रह रडार बाढ़ मानचित्रण और इमेज सेगमेंटेशन (OpenCV)।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१६.१९** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १६.१९: compute sizes of all connected water ponds in a land matrix using ८-directional डीएफएस traversal.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १६.१९) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"स्थलाकृतिक मैट्रिक्स में ८-तरफा जुड़े सभी तालाबों के क्षेत्रफल की गणना करने के लिए एल्गोरिदम लिखें।"*
+
+## २. ८-दिशात्मक पड़ोसी ऑफसेट
+
+$(\Delta r, \Delta c) \in \{-१, ०, १\}^२ \setminus \{(०, ०)\}$ के सभी ८ ऑफसेट का मूल्यांकन किया जाता है।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public static List<Integer> computePondSizes(int[][] land) {
-    List<Integer> sizes = new ArrayList<>();
-    for (int r = 0; r < land.length; r++) {
-        for (int c = 0; c < land[0].length; c++) {
-            if (land[r][c] == 0) {
-                sizes.add(computeSize(land, r, c));
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class PondSizes {
+
+    public static List<Integer> computePondSizes(int[][] land) {
+        if (land == null || land.length == 0 || land[0].length == 0) {
+            return Collections.emptyList();
+        }
+
+        List<Integer> pondSizes = new ArrayList<>();
+        int rows = land.length;
+        int cols = land[0].length;
+
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                if (land[r][c] == 0) {
+                    int size = computePondSize(land, r, c);
+                    pondSizes.add(size);
+                }
             }
         }
+
+        return pondSizes;
     }
-    return sizes;
-}
-private static int computeSize(int[][] land, int r, int c) {
-    if (r < 0 || c < 0 || r >= land.length || c >= land[0].length || land[r][c] != 0) return 0;
-    land[r][c] = -1; // Mark visited
-    int size = 1;
-    for (int dr = -1; dr <= 1; dr++) {
-        for (int dc = -1; dc <= 1; dc++) size += computeSize(land, r + dr, c + dc);
+
+    private static int computePondSize(int[][] land, int r, int c) {
+        if (r < 0 || r >= land.length || c < 0 || c >= land[0].length || land[r][c] != 0) {
+            return 0;
+        }
+
+        land[r][c] = -1;
+        int size = 1;
+
+        for (int dr = -1; dr <= 1; dr++) {
+            for (int dc = -1; dc <= 1; dc++) {
+                if (dr == 0 && dc == 0) continue;
+                size += computePondSize(land, r + dr, c + dc);
+            }
+        }
+
+        return size;
     }
-    return size;
 }
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## जटिलता विश्लेषण
+
+| मापदंड | जटिलता | तकनीकी विवरण |
+|---|---|---|
+| समय जटिलता | `O(R * C)` | प्रत्येक सेल का एक सीमित संख्या में दौरा। |
+| सहायक स्पेस | `O(R * C)` | अधिकतम डीएफएस रिकर्शन स्टैक। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: जीआईएस और उपग्रह डेटा
+
+१. **बाढ़ निगरानी (Sentinel-1):** उपग्रह से प्राप्त रडार छवियों में जल निकायों और बाढ़ प्रभावित क्षेत्रों की पहचान के लिए कनेक्टेड कंपोनेंट्स एल्गोरिदम का उपयोग।
+२. **यूनियन-फाइंड (Union-Find):** वितरित प्रणालियों (Spark) में टाइलों को जोड़ने के लिए वैकल्पिक तकनीक।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **मैट्रिक्स सीमाएं:** प्रत्येक पुनरावृत्ति पर $(r, c)$ के लिए कठोर सीमा जांच।

@@ -7,6 +7,7 @@ coverImage: /assets/images/git-interactive-rebase-guide.webp
 previewImage: /assets/images/git-interactive-rebase-guide.webp
 ---
 
+
 El rebase interactivo es la herramienta a la que llego cuando una rama de feature parece un cuaderno de laboratorio: cinco commits "wip", un arreglo de un typo sobre otro typo, y un mensaje que jamás fusionaría tal cual. Bien usado, convierte ese ruido en una historia corta que un revisor puede seguir. Usado en la rama equivocada, reescribe historial sobre el que otra gente ya construyó y enciende el chat del equipo.
 
 Esta es la guía que uso en equipos reales: los comandos, los verbos del todo que importan, cuándo parar y cómo salir cuando la cagas.
@@ -356,3 +357,4 @@ git reset --hard HEAD@{n}
 Piensa el rebase interactivo como **editar una serie de parches**, no como "borrar el pasado." Los commits viejos suelen seguir en el reflog hasta el garbage collection. La historia compartida es lo que pusheas.
 
 Úsalo para abaratar la review: menos commits, mensajes honestos, historia lineal sobre el `main` actual. Déjalo en el momento en que los commits son un contrato compartido. Ese límite, más que cualquier verbo del todo, es lo que separa un historial limpio de un incidente de equipo.
+

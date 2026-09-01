@@ -7,6 +7,7 @@ coverImage: /assets/images/github-actions-ci-from-scratch.webp
 previewImage: /assets/images/github-actions-ci-from-scratch.webp
 ---
 
+
 GitHub Actions embeds continuous integration directly alongside source code. Workflows defined under `.github/workflows/` execute on pull requests, pushes, and schedules with matrix build parallelism. pull request, push to `main`, a schedule, or a manual click.
 
 This post is the minimal mental model plus the pieces that actually show up in production pipelines: **workflows, jobs, steps, caching, secrets, matrix builds**, and the mistakes that make green checks lie or make every run take 12 minutes.
@@ -450,3 +451,4 @@ A PR opens, checks start in under a minute, install is mostly cache hits, tests 
 Start from the single-job Node (or Python) workflow above. Add matrix when you support multiple runtimes. Split jobs when parallel wall-clock or deploy isolation is worth the reinstall cost. Cache deps, not excuses.
 
 When something is green and you still do not trust it, the bug is almost always in **what** you run or **which commit** you run it on, not in YAML indentation.
+

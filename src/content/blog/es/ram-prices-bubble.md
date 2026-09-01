@@ -7,6 +7,7 @@ coverImage: /assets/images/ram-prices-bubble.webp
 previewImage: /assets/images/ram-prices-bubble.webp
 ---
 
+
 Si has intentado armar una PC, actualizar tu laptop o comprar un smartphone de gama alta recientemente, es probable que hayas notado una tendencia silenciosa y frustrante: los precios están subiendo, las especificaciones técnicas se están estancando y los lanzamientos de productos esperados se están retrasando.
 
 No estamos viendo grandes titulares públicos sobre problemas en las cadenas de suministro como en la época de la pandemia, pero la presión es real. Y está siendo impulsada por un componente crítico por el cual la industria tecnológica está compitiendo en secreto: la **memoria RAM (Random Access Memory)**.
@@ -50,3 +51,4 @@ Las fábricas de chips son increíblemente costosas y requieren al menos dos añ
 Hoy en día, los fabricantes de memoria prefieren asegurar márgenes de beneficio altos antes que grandes volúmenes. Incluso si la fiebre de la IA se enfría y la burbuja estalla (un riesgo que el CEO de OpenAI, Sam Altman, ha reconocido públicamente), Samsung y Hynix se han protegido mediante contratos de suministro a largo plazo que llegan hasta 2026 y 2027. Los compradores que sobreasignaron recursos se verán obligados a pagar precios de pico.
 
 Hasta que las nuevas fábricas entren en funcionamiento a finales de 2027 o 2028, o la demanda de potencia de cálculo para IA generativa caiga drásticamente, la electrónica de consumo seguirá siendo rehén de las salas de servidores. La crisis de la RAM es un recordatorio de que, en una fiebre del oro, quienes fabrican las palas son quienes ponen las reglas.
+

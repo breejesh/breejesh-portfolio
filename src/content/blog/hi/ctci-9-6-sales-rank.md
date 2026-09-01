@@ -1,70 +1,103 @@
 ---
-title: "सेल्स रैंक: ई-कॉमर्स रियल-टाइम बेस्ट सेलर्स रैंक सिस्टम (CTCI 9.6)"
-description: "सीटीसीआई समस्या ९.६: विभिन्न समय खिड़कियों के तहत श्रेणी के आधार पर टॉप-सेलिंग उत्पादों को ट्रैक करने वाला रैंकिंग सिस्टम डिजाइन करें।"
-date: "2026-04-11"
+title: "बिक्री रैंक (Sales Rank): रियल-टाइम ई-कॉमर्स बेस्ट-सेलर रैंकिंग इंजन (सीटीसीआई ९.६)"
+description: "रेडिस सॉर्टेड सेट्स (ZSET) और स्लाइडिंग विंडो एग्रीगेशन का उपयोग करके ई-कॉमर्स उत्पादों के लिए रियल-टाइम बेस्ट-सेलर रैंकिंग इंजन का सिस्टम डिज़ाइन।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-9-6-sales-rank.webp
 previewImage: /assets/images/ctci-9-6-sales-rank.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** उत्पादन-स्तरीय दक्षता के साथ सीटीसीआई समस्या ९.६ में महारत हासिल करना।
-> * **दृष्टिकोण:** सीटीसीआई समस्या ९.६: विभिन्न समय खिड़कियों के तहत श्रेणी के आधार पर टॉप-सेलिंग उत्पादों को ट्रैक करने वाला रैंकिंग सिस्टम डिजाइन करें।
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** एक बड़ी ई-कॉमर्स कंपनी समग्र रूप से और श्रेणी के अनुसार सबसे अधिक बिकने वाले उत्पादों को सूचीबद्ध करना चाहती है (उदा. पिछले घंटे, २४ घंटे, ७ दिन, सर्वकालिक)। इन रैंकों को वास्तविक समय में ट्रैक और अपडेट करने के लिए डेटा संरचनाओं और एल्गोरिदम की रूपरेखा तैयार करें।
+> * **मुख्य समाधान:** **रेडिस सॉर्टेड सेट्स (ZSET) + स्लाइडिंग विंडो**: (१) खरीदारी की घटनाएं अपाचे काफ्का (Kafka) पर प्रकाशित होती हैं; (२) रियल-टाइम लीडरबोर्ड रेडिस सॉर्टेड सेट्स (`ZSET` आधारित स्किप लिस्ट) द्वारा प्रबंधित होते हैं, जहाँ `ZINCRBY` और `ZREVRANK` $O(\log N)$ समय लेते हैं; (३) स्लाइडिंग विंडो बकेट (१ घंटे के लिए ६० १-मिनट के बकेट); (४) ७ दिन और ३० दिन की रैंकिंग के लिए बैच जॉब्स (Apache Flink / Spark)।
+> * **रियल-वर्ल्ड सिस्टम:** अमेज़न बेस्ट सेलर्स रैंक (Amazon BSR) और ऐप स्टोर लीडरबोर्ड।
 
-तकनीकी साक्षात्कार में आपसे समस्या **९.६** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं। हम समस्या के कथन की जांच करते हैं, इष्टतम समाधान की तुलना करते हैं और जावा (जावा) कोड लिखते हैं।
+## १. किताब का सवाल और संदर्भ
 
----
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या ९.६) में पूछा गया है:
 
-## १. वास्तविक जीवन की उपमा
+*"ई-कॉमर्स उत्पादों के लिए विभिन्न श्रेणियों और समय अंतरालों में वास्तविक समय में बेस्ट-सेलर रैंक की गणना करने के लिए सिस्टम आर्किटेक्चर डिज़ाइन करें।"*
 
-सीटीसीआई समस्या ९.६ को वास्तविक जीवन में वस्तुओं को कुशलतापूर्वक व्यवस्थित करने की तरह सोचें। सही डेटा संरचना का चयन अनावश्यक पुनरावृत्तियों को समाप्त करता है।
+## २. डेटा संरचनाएं और आर्किटेक्चर
 
----
+### रेडिस सॉर्टेड सेट्स (`ZSET`)
+* कुंजी: `rank:category:window` (उदा. `rank:sports:24h`)।
+* सदस्य: `product_id`।
+* स्कोर: कुल संचित बिक्री संख्या।
+* `ZINCRBY`: बिक्री संख्या को $O(\log N)$ समय में बढ़ाता है।
+* `ZREVRANGE`: टॉप $K$ उत्पादों को $O(\log N + K)$ में लाता है।
+* `ZREVRANK`: किसी उत्पाद की सटीक रैंक $O(\log N)$ में प्राप्त करता है।
 
-## २. स्पष्ट समस्या कथन
-
-**समस्या ९.६:** सीटीसीआई समस्या ९.६: विभिन्न समय खिड़कियों के तहत श्रेणी के आधार पर टॉप-सेलिंग उत्पादों को ट्रैक करने वाला रैंकिंग सिस्टम डिजाइन करें।
-
----
-
-## ३. इष्टतम दृष्टिकोण और कार्यान्वयन
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public class CategorySalesRank {
-    private final Map<String, Integer> productSales = new ConcurrentHashMap<>();
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
 
-    public void recordSale(String productId, int quantity) {
-        productSales.merge(productId, quantity, Integer::sum);
+public class SalesRankEngine {
+    public static class ProductSales implements Comparable<ProductSales> {
+        public final String productId;
+        public int salesCount;
+
+        public ProductSales(String id, int sales) {
+            this.productId = id;
+            this.salesCount = sales;
+        }
+
+        @Override
+        public int compareTo(ProductSales other) {
+            return Integer.compare(this.salesCount, other.salesCount);
+        }
     }
 
-    public List<Map.Entry<String, Integer>> getTopK(int k) {
-        PriorityQueue<Map.Entry<String, Integer>> pq = new PriorityQueue<>(
-            Map.Entry.comparingByValue()
-        );
-        for (Map.Entry<String, Integer> entry : productSales.entrySet()) {
-            pq.offer(entry);
-            if (pq.size() > k) pq.poll();
+    private final Map<String, Map<String, Integer>> categorySales = new HashMap<>();
+
+    public synchronized void recordPurchase(String productId, String[] categories, int quantity) {
+        for (String cat : categories) {
+            categorySales.putIfAbsent(cat, new HashMap<>());
+            Map<String, Integer> salesMap = categorySales.get(cat);
+            salesMap.put(productId, salesMap.getOrDefault(productId, 0) + quantity);
         }
-        List<Map.Entry<String, Integer>> result = new ArrayList<>(pq);
-        result.sort(Map.Entry.<String, Integer>comparingByValue().reversed());
-        return result;
+    }
+
+    public synchronized PriorityQueue<ProductSales> getTopK(String category, int k) {
+        Map<String, Integer> salesMap = categorySales.get(category);
+        if (salesMap == null) return new PriorityQueue<>();
+
+        PriorityQueue<ProductSales> minHeap = new PriorityQueue<>(k);
+
+        for (Map.Entry<String, Integer> entry : salesMap.entrySet()) {
+            ProductSales ps = new ProductSales(entry.getKey(), entry.getValue());
+            if (minHeap.size() < k) {
+                minHeap.add(ps);
+            } else if (ps.salesCount > minHeap.peek().salesCount) {
+                minHeap.poll();
+                minHeap.add(ps);
+            }
+        }
+
+        return minHeap;
     }
 }
 ```
 
----
+## जटिलता और प्रदर्शन विश्लेषण
 
-## ४. समय और स्थान जटिलता (टाइम एंड स्पेस कॉम्प्लेक्सिटी)
+| ऑपरेशन | जटिलता | तकनीकी विवरण |
+|---|---|---|
+| बिक्री इंजेक्शन | `O(log N)` | रेडिस स्किप लिस्ट में स्कोर अपडेट। |
+| टॉप K खोज | `O(log N + K)` | सॉर्टेड सेट में रेंज स्कैन। |
+| उत्पाद रैंक क्वेरी | `O(log N)` | फॉरवर्ड इंडेक्स रैंक लुकअप। |
 
-| मीट्रिक | जटिलता | विवरण |
-| --- | --- | --- |
-| समय जटिलता | ओ(एन) / ओ(लॉग एन) | डेटा के माध्यम से इष्टतम पास |
-| स्थान जटिलता | ओ(१) / ओ(एन) | मेमोरी सीमाएं बनी रहीं |
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
 
----
+### प्रोडक्शन सिस्टम आर्किटेक्चर: अमेज़न BSR घातीय भार
 
-## ५. सीमांत मामले (एज केसेस) और सारांश
+१. **समय क्षय (Time Decay):** हाल की बिक्री को पुरानी बिक्री की तुलना में घातीय रूप से अधिक भार दिया जाता है ($S = \sum \text{qty} \cdot e^{-\lambda \Delta t}$)।
+२. **सीडीएन टॉप १०० कैशिंग:** ९९% उपयोगकर्ता केवल टॉप १०० उत्पाद देखते हैं। स्टैटिक सीडीएन कैशिंग डेटाबेस लोड को शून्य कर देती है।
 
-कोडिंग इंटरव्यू में हमेशा सीमांत स्थितियों, शून्य (null) इनपुट और एरे आकार की सीमाओं की जांच करें।
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **श्रेणी पदानुक्रम:** "रनिंग शूज़" में बिक्री होने पर "जूते", "स्पोर्ट्स" और मुख्य श्रेणी के काउंटर्स स्वचालित रूप से बढ़ते हैं।

@@ -7,6 +7,7 @@ coverImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 previewImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 ---
 
+
 Sam Altman dijo, en esencia: no tenemos plan de ingresos. Cuando exista el sistema general, le pediremos que invente cómo devolver capital a los inversores.
 
 Antes sonaba a chiste. En 2026 suena a confesión. El trade de IA creció tanto que un borrador filtrado del Tesoro de EE. UU. advierte que el sector está **más metido en la economía que las firmas puntocom**. Mercados, crédito privado, prestamistas de data centers, nubes, chips y utilities comparten la misma apuesta: la demanda de modelos frontier pagará el hierro.
@@ -137,3 +138,4 @@ Las puntocom tenían pets.com y también Amazon. El error es tratar cada arriend
 5. **Reguladores que susurran “sistémico” en privado y aplauden capex en público** es comportamiento de final de ciclo.
 
 El plan original de Sam era preguntarle al modelo cómo devolver el dinero a inversores. La pregunta mejor para el resto es más simple: **cuando la música baje, ¿quién se queda con las GPUs, la deuda y los contratos de energía?**
+

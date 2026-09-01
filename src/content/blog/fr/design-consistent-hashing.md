@@ -415,3 +415,4 @@ La même idée anime les clusters de cache, les bases shardées et les load bala
 `hash(key) % N` va bien jusqu'à ce que le pool bouge. Alors il remap presque tout et transforme un événement de scale en événement de fiabilité.
 
 Le consistent hashing place clés et serveurs sur un anneau partagé, assigne chaque clé au prochain serveur dans le sens horaire, et limite le remapping à un arc local quand des nœuds arrivent ou partent. Les nœuds virtuels corrigent les arcs injustes. Si vous pouvez dessiner l'anneau, expliquer la borne de remapping, et défendre le nombre de nœuds virtuels plus le membership, vous avez le chapitre d'entretien et les réflexes de production qui vont avec.
+

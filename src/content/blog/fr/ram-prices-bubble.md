@@ -7,6 +7,7 @@ coverImage: /assets/images/ram-prices-bubble.webp
 previewImage: /assets/images/ram-prices-bubble.webp
 ---
 
+
 Si vous avez essayé d'assembler un PC, de mettre à niveau votre ordinateur portable ou d'acheter un smartphone haut de gamme récemment, vous avez probablement remarqué une tendance discrète et frustrante : les prix augmentent, les spécifications stagnent et les lancements de produits attendus prennent du retard.
 
 Nous ne voyons pas de grands titres dans la presse concernant des pénuries de composants mondiales comme à l'époque de la pandémie, mais la pression est bien réelle. Elle est alimentée par un composant essentiel pour lequel l'industrie technologique se bat en coulisses : la **mémoire vive (RAM)**.
@@ -50,3 +51,4 @@ Les usines de puces (fabs) exigent des capitaux colossaux et nécessitent au moi
 Aujourd'hui, les fabricants de mémoire privilégient leurs marges plutôt que les volumes. Même si la fièvre de l'IA retombe et que la bulle éclate (un risque que le CEO d'OpenAI, Sam Altman, a lui-même reconnu), Samsung et Hynix se sont prémunis grâce à des contrats de fourniture à long terme verrouillés pour 2026 et 2027. Les acheteurs qui ont réservé trop de capacités seront contraints de payer le prix fort.
 
 D'ici à ce que de nouvelles usines entrent en service fin 2027 ou 2028, ou que la demande de puissance de calcul pour l'IA générative diminue drastiquement, l'électronique grand public restera l'otage des centres de données. La crise de la RAM nous rappelle qu'en période de ruée vers l'or, ce sont les marchands de pelles qui dictent les règles.
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/how-dns-works-for-engineers.webp
 previewImage: /assets/images/how-dns-works-for-engineers.webp
 ---
 
+
 Comparing DNS to a phone book is only partially helpful. Real systems engineering requires understanding the full recursive resolution pipeline, record type caching, and TTL propagation delays. Engineers do not need a fairy tale about "looking up names." You need the **resolution path**, the **record types you ship**, how **TTL and caches** delay every change, and a muscle memory for **`dig`** when production says the host is fine and users say it is not.
 
 If you deploy apps, cut over domains, set up mail, or debug "works on my machine" after a DNS change, this is the map.
@@ -278,3 +279,4 @@ DNS is correct when **the name, type, view (public vs private), and caching laye
 5. Outages after DNS changes are usually cache lag, wrong name/type, or broken delegation, not "the internet is down."
 
 Master that path and `dig` stops being a mystery command and becomes the first tool you reach for when the hostname is the suspect.
+

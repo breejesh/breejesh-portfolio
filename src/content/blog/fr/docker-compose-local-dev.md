@@ -7,6 +7,7 @@ coverImage: /assets/images/docker-compose-local-dev.webp
 previewImage: /assets/images/docker-compose-local-dev.webp
 ---
 
+
 "Ça marche sur ma machine" veut souvent dire que le laptop n'exécute pas le même graphe de processus que la production. Autre version de Postgres. Pas de Redis. L'API démarre avant que la base accepte des connexions. Des variables d'env dans un profil shell que la CI ne voit jamais.
 
 **Docker Compose** ne rendra pas le local identique à Kubernetes ou ECS. Il peut s'en rapprocher assez pour que l'ordre de démarrage, la config et la santé des dépendances se comportent de la même façon sur chaque machine de dev et dans la plupart des jobs CI. Assez proche, c'est l'objectif.
@@ -304,3 +305,4 @@ Documentez cette séquence dans le README du repo en moins de quinze lignes. Si 
 Compose ne remplace pas un orchestrateur de production. C'est le moyen le moins cher de faire tourner sur chaque laptop le même graphe de services avec les mêmes règles de readiness. Piner les versions, injecter la config explicitement, attendre les healthchecks, traiter les volumes avec intention.
 
 Faites ça, et "ça marche sur ma machine" commence à vouloir dire "ça marche sur le stack local partagé," bien plus proche du staging qu'un process nu et un Postgres système.
+

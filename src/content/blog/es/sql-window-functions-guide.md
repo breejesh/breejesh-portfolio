@@ -7,6 +7,7 @@ coverImage: /assets/images/sql-window-functions-guide.webp
 previewImage: /assets/images/sql-window-functions-guide.webp
 ---
 
+
 La mayor parte del SQL analítico que escribes son las mismas cinco formas: última fila por clave, top N por grupo, ranking con empates, valor frente al periodo anterior y un total acumulado. Las funciones de ventana resuelven esas formas sin self-joins que aplastan al planner.
 
 Este post es el modelo mental que mantengo, más las consultas que pego en trabajo real. Postgres, BigQuery, Snowflake y MySQL moderno comparten la misma sintaxis base. Los dialectos cambian en extras pequeños, no en la idea.
@@ -473,3 +474,4 @@ Un solo pase sustituye un montón de subconsultas correlacionadas. Léela de arr
 3. Rompe un total acumulado con filas del mismo día, y arréglalo con `ROWS` y un `ORDER BY` único.
 
 Cuando esas tres se sientan automáticas, el resto del catálogo (`NTILE`, `CUME_DIST`, cláusulas `WINDOW` con nombre) es vocabulario encima del mismo modelo: partición, orden, frame.
+

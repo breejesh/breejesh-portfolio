@@ -7,6 +7,7 @@ coverImage: /assets/images/structured-logging-best-practices.webp
 previewImage: /assets/images/structured-logging-best-practices.webp
 ---
 
+
 Les logs en texte brut suffisaient quand une machine faisait tourner une appli. Avec beaucoup de services, beaucoup de réplicas et un shipper qui transforme chaque ligne en événement interrogeable, les chaînes libres deviennent du bruit coûteux. Le logging structuré corrige la forme: chaque ligne est un petit document avec des clés stables. Tu cherches par champ, pas par regex sur de la prose.
 
 Voici la checklist que je veux sur chaque service de prod: JSON (ou équivalent), IDs de corrélation, niveaux honnêtes, pas de PII brut, et règles strictes sur les champs à forte cardinalité. Pas de catalogue théorique. Les habitudes qui réduisent le temps moyen pour comprendre.
@@ -298,3 +299,4 @@ Aucun de ces cas n'a besoin d'un nouveau vendor. Ils ont besoin de conventions e
 Le logging structuré n'est pas un débat de format. C'est un contrat d'exploitation: chaque service parle le même langage de champs, porte des IDs à travers les frontières, refuse de dumper des secrets, et garde la cardinalité sous contrôle pour que la recherche reste rapide et la facture ennuyeuse.
 
 Commence par JSON + IDs de corrélation + politique de niveaux + rédaction. Ajoute le sampling avancé et les schema registries quand le basique tient sous charge. Au prochain incident, tu veux une requête sur `request_id`, pas cinq greps et un espoir.
+

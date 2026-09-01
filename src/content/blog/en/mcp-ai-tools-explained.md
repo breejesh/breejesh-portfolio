@@ -7,6 +7,7 @@ coverImage: /assets/images/mcp-ai-tools-explained.webp
 previewImage: /assets/images/mcp-ai-tools-explained.webp
 ---
 
+
 The **Model Context Protocol (MCP)** standardizes how AI agents and IDE tools connect to external data sources, eliminating fragmented custom integration glue.
 
 **Model Context Protocol (MCP)** is that shared wire format. Anthropic open-sourced it in November 2024. Through 2025 it became the default glue many products use so one integration (a Postgres server, a GitHub server, a filesystem server) is not rewritten for every host app.
@@ -236,3 +237,4 @@ Skip the "100 community servers in one desktop app" phase if those servers can s
 MCP exists because tool-using agents hit the same integration tax every other plugin ecosystem hit: too many hosts, too many tools, too many bespoke adapters. The protocol is deliberately simple (JSON-RPC, tools, resources, prompts, a couple of transports). That simplicity is why it spread in 2025.
 
 The same simplicity means security is mostly **your** job: what the server can do, who may call it, and what untrusted text is allowed to influence the model. Treat MCP servers like miniature production services attached to a probabilistic caller. That mental model keeps demos from becoming incident reports.
+

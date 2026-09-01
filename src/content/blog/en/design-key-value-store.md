@@ -336,3 +336,4 @@ With three librarians, **N** is how many hold the card, **W** is how many must s
 Copies disagree sometimes. Fix short gaps with handoffs and hints. Fix long drift with background repair. Keep the client API tiny so the hard work stays inside the cluster.
 
 That is a distributed key-value store: not a magic hash map on the network, but a shelf plan, a copy plan, and a staff rulebook for the days something breaks.
+

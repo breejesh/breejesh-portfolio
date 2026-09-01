@@ -1,244 +1,120 @@
 ---
-title: "CTCI 1.5 One Away: One Edit, One Pass in Java"
-description: "Check if two strings differ by at most one insert, remove, or replace. Walk through the length rule, a single pointer scan, and clean Java you can explain out loud."
-date: "2025-08-05"
+title: "One Away: Determine If Two Strings Are One Edit Distance Apart (CTCI 1.5)"
+description: "Implement an algorithm to determine if two strings are within zero or one edit distance (insertion, deletion, replacement) in O(N) time and O(1) space."
+date: "2026-05-06"
 tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-1-5-one-away.webp
 previewImage: /assets/images/ctci-1-5-one-away.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
-> * **The Approach:** Check if two strings differ by at most one insert, remove, or replace. Walk through the length rule, a single pointer scan, and clean Java you can explain out loud.
-> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
+> * **The Book Problem:** There are three types of edits that can be performed on strings: insert a character, remove a character, or replace a character. Given two strings, write a function to check if they are one edit (or zero edits) away.
+> * **The Optimal Solution:** Compare string lengths. If $|len_1 - len_2| > 1$, return false immediately. For equal lengths, check for at most one replacement; for length difference of 1, check for at most one insertion/removal via two pointers in $O(N)$ time and $O(1)$ auxiliary space.
+> * **Production Reality:** Levenshtein distance thresholds in search query typo-tolerance, DNA sequence point mutations, and command-line fuzzy suggestion engines.
 
-You type a password once, mistype it once, and the system still unlocks. That is not magic. Someone decided that **one small edit** is close enough, and two edits are not.
+## 1. The Book Problem Formulation
 
-That is the whole problem: given two strings, decide whether you can turn the first into the second with **at most one** of these operations:
+In *Cracking the Coding Interview* (Problem 1.5), we are asked:
 
-1. **Replace** one character (`pale` → `bale`)
-2. **Insert** one character (`ple` → `pale`)
-3. **Remove** one character (`pale` → `ple`)
+*"There are three types of edits that can be performed on strings: insert a character, remove a character, or replace a character. Given two strings, write a function to check if they are one edit (or zero edits) away."*
 
-Zero edits (the strings are equal) also counts as true. Two or more edits is false.
+**Example Test Cases:**
+* `pale, ple -> true` (removal / insertion of 'a')
+* `pales, pale -> true` (insertion / removal of 's')
+* `pale, bale -> true` (replacement of 'p' with 'b')
+* `pale, bake -> false` (two replacements: 'p'->'b' and 'l'->'k')
 
-This is CTCI-style problem **1.5, One Away**, Chapter 1 (Arrays and Strings). We will solve it in **one pass** over the shorter string, in plain Java.
+## 2. The Naive Approach & Inefficiencies
 
-Series home: [CTCI in Java](/blog/en/ctci-series-guide). Previous: [1.4 Palindrome Permutation](/blog/en/ctci-1-4-palindrome-permutation). Next: [1.6 String Compression](/blog/en/ctci-1-6-string-compression).
+A naive approach might compute the full Levenshtein Distance Matrix between both strings using dynamic programming:
+* **Time Complexity:** $O(N \times M)$ where $N$ and $M$ are string lengths.
+* **Space Complexity:** $O(N \times M)$ auxiliary space (or $O(\min(N, M))$ with rolling arrays).
 
----
+Computing the full dynamic programming matrix is massive overkill when we only care if the edit distance is $\le 1$. We can short-circuit the comparison in linear time.
 
-## Everyday picture
+## 3. Optimal Algorithmic Mechanics
 
-Think of two almost-identical shopping lists on paper.
+We can solve this problem in two clean ways:
 
-* You crossed out one item: remove.
-* You wrote one extra item: insert.
-* You fixed one misspelled word: replace.
+### Approach A: Separate Replacement and Insertion Checks
+1. If lengths are equal: Check if strings differ by at most one character (`oneEditReplace`).
+2. If lengths differ by 1: Check if inserting one character into the shorter string yields the longer string (`oneEditInsert`).
+3. If length difference $> 1$: Return `false` immediately in $O(1)$ time.
 
-If the lists already match, you needed zero edits. If you changed two places, you are not "one away." You do not need a fancy data structure for that. You walk both lists with a finger on each, and you allow **one** mismatch to be explained by a single edit.
+### Approach B: Compact Combined One-Pass Scan
+Merge both checks into a single loop with two pointers `index1` and `index2`:
+1. Iterate while both pointers are within bounds.
+2. When a mismatch is found:
+   * If `foundDifference` is already `true`, return `false`.
+   * Mark `foundDifference = true`.
+   * If lengths are equal, advance both pointers (replacement).
+   * If lengths differ, advance only the longer string pointer (insertion).
+3. If no violation occurs, return `true`.
 
----
-
-## Problem in plain words
-
-**Input:** two strings, `a` and `b` (ASCII is fine for interview examples).
-
-**Output:** `true` if `a` can become `b` with 0 or 1 edit of type insert, remove, or replace. Otherwise `false`.
-
-**Examples:**
-
-| a | b | Result | Why |
-| --- | --- | --- | --- |
-| `pale` | `ple` | true | remove `a` |
-| `pales` | `pale` | true | remove `s` (or insert into the shorter) |
-| `pale` | `bale` | true | replace `p` with `b` |
-| `pale` | `bake` | false | two replaces |
-| `pale` | `pale` | true | zero edits |
-| `a` | `` | true | one remove |
-| `abc` | `abxcd` | false | length gap is 2 |
-
-Interview clarifying questions worth asking out loud:
-
-* Are empty strings allowed? Yes, treat them as normal.
-* Case sensitive? Yes, unless the interviewer says otherwise. `'A'` and `'a'` differ.
-* Is "zero edits" true? Yes. "One away" usually means **at most one**.
-
----
-
-## How to think before coding
-
-### Step 1: length kills most cases
-
-If the lengths differ by more than 1, you need at least two inserts (or removes). Return false immediately.
-
-```
-|len(a) - len(b)| > 1  →  false
-```
-
-That is free, and interviewers like hearing it first.
-
-### Step 2: same length means only replace
-
-If lengths are equal, insert and remove cannot help with a single edit (they change length). Walk both strings together. Count mismatches. If you ever see a second mismatch, return false. At the end, zero or one mismatch is fine.
-
-### Step 3: length differs by 1 means insert or remove
-
-Without loss of generality, call the shorter string `s` and the longer string `t`. One insert into `s` is the same as one remove from `t`.
-
-Walk with two indices `i` (into `s`) and `j` (into `t`):
-
-* If `s[i] == t[j]`, advance both.
-* If they differ, that must be your **only** edit. Advance only `j` (you "skipped" the extra char in the longer string). If you already used your one edit, return false.
-
-When the loop ends, either the strings matched with zero edits, or you skipped exactly one extra character. Either way you return true (remaining tail of the longer string is at most one char, and length already guarantees that).
-
-### Step 4: one method, one pass
-
-You do not need three separate functions in production interview code. One scan handles replace and insert/remove if you branch only when characters disagree.
-
----
-
-## Java: one-pass solution
+## Production Implementation
 
 ```java
-public final class OneAway {
-
+public class OneAway {
     /**
-     * Returns true if first and second are at most one edit apart
-     * (insert, remove, or replace a single character).
+     * Checks if two strings are zero or one edit away.
+     * Time Complexity: O(N) where N is the length of the shorter string.
+     * Space Complexity: O(1) auxiliary space.
      */
     public static boolean oneEditAway(String first, String second) {
-        if (first == null || second == null) {
-            return first == second;
-        }
-
-        int len1 = first.length();
-        int len2 = second.length();
-        if (Math.abs(len1 - len2) > 1) {
+        if (Math.abs(first.length() - second.length()) > 1) {
             return false;
         }
 
-        // s = shorter (or equal), t = longer (or equal)
-        String s = len1 <= len2 ? first : second;
-        String t = len1 <= len2 ? second : first;
+        // Identify shorter and longer strings
+        String s1 = first.length() < second.length() ? first : second;
+        String s2 = first.length() < second.length() ? second : first;
 
-        int i = 0; // index in s
-        int j = 0; // index in t
-        boolean foundEdit = false;
+        int index1 = 0;
+        int index2 = 0;
+        boolean foundDifference = false;
 
-        while (i < s.length() && j < t.length()) {
-            if (s.charAt(i) == t.charAt(j)) {
-                i++;
-                j++;
-                continue;
-            }
+        while (index2 < s2.length() && index1 < s1.length()) {
+            if (s1.charAt(index1) != s2.charAt(index2)) {
+                // Ensure this is the first difference encountered
+                if (foundDifference) return false;
+                foundDifference = true;
 
-            // Characters differ: this must be our only edit
-            if (foundEdit) {
-                return false;
-            }
-            foundEdit = true;
-
-            if (s.length() == t.length()) {
-                // Same length: treat as replace, move both
-                i++;
-                j++;
+                if (s1.length() == s2.length()) {
+                    // On replace, move shorter pointer
+                    index1++;
+                }
             } else {
-                // Different length: skip the extra char in the longer string
-                j++;
+                // If matching, move shorter pointer
+                index1++;
             }
+            // Always move longer pointer
+            index2++;
         }
 
-        // If longer has one leftover char and we never edited, that leftover is the insert.
-        // Length check already limits leftovers to at most one.
         return true;
     }
 }
 ```
 
-### Trace: `pale` vs `ple` (remove / insert)
+## Complexity & Memory Analysis
 
-* `s = "ple"`, `t = "pale"`
-* `p == p` → move both
-* `l != a` → first edit, skip `a` in `t` (`j++` only)
-* `l == l`, `e == e` → done, true
+| Metric | Complexity | Technical Detail |
+|---|---|---|
+| Time Complexity | `O(N)` | Traverses strings in a single pass where $N = \min(|first|, |second|)$. |
+| Auxiliary Space | `O(1)` | Uses only integer pointer registers without heap allocations. |
 
-### Trace: `pale` vs `bale` (replace)
+## Real-World Systems Engineering Discussion
 
-* lengths equal
-* `p != b` → first edit, advance both
-* rest matches → true
+### Production Systems Architecture: Fuzzy Search and CLI Suggestions
 
-### Trace: `pale` vs `bake` (two replaces)
+1. **Search Autocomplete & Typo Tolerance (Elasticsearch / Lucene):** Lucene builds Levenshtein Automata to match queries against index terms with max edit distance 1 or 2. Fast one-pass checks avoid expensive dictionary evaluations.
+2. **Git / CLI Command Spelling Correction:** When entering `git stauts`, git checks candidate commands within distance 1 to suggest `git status`.
+3. **Bioinformatics Point Mutations:** Detects single nucleotide polymorphisms (SNPs) and single insertion/deletion (indel) events in genomic sequences.
 
-* `p != b` → first edit
-* `a == a`
-* `l != k` → second edit → false
+## Edge Cases & Production Hardening
 
----
-
-## Time and space
-
-| | |
-| --- | --- |
-| **Time** | O(n) where n is the length of the shorter string (one pass, constant work per character) |
-| **Space** | O(1) extra (a few indices and a flag; no new string built) |
-
-You do not need a character count map. Order matters here (`abc` vs `cba` is not one away), so a frequency table would lie.
-
----
-
-## Edge cases interviewers poke
-
-1. **Equal strings:** `oneEditAway("same", "same")` → true.
-2. **Empty and one char:** `("", "x")` → true; `("", "xy")` → false.
-3. **Edit at the start:** `("abc", "xabc")` → true (insert at front).
-4. **Edit at the end:** `("abc", "abcd")` → true.
-5. **Edit in the middle:** `("abc", "axc")` → true.
-6. **Null policy:** decide and state it. The code above treats two nulls as equal and mixed null as false. Some teams ban null inputs entirely.
-7. **Unicode / surrogates:** interview strings are usually BMP characters. `charAt` is fine for that. Real-world grapheme clusters are a different product problem.
-
-Quick self-check apply:
-
-```java
-public static void main(String[] args) {
-    assert oneEditAway("pale", "ple");
-    assert oneEditAway("pales", "pale");
-    assert oneEditAway("pale", "bale");
-    assert !oneEditAway("pale", "bake");
-    assert oneEditAway("pale", "pale");
-    assert oneEditAway("", "a");
-    assert !oneEditAway("abc", "abxcd");
-    System.out.println("ok");
-}
-```
-
----
-
-## Common mistakes
-
-* **Forgetting the length shortcut.** Without it you still can be correct, but you waste work and miss an easy early exit.
-* **Moving the wrong pointer on insert.** After a mismatch on different lengths, only the longer string advances.
-* **Allowing two replaces.** The `foundEdit` flag is the whole point. Reset nothing; second mismatch means fail.
-* **Treating anagram distance as edit distance.** One Away is **not** "same multiset of characters." Order is fixed except for the single edit.
-* **Building full Levenshtein DP.** Classic edit distance is O(n·m). For *at most one* edit, that is overkill. Interviewers expect the linear scan.
-
----
-
-## Explain to a friend
-
-Two strings are one away if you can fix the difference with a single replace, insert, or delete (or they already match).
-
-First check lengths. Gap bigger than one? Done, false.
-
-Then walk both strings. When characters match, keep walking. The first time they disagree, spend your one allowed edit: if lengths match, treat it as a replace and keep both fingers moving; if lengths differ, skip the extra character on the longer side. A second disagreement means false.
-
-That is one pass, constant extra memory, and easy to say on a whiteboard.
-
----
-
-## Practice cue
-
-Cover the code. Write `oneEditAway` from the length rule and the two pointer rules only. Then run the table of examples out loud. When that is automatic, open [1.6 String Compression](/blog/en/ctci-1-6-string-compression).
+1. **Identical strings (`"pale", "pale"`):** Returns `true` (zero edits away).
+2. **Empty strings (`"", ""`):** Returns `true`.
+3. **One empty string, one single char (`"", "a"`):** Returns `true`.
+4. **Length difference $\ge 2$ (`"p", "pale"`):** Short-circuited in $O(1)$ without string scanning.
+5. **Null inputs:** Defensive check `if (first == null || second == null) return false;`.

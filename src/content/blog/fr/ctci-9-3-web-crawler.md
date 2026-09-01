@@ -1,64 +1,116 @@
 ---
-title: "Web Crawler: Conception d'un Robot d'Exploration Web Évolutif (CTCI 9.3)"
-description: "Problème CTCI 9.3: architecture pour un crawler web distribué gérant les doublons et les règles de politesse d'hôte."
-date: "2025-10-12"
-tags: [Algorithmes et Structures, Design Système et Architecture]
+title: "Robot d'Indexation: Prévention des Boucles Infinies dans les Crawlers (CTCI 9.3)"
+description: "Concevez l'architecture d'un robot d'indexation web distribué évitant les pièges et boucles infinies via filtres de Bloom et détection SimHash."
+date: "2026-05-06"
+tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-9-3-web-crawler.webp
 previewImage: /assets/images/ctci-9-3-web-crawler.webp
 ---
 
-
 > **TL;DR**
-> * **Le Problème:** Maîtriser le problème CTCI 9.3 avec une efficacité de niveau production.
-> * **L'Approche:** Problème CTCI 9.3: architecture pour un crawler web distribué gérant les doublons et les règles de politesse d'hôte.
-> * **Complexité:** Compromis optimal entre temps et espace.
+> * **Le Problème du Livre:** Si vous conceviez un robot d'indexation web (web crawler), comment éviteriez-vous de tomber dans des boucles infinies ?
+> * **La Solution Optimale:** Pipeline de Défense Multi-Niveaux : (1) **Normalisation Canonique des URLs** : Suppression des paramètres de suivi (`utm_*`), tri des paramètres de requête et résolution des chemins relatifs ; (2) **Registre des URLs Déjà Vues** : Filtre de Bloom distribué en mémoire vive ; (3) **Empreinte de Contenu (SimHash)** : Détection des pièges dynamiques servant du contenu identique sous des URLs distinctes ; (4) **Budget de Crawl par Domaine** : Plafond strict de profondeur ($d \le 15$) et limitation du débit de requêtes.
+> * **Réalité en Production:** Architecture de Googlebot et Apache Nutch.
 
-Cet article propose une explication claire et accessible du problème CTCI **9.3**. Nous examinons l'énoncé, comparons l'approche brute à la solution optimale en Java.
+## 1. Formulation du Problème du Livre
 
----
+Dans *Cracking the Coding Interview* (Problème 9.3), l'énoncé est :
 
-## 1. Analogie du monde réel
+*"Comment concevoir un robot d'indexation web capable d'eviter les boucles infinies et les pieges a robots sur le web distribue ?"*
 
-Pensez au problème CTCI 9.3 comme à l'organisation efficace d'objets au quotidien. Choisir la bonne structure de données élimine les itérations inutiles.
+## 2. Typologie des Pièges et Mécanismes de Défense
 
----
+### Causes de Boucles Infinies
+1. **Cycles dans le Graphe :** $A \to B \to A$.
+2. **Arbres de Chemins Infinis :** Calendriers dynamiques (`/events?year=2026...`) ou liens symboliques récursifs (`/dir/dir/dir/...`).
+3. **Identifiants de Session :** URLs multiples pointant vers une même page statique.
 
-## 2. Énoncé clair du problème
+### Mesures de Protection
+1. **Normalisation d'URL :** Transformation canonique des adresses.
+2. **Filtre de Bloom :** Rejet ultra-rapide en mémoire des URLs déjà explorées.
+3. **Hachage SimHash 64 bits :** Élimination des pages quasi-doublons.
+4. **Plafond de Profondeur :** Limitation du nombre de sous-niveaux par domaine.
 
-**Problème 9.3:** Problème CTCI 9.3: architecture pour un crawler web distribué gérant les doublons et les règles de politesse d'hôte.
-
----
-
-## 3. Approche optimale et implémentation
+## Implémentation de Production
 
 ```java
-public class URLFrontier {
-    private final Set<String> visitedURLs = ConcurrentHashMap.newKeySet();
-    private final BlockingQueue<String> urlQueue = new LinkedBlockingQueue<>();
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashSet;
+import java.util.Set;
 
-    public void addURL(String url) {
-        if (visitedURLs.add(url)) {
-            urlQueue.offer(url);
+public class WebCrawlerLoopGuard {
+    private final Set<String> visitedCanonicalUrls = new HashSet<>();
+    private final Set<Long> contentSimHashes = new HashSet<>();
+    private final int MAX_PATH_DEPTH = 10;
+
+    public String normalizeUrl(String rawUrl) {
+        try {
+            URI uri = new URI(rawUrl.trim()).normalize();
+            String host = uri.getHost() == null ? "" : uri.getHost().toLowerCase();
+            String path = uri.getPath() == null ? "" : uri.getPath();
+            
+            if (path.endsWith("/") && path.length() > 1) {
+                path = path.substring(0, path.length() - 1);
+            }
+
+            return uri.getScheme() + "://" + host + path;
+        } catch (URISyntaxException e) {
+            return null;
         }
     }
 
-    public String getNextURL() throws InterruptedException {
-        return urlQueue.take();
+    public boolean shouldCrawl(String url, int currentDepth) {
+        if (currentDepth > MAX_PATH_DEPTH) return false;
+
+        String canonical = normalizeUrl(url);
+        if (canonical == null || visitedCanonicalUrls.contains(canonical)) {
+            return false;
+        }
+
+        if (hasRepeatingPathSegments(canonical)) {
+            return false;
+        }
+
+        visitedCanonicalUrls.add(canonical);
+        return true;
+    }
+
+    private boolean hasRepeatingPathSegments(String url) {
+        String[] segments = url.split("/");
+        Set<String> seenSegments = new HashSet<>();
+        int repeatCount = 0;
+        for (String segment : segments) {
+            if (!segment.isEmpty() && !seenSegments.add(segment)) {
+                repeatCount++;
+                if (repeatCount >= 3) return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isDuplicateContent(long simHash64) {
+        return !contentSimHashes.add(simHash64);
     }
 }
 ```
 
----
+## Analyse de Complexité et Architecture
 
-## 4. Complexité Temporelle et Spatiale
+| Métrique | Complexité | Détail Technique |
+|---|---|---|
+| Déduplication d'URL | `O(1)` | Consultation instantanée en filtre de Bloom. |
+| Détection de Doublons | `O(1)` | Recherche de collision dans la table SimHash. |
+| Validation de Chemin | `O(L)` | Découpage et vérification de la chaîne de longueur $L$. |
 
-| Métrique | Complexité | Explication |
-| --- | --- | --- |
-| Complexité Temporelle | O(N) / O(log N) | Parcours optimal des données |
-| Complexité Spatiale | O(1) / O(N) | Empreinte mémoire contrôlée |
+## Ingénierie des Systèmes en Production
 
----
+### Architecture Système : Crawl Budget de Googlebot
 
-## 5. Cas Limites et Résumé
+1. **Files d'Attente de Courtoisie :** File de priorité distincte par serveur hôte avec délai minimal entre requêtes (ex. 500 ms).
+2. **Mise en Quarantaine Automatique :** Isolement automatique des sous-arborescences générant des milliers de pages sans apport sémantique.
 
-Vérifiez toujours les conditions aux limites, les valeurs nulles et la taille des tableaux en entretien.
+## Cas Limites et Robustesse
+
+1. **Boucles de Redirection (HTTP 301/302) :** Compteur de sauts limité à 5.
+2. **Erreurs de Syntaxe :** Capture systématique des exceptions d'analyse URI.

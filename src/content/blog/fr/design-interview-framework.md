@@ -310,3 +310,4 @@ Un entretien de system design n'est pas "dessine tous les serveurs de l'entrepri
 Entraînez ce squelette sur trois problèmes différents (stockage, chat temps réel, feed lourd en lecture) jusqu'à ce que les transitions deviennent automatiques. Le but n'est pas un joli diagramme. Le but est une conversation de design qui ne vous ferait pas honte avec un ingénieur senior dès la première semaine.
 
 Si vous voulez le chemin de croissance complet avant d'autres prompts d'entretien, commencez par [passer de zéro à des millions](/blog/fr/design-scale-zero-to-millions). Pour un ordre de pratique de cette série, voir le [parcours d'apprentissage](/blog/fr/design-interview-learning-path).
+

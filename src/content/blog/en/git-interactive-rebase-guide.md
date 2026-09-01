@@ -7,6 +7,7 @@ coverImage: /assets/images/git-interactive-rebase-guide.webp
 previewImage: /assets/images/git-interactive-rebase-guide.webp
 ---
 
+
 Interactive rebase is the tool of choice when a feature branch looks like a scratchpad: messy work-in-progress commits, typo fixes on typo fixes, and uninformative commit messages. Used properly, it crafts a clean, reviewable history. Used well, it turns that noise into a short story a reviewer can follow. Used on the wrong branch, it rewrites history other people already built on and lights up the group chat.
 
 This is the playbook I use on real teams: the commands, the todo verbs that matter, when to stop, and how to get out when you botch it.
@@ -356,3 +357,4 @@ git reset --hard HEAD@{n}
 Think of interactive rebase as **editing a patch series**, not as "deleting the past." The old commits often still exist in reflog until garbage collection. The shared story is what you push.
 
 Use it to make review cheaper: fewer commits, honest messages, linear story on top of current `main`. Stop using it the moment the commits are a shared contract. That boundary, more than any verb in the todo list, is what separates a clean history from a team incident.
+

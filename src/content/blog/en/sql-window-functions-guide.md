@@ -7,6 +7,7 @@ coverImage: /assets/images/sql-window-functions-guide.webp
 previewImage: /assets/images/sql-window-functions-guide.webp
 ---
 
+
 SQL window functions allow performing analytical calculations across row partitions without collapsing individual rows, replacing complex self-joins with clean, readable queries.
 
 This post is the mental model I keep, plus the queries I paste into real work. Postgres, BigQuery, Snowflake, and modern MySQL all support the same core syntax. Dialects differ on small extras, not on the idea.
@@ -473,3 +474,4 @@ That single pass replaces a pile of correlated subqueries. Read it top to bottom
 3. Break a running total with same-day rows, then fix it with `ROWS` and a unique `ORDER BY`.
 
 Once those three feel automatic, the rest of the window catalog (`NTILE`, `CUME_DIST`, named `WINDOW` clauses) is vocabulary on top of the same mental model: partition, order, frame.
+

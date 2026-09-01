@@ -1,83 +1,98 @@
 ---
-title: "Filósofos Comensales: Prevención de Deadlock y Orden de Recursos (CTCI 15.3)"
-description: "Problema CTCI 15.3 en Java: resolver el clásico interbloqueo de los filósofos comensales mediante jerarquía estricta de adquisición de bloqueos."
-date: "2026-03-31"
-tags: [Algoritmos y Estructuras, Backend y Bases de Datos]
+title: "El Problema de los Filósofos: Prevención de Interbloqueos y Jerarquías de Bloqueo (CTCI 15.3)"
+description: "Resuelve el dilema de concurrencia de los filosofos comensales de Dijkstra eliminando la espera circular mediante una jerarquia estricta de cerrojos en Java."
+date: "2026-05-06"
+tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-15-3-dining-philosophers.webp
 previewImage: /assets/images/ctci-15-3-dining-philosophers.webp
 ---
 
 > **TL;DR**
-> * **El Problema:** Cinco filósofos sentados alrededor de una mesa con cinco palillos. Si todos toman el palillo izquierdo a la vez, el sistema entra en interbloqueo permanente.
-> * **La Clave:** El deadlock requiere una condición de espera circular. Romper el ciclo ordenando los bloqueos por ID numérico garantiza que al menos un filósofo siempre pueda comer.
-> * **Complejidad:** Sobrecarga de sincronización $O(1)$ por comida sin ningún interbloqueo.
+> * **El Problema del Libro:** 5 filosofos comparten 5 palillos en una mesa circular. Cada uno necesita 2 palillos adyacentes para comer. Disena un algoritmo para que coman sin interbloqueos (deadlock) ni inanicion (starvation).
+> * **La Trampa del Interbloqueo:** Si todos toman su palillo izquierdo a la vez, se produce una **espera circular** y todos quedan bloqueados indefinidamente.
+> * **La Solución (Jerarquía de Recursos):** Numerar los palillos de $0$ a $4$. Cada filosofo debe adquirir siempre el palillo de **menor identificador primero** antes de solicitar el de mayor identificador.
+> * **Realidad en Producción:** Ordenacion de bloqueos en PostgreSQL y bloqueo de inodos en el kernel de Linux.
 
----
+## 1. Formulación del Problema del Libro
 
-## 1. Solución en Java Libre de Deadlock
+En *Cracking the Coding Interview* (Problema 15.3), se nos plantea:
+
+*"Resuelve el problema clasico de los filosofos comensales de Dijkstra garantizando la ausencia de interbloqueos mediante jerarquias de bloqueo concurrentes."*
+
+## 2. Las 4 Condiciones de Coffman
+
+1. **Exclusión Mutua:** Los recursos no se pueden compartir simultaneamente.
+2. **Retención y Espera:** Un hilo retiene un recurso mientras espera otro.
+3. **No Apropiación:** Los recursos no se pueden expropiar forzosamente.
+4. **Espera Circular:** Se forma un ciclo cerrado de dependencias $P_0 \to P_1 \to \dots \to P_0$.
+
+Al romper la simetria y obligar a adquirir el recurso menor primero, el filosofo 4 toma el palillo 0 (derecho) antes que el 4 (izquierdo), eliminando matematicamente la espera circular.
+
+## Implementación de Producción
 
 ```java
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class DiningPhilosophers {
-    public static class Chopstick {
-        private final int id;
-        private final Lock lock = new ReentrantLock();
+public class Philosopher extends Thread {
+    private final int id;
+    private final Lock lower;
+    private final Lock higher;
 
-        public Chopstick(int id) {
-            this.id = id;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void pickUp() {
-            lock.lock();
-        }
-
-        public void putDown() {
-            lock.unlock();
+    public Philosopher(int id, Lock left, Lock right) {
+        this.id = id;
+        if (System.identityHashCode(left) < System.identityHashCode(right)) {
+            this.lower = left;
+            this.higher = right;
+        } else {
+            this.lower = right;
+            this.higher = left;
         }
     }
 
-    public static class Philosopher extends Thread {
-        private final int id;
-        private final Chopstick lower;
-        private final Chopstick higher;
-
-        public Philosopher(int id, Chopstick left, Chopstick right) {
-            this.id = id;
-            if (left.getId() < right.getId()) {
-                this.lower = left;
-                this.higher = right;
-            } else {
-                this.lower = right;
-                this.higher = left;
-            }
-        }
-
-        public void eat() {
-            lower.pickUp();
+    private void eat() throws InterruptedException {
+        lower.lock();
+        try {
+            higher.lock();
             try {
-                higher.pickUp();
-                try {
-                    System.out.println("Philosopher " + id + " is eating.");
-                } finally {
-                    higher.putDown();
-                }
+                System.out.println("Filosofo " + id + " esta comiendo.");
+                Thread.sleep(10);
             } finally {
-                lower.putDown();
+                higher.unlock();
             }
+        } finally {
+            lower.unlock();
         }
+    }
 
-        @Override
-        public void run() {
-            for (int i = 0; i < 3; i++) {
+    @Override
+    public void run() {
+        try {
+            for (int i = 0; i < 100; i++) {
+                Thread.sleep(5);
                 eat();
             }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 }
 ```
+
+## Análisis de Complejidad
+
+| Métrica | Complejidad | Detalle Técnico |
+|---|---|---|
+| Sobrecarga de Bloqueo | `O(1)` | Exactamente 2 operaciones de cerrojo reentrante por comida. |
+| Riesgo de Deadlock | `Cero` | Imposibilidad estructural de ciclos en el grafo de recursos. |
+
+## Discusión de Ingeniería de Sistemas en Producción
+
+### Arquitectura de Sistemas en Producción: Bloqueo de Filas en Motores de Bases de Datos
+
+1. **Ordenación de Claves Primarias:** PostgreSQL y MySQL InnoDB ordenan los identificadores (`[42, 87]`) antes de adquirir bloqueos de fila en transacciones masivas para evitar interbloqueos entre transacciones concurrentes.
+2. **Bloqueo de Inodos en Linux VFS:** Durante operaciones `rename()`, el kernel bloquea los inodos en orden numerico ascendente de direcciones de memoria.
+
+## Casos Límite y Robustez en Producción
+
+1. **Interrupción de Hilos:** Manejo estricto con `try-finally` anidados para asegurar la liberacion del primer cerrojo si el segundo falla.

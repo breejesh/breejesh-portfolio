@@ -7,6 +7,7 @@ coverImage: /assets/images/apple-vs-openai-cover.webp
 previewImage: /assets/images/apple-vs-openai-cover.webp
 ---
 
+
 El 10 de julio de 2026, Apple presentó una demanda federal contra OpenAI en el Tribunal del Distrito Norte de California. La acusación sostiene que OpenAI organizó una campaña sistemática para apoderarse de secretos comerciales de Apple, planos de hardware internos y prototipos físicos con el fin de acelerar el desarrollo de sus propios dispositivos de inteligencia artificial.
 
 La demanda representa la ruptura total de una alianza anunciada dos años antes en la WWDC 2024. Lo que comenzó como una integración de Siri en la nube se ha transformado en un conflicto judicial por el control del hardware del futuro.
@@ -57,3 +58,4 @@ La fase de intercambio de pruebas obligará a ambas empresas a entregar correos 
 La demanda de Apple contra OpenAI no es una disputa corporativa habitual, sino un enfrentamiento por el control de la capa de hardware en la era de la inteligencia artificial.
 
 Al denunciar el robo de secretos comerciales y prototipos, Apple deja claro que defenderá sus inversiones en procesadores y diseño frente a antiguos socios. Con los modelos de software cada vez más estandarizados, el dispositivo físico que sostiene el usuario vuelve a ser el centro de la batalla en Silicon Valley.
+

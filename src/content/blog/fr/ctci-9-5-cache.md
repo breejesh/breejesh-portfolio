@@ -1,67 +1,118 @@
 ---
-title: "Cache: System de Cache en Mémoire pour Moteur de Recherche (CTCI 9.5)"
-description: "Problème CTCI 9.5: concevoir un système de cache en mémoire distribué pour un moteur de recherche."
-date: "2025-09-23"
+title: "Cache: Architecture de Cache de Requêtes Distribué et Invalidation Multi-Niveaux (CTCI 9.5)"
+description: "Concevez une couche de cache distribuée à haute disponibilité pour moteur de recherche avec éviction LRU en temps O(1) et invalidation événementielle."
+date: "2026-05-06"
 tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-9-5-cache.webp
 previewImage: /assets/images/ctci-9-5-cache.webp
 ---
 
-
 > **TL;DR**
-> * **Le Problème:** Maîtriser le problème CTCI 9.5 avec une efficacité de niveau production.
-> * **L'Approche:** Problème CTCI 9.5: concevoir un système de cache en mémoire distribué pour un moteur de recherche.
-> * **Complexité:** Compromis optimal entre temps et espace.
+> * **Le Problème du Livre:** Imaginez un serveur web pour un moteur de recherche simplifié avec 100 machines répondant aux requêtes en appelant un cluster coûteux `processSearch(string query)`. Le routage des requêtes étant aléatoire, concevez un système de cache et expliquez sa stratégie d'invalidation lors de la mise à jour des données.
+> * **La Solution Optimale:** Architecture Hybride à Deux Niveaux : (1) **Cache Local L1** : Chaque nœud frontal gère un LRU en mémoire pour les requêtes ultra-populaires (zéro saut réseau) ; (2) **Cluster Distribué L2** : Couche Redis / Memcached partitionnée par hachage cohérent ; (3) **Structure LRU** : Table de hachage + liste doublement chaînée opérant en $O(1)$ ; (4) **Invalidation** : Expiration par TTL et bus d'événements Pub/Sub lors des réindexations.
+> * **Réalité en Production:** Caches de moteurs de recherche (Google / Bing) et passerelles de bordure CDN.
 
-Cet article propose une explication claire et accessible du problème CTCI **9.5**. Nous examinons l'énoncé, comparons l'approche brute à la solution optimale en Java.
+## 1. Formulation du Problème du Livre
 
----
+Dans *Cracking the Coding Interview* (Problème 9.5), l'énoncé est :
 
-## 1. Analogie du monde réel
+*"Concevez un systeme de cache distribue pour 100 serveurs frontaux interrogeant un moteur de recherche lourd et detaillez la strategie d'invalidation lors des mises a jour d'index."*
 
-Pensez au problème CTCI 9.5 comme à l'organisation efficace d'objets au quotidien. Choisir la bonne structure de données élimine les itérations inutiles.
+## 2. Options d'Architecture : Local vs Distribué vs Hybride
 
----
+1. **Cache Local Isolé :** Zéro latence réseau mais faible efficacité globale car la même recherche est répliquée sur 100 serveurs.
+2. **Cache Distribué Dédié :** Taux de succès élevé et mémoire optimisée via `hash(query)`.
+3. **Cache Hybride L1/L2 :** Combinaison optimale d'un L1 local pour les requêtes virales et d'un L2 distribué pour le reste du trafic.
 
-## 2. Énoncé clair du problème
-
-**Problème 9.5:** Problème CTCI 9.5: concevoir un système de cache en mémoire distribué pour un moteur de recherche.
-
----
-
-## 3. Approche optimale et implémentation
+## Implémentation de Production
 
 ```java
-public class LRUCache<K, V> {
-    private final int capacity;
-    private final Map<K, V> map;
+import java.util.HashMap;
+import java.util.Map;
 
-    public LRUCache(int capacity) {
-        this.capacity = capacity;
-        this.map = new LinkedHashMap<>(capacity, 0.75f, true) {
-            @Override
-            protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
-                return size() > capacity;
-            }
-        };
+public class LRUQueryCache {
+    public static class Node {
+        public String query;
+        public String[] results;
+        public Node prev;
+        public Node next;
+
+        public Node(String q, String[] res) {
+            this.query = q;
+            this.results = res;
+        }
     }
 
-    public synchronized V get(K key) { return map.get(key); }
-    public synchronized void put(K key, V value) { map.put(key, value); }
+    private final int capacity;
+    private final Map<String, Node> map = new HashMap<>();
+    private final Node head = new Node(null, null);
+    private final Node tail = new Node(null, null);
+
+    public LRUQueryCache(int cap) {
+        this.capacity = cap;
+        head.next = tail;
+        tail.prev = head;
+    }
+
+    public synchronized String[] get(String query) {
+        Node node = map.get(query);
+        if (node == null) return null;
+
+        detach(node);
+        attach(node);
+        return node.results;
+    }
+
+    public synchronized void put(String query, String[] results) {
+        if (map.containsKey(query)) {
+            Node node = map.get(query);
+            node.results = results;
+            detach(node);
+            attach(node);
+            return;
+        }
+
+        if (map.size() >= capacity) {
+            Node lru = tail.prev;
+            detach(lru);
+            map.remove(lru.query);
+        }
+
+        Node newNode = new Node(query, results);
+        attach(newNode);
+        map.put(query, newNode);
+    }
+
+    private void attach(Node node) {
+        node.next = head.next;
+        node.prev = head;
+        head.next.prev = node;
+        head.next = node;
+    }
+
+    private void detach(Node node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
 }
 ```
 
----
+## Analyse de Complexité et Architecture
 
-## 4. Complexité Temporelle et Spatiale
+| Opération | Complexité | Détail Technique |
+|---|---|---|
+| Lecture Cache (`get`) | `O(1)` | Recherche directe par pointeur et repositionnement en tête. |
+| Écriture Cache (`put`) | `O(1)` | Insertion et éviction en temps constant dans la liste chaînée. |
+| Empreinte Mémoire | `O(C)` | Strictement bornée par la capacité $C$ configurée. |
 
-| Métrique | Complexité | Explication |
-| --- | --- | --- |
-| Complexité Temporelle | O(N) / O(log N) | Parcours optimal des données |
-| Complexité Spatiale | O(1) / O(N) | Empreinte mémoire contrôlée |
+## Ingénierie des Systèmes en Production
 
----
+### Architecture Système : Stratégies d'Invalidation
 
-## 5. Cas Limites et Résumé
+1. **Expiration par TTL (Time to Live) :** Dégradation temporelle naturelle (ex. 300 s).
+2. **Invalidation par Événements Kafka :** Diffusion de messages lors de l'ingestion de nouveaux documents pour purger les requêtes impactées.
 
-Vérifiez toujours les conditions aux limites, les valeurs nulles et la taille des tableaux en entretien.
+## Cas Limites et Robustesse
+
+1. **Effet de Ruée (Cache Stampede) :** Utilisation de verrous à exécution unique (single-flight mutex) pour éviter les requêtes concurrentes redondantes vers le moteur de recherche.
+2. **Mise en Cache des Résultats Vides :** Cache avec TTL court pour les requêtes sans réponse afin de bloquer les attaques par pénétration.

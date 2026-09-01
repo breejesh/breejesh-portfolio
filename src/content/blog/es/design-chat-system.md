@@ -423,3 +423,4 @@ Un sistema de chat no es "WebSockets más una base de datos". Son sesiones en ti
 Espina de entrevista: **HTTP para el CRUD aburrido, WebSocket para el cable en vivo, almacén como fuente de verdad, push como ruta rápida, inbox por usuario en grupos pequeños, heartbeats para presencia.** Todo lo demás es dimensionar, manejar fallos y acotar el producto.
 
 Cuando alguien pregunte "¿y si el grupo tiene un millón de miembros?", cambia el modelo de fan-out. No solo añadas servidores a un diseño de walkie-talkie y esperes.
+

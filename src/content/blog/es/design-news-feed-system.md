@@ -399,3 +399,4 @@ Una respuesta sólida tiene:
 Si sobra tiempo: escala horizontal del web tier, sharding de posts, réplicas de lectura multi-región, y por qué el feed es un índice derivado y no un join SQL gigante de "todo lo que escribieron mis amigos."
 
 Relacionado en este blog: [patrones de caché Redis](/blog/es/redis-caching-patterns), [arquitectura event-driven](/blog/es/event-driven-architecture-intro), [diseñar un rate limiter](/blog/es/design-a-rate-limiter).
+

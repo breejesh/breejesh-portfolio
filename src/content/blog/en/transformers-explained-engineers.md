@@ -7,6 +7,7 @@ coverImage: /assets/images/transformers-explained-engineers.webp
 previewImage: /assets/images/transformers-explained-engineers.webp
 ---
 
+
 You do not need a PhD to reason about transformers. You need a mental model that survives contact with production: why latency jumps at long prompts, why VRAM dies before the CPU does, and why "128k context" is not free.
 
 This is that map. No paper recap. No hype. Just the pieces you will actually touch when you call an API, run a local model, or debug an inference server.
@@ -191,3 +192,4 @@ Where production pain shows up:
 If you only keep one systems sentence: **prefill builds the cache, decode reads a growing cache while streaming weights, and your bill tracks tokens through both phases.**
 
 That is enough to read product docs, size GPUs, and argue productively with the model team without pretending you reinvented 2017 paper math.
+

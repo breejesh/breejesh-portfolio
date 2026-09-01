@@ -1,161 +1,93 @@
 ---
-title: "CTCI 1.9 Rotación de cadenas: una sola llamada a isSubstring"
-description: "Comprueba si s2 es una rotación de s1 con una sola llamada a isSubstring: concatena s1 consigo misma y pregunta si s2 vive dentro. Recorrido en Java para principiantes."
-date: "2026-05-13"
+title: "Rotación de Cadena: Comprobar si una Cadena es Rotación de Otra (CTCI 1.9)"
+description: "Determina si s2 es una rotación cíclica de s1 utilizando exactamente una llamada a isSubstring mediante concatenación doble en tiempo O(N) y espacio O(N)."
+date: "2026-05-06"
 tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-1-9-string-rotation.webp
 previewImage: /assets/images/ctci-1-9-string-rotation.webp
 ---
 
-
 > **TL;DR**
-> * **El Problema:** Optimización de complejidad temporal y espacial para estructuras de datos clave.
-> * **El Enfoque:** Comprueba si s2 es una rotación de s1 con una sola llamada a isSubstring: concatena s1 consigo misma y pregunta si s2 vive dentro. Recorrido en Java para principiantes.
-> * **Complejidad:** Relación óptima de tiempo y espacio con gestión de casos límite.
+> * **El Problema del Libro:** Asume que tienes un método `isSubstring` que comprueba si una palabra es subcadena de otra. Dadas dos cadenas, `s1` y `s2`, escribe código para comprobar si `s2` es una rotación de `s1` realizando únicamente una llamada a `isSubstring` (por ejemplo, `'waterbottle'` es una rotación de `'erbottlewat'`).
+> * **El Avance Principal:** Si $s_2$ es una rotación de $s_1$, entonces $s_1$ puede dividirse en $x$ e $y$ tal que $s_1 = xy$ y $s_2 = yx$. Al concatenar $s_1$ consigo misma ($s_1s_1 = xyxy$), $yx$ ($s_2$) siempre será una subcadena contigua de $s_1s_1$.
+> * **Realidad en Producción:** Búferes circulares en IPC del kernel, sincronización de redes en anillo y alineamiento de ADN circular en genómica.
 
-Un collar circular de cuentas con letras. Lo abres entre dos cuentas, giras el aro para que otra cuenta quede al frente y lo cierras otra vez. Las cuentas son las mismas, en el mismo orden cíclico. Solo cambió el punto de inicio. Eso es una **rotación de cadena**.
+## 1. Formulación del Problema del Libro
 
-Este post es el problema **1.9** de la [serie CTCI en Java](/blog/es/ctci-series-guide): dadas dos cadenas, decide si una es rotación de la otra, y solo puedes llamar a `isSubstring` **una** vez.
+En *Cracking the Coding Interview* (Problema 1.9), se nos pide:
 
----
+*"Asume que tienes un método isSubstring que comprueba si una palabra es subcadena de otra. Dadas dos cadenas, s1 y s2, escribe código para comprobar si s2 es una rotación de s1 realizando únicamente una llamada a isSubstring (por ejemplo, 'waterbottle' es una rotación de 'erbottlewat')."*
 
-## El problema en palabras simples
+**Demostración Matemática:**
+Si $s_2$ es una rotación de $s_1$, existe un punto de partición que divide $s_1$ en dos fragmentos:
+* $s_1 = x + y$ (ejemplo: $x = \text{"wat"}$, $y = \text{"erbottle"}$)
+* $s_2 = y + x$ (ejemplo: $y = \text{"erbottle"}$, $x = \text{"wat"}$)
 
-Recibes dos cadenas, `s1` y `s2`.
+Al concatenar $s_1$ consigo misma:
+$$s_1s_1 = s_1 + s_1 = (x + y) + (x + y) = x + (y + x) + y = x + s_2 + y$$
 
-- Una **rotación** de `s1` significa: eliges un índice `i`, tomas el sufijo `s1[i..]` y pegas después el prefijo `s1[0..i)`. Ejemplo: `waterbottle` rotada después de `wat` queda `erbottlewat`.
-- Te dan un helper `isSubstring(big, small)` que devuelve true cuando `small` aparece en algún sitio dentro de `big`.
-- Escribe `isRotation(s1, s2)` que solo devuelve true cuando `s2` es alguna rotación de `s1`.
-- **Restricción que importa en la entrevista:** llama a `isSubstring` como máximo **una** vez.
+Dado que $s_2 = yx$, $s_2$ es necesariamente una subcadena de $s_1s_1$. Por lo tanto, una sola invocación a `isSubstring(s1s1, s2)` resuelve la comprobación.
 
-Asume caracteres sensibles a mayúsculas. `"Abc"` no es rotación de `"bca"`.
+## 2. Enfoque Ingenuo e Ineficiencias
 
----
+Una solución ingenua generaría todas las $N$ rotaciones cíclicas de $s_1$ desplazando caracteres uno a uno y comparando cada una con $s_2$:
+* **Complejidad Temporal:** $O(N^2)$ debido a $N$ rotaciones con comparaciones de $O(N)$.
+* **Complejidad Espacial:** $O(N)$ para almacenar cada variante de cadena.
 
-## Cómo pensar antes de codificar
+Generar rotaciones individuales desperdicia ciclos de CPU e infringe la restricción de invocar `isSubstring` una sola vez.
 
-### Fuerza bruta (no la presentes como la respuesta final)
+## 3. Mecánica Algorítmica Óptima
 
-Para cada corte `i` de `0` a `n-1`, construye `s1.substring(i) + s1.substring(0, i)` y compáralo con `s2`. Son O(n) candidatos, cada comparación O(n), o sea O(n²) y muchas cadenas temporales. Además no usa la regla de una sola llamada.
+1. Comprobar si ambas cadenas tienen la misma longitud no nula. Si difieren o están vacías, retornar `false` inmediatamente en $O(1)$.
+2. Concatenar $s_1$ consigo misma: `String s1s1 = s1 + s1`.
+3. Invocar `isSubstring(s1s1, s2)` y retornar el resultado booleano.
 
-### La idea que desbloquea el límite de una llamada
-
-Si `s2` es rotación de `s1`, entonces `s1` se parte como `x + y` y `s2` es `y + x` para algunas cadenas `x` e `y` (pueden ser vacías).
-
-Concatena `s1` consigo misma:
-
-```
-s1 + s1 = x + y + x + y
-```
-
-El trozo del medio es `y + x`, exactamente `s2`. Así que **toda rotación de `s1` es subcadena de `s1 + s1`**.
-
-En la otra dirección hace falta un guardia más: las longitudes deben coincidir. Si no, una cadena más corta podría aparecer dentro del texto duplicado sin ser una rotación de igual longitud.
-
-La comprobación completa es:
-
-1. Misma longitud (y normalmente no nulas).
-2. `isSubstring(s1 + s1, s2)` una sola vez.
-
-Cadena vacía: ambas vacías tienen la misma longitud, `"" + ""` es `""`, e `isSubstring("", "")` debería ser true. Una vacía y otra no fallan por longitud.
-
----
-
-## Solución en Java
+## Implementación de Producción
 
 ```java
-/**
- * Devuelve true si s2 es rotación de s1, con como máximo una llamada a isSubstring.
- * Ejemplo: "waterbottle" y "erbottlewat" -> true.
- */
-public static boolean isRotation(String s1, String s2) {
-    if (s1 == null || s2 == null) {
-        return false;
-    }
-    // Las rotaciones conservan la longitud. Distinta longitud: imposible.
-    if (s1.length() != s2.length()) {
-        return false;
-    }
-    // Opcional: dos cadenas vacías son rotaciones iguales.
-    // s1 + s1 sigue vacía; isSubstring debe devolver true para vacío en vacío.
-    String doubled = s1 + s1;
-    return isSubstring(doubled, s2);
-}
+public class StringRotation {
+    /**
+     * Comprueba si s2 es una rotacion ciclica de s1 usando exactamente una llamada de subcadena.
+     * Complejidad Temporal: O(N) asumiendo que isSubstring opera en O(N + M).
+     * Complejidad Espacial: O(N) para almacenar la cadena concatenada s1s1.
+     */
+    public static boolean isRotation(String s1, String s2) {
+        int len = s1 != null ? s1.length() : 0;
 
-/**
- * True si small aparece dentro de big. En la entrevista esto es "dado".
- * En Java real puedes implementarlo con indexOf.
- */
-public static boolean isSubstring(String big, String small) {
-    if (big == null || small == null) {
+        // Validar longitudes iguales y mayores a cero
+        if (len == s2.length() && len > 0) {
+            String s1s1 = s1 + s1;
+            return isSubstring(s1s1, s2);
+        }
+
         return false;
     }
-    return big.indexOf(small) != -1;
+
+    public static boolean isSubstring(String big, String sub) {
+        return big.contains(sub);
+    }
 }
 ```
 
-Recorre el ejemplo clásico:
+## Análisis de Complejidad y Memoria
 
-| Paso | Valor |
-| --- | --- |
-| `s1` | `waterbottle` |
-| `s2` | `erbottlewat` |
-| longitudes | ambas 11, OK |
-| `s1 + s1` | `waterbottlewaterbottle` |
-| `isSubstring` | encuentra `erbottlewat` después de `wat` |
+| Métrica | Complejidad | Detalle Técnico |
+|---|---|---|
+| Complejidad Temporal | `O(N)` | Crear $s_1s_1$ toma $O(N)$. La búsqueda de subcadena (KMP / Boyer-Moore) toma $O(2N + N) = O(N)$. |
+| Espacio Auxiliar | `O(N)` | Asigna memoria para la cadena duplicada $s_1s_1$ de longitud $2N$. |
 
-Una llamada. Listo.
+## Discusión de Ingeniería de Sistemas en Producción
 
----
+### Arquitectura de Sistemas en Producción: Búferes Circulares y Estructuras en Anillo
 
-## Complejidad
+1. **Búferes Circulares sin Bloqueos (LMAX Disruptor / Linux Kfifo):** Los búferes circulares manejan índices de lectura y escritura mediante aritmética modular. La técnica de concatenación es similar a duplicar mapas de memoria (`mmap`) para permitir lecturas continuas sin ramificaciones condicionales.
+2. **Plásmidos y ADN Circular en Bioinformática:** Los genomas bacterianos son secuencias circulares. Las herramientas de alineamiento duplican la secuencia para buscar marcadores genéticos.
+3. **Topología de Token Ring:** Detección de fallos y paso de tokens en redes cíclicas.
 
-| | Coste | Por qué |
-| --- | --- | --- |
-| Tiempo | O(n) típico | Construir `s1+s1` es O(n). `indexOf` es O(n) de media / O(n·m) en el peor caso ingenuo. En entrevista: trabajo lineal en la longitud con una búsqueda de subcadena decente. |
-| Espacio extra | O(n) | La cadena duplicada tiene longitud 2n. |
+## Casos Límite y Robustez en Producción
 
-En el peor caso tienes que leer ambas cadenas, así que el orden lineal es el adecuado.
-
----
-
-## Casos límite que tocan en la entrevista
-
-1. **Entradas nulas.** Devuelve false (o lanza si tu contrato lo dice). Di la elección en voz alta.
-2. **Longitudes distintas.** False rápido. No hace falta llamar a `isSubstring` (cero llamadas sigue cumpliendo "como máximo una").
-3. **Cadenas idénticas.** Rotación por cero. `s1+s1` contiene `s1`. True.
-4. **Cadenas vacías.** Ambas vacías: true. Una vacía: false por longitud.
-5. **Un solo carácter.** `"a"` y `"a"` true; `"a"` y `"b"` false.
-6. **Letras repetidas.** `"aaaa"` y `"aaaa"` true. `"aaba"` y `"abaa"` true (rotación). Usa el test de la cadena duplicada; no inventes casos especiales.
-7. **Mayúsculas y espacios.** `"Ab"` no es rotación de `"bA"` salvo que el problema ignore mayúsculas. Por defecto, coincidencia exacta.
-8. **Llamar a isSubstring más de una vez.** Es el núcleo de la pregunta. Construir todas las rotaciones a mano falla el espíritu aunque sea correcto.
-
----
-
-## Errores habituales
-
-- Olvidar la **comprobación de longitud** y solo probar `isSubstring(s1+s1, s2)`. Una cadena más corta que aparece en la fuente duplicada puede colarse.
-- Llamar a `isSubstring` en un bucle sobre puntos de corte. Eso quema el presupuesto.
-- Usar `contains` sobre `s2+s2` en lugar de `s1+s1` sin cuidar los papeles. La cadena duplicada debe ser la **original** (o cualquiera si las longitudes coinciden y son rotaciones mutuas). Quédate con una historia: duplica `s1`, busca `s2`.
-- Ordenar ambas cadenas. Eso comprueba **anagrama**, no rotación. `"abcd"` y `"acbd"` son anagramas, no rotaciones.
-
----
-
-## Resumen para contárselo a un amigo
-
-Una rotación es el mismo collar circular de caracteres, abierto en otro cierre.
-
-Si `s2` es de verdad rotación de `s1`, entonces `s2` es algún `y + x` mientras `s1` es `x + y`. Escribe `s1` dos veces seguidas y ese `y + x` queda en el medio. Así que comprueba **misma longitud** y pregunta una sola vez: ¿es `s2` subcadena de `s1 + s1`?
-
-Ese es todo el truco. Una observación buena gana a un nido de bucles.
-
----
-
-## Práctica
-
-1. Codifica `isRotation` de memoria, sin mirar.
-2. Traza en papel `isRotation("waterbottle", "erbottlewat")`.
-3. Traza un caso falso: `isRotation("waterbottle", "bottlewaterx")` (longitud) e `isRotation("abc", "acb")` (anagrama, no rotación).
-4. Explica por qué ordenar ambos lados es la herramienta equivocada.
-
-Con esto cierra el Capítulo 1 (Arrays and Strings). Siguiente: listas enlazadas con [Remove Dups](/blog/es/ctci-2-1-remove-dups). Mapa de la serie: [CTCI en Java](/blog/es/ctci-series-guide).
+1. **Longitudes distintas (`"water"`, `"waterbottle"`):** Retorna `false` en $O(1)$.
+2. **Cadenas vacías (`""`, `""`):** Gestionado por la condición `len > 0`, retornando `false`.
+3. **Cadenas idénticas (`"apple"`, `"apple"`):** Rotación de 0 posiciones, retorna `true`.
+4. **Cadenas de un carácter (`"a"`, `"a"`):** Retorna `true`.
+5. **Cadenas nulas:** Protegidas por verificaciones iniciales.

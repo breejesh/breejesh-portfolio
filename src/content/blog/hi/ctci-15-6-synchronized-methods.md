@@ -1,29 +1,87 @@
 ---
-title: "Synchronized Methods: Java Object Locks & Class Locks (CTCI 15.6)"
-description: "CTCI problem 15.6: understanding thread blocking behavior between synchronized instance methods vs static class methods in Java."
-date: "2026-03-14"
-tags: [एल्गोरिदम और डेटा संरचनाएं, बैकएंड और डेटाबेस]
+title: "सिंक्रोनाइज़्ड मेथड्स (Synchronized Methods): जावा ऑब्जेक्ट मॉनिटर लॉक्स और थ्रेड रेस इनवेरिएंट्स (सीटीसीआई १५.६)"
+description: "जावा में सिंक्रोनाइज़्ड इंस्टेंस मेथड्स, इंट्रिन्सिक मॉनिटर लॉक्स (Mark Word), सामान्य मेथड्स और क्लास-स्तरीय लॉक्स के व्यवहार का गहन विश्लेषण।"
+date: "2026-05-06"
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-15-6-synchronized-methods.webp
 previewImage: /assets/images/ctci-15-6-synchronized-methods.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १५.६ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १५.६: understanding thread blocking behavior between synchronized instance methods vs static class methods in जावा.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** आपके पास एक क्लास है जिसमें एक `synchronized` मेथड A और एक सामान्य मेथड B है। यदि एक ही इंस्टेंस पर दो थ्रेड्स चल रहे हैं, तो क्या वे दोनों एक ही समय में A को निष्पादित कर सकते हैं? क्या वे एक ही समय में A और B दोनों को निष्पादित कर सकते हैं?
+> * **जावा समवर्ती नियम:**
+>   1. **मेथड A पर दो थ्रेड्स (समान इंस्टेंस)**: **नहीं**। `synchronized` मेथड `this` के मॉनिटर लॉक को प्राप्त करता है। दूसरा थ्रेड लॉक मुक्त होने तक `BLOCKED` स्थिति में रहता है।
+>   2. **A पर एक थ्रेड और B पर दूसरा थ्रेड (समान इंस्टेंस)**: **हाँ**। मेथड B सिंक्रोनाइज़्ड नहीं है; यह मॉनिटर लॉक का अनुरोध नहीं करता और समानांतर रूप से निष्पादित होता है।
+>   3. **यदि मेथड B भी सिंक्रोनाइज़्ड है**: **नहीं**। दोनों मेथड्स समान `this` मॉनिटर लॉक के लिए प्रतिस्पर्धा करते हैं।
+>   4. **अलग-अलग इंस्टेंस (`obj1` और `obj2`)**: **हाँ**। हीप मेमोरी में प्रत्येक ऑब्जेक्ट का अपना स्वतंत्र मॉनिटर होता है।
+>   5. **स्टैटिक सिंक्रोनाइज़्ड मेथड्स**: क्लास ऑब्जेक्ट (`MyClass.class`) को लॉक करते हैं।
+> * **रियल-वर्ल्ड सिस्टम:** स्प्रिंग सिंगलटन बीन्स में डेटा रेस की रोकथाम।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१५.६** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १५.६: understanding thread blocking behavior between synchronized instance methods vs static class methods in जावा.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १५.६) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"जावा में सिंक्रोनाइज़्ड और गैर-सिंक्रोनाइज़्ड मेथड्स के बीच समवर्ती निष्पादन नियमों और ऑब्जेक्ट मॉनिटर व्यवहार का विश्लेषण करें।"*
+
+## २. जेवीएम मॉनिटर लॉक की आंतरिक संरचना
+
+जावा में प्रत्येक ऑब्जेक्ट के हेडर (Mark Word) में एक इंट्रिन्सिक मॉनिटर लॉक होता है। गैर-सिंक्रोनाइज़्ड मेथड इस लॉक की जांच किए बिना सीधे निष्पादित होते हैं।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public synchronized void methodA() {} // Locks on 'this'
-public static synchronized void methodB() {} // Locks on 'Foo.class'
+public class SynchronizedDemo {
+    private int sharedCounter = 0;
+
+    public synchronized void methodA(String threadName) {
+        System.out.println(threadName + " methodA में प्रवेश किया (मॉनिटर लॉक धारण किया)");
+        try {
+            Thread.sleep(1000);
+            sharedCounter += 10;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        System.out.println(threadName + " methodA से बाहर निकला (मॉनिटर लॉक छोड़ा)");
+    }
+
+    public void methodB(String threadName) {
+        System.out.println(threadName + " methodB को समानांतर चला रहा है! (sharedCounter=" + sharedCounter + ")");
+    }
+
+    public static void main(String[] args) {
+        SynchronizedDemo instance = new SynchronizedDemo();
+
+        new Thread(() -> instance.methodA("Thread-1")).start();
+
+        new Thread(() -> {
+            try { Thread.sleep(200); } catch (InterruptedException ignored) {}
+            instance.methodB("Thread-2"); // तुरंत निष्पादित होगा!
+        }).start();
+
+        new Thread(() -> {
+            try { Thread.sleep(300); } catch (InterruptedException ignored) {}
+            instance.methodA("Thread-3"); // Thread-1 के समाप्त होने तक BLOCKED रहेगा!
+        }).start();
+    }
+}
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## परिदृश्य तुलना तालिका
+
+| परिदृश्य | लक्ष्य मेथड्स | इंस्टेंस | क्या समानांतर चलेगा? | मूल कारण |
+|---|---|---|---|---|
+| **परिदृश्य १** | `methodA()` vs `methodA()` | समान | **नहीं** | समान मॉनिटर लॉक के लिए विवाद। |
+| **परिदृश्य २** | `methodA()` vs `methodB()` | समान | **हाँ** | `methodB()` लॉक का अनुरोध नहीं करता। |
+| **परिदृश्य ३** | दोनों `synchronized` | समान | **नहीं** | दोनों को समान `this` लॉक चाहिए। |
+| **परिदृश्य ४** | `methodA()` vs `methodA()` | अलग | **हाँ** | हीप में स्वतंत्र ऑब्जेक्ट मॉनिटर्स। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: डेटा रेस की रोकथाम
+
+१. **गैर-सिंक्रोनाइज़्ड रीड रेस:** यदि `methodB()` उन वेरिएबल्स को पढ़ता है जिन्हें `methodA()` बदल रहा है, तो सीपीयू कैश के कारण पुराना डेटा दिखने का जोखिम रहता है।
+२. **रीड-राइट लॉक्स:** कई पाठकों को अनुमति देने और लेखकों को अलग करने के लिए `ReentrantReadWriteLock` का उपयोग करें।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **लॉक इनवर्जन डेडलॉक:** यदि दो सिंक्रोनाइज़्ड मेथड्स एक-दूसरे के ऑब्जेक्ट्स को परस्पर कॉल करते हैं, तो डेडलॉक से बचने के लिए वैश्विक लॉक क्रम लागू करें।

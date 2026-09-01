@@ -1,67 +1,158 @@
 ---
-title: "सोशल नेटवर्क: बड़े पैमाने पर सबसे छोटा कनेक्शन पथ खोजें (CTCI 9.2)"
-description: "सीटीसीआई समस्या ९.२: एक अरब-नोड वाले सोशल ग्राफ में दो उपयोगकर्ताओं के बीच कनेक्शन पथ की गणना करने वाला वितरित सिस्टम डिजाइन करें।"
-date: "2026-04-26"
+title: "सोशल नेटवर्क (Social Network): प्लैनेटरी स्केल पर द्विदिशीय BFS पाथ सर्च (सीटीसीआई ९.२)"
+description: "द्विदिशीय (Bidirectional) BFS और वितरित शार्डिंग का उपयोग करके अरबों उपयोगकर्ताओं के सोशल ग्राफ पर O(k^(d/2)) समय में दो लोगों के बीच सबसे छोटे कनेक्शन पथ की खोज।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-9-2-social-network.webp
 previewImage: /assets/images/ctci-9-2-social-network.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** उत्पादन-स्तरीय दक्षता के साथ सीटीसीआई समस्या ९.२ में महारत हासिल करना।
-> * **दृष्टिकोण:** सीटीसीआई समस्या ९.२: एक अरब-नोड वाले सोशल ग्राफ में दो उपयोगकर्ताओं के बीच कनेक्शन पथ की गणना करने वाला वितरित सिस्टम डिजाइन करें।
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** आप एक बहुत बड़े सोशल नेटवर्क (Facebook, LinkedIn) के लिए डेटा संरचनाओं और एल्गोरिदम को कैसे डिज़ाइन करेंगे? बताएं कि आप दो लोगों के बीच कनेक्शन / सबसे छोटा रास्ता (उदा. मैं $\to$ बॉब $\to$ सुसान $\to$ जेसन $\to$ आप) कैसे खोजेंगे।
+> * **मुख्य समाधान:** **वितरित शार्डिंग + द्विदिशीय (Bidirectional) BFS**: (१) $k \approx 100$ दोस्तों और $d \approx 6$ दूरी के साथ पारंपरिक एक-दिशीय BFS $O(k^d) = 100^6 = 10^{12}$ नोड्स की खोज करता है; (२) द्विदिशीय BFS स्रोत और गंतव्य दोनों से एक साथ खोज शुरू करता है और बीच में मिलता है, जिससे केवल **$O(2 \cdot k^{d/2}) = 2 \cdot 100^3 = 2 \times 10^6$ नोड्स** का मूल्यांकन होता है (५,००,००० गुना गति!); (३) डेटाबेस आरपीसी (RPC) कॉल्स को कम करने के लिए `ServerID` द्वारा बैच क्वेरीज़ की जाती हैं।
+> * **रियल-वर्ल्ड सिस्टम:** लिंक्डइन "डिग्री ऑफ कनेक्शन" इंजन और फेसबुक टीएओ (Facebook TAO)।
 
-तकनीकी साक्षात्कार में आपसे समस्या **९.२** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं। हम समस्या के कथन की जांच करते हैं, इष्टतम समाधान की तुलना करते हैं और जावा (जावा) कोड लिखते हैं।
+## १. किताब का सवाल और संदर्भ
 
----
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या ९.२) में पूछा गया है:
 
-## १. वास्तविक जीवन की उपमा
+*"अरबों नोड्स वाले सोशल नेटवर्क पर दो उपयोगकर्ताओं के बीच सबसे छोटा मित्र संबंध मार्ग खोजने के लिए वितरित आर्किटेक्चर और एल्गोरिदम डिज़ाइन करें।"*
 
-सीटीसीआई समस्या ९.२ को वास्तविक जीवन में वस्तुओं को कुशलतापूर्वक व्यवस्थित करने की तरह सोचें। सही डेटा संरचना का चयन अनावश्यक पुनरावृत्तियों को समाप्त करता है।
+## २. द्विदिशीय BFS का गणितीय लाभ
 
----
+मान लीजिए $k \approx 100$ औसत मित्र संख्या है और $d \approx 6$ पृथक्करण की डिग्री है:
+* **एक-दिशीय BFS:** $k^d = 100^6 = 1,000,000,000,000$ नोड्स।
+* **द्विदिशीय BFS:** $2 \times k^{d/2} = 2 \times 100^3 = 2,000,000$ नोड्स।
 
-## २. स्पष्ट समस्या कथन
+खोज क्षेत्र **५,००,००० गुना** कम हो जाता है।
 
-**समस्या ९.२:** सीटीसीआई समस्या ९.२: एक अरब-नोड वाले सोशल ग्राफ में दो उपयोगकर्ताओं के बीच कनेक्शन पथ की गणना करने वाला वितरित सिस्टम डिजाइन करें।
-
----
-
-## ३. इष्टतम दृष्टिकोण और कार्यान्वयन
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public class BidirectionalBreadthFirstSearch {
-    public List<Long> findShortestPath(Map<Long, List<Long>> graph, long source, long target) {
-        Queue<Long> qSource = new LinkedList<>(), qTarget = new LinkedList<>();
-        Map<Long, Long> parentsSource = new HashMap<>(), parentsTarget = new HashMap<>();
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 
-        qSource.add(source); parentsSource.put(source, null);
-        qTarget.add(target); parentsTarget.put(target, null);
+public class SocialNetworkBFS {
+    public static class Person {
+        private final int personID;
+        private final List<Integer> friends = new ArrayList<>();
 
-        while (!qSource.isEmpty() && !qTarget.isEmpty()) {
-            Long intersect = searchLevel(graph, qSource, parentsSource, parentsTarget);
-            if (intersect != null) return mergePaths(parentsSource, parentsTarget, intersect);
-            intersect = searchLevel(graph, qTarget, parentsTarget, parentsSource);
-            if (intersect != null) return mergePaths(parentsSource, parentsTarget, intersect);
+        public Person(int id) { this.personID = id; }
+        public int getID() { return personID; }
+        public List<Integer> getFriends() { return friends; }
+        public void addFriend(int friendID) { friends.add(friendID); }
+    }
+
+    public static class PathNode {
+        public final Person person;
+        public final PathNode previousNode;
+
+        public PathNode(Person p, PathNode prev) {
+            this.person = p;
+            this.previousNode = prev;
         }
-        return Collections.emptyList();
+
+        public List<Person> collapse(boolean startsWithRoot) {
+            List<Person> path = new ArrayList<>();
+            PathNode node = this;
+            while (node != null) {
+                if (startsWithRoot) path.add(0, node.person);
+                else path.add(node.person);
+                node = node.previousNode;
+            }
+            return path;
+        }
+    }
+
+    public static class BFSData {
+        public Queue<PathNode> toVisit = new LinkedList<>();
+        public Map<Integer, PathNode> visited = new HashMap<>();
+
+        public BFSData(Person root) {
+            PathNode sourcePath = new PathNode(root, null);
+            toVisit.add(sourcePath);
+            visited.put(root.getID(), sourcePath);
+        }
+
+        public boolean isFinished() { return toVisit.isEmpty(); }
+    }
+
+    public static List<Person> findPathBiBFS(Map<Integer, Person> people, int source, int destination) {
+        if (!people.containsKey(source) || !people.containsKey(destination)) return null;
+
+        BFSData sourceData = new BFSData(people.get(source));
+        BFSData destData = new BFSData(people.get(destination));
+
+        while (!sourceData.isFinished() && !destData.isFinished()) {
+            Person collision = searchLevel(people, sourceData, destData);
+            if (collision != null) {
+                return mergePaths(sourceData, destData, collision.getID());
+            }
+
+            collision = searchLevel(people, destData, sourceData);
+            if (collision != null) {
+                return mergePaths(sourceData, destData, collision.getID());
+            }
+        }
+        return null;
+    }
+
+    private static Person searchLevel(Map<Integer, Person> people, BFSData primary, BFSData secondary) {
+        int count = primary.toVisit.size();
+        for (int i = 0; i < count; i++) {
+            PathNode pathNode = primary.toVisit.poll();
+            int personID = pathNode.person.getID();
+
+            if (secondary.visited.containsKey(personID)) {
+                return pathNode.person;
+            }
+
+            Person person = pathNode.person;
+            for (int friendID : person.getFriends()) {
+                if (!primary.visited.containsKey(friendID)) {
+                    Person friend = people.get(friendID);
+                    PathNode next = new PathNode(friend, pathNode);
+                    primary.visited.put(friendID, next);
+                    primary.toVisit.add(next);
+                }
+            }
+        }
+        return null;
+    }
+
+    private static List<Person> mergePaths(BFSData sourceData, BFSData destData, int collisionID) {
+        PathNode one = sourceData.visited.get(collisionID);
+        PathNode two = destData.visited.get(collisionID);
+
+        List<Person> pathOne = one.collapse(true);
+        List<Person> pathTwo = two.collapse(false);
+
+        pathTwo.remove(0);
+        pathOne.addAll(pathTwo);
+        return pathOne;
     }
 }
 ```
 
----
+## जटिलता और आर्किटेक्चर विश्लेषण
 
-## ४. समय और स्थान जटिलता (टाइम एंड स्पेस कॉम्प्लेक्सिटी)
+| मापदंड | जटिलता | तकनीकी विवरण |
+|---|---|---|
+| खोज समय | `O(k^(d/2))` | मध्य बिंदु पर टकराव, $10^{12}$ नोड्स को घटाकर $2 \times 10^6$ करना। |
+| सहायक मेमोरी | `O(k^(d/2))` | विज़िट किए गए नोड्स और कतार मेमोरी। |
 
-| मीट्रिक | जटिलता | विवरण |
-| --- | --- | --- |
-| समय जटिलता | ओ(एन) / ओ(लॉग एन) | डेटा के माध्यम से इष्टतम पास |
-| स्थान जटिलता | ओ(१) / ओ(एन) | मेमोरी सीमाएं बनी रहीं |
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
 
----
+### प्रोडक्शन सिस्टम आर्किटेक्चर: वितरित ग्राफ स्टोर (Facebook TAO)
 
-## ५. सीमांत मामले (एज केसेस) और सारांश
+१. **`ServerID` द्वारा पार्टिशनिंग:** मित्र सूचियों को सर्वर नोड्स में विभाजित किया जाता है। आरपीसी कॉल्स को कम करने के लिए बैच क्वेरीज़ की जाती हैं।
+२. **म्यूचुअल फ्रेंड्स कैशिंग:** रेडिस सेट इंटरसेक्शन (`SINTER`) द्वारा २-डिग्री संबंधों का त्वरित मूल्यांकन।
 
-कोडिंग इंटरव्यू में हमेशा सीमांत स्थितियों, शून्य (null) इनपुट और एरे आकार की सीमाओं की जांच करें।
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **कोई संबंध मार्ग नहीं:** कतार खाली होने पर सुरक्षित समापन।
+२. **स्रोत और गंतव्य समान होना:** स्रोत नोड को सीधे लौटाना।

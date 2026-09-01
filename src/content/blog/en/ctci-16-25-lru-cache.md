@@ -1,144 +1,137 @@
 ---
-title: "LRU Cache: Implement Least Recently Used Cache (CTCI 16.25)"
-description: "CTCI problem 16.25 in Java: design and build a Least Recently Used (LRU) cache with O(1) get and put using a HashMap and Doubly Linked List."
-date: "2026-04-09"
-tags: [Algorithms & Data Structures]
+title: "LRU Cache: Designing a High-Throughput O(1) Least Recently Used In-Memory Cache (CTCI 16.25)"
+description: "How to design and implement an LRU (Least Recently Used) cache with O(1) get and put operations using a Doubly Linked List and Hash Map, with production insights on lock striping and Redis cache eviction."
+date: "2026-05-06"
+tags: [Algorithms & Data Structures, Backend & Databases]
 coverImage: /assets/images/ctci-16-25-lru-cache.webp
 previewImage: /assets/images/ctci-16-25-lru-cache.webp
 ---
 
 > **TL;DR**
-> * **The Problem:** Design a fixed-capacity data structure that evicts the least recently accessed item when full, supporting both `get` and `put` in $O(1)$ time.
-> * **The Insight:** A hash map gives instant $O(1)$ key lookups, while a doubly linked list with dummy head and tail sentinels gives instant $O(1)$ node relocation and eviction.
-> * **Complexity:** $O(1)$ Time for both operations, $O(N)$ Space bounded by capacity.
+> * **The Book Problem:** Design and build a Least Recently Used (LRU) cache for a key-value store with fixed capacity. Support `get(key)` and `put(key, value)` in $O(1)$ time.
+> * **The Core Breakthrough:** Combine a **HashMap** (for $O(1)$ key lookup) with a **Doubly Linked List** (for $O(1)$ node removal and head-insertion without array shifting).
+> * **Production Reality:** Powers Redis LRU eviction policies, operating system page replacement (Page Frame Reclaim), and CPU hardware cache hierarchies.
 
-You have a small desk that fits only three open books. You reach for books as you study. When you need a fourth book, you do not throw away a random one; you pack away the book you have not touched for the longest time. That is an **LRU (Least Recently Used) Cache**.
+## 1. Problem Statement & The Book Contract
 
-In production systems, caching is what keeps database query latency from blowing up your p99 response times. In interviews, this is the gold standard question to prove you can marry two foundational data structures into one cohesive machine.
+In *Cracking the Coding Interview* (Problem 16.25), we are asked to implement an LRU Cache with a maximum capacity $C$ supporting two operations:
+* `V get(K key)`: Return value if key exists, and mark this key as the most recently used. If absent, return null.
+* `void put(K key, V value)`: Insert or update key-value pair. If capacity is exceeded, evict the least recently used key prior to insertion.
 
----
+Both operations must execute strictly in $O(1)$ constant time.
 
-## 1. Why Neither Structure Works Alone
+## 2. The Naive Approach & Why It Breaks in Production
 
-| Data Structure | Get by Key | Insert / Update | Remove Oldest | Why It Fails Alone |
-| --- | --- | --- | --- | --- |
-| **Array / ArrayList** | $O(1)$ index, $O(N)$ key | $O(N)$ shift | $O(N)$ shift | Moving elements is too slow |
-| **Singly Linked List** | $O(N)$ search | $O(1)$ at head | $O(N)$ to find tail prev | Cannot remove a middle node in $O(1)$ |
-| **HashMap alone** | $O(1)$ key lookup | $O(1)$ put | $O(N)$ to scan timestamps | No ordering of access history |
-| **HashMap + Doubly Linked List** | **$O(1)$** via map | **$O(1)$** at head | **$O(1)$** from tail | **The winning combination** |
+A naive implementation might use a single `ArrayList` or `ArrayDeque`:
+* To retrieve an item, scan the list in $O(N)$ time.
+* To mark an item as recently used, remove it from the middle of the array and append to the end. In an array, removing an element forces an $O(N)$ shift of all subsequent elements.
 
----
+Under high throughput (e.g. 100,000 requests/sec), an $O(N)$ cache lookup creates severe CPU bottlenecks and memory cache thrashing.
 
-## 2. The Architectural Model
+## 3. The Optimal Dual-Structure: HashMap + Doubly Linked List
 
-```
-[Head Sentinel] <-> [Most Recent Node] <-> ... <-> [Least Recent Node] <-> [Tail Sentinel]
-```
+We pair two data structures:
+1. **Hash Map (`Map<K, Node<K,V>>`):** Provides instant $O(1)$ mapping from key to node pointer.
+2. **Doubly Linked List with Sentinel Head & Tail:** Stores nodes in order of recency. The most recently accessed node resides at `head.next`, and the least recently accessed node resides at `tail.prev`.
 
-- **`get(key)`**: Look up the node in the hash map. If found, detach the node from its current position in the list and splice it right after `head`. Return the value.
-- **`put(key, value)`**: If the key exists, update its value and move it to the head. If it is a new key, create a node, attach it after `head`, and register it in the map. If capacity is exceeded, detach the node right before `tail` and delete its entry from the map.
+* **On `get(key)`:** Lookup node in HashMap in $O(1)$. Unlink node from its current position in the Doubly Linked List (`node.prev.next = node.next; node.next.prev = node.prev`) and insert immediately after dummy `head` in $O(1)$.
+* **On `put(key, value)`:** If key exists, update value and move to head. If key is new and size reaches capacity $C$, evict `tail.prev`, remove its entry from the HashMap, and insert the new node at `head.next`.
 
----
-
-## 3. Complete Java Implementation
+## Production Implementation
 
 ```java
 import java.util.HashMap;
 import java.util.Map;
 
-public class LRUCacheCustom {
-    private static class Node {
-        int key;
-        int value;
-        Node prev;
-        Node next;
-
-        Node(int key, int value) {
-            this.key = key;
-            this.value = value;
-        }
+public class LRUCache<K, V> {
+    private static class Node<K, V> {
+        K key;
+        V value;
+        Node<K, V> prev, next;
+        Node(K k, V v) { this.key = k; this.value = v; }
     }
 
     private final int capacity;
-    private final Map<Integer, Node> map;
-    private final Node head;
-    private final Node tail;
+    private final Map<K, Node<K, V>> map = new HashMap<>();
+    private final Node<K, V> head = new Node<>(null, null); // Dummy head
+    private final Node<K, V> tail = new Node<>(null, null); // Dummy tail
 
-    public LRUCacheCustom(int capacity) {
-        if (capacity <= 0) {
-            throw new IllegalArgumentException("Capacity must be positive");
-        }
+    public LRUCache(int capacity) {
+        if (capacity <= 0) throw new IllegalArgumentException("Capacity must be positive");
         this.capacity = capacity;
-        this.map = new HashMap<>();
-
-        // Initialize dummy sentinels to eliminate null checks
-        this.head = new Node(0, 0);
-        this.tail = new Node(0, 0);
-        this.head.next = this.tail;
-        this.tail.prev = this.head;
+        head.next = tail;
+        tail.prev = head;
     }
 
-    public int get(int key) {
-        Node node = map.get(key);
-        if (node == null) {
-            return -1;
-        }
-        // Promote accessed node to most recently used
+    public synchronized V get(K key) {
+        Node<K, V> node = map.get(key);
+        if (node == null) return null;
+
         moveToHead(node);
         return node.value;
     }
 
-    public void put(int key, int value) {
-        Node existingNode = map.get(key);
-
-        if (existingNode != null) {
-            existingNode.value = value;
-            moveToHead(existingNode);
-            return;
+    public synchronized void put(K key, V value) {
+        Node<K, V> node = map.get(key);
+        if (node != null) {
+            node.value = value;
+            moveToHead(node);
+        } else {
+            if (map.size() >= capacity) {
+                Node<K, V> evicted = popTail();
+                map.remove(evicted.key);
+            }
+            Node<K, V> newNode = new Node<>(key, value);
+            map.put(key, newNode);
+            addHead(newNode);
         }
-
-        if (map.size() >= capacity) {
-            // Evict least recently used item (node right before tail)
-            Node lru = tail.prev;
-            removeNode(lru);
-            map.remove(lru.key);
-        }
-
-        Node newNode = new Node(key, value);
-        map.put(key, newNode);
-        addToHead(newNode);
     }
 
-    private void addToHead(Node node) {
-        node.prev = head;
+    private void addHead(Node<K, V> node) {
         node.next = head.next;
+        node.prev = head;
         head.next.prev = node;
         head.next = node;
     }
 
-    private void removeNode(Node node) {
+    private void removeNode(Node<K, V> node) {
         node.prev.next = node.next;
         node.next.prev = node.prev;
     }
 
-    private void moveToHead(Node node) {
+    private void moveToHead(Node<K, V> node) {
         removeNode(node);
-        addToHead(node);
+        addHead(node);
+    }
+
+    private Node<K, V> popTail() {
+        Node<K, V> res = tail.prev;
+        removeNode(res);
+        return res;
     }
 }
 ```
 
----
+## Complexity & Memory Analysis
 
-## 4. Complexity & Production Edge Cases
+| Metric | Complexity | Technical Detail |
+|---|---|---|
+| get(key) Time Complexity | `O(1)` | Direct hash lookup + 4 pointer updates. |
+| put(key, value) Time Complexity | `O(1)` | Hash insertion + node splicing. |
+| Space Complexity | `O(C)` | Exactly C nodes in HashMap and Doubly Linked List. |
 
-| Metric | Complexity | Explanation |
-| --- | --- | --- |
-| **Get Latency** | $O(1)$ | Hash lookup plus four pointer updates |
-| **Put Latency** | $O(1)$ | Hash insertion plus constant-time pointer wiring |
-| **Space Overhead** | $O(C)$ | Exactly bounded by configured cache capacity $C$ |
+## Real-World Systems Engineering Discussion
 
-### Pitfalls in Real-World Usage
-1. **Thread Safety**: This implementation is single-threaded. For high-concurrency environments, wrap mutations in synchronized blocks or use a read-write lock (`ReentrantReadWriteLock`).
-2. **Memory Leaks on Node Removal**: Always unlink both `prev` and `next` references when detaching nodes to ensure immediate garbage collection eligibility.
-3. **Dummy Sentinels**: Never write this without dummy `head` and `tail` nodes. Without sentinels, handling empty lists and boundary edge cases requires dozens of fragile `if (head == null)` conditions.
+### Production Systems Architecture: Redis Cache Eviction & Linux Page Reclaim
+
+The LRU Cache is the fundamental building block of modern distributed caching:
+
+1. **Redis `maxmemory` Eviction Policies (`allkeys-lru` / `volatile-lru`):** In true high-throughput memory stores like Redis, maintaining an exact Doubly Linked List across 100M keys creates excessive pointer overhead (24 bytes per key). Instead, Redis implements an **Approximated LRU Algorithm**: each object stores a 24-bit timestamp of its last access time. When memory is full, Redis samples 5 random keys and evicts the one with the oldest timestamp, achieving 99% accuracy of exact LRU with zero pointer memory overhead.
+2. **Lock Striping and ConcurrentLRUCache (Guava / Caffeine Cache):** Under high multi-threaded contention, a global `synchronized` lock creates lock contention bottlenecks. Production libraries (like Ben Manes' **Caffeine**) use **Lock-Free Read Buffers** (ring buffers of hit counters) and asynchronous batch drain queues to achieve millions of reads/sec per core without blocking.
+3. **Linux Kernel Page Frame Reclaiming (Active/Inactive Lists):** The Linux kernel maintains two linked lists (`active_list` and `inactive_list`) to track dirty memory pages. Pages accessed recently are promoted to the active list; unreferenced pages drift to the tail of the inactive list and are paged out to disk swap.
+
+## Edge Cases & Production Hardening
+
+1. Null keys or values: Production implementations should explicitly disallow nulls or handle them with dedicated sentinel objects.
+2. Capacity = 1: The single element is immediately replaced on subsequent put without dangling pointers.
+3. Thread safety under high concurrency: Use synchronized methods or read-write locks (`ReentrantReadWriteLock`).

@@ -390,3 +390,4 @@ Luego dales las fórmulas de una línea:
 | Caché | working set caliente, no el dataset completo |
 
 La estimación back-of-the-envelope es una herramienta de comunicación. Muestras que las restricciones de escala moldean la arquitectura, y que puedes hacer math grueso honesto sin falsa precisión. Practica las recetas hasta que resulten aburridas. Aburrido es lo que quieres cuando corre el reloj.
+

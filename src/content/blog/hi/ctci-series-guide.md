@@ -39,23 +39,23 @@ previewImage: /assets/images/ctci-series-guide.webp
 
 | अध्याय | विषय | यहाँ शुरू करें |
 | --- | --- | --- |
-| १ | ऐरे और स्ट्रिंग | [इज़ यूनिक](/blog/hi/ctci-1-1-is-unique) |
-| २ | लिंक्ड लिस्ट | [रिमूव डप्स](/blog/hi/ctci-2-1-remove-dups) |
-| ३ | स्टैक और कतार | [थ्री इन वन](/blog/hi/ctci-3-1-three-in-one) |
-| ४ | ट्री और ग्राफ | [रूट बिटवीन नोड्स](/blog/hi/ctci-4-1-route-between-nodes) |
-| ५ | बिट मैनिपुलेशन | [इन्सर्शन](/blog/hi/ctci-5-1-insertion) |
-| ६ | गणित और तर्क | [द हेवी पिल](/blog/hi/ctci-6-1-the-heavy-pill) |
-| ७ | ऑब्जेक्ट-ओरिएंटेड डिज़ाइन | [डेक ऑफ कार्ड्स](/blog/hi/ctci-7-1-deck-of-cards) |
-| ८ | रिकर्शन और डीपी | [ट्रिपल स्टेप](/blog/hi/ctci-8-1-triple-step) |
-| ९ | सिस्टम डिज़ाइन (सीटीसीआई सेट) | [स्टॉक डेटा](/blog/hi/ctci-9-1-stock-data) |
-| १० | सॉर्टिंग और सर्च | [सॉर्टेड मर्ज](/blog/hi/ctci-10-1-sorted-merge) |
-| ११ | टेस्टिंग | [मिस्टेक](/blog/hi/ctci-11-1-mistake) |
-| १२ | सी और सी++ | [लास्ट के लाइन्स](/blog/hi/ctci-12-1-last-k-lines) |
-| १३ | जावा | [प्राइवेट कंस्ट्रक्टर](/blog/hi/ctci-13-1-private-constructor) |
-| १४ | डेटाबेस | [मल्टीपल अपार्टमेंट्स](/blog/hi/ctci-14-1-multiple-apartments) |
-| १५ | थ्रेड्स और लॉक्स | [थ्रेड बनाम प्रोसेस](/blog/hi/ctci-15-1-thread-vs-process) |
-| १६ | मॉडरेट | [नंबर स्वैपर](/blog/hi/ctci-16-1-number-swapper) |
-| १७ | हार्ड | [ऐड विदाउट प्लस](/blog/hi/ctci-17-1-add-without-plus) |
+| १ | ऐरे और स्ट्रिंग | [इज़ यूनिक](/blog/hi/ctci-१-१-is-unique) |
+| २ | लिंक्ड लिस्ट | [रिमूव डप्स](/blog/hi/ctci-२-१-remove-dups) |
+| ३ | स्टैक और कतार | [थ्री इन वन](/blog/hi/ctci-३-१-three-in-one) |
+| ४ | ट्री और ग्राफ | [रूट बिटवीन नोड्स](/blog/hi/ctci-४-१-route-between-nodes) |
+| ५ | बिट मैनिपुलेशन | [इन्सर्शन](/blog/hi/ctci-५-१-insertion) |
+| ६ | गणित और तर्क | [द हेवी पिल](/blog/hi/ctci-६-१-the-heavy-pill) |
+| ७ | ऑब्जेक्ट-ओरिएंटेड डिज़ाइन | [डेक ऑफ कार्ड्स](/blog/hi/ctci-७-१-deck-of-cards) |
+| ८ | रिकर्शन और डीपी | [ट्रिपल स्टेप](/blog/hi/ctci-८-१-triple-step) |
+| ९ | सिस्टम डिज़ाइन (सीटीसीआई सेट) | [स्टॉक डेटा](/blog/hi/ctci-९-१-stock-data) |
+| १० | सॉर्टिंग और सर्च | [सॉर्टेड मर्ज](/blog/hi/ctci-१०-१-sorted-merge) |
+| ११ | टेस्टिंग | [मिस्टेक](/blog/hi/ctci-११-१-mistake) |
+| १२ | सी और सी++ | [लास्ट के लाइन्स](/blog/hi/ctci-१२-१-last-k-lines) |
+| १३ | जावा | [प्राइवेट कंस्ट्रक्टर](/blog/hi/ctci-१३-१-private-constructor) |
+| १४ | डेटाबेस | [मल्टीपल अपार्टमेंट्स](/blog/hi/ctci-१४-१-multiple-apartments) |
+| १५ | थ्रेड्स और लॉक्स | [थ्रेड बनाम प्रोसेस](/blog/hi/ctci-१५-१-thread-vs-process) |
+| १६ | मॉडरेट | [नंबर स्वैपर](/blog/hi/ctci-१६-१-number-swapper) |
+| १७ | हार्ड | [ऐड विदाउट प्लस](/blog/hi/ctci-१७-१-add-without-plus) |
 
 पूरी सूची: `docs/ctci-series-index.md`।
 
@@ -69,4 +69,5 @@ previewImage: /assets/images/ctci-series-guide.webp
 ४. अगले दिन याद से फिर कोड करें।  
 ५. जटिलता ज़ोर से बोलें।
 
-शुरू करें **१.१**: [इज़ यूनिक](/blog/hi/ctci-1-1-is-unique)।
+शुरू करें **१.१**: [इज़ यूनिक](/blog/hi/ctci-१-१-is-unique)।
+

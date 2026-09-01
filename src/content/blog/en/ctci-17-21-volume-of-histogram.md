@@ -1,73 +1,87 @@
 ---
-title: "Volume of Histogram: Trapping Rain Water in Java (CTCI 17.21)"
-description: "CTCI problem 17.21 in Java: compute total water trapped between bars in a 2D histogram in O(N) time and O(1) space."
-date: "2026-05-18"
+title: "Volume of Histogram: Two-Pointer Water Trapping in O(N) Time (CTCI 17.21)"
+description: "Compute the total water trapped between histogram bars using precomputed left/right max arrays or an in-place two-pointer sweep in O(N) time and O(1) space."
+date: "2026-05-06"
 tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-17-21-volume-of-histogram.webp
 previewImage: /assets/images/ctci-17-21-volume-of-histogram.webp
 ---
 
 > **TL;DR**
-> * **The Problem:** Given an array of bar heights representing a 2D histogram, calculate how much water can be trapped after rain.
-> * **The Insight:** The water above any bar is determined by $\min(	ext{maxLeft}, 	ext{maxRight}) - 	ext{height}[i]$. Using two converging pointers eliminates extra array storage.
-> * **Complexity:** $O(N)$ Time and optimal $O(1)$ Space.
+> * **The Book Problem:** Given a histogram represented by an array of bar heights, compute the total volume of water it can hold if it rains.
+> * **The Optimal Solution:** **Two-Pointer In-Place Water Trapping**:
+>   1. Initialize `left = 0`, `right = n-1`, `leftMax = 0`, `rightMax = 0`, `water = 0`.
+>   2. While `left < right`: if `height[left] <= height[right]`, the water trapped at `left` is `leftMax - height[left]`, advance `left`. Otherwise, the water trapped at `right` is `rightMax - height[right]`, advance `right`.
+>   3. Runs in **$O(N)$ time** and **$O(1)$ space**.
+> * **Production Reality:** Digital terrain model flood simulation, stormwater infrastructure routing, and GPU rasterization coverage mask computation.
 
-Imagine a city skyline during a monsoon. Water pools between tall buildings. At any single building, the depth of water trapped above the roof is strictly limited by the shorter of the two tallest buildings to its left and right.
+## 1. The Book Problem Formulation
 
----
+In *Cracking the Coding Interview* (Problem 17.21), we are asked:
 
-## 1. Algorithmic Approaches
+*"Imagine a histogram (bar chart). Design an algorithm to compute the volume of water it could hold if someone poured water across the top."*
 
-| Approach | Time | Space | Mechanics |
-| --- | --- | --- | --- |
-| **Brute Force** | $O(N^2)$ | $O(1)$ | Scan left and right for maximums at every index |
-| **Precomputed Arrays** | $O(N)$ | $O(N)$ | Store `leftMax[]` and `rightMax[]` arrays |
-| **Two Pointers (Optimal)** | **$O(N)$** | **$O(1)$** | Converge pointers from boundaries inward |
+## 2. Why Two Pointers Work
 
----
+```
+Heights: [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]
 
-## 2. Complete Java Solution (Two Pointers)
+Left Pointer sweeps right while height[left] <= height[right].
+Water at each bar = max(0, min(leftMax, rightMax) - height[i]).
+Total water trapped = 6 units.
+```
+
+The key insight: water held at any bar is `min(max_left, max_right) - bar_height`. Two pointers allow computing this without storing max arrays.
+
+## Production Java Implementation
 
 ```java
-public class HistogramVolume {
-    public static int computeVolume(int[] heights) {
-        if (heights == null || heights.length < 3) {
-            return 0;
-        }
+public class VolumeOfHistogram {
 
-        int left = 0;
-        int right = heights.length - 1;
-        int maxLeft = 0;
-        int maxRight = 0;
-        int totalVolume = 0;
+    /**
+     * Computes total trapped water in O(N) time, O(1) space.
+     */
+    public static int computeHistogramVolume(int[] heights) {
+        if (heights == null || heights.length < 3) return 0;
+
+        int left = 0, right = heights.length - 1;
+        int leftMax = 0, rightMax = 0;
+        int water = 0;
 
         while (left < right) {
             if (heights[left] <= heights[right]) {
-                if (heights[left] >= maxLeft) {
-                    maxLeft = heights[left];
-                } else {
-                    totalVolume += maxLeft - heights[left];
-                }
+                leftMax = Math.max(leftMax, heights[left]);
+                water += leftMax - heights[left];
                 left++;
             } else {
-                if (heights[right] >= maxRight) {
-                    maxRight = heights[right];
-                } else {
-                    totalVolume += maxRight - heights[right];
-                }
+                rightMax = Math.max(rightMax, heights[right]);
+                water += rightMax - heights[right];
                 right--;
             }
         }
 
-        return totalVolume;
+        return water;
     }
 }
 ```
 
----
+## Complexity Analysis
 
-## 3. Edge Cases & Verification
+| Approach | Time Complexity | Space | Notes |
+|---|---|---|---|
+| **Two-Pointer** | **$O(N)$** | **$O(1)$** | **Optimal; single pass.** |
+| Left/Right Max Arrays | $O(N)$ | $O(N)$ | Cleaner logic, requires two auxiliary arrays. |
+| Brute Force | $O(N^2)$ | $O(1)$ | For each bar, scan left/right for maxima. |
 
-- **Monotonically increasing or decreasing heights**: Returns `0` (water spills off the sides).
-- **Arrays with length $< 3$**: Returns `0` (no containment basin possible).
-- **Plateaus with equal heights**: Correctly processed without double counting.
+## Real-World Systems Engineering Discussion
+
+### Production Systems Architecture: Terrain Flood Simulation
+
+1. **Digital Elevation Models (DEM):** GIS hydrological flood simulations compute water volume retention in basins by applying the same min-max boundary argument across terrain elevation profiles.
+2. **GPU Rasterization:** Pixel coverage mask computation uses analogous boundary sweep algorithms for conservative depth buffer anti-aliasing.
+
+## Edge Cases & Production Hardening
+
+1. **Monotone Array:** Produces `0` correctly (water drains off one side).
+2. **All Zeros:** Returns `0`.
+3. **Single Bar:** Returns `0`.

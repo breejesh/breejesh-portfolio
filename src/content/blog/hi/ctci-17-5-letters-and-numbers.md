@@ -1,32 +1,93 @@
 ---
-title: "Letters and Numbers: Find Longest Subarray with Equal Letters and Digits (CTCI 17.5)"
-description: "CTCI problem 17.5: find the longest contiguous subarray containing an equal number of letters and numbers in O(N) time."
-date: "2026-01-10"
+title: "अक्षर और संख्याएं (Letters and Numbers): प्रीफिक्स डेल्टा मैप द्वारा सबसे लंबी संतुलित उप-सरणी (सीटीसीआई १७.५)"
+description: "अक्षरों और संख्याओं की समान संख्या वाली सबसे लंबी निरंतर उप-सरणी खोजने के लिए संचयी प्रीफिक्स डेल्टा मैपिंग का O(N) लीनियर समय एल्गोरिदम।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-17-5-letters-and-numbers.webp
 previewImage: /assets/images/ctci-17-5-letters-and-numbers.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १७.५ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १७.५: find the longest contiguous subarray containing an equal number of letters and numbers in O(N) time.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** अक्षरों और संख्याओं से भरी एक सरणी दी गई है, समान संख्या में अक्षरों और संख्याओं वाली सबसे लंबी निरंतर उप-सरणी (Subarray) खोजें।
+> * **मुख्य समाधान:** **प्रीफिक्स डेल्टा योग और प्रथम-दृष्टि हैश मैप**:
+>   1. अक्षरों को $+1$ और संख्याओं को $-1$ पर मैप करें।
+>   2. **डेल्टा अपरिवर्तनीय**: संचयी अंतर योग $D[i]$ निकालें। यदि $D[i] == D[j]$ ($i < j$), तो मध्यवर्ती खंड $[i+1 \dots j]$ में कुल शुद्ध योग ठीक ० होता है (सटीक संतुलन)।
+>   3. प्रत्येक डेल्टा मान के लिए सबसे पहले देखे गए सूचकांक को `Map<Integer, Integer>` में $(0, -1)$ आधार के साथ स्टोर करें।
+>   4. यह **$O(N)$ समय** और **$O(N)$ सहायक स्पेस** में चलता है।
+> * **रियल-वर्ल्ड सिस्टम:** बायोइन्फॉर्मेटिक्स में डीएनए GC-स्क्यू वक्र और ऑडियो सिग्नल विश्लेषण।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१७.५** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १७.५: find the longest contiguous subarray containing an equal number of letters and numbers in O(N) time.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १७.५) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"अक्षरों और संख्याओं की सरणी में से समान संख्या वाले दोनों घटकों की सबसे लंबी निरंतर उप-सरणी की पहचान करें।"*
+
+## २. प्रीफिक्स डेल्टा की कार्यप्रणाली
+
+जब दो सूचकांकों पर संचयी अंतर समान होता है, तो उनके बीच के सकारात्मक और नकारात्मक परिवर्तन एक-दूसरे को पूरी तरह संतुलित कर देते हैं।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public static char[] findLongestSubarray(char[] array) {
-    int[] deltas = computeDeltaArray(array);
-    int[] match = findLongestMatch(deltas);
-    return extractSubarray(array, match[0] + 1, match[1]);
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+public class LettersAndNumbers {
+
+    public static char[] findLongestSubarray(char[] array) {
+        if (array == null || array.length < 2) {
+            return new char[0];
+        }
+
+        Map<Integer, Integer> firstSeen = new HashMap<>();
+        firstSeen.put(0, -1);
+
+        int runningDelta = 0;
+        int maxLen = 0;
+        int bestStart = -1;
+
+        for (int i = 0; i < array.length; i++) {
+            if (Character.isLetter(array[i])) {
+                runningDelta += 1;
+            } else if (Character.isDigit(array[i])) {
+                runningDelta -= 1;
+            }
+
+            if (firstSeen.containsKey(runningDelta)) {
+                int prevIndex = firstSeen.get(runningDelta);
+                int length = i - prevIndex;
+                if (length > maxLen) {
+                    maxLen = length;
+                    bestStart = prevIndex + 1;
+                }
+            } else {
+                firstSeen.put(runningDelta, i);
+            }
+        }
+
+        if (maxLen == 0) return new char[0];
+
+        return Arrays.copyOfRange(array, bestStart, bestStart + maxLen);
+    }
 }
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## जटिलता विश्लेषण
+
+| मापदंड | जटिलता | तकनीकी विवरण |
+|---|---|---|
+| समय जटिलता | `O(N)` | इनपुट सरणी का एकल रैखिक स्कैन। |
+| सहायक स्पेस | `O(N)` | हैश मैप में अधिकतम $2N+1$ अद्वितीय डेल्टा मान। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: बायोइन्फॉर्मेटिक्स और वित्तीय संतुलन
+
+१. **जीनोमिक GC-स्क्यू वक्र:** डीएनए अनुक्रमों में प्रतिकृति मूल की पहचान करने के लिए न्यूक्लियोटाइड अंतर के प्रीफिक्स योग का उपयोग।
+२. **ऑर्डर फ्लो असंतुलन:** वित्तीय बाजारों में खरीद और बिक्री दबाव का त्वरित संतुलन विश्लेषण।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **कोई संतुलित उप-सरणी नहीं:** सुरक्षित रूप से खाली सरणी लौटाना।
+२. **पूरी सरणी संतुलित होना:** `(0, -1)` आधार बिंदु द्वारा पूरी लंबाई सही ढंग से प्राप्त होना।

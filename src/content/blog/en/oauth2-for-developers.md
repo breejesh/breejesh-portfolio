@@ -7,6 +7,7 @@ coverImage: /assets/images/oauth2-for-developers.webp
 previewImage: /assets/images/oauth2-for-developers.webp
 ---
 
+
 OAuth 2.0 and OpenID Connect form the security backbone of modern web authentication. PKCE is now standard across all public and confidential client flows.
 
 This post is a practical map for **authorization code + PKCE**, the token types you will touch every day, and the bugs that show up in code review and incident channels.
@@ -331,3 +332,4 @@ If your internal wiki still says "SPA must use implicit," update the wiki before
 Ship **authorization code + PKCE**, treat **redirect URIs and `state` as security controls**, keep **access tokens short** and **refresh tokens boringly well protected**, and validate tokens on the resource server with **issuer, audience, expiry, and scope**. Most "OAuth is hard" incidents are not exotic crypto failures. They are skipped checks, tokens in the wrong place, and sample code from a different client type.
 
 If you are reviewing a PR tomorrow, start with: PKCE present, `state` checked, redirect allowlist exact, token storage written down, and no bearer tokens in query strings. That short list catches a large share of real bugs.
+

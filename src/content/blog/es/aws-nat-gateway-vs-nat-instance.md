@@ -7,6 +7,7 @@ coverImage: /assets/images/aws-cost-spike.webp
 previewImage: /assets/images/aws-cost-spike.webp
 ---
 
+
 Todos hemos estado allí. Miras tu factura mensual de AWS, esperando los números predecibles de siempre, solo para encontrar un aumento masivo que te devuelve la mirada. Tu mente empieza a correr, tratando de descubrir qué salió mal. ¿Se volvió loco un script? ¿Se duplicó repentinamente el tráfico?
 
 Luego profundizas en el Cost Explorer y encuentras al culpable: **NAT Gateway**.
@@ -162,3 +163,4 @@ Es perfectamente razonable cambiar tu arquitectura cuando las opciones predeterm
 Si ejecutas entornos que no son de producción, áreas de staging o pipelines de datos que no requieren un tiempo de actividad de grado operador del 99.99%, cambiar el gateway por una instancia NAT es una victoria fácil y masiva para tu presupuesto mensual. Incluso para cargas de trabajo de producción con necesidades de ancho de banda moderadas, una instancia NAT configurada correctamente con un grupo de Auto Scaling puede ofrecer un servicio confiable a una fracción del costo.
 
 Pruébalo, monitorea el rendimiento y disfruta viendo cómo tu factura de AWS se reduce al lugar donde pertenece.
+

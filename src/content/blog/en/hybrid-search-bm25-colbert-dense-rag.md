@@ -7,6 +7,7 @@ coverImage: /assets/images/hybrid-search-bm25-colbert-dense-rag.webp
 previewImage: /assets/images/hybrid-search-bm25-colbert-dense-rag.webp
 ---
 
+
 > **TL;DR**
 > * **The Catalyst:** Venture-backed vector databases promised to replace traditional keyword search, but enterprise deployments suffered 24.2% failure rates on exact part numbers, error codes, and legal terms.
 > * **The Mechanism:** Single-vector embeddings compress 512 tokens into a single point, diluting exact keywords into mathematical noise. Modern systems fuse sparse BM25 inverted indexes, dense embeddings, and ColBERT late-interaction scoring via Reciprocal Rank Fusion (RRF).
@@ -68,3 +69,4 @@ By replacing pure vector search with three-way hybrid retrieval, enterprise sear
 * [Why Vector Search Is Not Enough for Enterprise RAG, TechCrunch](https://techcrunch.com)
 * [Reciprocal Rank Fusion Outperforms Condorcet and Individual Rankers, ACM SIGIR](https://dl.acm.org)
 * [The Evolution of Hybrid Retrieval in Production Search Systems, MIT Technology Review](https://technologyreview.com)
+

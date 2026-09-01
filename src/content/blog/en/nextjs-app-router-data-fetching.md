@@ -7,6 +7,7 @@ coverImage: /assets/images/nextjs-app-router-data-fetching.webp
 previewImage: /assets/images/nextjs-app-router-data-fetching.webp
 ---
 
+
 The Next.js App Router fundamentally restructured data fetching in React applications by shifting execution to React Server Components and streaming UI at component boundaries.
 
 This post is the map I use on real projects: Server Components first, explicit cache policy, time or tag revalidation, and a short list of cases where client fetch is still the right call.
@@ -327,3 +328,4 @@ The Route Handler or public API behind `/api/products/...` should still enforce 
 * [ ] No secrets in client bundles; auth checks on every Route Handler the browser can hit.
 
 App Router data fetching rewards boring choices: load on the server, say how long the result can live, invalidate when you write, and only open a client request when the browser actually needs to drive the timeline. Once that split is habit, the cache options stop feeling magical and start feeling like normal infrastructure knobs.
+

@@ -1,46 +1,48 @@
 ---
-title: "Sorted Search No Size: Búsqueda en Lista sin Método Size (CTCI 10.4)"
-description: "Problema CTCI 10.4 en Java: encuentra un elemento en una estructura Listy sin tamaño conocido."
-date: "2025-11-01"
+title: "Búsqueda en Arreglo sin Tamaño: Búsqueda Exponencial en Estructuras Infinitas (CTCI 10.4)"
+description: "Busca un valor en una estructura ordenada de longitud desconocida Listy mediante sondeo exponencial y busqueda binaria acotada en tiempo O(log p)."
+date: "2026-05-06"
 tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-10-4-sorted-search-no-size.webp
 previewImage: /assets/images/ctci-10-4-sorted-search-no-size.webp
 ---
 
-
 > **TL;DR**
-> * **El Problema:** Dominar el problema CTCI 10.4 con eficiencia de nivel de producción.
-> * **El Enfoque:** Problema CTCI 10.4 en Java: encuentra un elemento en una estructura Listy sin tamaño conocido.
-> * **Complejidad:** Relación óptima entre tiempo y espacio.
+> * **El Problema del Libro:** Se te da una estructura de datos tipo arreglo `Listy` que no posee metodo de tamano (`size()`), pero tiene `elementAt(i)` en $O(1)$ que retorna `-1` si $i$ esta fuera de limites. Dado un `Listy` con enteros positivos ordenados, encuentra el indice de un elemento $x$.
+> * **La Solución Óptima:** **Búsqueda Exponencial + Búsqueda Binaria Acotada**: (1) **Sondeo Exponencial**: Inicia en `index = 1` y duplica `index *= 2` hasta que `elementAt(index) == -1` o `elementAt(index) >= value`; (2) **Búsqueda Binaria**: Busca dentro del rango acotado $[index / 2, index]$; (3) Trata `-1` como un valor infinito a la derecha y retrocede hacia la izquierda; (4) Se ejecuta en **tiempo $O(\log p)$** (donde $p$ es la posicion del objetivo) y **espacio $O(1)$**.
+> * **Realidad en Producción:** Busqueda de marcas de tiempo en flujos continuos de datos (streams) y archivos mapeados en memoria (`mmap`).
 
-Este artículo ofrece una guía clara y detallada del problema CTCI **10.4**. Examinamos el enunciado, comparamos la fuerza bruta con la solución óptima y escribimos código en Java.
+## 1. Formulación del Problema del Libro
 
----
+En *Cracking the Coding Interview* (Problema 10.4), se nos plantea:
 
-## 1. Analogía del mundo real
+*"Encuentra el indice de un elemento x en una estructura ordenada Listy de longitud desconocida que retorna -1 al consultar indices fuera de rango."*
 
-Piensa en el problema CTCI 10.4 como organizar elementos de forma eficiente. La elección de la estructura de datos adecuada elimina iteraciones innecesarias.
+## 2. Mecánica de la Búsqueda Exponencial ($O(\log p)$)
 
----
+1. **Fase de Duplicación:** Consultar indices $1, 2, 4, 8, \dots, 2^k$ hasta superar el valor objetivo o salir del arreglo. Esto toma $\lceil \log_2 p \rceil$ pasos.
+2. **Fase de Búsqueda Binaria:** Ejecutar busqueda binaria en el intervalo $[2^{k-1}, 2^k]$ en tiempo $O(\log p)$.
 
-## 2. Enunciado claro del problema
-
-**Problema 10.4:** Problema CTCI 10.4 en Java: encuentra un elemento en una estructura Listy sin tamaño conocido.
-
----
-
-## 3. Enfoque óptimo e implementación
+## Implementación de Producción
 
 ```java
 public class SortedSearchNoSize {
-    static class Listy {
+    public static class Listy {
         private final int[] array;
+
         public Listy(int[] arr) { this.array = arr; }
+
         public int elementAt(int i) {
-            return (i >= 0 && i < array.length) ? array[i] : -1;
+            if (i < 0 || i >= array.length) return -1;
+            return array[i];
         }
     }
 
+    /**
+     * Busca el valor en Listy.
+     * Complejidad Temporal: O(log p)
+     * Complejidad Espacial: O(1)
+     */
     public static int search(Listy list, int value) {
         int index = 1;
         while (list.elementAt(index) != -1 && list.elementAt(index) < value) {
@@ -50,29 +52,40 @@ public class SortedSearchNoSize {
     }
 
     private static int binarySearch(Listy list, int value, int low, int high) {
+        int mid;
+
         while (low <= high) {
-            int mid = low + (high - low) / 2;
+            mid = low + (high - low) / 2;
             int middle = list.elementAt(mid);
-            if (middle > value || middle == -1) high = mid - 1;
-            else if (middle < value) low = mid + 1;
-            else return mid;
+
+            if (middle > value || middle == -1) {
+                high = mid - 1;
+            } else if (middle < value) {
+                low = mid + 1;
+            } else {
+                return mid;
+            }
         }
         return -1;
     }
 }
 ```
 
----
+## Análisis de Complejidad y Memoria
 
-## 4. Complejidad Temporal y Espacial
+| Métrica | Complejidad | Detalle Técnico |
+|---|---|---|
+| Complejidad Temporal | `O(log p)` | $\log_2 p$ pasos de duplicación + $\log_2 p$ pasos de búsqueda binaria. |
+| Espacio Auxiliar | `O(1)` | Algoritmo iterativo sin memoria adicional. |
 
-| Métrica | Complejidad | Explicación |
-| --- | --- | --- |
-| Complejidad Temporal | O(N) / O(log N) | Recorrido óptimo de datos |
-| Complejidad Espacial | O(1) / O(N) | Memoria acotada |
+## Discusión de Ingeniería de Sistemas en Producción
 
----
+### Arquitectura de Sistemas en Producción: Búsqueda en Flujos No Acotados
 
-## 5. Casos Límite y Resumen
+1. **Particiones de Flujo (Kafka Streams):** Los consumidores acotan marcas de tiempo en particiones continuas duplicando ventanas de busqueda.
+2. **Memoria Virtual y Archivos Dispersos:** Resolucion de accesos no comprometidos en RAM mediante valores centinela.
 
-Verifica siempre condiciones de borde, valores nulos y límites de tamaño en entrevistas técnicas.
+## Casos Límite y Robustez en Producción
+
+1. **Elemento en Índice 0:** La condicion `elementAt(1) >= value` acota el rango $[0, 1]$ correctamente.
+2. **Elemento Ausente:** Retorna `-1` de forma segura.

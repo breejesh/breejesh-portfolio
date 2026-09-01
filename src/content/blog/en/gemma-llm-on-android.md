@@ -7,6 +7,7 @@ coverImage: /assets/images/gemma-android.webp
 previewImage: /assets/images/gemma-android.webp
 ---
 
+
 Running large language models (LLMs) used to be the exclusive domain of multi-GPU cloud clusters. Today, edge hardware has progressed to a point where we can execute 2-billion parameter models directly inside our pockets. 
 
 With **Google's LiteRT** (formerly TensorFlow Lite) and the **Gemma** open-model family, Android developers can integrate local generative AI that is fast, 100% private, and works completely offline.
@@ -234,3 +235,4 @@ Before committing to on-device LLMs, be aware of these real-world challenges:
 Running Gemma locally via LiteRT represents a genuine shift in mobile application design. It empowers developers to build deeply interactive, intelligent systems that respect user privacy, run offline, and incur zero cloud hosting costs. 
 
 The technology is not without trade-offs. Model accuracy, device compatibility, and download size are real constraints. But for use cases like food logging, journaling, language translation, and personal assistants, on-device LLMs are already a viable, production-ready design pattern. Projects like **NomAI** prove that the future of mobile AI is not in the cloud; it is in your pocket.
+

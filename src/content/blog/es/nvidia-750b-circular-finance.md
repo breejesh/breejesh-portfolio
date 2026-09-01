@@ -7,6 +7,7 @@ coverImage: /assets/images/nvidia-750b-circular-finance.webp
 previewImage: /assets/images/nvidia-750b-circular-finance.webp
 ---
 
+
 Nvidia no solo vende chips esta semana. Está respaldando a los clientes que los compran.
 
 El informe de Bloomberg del 27 de julio puso un número limpio al patrón: una nueva ronda de acuerdos de infraestructura de IA que, sumados, superan los **750.000 millones de dólares**. A finales de junio, el **Banco de Pagos Internacionales** ya señaló el gasto en IA y el financiamiento circular como un riesgo para la economía en general. Big tech pasó de sostener el crecimiento a poner ese crecimiento en un bucle contable.
@@ -145,3 +146,4 @@ Conclusiones prácticas si construyes, compras o inviertes alrededor de este sta
 Huang tiene razón en que países como Corea tienen la base industrial para verter mucho de este hormigón y silicio. La pregunta más dura es si los clientes finales pueden convertir ese hierro en flujos de caja que sirvan la deuda, los arrendamientos y el capital de pensiones debajo.
 
 El BPI ya llamó al financiamiento circular de IA un riesgo de nivel económico. La semana de 750.000 millones de Nvidia no es un giro de guion. Es el guion, en mayor resolución.
+

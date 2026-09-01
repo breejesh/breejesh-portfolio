@@ -7,6 +7,7 @@ coverImage: /assets/images/product-quantization-vector-compression.webp
 previewImage: /assets/images/product-quantization-vector-compression.webp
 ---
 
+
 > **TL;DR**
 > * **El Problema:** 1 millón de vectores de 128 dimensiones (float32) consumen 512 MB de RAM. A 768 dimensiones, eso crece a 3,07 GB. La búsqueda por fuerza bruta rinde aproximadamente 20 consultas por segundo.
 > * **El Hallazgo:** Product Quantization (PQ) divide cada vector en `m` subvectores, agrupa cada subespacio en 256 centroides y reemplaza los floats originales por IDs de centroide de 1 byte. Asymmetric Distance Computation (ADC) precalcula una tabla de consulta por query, reduciendo la distancia por vector a `m` lecturas de tabla en vez de `D` multiplicaciones flotantes.
@@ -343,3 +344,4 @@ Regla práctica: comenzar con $m = D / 4$ (subespacios de 4 dimensiones), que da
 ### Requisitos de Datos de Entrenamiento
 
 Cada subcuantizador entrena k-means con `k* = 256` centroides. k-means necesita al menos $30 \times k^*$ puntos de entrenamiento para converger, lo que significa un mínimo de aproximadamente 8.000 vectores. Para mejores resultados, usar de 10x a 100x esa cantidad (65K a 650K vectores de entrenamiento).
+

@@ -423,3 +423,4 @@ Un système de chat n'est pas « des WebSockets plus une base de données ». Ce
 Épine d'entretien : **HTTP pour le CRUD ennuyeux, WebSocket pour le fil en direct, store comme source de vérité, push comme chemin rapide, inbox par utilisateur pour les petits groupes, heartbeats pour la présence.** Le reste, c'est du dimensionnement, de la gestion de panne et du périmètre produit.
 
 Quand quelqu'un demande « et si le groupe a un million de membres ? », change le modèle de fan-out. N'ajoute pas seulement des serveurs à un design de talkie-walkie en espérant.
+

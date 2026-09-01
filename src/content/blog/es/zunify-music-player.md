@@ -7,6 +7,7 @@ coverImage: /assets/images/zunify-music.webp
 previewImage: /assets/images/zunify-music.webp
 ---
 
+
 A finales de la década de 2000, Microsoft presentó el Zune, un reproductor de medios digitales que, a pesar de competir difícilmente contra el iPod por la cuota de mercado, ganó un ferviente grupo de seguidores gracias a su revolucionario lenguaje de diseño. La interfaz "Metro" se centraba en la tipografía, un diseño minimalista, menús de alto contraste y esquemas digitales limpios en lugar de imitar objetos físicos (esqueuomorfismo).
 
 **Zunify** es un homenaje moderno a esa legendaria interfaz. Se trata de una PWA (Progressive Web App) ligera y de funcionamiento local (offline-first) que sincroniza tu colección de música local directamente en el navegador, sin necesidad de subir archivos a servidores externos, sin cuentas de usuario, sin rastreadores y 100% preparada para funcionar sin internet.
@@ -206,3 +207,4 @@ Zunify es más que un tributo nostálgico. Forma parte de un cambio más amplio 
 * Consiguen un rendimiento idéntico al de una aplicación nativa dentro del entorno seguro del navegador.
 
 Si quieres la estética Metro del Zune o un ejemplo concreto de File System Access API para apps offline-first, Zunify es open-source y acepta colaboraciones. Elige una carpeta local de música, abre [Zunify](https://zunify.breejeshrathod.com/) y prueba tu biblioteca con una interfaz clara y tipográfica.
+

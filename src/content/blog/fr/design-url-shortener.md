@@ -398,3 +398,4 @@ Si vous retenez une leçon de production : **protégez le chemin de redirection 
 - [ ] Rate limits sur create et sur un volume de redirect suspect
 - [ ] Load test clé chaude, clé froide, panne de cache, failover DB
 - [ ] Dashboards : QPS create, QPS redirect, ratio de hit cache, latence p99 redirect, taux de 404
+

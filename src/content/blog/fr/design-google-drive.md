@@ -217,3 +217,4 @@ Google Drive est un **dossier magique** qui semble vivre sur chaque appareil. En
 Protégez les octets. Mettez-vous d'accord sur le dernier. N'envoyez que ce qui a changé. Dites la vérité quand deux éditions se heurtent.
 
 C'est le design.
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/nom-ai-showcase.webp
 previewImage: /assets/images/nom-ai-showcase.webp
 ---
 
+
 El seguimiento de calorías es un elemento básico de las apps de fitness modernas. Casi todos los contadores de calorías populares del mercado comparten un conjunto común de frustraciones: exigen suscripciones mensuales, muestran anuncios constantes, requieren conectividad a Internet continua y venden tus hábitos alimenticios personales a intermediarios de datos externos.
 
 **NomAI adopta un enfoque diferente.** Es una aplicación de seguimiento de calorías para Android gratuita, de código abierto y completamente offline, construida sobre la privacidad absoluta y la inteligencia artificial en el dispositivo.
@@ -158,3 +159,4 @@ El archivo del modelo pesa ~1.4 GB, demasiado grande para incluirlo en un APK. N
 NomAI es más que un simple contador de calorías. Es una prueba de concepto para una nueva generación de aplicaciones móviles: apps inteligentes que respetan la privacidad del usuario, funcionan completamente offline y tienen un coste continuo de cero para el desarrollador y el usuario.
 
 El código fuente está completamente abierto en [GitHub](https://github.com/breejesh/nom.ai). Si estás interesado en la IA en el dispositivo, la arquitectura sin conexión primero o simplemente deseas un contador de calorías que no venda tus datos, echa un vistazo y considera contribuir.
+

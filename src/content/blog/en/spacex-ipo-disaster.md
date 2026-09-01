@@ -7,6 +7,7 @@ coverImage: /assets/images/spacex-ipo-disaster.webp
 previewImage: /assets/images/spacex-ipo-disaster.webp
 ---
 
+
 Analyzing aerospace capital efficiency requires contrasting vehicle manufacturing expenditures against recurring orbital launch revenue.
 
 To the casual observer, this was the crowning achievement of a legendary aerospace disruptor. After all, SpaceX brought orbital launch costs down by 85%, commercialized reusable rockets, and built Starlink, a profitable satellite constellation generating $4.4 billion in operating profit on $11.4 billion in revenue in 2025.
@@ -58,3 +59,4 @@ SpaceX was a world-class engineering firm with a natural monopoly on space trave
 While circular deals (such as Google renting compute from xAI for $920 million a month while holding a 6% equity stake) can inflate short-term numbers, they do not change the underlying cash flow reality. 
 
 For investors, the SPCX IPO is a classic case of financial engineering attempting to override physical and economic limits. The rocket may launch high on initial passive index buying, but gravity always wins.
+

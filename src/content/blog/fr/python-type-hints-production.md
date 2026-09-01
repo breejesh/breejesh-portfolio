@@ -7,6 +7,7 @@ coverImage: /assets/images/python-type-hints-production.webp
 previewImage: /assets/images/python-type-hints-production.webp
 ---
 
+
 Les type hints Python sont gratuits au runtime et chers quand ils mentent. Les équipes qui en tirent de la valeur n'annotent pas chaque helper privé. Elles typent les **coutures**: APIs publiques, formats filaires, objets de domaine partagés, frontières de plugins. Le reste peut rester souple jusqu'à ce qu'un bug ou un refactor force la décision.
 
 Ceci est un guide de terrain. Pas un catalogue de tout `typing`, ni un concours de pureté entre checkers. L'objectif: moins de surprises en production, avec un budget défendable en review.
@@ -332,3 +333,4 @@ Les type hints paient quand ils protègent des **contrats**, pas quand ils déco
 * **Un checker en CI**, strictness progressive, peu de trappes et encore moins de mensonges
 
 Laissez de côté la cérémonie qui ne change pas le taux de bugs. Le typage Python est un outil pour des équipes qui livrent des services sous changement. Utilisez-le en ingénieur, pas en collectionneur de PEPs.
+

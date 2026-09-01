@@ -7,6 +7,7 @@ coverImage: /assets/images/java-virtual-threads.webp
 previewImage: /assets/images/java-virtual-threads.webp
 ---
 
+
 Pendant près de deux décennies, le modèle standard pour gérer une forte simultanéité en Java a été le pool de threads (thread pool). Chaque fois qu'un serveur devait traiter des requêtes simultanées, les développeurs configuraient des exécuteurs pour gérer un nombre fixe de threads du système d'exploitation.
 
 Les **threads virtuels Java 21** (Project Loom) changent ce modèle. Vous pouvez lancer un grand nombre de tâches concurrentes bloquantes sans dimensionner un pool classique pour chaque requête.
@@ -105,3 +106,4 @@ Le test de charge a simulé **3 000 requêtes au total** à différents niveaux 
 ### Conclusion
 
 Les threads virtuels de Java 21 sont l'un des plus grands changements de concurrence depuis les lambdas de Java 8. En rendant les threads peu coûteux à créer, Project Loom réduit le besoin de code réactif complexe et de pools surdimensionnés, et simplifie les applications Java à forte concurrence.
+

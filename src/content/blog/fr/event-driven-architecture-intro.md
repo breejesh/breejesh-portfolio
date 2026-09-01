@@ -7,6 +7,7 @@ coverImage: /assets/images/event-driven-architecture-intro.webp
 previewImage: /assets/images/event-driven-architecture-intro.webp
 ---
 
+
 Le request/response synchrone est simple à raisonner. Le service A appelle le service B, attend, obtient une réponse ou une erreur. Ce modèle casse quand une action doit se propager vers plusieurs systèmes indépendants, quand ils scalent à des rythmes différents, ou quand une panne temporaire d'une dépendance ne doit pas bloquer tout le checkout.
 
 L'**architecture event-driven** change le contrat : un producteur publie un fait sur quelque chose qui s'est déjà produit, et les consommateurs réagissent à leur rythme. Vous gagnez du découplage et de la scalabilité horizontale. Vous payez en cohérence éventuelle, en debug plus dur, et en modes de panne qui ne tiennent pas dans une seule stack trace.
@@ -299,3 +300,4 @@ Avant d'expédier un chemin d'événements sur un flux à forte charge :
 L'architecture event-driven mérite sa place quand des systèmes indépendants doivent réagir aux mêmes faits à des vitesses différentes, et quand les chemins de requête ne peuvent pas attendre chaque effet de bord. Le coût d'ingénierie est réel : brokers, schémas, idempotence, outboxes et suivi du lag font partie de la feature, pas des extras.
 
 Commencez avec un fait clair (`OrderPlaced`), une outbox, un consommateur idempotent et des métriques de lag. Élargissez seulement quand le prochain fan-out fait plus mal en appel synchrone qu'en abonné supplémentaire. Cette séquence garde les systèmes à forte charge flexibles sans transformer chaque write en mystère distribué.
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/gemini-3-6-flash-cover.webp
 previewImage: /assets/images/gemini-3-6-flash-cover.webp
 ---
 
+
 Google released three lightweight models in a coordinated deployment: **Gemini 3.6 Flash**, **Gemini 3.5 Flash-Lite**, and **Gemini 3.5 Flash Cyber**, targeting production token efficiency and low-latency agent loops.
 
 If you run agents in production, you already know the bottleneck is rarely "is the model smart enough?" It is usually token burn, latency, and cost per finished task. This release is aimed at that loop: less verbose output, faster decode, and a security-tuned variant for CodeMender.
@@ -120,3 +121,4 @@ Numbers above are Google's published list rates for the public Flash SKUs. Alway
 If you only try one thing this week, run the same agent suite on 3.5 Flash vs 3.6 Flash and log **tokens per finished task** plus pass rate. That single A/B usually tells you more than a blog chart.
 
 Full announcement: [Google Blog](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-6-flash-3-5-flash-lite-3-5-flash-cyber/).
+

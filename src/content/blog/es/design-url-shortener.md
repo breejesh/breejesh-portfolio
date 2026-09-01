@@ -398,3 +398,4 @@ Si recuerdas una lección de producción: **protege el camino de redirección co
 - [ ] Rate limits en create y en volumen sospechoso de redirección
 - [ ] Load test de clave caliente, fría, fallo de caché, failover de BD
 - [ ] Dashboards: QPS de create, QPS de redirect, ratio de aciertos de caché, latencia p99 de redirect, tasa de 404
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/design-interview-learning-path.webp
 previewImage: /assets/images/design-interview-learning-path.webp
 ---
 
+
 > **टीएल;डीआर**
 > * **समस्या:** बड़े पैमाने की वास्तुकला (आर्किटेक्चर) तैयार करने के लिए उपलब्धता, थ्रूपुट और परिचालन जटिलता के बीच संतुलन बनाना आवश्यक है।
 > * **मुख्य निष्कर्ष:** क्लासिक इंटरव्यू डिज़ाइनों के बाद साधारण भाषा में पुन: प्रयोज्य बिल्डिंग ब्लॉक्स सीखें, शुरुआती प्रैक्टिस क्रम अपनाएँ, और इस ब्लॉग सीरीज़ को अपने अध्ययन मानचित्र की तरह इस्तेमाल करें।
@@ -171,7 +172,7 @@ previewImage: /assets/images/design-interview-learning-path.webp
 
 - [डीएनएस कैसे काम करता है](/blog/hi/how-dns-works-for-engineers)
 - [एचटीटीपीएस और TLS कैसे काम करते हैं](/blog/hi/how-https-tls-works)
-- [डेवलपर्स के लिए OAuth २.०](/blog/hi/oauth2-for-developers)
+- [डेवलपर्स के लिए OAuth २.०](/blog/hi/oauth२-for-developers)
 - [रेडिस कैशिंग पैटर्न](/blog/hi/redis-caching-patterns)
 - [इवेंट-ड्रिवन आर्किटेक्चर](/blog/hi/event-driven-architecture-intro)
 - [रियल-टाइम ऐप्स के लिए वेब सॉकेट्स](/blog/hi/websockets-realtime-basics)
@@ -222,3 +223,4 @@ previewImage: /assets/images/design-interview-learning-path.webp
 जहाँ कमज़ोर हैं वहाँ से शुरू करें। अगर नंबर डराते हैं, अनुमान करें। अगर असिंक उलझाता है, ड्राइव से पहले क्रॉलर और नोटिफिकेशन करें। अगर संरचना पर अटकते हैं, फ्रेमवर्क पोस्ट टाइमर के साथ दो बार चलाएँ।
 
 फिर आगे बढ़ते रहें। स्थिर प्रैक्टिस काफी है। नाटक की ज़रूरत नहीं। सिर्फ अगले सेशन में उपस्थित होना है।
+

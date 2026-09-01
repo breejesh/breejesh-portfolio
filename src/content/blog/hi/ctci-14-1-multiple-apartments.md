@@ -1,31 +1,67 @@
 ---
-title: "Multiple Apartments: Query Tenants with Multiple Apartments in SQL (CTCI 14.1)"
-description: "CTCI problem 14.1: SQL query using GROUP BY and HAVING to find tenants renting more than one apartment."
-date: "2026-04-03"
-tags: [एल्गोरिदम और डेटा संरचनाएं, बैकएंड और डेटाबेस]
+title: "एकाधिक अपार्टमेंट (Multiple Apartments): Group By और Having फ़िल्टर SQL क्वेरीज़ (सीटीसीआई १४.१)"
+description: "रिलेशनल डेटाबेस में JOIN, GROUP BY और HAVING एग्रीगेट फ़िल्टर का उपयोग करके एक से अधिक अपार्टमेंट किराए पर लेने वाले किरायेदारों की पहचान करने के लिए SQL क्वेरी।"
+date: "2026-05-06"
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-14-1-multiple-apartments.webp
 previewImage: /assets/images/ctci-14-1-multiple-apartments.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १४.१ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १४.१: एसक्यूएल query using GROUP BY and HAVING to find tenants renting more than one apartment.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** उन किरायेदारों की सूची प्राप्त करने के लिए एक SQL क्वेरी लिखें जो एक से अधिक अपार्टमेंट किराए पर ले रहे हैं।
+> * **मुख्य समाधान:** **एग्रीगेटेड सबक्वेरी और HAVING फ़िल्टरिंग**: (१) डेटाबेस स्कीमा में `Tenants(TenantID, TenantName)` और जंक्शन टेबल `AptTenants(TenantID, AptID)` शामिल हैं; (२) `AptTenants` को `TenantID` के आधार पर समूहीकृत करें और `HAVING COUNT(*) > 1` द्वारा फ़िल्टर करें; (३) किरायेदार का नाम प्राप्त करने के लिए फ़िल्टर की गई आईडी को `Tenants` टेबल के साथ `INNER JOIN` करें; (४) यह इंडेक्स स्कैन द्वारा **$O(N)$ समय** में निष्पादित होता है।
+> * **रियल-वर्ल्ड सिस्टम:** प्रॉपर्टी मैनेजमेंट सिस्टम और सीआरएम ऑडिटिंग।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१४.१** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १४.१: एसक्यूएल query using GROUP BY and HAVING to find tenants renting more than one apartment.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १४.१) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"एक से अधिक अपार्टमेंट किराए पर लेने वाले किरायेदारों के नाम प्राप्त करने के लिए कुशल SQL क्वेरी लिखें।"*
 
 ```sql
-SELECT TenantID, COUNT(*) AS ApartmentCount
-FROM AptTenants
-GROUP BY TenantID
-HAVING COUNT(*) > 1;
+-- रिलेशनल स्कीमा
+Tenants(TenantID, TenantName)
+AptTenants(TenantID, AptID)
+Apartments(AptID, UnitNumber, BuildingID)
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## २. WHERE और HAVING में अंतर
+
+* **`WHERE`:** एग्रीगेशन से *पहले* व्यक्तिगत पंक्तियों को फ़िल्टर करता है।
+* **`HAVING`:** `GROUP BY` द्वारा समूहों की गणना करने के *बाद* परिणामी समूहों को फ़िल्टर करता है।
+
+## प्रोडक्शन कार्यान्वयन
+
+```sql
+-- सबक्वेरी आधारित इष्टतम SQL दृष्टिकोण
+SELECT 
+    Tenants.TenantName
+FROM Tenants
+INNER JOIN (
+    SELECT 
+        TenantID
+    FROM AptTenants
+    GROUP BY TenantID
+    HAVING COUNT(*) > 1
+) MultiLease
+ON Tenants.TenantID = MultiLease.TenantID;
+```
+
+## प्रदर्शन और निष्पादन योजना
+
+| चरण | ऑपरेशन | उपयोग किया गया इंडेक्स | जटिलता |
+|---|---|---|---|
+| १. एग्रीगेशन | `AptTenants` पर `TenantID` द्वारा ग्रुप | कम्पोजिट इंडेक्स `(TenantID, AptID)` | $O(M)$ इंडेक्स स्कैन |
+| २. हैविंग फ़िल्टर | `COUNT <= 1` वाले समूहों को हटाना | इन-मेमोरी बफर | $O(K)$ |
+| ३. फ़ाइनल जॉइन | `Tenants` में प्राइमरी की लुकअप | क्लस्टर्ड इंडेक्स `TenantID` | $O(K \times 1)$ |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: कवरिंग इंडेक्स
+
+१. **कवरिंग इंडेक्स:** `CREATE INDEX idx_apt_tenants ON AptTenants(TenantID, AptID)` बनाकर डिस्क से टेबल डेटा पढ़े बिना सीधे B-Tree इंडेक्स से पूरी क्वेरी हल करना।
+२. **डुप्लीकेट रिकॉर्ड्स:** यदि जंक्शन टेबल में डुप्लीकेट की अनुमति है, तो `HAVING COUNT(DISTINCT AptID) > 1` का उपयोग करें।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **शून्य अपार्टमेंट वाले किरायेदार:** `INNER JOIN` निष्क्रिय किरायेदारों को स्वतः बाहर कर देता है।

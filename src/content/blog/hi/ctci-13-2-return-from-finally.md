@@ -1,34 +1,88 @@
 ---
-title: "Return from Finally: Try-Catch-Finally Execution Order in Java (CTCI 13.2)"
-description: "CTCI problem 13.2: how return statements in try, catch, and finally blocks interact in Java runtime execution."
-date: "2025-08-07"
+title: "फ़ाइनली से रिटर्न (Return from Finally): जावा में नियंत्रण प्रवाह और जेवीएम बाइटकोड सेमेंटिक्स (सीटीसीआई १३.२)"
+description: "जावा में रिटर्न स्टेटमेंट के दौरान फाइनली (finally) ब्लॉक के निष्पादन की गारंटी, स्टैक वैल्यू बफरिंग और जेवीएम समाप्ति के मामलों का विश्लेषण।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-13-2-return-from-finally.webp
 previewImage: /assets/images/ctci-13-2-return-from-finally.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १३.२ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १३.२: how return statements in try, catch, and finally blocks interact in जावा runtime execution.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** जावा में, यदि हम `try-catch-finally` कथन के `try` ब्लॉक के अंदर एक `return` कथन डालते हैं, तो क्या `finally` ब्लॉक निष्पादित होता है?
+> * **मुख्य समाधान:** **गारंटीकृत निष्पादन और रिटर्न मान बफरिंग**: (१) **हाँ, बिना शर्त**: नियंत्रण कॉलर को वापस जाने से पहले `finally` ब्लॉक *हमेशा* निष्पादित होता है, भले ही `try` या `catch` में `return`, `break`, या `continue` मौजूद हो; (२) **मूल्यांकन क्रम**: `try` में रिटर्न एक्सप्रेशन का तुरंत मूल्यांकन किया जाता है और परिणाम को जेवीएम स्टैक स्लॉट में बफर किया जाता है, जिसके बाद नियंत्रण `finally` ब्लॉक पर जाता है; (३) **रिटर्न ओवरराइडिंग**: यदि `finally` में स्वयं का `return` कथन है, तो यह बफर किए गए मान (या किसी भी सक्रिय अपवाद) को स्थायी रूप से अधिलेखित कर देता है; (४) **अपवाद**: `finally` केवल `System.exit(0)`, JVM क्रैश (`SIGKILL`), या `try` में अनंत लूप की स्थिति में निष्पादित नहीं होता है।
+> * **रियल-वर्ल्ड सिस्टम:** थ्रेड लॉक्स (`ReentrantLock`) की सुरक्षित विमुक्ति और `try-with-resources`।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१३.२** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १३.२: how return statements in try, catch, and finally blocks interact in जावा runtime execution.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १३.२) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"जावा में यदि try ब्लॉक में return स्टेटमेंट मौजूद हो, तो finally ब्लॉक के निष्पादन और लौटने वाले मान के व्यवहार की व्याख्या करें।"*
+
+## २. जेवीएम नियंत्रण प्रवाह और बाइटकोड क्रम
+
+`try` ब्लॉक में `return` मिलने पर:
+१. रिटर्न मान की गणना करके उसे स्थानीय जेवीएम स्टैक रजिस्टर में सुरक्षित रख लिया जाता है।
+२. नियंत्रण बिना शर्त `finally` ब्लॉक पर स्थानांतरित होता है।
+३. `finally` पूरा होने के बाद बफर किया गया मान वापस लौटा दिया जाता है।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public static int testFinally() {
-    try {
-        return 1;
-    } finally {
-        return 2; // Finally block overrides try return, returns 2!
+public class FinallyExecutionProof {
+
+    public static int testPrimitiveBuffering() {
+        int x = 1;
+        try {
+            return x; // मान 1 को बफर करता है
+        } finally {
+            x = 2; // लोकल वेरिएबल बदलता है पर बफर किया गया मान नहीं
+            System.out.println("Finally चला, x का मान: " + x);
+        }
+    }
+
+    public static StringBuilder testReferenceBuffering() {
+        StringBuilder sb = new StringBuilder("नमस्ते");
+        try {
+            return sb; // ऑब्जेक्ट संदर्भ का पता बफर करता है
+        } finally {
+            sb.append(" दुनिया"); // हीप में ऑब्जेक्ट को बदलता है
+        }
+    }
+
+    public static int badReturnFromFinally() {
+        try {
+            throw new RuntimeException("गंभीर त्रुटि");
+        } finally {
+            return 100; // एंटी-पैटर्न: अपवाद को दबा देता है
+        }
     }
 }
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और शून्य इनपुट की जांच करें।
+## निष्पादन परिणाम मैट्रिक्स
+
+| परिदृश्य | निष्पादन क्रम | लौटाया गया मान |
+|---|---|---|
+| `try` प्रिमिटिव `x = 1` लौटाता है, `finally` में `x = 2` | `try` $\to$ `finally` $\to$ return | **1** लौटाता है (बफर किया गया स्केलर मान)। |
+| `try` ऑब्जेक्ट लौटाता है, `finally` ऑब्जेक्ट म्यूट करता है | `try` $\to$ `finally` $\to$ return | म्यूट किया गया ऑब्जेक्ट लौटाता है। |
+| `try` अपवाद फेंकता है, `finally` में `return` है | `try` $\to$ `finally` $\to$ return | मान लौटाता है (**अपवाद दब जाता है**)। |
+| `try` में `System.exit(0)` कॉल होता है | जेवीएम तुरंत बंद हो जाता है | `finally` **कभी नहीं चलता**। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: थ्रेड लॉक विमुक्ति
+
+१. **कंकरेंट लॉकिंग में गारंटी:**
+   ```java
+   lock.lock();
+   try {
+       executeTransaction();
+   } finally {
+       lock.unlock(); // मेमोरी त्रुटि में भी चलना सुनिश्चित
+   }
+   ```
+२. **Try-With-Resources (Java 7+):** `AutoCloseable` इंटरफेस द्वारा स्ट्रीम्स और सॉकेट्स को स्वतः बंद करना।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **Finally में `return` से बचें:** सोनारक्विब (SonarQube) इसे एक गंभीर बग मानता है क्योंकि यह अनहैंडल्ड एक्सेप्शन्स को छुपा देता है।

@@ -7,6 +7,7 @@ coverImage: /assets/images/css-grid-layout-mental-model.webp
 previewImage: /assets/images/css-grid-layout-mental-model.webp
 ---
 
+
 Flexbox va bien para una fila o una columna. Grid es la herramienta para **dos ejes a la vez**: filas y columnas que alinean, se solapan de forma controlada y reflowean sin un árbol de wrappers anidados.
 
 La mayoría de bugs de Grid vienen de un modelo borroso de qué es un track, cómo reparte espacio libre `fr` y qué hace `auto-fit` cuando las columnas colapsan. Este post es ese modelo, más los patrones que pego en páginas reales.
@@ -363,3 +364,4 @@ Cuando un layout "se niega" a encoger o alinear:
 * Grid para dos ejes, Flex para uno. Anídalos sin miedo.
 
 Cuando esos seis puntos sean memoria muscular, Grid deja de sentirse como una sintaxis especial y empieza a sentirse como dibujar una tabla que sabe reflowear.
+

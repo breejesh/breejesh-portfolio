@@ -1,32 +1,66 @@
 ---
-title: "Open Requests: SQL Left Join for Open Maintenance Requests (CTCI 14.2)"
-description: "CTCI problem 14.2: SQL query returning open maintenance requests per building using LEFT JOIN and GROUP BY."
-date: "2026-06-05"
-tags: [एल्गोरिदम और डेटा संरचनाएं, बैकएंड और डेटाबेस]
+title: "ओपन रिक्वेस्ट्स (Open Requests): SQL में लेफ्ट जॉइन और एग्रीगेशन की बारीकियां (सीटीसीआई १४.२)"
+description: "SQL में सभी इमारतों और उनके खुले रखरखाव अनुरोधों (Open Requests) की संख्या प्राप्त करने के लिए LEFT JOIN और COUNT(col) का सही उपयोग।"
+date: "2026-05-06"
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-14-2-open-requests.webp
 previewImage: /assets/images/ctci-14-2-open-requests.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १४.२ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १४.२: एसक्यूएल query returning open maintenance requests per building using LEFT JOIN and GROUP BY.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** सभी इमारतों और उनके खुले अनुरोधों (Requests जिनमें स्थिति 'Open' के बराबर है) की संख्या की सूची प्राप्त करने के लिए एक SQL क्वेरी लिखें।
+> * **मुख्य समाधान:** **ON क्लॉज में प्रेडिकेट के साथ मल्टी-टेबल LEFT JOIN**:
+>   1. **सामान्य गलती**: `INNER JOIN` का उपयोग करने पर ० अनुरोध वाली इमारतें परिणाम से बाहर हो जाती हैं; `WHERE Requests.Status = 'Open'` लगाने पर `LEFT JOIN`, `INNER JOIN` में बदल जाता है।
+>   2. **सही समाधान**: `Buildings` $\to$ `Apartments` $\to$ `Requests` पर `LEFT JOIN` करें और स्टेटस फ़िल्टर को सीधे `ON` क्लॉज में रखें: `ON Apartments.AptID = Requests.AptID AND Requests.Status = 'Open'`.
+>   3. **एग्रीगेशन बारीकी**: `COUNT(*)` के बजाय `COUNT(Requests.RequestID)` का उपयोग करें (ताकि NULL पंक्तियों का मान ० आए न कि १)।
+>   4. यह **$O(N)$ समय** में निष्पादित होता है।
+> * **रियल-वर्ल्ड सिस्टम:** मेंटेनेंस ट्रैकिंग डैशबोर्ड और एसएलए अनुपालन मेट्रिक्स।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१४.२** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १४.२: एसक्यूएल query returning open maintenance requests per building using LEFT JOIN and GROUP BY.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १४.२) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"सभी इमारतों और उनके खुले अनुरोधों (Status = 'Open') की संख्या प्रदर्शित करने के लिए SQL क्वेरी लिखें।"*
+
+## २. लेफ्ट जॉइन के महत्वपूर्ण नियम
+
+१. **WHERE क्लॉज में फ़िल्टर लगाने की भूल:** शून्य अनुरोध वाली इमारतों के लिए उत्पन्न NULL पंक्तियों को हटा देती है।
+२. **`COUNT(*)` की भूल:** शून्य अपार्टमेंट वाली इमारत के लिए बनाई गई NULL पंक्ति को १ अनुरोध मान लेती है। हमेशा `COUNT(कॉलम_नाम)` का उपयोग करें।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```sql
-SELECT Buildings.BuildingName, COUNT(Requests.RequestID) AS OpenRequests
-FROM Buildings
-LEFT JOIN Apartments ON Buildings.BuildingID = Apartments.BuildingID
-LEFT JOIN Requests ON Apartments.AptID = Requests.AptID AND Requests.Status = 'Open'
-GROUP BY Buildings.BuildingID, Buildings.BuildingName;
+SELECT 
+    b.BuildingID,
+    b.BuildingName,
+    COUNT(r.RequestID) AS NumberOfOpenRequests
+FROM Buildings b
+LEFT JOIN Apartments a 
+    ON b.BuildingID = a.BuildingID
+LEFT JOIN Requests r 
+    ON a.AptID = r.AptID 
+   AND r.Status = 'Open'
+GROUP BY 
+    b.BuildingID, 
+    b.BuildingName;
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## निष्पादन योजना और जटिलता
+
+| चरण | ऑपरेशन | अनुशंसित इंडेक्स | जटिलता |
+|---|---|---|---|
+| १. इमारतों का स्कैन | क्लस्टर्ड इंडेक्स स्कैन | `PK_Buildings` | $O(B)$ |
+| २. अपार्टमेंट्स लुकअप | फॉरेन की इंडेक्स सीक | `IX_Apartments_BuildingID` | $O(B \log A)$ |
+| ३. ओपन रिक्वेस्ट फ़िल्टर | फ़िल्टर्ड इंडेक्स सीक | `IX_Requests_Status_Open` | $O(A \log R)$ |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: फ़िल्टर्ड / आंशिक इंडेक्स
+
+१. **फ़िल्टर्ड इंडेक्स:** लाखों बंद अनुरोधों वाली तालिकाओं में `CREATE INDEX idx_open ON Requests(AptID) WHERE Status = 'Open'` इंडेक्स आकार को $९९\%$ तक कम करता है, जिससे संपूर्ण इंडेक्स रैम कैश में बना रहता है।
+२. **नल हैंडलिंग:** शून्य मानों के सुरक्षित आउटपुट के लिए `COALESCE` का उपयोग।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **शून्य अपार्टमेंट वाली इमारतें:** ० खुले अनुरोधों के साथ सही ढंग से प्रदर्शित।
+२. **अपार्टमेंट वाली लेकिन ० अनुरोध वाली इमारतें:** ० खुले अनुरोधों के साथ सही ढंग से प्रदर्शित।

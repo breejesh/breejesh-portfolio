@@ -7,6 +7,7 @@ coverImage: /assets/images/chrome-extension-manifest-v3.webp
 previewImage: /assets/images/chrome-extension-manifest-v3.webp
 ---
 
+
 Le Chrome Web Store n'accepte plus que les extensions Manifest V3. Si votre dernière extension utilisait encore une page d'arrière-plan persistante, `browserAction` ou un `webRequest` bloquant, ce modèle a disparu. Le remplacement est un **service worker** à durée de vie courte, des permissions plus strictes, et une séparation claire entre le code de la page et le code de l'extension.
 
 Ce billet construit une petite extension de bout en bout: clic sur l'icône de la barre d'outils, comptage des mots sur l'onglet actif, toast sur la page, et badge sur l'icône. Pas de framework, pas d'étape de build. Vous obtenez les pièces utiles sur presque toute extension réelle: **manifest**, **service worker**, **content script**, **messagerie** et **permissions**.
@@ -369,3 +370,4 @@ Manifest V3 porte moins sur une nouvelle syntaxe JavaScript que sur le cycle de 
 Reprenez la structure ci-dessus, chargez-la en unpacked, cassez volontairement le `type` du message, et regardez l'échec dans les DevTools du worker. Cette boucle de dix minutes enseigne plus qu'une autre comparaison abstraite de V2 et V3.
 
 Quand vous dépassez les démos, lisez la documentation actuelle des extensions Chrome sur l'enregistrement `service_worker`, `activeTab` et declarative net request. Les APIs évoluent par petits détails; l'architecture ci-dessus est la forme stable des extensions Chrome depuis des années, et c'est celle sur laquelle construire en 2026.
+

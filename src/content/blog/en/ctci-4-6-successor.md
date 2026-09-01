@@ -1,142 +1,83 @@
 ---
-title: "Successor: In-Order Next Node in a BST (Java)"
-description: "CTCI-style problem 4.6 for beginners: find the in-order successor of a node in a binary search tree when every node has a parent link. Right-subtree leftmost, or climb parents until you are not a right child."
-date: "2026-02-22"
+title: "Successor: Finding the In-Order Successor in a BST (CTCI 4.6)"
+description: "Write an algorithm to find the in-order successor of a node in a binary search tree with parent pointers in O(H) time and O(1) space."
+date: "2026-05-06"
 tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-4-6-successor.webp
 previewImage: /assets/images/ctci-4-6-successor.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
-> * **The Approach:** CTCI-style problem 4.6 for beginners: find the in-order successor of a node in a binary search tree when every node has a parent link. Right-subtree leftmost, or climb parents until you are not a right child.
-> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
+> * **The Book Problem:** Write an algorithm to find the "next" node (i.e., in-order successor) of a given node in a binary search tree. You may assume that each node has a link to its parent.
+> * **The Optimal Solution:** (1) If the node has a right child, the successor is the **leftmost child of the right subtree**; (2) Else, traverse upwards through parent pointers until we find a parent for which our current node was in the **left subtree**, running in $O(H)$ time and $O(1)$ space.
+> * **Production Reality:** Bi-directional B-Tree cursor iterators (`cursor.next()`) in database storage engines, range query scanning, and standard library ordered map iterators.
 
-In-order walk of a BST prints keys in sorted order. Given one node, the **successor** is the next key that walk would visit. You do not restart from the root and scan the whole tree. You already hold the node, and each node has a `parent` pointer.
+## 1. The Book Problem Formulation
 
-This post is original teaching for beginners in **Java**. Same problem family as classic BST successor questions, not a book copy. Part of the [CTCI Java series](/blog/en/ctci-series-guide).
+In *Cracking the Coding Interview* (Problem 4.6), we are asked:
 
----
+*"Write an algorithm to find the 'next' node (i.e., in-order successor) of a given node in a binary search tree. You may assume that each node has a link to its parent."*
 
-## 1. Sorted line analogy
+**Recall In-Order Traversal Order:** Left $\to$ Current $\to$ Right.
+The in-order successor of node $x$ is the node with the smallest key strictly greater than $x.val$.
 
-Picture the BST as a sorted line of people standing by height (or key). In-order means: left subtree, then me, then right subtree. The successor of a person is whoever stands immediately to their right on that line.
+## 2. Case Analysis & Algorithmic Mechanics
 
-Two ways to find them without redrawing the whole line:
+There are two distinct structural cases:
 
-* **You have a right-hand branch.** The next person is not your right child. It is the **leftmost** person in that right branch (the smallest key still greater than yours).
-* **You have no right-hand branch.** You already finished your left side and yourself. Climb toward the root while you are still someone's **right** child. The first ancestor for whom you sit on the **left** is the next person on the line. If you climb past the root, you were last.
+### Case 1: Node Has a Right Subtree
+If `node.right != null`, the successor is the smallest element in the right subtree:
+* Step right once: `curr = node.right`.
+* Step left as far as possible: `while (curr.left != null) curr = curr.left;`.
+* Return `curr`.
 
-Parent links are the ladder. Without them you would search from the root every time.
+### Case 2: Node Has No Right Subtree
+If `node.right == null`, we must look to the ancestors:
+* If `node` is the left child of its parent, the parent is the immediate successor.
+* If `node` is the right child of its parent, we have already traversed the parent. We traverse up the tree (`node = parent; parent = parent.parent`) until we find a node that is the **left child** of its parent.
+* If we reach the root without fulfilling this, the node was the maximum element in the BST, and no successor exists (`null`).
 
----
-
-## 2. Plain problem statement
-
-**Goal:** given a node `n` in a binary search tree, return the in-order successor of `n`, or `null` if `n` is last.
-
-**Assumptions:**
-
-* Nodes have `left`, `right`, and `parent`.
-* The tree is a BST (left keys smaller, right keys larger), or at least you only need the structural in-order next node.
-* You may start from `n` only; you do not get a separate root unless you climb to it.
-
-**Clarify before coding:**
-
-* What if `n` is null? (Return null.)
-* What if `n` has no parent and no right child? (It is the root and last; return null.)
-* Duplicate keys? (Problem usually assumes unique keys. State your rule if asked.)
-
----
-
-## 3. Think first
-
-### Wrong first idea: full in-order dump
-
-Walk the whole tree into a list, find `n`, return the next index. Correct but O(N) time and space. Interviewers want O(H) with parent links, where H is height.
-
-### Case A: right child exists
-
-Successor is the minimum of the right subtree:
-
-1. Go to `n.right`.
-2. While `left` is not null, go left.
-3. That node is the answer.
-
-Why? In-order does left, node, right. After `n`, the first visit in the right subtree is its leftmost node.
-
-### Case B: no right child
-
-Climb parents:
-
-1. Set `p = n.parent`, `c = n`.
-2. While `p` is not null and `c == p.right` (you are still a right child), set `c = p`, `p = p.parent`.
-3. Return `p` (may be null if you were the overall last node).
-
-Why? You finished a right subtree. Keep going up until the climb enters a node from the left. That node has not been "visited" yet in the mental in-order walk.
-
-### Sketch
-
-```
-        20
-       /  \
-     10    30
-    /  \     \
-   5   15    40
-      /
-    12
-```
-
-| Node | Successor | Why |
-| --- | --- | --- |
-| 10 | 12 | right child 15 exists; leftmost of that branch is 12 |
-| 15 | 20 | no right; 15 is right of 10, so climb; 10 is left of 20 → 20 |
-| 40 | null | no right; climb as right child of 30, then of 20; root has no parent |
-| 5 | 10 | no right; 5 is left of 10 → parent 10 |
-
----
-
-## 4. Java solution
+## Production Implementation
 
 ```java
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-    TreeNode parent;
+public class Successor {
+    public static class TreeNode {
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
+        public TreeNode parent;
 
-    TreeNode(int val) {
-        this.val = val;
-    }
-}
-
-class Solution {
-    /** In-order successor of n, or null if n is last / null. */
-    TreeNode inOrderSuccessor(TreeNode n) {
-        if (n == null) {
-            return null;
+        public TreeNode(int x) {
+            this.val = x;
         }
+    }
 
-        // Case A: right subtree exists → leftmost of right
+    /**
+     * Finds the in-order successor of a node in a BST.
+     * Time Complexity: O(H) where H is tree height.
+     * Space Complexity: O(1)
+     */
+    public static TreeNode inorderSucc(TreeNode n) {
+        if (n == null) return null;
+
+        // Case 1: Found right children -> return leftmost node of right subtree
         if (n.right != null) {
             return leftMostChild(n.right);
-        }
+        } else {
+            // Case 2: Go up until we're on left instead of right
+            TreeNode q = n;
+            TreeNode x = q.parent;
 
-        // Case B: climb until we are not a right child
-        TreeNode current = n;
-        TreeNode p = n.parent;
-        while (p != null && p.right == current) {
-            current = p;
-            p = p.parent;
+            while (x != null && x.left != q) {
+                q = x;
+                x = x.parent;
+            }
+            return x;
         }
-        return p;
     }
 
-    private TreeNode leftMostChild(TreeNode n) {
-        if (n == null) {
-            return null;
-        }
+    private static TreeNode leftMostChild(TreeNode n) {
+        if (n == null) return null;
         while (n.left != null) {
             n = n.left;
         }
@@ -145,72 +86,22 @@ class Solution {
 }
 ```
 
-Helper notes:
+## Complexity & Memory Analysis
 
-* `leftMostChild` is the same idea as "minimum in a BST subtree".
-* The climb loop stops when `p == null` (no successor) or when `current` is `p.left` (found the ancestor that comes next).
-* You do not need the root as a separate argument if parent links are complete.
+| Metric | Complexity | Technical Detail |
+|---|---|---|
+| Time Complexity | `O(H)` | Traverses downward to the leftmost leaf or upward along ancestor chain (bounded by tree height $H$). |
+| Auxiliary Space | `O(1)` | Iterates in-place using reference pointers without recursion or memory allocation. |
 
-Optional: if the interviewer forbids parent links, you search from the root with a running candidate (track the last node greater than `n` while walking). That is a different problem setup; this post sticks to parent links.
+## Real-World Systems Engineering Discussion
 
----
+### Production Systems Architecture: Database Cursor Iterators
 
-## 5. Complexity table
+1. **Storage Engine Range Scans (B-Tree Cursors):** When executing `SELECT * WHERE id > 500 LIMIT 10`, storage engines seek node 500 and repeatedly invoke successor traversal across sibling tree blocks.
+2. **C++ `std::map::iterator++`:** Iterates through red-black trees in $O(1)$ amortized time per step using parent pointers.
 
-| Approach | Time | Extra space |
-| --- | --- | --- |
-| Parent-link successor (this solution) | O(H) | O(1) |
-| Full in-order list then index | O(N) | O(N) |
-| From root without parents (candidate walk) | O(H) | O(1) |
+## Edge Cases & Production Hardening
 
-H is tree height. Balanced tree ≈ log N. Skewed tree can be N. Space stays constant for the parent-link walk.
-
----
-
-## 6. Edge cases and common mistakes
-
-Interviewers poke these:
-
-* **Null input** → return null.
-* **Rightmost node** → climb to root, then null. Last in in-order has no successor.
-* **Root with only left subtree** → if you ask successor of the root and it has no right, return null (root is last if no right).
-* **Leaf that is a left child** → successor is its parent (no climb loop iterations after the first check).
-* **Deep right spine** → climb may walk many parents; still O(H), not wrong.
-
-Common mistakes:
-
-1. **Returning the right child directly** instead of the leftmost of the right subtree. That skips the left chain under the right child.
-2. **Climbing only one parent** always. You must loop while you remain a right child.
-3. **Forgetting parent is null** at the root and NPE on `p.right`.
-4. **Confusing successor with predecessor.** Predecessor is symmetric: leftmost has no left → climb while left child; or rightmost of left subtree.
-5. **Assuming a balanced tree** when quoting time. Say O(H), mention worst case O(N).
-6. **Mutating the tree** to thread parents temporarily. Not needed if parents already exist.
-
-Minimal usage sketch:
-
-```java
-// Build a tiny tree with parents set both ways, then:
-TreeNode fifteen = /* node 15 */;
-TreeNode next = new Solution().inOrderSuccessor(fifteen); // 20 in the sketch above
-```
-
----
-
-## 7. Explain to a friend recap
-
-Successor is "who comes next in sorted / in-order order" for one BST node:
-
-1. If the node has a right child, go right once, then left until you cannot. That node is next.
-2. If not, walk up parents while you are still the right child. The first parent where you came from the left is next.
-3. If you run out of parents, there is no next node.
-4. Parent pointers make this O(height) and O(1) extra space. No full tree dump.
-
-If you can draw the two cases on a whiteboard and walk 15 → 20 and 40 → null on a sample tree, you own problem 4.6.
-
----
-
-## Series
-
-* Guide: [CTCI series guide](/blog/en/ctci-series-guide)
-* Previous: [Validate BST](/blog/en/ctci-4-5-validate-bst)
-* Next: [Build Order](/blog/en/ctci-4-7-build-order)
+1. **Maximum element in BST:** Ancestor loop reaches root (`x == null`), returning `null`.
+2. **Root node:** If right child exists, returns leftmost of right; otherwise returns `null`.
+3. **Null input:** Guard clause returns `null`.

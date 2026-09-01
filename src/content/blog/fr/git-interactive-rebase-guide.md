@@ -7,6 +7,7 @@ coverImage: /assets/images/git-interactive-rebase-guide.webp
 previewImage: /assets/images/git-interactive-rebase-guide.webp
 ---
 
+
 Le rebase interactif est l'outil que j'ouvre quand une branche feature ressemble à un carnet de labo: cinq commits "wip", un correctif de typo sur un correctif de typo, et un message que je ne mergerais jamais tel quel. Bien utilisé, ça transforme ce bruit en une courte histoire qu'un reviewer peut suivre. Sur la mauvaise branche, ça réécrit un historique sur lequel d'autres ont déjà construit, et le chat d'équipe s'enflamme.
 
 Voici le playbook que j'utilise en équipe: les commandes, les verbes de todo qui comptent, quand s'arrêter, et comment s'en sortir quand ça tourne mal.
@@ -356,3 +357,4 @@ git reset --hard HEAD@{n}
 Voyez le rebase interactif comme **l'édition d'une série de patches**, pas comme "effacer le passé." Les vieux commits restent souvent dans le reflog jusqu'au garbage collection. L'histoire partagée, c'est ce que vous push.
 
 Utilisez-le pour rendre la review moins chère: moins de commits, messages honnêtes, histoire linéaire sur le `main` actuel. Arrêtez-vous dès que les commits sont un contrat partagé. Cette frontière, plus que n'importe quel verbe de la todo, sépare un historique propre d'un incident d'équipe.
+

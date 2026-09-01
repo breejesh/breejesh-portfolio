@@ -1,31 +1,100 @@
 ---
-title: "Context Switch: Measuring Thread vs Process Context Switching (CTCI 15.2)"
-description: "CTCI problem 15.2: mechanics of OS context switching, CPU register saving, TLB flushing, and cache misses."
-date: "2026-03-27"
-tags: [एल्गोरिदम और डेटा संरचनाएं, बैकएंड और डेटाबेस]
+title: "कॉन्टेक्स्ट स्विच (Context Switch): सीपीयू कर्नल शेड्यूलिंग लेटेंसी का मापन (सीटीसीआई १५.२)"
+description: "ऑपरेटिंग सिस्टम में कॉन्टेक्स्ट स्विच लेटेंसी को मापने के लिए डुअल-पाइप पिंग-पॉन्ग टोकन और सीपीयू कोर एफिनिटी का व्यावहारिक बेंचमार्किंग ढांचा।"
+date: "2026-05-06"
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-15-2-context-switch.webp
 previewImage: /assets/images/ctci-15-2-context-switch.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १५.२ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १५.२: mechanics of OS context switching, सीपीयू register saving, TLB flushing, and cache misses.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** आप कॉन्टेक्स्ट स्विच (Context Switch) पर खर्च होने वाले समय को कैसे मापेंगे?
+> * **मुख्य समाधान:** **सीपीयू कोर एफिनिटी के साथ डुअल-पाइप टोकन पिंग-पॉन्ग**:
+>   1. **सीपीयू पिनिंग**: मल्टी-कोर समानांतर निष्पादन को रोकने के लिए `sched_setaffinity()` द्वारा दो प्रक्रियाओं ($P_1, P_2$) को **समान सीपीयू कोर** पर बांधें।
+>   2. **ब्लॉकिंग टोकन ट्रांसफर**: $P_1$ और $P_2$ को दो पाइपों से जोड़ें। $P_1$ १ बाइट लिखता है और ब्लॉक हो जाता है; $P_2$ जागता है, पढ़ता है, लिखता है और ब्लॉक होता है।
+>   3. **जबरन कॉन्टेक्स्ट स्विच**: प्रत्येक ब्लॉकिंग रीड कर्नल शेड्यूलर को मजबूर करता है कि वह प्रोसेस बदले (प्रति राउंड-ट्रिप २ कॉन्टेक्स्ट स्विच)।
+>   4. **सूत्र**: $T_{\text{स्विच}} = \frac{T_{\text{कुल}} - T_{\text{बेस}}}{2 \times N}$।
+> * **रियल-वर्ल्ड सिस्टम:** लिनक्स `perf stat -e context-switches`, eBPF कर्नेल ट्रेसपॉइंट्स और हाई-फ्रीक्वेंसी ट्रेडिंग में `isolcpus` कोर आइसोलेशन।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१५.२** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १५.२: mechanics of OS context switching, सीपीयू register saving, TLB flushing, and cache misses.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १५.२) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"ऑपरेटिंग सिस्टम में कॉन्टेक्स्ट स्विच में लगने वाले समय को सटीक रूप से मापने के लिए एक प्रयोगात्मक विधि तैयार करें।"*
 
-```java
-// Context switch cost:
-// 1. Save CPU registers and program counter
-// 2. Switch MMU page table (process switch)
-// 3. Flush TLB cache
+## २. प्रयोगात्मक मापन पद्धति
+
+१. दोनों प्रक्रियाओं को एकल सीपीयू कोर (Core 0) पर लॉक करना।
+२. पाइप्स पर सिंक्रोनस ब्लॉकिंग रीड कॉल्स द्वारा ऑपरेटिंग सिस्टम शेड्यूलर को लगातार प्रोसेस बदलने के लिए मजबूर करना।
+
+## प्रोडक्शन कार्यान्वयन
+
+```c
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sched.h>
+#include <time.h>
+#include <sys/wait.h>
+
+#define ITERATIONS 100000
+
+static inline long long get_nanos(void) {
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+    return (long long)ts.tv_sec * 1000000000LL + ts.tv_nsec;
+}
+
+int main() {
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    CPU_SET(0, &cpuset);
+    sched_setaffinity(0, sizeof(cpu_set_t), &cpuset);
+
+    int p1_to_p2[2], p2_to_p1[2];
+    pipe(p1_to_p2);
+    pipe(p2_to_p1);
+
+    char token = 'x';
+    pid_t pid = fork();
+
+    if (pid == 0) {
+        for (int i = 0; i < ITERATIONS; i++) {
+            read(p1_to_p2[0], &token, 1);
+            write(p2_to_p1[1], &token, 1);
+        }
+        _exit(0);
+    } else {
+        long long start = get_nanos();
+        for (int i = 0; i < ITERATIONS; i++) {
+            write(p1_to_p2[1], &token, 1);
+            read(p2_to_p1[0], &token, 1);
+        }
+        long long total = get_nanos() - start;
+        wait(NULL);
+
+        double avg_latency = (double)total / (2.0 * ITERATIONS);
+        printf("औसत कॉन्टेक्स्ट स्विच लेटेंसी: %.2f ns\n", avg_latency);
+    }
+    return 0;
+}
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## विशिष्ट लेटेंसी तुलना
+
+| स्विच प्रकार | विशिष्ट लेटेंसी | मुख्य लागत कारक |
+|---|---|---|
+| **थ्रेड स्विच (समान प्रोसेस)** | $\approx 300\text{--}800\text{ ns}$ | रजिस्टर्स और स्टैक पॉइंटर सेव/रीस्टोर। |
+| **प्रोसेस स्विच (अलग मेमोरी)** | $\approx 1.2\text{--}2.5\ \mu\text{s}$ | TLB कैश फ्लश और पेज टेबल रीलोड। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: eBPF और सीपीयू आइसोलेशन
+
+१. **eBPF ट्रेसपॉइंट्स (`sched:sched_switch`):** कोड में बिना बदलाव किए प्रोडक्शन वातावरण में वास्तविक समय लेटेंसी मापना।
+२. **कोर आइसोलेशन (`isolcpus`):** ट्रेडिंग इंजनों में समर्पित सीपीयू कोर देकर कॉन्टेक्स्ट स्विच को पूरी तरह समाप्त ($0\text{ ns}$) करना।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **मल्टी-कोर पूर्वाग्रह:** बिना सीपीयू एफिनिटी के दोनों प्रक्रियाएं अलग-अलग कोर पर समानांतर चलेंगी, जिससे केवल इंटर-कोर संदेश समय मापा जाएगा।

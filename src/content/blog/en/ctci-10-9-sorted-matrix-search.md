@@ -1,48 +1,76 @@
 ---
-title: "Sorted Matrix Search: Search M x N Matrix Sorted by Rows and Columns (CTCI 10.9)"
-description: "CTCI problem 10.9 in Java: search for an element in an M x N matrix where every row and column is sorted in O(M + N) time."
-date: "2026-04-29"
+title: "Sorted Matrix Search: Saddleback Search on 2D Sorted Grids (CTCI 10.9)"
+description: "Search for an element in an M x N matrix where every row and column is sorted in ascending order using Saddleback step-wise pruning in O(M + N) time."
+date: "2026-05-06"
 tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-10-9-sorted-matrix-search.webp
 previewImage: /assets/images/ctci-10-9-sorted-matrix-search.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** Mastering CTCI problem 10.9 with production-grade efficiency.
-> * **The Approach:** CTCI problem 10.9 in Java: search for an element in an M x N matrix where every row and column is sorted in O(M + N) time.
-> * **Complexity:** Optimal Time and Space complexity trade-offs.
+> * **The Book Problem:** Given an $M \times N$ matrix in which each row and each column is sorted in ascending order, write a method to find an element.
+> * **The Optimal Solution:** **Saddleback Step-Wise Pruning from Top-Right Corner**: (1) Start at coordinate `(row = 0, col = N - 1)` (top-right corner); (2) If `matrix[row][col] == target`, target found; (3) If `matrix[row][col] > target`, the entire current column has values larger than target, so decrement `col--`; (4) If `matrix[row][col] < target`, the entire current row has values smaller than target, so increment `row++`; (5) Runs in optimal **$O(M + N)$ time** and **$O(1)$ auxiliary space**, discarding an entire row or column at each step.
+> * **Production Reality:** Spatial bounding box queries in GIS databases (PostGIS), 2D range filters in financial order books, and matrix image filters.
 
-You walk into an interview and get handed problem **10.9**: search for an element in an M x N matrix where every row and column is sorted in O(M + N) time. The naive solution is obvious, but production constraints demand optimal time and space. Here is the exact mental model, the code that works, and the traps that catch candidates off guard.
+## 1. The Book Problem Formulation
 
----
+In *Cracking the Coding Interview* (Problem 10.9), we are asked:
 
-## 1. Everyday analogy
+*"Given an M x N matrix in which each row and each column is sorted in ascending order, write a method to find an element."*
 
-Think of CTCI problem 10.9 like organizing items efficiently in real life. When managing large volumes of elements, choosing the right data structure eliminates redundant iterations.
+**Example Matrix:**
+```
+ 15  20  40  85
+ 20  35  80  95
+ 30  55  95 105
+ 40  80 100 120
+```
 
----
+## 2. Saddleback Pruning Derivation
 
-## 2. Plain problem statement
+Starting at $(0, 0)$ gives no decision boundary because moving right or down both increase the value.
 
-**Problem 10.9:** CTCI problem 10.9 in Java: search for an element in an M x N matrix where every row and column is sorted in O(M + N) time.
+By starting at the **top-right corner $(0, \text{cols} - 1)$** (or bottom-left):
+* Moving **left** decreases the value.
+* Moving **down** increases the value.
 
----
+At every step, exactly one row or column is permanently eliminated from the search space:
+$$\text{Max Steps} = M + N$$
 
-## 3. Optimal approach and implementation
+## Production Implementation
 
 ```java
 public class SortedMatrixSearch {
+    public static class Coordinate {
+        public int row;
+        public int column;
+
+        public Coordinate(int r, int c) {
+            this.row = r;
+            this.column = c;
+        }
+    }
+
+    /**
+     * Finds element in sorted 2D matrix using Saddleback search.
+     * Time Complexity: O(M + N)
+     * Space Complexity: O(1)
+     */
     public static boolean findElement(int[][] matrix, int elem) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return false;
+        }
+
         int row = 0;
         int col = matrix[0].length - 1;
+
         while (row < matrix.length && col >= 0) {
             if (matrix[row][col] == elem) {
                 return true;
             } else if (matrix[row][col] > elem) {
-                col--;
+                col--; // Eliminate entire column
             } else {
-                row++;
+                row++; // Eliminate entire row
             }
         }
         return false;
@@ -50,17 +78,21 @@ public class SortedMatrixSearch {
 }
 ```
 
----
+## Complexity & Memory Analysis
 
-## 4. Time & Space Complexity
+| Metric | Complexity | Technical Detail |
+|---|---|---|
+| Time Complexity | `O(M + N)` | In each iteration, either `row` increments or `col` decrements ($M + N$ total steps). |
+| Auxiliary Space | `O(1)` | Two primitive index pointers. |
 
-| Metric | Complexity | Explanation |
-| --- | --- | --- |
-| Time Complexity | O(N) / O(log N) | Optimal pass through data |
-| Space Complexity | O(1) / O(N) | Memory bounds maintained |
+## Real-World Systems Engineering Discussion
 
----
+### Production Systems Architecture: Spatial & Financial Indices
 
-## 5. Edge Cases & Friend Recap
+1. **Spatial R-Tree Bounding Box Intersection (PostGIS):** 2D monotonic grid boundaries filter out latitude/longitude coordinate rectangles without scanning interior cells.
+2. **Limit Order Book Multi-Price Matching:** Financial matching engines query bid/ask price-time matrices to match trades with sub-microsecond latency.
 
-Always check for boundary conditions, null inputs, duplicate values, or array size limits in coding interviews.
+## Edge Cases & Production Hardening
+
+1. **Target Smaller than Minimum `matrix[0][0]`:** Step-wise search moves left until `col < 0` and terminates immediately.
+2. **Target Larger than Maximum `matrix[M-1][N-1]`:** Moves down until `row >= M` and terminates immediately.

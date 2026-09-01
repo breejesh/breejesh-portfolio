@@ -7,6 +7,7 @@ coverImage: /assets/images/prompt-engineering-that-works.webp
 previewImage: /assets/images/prompt-engineering-that-works.webp
 ---
 
+
 L'ingénierie de prompts a un problème d'image. La moitié d'Internet vend des formules magiques. L'autre moitié dit que les prompts ne comptent pas parce que les modèles sont déjà "assez intelligents." Les deux camps se trompent pour le travail produit.
 
 Dans une feature produit, le modèle est un composant avec des entrées, des sorties, des budgets de latence et des modes de panne. Ton prompt est le contrat d'interface. Des contrats flous produisent un logiciel flou. Des contrats serrés produisent un comportement ennuyeux et testable.
@@ -283,3 +284,4 @@ Pour les product engineers, l'ingénierie de prompts, c'est du design d'interfac
 Mets le contrat dans le prompt. Enseigne les edge cases avec des few-shots. Contrains le libre arbitre. Mesure avec des fixtures et les taux d'override en production. Surveille hallucination, injection, drift de schema et latence de retries. Versionne tout.
 
 Fais ça et le travail de prompts cesse d'être du théâtre. Ça devient une autre couche fiable du stack: peu glamour, vérifiable, et digne d'être shippée.
+

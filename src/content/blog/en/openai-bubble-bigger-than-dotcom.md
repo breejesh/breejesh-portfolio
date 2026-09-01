@@ -7,6 +7,7 @@ coverImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 previewImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 ---
 
+
 Evaluating the AI market against the 1990s dot-com boom requires contrasting actual software revenue multiples against massive ongoing capital expenditure on compute.
 
 That line used to land as a joke. In 2026 it reads like a confession. The AI trade has grown so large that a leaked US Treasury draft reportedly warns the sector is **more embedded in the economy than the dotcom firms were**. Stock markets, private credit, data-center lenders, cloud providers, chip makers, and utilities all sit on the same assumption: demand for frontier models will eventually pay for the iron.
@@ -137,3 +138,4 @@ Dotcom had pets.com and also Amazon. The mistake is treating every GPU lease as 
 5. **Regulators muttering “systemic” in private while cheering capex in public** is late-cycle behavior. Plan household and portfolio risk as if the soft landing is optional.
 
 Sam’s original plan was to ask the model how to pay investors back. The better question for everyone else is simpler: **when the music slows, who is still holding the GPUs, the debt, and the power contracts?**
+

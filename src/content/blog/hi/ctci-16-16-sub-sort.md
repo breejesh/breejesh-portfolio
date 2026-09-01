@@ -1,32 +1,97 @@
 ---
-title: "Sub Sort: Find Minimum Subarray Index Range to Sort Entire Array (CTCI 16.16)"
-description: "CTCI problem 16.16: find smallest index range (m, n) such that sorting subarray array[m..n] sorts the entire array."
-date: "2026-01-02"
+title: "उप-सरणी छंटाई (Sub Sort): लीनियर समय में न्यूनतम अव्यवस्थित विंडो (सीटीसीआई १६.१६)"
+description: "दोहरे प्रीफिक्स-मैक्स और सफिक्स-मिन बाउंड्री स्कैन का उपयोग करके न्यूनतम उप-सरणी इंडेक्स [m, n] खोजने का O(N) रैखिक समय एल्गोरिदम।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-16-16-sub-sort.webp
 previewImage: /assets/images/ctci-16-16-sub-sort.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १६.१६ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १६.१६: find smallest index range (m, n) such that sorting subarray array[m..n] sorts the entire array.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** पूर्णांकों की एक सरणी दी गई है, ऐसे सूचकांक $m$ और $n$ ज्ञात करने के लिए एक विधि लिखें कि यदि आप $m$ से $n$ तक के तत्वों को सॉर्ट करते हैं, तो पूरी सरणी सॉर्ट हो जाएगी। $n - m$ को न्यूनतम करें।
+> * **मुख्य समाधान:** **दोहरा एक्सट्रीमम बाउंड्री स्कैन**:
+>   1. **दाहिनी सीमा ($n$)**: बाएं से दाएं ($० \to N-१$) स्कैन करें और `maxSeen` ट्रैक करें। सबसे दायां तत्व जहाँ $A[i] < \text{maxSeen}$ है, वह $n$ निर्धारित करता है।
+>   2. **बाईं सीमा ($m$)**: दाएं से बाएं ($N-१ \to ०$) स्कैन करें और `minSeen` ट्रैक करें। सबसे बायां तत्व जहाँ $A[j] > \text{minSeen}$ है, वह $m$ निर्धारित करता है।
+>   3. यदि कोई तत्व क्रम से बाहर नहीं है, तो सरणी पहले से सॉर्टेड है ($[-१, -१]$)।
+>   4. यह **$O(N)$ समय** और **$O(1)$ सहायक स्पेस** में चलता है।
+> * **रियल-वर्ल्ड सिस्टम:** RocksDB में LSM-ट्री कॉम्पैक्शन और टीसीपी पैकेट रीअसेम्बली।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१६.१६** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १६.१६: find smallest index range (m, n) such that sorting subarray array[m..n] sorts the entire array.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १६.१६) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"अव्यवस्थित सरणी में सबसे छोटी निरंतर उप-सरणी [m, n] खोजें जिसे सॉर्ट करने पर पूरी सरणी सॉर्ट हो जाए।"*
+
+## २. विभाजन संरचना
+
+सरणी तीन भागों में विभाजित होती है:
+`[बायां सॉर्टेड भाग] | [मध्य अव्यवस्थित विंडो [m, n]] | [दायां सॉर्टेड भाग]`
+
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public static void findUnsortedSequence(int[] array) {
-    int end_left = findLeftSequenceEnd(array);
-    int start_right = findRightSequenceStart(array);
-    // Expand bounds to cover max and min of unsorted section
+public class SubSort {
+
+    public static class Range {
+        public final int start, end;
+        public Range(int start, int end) {
+            this.start = start;
+            this.end = end;
+        }
+    }
+
+    public static Range findUnsortedSequence(int[] array) {
+        if (array == null || array.length <= 1) {
+            return new Range(-1, -1);
+        }
+
+        int n = array.length;
+        int rightIndex = -1;
+        int maxSeen = array[0];
+
+        // 1. बाएँ से दाएँ स्कैन (दाहिनी सीमा)
+        for (int i = 1; i < n; i++) {
+            if (array[i] < maxSeen) {
+                rightIndex = i;
+            } else {
+                maxSeen = array[i];
+            }
+        }
+
+        if (rightIndex == -1) return new Range(-1, -1);
+
+        int leftIndex = -1;
+        int minSeen = array[n - 1];
+
+        // 2. दाएँ से बाएँ स्कैन (बाईं सीमा)
+        for (int j = n - 2; j >= 0; j--) {
+            if (array[j] > minSeen) {
+                leftIndex = j;
+            } else {
+                minSeen = array[j];
+            }
+        }
+
+        return new Range(leftIndex, rightIndex);
+    }
 }
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## जटिलता विश्लेषण
+
+| मापदंड | जटिलता | तकनीकी विवरण |
+|---|---|---|
+| समय जटिलता | `O(N)` | ठीक दो रैखिक सरणी स्कैन। |
+| सहायक स्पेस | `O(1)` | स्थिर मेमोरी उपयोग। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: LSM-ट्री कॉम्पैक्शन
+
+१. **RocksDB / Cassandra:** डेटाबेस में डिस्क I/O को कम करने के लिए केवल अव्यवस्थित विंडो $[m, n]$ के भीतर की कीज़ को कॉम्पैक्ट किया जाता है।
+२. **नेटवर्क बफर:** क्रम से बाहर पहुंचे TCP पैकेटों का पता लगाना।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **पहले से सॉर्टेड सरणी:** `[-1, -1]` लौटाता है।
+२. **उलटी सरणी:** पूरी सरणी `[0, N-1]` लौटाता है।

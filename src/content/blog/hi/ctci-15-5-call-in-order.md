@@ -1,35 +1,74 @@
 ---
-title: "Call In Order: Synchronizing Method Execution Sequence (CTCI 15.5)"
-description: "CTCI problem 15.5: enforce execution order of first(), second(), third() methods across concurrent threads using CountDownLatch / Semaphores."
-date: "2026-06-02"
-tags: [एल्गोरिदम और डेटा संरचनाएं, बैकएंड और डेटाबेस]
+title: "क्रम में निष्पादन (Call in Order): जावा में थ्रेड सिंक्रोनाइज़ेशन और निष्पादन क्रम (सीटीसीआई १५.५)"
+description: "काउंटिंग सेमाफोर (Semaphore) और काउंटडाउन लैच (CountDownLatch) द्वारा समवर्ती थ्रेड्स में एक निश्चित निष्पादन क्रम सुनिश्चित करना।"
+date: "2026-05-06"
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-15-5-call-in-order.webp
 previewImage: /assets/images/ctci-15-5-call-in-order.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १५.५ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १५.५: enforce execution order of first(), second(), third() methods across concurrent threads using CountDownLatch / Semaphores.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** मान लीजिए कि हमारे पास क्लास `Foo` है जिसमें मेथड्स `first()`, `second()` और `third()` हैं। तीन अलग-अलग थ्रेड्स एक ही इंस्टेंस पर इन मेथड्स को कॉल करते हैं। एक ऐसा सिंक्रोनाइज़ेशन तंत्र डिज़ाइन करें जिससे यह गारंटी मिले कि `first()` हमेशा `second()` से पहले और `second()` हमेशा `third()` से पहले चले।
+> * **मुख्य समाधान:** **शून्य-अनुमति सेमाफोर (Zero-Permit Semaphores)**:
+>   1. शून्य अनुमति के साथ दो सेमाफोर बनाएं: `Semaphore sem1 = new Semaphore(0); Semaphore sem2 = new Semaphore(0);`।
+>   2. `first()` में: कार्य पूरा करें और `sem1.release()` द्वारा दूसरे थ्रेड को संकेत दें।
+>   3. `second()` में: `sem1.acquire()` द्वारा रुकें, कार्य पूरा करें और `sem2.release()` द्वारा तीसरे थ्रेड को संकेत दें।
+>   4. `third()` में: `sem2.acquire()` द्वारा रुकें और अंतिम कार्य निष्पादित करें।
+>   5. यह बिना सीपीयू वेस्टेज के **$O(1)$ समय** में निष्पादित होता है।
+> * **रियल-वर्ल्ड सिस्टम:** नेट्टी (Netty) पाइपलाइन और माइक्रोसर्विसेज में मल्टी-फेज इनिशियलाइज़ेशन।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१५.५** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १५.५: enforce execution order of first(), second(), third() methods across concurrent threads using CountDownLatch / Semaphores.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १५.५) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"तीन स्वतंत्र थ्रेड्स में मेथड्स के एक सख्त निष्पादन क्रम को लागू करने के लिए जावा सिंक्रोनाइज़ेशन प्रिमिटिव्स का उपयोग करें।"*
+
+## २. सेमाफोर सिंक्रोनाइज़ेशन तंत्र
+
+शून्य अनुमति के साथ शुरू करने पर कोई भी थ्रेड `acquire()` कॉल करते ही कर्नल स्तर पर रुक जाता है जब तक कि पूर्ववर्ती थ्रेड `release()` नहीं करता।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public class Foo {
-    private final Semaphore s1 = new Semaphore(0);
-    private final Semaphore s2 = new Semaphore(0);
+import java.util.concurrent.Semaphore;
 
-    public void first(Runnable r) { r.run(); s1.release(); }
-    public void second(Runnable r) throws InterruptedException { s1.acquire(); r.run(); s2.release(); }
-    public void third(Runnable r) throws InterruptedException { s2.acquire(); r.run(); }
+public class Foo {
+    private final Semaphore sem1 = new Semaphore(0);
+    private final Semaphore sem2 = new Semaphore(0);
+
+    public void first(Runnable printFirst) {
+        printFirst.run();
+        sem1.release(); // second() के लिए रास्ता खोलना
+    }
+
+    public void second(Runnable printSecond) throws InterruptedException {
+        sem1.acquire(); // first() के पूरा होने का इंतजार
+        printSecond.run();
+        sem2.release(); // third() के लिए रास्ता खोलना
+    }
+
+    public void third(Runnable printThird) throws InterruptedException {
+        sem2.acquire(); // second() के पूरा होने का इंतजार
+        printThird.run();
+    }
 }
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## तुलनात्मक तालिका
+
+| तंत्र | सीपीयू उपयोग | पुन: प्रयोज्यता | इंटरप्शन हैंडलिंग |
+|---|---|---|---|
+| **`Semaphore(0)`** | **$0\%$ (थ्रेड सस्पेंड)** | हाँ | `InterruptedException` को सुरक्षित रूप से संभालता है। |
+| **`CountDownLatch`** | **$0\%$ (थ्रेड सस्पेंड)** | नहीं (एकल उपयोग) | `InterruptedException` फेंकता है। |
+| **`volatile` स्पिन-लॉक** | $100\%$ सीपीयू उपयोग (व्यस्त प्रतीक्षा) | हाँ | मैन्युअल जाँच की आवश्यकता। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: एसिंक्रोनस पाइपलाइन
+
+१. **नेटवर्क पाइपलाइन्स (Netty):** डिकोडिंग $\to$ प्रमाणीकरण $\to$ रूटिंग जैसे चरणों का सख्त क्रमबद्ध निष्पादन।
+२. **माइक्रोसर्विस स्टार्टअप:** डेटाबेस माइग्रेशन $\to$ कैश वार्मिंग $\to$ एचटीटीपी पोर्ट ओपनिंग का क्रम।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **अपवाद प्रबंधन:** पूर्ववर्ती चरणों में विफलता होने पर आगे के थ्रेड्स को अनिश्चित काल के लिए लटकने से बचाने के लिए `try-finally` ब्लॉक्स का उपयोग करें।

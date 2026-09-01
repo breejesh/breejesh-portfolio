@@ -7,6 +7,7 @@ coverImage: /assets/images/web-utils-showcase.webp
 previewImage: /assets/images/web-utils-showcase.webp
 ---
 
+
 > **TL;DR**
 > * **El Problema:** Las herramientas en línea para decodificación Base64, inspección de JWT y análisis de registros frecuentemente envían cadenas sensibles, credenciales de API y registros a servidores externos.
 > * **La Solución:** Procesar datos exclusivamente en el lado del cliente utilizando Signals de Angular 19, APIs nativas de Web Cryptography y hilos de Web Workers secundarios.
@@ -173,3 +174,4 @@ npm install
 # Iniciar el servidor de desarrollo local
 npm start
 ```
+

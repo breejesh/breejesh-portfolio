@@ -7,6 +7,7 @@ coverImage: /assets/images/nextjs-app-router-data-fetching.webp
 previewImage: /assets/images/nextjs-app-router-data-fetching.webp
 ---
 
+
 Cargar datos en el App Router deja de ser confuso cuando sueltas el modelo mental de `getServerSideProps`. Fetcheas donde vive el componente. Por defecto es del lado del servidor. La caché es opt-in (desde Next.js 15). Las librerías de cliente son para interacción y APIs solo de navegador, no para cada lista de la página.
 
 Este post es el mapa que uso en proyectos reales: Server Components primero, política de caché explícita, revalidación por tiempo o por tags, y una lista corta de casos donde el fetch en cliente sigue siendo la decisión correcta.
@@ -327,3 +328,4 @@ El Route Handler o API pública detrás de `/api/products/...` debe seguir aplic
 * [ ] Sin secretos en bundles de cliente; checks de auth en cada Route Handler que el navegador pueda pegar.
 
 El data fetching del App Router premia decisiones aburridas: carga en el servidor, di cuánto puede vivir el resultado, invalida cuando escribes, y solo abre una petición de cliente cuando el navegador de verdad tiene que llevar el reloj. Cuando ese reparto es hábito, las opciones de caché dejan de parecer magia y se sienten como perillas normales de infraestructura.
+

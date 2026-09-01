@@ -7,6 +7,7 @@ coverImage: /assets/images/chrome-extension-manifest-v3.webp
 previewImage: /assets/images/chrome-extension-manifest-v3.webp
 ---
 
+
 Chrome Web Store only accepts Manifest V3 extensions now. If your existing extension relies on persistent background pages or blocking `webRequest` handlers, that architecture is obsolete. The modern model centers on short-lived service workers and declarative rules. The replacement is a short-lived **service worker**, tighter permissions, and a clearer split between page code and extension code.
 
 This post builds a tiny extension end to end: click the toolbar icon, count words on the active tab, show a toast on the page, and put the count on the icon badge. No framework, no build step. You get the pieces that matter on almost every real extension: **manifest**, **service worker**, **content script**, **messaging**, and **permissions**.
@@ -369,3 +370,4 @@ Manifest V3 is less about new JavaScript syntax and more about lifecycle and pri
 Clone the structure above, load it unpacked, break the message type on purpose, and watch the failure in the worker DevTools. That ten-minute loop teaches more than another abstract comparison of V2 and V3.
 
 When you move past demos, read Chrome's current extension docs for `service_worker` registration, `activeTab`, and declarative net request. APIs evolve in small ways; the architecture above has been the stable shape of Chrome extensions for years and is what you should build on in 2026.
+

@@ -309,3 +309,4 @@ Si vous ne retenez que deux bugs de production : deux process qui partagent le m
 Les IDs uniques ressemblent à une feature d'une ligne jusqu'à ce que beaucoup d'écrivains partagent le produit. **UUID** enlève la coordination et se paie en largeur et (pour les versions aléatoires) en localité d'index. **Ticket servers** gardent de courts entiers et réintroduisent un goulot central sauf si vous allouez des plages. **Snowflake** emballe heure, identité de machine et compteur par tick en 64 bits, comme un ticket de caisse qui ne réimprime jamais la même ligne sur la même caisse au même moment.
 
 Protégez l'horloge et le worker id. Le reste est de l'arithmétique.
+

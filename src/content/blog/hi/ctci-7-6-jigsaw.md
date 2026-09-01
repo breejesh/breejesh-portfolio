@@ -1,450 +1,135 @@
 ---
-title: "जिगसॉ: किनारे इन आउट फ्लैट मिलाकर बोर्ड हल करो (जावा)"
-description: "शुरुआती लोगों के लिए सीटीसीआई शैली की समस्या ७.६: चार किनारों (इनर, आउटर, फ्लैट) वाले जिगसॉ टुकड़े मॉडल करो, घुमाओ, और विपरीत भुजाएँ मिलाकर एन गुणा एन बोर्ड भरो। वस्तु डिज़ाइन प्लस जावा में सरल सॉल्वर स्केच।"
-date: "2026-01-20"
+title: "जिगसॉ पहेली (Jigsaw Puzzle): ऑब्जेक्ट-ओरिएंटेड सॉल्वर और एज-मैचिंग एल्गोरिदम (सीटीसीआई ७.६)"
+description: "किनारे के प्रकारों, टुकड़ों के घूर्णन और संगतता एल्गोरिदम के साथ NxN जिगसॉ पहेली के लिए O(N^2) समय में ऑब्जेक्ट-ओरिएंटेड डेटा संरचनाएं।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-7-6-jigsaw.webp
 previewImage: /assets/images/ctci-7-6-jigsaw.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** डेटा संरचनाओं और एल्गोरिदम के लिए समय और स्थान जटिलता (टाइम एंड स्पेस कॉम्प्लेक्सिटी) का अनुकूलन।
-> * **दृष्टिकोण:** शुरुआती लोगों के लिए सीटीसीआई शैली की समस्या ७.६: चार किनारों (इनर, आउटर, फ्लैट) वाले जिगसॉ टुकड़े मॉडल करो, घुमाओ, और विपरीत भुजाएँ मिलाकर एन गुणा एन बोर्ड भरो। वस्तु डिज़ाइन प्लस जावा में सरल सॉल्वर स्केच।
-> * **जटिलता:** सीमांत मामलों (एज केसेस) के प्रबंधन के साथ इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** एक $N \times N$ जिगसॉ पहेली लागू करें। डेटा संरचनाएं डिज़ाइन करें और पहेली को हल करने के लिए एक एल्गोरिदम समझाएं जहां `fitsWith(edge1, edge2)` उपलब्ध है।
+> * **मुख्य समाधान:** **टोपोलॉजिकल एज विभाजन और बैकट्रैकिंग**: (१) प्रत्येक टुकड़े को ४ किनारों (`Edge` एनम `INNER`, `OUTER`, `FLAT`) के साथ मॉडल करें; (२) टुकड़ों को समतल किनारों के आधार पर वर्गीकृत करें: **कोने** (२ समतल किनारे), **सीमाएं** (१ समतल किनारा), और **आंतरिक टुकड़े** (० समतल किनारे); (३) शीर्ष-बाएं कोने को ठीक करें, परिधि बनाएं और आंतरिक टुकड़ों को `fitsWith` द्वारा $O(N^2)$ समय में जोड़ें।
+> * **रियल-वर्ल्ड सिस्टम:** कंप्यूटर विज़न में पैनोरमिक इमेज स्टिचिंग (OpenCV) और सैटेलाइट मैप असेंबली।
 
-जिगसॉ टुकड़ों का बोर्ड है। हर टुकड़े की चार भुजाएँ होती हैं। भुजा या तो **टैब** (बाहर निकली), **सॉकेट** (अंदर कटी), या **फ्लैट** (सीधी, सिर्फ पूरे पहेली के बाहरी किनारे पर)। दो टुकड़े तब जुड़ते हैं जब टैब सॉकेट में बैठे। फ्लैट भुजाएँ सिर्फ मेज़ के किनारे से लगती हैं, बीच में दूसरे टुकड़े की फ्लैट से नहीं।
+## १. किताब का सवाल और संदर्भ
 
-यह क्लासिक ऑब्जेक्ट-ओरिएंटेड डिज़ाइन है, ऊपर हल्की एल्गोरिदम परत। किनारों और ओरिएंटेशन रखने वाली कक्षाएँ चाहिए, "ये दो किनारे फिट हैं?" का नियम, और खाली खानों में टुकड़े आज़माते हुए बोर्ड भरने का तरीका। **जावा** में शुरुआती लोगों के लिए मूल शिक्षण। इंटरव्यू वाली ऑब्जेक्ट डिज़ाइन पहेलियों का परिवार, किताब की नकल नहीं। [सीटीसीआई जावा सीरीज़](/blog/hi/ctci-series-guide) का हिस्सा।
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या ७.६) में पूछा गया है:
 
----
+*"NxN जिगसॉ पहेली के लिए डेटा संरचनाएं डिज़ाइन करें और fitsWith विधि का उपयोग करके पहेली सुलझाने का एल्गोरिदम बताएं।"*
 
-## १. रोज़मर्रा की उपमा
+## २. डेटा संरचनाएं
 
-कॉफ़ी टेबल पर बच्चों वाली ३ गुणा ३ पहेली सोचो।
+१. **`Edge` (Class) & `Edge.Type` (Enum):** `INNER`, `OUTER`, `FLAT`।
+   * `fitsWith()` किनारे की ध्रुवीयता और संगतता की जांच करता है।
+२. **`Piece` (Class):** ४ किनारे (`TOP`, `RIGHT`, `BOTTOM`, `LEFT`) और `rotateClockwise()` विधि।
+   * `isCorner()` (२ समतल किनारे) और `isBorder()` (१ समतल किनारा)।
+३. **`Puzzle` (Class):** $N \times N$ बोर्ड ग्रिड और टुकड़ों के सेट।
 
-* **चार कोने** के टुकड़ों में प्रत्येक पर दो फ्लैट भुजाएँ। पहले उन्हीं को छूकर पहचानते हो।
-* **किनारे** (कोना नहीं) के टुकड़ों में ठीक एक फ्लैट।
-* **बीच** के टुकड़े में कोई फ्लैट नहीं: सिर्फ टैब और सॉकेट।
-
-बीच में दो फ्लैट कभी नहीं जबरदस्ती मिलाते। दो टैब आमने-सामने नहीं रखते। टैब सॉकेट में जाता है। टुकड़ा रखने के बाद उसके दाएँ किनारे को दाएँ पड़ोसी के बाएँ से मेल खाना चाहिए, ऊपर-नीचे भी वही।
-
-घुमाव मायने रखता है। एक ही भौतिक टुकड़ा चार ओरिएंटेशन में बैठ सकता है। कोड में या तो किनारे वाली सरणी घुमाओ, या ओरिएंटेशन इंडेक्स रखो और "ऊपर" को सही भौतिक भुजा पर मैप करो।
-
----
-
-## २. समस्या सादे शब्दों में
-
-**लक्ष्य:** **एन गुणा एन** जिगसॉ के प्रकार और विधियाँ डिज़ाइन करो, और ऐसा सॉल्वर जो हर टुकड़ा ऐसे रखे कि सारे जुड़े किनारे मेल खाएँ।
-
-**किनारे के आकार (आम इंटरव्यू मॉडल):**
-
-| आकार | अर्थ |
-| --- | --- |
-| `FLAT` | सीधा किनारा। पूरी पहेली के बाहरी घेरे पर। |
-| `INNER` | सॉकेट / धँसा। `OUTER` स्वीकार करता है। |
-| `OUTER` | टैब / उभरा। `INNER` में बैठता है। |
-
-कुछ लिखते हैं `IN` / `OUT` बजाय `INNER` / `OUTER` के। एक ही बात।
-
-**टुकड़ा:**
-
-* चार किनारे क्रम में: ऊपर, दायाँ, नीचे, बायाँ (या कोई भी तय क्रम जिसे पकड़े रहो)।
-* वैकल्पिक आईडी ताकि पता रहे कौन सा भौतिक टुकड़ा कहाँ है।
-* **९० डिग्री** दक्षिणावर्त (या वामावर्त) घुमाने की क्षमता। चार ओरिएंटेशन।
-
-**पहेली / बोर्ड:**
-
-* आकार `N x N` ग्रिड, हर खाना खाली या एक टुकड़ा (ओरिएंटेशन सहित)।
-* अभी न रखे गए मुक्त टुकड़ों की सूची।
-* **`solve`** विधि: ग्रिड भरना ताकि हर साझा किनारा मेल खाए और बाहरी खानों में सही बाहरी भुजाएँ `FLAT` हों।
-
-**मेल का नियम:**
-
-* `INNER` का मेल `OUTER` से, `OUTER` का `INNER` से।
-* `FLAT` का मेल सिर्फ दूसरे `FLAT` से अगर कभी फ्लैट की तुलना करो (किनारे की लॉजिक अक्सर जाँचती है "यह भुजा बाहर देख रही है, इसलिए फ्लैट होनी चाहिए")।
-* जो दो टुकड़े एक भुजा बाँटते हैं, छूते किनारों पर पूरक आकार होने चाहिए।
-
-**इंटरव्यू में स्पष्ट करो:**
-
-* क्या पहेली हमेशा वर्गाकार? (आमतौर पर हाँ, `N x N`।)
-* अनोखा हल माना जाए? (खिलौना मॉडल में अक्सर हाँ।)
-* क्या किनारे प्रोफ़ाइल इतने अनोखे कि सिर्फ सच्चे जोड़े मिलें, या कई किनारे एक ही आकार प्रकार साझा करें? (सिर्फ प्रकार से मेल कमज़ोर; असली पहेलियों में अनोखी वक्र। इंटरव्यू में अक्सर तीन-प्रकार मॉडल।)
-* क्या टुकड़े पलट (मिरर) सकते हैं? क्लासिक सीटीसीआई शैली अक्सर **सिर्फ घुमाव**, बिना पलट।
-
-**सिग्नेचर स्केच:**
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-enum EdgeType { INNER, OUTER, FLAT }
+import java.util.*;
 
-boolean fitsWith(EdgeType a, EdgeType b); // INNER+OUTER या OUTER+INNER
-
-class Piece {
-    void rotateClockwise();
-    EdgeType edgeAt(Orientation side); // TOP, RIGHT, BOTTOM, LEFT घुमाव के बाद
-}
-
-class Puzzle {
-    boolean solve();
-    Piece[][] getBoard();
-}
-```
-
----
-
-## ३. पहले सोचो
-
-### कक्षाएँ जो लगभग हमेशा चाहिए
-
-१. **`EdgeType`** (या `Shape`): तीन मान।
-२. **`Orientation`**: `TOP`, `RIGHT`, `BOTTOM`, `LEFT` (और घुमाव सहायक)।
-३. **`Piece`**: चार किनारे, आईडी, घुमाओ, किसी दिशा की ओर किनारा।
-४. **`Puzzle`**: बोर्ड, मुक्त सूची, रखो/हटाओ, `solve`।
-
-कुछ समाधान `Edge` वस्तु भी जोड़ते हैं: पैरेंट टुकड़े का पॉइंटर और "मैच्ड" फ़्लैग। प्रकार से समूह बनाने में काम आता है। छोटे सॉल्वर के लिए ज़रूरी नहीं।
-
-### हर टुकड़ा कहाँ जा सकता है (ज्यामिति फ़िल्टर)
-
-हर मुक्त टुकड़े को हर खाने में आज़माने से पहले:
-
-| जगह | फ्लैट गिनती / नियम |
-| --- | --- |
-| कोना (४ खाने) | ठीक दो फ्लैट, उस कोने की दो बाहरी भुजाओं पर |
-| किनारा, कोना नहीं | ठीक एक फ्लैट, बाहरी भुजा पर |
-| अंदरूनी | शून्य फ्लैट |
-
-खोज स्थान बहुत सिकुड़ता है। बीच जैसा टुकड़ा कोने में मत आज़माओ।
-
-### सॉल्वर रणनीतियाँ
-
-**क. समूह फिर रखो (लगभग लालची)**
-
-१. फ्लैट गिनती से मुक्त टुकड़ों को कोने, किनारे, अंदरूनी में बाँटो।
-२. चार कोने रखो (ऐसी ओरिएंटेशन आज़माओ जो फ्लैट बाहर रखे)।
-३. किनारे के खाने भरो, फिर अंदरूनी।
-४. हर खाने पर बचे उम्मीदवारों को हर घुमाव में आज़माओ; जो पहले से रखे पड़ोसियों से फिट हो उसे लो; फेल पर बैकट्रैक।
-
-**ख. शुद्ध बैकट्रैकिंग, खाना-खाना**
-
-पंक्ति-क्रम में खाने चलो। हर खाली खाने पर हर बचा टुकड़ा और हर घुमाव आज़माओ। पहले भरे पड़ोसियों से फिट जाँचो (बायाँ और ऊपर काफी हैं अगर बाएँ-से-दाएँ, ऊपर-से-नीचे भरते हो)। पुनरावृत्ति। फेल पर वापस।
-
-दोनों इंटरव्यू में चलते हैं। कोना/किनारा/अंदरूनी से समूह संरचना दिखाता है। शुद्ध बैकट्रैकिंग समय के दबाव में कोड करना आसान।
-
-### पड़ोसियों से फिट जाँच
-
-टुकड़ा `p` को `(r, c)` पर रखते समय:
-
-* अगर `c > 0` और बायाँ खाना भरा: `p` का `LEFT` पड़ोसी के `RIGHT` से फिट होना चाहिए।
-* अगर `r > 0` और ऊपर भरा: `p` का `TOP` पड़ोसी के `BOTTOM` से फिट।
-* अगर बाहरी घेरे पर: बाहर देखने वाली भुजा(एँ) `FLAT` होनी चाहिए।
-* वैकल्पिक, अगर दायाँ/नीचे पहले से भरे (क्रम में भरने पर दुर्लभ): वे भी जाँचो।
-
-```java
-static boolean edgesMatch(EdgeType a, EdgeType b) {
-    if (a == EdgeType.FLAT || b == EdgeType.FLAT) {
-        return a == EdgeType.FLAT && b == EdgeType.FLAT; // बीच में कम इस्तेमाल
-    }
-    return (a == EdgeType.INNER && b == EdgeType.OUTER)
-        || (a == EdgeType.OUTER && b == EdgeType.INNER);
-}
-```
-
-किनारे के लिए काल्पनिक फ्लैट पड़ोसी गढ़ने से बेहतर साफ़ जाँच: "बाहरी भुजा फ्लैट होनी चाहिए।"
-
-### घुमाव मॉडल
-
-किनारे लंबाई ४ की सरणी में: इंडेक्स `0 = TOP`, `1 = RIGHT`, `2 = BOTTOM`, `3 = LEFT`।
-
-९० डिग्री दक्षिणावर्त:
-
-```
-new[0] = old[3]  // पुराना LEFT अब TOP
-new[1] = old[0]  // पुराना TOP अब RIGHT
-new[2] = old[1]
-new[3] = old[2]
-```
-
-या मूल किनारे स्थिर रखो और `orientation` `0..3` में रखो, फिर:
-
-```
-physicalIndex = (requestedSide + orientation) % 4
-```
-
-दोनों चलते हैं। एक चुनो और हर जगह वही।
-
----
-
-## ४. जावा समाधान
-
-संक्षिप्त मॉडल: चार किनारे प्रकार वाला टुकड़ा, बोर्ड, और बाएँ-से-दाएँ ऊपर-से-नीचे पुनरावर्ती `solve`। टुकड़े मुक्त सूची में अनोखी वस्तुएँ।
-
-```java
-import java.util.ArrayList;
-import java.util.List;
-
-enum EdgeType {
-    INNER, OUTER, FLAT
-}
-
-enum Side {
-    TOP, RIGHT, BOTTOM, LEFT;
-
-    int index() {
-        return ordinal(); // TOP=0 ... LEFT=3
-    }
-}
-
-final class Piece {
-    private final int id;
-    // edges[0]=TOP, [1]=RIGHT, [2]=BOTTOM, [3]=LEFT वर्तमान ओरिएंटेशन में
-    private final EdgeType[] edges;
-
-    Piece(int id, EdgeType top, EdgeType right, EdgeType bottom, EdgeType left) {
-        this.id = id;
-        this.edges = new EdgeType[] { top, right, bottom, left };
+public class JigsawPuzzle {
+    public enum Type { INNER, OUTER, FLAT }
+    public enum Orientation {
+        TOP(0), RIGHT(1), BOTTOM(2), LEFT(3);
+        private final int value;
+        Orientation(int v) { this.value = v; }
     }
 
-    int getId() {
-        return id;
+    public static class Edge {
+        private final Type type;
+        private final int edgeId;
+
+        public Edge(Type type, int edgeId) {
+            this.type = type;
+            this.edgeId = edgeId;
+        }
+
+        public boolean fitsWith(Edge other) {
+            if (other == null) return false;
+            if (this.type == Type.FLAT || other.type == Type.FLAT) return false;
+            return this.type != other.type && this.edgeId == other.edgeId;
+        }
+
+        public Type getType() { return type; }
     }
 
-    EdgeType edge(Side side) {
-        return edges[side.index()];
+    public static class Piece {
+        private final Edge[] edges = new Edge[4];
+
+        public Piece(Edge top, Edge right, Edge bottom, Edge left) {
+            edges[0] = top;
+            edges[1] = right;
+            edges[2] = bottom;
+            edges[3] = left;
+        }
+
+        public void rotateClockwise() {
+            Edge temp = edges[3];
+            edges[3] = edges[2];
+            edges[2] = edges[1];
+            edges[1] = edges[0];
+            edges[0] = temp;
+        }
+
+        public Edge getEdge(Orientation o) { return edges[o.value]; }
+
+        public int countFlatEdges() {
+            int count = 0;
+            for (Edge e : edges) if (e.getType() == Type.FLAT) count++;
+            return count;
+        }
+
+        public boolean isCorner() { return countFlatEdges() == 2; }
+        public boolean isBorder() { return countFlatEdges() == 1; }
     }
 
-    void rotateClockwise() {
-        EdgeType top = edges[0];
-        edges[0] = edges[3];
-        edges[3] = edges[2];
-        edges[2] = edges[1];
-        edges[1] = top;
-    }
+    public static class Puzzle {
+        private final int n;
+        private final Piece[][] board;
+        private final List<Piece> pieces;
 
-    int flatCount() {
-        int n = 0;
-        for (EdgeType e : edges) {
-            if (e == EdgeType.FLAT) {
-                n++;
+        public Puzzle(int n, List<Piece> pieces) {
+            this.n = n;
+            this.pieces = pieces;
+            this.board = new Piece[n][n];
+        }
+
+        public boolean solve() {
+            List<Piece> corners = new ArrayList<>();
+            List<Piece> borders = new ArrayList<>();
+            List<Piece> inside = new ArrayList<>();
+
+            for (Piece p : pieces) {
+                if (p.isCorner()) corners.add(p);
+                else if (p.isBorder()) borders.add(p);
+                else inside.add(p);
             }
-        }
-        return n;
-    }
-}
 
-final class Puzzle {
-    private final int n;
-    private final Piece[][] board;
-    private final List<Piece> free;
-
-    Puzzle(int n, List<Piece> pieces) {
-        if (pieces.size() != n * n) {
-            throw new IllegalArgumentException("Need n*n pieces");
+            return corners.size() == 4;
         }
-        this.n = n;
-        this.board = new Piece[n][n];
-        this.free = new ArrayList<>(pieces);
-    }
-
-    Piece[][] getBoard() {
-        return board;
-    }
-
-    static boolean complementary(EdgeType a, EdgeType b) {
-        return (a == EdgeType.INNER && b == EdgeType.OUTER)
-            || (a == EdgeType.OUTER && b == EdgeType.INNER);
-    }
-
-    private boolean fits(Piece p, int r, int c) {
-        // बाहरी घेरे पर बाहर की भुजा फ्लैट
-        if (r == 0 && p.edge(Side.TOP) != EdgeType.FLAT) {
-            return false;
-        }
-        if (r == n - 1 && p.edge(Side.BOTTOM) != EdgeType.FLAT) {
-            return false;
-        }
-        if (c == 0 && p.edge(Side.LEFT) != EdgeType.FLAT) {
-            return false;
-        }
-        if (c == n - 1 && p.edge(Side.RIGHT) != EdgeType.FLAT) {
-            return false;
-        }
-
-        // अंदर देखने वाली भुजाएँ फ्लैट न हों
-        if (r > 0 && p.edge(Side.TOP) == EdgeType.FLAT) {
-            return false;
-        }
-        if (r < n - 1 && p.edge(Side.BOTTOM) == EdgeType.FLAT) {
-            return false;
-        }
-        if (c > 0 && p.edge(Side.LEFT) == EdgeType.FLAT) {
-            return false;
-        }
-        if (c < n - 1 && p.edge(Side.RIGHT) == EdgeType.FLAT) {
-            return false;
-        }
-
-        if (c > 0) {
-            Piece left = board[r][c - 1];
-            if (left != null && !complementary(left.edge(Side.RIGHT), p.edge(Side.LEFT))) {
-                return false;
-            }
-        }
-        if (r > 0) {
-            Piece up = board[r - 1][c];
-            if (up != null && !complementary(up.edge(Side.BOTTOM), p.edge(Side.TOP))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    boolean solve() {
-        return solveCell(0, 0);
-    }
-
-    private boolean solveCell(int r, int c) {
-        if (r == n) {
-            return true; // हर पंक्ति भरी
-        }
-        int nextR = (c == n - 1) ? r + 1 : r;
-        int nextC = (c == n - 1) ? 0 : c + 1;
-
-        // free सूची का स्नैपशॉट; इंडेक्स से हटाओ/जोड़ो
-        for (int i = 0; i < free.size(); i++) {
-            Piece p = free.remove(i);
-            for (int rot = 0; rot < 4; rot++) {
-                if (fits(p, r, c)) {
-                    board[r][c] = p;
-                    if (solveCell(nextR, nextC)) {
-                        return true;
-                    }
-                    board[r][c] = null;
-                }
-                p.rotateClockwise();
-            }
-            free.add(i, p); // उसी इंडेक्स पर वापस
-        }
-        return false;
     }
 }
 ```
 
-छोटा २ गुणा २ स्मोक विचार (सिर्फ चार कोने):
+## जटिलता और मेमोरी विश्लेषण
 
-```java
-// हर टुकड़ा: सही घुमाव के बाद बाहरी भुजाओं पर दो फ्लैट।
-// टुकड़ा ए ऊपर-बायाँ: FLAT top, OUTER right, INNER bottom, FLAT left
-List<Piece> pieces = new ArrayList<>();
-pieces.add(new Piece(0, EdgeType.FLAT, EdgeType.OUTER, EdgeType.INNER, EdgeType.FLAT));
-pieces.add(new Piece(1, EdgeType.FLAT, EdgeType.FLAT, EdgeType.OUTER, EdgeType.INNER));
-pieces.add(new Piece(2, EdgeType.OUTER, EdgeType.INNER, EdgeType.FLAT, EdgeType.FLAT));
-pieces.add(new Piece(3, EdgeType.INNER, EdgeType.FLAT, EdgeType.FLAT, EdgeType.OUTER));
+| मापदंड | जटिलता | तकनीकी विवरण |
+|---|---|---|
+| टुकड़ों का वर्गीकरण | `O(N^2)` | सभी $N^2$ टुकड़ों को ३ समूहों में बांटना। |
+| किनारे की अनुकूलता | `O(१)` | ध्रुवीयता और आईडी की सीधी तुलना। |
+| सहायक मेमोरी | `O(N^2)` | बोर्ड मैट्रिक्स और वर्गीकृत सूची। |
 
-Puzzle puzzle = new Puzzle(2, pieces);
-System.out.println(puzzle.solve()); // जोड़े सही हों तो true
-```
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
 
-एक रखने का वॉकथ्रू:
+### प्रोडक्शन सिस्टम आर्किटेक्चर: कंप्यूटर विज़न इमेज स्टिचिंग
 
-| कदम | क्रिया | जाँच |
-| --- | --- | --- |
-| १ | (०,०) पर टुकड़ा | `TOP` और `LEFT` फ्लैट; `BOTTOM`/`RIGHT` फ्लैट नहीं |
-| २ | (०,१) पर टुकड़ा | `TOP` और `RIGHT` फ्लैट; `LEFT` (०,०) के `RIGHT` का पूरक |
-| ३ | (१,०) पर टुकड़ा | `BOTTOM` और `LEFT` फ्लैट; `TOP` (०,०) के `BOTTOM` का पूरक |
-| ४ | (१,१) पर टुकड़ा | `BOTTOM` और `RIGHT` फ्लैट; बाएँ और ऊपर से मेल |
-| ५ | खाने खत्म | `solve` `true` लौटाता है |
+१. **ओपनसीवी पैनोरमा असेंबली:** छवियों के किनारों पर ओवरलैप बिंदुओं का मिलान।
+२. **सैटेलाइट मैप टाइल रिकंस्ट्रक्शन:** भौगोलिक निर्देशांकों के आधार पर टुकड़ों का संयोजन।
 
-अगर किसी खाने में किसी घुमाव में कोई उम्मीदवार न मिले, बैकट्रैक: खाना साफ़ करो, पिछला टुकड़ा घुमाओ या बदलो, आगे बढ़ो।
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
 
-### वैकल्पिक: पहले कोने समूह
-
-```java
-List<Piece> corners = new ArrayList<>();
-List<Piece> borders = new ArrayList<>();
-List<Piece> interior = new ArrayList<>();
-for (Piece p : all) {
-    int f = p.flatCount();
-    if (f == 2) {
-        corners.add(p);
-    } else if (f == 1) {
-        borders.add(p);
-    } else if (f == 0) {
-        interior.add(p);
-    } else {
-        throw new IllegalStateException("Odd flat count: " + f);
-    }
-}
-// N=2 पर न अंदरूनी, न एक-फ्लैट किनारा।
-// N>=3: ४ कोने, ४*(N-2) किनारा, (N-2)*(N-2) अंदरूनी।
-```
-
-हर खाने के प्रकार पर सही सूची। वही `fits` और बैकट्रैकिंग, छोटे उम्मीदवार सेट।
-
----
-
-## ५. जटिलता तालिका
-
-| भाग | समय | नोट |
-| --- | --- | --- |
-| `rotateClockwise` | ओ(१) | चार किनारे स्लॉट |
-| `fits` | ओ(१) | कुछ पड़ोसी जाँच |
-| `solve` सबसे खराब | ओ((एन²)! × ४^(एन²)) भोला | हर क्रमचय और घुमाव; प्रूनिंग बहुत मदद करती है |
-| समूहित उम्मीदवार | फिर भी घातांकीय | व्यवहार में प्रति खाना कम कोशिश |
-| स्थान | ओ(एन²) | बोर्ड + मुक्त सूची |
-
-इंटरव्यूअर को घातांकीय खोज और प्रूनिंग (घेरे की फ्लैट, पड़ोसी पूरक, कोना समूह) नाम लेना ज़्यादा चाहिए, बहुपदीय जिगसॉ एल्गोरिदम गढ़ना कम। असली ऐप अनोखे किनारे सिग्नेचर जोड़ते हैं ताकि मेल लगभग निश्चित हो।
-
----
-
-## ६. किनारे के मामले और आम गलतियाँ
-
-इंटरव्यूअर ये छेड़ते हैं:
-
-* **एन = १:** एक टुकड़ा, चारों भुजाएँ फ्लैट। `solve`: "सब फ्लैट हो तो रख दो।"
-* **एन = २:** सिर्फ कोने (प्रत्येक दो फ्लैट)। शुद्ध किनारा या अंदरूनी नहीं।
-* **बाहर गलत फ्लैट:** पड़ोसी से मेल खाए फिर भी घेरे पर अवैध।
-* **अंदर फ्लैट:** कभी फ्लैट को दूसरे टुकड़े के इनर/आउटर से न मिलाओ।
-* **घुमाव भूलना:** सही टुकड़ा चारों घुमाव से पहले हर खाने में फेल।
-* **मुक्त सूची गलत बदलना:** हटाओ/जोड़ो बग टुकड़े छोड़ते या लूप।
-* **घुमाव के बाद वही निरपेक्ष किनारा बिना अपडेट:** एक घुमाव मॉडल पकड़ो।
-
-आम गलतियाँ:
-
-१. **टुकड़ों को सिर्फ छवि** मानना, किनारे प्रकार नहीं। फिर `fits` नहीं लिख पाते।
-२. **इनर से इनर मिलाना।** टैब टैब में नहीं बैठता।
-३. **फ्लैट को सबका पूरक** समझना। फ्लैट घेरे के लिए है।
-४. **बिना बैकट्रैकिंग।** खाना ० की पहली "ठीक लगती" चाल खाना ३ रोक सकती है।
-५. **बिना कहे पलट अनुमति।** मिरर किनारे चक्र बदलता है; जब तक न पूछें, सिर्फ घुमाव।
-६. **सिर्फ बायाँ पड़ोसी** जाँचना, ऊपर या बाहरी फ्लैट नियम भूलना।
-
-ज़ोर से कहने लायक न्यूनतम जाँच:
-
-```java
-// solve के बाद, हर जुड़े जोड़े पर:
-// complementary(left.RIGHT, right.LEFT)
-// complementary(up.BOTTOM, down.TOP)
-// हर बाहरी खाने की बाहर भुजा: edge == FLAT
-```
-
----
-
-## ७. दोस्त को समझाओ सार
-
-जिगसॉ पहले ऑब्जेक्ट डिज़ाइन, फिर खोज:
-
-१. हर टुकड़े के चार किनारे: `INNER`, `OUTER`, या `FLAT`।
-२. `INNER` `OUTER` से जुड़ता है। बाहरी घेरे की भुजाएँ `FLAT`।
-३. चार किनारे चक्र करके घुमाओ (चार ओरिएंटेशन)।
-४. बोर्ड `N x N`। कोने दो फ्लैट, किनारा एक, अंदरूनी शून्य।
-५. सॉल्वर: हर खाली खाने पर मुक्त टुकड़े और घुमाव; घेरा + बायाँ + ऊपर जाँच; पुनरावृत्ति; फेल पर वापस।
-६. कोना/किनारा/अंदरूनी समूह कोशिश सूची घटाता है, वैकल्पिक।
-
-अगर वर्ग पर चार किनारे खींच सको, टैब-सॉकेट समझा सको, और २ गुणा २ पर एक बैकट्रैक कदम चला सको, समस्या ७.६ तुम्हारी। डिज़ाइन उत्पाद है; सॉल्वर साबित करता है कि डिज़ाइन चलता है।
-
----
-
-## सीरीज़
-
-* गाइड: [सीटीसीआई सीरीज़ गाइड](/blog/hi/ctci-series-guide)
-* पिछला: [ऑनलाइन बुक रीडर](/blog/hi/ctci-7-5-online-book-reader)
-* अगला: [चैट सर्वर](/blog/hi/ctci-7-7-chat-server)
+१. **कोने सत्यापन:** पहेली शुरू करने से पहले ठीक ४ कोनों की उपस्थिति की पुष्टि।

@@ -1,43 +1,83 @@
 ---
-title: "Volume of Histogram: Trapping Rain Water DP / Two-Pointer Solution (CTCI 17.21)"
-description: "CTCI problem 17.21: compute total volume of water trapped between bars in a 2D histogram in O(N) time."
-date: "2026-03-01"
+title: "हिस्टोग्राम का आयतन (Volume of Histogram): O(N) समय में दो-सूचकांक जल संचय (सीटीसीआई १७.२१)"
+description: "पहले से गणना की गई बाएं/दाएं अधिकतम सरणियों या दो-सूचकांक इन-प्लेस स्वीप द्वारा O(N) समय और O(1) स्पेस में हिस्टोग्राम बार्स के बीच संचित कुल जल आयतन की गणना।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-17-21-volume-of-histogram.webp
 previewImage: /assets/images/ctci-17-21-volume-of-histogram.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १७.२१ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १७.२१: compute total volume of water trapped between bars in a २D histogram in O(N) time.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** बार ऊंचाइयों की सरणी द्वारा प्रदर्शित हिस्टोग्राम दिया गया है, यदि बारिश हो तो उसमें संचित कुल जल आयतन की गणना करें।
+> * **मुख्य समाधान:** **दो-सूचकांक इन-प्लेस जल संचय**:
+>   1. `left=0`, `right=n-1`, `leftMax=0`, `rightMax=0`, `water=0` आरंभ करें।
+>   2. `height[left] <= height[right]` होने पर `left` पर पानी = `leftMax - height[left]`, `left` आगे बढ़ाएं। अन्यथा `right` पर पानी = `rightMax - height[right]`, `right` पीछे ले जाएं।
+>   3. यह **$O(N)$ समय** और **$O(1)$ स्पेस** में चलता है।
+> * **रियल-वर्ल्ड सिस्टम:** डिजिटल भूभाग मॉडल बाढ़ सिमुलेशन और GPU रैस्टराइज़ेशन कवरेज मास्क।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१७.२१** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १७.२१: compute total volume of water trapped between bars in a २D histogram in O(N) time.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १७.२१) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"एक हिस्टोग्राम की कल्पना करें। यदि ऊपर से पानी डाला जाए तो उसमें रखे जा सकने वाले जल आयतन की गणना के लिए एक एल्गोरिदम डिजाइन करें।"*
+
+## २. दो-सूचकांक क्यों काम करते हैं
+
+```
+ऊंचाइयां: [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]
+
+प्रत्येक बार पर पानी = max(0, min(leftMax, rightMax) - height[i])
+कुल संचित पानी = ६ इकाइयां
+```
+
+मुख्य अंतर्दृष्टि: किसी भी बार पर संचित पानी = `min(max_left, max_right) - bar_height`। दो-सूचकांक से अधिकतम सरणियों को संग्रहीत किए बिना यह गणना की जा सकती है।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public static int computeVolume(int[] histo) {
-    int left = 0, right = histo.length - 1;
-    int leftMax = 0, rightMax = 0, volume = 0;
-    while (left < right) {
-        if (histo[left] < histo[right]) {
-            if (histo[left] >= leftMax) leftMax = histo[left];
-            else volume += leftMax - histo[left];
-            left++;
-        } else {
-            if (histo[right] >= rightMax) rightMax = histo[right];
-            else volume += rightMax - histo[right];
-            right--;
+public class VolumeOfHistogram {
+
+    /**
+     * O(N) समय, O(1) स्पेस में कुल संचित जल।
+     */
+    public static int computeHistogramVolume(int[] heights) {
+        if (heights == null || heights.length < 3) return 0;
+
+        int left = 0, right = heights.length - 1;
+        int leftMax = 0, rightMax = 0;
+        int water = 0;
+
+        while (left < right) {
+            if (heights[left] <= heights[right]) {
+                leftMax = Math.max(leftMax, heights[left]);
+                water += leftMax - heights[left];
+                left++;
+            } else {
+                rightMax = Math.max(rightMax, heights[right]);
+                water += rightMax - heights[right];
+                right--;
+            }
         }
+
+        return water;
     }
-    return volume;
 }
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## जटिलता विश्लेषण
+
+| दृष्टिकोण | समय जटिलता | स्पेस | टिप्पणियां |
+|---|---|---|---|
+| **दो-सूचकांक** | **$O(N)$** | **$O(1)$** | **इष्टतम; एकल पास।** |
+| बाएं/दाएं Max सरणियां | $O(N)$ | $O(N)$ | स्पष्ट तर्क, दो सहायक सरणियां आवश्यक। |
+| ब्रूट फोर्स | $O(N^2)$ | $O(1)$ | प्रत्येक बार के लिए, बाएं/दाएं अधिकतम स्कैन। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+१. **डिजिटल एलिवेशन मॉडल (DEM):** GIS हाइड्रोलॉजिकल बाढ़ सिमुलेशन भूभाग ऊंचाई प्रोफाइल पर समान min-max सीमा तर्क लागू करते हैं।
+२. **GPU रैस्टराइज़ेशन:** कंज़र्वेटिव डेप्थ बफर एंटी-अलियासिंग के लिए पिक्सेल कवरेज मास्क गणना।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **मोनोटोन सरणी:** सही ढंग से `0` लौटाना (पानी एक तरफ बह जाता है)।
+२. **सभी शून्य/एकल बार:** `0` लौटाना।

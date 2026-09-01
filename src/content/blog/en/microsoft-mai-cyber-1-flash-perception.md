@@ -7,6 +7,7 @@ coverImage: /assets/images/mai-cyber-1-flash-cover.webp
 previewImage: /assets/images/mai-cyber-1-flash-cover.webp
 ---
 
+
 Microsoft just put a number on the table that security Twitter will argue about for weeks: **96% on CyberGym**, with a **~50% cost cut** versus its previous multi-model setup.
 
 On July 27 in San Francisco, Mustafa Suleyman and the Microsoft Security team announced two things at once:

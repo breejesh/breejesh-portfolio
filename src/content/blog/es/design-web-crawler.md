@@ -292,3 +292,4 @@ Luego los enlaces nuevos vuelven a la frontier y el robot sigue caminando. Todo 
 Si en una entrevista dibujas un solo diagrama, dibuja el bucle: frontier → fetch cortés → parse → content store → extracción de enlaces → filtro de URL y seen → de vuelta a la frontier. Etiqueta las seeds en la entrada. Di en voz alta que la prioridad y la cortesía viven en la frontier, no como un añadido tardío.
 
 La web siempre será desordenada: HTML roto, trampas, duplicados, hosts lentos. Un buen diseño de crawler espera ese desorden. Es paciente por host, agresivo en no repetirse, y honesto sobre cuánto de internet puede limpiar hoy.
+

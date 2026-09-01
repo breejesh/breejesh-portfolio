@@ -7,6 +7,7 @@ coverImage: /assets/images/meta-17b-teen-safety-settlement-platform-regulation.w
 previewImage: /assets/images/meta-17b-teen-safety-settlement-platform-regulation.webp
 ---
 
+
 > **TL;DR**
 > * **The Settlement:** Meta agreed on August 26 to pay $17-18B over 10 years to resolve lawsuits from 52 U.S. state attorneys general over teen mental health harm on Facebook and Instagram.
 > * **The Mechanism:** Mandatory 2-hour daily usage limits, overnight access blocks, hidden like counts, restricted notifications during school hours, and independent auditing, all for users under 18.
@@ -76,3 +77,4 @@ The $17B number is the headline. The conditional clause is the policy instrument
 ---
 
 *Settlement details sourced from reporting by The New York Times, The Wall Street Journal, and Reuters (August 26, 2026). Financial impact analysis based on Meta's Q2 2026 10-Q filing. Engagement data from leaked internal Meta research documents entered as trial evidence.*
+

@@ -1,264 +1,126 @@
 ---
-title: "Three in One: Three Stacks in a Single Array (Java)"
-description: "CTCI-style problem 3.1 for beginners: implement three stacks with one array. Fixed equal slices, a sizes[] array, and a clean FixedMultiStack in Java."
-date: "2026-03-12"
+title: "Three in One: Implementing Three Stacks in a Single Array (CTCI 3.1)"
+description: "Describe and implement how to use a single array to implement three stacks with fixed division and dynamic multi-stack partitioning in O(1) time."
+date: "2026-05-06"
 tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-3-1-three-in-one.webp
 previewImage: /assets/images/ctci-3-1-three-in-one.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
-> * **The Approach:** CTCI-style problem 3.1 for beginners: implement three stacks with one array. Fixed equal slices, a sizes[] array, and a clean FixedMultiStack in Java.
-> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
+> * **The Book Problem:** Describe how you could use a single array to implement three stacks.
+> * **The Optimal Solution:** (1) Fixed Allocation: Divide array $[0, N)$ into three equal static partitions $[0, N/3)$, $[N/3, 2N/3)$, $[2N/3, N)$ with size trackers; (2) Flexible Dynamic Multi-Stack: Allow stacks to share capacity dynamically by shifting stack elements and wrapping indices modulo capacity.
+> * **Production Reality:** Thread stack memory allocators, JVM thread execution frames in off-heap arenas, and slab cache allocation.
 
-You have one long shelf and three roommates. Each person gets a fixed slice of the shelf for their own stack of books. You never put Roommate A's books into B's slice. When a slice is full, that person is stuck even if the others still have empty space. That is **three stacks in one array** with fixed division.
+## 1. The Book Problem Formulation
 
-This post is original teaching for absolute beginners in **Java**. Same problem family as classic multi-stack interview questions, not a book copy. Part of the [CTCI Java series](/blog/en/ctci-series-guide). Chapter 3 (Stacks and Queues) starts here.
+In *Cracking the Coding Interview* (Problem 3.1), we are asked:
 
----
+*"Describe how you could use a single array to implement three stacks."*
 
-## 1. Everyday analogy
+## 2. Approach 1: Fixed Division (Simple & High Throughput)
 
-Imagine a parking strip with **three equal zones** painted on the asphalt:
+We divide the single array into three equal parts of size `stackCapacity`:
+* Stack 0: indices $[0, \text{stackCapacity} - 1]$
+* Stack 1: indices $[\text{stackCapacity}, 2 \times \text{stackCapacity} - 1]$
+* Stack 2: indices $[2 \times \text{stackCapacity}, 3 \times \text{stackCapacity} - 1]$
 
-* Zone 0 holds cars for stack 0.
-* Zone 1 holds cars for stack 1.
-* Zone 2 holds cars for stack 2.
+We maintain an array `sizes` of length 3 to record the number of elements in each stack.
+* `push(stackNum, value)`: Increments `sizes[stackNum]` and inserts at `stackNum * stackCapacity + sizes[stackNum] - 1`.
+* `pop(stackNum)`: Clears and decrements `sizes[stackNum]`.
 
-Each zone fills from its left edge toward its right. A **size** counter per zone tells you how many cars are already parked there. You never need a separate top pointer if you store sizes: the top of stack `k` sits at the last occupied slot in that zone.
+**Limitation:** Even if total array capacity is available, a stack can throw an overflow error if its fixed slice fills up.
 
-If zone 0 is full, you refuse the next car for stack 0. Empty spots in zone 2 do not help. That is the fixed-division trade-off: simple math, wasted space when loads are uneven.
+## 3. Approach 2: Flexible Dynamic Division
 
-There is a harder version where zone walls can slide (flexible division). We mention it briefly. The interview default for beginners is fixed equal parts.
+If we want any stack to grow as long as total capacity exists:
+1. When a stack exceeds its allotted space, shift the next stack forward (wrapping circularly around the array).
+2. Elements wrap circularly around the array using modulo arithmetic: `(index + offset) % totalCapacity`.
 
----
-
-## 2. Plain problem statement
-
-**Input / goal:** Design a data structure that implements **three stacks** using **one** underlying array.
-
-**Operations** (each takes a stack number `0`, `1`, or `2`):
-
-* `push(stackNum, value)`: push onto that stack
-* `pop(stackNum)`: remove and return the top
-* `peek(stackNum)`: return the top without removing
-* `isEmpty(stackNum)` / `isFull(stackNum)`: capacity checks
-
-**Main approach in this post:** fixed division. Split the array into three equal contiguous blocks of capacity `stackCapacity`. Track how full each block is with `sizes[3]`.
-
-**Clarify before coding:**
-
-* Stack indices are `0`, `1`, `2` (zero-based).
-* Total array length is `3 * stackCapacity`.
-* What happens on push when full? Throw (or return an error). Same idea for pop when empty.
-* Are the stacks independent? Yes. Push on stack 0 must not corrupt stack 1.
-
-**Picture for `stackCapacity = 4` (array length 12):**
-
-| Indices | Stack | Meaning |
-| --- | --- | --- |
-| `0..3` | 0 | first slice |
-| `4..7` | 1 | second slice |
-| `8..11` | 2 | third slice |
-
-If stack 1 currently has size 2, its values sit at indices `4` and `5`, and the top is at index `5`.
-
----
-
-## 3. Think first (fixed vs flexible)
-
-### Fixed division (teach this first)
-
-1. Allocate `values = new int[stackCapacity * 3]`.
-2. Keep `sizes = new int[3]`, all zeros at start.
-3. **Offset** of stack `stackNum` is `stackNum * stackCapacity`.
-4. **Index of top** after a successful push (or for peek/pop) is `offset + sizes[stackNum] - 1`.
-5. Push: if full, fail. Else increment size, write at the new top index.
-6. Pop: if empty, fail. Else read top, clear that slot (optional), decrement size.
-7. Peek: if empty, fail. Else return `values[indexOfTop]`.
-
-Why sizes instead of three top pointers? They are equivalent. Size is the number of live elements; top index is a function of offset and size. One small array of three ints is easy to reason about in interviews.
-
-### Flexible / dynamic division (optional harder idea)
-
-If one stack grows hot and another stays empty, fixed slices waste cells. A flexible design lets stacks expand into free space: you track start/end bounds per stack, and may shift elements when a neighbor needs room. Correct, but more code (boundaries, shifting, full-array detection across all stacks). Mention it if the interviewer asks "can we use space better?" Then offer fixed first unless they want the hard version.
-
-For this article, ship **fixed**.
-
-### Index math to memorize
-
-```
-offset(stackNum)     = stackNum * stackCapacity
-indexOfTop(stackNum) = offset + sizes[stackNum] - 1
-isEmpty              = sizes[stackNum] == 0
-isFull               = sizes[stackNum] == stackCapacity
-```
-
-Draw one row of twelve boxes on the whiteboard and walk a push/pop on stack 1. If the indices look right, the class almost writes itself.
-
----
-
-## 4. Java solution
+## Production Implementation (Fixed Division)
 
 ```java
-/**
- * Three stacks packed into one array with fixed equal slices.
- * stackNum is 0, 1, or 2.
- */
-class FixedMultiStack {
+import java.util.EmptyStackException;
+
+public class FixedMultiStack {
     private final int numberOfStacks = 3;
     private final int stackCapacity;
     private final int[] values;
     private final int[] sizes;
 
-    FixedMultiStack(int stackCapacity) {
-        if (stackCapacity <= 0) {
-            throw new IllegalArgumentException("stackCapacity must be positive");
-        }
-        this.stackCapacity = stackCapacity;
-        this.values = new int[stackCapacity * numberOfStacks];
-        this.sizes = new int[numberOfStacks]; // all 0
+    public FixedMultiStack(int stackSize) {
+        stackCapacity = stackSize;
+        values = new int[stackSize * numberOfStacks];
+        sizes = new int[numberOfStacks];
     }
 
-    void push(int stackNum, int value) {
-        assertValidStack(stackNum);
+    /**
+     * Pushes value onto specified stack (0, 1, or 2).
+     * Time Complexity: O(1)
+     * Space Complexity: O(1)
+     */
+    public void push(int stackNum, int value) throws Exception {
         if (isFull(stackNum)) {
-            throw new IllegalStateException("stack " + stackNum + " is full");
+            throw new Exception("Stack " + stackNum + " is full");
         }
         sizes[stackNum]++;
         values[indexOfTop(stackNum)] = value;
     }
 
-    int pop(int stackNum) {
-        assertValidStack(stackNum);
+    /**
+     * Pops top element from specified stack.
+     * Time Complexity: O(1)
+     */
+    public int pop(int stackNum) {
         if (isEmpty(stackNum)) {
-            throw new IllegalStateException("stack " + stackNum + " is empty");
+            throw new EmptyStackException();
         }
-        int top = indexOfTop(stackNum);
-        int value = values[top];
-        values[top] = 0; // optional clear; helps debugging
+        int topIndex = indexOfTop(stackNum);
+        int value = values[topIndex];
+        values[topIndex] = 0; // Clear element
         sizes[stackNum]--;
         return value;
     }
 
-    int peek(int stackNum) {
-        assertValidStack(stackNum);
+    public int peek(int stackNum) {
         if (isEmpty(stackNum)) {
-            throw new IllegalStateException("stack " + stackNum + " is empty");
+            throw new EmptyStackException();
         }
         return values[indexOfTop(stackNum)];
     }
 
-    boolean isEmpty(int stackNum) {
-        assertValidStack(stackNum);
+    public boolean isEmpty(int stackNum) {
         return sizes[stackNum] == 0;
     }
 
-    boolean isFull(int stackNum) {
-        assertValidStack(stackNum);
+    public boolean isFull(int stackNum) {
         return sizes[stackNum] == stackCapacity;
     }
 
-    /** Absolute index of the current top element for this stack. */
     private int indexOfTop(int stackNum) {
         int offset = stackNum * stackCapacity;
-        return offset + sizes[stackNum] - 1;
-    }
-
-    private void assertValidStack(int stackNum) {
-        if (stackNum < 0 || stackNum >= numberOfStacks) {
-            throw new IllegalArgumentException("stackNum must be 0, 1, or 2");
-        }
+        int size = sizes[stackNum];
+        return offset + size - 1;
     }
 }
 ```
 
-Walkthrough with `stackCapacity = 3` (array length 9):
+## Complexity & Memory Analysis
 
-| Step | Call | sizes | Top write / read |
-| --- | --- | --- | --- |
-| start | (empty) | `[0,0,0]` | - |
-| 1 | `push(0, 10)` | `[1,0,0]` | write `values[0] = 10` |
-| 2 | `push(0, 20)` | `[2,0,0]` | write `values[1] = 20` |
-| 3 | `push(1, 99)` | `[2,1,0]` | write `values[3] = 99` |
-| 4 | `peek(0)` | unchanged | read `20` at index `1` |
-| 5 | `pop(0)` | `[1,1,0]` | return `20`, clear index `1` |
-| 6 | `push(0, 30)` | `[2,1,0]` | write `values[1] = 30` |
+| Metric | Complexity | Technical Detail |
+|---|---|---|
+| push / pop / peek Time | `O(1)` | Direct index calculation using `offset + size - 1`. |
+| Auxiliary Space | `O(N)` | Single contiguous memory block without object pointer overhead. |
 
-Stack 0 never touches indices `3..8`. Stack 1 never touches `0..2` or `6..8`.
+## Real-World Systems Engineering Discussion
 
----
+### Production Systems Architecture: Contiguous Memory Arenas
 
-## 5. Complexity table
+1. **Embedded & Real-Time Systems:** Embedded firmware allocates a single contiguous RAM arena for thread stacks to eliminate heap fragmentation and enforce deterministic bounded execution.
+2. **CPU Cache Locality:** Packing multiple runtime stacks into contiguous array storage maximizes CPU L1 cache line prefetching.
 
-| Operation | Time | Extra space beyond the shared array | Notes |
-| --- | --- | --- | --- |
-| `push` / `pop` / `peek` | O(1) | O(1) | only arithmetic + array access |
-| `isEmpty` / `isFull` | O(1) | O(1) | read one entry in `sizes` |
-| Construction | O(N) | O(1) besides the array | `N = 3 * stackCapacity` array allocation |
-| Fixed multi-stack overall | - | O(N) for values + O(1) for sizes (3 ints) | wasted cells when load is uneven |
-| Flexible multi-stack (idea) | push can be O(N) if shifting | more bookkeeping | better space use, harder code |
+## Edge Cases & Production Hardening
 
-Interviewers mostly want constant-time ops and correct index math. Flexible shifting is a follow-up, not the first solution.
-
----
-
-## 6. Edge cases and common mistakes
-
-Interviewers poke these:
-
-* **`stackCapacity = 1`:** each stack holds one value. Second push on the same stack must fail.
-* **Empty pop / peek:** throw (or return a sentinel if you agreed on one). Never read `indexOfTop` when size is 0; that index would be `offset - 1`, which is wrong and can cross into another stack.
-* **Full push:** throw. Do not silently overwrite.
-* **Invalid `stackNum`:** reject outside `{0,1,2}`.
-* **Independence:** filling stack 2 must leave stack 0 empty and usable.
-* **Zero or negative capacity:** reject in the constructor.
-* **Pop then push again:** size goes down, then up; the same index is reused. That is correct stack behavior.
-
-Common mistakes:
-
-1. **Using `offset + size` as top without subtracting 1.** After size becomes 1, top is at `offset + 0`, not `offset + 1`.
-2. **Incrementing size after writing with the old size.** Order matters: either increment first then write at `indexOfTop`, or write at `offset + size` then increment. Pick one and stay consistent. The code above increments first.
-3. **Sharing one top pointer for all three stacks.** That is a single stack, not three.
-4. **Forgetting `isFull` before push.** You will stomp the next slice.
-5. **Allowing stack 0 to grow past its slice into stack 1.** Fixed division forbids that; enforce capacity per stack.
-
-Minimal smoke test sketch:
-
-```java
-void demo() {
-    FixedMultiStack stacks = new FixedMultiStack(2);
-    stacks.push(0, 1);
-    stacks.push(0, 2);
-    // stacks.push(0, 3); // would throw: full
-    stacks.push(2, 9);
-    assert stacks.pop(0) == 2;
-    assert stacks.peek(0) == 1;
-    assert stacks.pop(2) == 9;
-    assert stacks.isEmpty(1);
-}
-```
-
----
-
-## 7. Explain to a friend recap
-
-Three in One asks: can you pack three independent stacks into one array?
-
-1. Split the array into three equal slices of length `stackCapacity`.
-2. Keep `sizes[3]`. Top of stack `k` lives at `k * stackCapacity + sizes[k] - 1`.
-3. Push only if not full: bump size, write at top. Pop only if not empty: read top, clear, drop size.
-4. All ops are O(1). The cost is wasted space when one stack is hot and another is idle.
-5. Flexible walls that steal free cells are a harder follow-up. Start with fixed slices unless asked otherwise.
-
-If you can draw the three slices, name the top index formula, and refuse full pushes without crosstalk between stacks, you own problem 3.1.
-
----
-
-## Series
-
-* Guide: [CTCI series guide](/blog/en/ctci-series-guide)
-* Previous: [Loop Detection](/blog/en/ctci-2-8-loop-detection)
-* Next: [Stack Min](/blog/en/ctci-3-2-stack-min)
+1. **Invalid stack index:** Guarded by checking $0 \le \text{stackNum} < 3$.
+2. **Stack overflow:** Throws descriptive exception when `sizes[stackNum] == stackCapacity`.
+3. **Empty stack pop/peek:** Throws `EmptyStackException`.

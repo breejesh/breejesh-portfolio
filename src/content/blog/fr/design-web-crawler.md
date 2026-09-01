@@ -292,3 +292,4 @@ Puis les nouveaux liens rejoignent la frontier, et le robot continue de marcher.
 Si vous ne dessinez qu'un diagramme en entretien, dessinez la boucle : frontier → fetch poli → parse → content store → extraction de liens → filtre d'URL et seen → retour à la frontier. Étiquetez les seeds à l'entrée. Dites à voix haute que priorité et politesse vivent dans la frontier, pas comme une idée de dernière minute.
 
 Le web sera toujours désordonné : HTML cassé, pièges, doublons, hôtes lents. Un bon design de crawler s'attend à ce désordre. Il est patient par hôte, agressif pour ne pas se répéter, et honnête sur la part d'internet qu'il peut vraiment nettoyer aujourd'hui.
+

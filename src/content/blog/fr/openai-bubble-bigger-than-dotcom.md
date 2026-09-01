@@ -7,6 +7,7 @@ coverImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 previewImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 ---
 
+
 Sam Altman a dit, en substance: nous n'avons pas de plan de revenus. Quand le système général existera, nous lui demanderons comment rembourser les investisseurs.
 
 Autrefois, c'était une blague. En 2026, c'est un aveu. Le trade IA est devenu si large qu'un projet de note du Trésor américain, filtré, avertit que le secteur est **plus enfoncé dans l'économie que les boîtes de la bulle internet**. Marchés, crédit privé, financeurs de data centers, clouds, puces et utilities partagent la même hypothèse: la demande de modèles frontier paiera le fer.
@@ -137,3 +138,4 @@ La bulle internet avait pets.com et aussi Amazon. L'erreur est de traiter chaque
 5. **Des régulateurs qui murmurent « systémique » en privé et applaudissent le capex en public**, c'est du comportement de fin de cycle.
 
 Le plan d'origine de Sam: demander au modèle comment rembourser les investisseurs. La meilleure question pour tout le monde: **quand la musique ralentit, qui tient encore les GPU, la dette et les contrats d'énergie?**
+

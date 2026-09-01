@@ -1,205 +1,97 @@
 ---
-title: "CTCI 2.4 Partition: partir una lista enlazada alrededor de x"
-description: "Reordena una lista enlazada simple para que todo nodo menor que x quede antes que los nodos mayores o iguales a x. Fusión de dos listas en Java y una nota breve de crecimiento head/tail."
-date: "2026-02-01"
+title: "Particionar Lista: Dividir una Lista Enlazada Alrededor de un Valor X (CTCI 2.4)"
+description: "Particiona una lista enlazada alrededor de un valor x de modo que todos los nodos menores que x aparezcan antes que los mayores o iguales en tiempo O(N) y espacio O(1)."
+date: "2026-05-06"
 tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-2-4-partition.webp
 previewImage: /assets/images/ctci-2-4-partition.webp
 ---
 
-
 > **TL;DR**
-> * **El Problema:** Optimización de complejidad temporal y espacial para estructuras de datos clave.
-> * **El Enfoque:** Reordena una lista enlazada simple para que todo nodo menor que x quede antes que los nodos mayores o iguales a x. Fusión de dos listas en Java y una nota breve de crecimiento head/tail.
-> * **Complejidad:** Relación óptima de tiempo y espacio con gestión de casos límite.
+> * **El Problema del Libro:** Escribe codigo para particionar una lista enlazada alrededor de un valor $x$, de tal manera que todos los nodos menores que $x$ aparezcan antes que los nodos mayores o iguales que $x$.
+> * **La Solución Óptima:** Manten dos punteros `head` y `tail`. Al recorrer la lista, inserta los elementos $< x$ en la cabeza (`head`) y los elementos $\ge x$ en la cola (`tail`), logrando una particion en tiempo $O(N)$ y espacio auxiliar $O(1)$.
+> * **Realidad en Producción:** Particionamiento en Quicksort para listas enlazadas y clasificacion de paquetes de red por niveles de prioridad QoS.
 
-En el control del aeropuerto hay dos filas. Una para maletas por debajo de un peso límite y otra para las que llegan a ese peso o lo superan. La gente llega en orden aleatorio. No las ordenas por peso. Solo te importa que cada maleta ligera acabe a la izquierda y cada pesada a la derecha. Eso es **partition** en una lista enlazada: un corte alrededor de un valor `x`, no un sort completo.
+## 1. Formulación del Problema del Libro
 
-Este es el problema **2.4** de la [serie CTCI en Java](/blog/es/ctci-series-guide), Capítulo 2 (Linked Lists). Explicación y código originales, no un copiado del libro.
+En *Cracking the Coding Interview* (Problema 2.4), se nos plantea:
 
----
+*"Escribe codigo para particionar una lista enlazada alrededor de un valor x, de tal forma que todos los nodos menores que x aparezcan antes que todos los nodos mayores o iguales que x. Si x esta contenido en la lista, los valores de x solo necesitan estar despues de los elementos menores que x."*
 
-## El problema en palabras simples
+**Ejemplo:**
+* Entrada: `3 -> 5 -> 8 -> 5 -> 10 -> 2 -> 1` [particion = `5`]
+* Salida: `1 -> 2 -> 3 -> 5 -> 8 -> 5 -> 10` (o `3 -> 1 -> 2 -> 10 -> 5 -> 5 -> 8`)
 
-Recibes la cabeza de una lista enlazada simple de enteros y un entero `x`.
+## 2. Enfoques Algorítmicos
 
-**Objetivo:** reordenar los nodos de forma que todo nodo con valor **estrictamente menor** que `x` quede antes que todo nodo con valor **mayor o igual** a `x`.
+Podemos abordar el problema de dos formas:
 
-Detalles que importan en la entrevista:
+### Enfoque de Crecimiento por Cabeza y Cola (Compacto y Eficiente)
+Si no es estrictamente necesario mantener el orden relativo original (particion inestable), expandimos la lista por ambos extremos:
+1. Inicializamos `head = node` y `tail = node`.
+2. Para cada nodo sucesor:
+   * Si `current.data < x`, lo insertamos antes de `head` (`current.next = head; head = current;`).
+   * Si `current.data >= x`, lo insertamos despues de `tail` (`tail.next = current; tail = current;`).
+3. Al terminar, establecemos `tail.next = null`.
 
-- Los nodos iguales a `x` viven en el lado **derecho** (con el grupo "mayor o igual"). No hace falta un cubo del medio salvo que lo inventes.
-- El **orden estable** (mantener el orden relativo original dentro de cada lado) es agradable y a menudo sale gratis con dos listas. El problema no siempre exige estabilidad.
-- Prefiere **reutilizar los nodos existentes**. No crees un nodo nuevo por cada valor a menos que el entrevistador lo pida.
-
-Ejemplo clásico:
-
-```
-Entrada:  3 → 5 → 8 → 5 → 10 → 2 → 1 ,  x = 5
-Una salida válida:  3 → 1 → 2 → 10 → 5 → 5 → 8
-```
-
-A la izquierda del corte: `3, 1, 2` (todos `< 5`). A la derecha: `10, 5, 5, 8` (todos `>= 5`). Otra lista válida puede reordenar cada mitad, siempre que se cumpla la regla del corte.
-
----
-
-## Cómo pensar antes de codificar
-
-### Instinto incorrecto: ordenar la lista
-
-Un sort completo cumple la regla del corte, pero es más trabajo del pedido. Partition es más débil que sort. Apunta a tiempo lineal y unos pocos punteros extra.
-
-### Idea principal: dos listas y luego pegarlas
-
-Recorre la lista una vez. Por cada nodo, sepáralo (`node.next = null` después de guardar el next real) y añádelo a una de dos cadenas:
-
-1. Lista **before**: valores `< x`
-2. Lista **after**: valores `>= x`
-
-Guarda cabeza y cola en cada cadena para que el append sea O(1). Al terminar:
-
-- Si **before** está vacía, devuelve la cabeza de **after**.
-- Si no, haz `beforeTail.next = afterHead` y devuelve la cabeza de **before**.
-- Deja `afterTail.next = null` (o desconecta al ir) para no dejar un ciclo por enlaces viejos.
-
-Ese es todo el algoritmo. Un pase. Cuatro punteros (o dos dummies). Fácil de explicar en la pizarra.
-
-### Variante opcional: crecer desde head y tail
-
-Otro estilo crece una sola lista resultado por ambos extremos:
-
-- Valores `< x` se insertan al **frente** (nueva cabeza).
-- Valores `>= x` se añaden al **final**.
-
-También particiona en un pase. El orden de la izquierda suele **invertirse** respecto al original, y eso vale si no exigen estabilidad. La fusión de dos listas es más clara cuando quieres orden estable y la historia de "cubo izquierdo, cubo derecho."
-
----
-
-## Solución en Java (fusión de dos listas)
+## Implementación de Producción
 
 ```java
-/** Nodo de lista enlazada simple usado en los ejemplos del Capítulo 2. */
-public class ListNode {
-    public int val;
-    public ListNode next;
-
-    public ListNode(int val) {
-        this.val = val;
+public class PartitionList {
+    public static class LinkedListNode {
+        public int data;
+        public LinkedListNode next;
+        public LinkedListNode(int d) { this.data = d; }
     }
-}
 
-/**
- * Partition list around x: all nodes with val < x before nodes with val >= x.
- * Stable within each side if you always append to that side's tail.
- * Reuses existing nodes. Returns the new head.
- */
-public static ListNode partition(ListNode head, int x) {
-    ListNode beforeHead = null;
-    ListNode beforeTail = null;
-    ListNode afterHead = null;
-    ListNode afterTail = null;
+    /**
+     * Particiona una lista enlazada alrededor del valor x.
+     * Complejidad Temporal: O(N)
+     * Complejidad Espacial: O(1) espacio auxiliar
+     */
+    public static LinkedListNode partition(LinkedListNode node, int x) {
+        if (node == null) return null;
 
-    ListNode current = head;
-    while (current != null) {
-        ListNode next = current.next;
-        // Detach so old links cannot form a cycle after the merge.
-        current.next = null;
+        LinkedListNode head = node;
+        LinkedListNode tail = node;
 
-        if (current.val < x) {
-            if (beforeHead == null) {
-                beforeHead = current;
-                beforeTail = current;
+        LinkedListNode current = node;
+        while (current != null) {
+            LinkedListNode next = current.next;
+            if (current.data < x) {
+                // Insertar nodo en la cabeza
+                current.next = head;
+                head = current;
             } else {
-                beforeTail.next = current;
-                beforeTail = current;
+                // Insertar nodo en la cola
+                tail.next = current;
+                tail = current;
             }
-        } else {
-            if (afterHead == null) {
-                afterHead = current;
-                afterTail = current;
-            } else {
-                afterTail.next = current;
-                afterTail = current;
-            }
+            current = next;
         }
+        tail.next = null;
 
-        current = next;
+        return head;
     }
-
-    if (beforeHead == null) {
-        return afterHead;
-    }
-
-    beforeTail.next = afterHead;
-    return beforeHead;
 }
 ```
 
-Traza del ejemplo con `x = 5`:
+## Análisis de Complejidad y Memoria
 
-| Nodo visto | Va a | Lista before | Lista after |
-| --- | --- | --- | --- |
-| 3 | before | 3 | (vacía) |
-| 5 | after | 3 | 5 |
-| 8 | after | 3 | 5 → 8 |
-| 5 | after | 3 | 5 → 8 → 5 |
-| 10 | after | 3 | 5 → 8 → 5 → 10 |
-| 2 | before | 3 → 2 | 5 → 8 → 5 → 10 |
-| 1 | before | 3 → 2 → 1 | 5 → 8 → 5 → 10 |
+| Métrica | Complejidad | Detalle Técnico |
+|---|---|---|
+| Complejidad Temporal | `O(N)` | Un solo recorrido lineal sobre los $N$ nodos. |
+| Espacio Auxiliar | `O(1)` | Modificacion in-place de referencias de punteros. |
 
-Pegar: `3 → 2 → 1 → 5 → 8 → 5 → 10`. Partition válido. (El ejemplo del libro puede reordenar dentro de cada mitad; ambos valen.)
+## Discusión de Ingeniería de Sistemas en Producción
 
-Versión con nodos dummy de la misma idea: sentinelas vacíos `before` y `after`, siempre append por la cola, luego `beforeTail.next = afterHead.next` y devuelves `beforeHead.next`. Misma complejidad, menos chequeos de null.
+### Arquitectura de Sistemas en Producción: Quicksort y Colas de Prioridad QoS
 
----
+1. **Quicksort sobre Listas Enlazadas:** La etapa de particionado in-place divide los nodos sin requerir asignaciones de arrays adicionales.
+2. **Priorizacion de Paquetes en Redes (QoS):** Division de paquetes en colas de trafico urgente vs masivo segun encabezados de prioridad.
 
-## Complejidad
+## Casos Límite y Robustez en Producción
 
-| | Coste | Por qué |
-| --- | --- | --- |
-| Tiempo | O(n) | Un recorrido de n nodos. Cada nodo se añade una vez. |
-| Espacio extra | O(1) | Un puñado de punteros. Se reutilizan los nodos, no se copian a objetos nuevos. |
-
-Hay que mirar cada nodo para saber a qué lado va, así que el tiempo lineal es el suelo correcto.
-
----
-
-## Casos límite que tocan en la entrevista
-
-1. **Lista null o vacía.** Devuelve null. No revientes en `beforeTail`.
-2. **Todos los valores `< x`.** After queda vacía. Devuelve la cabeza de before. El `next` de la cola ya es null si desconectaste.
-3. **Todos los valores `>= x`.** Before vacía. Devuelve la cabeza de after.
-4. **Un solo nodo.** Cualquier lado según el valor. El resultado es ese nodo con `next == null`.
-5. **`x` aparece muchas veces.** Todas las copias van al lado after. No hace falta lista del medio.
-6. **Duplicados mezclados con otros valores.** La estabilidad (si haces append) mantiene el orden relativo en cada lado. Dilo en voz alta si preguntan.
-7. **Olvidar poner `next` a null.** Bug clásico: tras el merge, la cadena vieja sigue apuntando a algún sitio y aparece un ciclo o una cola incorrecta.
-8. **Comparar con `<=` por error.** El problema suele ser **estrictamente** `<` a la izquierda. Confirma la desigualdad antes de codificar.
-
----
-
-## Errores comunes
-
-- Ordenar y decir que "particionaste." Correcto pero excesivo, y señala que no viste el requisito más débil.
-- Crear nodos nuevos por cada valor y abandonar la lista vieja. Suelen querer cirugía de punteros sobre los nodos existentes.
-- Enlazar `before` con `after` sin manejar before vacío (null pointer) o after vacío (bien si la cola ya apunta a null).
-- Dejar `afterTail.next` apuntando al medio de la lista vieja porque nunca rompiste enlaces.
-
----
-
-## Resumen para contárselo a un amigo
-
-Partition son las filas del aeropuerto, no un sort completo. Todo lo que pesa menos que `x` va a la izquierda. Todo lo demás a la derecha.
-
-Recorre la lista una vez. Saca cada nodo y añádelo a una cadena **before** o **after**. Pega before a after. Devuelve la cabeza izquierda, o la derecha si la izquierda nunca recibió un nodo.
-
-Un pase, unos pocos punteros, sin drama. Si permiten orden inestable, crecer desde head y tail también vale. Prefiere las dos listas cuando quieres una historia limpia y mitades estables.
-
----
-
-## Práctica
-
-1. Codifica `partition` de memoria con cuatro punteros y luego con dummies.
-2. Traza en papel `3 → 5 → 8 → 5 → 10 → 2 → 1` con `x = 5`.
-3. Traza entradas todo-pequeño y todo-grande.
-4. Rompe a propósito una solución correcta saltándote `current.next = null` y mira el ciclo.
-
-Anterior en la serie: [Delete Middle Node](/blog/es/ctci-2-3-delete-middle-node). Siguiente: [Sum Lists](/blog/es/ctci-2-5-sum-lists). Mapa completo: [CTCI en Java](/blog/es/ctci-series-guide).
+1. **Lista vacia o de un solo elemento:** Resuelto de inmediato en $O(1)$.
+2. **Todos los elementos menores o mayores que $x$:** El ajuste final `tail.next = null` previene la creacion accidental de ciclos circulares.
+3. **El valor $x$ no existe en la lista:** Funciona de forma valida al evaluar unicamente la condicion binaria `< x`.

@@ -7,6 +7,7 @@ coverImage: /assets/images/vector-embeddings-explained.webp
 previewImage: /assets/images/vector-embeddings-explained.webp
 ---
 
+
 Most teams meet embeddings the day someone says "just put it in a vector DB." That shortcut works for a demo. It also hides the only thing that matters: an embedding is a **fixed-length numeric summary of meaning**, and every retrieval system is only as good as what that summary keeps and what it throws away.
 
 This post is the engineer version. Not a research survey. What embeddings are, how you compare them, what dimension counts mean in practice, how search and RAG actually use them, and the mistakes that show up after you ship.
@@ -255,3 +256,4 @@ Click-through, recency, authority, and business rules still matter. Vectors are 
 If you only remember one sentence: **embeddings turn "find related meaning" into geometry, and your system still has to choose the right units, the right metric, and the right candidates before any LLM writes a polished answer.**
 
 That is enough to design a retrieval path, read a model card without glazing over, and push back when someone treats a vector database as a substitute for product thinking.
+

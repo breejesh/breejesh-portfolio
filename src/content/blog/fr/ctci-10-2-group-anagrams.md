@@ -1,67 +1,86 @@
 ---
-title: "Group Anagrams: Regrouper les Anagrammes d'un Tableau de Chaînes (CTCI 10.2)"
-description: "Problème CTCI 10.2 en Java: trier un tableau de chaînes de sorte que tous les anagrammes soient adjacents."
-date: "2026-06-19"
+title: "Regrouper les Anagrammes: Hachage par Clé Canonique (CTCI 10.2)"
+description: "Triez un tableau de chaînes pour regrouper les anagrammes côte à côte par hachage de signature canonique en temps O(N * K log K) et espace O(N * K)."
+date: "2026-05-06"
 tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-10-2-group-anagrams.webp
 previewImage: /assets/images/ctci-10-2-group-anagrams.webp
 ---
 
-
 > **TL;DR**
-> * **Le Problème:** Maîtriser le problème CTCI 10.2 avec une efficacité de niveau production.
-> * **L'Approche:** Problème CTCI 10.2 en Java: trier un tableau de chaînes de sorte que tous les anagrammes soient adjacents.
-> * **Complexité:** Compromis optimal entre temps et espace.
+> * **Le Problème du Livre:** Écrivez une méthode pour réorganiser un tableau de chaînes de caractères de sorte que tous les anagrammes soient adjacents.
+> * **La Solution Optimale:** Hachage par Signature Canonique Triée : (1) Deux anagrammes possèdent la même séquence de lettres lorsqu'ils sont triés (ex. `"gare"`, `"rage"`, `"page"` partagent leurs lettres triées) ; (2) Regrouper les mots dans une table `HashMap<String, List<String>>` où la clé est la version triée du mot ; (3) Réécrire les listes concaténées dans le tableau d'origine ; (4) S'exécute en **temps $O(N \cdot K \log K)$** et **espace $O(N \cdot K)$**.
+> * **Réalité en Production:** Moteurs de suggestions d'autocomplétion et groupement de codons génomiques.
 
-Cet article propose une explication claire et accessible du problème CTCI **10.2**. Nous examinons l'énoncé, comparons l'approche brute à la solution optimale en Java.
+## 1. Formulation du Problème du Livre
 
----
+Dans *Cracking the Coding Interview* (Problème 10.2), l'énoncé est :
 
-## 1. Analogie du monde réel
+*"Reorganisez un tableau de chaines de caracteres pour que tous les anagrammes soient adjacents."*
 
-Pensez au problème CTCI 10.2 comme à l'organisation efficace d'objets au quotidien. Choisir la bonne structure de données élimine les itérations inutiles.
+## 2. Démarche par Clé Canonique
 
----
+Trier le tableau avec un `Comparator` personnalisé engendre une complexité de $O(N \log N \cdot K \log K)$.
 
-## 2. Énoncé clair du problème
+En regroupant les mots par leur forme canonique dans une table de hachage, une seule passe linéaire de $N$ tris de taille $K$ est requise, abaissant la complexité à **$O(N \cdot K \log K)$**.
 
-**Problème 10.2:** Problème CTCI 10.2 en Java: trier un tableau de chaînes de sorte que tous les anagrammes soient adjacents.
-
----
-
-## 3. Approche optimale et implémentation
+## Implémentation de Production
 
 ```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class GroupAnagrams {
+    /**
+     * Regroupe les anagrammes de maniere contigue.
+     * Complexite Temporelle: O(N * K log K)
+     * Complexite Spatiale: O(N * K)
+     */
     public static void sort(String[] array) {
-        Map<String, List<String>> map = new HashMap<>();
+        Map<String, List<String>> mapList = new HashMap<>();
+
         for (String s : array) {
-            char[] chars = s.toCharArray();
-            Arrays.sort(chars);
-            String key = new String(chars);
-            map.computeIfAbsent(key, k -> new ArrayList<>()).add(s);
+            String key = sortChars(s);
+            mapList.putIfAbsent(key, new ArrayList<>());
+            mapList.get(key).add(s);
         }
+
         int index = 0;
-        for (List<String> list : map.values()) {
-            for (String s : list) {
-                array[index++] = s;
+        for (String key : mapList.keySet()) {
+            List<String> list = mapList.get(key);
+            for (String t : list) {
+                array[index] = t;
+                index++;
             }
         }
+    }
+
+    private static String sortChars(String s) {
+        char[] content = s.toCharArray();
+        Arrays.sort(content);
+        return new String(content);
     }
 }
 ```
 
----
+## Analyse de Complexité et Mémoire
 
-## 4. Complexité Temporelle et Spatiale
+| Métrique | Complexité | Détail Technique |
+|---|---|---|
+| Complexité Temporelle | `O(N * K log K)` | $N$ chaînes de longueur $K$ triées par Dual-Pivot Quicksort. |
+| Espace Auxiliaire | `O(N * K)` | Table de hachage contenant les listes d'anagrammes. |
 
-| Métrique | Complexité | Explication |
-| --- | --- | --- |
-| Complexité Temporelle | O(N) / O(log N) | Parcours optimal des données |
-| Complexité Spatiale | O(1) / O(N) | Empreinte mémoire contrôlée |
+## Ingénierie des Systèmes en Production
 
----
+### Architecture Système : Index Lexicaux
 
-## 5. Cas Limites et Résumé
+1. **Suggestions Orthographiques :** Regroupement de permutations pour générer des requêtes de correction phonétique ou typographique.
+2. **Génomique Numérique :** Détection de permutations de nucléotides dans des bibliothèques de séquençage.
 
-Vérifiez toujours les conditions aux limites, les valeurs nulles et la taille des tableaux en entretien.
+## Cas Limites et Robustesse
+
+1. **Chaînes Vides ou Courtes :** Gérées sans exception par la clé `""`.
+2. **Préservation des Caractères :** Restitution fidèle dans le tableau récepteur.

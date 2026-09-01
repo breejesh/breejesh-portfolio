@@ -1,34 +1,75 @@
 ---
-title: "Number Max: Find Maximum of Two Numbers Without Comparison Operators (CTCI 16.7)"
-description: "CTCI problem 16.7: find maximum of two integers without using if-else or comparison operators using bitwise sign shift."
-date: "2026-01-03"
+title: "Maximum sans Comparateurs: Calcul sans Branchement et Protection d'Overflow (CTCI 16.7)"
+description: "Déterminez le maximum de deux entiers sans structure if-else ni opérateurs de comparaison via l'extraction du bit de signe et la logique branchless."
+date: "2026-05-06"
 tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-16-7-number-max.webp
 previewImage: /assets/images/ctci-16-7-number-max.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** CTCI problem 16.7 technical mechanics.
-> * **The Approach:** CTCI problem 16.7: find maximum of two integers without using if-else or comparison operators using bitwise sign shift.
-> * **Complexity:** Optimal Time and Memory bounds.
+> * **Le Problème du Livre:** Écrivez une méthode retournant le maximum de deux nombres sans utiliser d'instructions `if-else` ni d'opérateurs de comparaison (`<`, `>`, `==`).
+> * **La Solution Optimale:** **Multiplexage sans Branchement avec Sécurité d'Overflow** :
+>   1. **Extraction de Signe** : `sign(x) = (x >>> 31) ^ 1` ($1$ si $x \ge 0$, et $0$ si $x < 0$).
+>   2. **Le Piège de l'Overflow** : L'évaluation directe de $a - b$ provoque un dépassement de capacité si les signes sont opposés (ex. $a = \text{MAX\_INT}, b = -10$).
+>   3. **Formule Unifiée** :
+>      * Si les signes diffèrent (`sa ^ sb == 1`) : retenir $a$ si positif (`k = sa`).
+>      * Si les signes sont identiques (`sa ^ sb == 0`) : utiliser `sc = sign(a - b)`.
+>      * Coefficient : `k = (sa ^ sb) * sa + (1 ^ (sa ^ sb)) * sc`.
+>   4. **Résultat** : `return a * k + b * (k ^ 1);`.
+>   5. S'exécute en **temps $O(1)$** sans rupture de pipeline d'instructions processeur.
+> * **Réalité en Production:** Cryptographie en temps constant et vectorisation SIMD.
 
-This article provides a clear breakdown of CTCI problem **16.7**.
+## 1. Formulation du Problème du Livre
 
-## 1. Context and Problem Statement
-CTCI problem 16.7: find maximum of two integers without using if-else or comparison operators using bitwise sign shift.
+Dans *Cracking the Coding Interview* (Problème 16.7), l'énoncé est :
 
-## 2. Technical Code & Mechanics
+*"Calculez le maximum de deux nombres entiers sans recourir aux structures de controle conditionnelles ni aux comparateurs relationnels."*
+
+## 2. Extraction du Bit de Signe
+
+L'isolation du bit de poids fort permet d'élaborer un masque binaire arithmétique pour sélectionner la valeur maximale.
+
+## Implémentation de Production
 
 ```java
-public static int getMax(int a, int b) {
-    int k = sign(a - b);
-    int q = flip(k);
-    return a * k + b * q;
+public class NumberMax {
+
+    private static int sign(int a) {
+        return (a >>> 31) ^ 1;
+    }
+
+    public static int getMax(int a, int b) {
+        int sa = sign(a);
+        int sb = sign(b);
+        int sc = sign(a - b);
+
+        int useSignA = sa ^ sb;
+        int useSignC = useSignA ^ 1;
+
+        int k = useSignA * sa + useSignC * sc;
+        int q = k ^ 1;
+
+        return a * k + b * q;
+    }
 }
-private static int sign(int a) { return flip((a >> 31) & 0x1); }
-private static int flip(int bit) { return 1 ^ bit; }
 ```
 
-## 3. Key Takeaways and Edge Cases
-Always test boundary conditions and invalid input states.
+## Analyse de Complexité
+
+| Métrique | Valeur | Détail Technique |
+|---|---|---|
+| Complexité Temporelle | `O(1)` | Suite d'instructions logiques pures sans saut conditionnel. |
+| Espace Mémoire | `O(1)` | Aucune allocation sur le tas. |
+| Défauts de Prédiction | `0%` | Exécution strictement déterministe. |
+
+## Ingénierie des Systèmes en Production
+
+### Architecture Système : Cryptographie en Temps Constant
+
+1. **Résistance aux Canaux Auxiliaires :** Les instructions de saut conditionnel fuient des informations temporelles exploitables lors d'attaques par canaux cachés. Les algorithmes sans branchement garantissent un temps de calcul invariant.
+2. **Instructions SIMD :** Exploitation matérielle via `_mm256_max_epi32` (AVX2).
+
+## Cas Limites et Robustesse
+
+1. **Bornes Limites :** Traite sans erreur la combinaison `Integer.MAX_VALUE` et `Integer.MIN_VALUE`.

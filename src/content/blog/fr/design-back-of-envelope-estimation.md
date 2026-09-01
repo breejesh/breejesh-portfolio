@@ -390,3 +390,4 @@ Puis donnez-leur les formules en une ligne :
 | Cache | working set chaud, pas le dataset complet |
 
 L'estimation back-of-the-envelope est un outil de communication. Vous montrez que les contraintes d'échelle façonnent l'architecture, et que vous savez faire un calcul grossier honnête sans fausse précision. Entraînez les recettes jusqu'à ce qu'elles deviennent ennuyeuses. L'ennui, c'est ce que vous voulez quand l'horloge tourne.
+

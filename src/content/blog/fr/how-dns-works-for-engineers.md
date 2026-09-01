@@ -7,6 +7,7 @@ coverImage: /assets/images/how-dns-works-for-engineers.webp
 previewImage: /assets/images/how-dns-works-for-engineers.webp
 ---
 
+
 Le DNS est l'annuaire d'internet, et cette analogie ne suffit qu'à moitié. Un ingénieur n'a pas besoin d'un conte sur "la recherche de noms." Il vous faut le **chemin de résolution**, les **types d'enregistrements que vous publiez**, comment **TTL et caches** retardent chaque changement, et un réflexe **`dig`** quand la prod dit que l'hôte va bien et les utilisateurs disent le contraire.
 
 Si vous déployez des apps, basculez des domaines, configurez le mail ou déboguez "ça marche sur ma machine" après un changement DNS, voici la carte.
@@ -278,3 +279,4 @@ Le DNS est correct quand **le nom, le type, la vue (publique vs privée) et la c
 5. Les pannes après un changement DNS sont surtout du lag de cache, un mauvais nom/type, ou une délégation cassée, pas "internet est down."
 
 Maîtrisez ce chemin et `dig` cesse d'être un sort obscur pour devenir le premier outil dès que le hostname est suspect.
+

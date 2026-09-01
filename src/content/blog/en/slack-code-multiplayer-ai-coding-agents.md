@@ -7,6 +7,7 @@ coverImage: /assets/images/slack-code-multiplayer-ai-coding-agents.webp
 previewImage: /assets/images/slack-code-multiplayer-ai-coding-agents.webp
 ---
 
+
 > **TL;DR**
 > * **The Catalyst:** Single-player AI coding tools (Cursor, Claude Code, terminal agents) kept execution trapped in private local developer environments, causing merge conflicts, invisible architectural drift, and team coordination breakdowns.
 > * **The Mechanism:** Slack Code embeds autonomous agents directly into communication channels, spinning up shared ephemeral cloud containers where human developers, QA leads, and product managers collaborate with multi-agent swarms in real time.
@@ -67,3 +68,4 @@ Early enterprise beta metrics across 450 engineering organizations indicate:
 * [The Shift to Team-Based Autonomous Coding, TechCrunch](https://techcrunch.com)
 * [Anthropic Claude Code and Agent Teams Architecture, Anthropic Research](https://claude.com)
 * [Devin Enterprise Multi-Agent Deployment Case Studies, Cognition AI](https://cognition.ai)
+

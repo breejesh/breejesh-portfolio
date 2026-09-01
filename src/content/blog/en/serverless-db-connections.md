@@ -7,6 +7,7 @@ coverImage: /assets/images/serverless-database.webp
 previewImage: /assets/images/serverless-database.webp
 ---
 
+
 Serverless architectures like AWS Lambda scale instantly to handle incoming traffic surges. However, traditional relational databases like PostgreSQL and MySQL were not built for this ephemeral scaling model. They expect a stable pool of long-lived connections, not thousands of short-lived ones created and destroyed in seconds.
 
 When hundreds or thousands of Lambda functions spin up simultaneously, they can easily overwhelm your database, leading to **connection pool exhaustion**, cascading failures, and application downtime.
@@ -256,3 +257,4 @@ The defense-in-depth approach combines multiple strategies:
 5. **Monitor actively** with `pg_stat_activity` queries and CloudWatch alarms.
 
 No single strategy is enough on its own. In practice, the most resilient serverless architectures use a proxy as the primary defense and layer the other strategies on top for operational safety.
+

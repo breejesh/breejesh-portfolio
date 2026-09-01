@@ -307,3 +307,4 @@ If you remember only two production bugs: two processes sharing the same worker 
 Unique IDs look like a one-line feature until many writers share the product. **UUID** removes coordination and pays with width and (for random versions) index locality. **Ticket servers** keep short integers and reintroduce a central choke unless you allocate ranges. **Snowflake** packs time, machine identity, and a per-tick counter into 64 bits, like a receipt that never reprints the same line on the same register at the same moment.
 
 Protect the clock and the worker id. Everything else is arithmetic.
+

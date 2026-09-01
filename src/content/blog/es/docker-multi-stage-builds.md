@@ -7,6 +7,7 @@ coverImage: /assets/images/docker-optimization.webp
 previewImage: /assets/images/docker-optimization.webp
 ---
 
+
 Las imágenes grandes ralentizan los despliegues, ocupan registro y amplían la superficie de ataque. Si la imagen de producción aún incluye compiladores, runners de tests y tooling de build, estás enviando peso muerto.
 
 Las **construcciones multi-etapa** atacan el empaquetado: compilas en un stage pesado y copias solo el artefacto de runtime a una imagen final pequeña.
@@ -294,3 +295,4 @@ Multi-stage es el default que quiero para imágenes de producción. El benchmark
 No gana en todos los ejes. Las bases preconstruidas pueden reconstruir cambios de código puro más rápido. Cold y dep rebuilds dependen del ecosistema. Mide tus propias apps si la latencia de rebuild es el cuello de botella.
 
 Combina lo básico: multi-stage para lo que envías, `.dockerignore` para el contexto, no-root (y distroless/`scratch` cuando encaje) para seguridad, health checks para ops, cachés BuildKit para CI. Harness y gráficas de este post: [multi-stage-docker-benchmarking](https://github.com/breejesh/multi-stage-docker-benchmarking).
+

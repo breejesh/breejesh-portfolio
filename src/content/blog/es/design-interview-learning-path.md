@@ -223,3 +223,4 @@ La habilidad de system design no es "me aprendí YouTube de memoria". Es "puedo 
 Empieza donde eres débil. Si los números te asustan, haz estimación. Si el async te confunde, haz crawler y notificaciones antes de Drive. Si te congelas en la estructura, corre el post del framework dos veces con temporizador.
 
 Luego sigue. La práctica constante basta. No hace falta ser dramático. Solo hay que aparecer a la siguiente sesión.
+

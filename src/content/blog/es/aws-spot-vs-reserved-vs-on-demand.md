@@ -7,6 +7,7 @@ coverImage: /assets/images/aws-spot-reserved-ondemand.webp
 previewImage: /assets/images/aws-spot-reserved-ondemand.webp
 ---
 
+
 El cómputo en la nube suele consumir más de la mitad de la factura mensual de AWS de una empresa. Sin embargo, muchos equipos de ingeniería eligen instancias On-Demand por costumbre. Otros evitan las instancias Spot por completo tras experimentar una sola interrupción inesperada, o se comprometen a contratos de 3 años para cargas de trabajo que cambian en seis meses.
 
 Elegir el modelo de precios incorrecto en EC2 malgasta dinero rápidamente. Entender las diferencias exactas entre On-Demand, Spot e Instancias Reservadas (incluyendo Savings Plans) permite reducir los costes de infraestructura entre un 50% y un 70% sin sacrificar el tiempo de actividad.
@@ -177,3 +178,4 @@ Antes de seleccionar una modalidad de contratación en EC2, evalúa tu carga de 
 * ¿Es una base de datos con estado o un componente de infraestructura central que funciona 24/7? **Usa Savings Plans.**
 * ¿Es un prototipo inicial o un pico de tráfico breve e impredecible? **Usa On-Demand.**
 * ¿Planeas migrar entre arquitecturas o tipos de instancia en los próximos 12 meses? **Elige Compute Savings Plans en lugar de EC2 Instance Savings Plans.**
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/java-virtual-threads.webp
 previewImage: /assets/images/java-virtual-threads.webp
 ---
 
+
 Durante casi dos décadas, el patrón estándar para manejar la alta concurrencia en Java ha sido el pool de hilos (thread pool). Cada vez que un servidor necesitaba procesar peticiones simultáneas, los desarrolladores configuraban ejecutores para gestionar un número fijo de hilos del sistema operativo.
 
 Los **hilos virtuales de Java 21** (Project Loom) cambian ese modelo. Puedes ejecutar muchas tareas concurrentes bloqueantes sin dimensionar un pool clásico para cada petición.
@@ -105,3 +106,4 @@ La prueba de carga simuló **3,000 peticiones en total** a diferentes niveles de
 ### Conclusión
 
 Los hilos virtuales de Java 21 son uno de los mayores cambios de concurrencia desde las lambdas en Java 8. Al abaratar la creación de hilos, Project Loom reduce la necesidad de código reactivo complejo y de pools sobredimensionados, y simplifica las aplicaciones Java de alta concurrencia.
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/kubernetes-ship-a-service.webp
 previewImage: /assets/images/kubernetes-ship-a-service.webp
 ---
 
+
 Vous n'avez pas besoin de chaque objet Kubernetes pour publier un service. La plupart des API de production qui atterrissent sur un cluster utilisent le même petit stack : un **Pod** qui exécute le conteneur, un **Deployment** qui maintient le bon nombre de Pods vivants, un **Service** qui leur donne un nom réseau stable, un **Ingress** (ou Gateway) qui accepte le HTTP depuis l'extérieur, des **probes** pour que la plateforme sache quand le trafic est sûr, et **ConfigMap / Secret** pour la config et les identifiants.
 
 C'est le chemin pratique. Tout le reste (Jobs, CronJobs, StatefulSets, NetworkPolicies, CRDs) peut attendre que le premier service soit sain.
@@ -303,3 +304,4 @@ Certs, DNS et image pull secrets sont du setup plateforme. Branchez-les une fois
 7. Confirmer qu'un mauvais deploy rollback : `kubectl rollout undo deployment/billing-api`.
 
 C'est assez de Kubernetes pour posséder un service de bout en bout. Apprenez le reste quand une panne ou un besoin produit vous y force, pas parce qu'un syllabus l'a listé.
+

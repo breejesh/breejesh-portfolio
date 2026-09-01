@@ -1,33 +1,100 @@
 ---
-title: "Circus Tower: Longest Increasing Subsequence for Height and Weight (CTCI 17.8)"
-description: "CTCI problem 17.8: build tallest human tower where each person is shorter and lighter than the person below."
-date: "2026-04-12"
+title: "सर्कस टॉवर (Circus Tower): २डी लांगेस्ट इंक्रीजिंग सबसीक्वेंस और पेशेंस सॉर्टिंग (सीटीसीआई १७.८)"
+description: "दोहरी छंटाई (Dual Sorting) और पेशेंस सॉर्टिंग (LIS) का उपयोग करके सख्त ऊंचाई और वजन प्रतिबंधों वाले मानव सर्कस टॉवर की अधिकतम ऊंचाई की O(N log N) में गणना करना।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-17-8-circus-tower.webp
 previewImage: /assets/images/ctci-17-8-circus-tower.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १७.८ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १७.८: build tallest human tower where each person is shorter and lighter than the person below.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** सर्कस का एक टॉवर रूटीन डिजाइन किया जा रहा है जिसमें लोग एक-दूसरे के कंधों पर खड़े होते हैं। प्रत्येक व्यक्ति को अपने नीचे वाले व्यक्ति से सख्ती से छोटा और हल्का होना चाहिए ($H_i < H_{i+1}$ और $W_i < W_{i+1}$)। ऐसे टॉवर में अधिकतम कितने लोग खड़े हो सकते हैं, इसकी गणना करें।
+> * **मुख्य समाधान:** **दोहरी सॉर्टिंग और पेशेंस सॉर्टिंग (LIS)**:
+>   1. **दोहरी सॉर्टिंग**: लोगों को **ऊंचाई के आरोही क्रम** ($H \uparrow$) में सॉर्ट करें। समान ऊंचाई होने पर, **वजन के अवरोही क्रम** ($W \downarrow$) में सॉर्ट करें।
+>   2. **टाई-ब्रेक का नियम**: समान ऊंचाई वाले लोगों को घटते वजन में रखने से समान ऊंचाई वाले दो व्यक्ति वजन सबसीक्वेंस में गलती से एक साथ नहीं आ सकते।
+>   3. **१डी LIS**: बाइनरी सर्च के साथ वजन सरणी पर पेशेंस सॉर्टिंग लागू करें।
+>   4. यह **$O(N \log N)$ समय** और **$O(N)$ स्पेस** में चलता है।
+> * **रियल-वर्ल्ड सिस्टम:** रूसी गुड़िया नेस्टिंग (Russian Doll Envelopes) और कुबेरनेट्स में मल्टी-रिसोर्स बिन पैकिंग।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१७.८** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १७.८: build tallest human tower where each person is shorter and lighter than the person below.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १७.८) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"ऊंचाई और वजन दोनों में सख्त असमानता का पालन करते हुए सबसे बड़े मानव टॉवर की ऊंचाई की गणना करने के लिए एल्गोरिदम लिखें।"*
+
+## २. २डी से १डी में रूपांतरण
+
+ऊंचाई को बढ़ते क्रम में और वजन को घटते क्रम में सॉर्ट करके २डी समस्या को १डी एलआईएस (LIS) समस्या में बदल दिया जाता है।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class CircusTower {
-    static class Person implements Comparable<Person> {
-        int height, weight;
-        public int compareTo(Person o) { return this.height != o.height ? Integer.compare(this.height, o.height) : Integer.compare(this.weight, o.weight); }
+
+    public static class Person implements Comparable<Person> {
+        public final int height;
+        public final int weight;
+
+        public Person(int height, int weight) {
+            this.height = height;
+            this.weight = weight;
+        }
+
+        @Override
+        public int compareTo(Person other) {
+            if (this.height != other.height) {
+                return Integer.compare(this.height, other.height);
+            }
+            return Integer.compare(other.weight, this.weight); // वजन घटते क्रम में
+        }
+    }
+
+    public static int maxTowerHeight(List<Person> people) {
+        if (people == null || people.isEmpty()) return 0;
+
+        Collections.sort(people);
+
+        int[] tails = new int[people.size()];
+        int size = 0;
+
+        for (Person p : people) {
+            int w = p.weight;
+            int idx = Arrays.binarySearch(tails, 0, size, w);
+
+            if (idx < 0) {
+                idx = -(idx + 1);
+            }
+
+            tails[idx] = w;
+            if (idx == size) {
+                size++;
+            }
+        }
+
+        return size;
     }
 }
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## जटिलता विश्लेषण
+
+| रणनीति | समय जटिलता | सहायक स्पेस | टाई हैंडलिंग |
+|---|---|---|---|
+| **दोहरी सॉर्टिंग + LIS** | **$O(N \log N)$** | **$O(N)$** | **सटीक (अवरोही वजन)** |
+| **२डी डायनामिक प्रोग्रामिंग** | $O(N^2)$ | $O(N)$ | धीमा |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: मल्टी-रिसोर्स शेड्यूलिंग
+
+१. **कुबेरनेट्स बिन पैकिंग:** सीपीयू और मेमोरी की दोहरी सीमाओं वाले कंटेनरों को नोड्स पर घनत्व अधिकतम करने के लिए पैरेटो-फ्रंटियर द्वारा पैक करना।
+२. **सीएडी निर्माण:** शीट मेटल पर 2D आकृतियों का अनुकूलन।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **समान ऊंचाई पर अलग वजन:** घटता वजन यह सुनिश्चित करता है कि एक ही ऊंचाई का केवल एक व्यक्ति ही चुना जाए।

@@ -7,6 +7,7 @@ coverImage: /assets/images/serverless-database.webp
 previewImage: /assets/images/serverless-database.webp
 ---
 
+
 Les architectures serverless comme AWS Lambda s'adaptent instantanément pour gérer les pics de trafic. Cependant, las bases de données relationnelles traditionnelles comme PostgreSQL et MySQL n'ont pas été conçues pour ce modèle d'exécution éphémère. Elles s'attendent à un pool stable de connexiones à longue durée de vie, et non à des milliers de connexions créées et détruites en quelques secondes.
 
 Lorsque des centaines ou des milliers de fonctions Lambda démarrent simultanément, elles peuvent facilement saturer votre base de données, entraînant **l'épuisement du pool de connexions**, des pannes en cascade et des interruptions de service.
@@ -256,3 +257,4 @@ Une architecture robuste repose sur la combinaison de ces méthodes :
 5. **Surveiller activement** les connexions via `pg_stat_activity` et des alertes.
 
 Dans la pratique, l'utilisation d'un proxy reste la solution la plus efficace, complétée par les optimisations de code pour garantir une stabilité maximale.
+

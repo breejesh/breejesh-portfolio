@@ -7,6 +7,7 @@ coverImage: /assets/images/event-driven-architecture-intro.webp
 previewImage: /assets/images/event-driven-architecture-intro.webp
 ---
 
+
 Synchronous request/response is simple to reason about until one downstream service stumbles and the entire checkout flow freezes. Event-driven architecture shifts the contract from blocking commands to asynchronous facts. That model breaks down when one action must fan out to many independent systems, when those systems scale at different rates, or when a temporary outage in one dependency should not block the whole checkout path.
 
 **Event-driven architecture** shifts the contract: a producer publishes a fact about something that already happened, and consumers react in their own time. You gain decoupling and horizontal scale. You pay with eventual consistency, harder debugging, and failure modes that do not show up in a single stack trace.
@@ -299,3 +300,4 @@ Before you ship an event path on a high-demand flow:
 Event-driven architecture earns its place when independent systems must react to the same facts at different speeds, and when request paths cannot wait for every side effect. The engineering cost is real: brokers, schemas, idempotency, outboxes, and lag monitoring are part of the feature, not extras.
 
 Start with one clear fact (`OrderPlaced`), one outbox, one idempotent consumer, and metrics on lag. Expand only when the next fan-out hurts more as a synchronous call than as another subscriber. That sequence keeps high-demand systems flexible without turning every write into a distributed mystery.
+

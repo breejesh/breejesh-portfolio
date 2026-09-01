@@ -292,3 +292,4 @@ Then new links rejoin the frontier, and the robot keeps walking. The whole desig
 If you draw only one diagram in an interview, draw the loop: frontier → polite fetch → parse → content store → link extract → URL filter and seen → back to frontier. Label seeds at the entrance. Say out loud that priority and politeness live in the frontier, not as an afterthought.
 
 The web will always be messy: bad HTML, traps, duplicates, slow hosts. A good crawler design expects that mess. It is patient per host, aggressive about not repeating itself, and honest about how much of the internet it can actually clean today.
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/web-utils-showcase.webp
 previewImage: /assets/images/web-utils-showcase.webp
 ---
 
+
 > **TL;DR**
 > * **The Problem:** Online tools for Base64 decoding, JWT inspection, and log parsing routinely send sensitive strings, API credentials, and proprietary logs to third-party backends.
 > * **The Insight:** Processing data entirely client-side using Angular 19 Signals, native Web Cryptography APIs, and dedicated Web Worker threads eliminates remote data transmission.
@@ -173,3 +174,4 @@ npm install
 # Start local dev server
 npm start
 ```
+

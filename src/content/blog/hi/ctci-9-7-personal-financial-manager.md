@@ -1,57 +1,113 @@
 ---
-title: "व्यक्तिगत वित्तीय प्रबंधक: बैंक खाता एकत्रीकरण प्रणाली (CTCI 9.7)"
-description: "सीटीसीआई समस्या ९.७: कई बैंक खातों को जोड़ने और लेनदेन को स्वचालित रूप से श्रेणीबद्ध करने वाला वित्तीय प्रबंधक सिस्टम डिजाइन करें।"
-date: "2026-01-28"
+title: "व्यक्तिगत वित्तीय प्रबंधक (Personal Financial Manager): वितरित वित्तीय एकत्रीकरण प्लेटफॉर्म (सीटीसीआई ९.७)"
+description: "बैंक एपीआई इंटीग्रेशन, मशीन लर्निंग ट्रांजेक्शन वर्गीकरण और बजट अनुशंसाओं के साथ व्यक्तिगत वित्तीय प्रबंधक (Mint / Plaid) का सिस्टम डिज़ाइन।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-9-7-personal-financial-manager.webp
 previewImage: /assets/images/ctci-9-7-personal-financial-manager.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** उत्पादन-स्तरीय दक्षता के साथ सीटीसीआई समस्या ९.७ में महारत हासिल करना।
-> * **दृष्टिकोण:** सीटीसीआई समस्या ९.७: कई बैंक खातों को जोड़ने और लेनदेन को स्वचालित रूप से श्रेणीबद्ध करने वाला वित्तीय प्रबंधक सिस्टम डिजाइन करें।
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** बताएं कि आप एक व्यक्तिगत वित्तीय प्रबंधक (जैसे Mint.com) कैसे डिज़ाइन करेंगे। यह सिस्टम उपयोगकर्ता के बैंक खातों से जुड़ेगा, उनकी खर्च करने की आदतों का विश्लेषण करेगा और वित्तीय सिफारिशें करेगा।
+> * **मुख्य समाधान:** **मल्टी-स्टेज वित्तीय इंजेक्शन पाइपलाइन**: (१) **बैंकिंग इंजेक्शन टियर**: हार्डवेयर सिक्योरिटी मॉड्यूल (AWS KMS) द्वारा सुरक्षित टोकन के साथ ओपन बैंकिंग / प्लेड (Plaid) एपीआई से जुड़ने वाले एसिंक्रोनस वर्कर्स; (२) **वर्गीकरण पाइपलाइन**: १० मिलीसेकंड से कम में मर्चेंट स्ट्रिंग्स (उदा. `"STARBUCKS"` $\to$ `"Dining"`) को टैग करने वाला हाइब्रिड रेगेक्स + एमएल क्लासिफायर; (३) **दोहरा डेटाबेस टियर**: एसीआईडी (ACID) लेनदेन के लिए पोस्टग्रेएसक्यूएल + त्वरित समय-श्रृंखला खर्च विश्लेषण के लिए क्लिकहाउस (ClickHouse); (४) **सिफारिश इंजन**: ब्याज दरों और बजट सीमाओं पर अलर्ट देने वाला नियम इंजन।
+> * **रियल-वर्ल्ड सिस्टम:** प्लेड (Plaid) वित्तीय डेटा एकत्रीकरण और मिंट (Mint / Intuit) बजटिंग इंजन।
 
-तकनीकी साक्षात्कार में आपसे समस्या **९.७** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं। हम समस्या के कथन की जांच करते हैं, इष्टतम समाधान की तुलना करते हैं और जावा (जावा) कोड लिखते हैं।
+## १. किताब का सवाल और संदर्भ
 
----
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या ९.७) में पूछा गया है:
 
-## १. वास्तविक जीवन की उपमा
+*"बैंक खातों को जोड़ने, लेनदेन का स्वचालित वर्गीकरण करने और बजटिंग सिफारिशें देने वाले व्यक्तिगत वित्तीय प्रबंधक का सिस्टम आर्किटेक्चर डिज़ाइन करें।"*
 
-सीटीसीआई समस्या ९.७ को वास्तविक जीवन में वस्तुओं को कुशलतापूर्वक व्यवस्थित करने की तरह सोचें। सही डेटा संरचना का चयन अनावश्यक पुनरावृत्तियों को समाप्त करता है।
+## २. सिस्टम आर्किटेक्चर और घटक डिज़ाइन
 
----
+१. **बैंक इंजेक्शन और सिंक वर्कर्स:** एन्क्रिप्टेड वॉल्ट में संग्रहीत OAuth टोकन द्वारा आवधिक डेटा सिंक।
+२. **लेनदेन वर्गीकरण इंजन:**
+   * ज्ञात मर्चेंट स्ट्रिंग्स के लिए नियम-आधारित त्वरित कैश।
+   * अज्ञात लेनदेन विवरणों के लिए मशीन लर्निंग (ML) टेक्स्ट वर्गीकरण।
+३. **खर्च विश्लेषण और सिफारिशें:** मासिक श्रेणी योग की गणना और बजट ओवरशूट अलर्ट।
 
-## २. स्पष्ट समस्या कथन
-
-**समस्या ९.७:** सीटीसीआई समस्या ९.७: कई बैंक खातों को जोड़ने और लेनदेन को स्वचालित रूप से श्रेणीबद्ध करने वाला वित्तीय प्रबंधक सिस्टम डिजाइन करें।
-
----
-
-## ३. इष्टतम दृष्टिकोण और कार्यान्वयन
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public class TransactionCategorizer {
-    public String categorize(String merchantName) {
-        if (merchantName.contains("Uber") || merchantName.contains("Lyft")) return "Transport";
-        if (merchantName.contains("Starbucks") || merchantName.contains("Dunkin")) return "Food & Drink";
-        return "Uncategorized";
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class PersonalFinancialManager {
+    public static class Transaction {
+        public final String id;
+        public final String rawMerchant;
+        public final double amount;
+        public final long timestamp;
+        public String category;
+
+        public Transaction(String id, String rawMerchant, double amount) {
+            this.id = id;
+            this.rawMerchant = rawMerchant;
+            this.amount = amount;
+            this.timestamp = System.currentTimeMillis();
+        }
+    }
+
+    public static class CategorizationEngine {
+        private final Map<String, String> exactRules = new HashMap<>();
+
+        public CategorizationEngine() {
+            exactRules.put("STARBUCKS", "Dining");
+            exactRules.put("UBER", "Transportation");
+            exactRules.put("NETFLIX", "Subscriptions");
+        }
+
+        public String categorize(String rawMerchant) {
+            String upper = rawMerchant.toUpperCase();
+            for (Map.Entry<String, String> entry : exactRules.entrySet()) {
+                if (upper.contains(entry.getKey())) {
+                    return entry.getValue();
+                }
+            }
+            return "Uncategorized";
+        }
+    }
+
+    public static class BudgetAnalyzer {
+        public static Map<String, Double> summarizeSpending(List<Transaction> transactions) {
+            Map<String, Double> summary = new HashMap<>();
+            for (Transaction t : transactions) {
+                summary.put(t.category, summary.getOrDefault(t.category, 0.0) + t.amount);
+            }
+            return summary;
+        }
+
+        public static List<String> generateRecommendations(Map<String, Double> summary, double monthlyIncome) {
+            List<String> recommendations = new ArrayList<>();
+            double dining = summary.getOrDefault("Dining", 0.0);
+
+            if (dining > 0.3 * monthlyIncome) {
+                recommendations.add("चेतावनी: भोजन खर्च मासिक आय के ३०% से अधिक है।");
+            }
+            return recommendations;
+        }
     }
 }
 ```
 
----
+## जटिलता और आर्किटेक्चर विश्लेषण
 
-## ४. समय और स्थान जटिलता (टाइम एंड स्पेस कॉम्प्लेक्सिटी)
+| मापदंड | जटिलता | तकनीकी विवरण |
+|---|---|---|
+| वर्गीकरण लेटेंसी | `O(1)` | नियम हैश टेबल लुकअप और एमएल फॉलबैक। |
+| विश्लेषणात्मक एकत्रीकरण | `O(N)` | क्लिकहाउस में उपयोगकर्ता लेनदेन का स्तंभ-आधारित स्कैन। |
+| सुरक्षा एन्क्रिप्शन | `AES-256-GCM` | केएमएस (KMS) द्वारा बैंक क्रेडेंशियल्स और टोकन का एन्क्रिप्शन। |
 
-| मीट्रिक | जटिलता | विवरण |
-| --- | --- | --- |
-| समय जटिलता | ओ(एन) / ओ(लॉग एन) | डेटा के माध्यम से इष्टतम पास |
-| स्थान जटिलता | ओ(१) / ओ(एन) | मेमोरी सीमाएं बनी रहीं |
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
 
----
+### प्रोडक्शन सिस्टम आर्किटेक्चर: बैंक एपीआई विश्वसनीयता
 
-## ५. सीमांत मामले (एज केसेस) और सारांश
+१. **सर्किट ब्रेकर्स (Circuit Breakers):** अस्थिर बैंक एपीआई विफलताओं को अलग करके कैश किए गए लेजर बैलेंस पर स्विच करना।
+२. **आइडम्पोटेंट इंजेक्शन:** डुप्लिकेट लेनदेन प्रविष्टियों को रोकने के लिए क्रिप्टोग्राफ़िक हैश कुंजी (`hash(खाता, राशि, तिथि)`) का उपयोग।
 
-कोडिंग इंटरव्यू में हमेशा सीमांत स्थितियों, शून्य (null) इनपुट और एरे आकार की सीमाओं की जांच करें।
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **लंबित बनाम पुष्ट लेनदेन:** कार्ड प्राधिकरणों की दोहरी गिनती से बचने के लिए स्थिति नियंत्रण।
+२. **बहु-मुद्रा रूपांतरण:** वास्तविक समय विनिमय दरों पर सामान्यीकरण।

@@ -1,39 +1,90 @@
 ---
-title: "Sum Swap: Find Element Pair to Swap for Equal Array Sums (CTCI 16.21)"
-description: "CTCI problem 16.21: find pair of values (one from each array) to swap so both arrays have equal sum in O(A + B) time."
-date: "2026-01-01"
+title: "योग अदला-बदली (Sum Swap): संतुलित सरणी विभाजन और हैशसेट पूरक (सीटीसीआई १६.२१)"
+description: "दो पूर्णांक सरणियों में से ऐसे युग्म की खोज करना जिसकी अदला-बदली से दोनों सरणियों का योग बराबर हो जाए, बीजगणितीय समीकरण और हैशसेट द्वारा O(A + B) में।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-16-21-sum-swap.webp
 previewImage: /assets/images/ctci-16-21-sum-swap.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १६.२१ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १६.२१: find pair of values (one from each array) to swap so both arrays have equal sum in O(A + B) time.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** पूर्णांकों की दो सरणियाँ दी गई हैं, मानों की एक जोड़ी खोजें (प्रत्येक सरणी से एक मान) जिसे आप दोनों सरणियों को समान योग देने के लिए स्वैप कर सकते हैं।
+> * **बीजगणितीय व्युत्पत्ति:**
+>   1. यदि $S_A = \sum A$ और $S_B = \sum B$ हो:
+>      $$S_A - a + b = S_B - b + a \implies 2(a - b) = S_A - S_B \implies a - b = \frac{S_A - S_B}{2}$$
+>   2. **समता जांच (Parity Check)**: यदि $S_A - S_B$ विषम है, तो पूर्णांकों द्वारा संतुलन असंभव है; तुरंत `null` लौटाएं।
+>   3. **लक्ष्य मान**: हमें $b = a - \frac{S_A - S_B}{2}$ खोजना है।
+> * **मुख्य समाधान:**
+>   * **हैशसेट पूरक खोज**: $B$ को हैशसेट में डालें और $a - \Delta$ की जांच **$O(A + B)$ समय** और **$O(B)$ स्पेस** में करें।
+>   * **सॉर्टेड टू-पॉइंटर**: **$O(A \log A + B \log B)$ समय** और **$O(1)$ स्पेस** में।
+> * **रियल-वर्ल्ड सिस्टम:** सर्वर क्लस्टर लोड संतुलन और वित्तीय खाता समाधान।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१६.२१** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १६.२१: find pair of values (one from each array) to swap so both arrays have equal sum in O(A + B) time.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १६.२१) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"दो सरणियों में से ऐसे दो तत्वों की पहचान करें जिन्हें आपस में बदलने पर दोनों सरणियों का कुल योग समान हो जाए।"*
+
+## २. बीजगणितीय संतुलन
+
+समीकरण को हल करने पर, $A$ के प्रत्येक तत्व $a$ के लिए आवश्यक मान $b = a - \text{targetDelta}$ बन जाता है।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public static int[] findSwapValues(int[] array1, int[] array2) {
-    int sum1 = Arrays.stream(array1).sum();
-    int sum2 = Arrays.stream(array2).sum();
-    int target = (sum1 - sum2);
-    if (target % 2 != 0) return null;
-    int targetDiff = target / 2;
-    Set<Integer> set2 = Arrays.stream(array2).boxed().collect(Collectors.toSet());
-    for (int one : array1) {
-        if (set2.contains(one - targetDiff)) return new int[]{one, one - targetDiff};
+import java.util.HashSet;
+import java.util.Set;
+
+public class SumSwap {
+
+    public static int[] findSwapValuesHash(int[] a, int[] b) {
+        if (a == null || b == null || a.length == 0 || b.length == 0) {
+            return null;
+        }
+
+        long sumA = 0;
+        for (int v : a) sumA += v;
+
+        long sumB = 0;
+        Set<Integer> setB = new HashSet<>();
+        for (int v : b) {
+            sumB += v;
+            setB.add(v);
+        }
+
+        long diff = sumA - sumB;
+        if (diff % 2 != 0) return null;
+
+        long targetDelta = diff / 2;
+
+        for (int valA : a) {
+            long targetB = valA - targetDelta;
+            if (targetB >= Integer.MIN_VALUE && targetB <= Integer.MAX_VALUE) {
+                if (setB.contains((int) targetB)) {
+                    return new int[] { valA, (int) targetB };
+                }
+            }
+        }
+
+        return null;
     }
-    return null;
 }
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## जटिलता विश्लेषण
+
+| रणनीति | समय जटिलता | सहायक स्पेस |
+|---|---|---|
+| **हैशसेट पूरक खोज** | **$O(A + B)$** | **$O(B)$** |
+| **सॉर्टेड टू-पॉइंटर** | $O(A \log A + B \log B)$ | $O(1)$ |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: कुबेरनेट्स वर्कलोड रीबैलेंसिंग
+
+१. **क्लस्टर संतुलन:** नोड्स के बीच रैम और सीपीयू आवंटन को संतुलित करने के लिए स्वैप समीकरणों द्वारा पॉड्स का पुनर्वितरण।
+२. **वित्तीय ऑडिट:** दोहरे प्रविष्टि खातों में विसंगतियों को ठीक करना।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **विषम योग अंतर:** `diff % 2 != 0` होने पर तुरंत `null` लौटाया जाता है।

@@ -7,6 +7,7 @@ coverImage: /assets/images/prompt-engineering-that-works.webp
 previewImage: /assets/images/prompt-engineering-that-works.webp
 ---
 
+
 La ingeniería de prompts tiene un problema de reputación. La mitad de internet vende frases mágicas. La otra mitad dice que los prompts no importan porque los modelos ya son "lo bastante listos." Ambas posturas fallan en trabajo de producto.
 
 En una feature de producto, el modelo es un componente con entradas, salidas, presupuestos de latencia y modos de fallo. Tu prompt es el contrato de interfaz. Contratos vagos producen software vago. Contratos firmes producen comportamiento aburrido y comprobable.
@@ -283,3 +284,4 @@ Para ingenieros de producto, la ingeniería de prompts es diseño de interfaz m�
 Poné el contrato en el prompt. Enseñá edge cases con few-shots. Restringí la elección libre. Medí con fixtures y tasas de override en producción. Vigilá alucinación, injection, drift de schema y latencia de retries. Versioná todo.
 
 Hacé eso y el trabajo de prompts deja de ser teatro. Se vuelve otra capa fiable del stack: poco glamurosa, comprobable y digna de enviarse.
+

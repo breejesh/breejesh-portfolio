@@ -365,3 +365,4 @@ Voilà le design. Tout le reste (shards, caches, tendances, filtres) est du dét
 ## Clôture
 
 L'autocomplétion de recherche n'est pas une démo d'IA tape-à-l'œil. C'est un **service top-k par préfixe** avec un index presque temps réel. La structure qui colle au produit est un arbre de lettres. L'astuce qui fait marcher la production, ce sont les **listes courtes précalculées** aux nœuds que les gens marchent vraiment. Séparez le chemin d'apprentissage du chemin de réponse, et le système reste à la fois rapide et compréhensible.
+

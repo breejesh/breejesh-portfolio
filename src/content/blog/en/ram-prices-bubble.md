@@ -7,6 +7,7 @@ coverImage: /assets/images/ram-prices-bubble.webp
 previewImage: /assets/images/ram-prices-bubble.webp
 ---
 
+
 High Bandwidth Memory (HBM) demand driven by AI accelerators has tightened global semiconductor capacity, altering server component costs.
 
 We aren't seeing massive public supply-chain headlines like the pandemic-era chip shortages, but the pinch is real. And it is being driven by one critical component that the tech industry is quietly fighting over: **Random Access Memory (RAM)**. 
@@ -50,3 +51,4 @@ Fabs are incredibly capital-intensive and take at least two years to build. Supp
 Today, memory makers are prioritizing profit margins over volume. Even if the AI hype cools down and the bubble deflates (a risk that OpenAI CEO Sam Altman has openly acknowledged), Samsung and Hynix have protected themselves by locking in long-term supply contracts through 2026 and 2027. Buyers who over-allocated will still be forced to pay peak prices.
 
 Until new fabs come online in late 2027 or 2028, or the demand for generative AI compute drops drastically, consumer electronics will remain hostage to the server room. The RAM crisis is a stark reminder that in a gold rush, it is the shovel makers who set the rules.
+

@@ -1,266 +1,155 @@
 ---
-title: "Sum Lists: Add Numbers Stored as Linked Lists (Java)"
-description: "CTCI-style problem 2.5: two numbers live as linked lists, one digit per node, least significant digit at the head. Walk both lists with a carry and build the sum list. Brief note on the forward-order follow-up."
-date: "2025-12-22"
+title: "Sum Lists: Adding Numbers Represented by Linked Lists (CTCI 2.5)"
+description: "Add two numbers stored in reverse and forward order as singly linked lists, handling carries recursively in O(N) time and O(N) space."
+date: "2026-05-06"
 tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-2-5-sum-lists.webp
 previewImage: /assets/images/ctci-2-5-sum-lists.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
-> * **The Approach:** CTCI-style problem 2.5: two numbers live as linked lists, one digit per node, least significant digit at the head. Walk both lists with a carry and build the sum list. Brief note on the forward-order follow-up.
-> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
+> * **The Book Problem:** You have two numbers represented by a linked list, where each node contains a single digit. The digits are stored in reverse order, such that the 1's digit is at the head. Write a function that adds the two numbers and returns the sum as a linked list. *Follow-up:* Solve when digits are stored in forward order.
+> * **The Optimal Solution:** (1) Reverse order: Recursive/iterative full-adder with carry propagation in $O(\max(N, M))$ time; (2) Forward order: Pad shorter list with leading zeros, recurse to the tail, and return a result object carrying the sum node and carry bit backward.
+> * **Production Reality:** Arbitrary-precision arithmetic (BigInteger / BigDecimal libraries), financial ledger transaction balancing, and cryptographic key generation.
 
-You add two big numbers on paper the way school taught you: line them up on the **right**, start at the ones place, write a digit, pass a carry left. Digits live in columns. Carry is one bit of memory between columns.
+## 1. The Book Problem Formulation
 
-Now put each digit in a node of a singly linked list, and put the **ones digit at the head**. Walking the list is exactly walking columns from right to left on paper. That is **Sum Lists**.
+In *Cracking the Coding Interview* (Problem 2.5), we are asked:
 
-This post is original teaching for beginners in **Java**. Same problem family as classic interview linked-list addition, not a book copy. Part of the [CTCI Java series](/blog/en/ctci-series-guide).
+*"You have two numbers represented by a linked list, where each node contains a single digit. The digits are stored in reverse order, such that the 1's digit is at the head of the list. Write a function that adds the two numbers and returns the sum as a linked list."*
 
----
+**Example (Reverse Order):**
+* Input: `(7 -> 1 -> 6)` + `(5 -> 9 -> 2)`. That is, $617 + 295$.
+* Output: `2 -> 1 -> 9`. That is, $912$.
 
-## Everyday analogy
+**Follow-Up (Forward Order):**
+* Input: `(6 -> 1 -> 7)` + `(2 -> 9 -> 5)`. That is, $617 + 295$.
+* Output: `9 -> 1 -> 2`. That is, $912$.
 
-Two receipts, each number written digit by digit on sticky notes:
+## 2. Reverse Order Addition (Recursive Full-Adder)
 
-* `7 → 1 → 6` means **617** (7 ones, 1 ten, 6 hundreds).
-* `5 → 9 → 2` means **295**.
+Because digits start with the 1's place at the head, addition aligns naturally:
+1. Add corresponding digit values plus incoming `carry`: `value = (l1.data + l2.data + carry) % 10`.
+2. Compute outgoing carry: `carry = (l1.data + l2.data + carry) / 10`.
+3. Recursively call `addLists(l1.next, l2.next, carry)`.
+4. Base case: If both nodes are `null` and `carry == 0`, terminate recursion.
 
-Add them like paper:
+## 3. Forward Order Follow-Up (Padding & Post-Order Recursion)
 
-| Column | Digits | Sum + carry in | Write | Carry out |
-| --- | --- | --- | --- | --- |
-| ones | 7 + 5 | 12 | 2 | 1 |
-| tens | 1 + 9 | 11 | 1 | 1 |
-| hundreds | 6 + 2 | 9 | 9 | 0 |
+When digits are in forward order (MSB at the head), lists of different lengths cannot be added from the head because place values would misalign (e.g. adding hundreds place to thousands place).
 
-Result on paper: **912**. As a reverse list: `2 → 1 → 9`.
+**Algorithm:**
+1. Calculate lengths of both lists.
+2. Pad the shorter list with leading `0` nodes until lengths match.
+3. Recurse to the tail to add least significant digits first.
+4. On stack return, create sum node and propagate carry upward using a `PartialSum` wrapper.
+5. If final carry $> 0$, insert a node `new LinkedListNode(carry)` at the head.
 
-The list already stores digits in addition order. You do not reverse first. You just walk and carry.
-
----
-
-## Problem in plain words
-
-**Input:** heads of two singly linked lists. Each node holds one digit `0-9`. Digits are in **reverse** order: the head is the ones place.
-
-**Output:** head of a new list representing the sum, also in reverse order (ones digit at the head).
-
-**Node shape we use:**
+## Production Implementation
 
 ```java
-class Node {
-    int data;
-    Node next;
-
-    Node(int data) {
-        this.data = data;
+public class SumLists {
+    public static class LinkedListNode {
+        public int data;
+        public LinkedListNode next;
+        public LinkedListNode(int d) { this.data = d; }
     }
-}
-```
 
-**Examples:**
-
-| List A | List B | Numbers | Sum list | Why |
-| --- | --- | --- | --- | --- |
-| `7 → 1 → 6` | `5 → 9 → 2` | 617 + 295 | `2 → 1 → 9` | 912 |
-| `9 → 9` | `1` | 99 + 1 | `0 → 0 → 1` | 100; final carry becomes a node |
-| `1 → 2` | `3 → 4 → 5` | 21 + 543 | `4 → 6 → 5` | different lengths; 564 |
-| `0` | `0` | 0 + 0 | `0` | still one digit |
-| `null` | `5 → 1` | treat empty as 0 | `5 → 1` | one side empty |
-
-**Clarify before coding** (say this out loud):
-
-* Reverse order (ones at head) is the main problem. Forward order is a follow-up.
-* Digits only, or full ints? Digits `0-9` per node.
-* May either list be empty or null?
-* New list nodes, or mutate one of the inputs? Prefer **new nodes** so you do not destroy inputs.
-* Leading zeros in the conceptual number? Usually inputs are clean; still handle a leftover carry.
-
----
-
-## How to think before coding
-
-### What not to do first
-
-Do not convert each list to an `int` or `long`, add, then rebuild. That fails for numbers longer than 64 bits, which is half the point of digit lists. Interviewers notice.
-
-### Reverse order: match paper addition
-
-Keep three things:
-
-1. Pointer into list A.
-2. Pointer into list B.
-3. An integer `carry` (0 or 1 for base 10; in general `0` or `1` when digits are 0-9).
-
-Each step:
-
-```
-sum = carry
-if A not null: sum += A.data; A = A.next
-if B not null: sum += B.data; B = B.next
-digit = sum % 10
-carry = sum / 10
-append a new node with digit
-```
-
-Loop while **either list still has nodes or carry is non-zero**. That last clause is how `99 + 1` grows a third digit.
-
-Use a **dummy head** so the first real digit is always `dummy.next`. No special case for the first append.
-
-### Recursive version (same idea)
-
-Base: both null and carry 0 → return null. Otherwise compute sum from current heads (or 0 if null) plus carry, create a node for `sum % 10`, set `next` to the recursive call on the tails with the new carry. Same complexity, call stack depth O(max length).
-
-Iterative with a dummy head is usually cleaner in Java interviews. Either is fine if you track carry correctly.
-
-### Follow-up idea: forward order (ones at the tail)
-
-Now heads are the most significant digits. Paper addition wants the least significant first, so order fights you.
-
-Short plan (you do not need full production code for this post):
-
-1. Find lengths of both lists.
-2. **Pad** the shorter list with leading zeros (new nodes, or pad conceptually in recursion) so both have the same length.
-3. Recurse to the end, then add on the way back, returning both the partial list and the carry (wrapper object or a small result class).
-4. If a final carry remains, prepend a new head digit.
-
-You can reverse both inputs, call the reverse-order solution, reverse the result. That works and is easy to explain. Interviewers may still want the pad-and-recurse version to show you can add without mutating order.
-
-Main focus of this article stays on reverse order.
-
----
-
-## Java solution (reverse order, iterative)
-
-```java
-/**
- * Adds two numbers stored as reverse-order digit lists.
- * Example: 7→1→6 + 5→9→2 represents 617 + 295 → 2→1→9 (912).
- */
-Node sumLists(Node l1, Node l2) {
-    Node dummy = new Node(0);
-    Node tail = dummy;
-    int carry = 0;
-
-    while (l1 != null || l2 != null || carry != 0) {
-        int sum = carry;
-        if (l1 != null) {
-            sum += l1.data;
-            l1 = l1.next;
-        }
-        if (l2 != null) {
-            sum += l2.data;
-            l2 = l2.next;
+    // Part 1: Reverse Order Addition
+    public static LinkedListNode addListsReverse(LinkedListNode l1, LinkedListNode l2, int carry) {
+        if (l1 == null && l2 == null && carry == 0) {
+            return null;
         }
 
-        tail.next = new Node(sum % 10);
-        tail = tail.next;
-        carry = sum / 10;
+        int value = carry;
+        if (l1 != null) value += l1.data;
+        if (l2 != null) value += l2.data;
+
+        LinkedListNode result = new LinkedListNode(value % 10);
+
+        if (l1 != null || l2 != null) {
+            LinkedListNode more = addListsReverse(
+                l1 == null ? null : l1.next,
+                l2 == null ? null : l2.next,
+                value >= 10 ? 1 : 0
+            );
+            result.next = more;
+        }
+
+        return result;
     }
 
-    return dummy.next;
+    // Part 2 Follow-Up: Forward Order Helper Class
+    private static class PartialSum {
+        public LinkedListNode sum = null;
+        public int carry = 0;
+    }
+
+    public static LinkedListNode addListsForward(LinkedListNode l1, LinkedListNode l2) {
+        int len1 = length(l1);
+        int len2 = length(l2);
+
+        // Pad shorter list with zeros
+        if (len1 < len2) l1 = padList(l1, len2 - len1);
+        else l2 = padList(l2, len1 - len2);
+
+        PartialSum sum = addListsHelper(l1, l2);
+
+        if (sum.carry == 0) return sum.sum;
+        else {
+            LinkedListNode result = insertBefore(sum.sum, sum.carry);
+            return result;
+        }
+    }
+
+    private static PartialSum addListsHelper(LinkedListNode l1, LinkedListNode l2) {
+        if (l1 == null && l2 == null) return new PartialSum();
+
+        PartialSum sum = addListsHelper(l1.next, l2.next);
+        int val = sum.carry + l1.data + l2.data;
+
+        LinkedListNode full_result = insertBefore(sum.sum, val % 10);
+        sum.sum = full_result;
+        sum.carry = val / 10;
+        return sum;
+    }
+
+    private static int length(LinkedListNode n) {
+        int count = 0;
+        while (n != null) { count++; n = n.next; }
+        return count;
+    }
+
+    private static LinkedListNode padList(LinkedListNode l, int padding) {
+        LinkedListNode head = l;
+        for (int i = 0; i < padding; i++) head = insertBefore(head, 0);
+        return head;
+    }
+
+    private static LinkedListNode insertBefore(LinkedListNode list, int data) {
+        LinkedListNode node = new LinkedListNode(data);
+        if (list != null) node.next = list;
+        return node;
+    }
 }
 ```
 
-Walkthrough for `7 → 1 → 6` and `5 → 9 → 2`:
+## Complexity & Memory Analysis
 
-| Step | l1 digit | l2 digit | carry in | sum | write | carry out | result so far |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 7 | 5 | 0 | 12 | 2 | 1 | `2` |
-| 2 | 1 | 9 | 1 | 11 | 1 | 1 | `2 → 1` |
-| 3 | 6 | 2 | 1 | 9 | 9 | 0 | `2 → 1 → 9` |
-| 4 | - | - | 0 | stop | | | done |
+| Metric | Complexity | Technical Detail |
+|---|---|---|
+| Time Complexity | `O(max(N, M))` | Traverses lists of lengths $N$ and $M$ once (or twice including padding). |
+| Auxiliary Space | `O(max(N, M))` | Result linked list contains $\max(N, M) + 1$ nodes plus call stack frames. |
 
-Recursive sketch (same reverse-order contract):
+## Real-World Systems Engineering Discussion
 
-```java
-Node sumListsRecursive(Node l1, Node l2, int carry) {
-    if (l1 == null && l2 == null && carry == 0) {
-        return null;
-    }
+### Production Systems Architecture: Arbitrary-Precision Math & Crypto
 
-    int sum = carry;
-    if (l1 != null) {
-        sum += l1.data;
-    }
-    if (l2 != null) {
-        sum += l2.data;
-    }
+1. **BigInt / Bignum Libraries (GMP, Java BigInteger):** Standard CPU ALU registers cap at 64 bits. When computing 2048-bit RSA keys or astronomical precision, linked segments or limb arrays execute multi-digit additions with carry propagation.
+2. **High-Precision Financial Ledgers:** Currency transactions needing 30 decimal digits use chained decimal structures to avoid IEEE 754 floating-point rounding errors.
 
-    Node result = new Node(sum % 10);
-    Node next1 = (l1 == null) ? null : l1.next;
-    Node next2 = (l2 == null) ? null : l2.next;
-    result.next = sumListsRecursive(next1, next2, sum / 10);
-    return result;
-}
+## Edge Cases & Production Hardening
 
-// Public entry: sumListsRecursive(a, b, 0)
-```
-
----
-
-## Forward order in one short pass
-
-If digits run most-significant-first (`6 → 1 → 7` for 617):
-
-* Option A: reverse both, `sumLists`, reverse the answer.
-* Option B: pad the shorter list, recurse to the tails, add while unwinding, wrap carry + node in a small helper class, prepend leftover carry.
-
-Option A reuses the code above. Option B is the classic "no reverse" follow-up. Either is enough to name in the interview before you write reverse order cleanly.
-
----
-
-## Complexity
-
-| | Cost | Why |
-| --- | --- | --- |
-| Time | O(max(m, n)) | One pass over both lists; at most one extra node for final carry |
-| Extra space (iterative) | O(max(m, n)) for the output | Output size is the length of the sum; auxiliary pointers are O(1) |
-| Extra space (recursive) | O(max(m, n)) stack + output | Depth follows the longer list |
-
-You cannot beat linear in the input length: every digit can affect the sum.
-
----
-
-## Edge cases interviewers poke
-
-1. **Different lengths.** `1 → 2` and `3 → 4 → 5`. Keep looping while either pointer is non-null. Missing side contributes 0.
-2. **Final carry.** `9 → 9` + `1` → `0 → 0 → 1`. The loop condition must include `carry != 0`.
-3. **One list null or empty.** Sum is a copy of the other list (plus any carry chain). Do not crash on null.
-4. **Both single node.** `5` + `7` → `2 → 1` when there is a carry.
-5. **Zero.** `0` + `0` → `0`. Returning `null` for zero is usually wrong unless the problem says empty means zero.
-6. **All nines.** Long carry chains; still one new node per digit plus at most one extra.
-7. **Mutating inputs by accident.** Building with `new Node(...)` keeps callers' lists intact.
-8. **Forward-order trap.** If the interviewer flipped the digit order mid-problem, restate the order out loud before coding.
-
-Common mistakes:
-
-* Stopping when **both** lists end but carry is still 1.
-* Using `sum % 10` for carry and `sum / 10` for the digit (swapped).
-* Converting to `int` and overflowing.
-* Forgetting the dummy head and special-casing the first node until the code is messy.
-
----
-
-## Recap you can tell a friend
-
-Sum Lists is paper addition where each digit is a linked-list node and the **ones place sits at the head**.
-
-1. Walk both lists together with a carry.
-2. Each step: add the two digits (or zero if a list ended) plus carry, write `sum % 10`, set carry to `sum / 10`.
-3. Keep going until both lists are done **and** carry is zero.
-4. Dummy head makes appending painless.
-5. Forward order is the same math after you reverse, or after you pad and recurse from the high end.
-
-If you can add `7→1→6` and `5→9→2` on a whiteboard without freezing on the last carry, you own problem 2.5.
-
----
-
-## Series
-
-* Guide: [CTCI series guide](/blog/en/ctci-series-guide)
-* Previous: [Partition](/blog/en/ctci-2-4-partition)
-* Next: [Palindrome](/blog/en/ctci-2-6-palindrome)
+1. **Lists of unequal lengths (`9->9` + `1`):** Trailing carries expand list size (`0->0->1`).
+2. **Carry at the most significant digit:** Correctly appends extra node.
+3. **One list is null:** Returns remaining list copy.

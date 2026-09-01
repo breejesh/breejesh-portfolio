@@ -7,6 +7,7 @@ coverImage: /assets/images/tailwind-css-production-patterns.webp
 previewImage: /assets/images/tailwind-css-production-patterns.webp
 ---
 
+
 Tailwind est rapide la première semaine et salissant au sixième mois si chaque écran est un tas de utilities isolées. Les équipes qui restent à l'aise avec partagent quelques habitudes: elles conçoivent des **systèmes de layout**, elles extraient des **composants** quand un motif se répète, elles câblent le **dark mode** une fois à la racine, et elles refusent les chaînes de classes sans structure.
 
 Ce n'est pas un tutoriel de démarrage. On suppose que vous utilisez déjà Tailwind. L'objectif: du code qui reste lisible quand un troisième ingénieur ouvre la PR.
@@ -404,3 +405,4 @@ Si vous n'extrayez qu'au troisième call site, vous gagnez quand même. Abstrair
 * Le scanner voit chaque package qui émet des noms de classe.
 
 Tailwind ne supprime pas les design systems. Il rend un design system léger moins cher à exprimer. Le pattern de production est le même que pour tout stack UI: **structure partagée, variantes claires, tokens plutôt que nombres magiques**, et la discipline d'extraire quand le coller-copier commence à mentir.
+

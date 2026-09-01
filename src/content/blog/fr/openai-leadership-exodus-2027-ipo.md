@@ -7,6 +7,7 @@ coverImage: /assets/images/openai-leadership-exodus-2027-ipo.webp
 previewImage: /assets/images/openai-leadership-exodus-2027-ipo.webp
 ---
 
+
 > **TL;DR**
 > * **Les départs :** Au moins 14 cadres dirigeants ont quitté OpenAI en 2026, parmi lesquels le directeur des opérations Brad Lightcap, la directrice des revenus Denise Dresser, la directrice générale des applications Fidji Simo et le responsable des infrastructures Chris Malone.
 > * **Le paradoxe :** Le rythme des livraisons de modèles reste soutenu. GPT-5.6 (décliné en versions Sol, Terra, Luna), la puce d'inférence Jalapeño et de nouveaux outils pour développeurs ont été déployés en 2026, avec des revenus annualisés approchant les $10 milliards.
@@ -68,3 +69,4 @@ OpenAI serait la première entreprise de modèles de fondation purs à faire son
 ---
 
 *Données sur les mouvements de direction issues des comptes rendus de Business Insider, LiveMint et Investing.com. Calendriers de produits d'après les annonces officielles d'OpenAI. Éléments boursiers basés sur les analyses de Time et 24/7 Wall Street.*
+

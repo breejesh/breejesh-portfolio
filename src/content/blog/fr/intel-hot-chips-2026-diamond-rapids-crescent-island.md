@@ -7,6 +7,7 @@ coverImage: /assets/images/intel-hot-chips-2026-diamond-rapids-crescent-island.w
 previewImage: /assets/images/intel-hot-chips-2026-diamond-rapids-crescent-island.webp
 ---
 
+
 > **TL;DR**
 > * **Diamond Rapids (Xeon 7) :** 256 coeurs de performance Panther Cove, procédé Intel 18A-P, 1.28 Go de cache de dernier niveau (LLC), 16 canaux mémoire DDR5-12800, CXL 3.0, PCIe Gen6. Destiné à l'IA agentique et aux centres de données d'entreprise en 2027.
 > * **Crescent Island (Xe3P) :** 32 coeurs Xe, refroidissement par air à 350W, jusqu'à 480 Go de LPDDR5X (sans HBM). Optimisé pour l'efficacité énergétique en tokens par watt sur serveurs standards.
@@ -80,3 +81,4 @@ Le défi pour Intel réside dans la régularité d'exécution industrielle : les
 ---
 
 *Données d'architecture issues des présentations Hot Chips 2026 rapportées par TechPowerUp, Tom's Hardware, Serve the Home et TrendForce. Analyse comparative basée sur les caractéristiques publiques des gammes Nvidia et AMD.*
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/fastapi-rest-apis-guide.webp
 previewImage: /assets/images/fastapi-rest-apis-guide.webp
 ---
 
+
 FastAPI is the standard choice when a backend team needs typed HTTP endpoints with automatic OpenAPI documentation. The framework keeps boilerplate minimal while enforcing strict validation. The framework stays small: declare routes, validate bodies with Pydantic, pull shared setup through dependencies, and prefer `async def` where I/O waits. This post is the path I use when spinning up a service that other teams will call next month.
 
 You will leave with a tiny item API: create, read, list, delete, plus validation, a shared DB session dependency, async handlers, and a couple of tests that actually fail when you break the contract.
@@ -393,3 +394,4 @@ Do not invent a hexagon of folders for three endpoints. Grow when the handler st
 If you are starting this week: create the health route, one resource with `ItemCreate` / `ItemOut`, a header API key dependency, and four tests (happy path, 404, 422, 401). Add async only where you call an external HTTP or async DB client.
 
 Official docs stay the best reference for edge features (WebSockets, background tasks, middleware): [fastapi.tiangolo.com](https://fastapi.tiangolo.com/). For the rest, the code above is enough to ship a first service without cargo-culting a starter template you do not understand.
+

@@ -1,35 +1,78 @@
 ---
-title: "Missing Two: Find Two Missing Numbers from 1 to N (CTCI 17.19)"
-description: "CTCI problem 17.19: find two missing numbers in an array from 1 to N using math sum and sum of squares in O(N) time and O(1) space."
-date: "2026-06-14"
+title: "दो लापता संख्याएं (Missing Two): गॉसियन योग और वर्गों के योग समीकरण (सीटीसीआई १७.१९)"
+description: "बीजगणितीय योग और वर्गों-के-योग समीकरणों को हल करके १ से N तक के सरणी से दो लापता संख्याएं O(N) समय और O(1) स्पेस में खोजना।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-17-19-missing-two.webp
 previewImage: /assets/images/ctci-17-19-missing-two.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १७.१९ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १७.१९: find two missing numbers in an array from १ to N using math sum and sum of squares in O(N) time and O(१) space.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** मूल रूप से १ से N तक के पूर्णांक वाले एक सरणी से दो संख्याएं हटाई गई हैं। दोनों को $O(N)$ समय और $O(1)$ स्पेस में खोजें।
+> * **मुख्य समाधान:** **योग और वर्गों के योग का समीकरण तंत्र**:
+>   1. **कमी की गणना**: $x$ और $y$ लापता संख्याएं हों:
+>      $$x + y = \frac{N(N+1)}{2} - \sum arr$$
+>      $$x^2 + y^2 = \frac{N(N+1)(2N+1)}{6} - \sum arr_i^2$$
+>   2. **हल करें**: $xy = \frac{(x+y)^2 - (x^2+y^2)}{2}$ और द्विघात $t^2 - (x+y)t + xy = 0$ को हल करें।
+>   3. यह **$O(N)$ समय** और **$O(1)$ स्पेस** में चलता है।
+> * **रियल-वर्ल्ड सिस्टम:** वितरित लेजर समाधान और IoT स्ट्रीम डुप्लिकेशन जांच।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१७.१९** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १७.१९: find two missing numbers in an array from १ to N using math sum and sum of squares in O(N) time and O(१) space.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १७.१९) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"१ से N (अधिकतम ३२०००) तक की संख्याओं वाले सरणी में दो संख्याएं गायब हैं। बीजगणितीय समीकरण तंत्र का उपयोग करके उन्हें खोजें।"*
+
+## २. बीजगणितीय व्युत्पत्ति
+
+गॉसियन योग और वर्गों-के-योग सूत्रों को मिलाकर, दो अज्ञात वाले दो समीकरणों का एक तंत्र प्राप्त होता है।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public static int[] missingTwo(int[] array) {
-    int maxHas = array.length + 2;
-    long expectedSum = (long) maxHas * (maxHas + 1) / 2;
-    long actualSum = Arrays.stream(array).asLongStream().sum();
-    int pivot = (int) ((expectedSum - actualSum) / 2);
-    // Split search into [1..pivot] and [pivot+1..N]
-    return new int[]{1, 2};
+public class MissingTwo {
+
+    public static int[] missingTwo(int[] array) {
+        int n = array.length + 2;
+
+        long sumN = (long) n * (n + 1) / 2;
+        long sumSqN = (long) n * (n + 1) * (2 * n + 1) / 6;
+
+        long actualSum = 0;
+        long actualSumSq = 0;
+        for (int v : array) {
+            actualSum += v;
+            actualSumSq += (long) v * v;
+        }
+
+        long s1 = sumN - actualSum;
+        long s2 = sumSqN - actualSumSq;
+        long xy = (s1 * s1 - s2) / 2;
+
+        long discriminant = s1 * s1 - 4 * xy;
+        long sqrtD = (long) Math.round(Math.sqrt(discriminant));
+
+        int x = (int) ((s1 + sqrtD) / 2);
+        int y = (int) ((s1 - sqrtD) / 2);
+
+        return new int[]{x, y};
+    }
 }
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## जटिलता विश्लेषण
+
+| दृष्टिकोण | समय जटिलता | स्पेस | ओवरफ्लो जोखिम |
+|---|---|---|---|
+| **योग + वर्गों का योग** | **$O(N)$** | **$O(1)$** | `long` का उपयोग करें (N ≤ ३२०००) |
+| BitSet मार्किंग | $O(N)$ | $O(N/8)$ | कोई नहीं |
+| सॉर्टिंग | $O(N \log N)$ | $O(1)$ | कोई नहीं |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+१. **बैंक लेनदेन समाधान:** वितरित शार्ड्स में लेनदेन अनुक्रम संख्याओं का रात्रिकालीन सत्यापन।
+२. **IoT सेंसर डेटा अखंडता:** निरंतर रीडिंग स्ट्रीम से छूटे नमूना ID का पता लगाना।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **पूर्णांक ओवरफ्लो:** `long` अंकगणित का उपयोग करें; $N \le ३२०००$ के लिए $\sum N^2 \approx 10^{10}$, सुरक्षित रूप से `long` सीमा के भीतर।

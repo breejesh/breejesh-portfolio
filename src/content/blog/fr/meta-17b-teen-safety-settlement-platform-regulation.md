@@ -7,6 +7,7 @@ coverImage: /assets/images/meta-17b-teen-safety-settlement-platform-regulation.w
 previewImage: /assets/images/meta-17b-teen-safety-settlement-platform-regulation.webp
 ---
 
+
 > **TL;DR**
 > * **L'accord :** Meta a accepté le 26 août de verser entre $17 et $18 milliards sur 10 ans pour clore les poursuites de 52 procureurs généraux américains concernant l'impact de Facebook et Instagram sur la santé mentale des jeunes.
 > * **Le dispositif :** Plafond d'utilisation de 2 heures par jour par défaut, coupure d'accès nocturne, masquage des mentions 'j'aime', notifications restreintes pendant les heures de cours et audit indépendant pour les moins de 18 ans.
@@ -74,3 +75,4 @@ Le montant de $17 milliards constitue l'élément d'annonce principal, mais la c
 ---
 
 *Informations relatives à l'accord établies d'après les comptes rendus de The New York Times, The Wall Street Journal et Reuters (26 août 2026). Données financières issues du rapport 10-Q du T2 2026 de Meta.*
+

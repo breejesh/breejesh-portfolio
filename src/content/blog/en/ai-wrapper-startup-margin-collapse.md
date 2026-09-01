@@ -7,6 +7,7 @@ coverImage: /assets/images/runaway-ai-agents-enterprise-spending-crisis.webp
 previewImage: /assets/images/runaway-ai-agents-enterprise-spending-crisis.webp
 ---
 
+
 > **TL;DR**
 > * **The Catalyst:** Hundreds of Y Combinator and venture-backed AI startups raised seed rounds at $30M valuations promising traditional 80% SaaS software margins, but are now reporting disastrous gross margins between 12% and 24%.
 > * **The Mechanism:** Flat-rate user pricing ($20-$50/month) clashed with variable foundation model token API costs; power users running complex agentic loops consume $180 in monthly inference COGS, turning high usage into negative unit economics.
@@ -76,3 +77,4 @@ The era of easy venture capital for thin API wrappers is over. The next generati
 * [The Economic Reality of Generative AI Unit Costs, VentureBeat](https://venturebeat.com)
 * [SaaS Margin Evolution in the Era of Frontier Models, Bloomberg Technology](https://bloomberg.com)
 * [The Information Report on Enterprise AI Spend and Churn, The Information](https://theinformation.com)
+

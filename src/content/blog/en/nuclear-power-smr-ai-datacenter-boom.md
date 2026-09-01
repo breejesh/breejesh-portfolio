@@ -7,6 +7,7 @@ coverImage: /assets/images/nvme-zns-spdk-database-storage.webp
 previewImage: /assets/images/nvme-zns-spdk-database-storage.webp
 ---
 
+
 > **TL;DR**
 > * **The Catalyst:** Cloud hyperscalers (Microsoft, Amazon, Google) deploying multi-gigawatt AI training clusters hit a hard wall: municipal electrical utilities report interconnection delays of 4 to 7 years.
 > * **The Mechanism:** Tech giants are bypassing public electrical grids entirely, purchasing retired nuclear reactors (Three Mile Island, Palisades) and signing 20-year Power Purchase Agreements (PPAs) with Small Modular Reactor (SMR) developers.
@@ -62,3 +63,4 @@ For the technology sector, however, the calculus is absolute. At $100 billion in
 * [Constellation Energy and Microsoft Power Purchase Agreement, Bloomberg Energy](https://bloomberg.com)
 * [Federal Energy Regulatory Commission Behind-the-Meter Policy Review, FERC](https://ferc.gov)
 * [Datacenter Power Demand and Grid Interconnection Queues, Ars Technica](https://arstechnica.com)
+

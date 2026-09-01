@@ -7,6 +7,7 @@ coverImage: /assets/images/mcp-ai-tools-explained.webp
 previewImage: /assets/images/mcp-ai-tools-explained.webp
 ---
 
+
 A finales de 2025, "mi agente puede usar tools" dejó de ser solo una demo. Clientes de chat, IDEs y runtimes de agentes propios querían lo mismo: una forma estable de listar capacidades, pasar argumentos estructurados, transmitir resultados y mantener el contexto humano en el bucle.
 
 **Model Context Protocol (MCP)** es ese formato de cable compartido. Anthropic lo abrió en noviembre de 2024. Durante 2025 se convirtió en el pegamento por defecto que muchos productos usan para que una integración (un server de Postgres, uno de GitHub, uno de filesystem) no se reescriba para cada app anfitriona.
@@ -236,3 +237,4 @@ Sáltate la fase de "100 servers comunitarios en una app de desktop" si esos ser
 MCP existe porque los agentes con tools chocaron con el mismo impuesto de integración que todo ecosistema de plugins: demasiados hosts, demasiadas tools, demasiados adapters a medida. El protocolo es deliberadamente simple (JSON-RPC, tools, resources, prompts, un par de transportes). Esa simpleza es por lo que se extendió en 2025.
 
 La misma simpleza significa que la seguridad es en gran parte **tu** trabajo: qué puede hacer el server, quién puede llamarlo y qué texto no confiable puede influir en el modelo. Trata los MCP servers como mini servicios de producción enganchados a un llamador probabilístico. Ese modelo mental evita que las demos se conviertan en reportes de incidente.
+

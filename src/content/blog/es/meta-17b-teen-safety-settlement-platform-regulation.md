@@ -7,6 +7,7 @@ coverImage: /assets/images/meta-17b-teen-safety-settlement-platform-regulation.w
 previewImage: /assets/images/meta-17b-teen-safety-settlement-platform-regulation.webp
 ---
 
+
 > **TL;DR**
 > * **El acuerdo:** Meta acordó el 26 de agosto pagar entre $17 y $18 mil millones a lo largo de 10 años para resolver las demandas de 52 fiscales generales de estados de EE. UU. sobre el impacto en la salud mental adolescente en Facebook e Instagram.
 > * **El mecanismo:** Límites de uso diario predeterminados de 2 horas, bloqueos de acceso nocturno, recuentos de 'me gusta' ocultos, notificaciones restringidas durante el horario escolar y auditorías independientes para usuarios menores de 18 años.
@@ -74,3 +75,4 @@ La cifra de $17 mil millones acapara los titulares. La cláusula condicional rep
 ---
 
 *Detalles del acuerdo extraídos de coberturas de The New York Times, The Wall Street Journal y Reuters (26 de agosto de 2026). Análisis de impacto financiero basado en el informe 10-Q del segundo trimestre de 2026 de Meta.*
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/fastapi-rest-apis-guide.webp
 previewImage: /assets/images/fastapi-rest-apis-guide.webp
 ---
 
+
 FastAPI est la réponse par défaut quand une équipe Python a besoin d'une API HTTP typée avec OpenAPI gratuit. Le framework reste petit: déclarer des routes, valider les corps avec Pydantic, sortir le setup partagé via des dépendances, et préférer `async def` là où l'I/O attend. Ce billet est le chemin que j'utilise pour lever un service que d'autres équipes appelleront le mois prochain.
 
 Vous repartez avec une petite API d'items: créer, lire, lister, supprimer, plus la validation, une dépendance de session DB partagée, des handlers async, et quelques tests qui cassent vraiment quand vous cassez le contrat.
@@ -393,3 +394,4 @@ N'inventez pas un hexagone de dossiers pour trois endpoints. Grossissez quand le
 Si vous démarrez cette semaine: créez la route health, une ressource avec `ItemCreate` / `ItemOut`, une dépendance de clé API en header, et quatre tests (chemin heureux, 404, 422, 401). Ajoutez async seulement là où vous appelez du HTTP externe ou un client DB async.
 
 La doc officielle reste la meilleure référence pour les bords (WebSockets, background tasks, middleware): [fastapi.tiangolo.com](https://fastapi.tiangolo.com/). Pour le reste, le code ci-dessus suffit pour livrer un premier service sans copier un starter que vous ne comprenez pas.
+

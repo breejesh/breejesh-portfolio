@@ -290,3 +290,4 @@ Un sistema de notificaciones es la secretaría de tu producto. Otros servicios t
 ## Cierre
 
 Construye bien la secretaría: **canales** para las puertas, **preferencias** para el consentimiento, **plantillas** para un texto coherente, **colas** para que el mostrador no se congele y **reintentos** para que un fallo temporal no sea silencio permanente. Separa aceptar de entregar. Aísla canales. Trata a los proveedores externos como compañeros poco fiables. Todo lo demás cuelga de esa columna.
+

@@ -217,3 +217,4 @@ Google Drive es una **carpeta mágica** que parece vivir en cada dispositivo. En
 Protege los bytes. Ponte de acuerdo en lo último. Envía solo lo que cambió. Di la verdad cuando choquen dos ediciones.
 
 Ese es el diseño.
+

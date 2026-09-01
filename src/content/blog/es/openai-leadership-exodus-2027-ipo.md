@@ -7,6 +7,7 @@ coverImage: /assets/images/openai-leadership-exodus-2027-ipo.webp
 previewImage: /assets/images/openai-leadership-exodus-2027-ipo.webp
 ---
 
+
 > **TL;DR**
 > * **Las salidas:** Al menos 14 directivos de alto nivel han dejado OpenAI en 2026, incluyendo al director de operaciones Brad Lightcap, la directora de ingresos Denise Dresser, la directora de aplicaciones Fidji Simo y el líder de centros de datos Chris Malone.
 > * **La paradoja:** La entrega de producto nunca ha sido tan alta. GPT-5.6 (niveles Sol, Terra, Luna), el chip de inferencia Jalapeño e integraciones para desarrolladores se lanzaron en 2026, con ingresos que se aproximan a $10 mil millones en ARR.
@@ -80,3 +81,4 @@ El producto mantiene su fortaleza técnica y los ingresos crecen a ritmo elevado
 ---
 
 *Información sobre movimientos directivos recopilada de Business Insider, LiveMint e Investing.com. Datos de productos obtenidos de anuncios oficiales de OpenAI. Referencias sobre planes de salida a bolsa basadas en informes de Time y 24/7 Wall Street.*
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/clean-architecture-backends.webp
 previewImage: /assets/images/clean-architecture-backends.webp
 ---
 
+
 Most backend rewrites start the same way. Business logic leaks into controllers. Controllers talk directly to the ORM. The ORM pollutes test suites. Six months in, changing one billing rule requires touching twelve files and a forgotten queue consumer. Six months later, changing a payment rule means touching HTTP handlers, SQL, and a queue consumer that nobody remembered. Clean architecture is a set of habits that slow that drift down. It is not a religion, and it is not free.
 
 This post is about the pieces that hold up under real product pressure: **layers**, the **dependency rule**, **use cases**, and a blunt section on **when the whole thing is overkill**.
@@ -304,3 +305,4 @@ Before you add another layer, ask:
 If yes, extract a use case and a port. If no, leave the code boring and close the ticket.
 
 Clean architecture keeps backends maintainable when it protects business rules from framework churn and makes those rules cheap to test. It becomes ceremony when every file is an interface waiting for a second implementation that never arrives. Use the dependency rule where the pain is real, keep the edges thin, and let use cases carry the names your product already uses.
+

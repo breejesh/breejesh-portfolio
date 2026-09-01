@@ -7,6 +7,7 @@ coverImage: /assets/images/binary-search-patterns.webp
 previewImage: /assets/images/binary-search-patterns.webp
 ---
 
+
 La recherche binaire n'est pas un seul tour de passe-passe. En entretien et en production, on revoit toujours les mêmes formes: trouver une valeur, trouver une borne, et chercher sur la *réponse* plutôt que dans le tableau. La plupart des bugs ne sont pas "j'ai oublié le log n". Ce sont des erreurs off-by-one sur l'invariant de la boucle.
 
 Ce billet est la carte courte que je garde. Des modèles en Python, le modèle mental de chaque forme, et les pièges qui te volent une demi-heure au tableau.
@@ -297,3 +298,4 @@ Mémorise les **invariants**, pas douze noms de problèmes. Une fois lower/upper
 La recherche binaire échoue quand l'intervalle ne rétrécit pas, que le prédicat n'est pas monotone, ou que tu mélanges mises à jour fermées et semi-ouvertes. Cloue ces trois points et le reste n'est que du nommage.
 
 Si tu ne pratiques qu'un exercice cette semaine: implémente lower_bound et min-feasible deux fois depuis zéro, sans regarder, et lance-les sur des tableaux vides, à un élément, et tout en doublons. Ça couvre l'essentiel de ce que demandent les entretiens et la production.
+

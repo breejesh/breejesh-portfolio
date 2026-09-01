@@ -1,80 +1,106 @@
 ---
-title: "Rank from Stream: Calculer le Rang d'un Nombre dans un Flux (CTCI 10.10)"
-description: "Problème CTCI 10.10 en Java: arbre binaire de recherche avec suivi du sous-arbre gauche pour calculer le rang."
-date: "2026-01-18"
+title: "Rang dans un Flux: Arbres Statistiques d'Ordre pour Classement Dynamique (CTCI 10.10)"
+description: "Maintenez et interrogez le rang des nombres dans un flux continu d'entiers via un arbre binaire de recherche augmenté (Order Statistic Tree) en O(log N)."
+date: "2026-05-06"
 tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-10-10-rank-from-stream.webp
 previewImage: /assets/images/ctci-10-10-rank-from-stream.webp
 ---
 
-
 > **TL;DR**
-> * **Le Problème:** Maîtriser le problème CTCI 10.10 avec une efficacité de niveau production.
-> * **L'Approche:** Problème CTCI 10.10 en Java: arbre binaire de recherche avec suivi du sous-arbre gauche pour calculer le rang.
-> * **Complexité:** Compromis optimal entre temps et espace.
+> * **Le Problème du Livre:** Imaginez la lecture d'un flux continu d'entiers. Périodiquement, vous souhaitez connaître le rang d'un nombre $x$ (le nombre de valeurs inférieures ou égales à $x$). Implémentez `track(int x)` et `getRankOfNumber(int x)`.
+> * **La Solution Optimale:** **Arbre Binaire de Recherche Augmenté (Order Statistic Tree)** : (1) Chaque nœud maintient sa valeur `data`, des pointeurs d'enfants et un compteur `left_size` du nombre d'éléments dans son sous-arbre gauche ; (2) `track(x)` : lors d'une descente à gauche, incrémente `left_size++` ; (3) `getRankOfNumber(x)` : si $x == \text{data}$, renvoie `left_size` ; si $x < \text{data}$, descend à gauche ; si $x > \text{data}$, renvoie `left_size + 1 + right.getRank(x)` ; (4) S'exécute en **temps $O(\log N)$** sur arbre équilibré et **espace $O(N)$**.
+> * **Réalité en Production:** Calcul de percentiles en temps réel (P95/P99 dans Datadog/Prometheus) et classement MMR dans les jeux vidéo.
 
-Cet article propose une explication claire et accessible du problème CTCI **10.10**. Nous examinons l'énoncé, comparons l'approche brute à la solution optimale en Java.
+## 1. Formulation du Problème du Livre
 
----
+Dans *Cracking the Coding Interview* (Problème 10.10), l'énoncé est :
 
-## 1. Analogie du monde réel
+*"Implementez les methodes track(x) et getRankOfNumber(x) pour gerer dynamiquement le rang d'entiers dans un flux continu."*
 
-Pensez au problème CTCI 10.10 comme à l'organisation efficace d'objets au quotidien. Choisir la bonne structure de données élimine les itérations inutiles.
+## 2. Invariant de l'Arbre Augmenté
 
----
+En enrichissant chaque nœud de son poids gauche `left_size` :
+* Pour $x > \text{data}$, le rang est la somme du nœud courant, de son sous-arbre gauche et des valeurs éligibles du sous-arbre droit :
+$$\text{Rang}(x) = \text{left\_size} + 1 + \text{right.getRank}(x)$$
 
-## 2. Énoncé clair du problème
-
-**Problème 10.10:** Problème CTCI 10.10 en Java: arbre binaire de recherche avec suivi du sous-arbre gauche pour calculer le rang.
-
----
-
-## 3. Approche optimale et implémentation
+## Implémentation de Production
 
 ```java
-public class RankNode {
-    public int leftSize = 0;
-    public RankNode left, right;
-    public int data = 0;
+public class RankFromStream {
+    public static class RankNode {
+        public int left_size = 0;
+        public RankNode left, right;
+        public int data = 0;
 
-    public RankNode(int d) { this.data = d; }
+        public RankNode(int d) {
+            this.data = d;
+        }
 
-    public void insert(int d) {
-        if (d <= data) {
-            if (left != null) left.insert(d);
-            else left = new RankNode(d);
-            leftSize++;
-        } else {
-            if (right != null) right.insert(d);
-            else right = new RankNode(d);
+        public void insert(int d) {
+            if (d <= data) {
+                left_size++;
+                if (left != null) {
+                    left.insert(d);
+                } else {
+                    left = new RankNode(d);
+                }
+            } else {
+                if (right != null) {
+                    right.insert(d);
+                } else {
+                    right = new RankNode(d);
+                }
+            }
+        }
+
+        public int getRank(int d) {
+            if (d == data) {
+                return left_size;
+            } else if (d < data) {
+                if (left == null) return -1;
+                return left.getRank(d);
+            } else {
+                int right_rank = (right == null) ? -1 : right.getRank(d);
+                if (right_rank == -1) return -1;
+                return left_size + 1 + right_rank;
+            }
         }
     }
 
-    public int getRank(int d) {
-        if (d == data) return leftSize;
-        else if (d < data) {
-            if (left == null) return -1;
-            return left.getRank(d);
+    private RankNode root = null;
+
+    public void track(int number) {
+        if (root == null) {
+            root = new RankNode(number);
         } else {
-            int rightRank = (right == null) ? -1 : right.getRank(d);
-            if (rightRank == -1) return -1;
-            return leftSize + 1 + rightRank;
+            root.insert(number);
         }
+    }
+
+    public int getRankOfNumber(int number) {
+        if (root == null) return -1;
+        return root.getRank(number);
     }
 }
 ```
 
----
+## Analyse de Complexité et Mémoire
 
-## 4. Complexité Temporelle et Spatiale
+| Opération | Arbre Équilibré | Arbre Dégénéré | Détail Technique |
+|---|---|---|---|
+| Ingestion Flux (`track`) | `O(log N)` | `O(N)` | Insertion standard avec incrément de `left_size`. |
+| Requête de Rang | `O(log N)` | `O(N)` | Cumul des poids de sous-arbres. |
+| Espace Mémoire | `O(N)` | `O(N)` | 1 nœud par entier ingéré. |
 
-| Métrique | Complexité | Explication |
-| --- | --- | --- |
-| Complexité Temporelle | O(N) / O(log N) | Parcours optimal des données |
-| Complexité Spatiale | O(1) / O(N) | Empreinte mémoire contrôlée |
+## Ingénierie des Systèmes en Production
 
----
+### Architecture Système : Percentiles Haute Fréquence
 
-## 5. Cas Limites et Résumé
+1. **Moteurs APM (Prometheus / Datadog) :** Utilisation d'arbres dynamiques ou de structures T-Digest pour calculer les centiles P95/P99 en temps sous-milliseconde.
+2. **Systèmes de Classement en Ligne :** Actualisation temps réel des rangs de joueurs.
 
-Vérifiez toujours les conditions aux limites, les valeurs nulles et la taille des tableaux en entretien.
+## Cas Limites et Robustesse
+
+1. **Gestion des Doublons :** Insérés à gauche, incrémentant `left_size` fidèlement.
+2. **Nombre Non Répertorié :** Propagation de la valeur sentinelle `-1`.

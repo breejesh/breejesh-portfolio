@@ -1,33 +1,74 @@
 ---
-title: "Lambda Random: Random Subset Generation with Java Streams (CTCI 13.8)"
-description: "CTCI problem 13.8: generating a random subset of a list using Java Streams and lambda expressions."
-date: "2026-02-14"
+title: "रैंडम सबसेट जनरेटर (Lambda Random): जावा में समान संभाव्यता यादृच्छिक सबसेट (सीटीसीआई १३.८)"
+description: "जावा में लैम्ब्डा एक्सप्रेशन्स, स्ट्रीम्स एपीआई और बर्नोली ट्रायल्स द्वारा किसी सूची का समान संभाव्यता (1 / 2^N) वाला यादृच्छिक सबसेट O(N) समय में जनरेट करना।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-13-8-lambda-random.webp
 previewImage: /assets/images/ctci-13-8-lambda-random.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १३.८ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १३.८: generating a random subset of a list using जावा Streams and lambda expressions.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** लैम्ब्डा एक्सप्रेशन्स का उपयोग करके एक फ़ंक्शन `List<Integer> getRandomSubset(List<Integer> list)` लिखें जो किसी सूची का यादृच्छिक सबसेट लौटाता है, जहाँ सभी $2^N$ सबसेट्स के चुने जाने की संभावना समान हो।
+> * **गणितीय सफलता:** **स्वतंत्र बर्नोली ट्रायल्स ($p = 0.5$)**: (१) $N$ आकार की सूची के लिए ठीक $2^N$ संभावित सबसेट्स होते हैं; (२) प्रत्येक सबसेट के लिए समान संभाव्यता ($1 / 2^N$) सुनिश्चित करने के लिए प्रत्येक तत्व के शामिल होने की संभावना ठीक $50\%$ होनी चाहिए; (३) रैंडम बूलियन प्रेडिकेट द्वारा स्ट्रीम को फ़िल्टर करें: `filter(item -> ThreadLocalRandom.current().nextBoolean())`; (४) तत्वों को सूची में संकलित करें: `.collect(Collectors.toList())`; (५) यह **$O(N)$ समय** में निष्पादित होता है।
+> * **रियल-वर्ल्ड सिस्टम:** ए/बी टेस्टिंग में उपयोगकर्ताओं का यादृच्छिक असाइनमेंट और मोंटे कार्लो सिमुलेशन।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१३.८** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १३.८: generating a random subset of a list using जावा Streams and lambda expressions.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १३.८) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"जावा में लैम्ब्डा एक्सप्रेशन्स का उपयोग करके समान संभाव्यता (Uniform Probability) वाला यादृच्छिक सबसेट उत्पन्न करने के लिए फ़ंक्शन लिखें।"*
+
+## २. समान संभाव्यता का गणितीय प्रमाण
+
+$N$ तत्वों वाले सेट $L$ के लिए कुल सबसेट्स की संख्या $2^N$ है।
+
+किसी भी विशिष्ट सबसेट $S$ के लिए (जहाँ $|S| = k$):
+$$P(S) = (0.5)^k \times (0.5)^{N - k} = (0.5)^N = \frac{1}{2^N}$$
+
+चूँकि प्रत्येक सबसेट की संभावना ठीक $1 / 2^N$ है, वितरण पूर्णतः समान (Uniform) है।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public List<Integer> getRandomSubset(List<Integer> list) {
-    Random rand = new Random();
-    return list.stream()
-        .filter(item -> rand.nextBoolean())
-        .collect(Collectors.toList());
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+
+public class RandomSubsetGenerator {
+
+    /**
+     * लैम्ब्डा एक्सप्रेशन्स द्वारा समान रूप से वितरित यादृच्छिक सबसेट बनाता है।
+     * समय जटिलता: O(N)
+     * स्पेस जटिलता: O(N)
+     */
+    public static List<Integer> getRandomSubset(List<Integer> list) {
+        if (list == null || list.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return list.stream()
+            .filter(item -> ThreadLocalRandom.current().nextBoolean())
+            .collect(Collectors.toList());
+    }
 }
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और शून्य इनपुट की जांच करें।
+## जटिलता और संभाव्यता विश्लेषण
+
+| मापदंड | जटिलता | तकनीकी विवरण |
+|---|---|---|
+| समय जटिलता | `O(N)` | $N$ तत्वों के लिए रैंडम बूलियन मूल्यांकन का एकल पास। |
+| अपेक्षित सबसेट आकार | $E[K] = N / 2$ | $p = 0.5$ के साथ द्विपद वितरण का माध्य। |
+| सबसेट संभाव्यता | $1 / 2^N$ | सभी $2^N$ सबसेट्स के लिए समान। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: हाई-थ्रूपुट रैंडम नंबर जनरेशन
+
+१. **`ThreadLocalRandom` बनाम `java.util.Random`:** मानक `java.util.Random` एक साझा एटॉमिक बीज (`AtomicLong`) का उपयोग करता है जो मल्टी-थ्रेडिंग में सीपीयू कैश लाइन विवाद उत्पन्न करता है। `ThreadLocalRandom` प्रत्येक थ्रेड के लिए स्वतंत्र बीज प्रदान करता है।
+२. **क्रिप्टोग्राफिक सुरक्षा:** सुरक्षा टोकन के लिए `SecureRandom` का उपयोग करें।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **खाली या अमान्य सूची:** बिना किसी अपवाद के `Collections.emptyList()` लौटाना।

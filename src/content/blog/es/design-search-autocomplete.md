@@ -365,3 +365,4 @@ Ese es el diseño. Todo lo demás (shards, cachés, tendencias, filtros) es deta
 ## Cierre
 
 El autocompletado de búsqueda no es una demo de IA elegante. Es un **servicio de top-k por prefijo** con un índice casi en tiempo real. La estructura que encaja con el producto es un árbol de letras. El truco que hace que producción funcione son las **listas cortas precomputadas** en los nodos que la gente camina de verdad. Separa el camino de aprender del de responder, y el sistema se queda rápido y entendible.
+

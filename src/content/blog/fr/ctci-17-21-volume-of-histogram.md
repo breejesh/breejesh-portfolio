@@ -1,43 +1,73 @@
 ---
-title: "Volume of Histogram: Trapping Rain Water DP / Two-Pointer Solution (CTCI 17.21)"
-description: "CTCI problem 17.21: compute total volume of water trapped between bars in a 2D histogram in O(N) time."
-date: "2026-03-01"
+title: "Volume du Histogramme: Piégeage d'Eau par Deux Pointeurs en O(N) (CTCI 17.21)"
+description: "Calculez le volume total d'eau piégée entre les barres d'un histogramme par un balayage en place avec deux pointeurs en temps O(N) et espace O(1)."
+date: "2026-05-06"
 tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-17-21-volume-of-histogram.webp
 previewImage: /assets/images/ctci-17-21-volume-of-histogram.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** CTCI problem 17.21 technical mechanics.
-> * **The Approach:** CTCI problem 17.21: compute total volume of water trapped between bars in a 2D histogram in O(N) time.
-> * **Complexity:** Optimal Time and Memory bounds.
+> * **Le Problème du Livre:** Étant donné un histogramme représenté par des hauteurs de barres, calculez le volume total d'eau qu'il peut retenir sous la pluie.
+> * **La Solution Optimale:** **Piégeage d'Eau avec Deux Pointeurs In-Place**:
+>   1. Initialiser `left=0`, `right=n-1`, `leftMax=0`, `rightMax=0`, `water=0`.
+>   2. Si `height[left] <= height[right]`, l'eau au niveau de `left` vaut `leftMax - height[left]`, avancer `left`. Sinon, l'eau au niveau de `right` vaut `rightMax - height[right]`, reculer `right`.
+>   3. S'exécute en **temps $O(N)$** et **espace $O(1)$**.
+> * **Réalité en Production:** Simulation d'inondation sur modèles numériques de terrain et masques de couverture de pixels GPU.
 
-This article provides a clear breakdown of CTCI problem **17.21**.
+## 1. Formulation du Problème du Livre
 
-## 1. Context and Problem Statement
-CTCI problem 17.21: compute total volume of water trapped between bars in a 2D histogram in O(N) time.
+Dans *Cracking the Coding Interview* (Problème 17.21), l'énoncé est :
 
-## 2. Technical Code & Mechanics
+*"Imaginez un histogramme. Concevez un algorithme pour calculer le volume d'eau qu'il pourrait retenir si on y versait de l'eau par le haut."*
+
+## 2. Pourquoi les Deux Pointeurs Fonctionnent
+
+La clé : l'eau retenue à toute barre vaut `min(max_gauche, max_droite) - hauteur_barre`. Deux pointeurs permettent de calculer cela sans stocker de tableaux de maxima.
+
+## Implémentation de Production
 
 ```java
-public static int computeVolume(int[] histo) {
-    int left = 0, right = histo.length - 1;
-    int leftMax = 0, rightMax = 0, volume = 0;
-    while (left < right) {
-        if (histo[left] < histo[right]) {
-            if (histo[left] >= leftMax) leftMax = histo[left];
-            else volume += leftMax - histo[left];
-            left++;
-        } else {
-            if (histo[right] >= rightMax) rightMax = histo[right];
-            else volume += rightMax - histo[right];
-            right--;
+public class VolumeOfHistogram {
+
+    public static int computeHistogramVolume(int[] heights) {
+        if (heights == null || heights.length < 3) return 0;
+
+        int left = 0, right = heights.length - 1;
+        int leftMax = 0, rightMax = 0;
+        int water = 0;
+
+        while (left < right) {
+            if (heights[left] <= heights[right]) {
+                leftMax = Math.max(leftMax, heights[left]);
+                water += leftMax - heights[left];
+                left++;
+            } else {
+                rightMax = Math.max(rightMax, heights[right]);
+                water += rightMax - heights[right];
+                right--;
+            }
         }
+
+        return water;
     }
-    return volume;
 }
 ```
 
-## 3. Key Takeaways and Edge Cases
-Always test boundary conditions and invalid input states.
+## Analyse de Complexité
+
+| Approche | Complexité Temporelle | Espace | Notes |
+|---|---|---|---|
+| **Deux Pointeurs** | **$O(N)$** | **$O(1)$** | **Optimal ; un seul passage.** |
+| Tableaux Max G/D | $O(N)$ | $O(N)$ | Logique plus claire, deux tableaux auxiliaires. |
+| Force Brute | $O(N^2)$ | $O(1)$ | Pour chaque barre, explorer gauche et droite. |
+
+## Ingénierie des Systèmes en Production
+
+1. **Modèles Numériques de Terrain (MNT) :** Simulations hydrologiques SIG calculant la rétention d'eau dans les bassins versants.
+2. **Rasterisation GPU :** Calcul de masques de couverture de pixels pour l'anti-aliasing du tampon de profondeur.
+
+## Cas Limites et Robustesse
+
+1. **Tableau Monotone :** Produit `0` correctement (l'eau s'écoule d'un côté).
+2. **Tous Zéros / Barre Unique :** Retourne `0`.

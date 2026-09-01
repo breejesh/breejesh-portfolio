@@ -7,6 +7,7 @@ coverImage: /assets/images/docker-optimization.webp
 previewImage: /assets/images/docker-optimization.webp
 ---
 
+
 Large container images slow down deployments, burn registry storage, and widen your attack surface. If the production image still contains compilers, test runners, and build-time tooling, you are shipping dead weight.
 
 **Multi-stage builds** fix the packaging side of that problem. You compile in a heavy builder stage, then copy only the runtime artifact into a small final image.
@@ -294,3 +295,4 @@ Multi-stage builds are the default I want for production images. The benchmark b
 They are not free on every axis. Pre-built bases can rebuild pure code changes faster. Cold and dependency rebuilds depend on the ecosystem. Measure your own apps if rebuild latency is the bottleneck.
 
 Stack the basics together: multi-stage for what you ship, `.dockerignore` for context, non-root (and distroless/`scratch` when it fits) for security, health checks for ops, BuildKit caches for CI. For the benchmark suite and charts behind this post, see [multi-stage-docker-benchmarking](https://github.com/breejesh/multi-stage-docker-benchmarking).
+

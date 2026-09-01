@@ -7,6 +7,7 @@ coverImage: /assets/images/spacex-ipo-disaster.webp
 previewImage: /assets/images/spacex-ipo-disaster.webp
 ---
 
+
 La salida a bolsa (IPO) de SpaceX (bajo el ticker SPCX) pasará a la historia financiera. Superando una valoración de 2,3 billones de dólares (2.3 trillion USD) en sus primeras horas de cotización, se convirtió instantáneamente en la séptima empresa más valiosa del planeta, compitiendo con el PIB de naciones enteras del G7.
 
 Para el observador casual, este fue el logro supremo de un disruptor aeroespacial legendario. Después de todo, SpaceX redujo los costos de lanzamiento orbital en un 85%, comercializó cohetes reutilizables y construyó Starlink, una constelación de satélites rentable que generó 4.400 millones de dólares en ganancias operativas sobre 11.400 millones de ingresos en 2025.
@@ -58,3 +59,4 @@ SpaceX era una empresa de ingeniería de primer nivel con un monopolio natural e
 Aunque los acuerdos comerciales cruzados (como Google alquilando cómputo a xAI por 920 millones de dólares al mes mientras posee un 6% de participación accionaria) pueden inflar los números a corto plazo, no cambian el flujo de caja real.
 
 Para los inversores, la salida a bolsa bajo el ticker SPCX es un caso clásico de ingeniería financiera que intenta anular los límites físicos y económicos reales. El cohete puede despegar alto gracias a la compra pasiva inicial de los fondos indexados, pero la gravedad siempre gana al final.
+

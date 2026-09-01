@@ -7,6 +7,7 @@ coverImage: /assets/images/structured-logging-best-practices.webp
 previewImage: /assets/images/structured-logging-best-practices.webp
 ---
 
+
 Los logs en texto plano servían cuando una máquina corría una app. Con muchos servicios, muchas réplicas y un shipper que convierte cada línea en un evento consultable, las cadenas libres se vuelven ruido caro. El logging estructurado arregla la forma: cada línea es un documento pequeño con claves estables. Buscas por campo, no con regex sobre prosa.
 
 Esta es la lista que quiero en cada servicio de producción: JSON (o equivalente), IDs de correlación, niveles honestos, sin PII en crudo y reglas estrictas sobre campos de alta cardinalidad. Sin catálogo teórico. Los hábitos que bajan el tiempo medio hasta entender qué pasó.
@@ -298,3 +299,4 @@ Ninguno de estos necesita un vendor nuevo. Necesitan convenciones y unas líneas
 El logging estructurado no es un debate de formato. Es un contrato de operaciones: cada servicio habla el mismo lenguaje de campos, lleva IDs a través de los límites, se niega a volcar secretos y mantiene la cardinalidad bajo control para que la búsqueda sea rápida y la factura aburrida.
 
 Empieza con JSON + IDs de correlación + política de niveles + redacción. Añade sampling avanzado y schema registries cuando lo básico aguante bajo carga. En el próximo incidente quieres una query por `request_id`, no cinco greps y una esperanza.
+

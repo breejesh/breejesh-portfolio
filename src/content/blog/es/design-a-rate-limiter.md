@@ -303,3 +303,4 @@ Dos imágenes se quedan:
 Muchos servidores con **cuaderno privado** multiplican en silencio tu límite. Un **cuaderno compartido** (a menudo Redis) mantiene el presupuesto real. Recorre una petición: cliente → balanceador → auth → chequeo compartido → allow al trabajo real o 429 con "inténtalo luego."
 
 Si te quedas con una lección de producción: **los contadores compartidos ganan a la matemática local ingeniosa**, y **los relojes mienten** si no obligas una sola fuente de tiempo. Empieza con token bucket o sliding window counter en Redis, pon límites gruesos en el edge, deja las cuotas de producto junto al auth, y mide los denys antes de "arreglarlos" subiendo el número.
+

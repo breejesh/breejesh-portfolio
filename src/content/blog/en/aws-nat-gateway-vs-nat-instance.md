@@ -7,6 +7,7 @@ coverImage: /assets/images/aws-cost-spike.webp
 previewImage: /assets/images/aws-cost-spike.webp
 ---
 
+
 We have all been there. You look at your monthly cloud bill, expecting predictable numbers, only to find a massive spike staring back at you. One side of you hopes it is legitimate traffic; the other side knows a misconfigured route table just burned thousands of dollars. Then you open Cost Explorer and find the culprit: **NAT Gateway**. 
 
 It feels like a punch in the gut, especially when you realize you are being charged not just for having the gateway active, but for every single gigabyte of data that passes through it. If you are running data-heavy workloads, pulling large container images, or constantly talking to external APIs, NAT Gateway data processing fees can quickly become your biggest hidden cloud tax. 
@@ -160,3 +161,4 @@ It is perfectly reasonable to change your architecture when the default options 
 If you run non-production environments, staging areas, or data pipelines that don't require 99.99% carrier-grade uptime, dropping the gateway for a NAT Instance is an easy, massive win for your monthly budget. Even for production workloads with moderate bandwidth needs, a properly configured NAT Instance with an Auto Scaling Group can deliver reliable service at a fraction of the cost.
 
 Give it a try, monitor the performance, and enjoy watching your AWS bill shrink back down to where it belongs.
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/product-quantization-vector-compression.webp
 previewImage: /assets/images/product-quantization-vector-compression.webp
 ---
 
+
 > **TL;DR**
 > * **Le Problème:** 1M de vecteurs en 128 dimensions (float32) consomment 512 Mo de RAM. A 768 dimensions, cela monte à 3,07 Go. La recherche par force brute plafonne à environ 20 requêtes par seconde.
 > * **Le Constat:** Product Quantization (PQ) découpe chaque vecteur en `m` sous-vecteurs, regroupe chaque sous-espace en 256 centroïdes et remplace les valeurs float par des identifiants d'1 octet. Asymmetric Distance Computation (ADC) précalcule une table de correspondance par requête, réduisant le calcul de distance à `m` lectures de table au lieu de `D` multiplications flottantes.
@@ -338,3 +339,4 @@ Règle empirique: commencer par $m = D / 4$ (sous-espaces de 4 dimensions), ce q
 ### Exigences de Données d'Entraînement
 
 Chaque sous-quantificateur entraîne k-means avec `k* = 256` centroïdes. k-means nécessite au minimum $30 \times k^*$ points d'entraînement pour converger, soit environ 8 000 vecteurs. Pour de meilleurs résultats, utiliser 10x à 100x ce nombre (65K à 650K vecteurs d'entraînement).
+

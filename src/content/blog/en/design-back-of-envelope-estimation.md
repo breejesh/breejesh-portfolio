@@ -390,3 +390,4 @@ Then give them the one-line formulas:
 | Cache | hot working set, not full dataset |
 
 Back-of-the-envelope estimation is a communication tool. You show that scale constraints shape architecture, and that you can do honest rough math without fake precision. Practice the recipes until they feel boring. Boring is what you want when the clock is running.
+

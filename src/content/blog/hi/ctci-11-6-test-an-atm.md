@@ -1,31 +1,86 @@
 ---
-title: "Test an ATM: End-to-End System Testing for Banking Hardware (CTCI 11.6)"
-description: "CTCI problem 11.6: test strategy for an automated teller machine (ATM) covering hardware, transaction processing, and failure recovery."
-date: "2025-10-27"
-tags: [एल्गोरिदम और डेटा संरचनाएं, डेवलपमेंट]
+title: "एटीएम का परीक्षण (Test an ATM): वितरित बैंकिंग और हार्डवेयर परीक्षण ढांचा (सीटीसीआई ११.६)"
+description: "वितरित बैंकिंग प्रणाली में एटीएम (ATM) के परीक्षण के लिए लेनदेन निरंतरता (ACID), नेटवर्क विभाजन और हार्डवेयर विफलताओं को कवर करने वाली परीक्षण रणनीति।"
+date: "2026-05-06"
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-11-6-test-an-atm.webp
 previewImage: /assets/images/ctci-11-6-test-an-atm.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या ११.६ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem ११.६: test strategy for an automated teller machine (ATM) covering hardware, transaction processing, and failure recovery.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** एक वितरित बैंकिंग प्रणाली में आप एटीएम (ATM) का परीक्षण कैसे करेंगे?
+> * **मुख्य समाधान:** **वितरित फिनटेक ४-स्तरीय परीक्षण मैट्रिक्स**: (१) **हार्डवेयर सबसिस्टम सत्यापन**: कार्ड रीडर (ईएमवी चिप, एनएफसी, चुंबकीय पट्टी), नोट डिस्पेंसर जैम डिटेक्शन, चेक रीडर और थर्मल प्रिंटर; (२) **लेनदेन निरंतरता और किनारे के मामले**: सटीक नकदी निकासी, अपर्याप्त शेष राशि, दैनिक सीमाएं, ३ गलत पिन के बाद कार्ड लॉक और कैश कैसेट खाली होना; (३) **नेटवर्क विभाजन और आइडम्पोटेंसी**: निकासी के बीच में नेटवर्क कटना (सागा रोलबैक और ISO 8583 रिवर्सल ताकि यदि यांत्रिक दरवाजा न खुले तो खाते से पैसे न कटें); (४) **सुरक्षा और अनुपालन**: HSM चिप द्वारा पिन एन्क्रिप्शन (PCI-DSS), स्किमिंग-रोधी सेंसर और फिजिकल अलार्म।
+> * **रियल-वर्ल्ड सिस्टम:** एटीएम फर्मवेयर प्रमाणन (Diebold Nixdorf / NCR) और ISO 8583 कोर बैंकिंग स्विच।
 
-तकनीकी साक्षात्कार में आपसे समस्या **११.६** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem ११.६: test strategy for an automated teller machine (ATM) covering hardware, transaction processing, and failure recovery.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या ११.६) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"वितरित बैंकिंग नेटवर्क से जुड़े एटीएम (ATM) के हार्डवेयर, सुरक्षा और लेनदेन सत्यापन के लिए संपूर्ण परीक्षण रणनीति तैयार करें।"*
+
+## २. बैंकिंग गुणवत्ता परीक्षण मैट्रिक्स
+
+| डोमेन | विशिष्ट परीक्षण परिदृश्य | अपेक्षित परिणाम |
+|---|---|---|
+| **पिन सुरक्षा** | लगातार ३ गलत पिन प्रयास | कार्ड लॉक/जब्त और सुरक्षा अलर्ट। |
+| **नकदी निकासी** | शेष $\$100$, $\$20$ के नोटों में $\$80$ की निकासी | ठीक ४ नोट बाहर आना और शेष $\$20$ होना। |
+| **कैश की कमी** | लेनदेन के बीच में वॉल्ट में नोट समाप्त होना | लेनदेन रद्द, शेष अपरिवर्तित और स्क्रीन पर सूचना। |
+| **निकासी के दौरान नेटवर्क टूटना** | सर्वर अनुमोदन के बाद लेकिन शटर खुलने से पहले नेटवर्क कटना | स्वतः ISO 8583 रिवर्सल संदेश द्वारा खाते में राशि वापस जोड़ना। |
+| **नकली नोट पहचान** | डिपॉजिट स्लॉट में जाली नोट डालना | ऑप्टिकल और चुंबकीय सेंसर द्वारा तुरंत अस्वीकार। |
+
+## प्रोडक्शन एटीएम स्टेट मशीन टेस्ट हार्नेस
 
 ```java
-// ATM Test Cases:
-// 1. Card read failure and retention
-// 2. Dispenser timeout during cash withdrawal
-// 3. Network connection drop mid-transaction
+public class ATMTransactionEngine {
+    public enum TransactionState {
+        IDLE, CARD_AUTHENTICATED, DISPENSING_CASH, COMPLETED, ROLLED_BACK
+    }
+
+    public static class ATMContext {
+        public TransactionState state = TransactionState.IDLE;
+        public int vaultCashAvailable = 50000;
+        public boolean networkConnected = true;
+        public boolean mechanicalShutterFailed = false;
+
+        public boolean processWithdrawal(int accountId, int amount) {
+            if (amount > vaultCashAvailable) {
+                return false;
+            }
+
+            state = TransactionState.CARD_AUTHENTICATED;
+
+            if (!networkConnected) {
+                state = TransactionState.ROLLED_BACK;
+                return false;
+            }
+
+            state = TransactionState.DISPENSING_CASH;
+            if (mechanicalShutterFailed) {
+                rollbackLedgerTransaction(accountId, amount);
+                state = TransactionState.ROLLED_BACK;
+                return false;
+            }
+
+            vaultCashAvailable -= amount;
+            state = TransactionState.COMPLETED;
+            return true;
+        }
+
+        private void rollbackLedgerTransaction(int accountId, int amount) {
+            System.out.println("खाता " + accountId + " के लिए रिवर्सल प्रकाशित");
+        }
+    }
+}
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और शून्य इनपुट की जांच करें।
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: ISO 8583 रिवर्सल प्रोटोकॉल
+
+१. **स्वतः रिवर्सल (0420 संदेश):** यदि नकदी सेंसर १५ सेकंड के भीतर ग्राहक द्वारा पैसे लेने की पुष्टि नहीं करता है, तो एटीएम स्वतः 0420 संदेश भेजकर राशि तुरंत वापस खाते में जमा करता है।
+२. **ऑफ़लाइन आपातकालीन मोड:** नेटवर्क न होने पर छोटे आपातकालीन आहरण की अनुमति।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **ट्रे में छूटे पैसे:** ३० सेकंड तक पैसे न उठाने पर चोरी से बचाने के लिए उन्हें आंतरिक डिब्बे में वापस खींचना।
+२. **एंटी-स्किमिंग सुरक्षा:** कार्ड डालते समय यांत्रिक कंपन (Jitter) द्वारा स्किमर को विफल करना।

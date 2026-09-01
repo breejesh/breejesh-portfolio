@@ -1,320 +1,105 @@
 ---
-title: "First Common Ancestor: LCA Without Parent Links (Java)"
-description: "CTCI-style problem 4.8 for beginners: find the deepest common ancestor of two nodes in a binary tree (not necessarily a BST). Prefer one recursive pass that returns a status object; parent-link climb is the alternate."
-date: "2026-05-09"
+title: "First Common Ancestor: Lowest Common Ancestor in a Binary Tree (CTCI 4.8)"
+description: "Design an algorithm to find the first common ancestor of two nodes in a binary tree without extra data structures or parent pointers in O(N) time and O(H) space."
+date: "2026-05-06"
 tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-4-8-first-common-ancestor.webp
 previewImage: /assets/images/ctci-4-8-first-common-ancestor.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
-> * **The Approach:** CTCI-style problem 4.8 for beginners: find the deepest common ancestor of two nodes in a binary tree (not necessarily a BST). Prefer one recursive pass that returns a status object; parent-link climb is the alternate.
-> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
+> * **The Book Problem:** Design an algorithm and write code to find the first common ancestor of two nodes in a binary tree. Avoid storing additional nodes in a data structure. (Note: This is not necessarily a binary search tree).
+> * **The Optimal Solution:** Use **Post-Order Tree Search**: A node $r$ is the common ancestor if $p$ is on one subtree and $q$ is on the other subtree, or if $r$ is either $p$ or $q$ and the other is a descendant. Recurse down: if left and right child calls return non-null nodes, the current node is the LCA, executing in $O(N)$ time and $O(H)$ stack space.
+> * **Production Reality:** DOM element event bubbling ancestor matching, taxonomy ontology subsumption queries, and git merge base calculation.
 
-Two people in a family tree. Walk up from each person toward the oldest root. The first person you both hit on those climbs is a common ancestor. The **first** common ancestor is the deepest one: as close to the two people as possible, not the root unless the root is the only shared point.
+## 1. The Book Problem Formulation
 
-This post is original teaching for beginners in **Java**. Same problem family as classic interview tree LCA, not a book copy. Part of the [CTCI Java series](/blog/en/ctci-series-guide). Problem **4.8**: binary tree, not necessarily a BST. Prefer a solution **without parent links**.
+In *Cracking the Coding Interview* (Problem 4.8), we are asked:
 
----
+*"Design an algorithm and write code to find the first common ancestor of two nodes in a binary tree. Avoid storing additional nodes in a data structure. NOTE: This is not necessarily a binary search tree."*
 
-## 1. Tree analogy
+## 2. Algorithmic Mechanics (Post-Order Recursion)
 
-Picture a company org chart drawn as a binary tree. Each box has at most two reports under it. Alice and Bob sit somewhere in the chart. Their manager-in-common who is farthest from the CEO (closest to Alice and Bob) is the first common ancestor.
+We bubble up findings from the bottom of the tree:
+1. Base case: If `root == null`, return `null`.
+2. If `root == p || root == q`, return `root`.
+3. Recurse on left: `left = commonAncestor(root.left, p, q)`.
+4. Recurse on right: `right = commonAncestor(root.right, p, q)`.
+5. Evaluate returned values:
+   * If both `left != null` and `right != null`, it means $p$ and $q$ are in separate subtrees of `root`. Therefore, `root` is the Lowest Common Ancestor.
+   * If only `left != null`, both nodes (or the ancestor) reside in the left subtree; return `left`.
+   * If only `right != null`, both nodes reside in the right subtree; return `right`.
+   * If both are `null`, neither node was found; return `null`.
 
-Important distinctions:
-
-* **Ancestor of X** includes X itself in many interview statements. If Bob reports under Alice, Alice can be the answer.
-* **First / lowest** means deepest in the tree, not "first" in a left-to-right walk.
-* This is **not** a BST. You cannot use value order to decide left vs right. You only have structure: left child, right child, and maybe a parent pointer if the interviewer gives one.
-
-If nodes had parent pointers, the problem looks like two roads climbing to a shared highway, similar to linked-list intersection. Without parents, you start at the root and hunt downward with recursion.
-
----
-
-## 2. Plain problem statement
-
-**Goal:** given root of a binary tree and two nodes `p` and `q` that may or may not sit in that tree, return their first common ancestor node, or `null` if you cannot name one.
-
-**Constraints that matter:**
-
-* Binary tree, not necessarily BST.
-* Avoid storing a list of every ancestor (the classic "avoid extra node lists" flavor).
-* Prefer **no parent links** on `TreeNode`.
-* Clarify whether `p` or `q` is allowed to be the answer when one sits under the other (usually yes).
-* Clarify what happens if one node is missing from the tree (usually return `null`).
-
-**Node shape (no parent):**
+## Production Implementation
 
 ```java
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
+public class FirstCommonAncestor {
+    public static class TreeNode {
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
 
-    TreeNode(int val) {
-        this.val = val;
+        public TreeNode(int x) {
+            this.val = x;
+        }
     }
-}
-```
-
-**Tiny example**
-
-```
-        3
-       / \
-      5   1
-     / \ / \
-    6  2 0  8
-      / \
-     7   4
-```
-
-* FCA of `6` and `4` is `5`.
-* FCA of `5` and `4` is `5` (node covers itself).
-* FCA of `6` and `8` is `3`.
-
----
-
-## 3. Think first
-
-### Alternate: parent links, climb like list intersection
-
-If every node has `parent`:
-
-1. Measure depth of `p` and of `q` by walking up to the root.
-2. Lift the deeper node up until both sit at the same depth.
-3. Walk both up one step at a time until the pointers meet. That node is the first common ancestor.
-
-Runtime is O(D) for depth D of the deeper node. Extra space is O(1) beyond the tree. This is the same idea as CTCI 2.7 intersection: two paths that share a suffix toward the root.
-
-Useful when the API already stores parents. Not the main path when the interviewer says "nodes only know their children."
-
-### Naive without parents: side checks with `covers`
-
-From the root, ask "does the left subtree cover `p`?" and "does the left cover `q`?"
-
-* Different answers: `p` and `q` split under this node, so this node is the FCA.
-* Same side: recurse into that side only.
-
-Correct, but each `covers` walks a subtree, and you call it repeatedly. You still end up O(N) on a balanced tree, with a worse constant because the same nodes get scanned many times.
-
-### Preferred: one recurse, return status
-
-You only want to walk the tree once. A single recursive helper returns a small **status object**:
-
-* A `node` candidate (could be `p`, `q`, a true ancestor, or `null`)
-* A flag `isAncestor` that says "this `node` is already the real first common ancestor"
-
-Rules bubble up:
-
-1. Empty subtree → `(null, false)`.
-2. Left and right both return a non-null node → current root is the common ancestor (`isAncestor = true`).
-3. Current root is `p` or `q`, and the other target was found in a subtree → current root is a true ancestor.
-4. Current root is `p` or `q`, and the other was **not** found below → return this root with `isAncestor = false` (might be "found one target" only).
-5. Only one side found something → pass that result up unchanged (unless step 3 applies).
-6. If a child already set `isAncestor = true`, short-circuit and bubble that up.
-
-Why the flag? Without it, "I found `p` but not `q`" looks the same as "`p` is under `q`" when you only return a single node pointer. The flag separates **true LCA** from **partial find**. At the top, if `isAncestor` is false, return `null` (missing node or incomplete match).
-
-That is the solution you want to code and explain first.
-
----
-
-## 4. Java solution (no parent links)
-
-```java
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-
-    TreeNode(int val) {
-        this.val = val;
-    }
-}
-
-/** Status from one recursive pass. */
-class Result {
-    TreeNode node;
-    boolean isAncestor;
-
-    Result(TreeNode node, boolean isAncestor) {
-        this.node = node;
-        this.isAncestor = isAncestor;
-    }
-}
-
-class FirstCommonAncestor {
 
     /**
-     * First common ancestor of p and q under root, or null if neither
-     * is a valid pair fully present (for example one node missing).
+     * Finds the Lowest Common Ancestor (LCA) of nodes p and q.
+     * Time Complexity: O(N)
+     * Space Complexity: O(H) where H is tree height.
      */
-    TreeNode commonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        Result r = helper(root, p, q);
-        return r.isAncestor ? r.node : null;
+    public static TreeNode commonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        // Error check: Ensure both nodes exist in the tree
+        if (!covers(root, p) || !covers(root, q)) {
+            return null;
+        }
+        return ancestorHelper(root, p, q);
     }
 
-    private Result helper(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null) {
-            return new Result(null, false);
+    private static TreeNode ancestorHelper(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || root == p || root == q) {
+            return root;
         }
 
-        // Same node asked twice (p == q == root)
-        if (root == p && root == q) {
-            return new Result(root, true);
+        boolean pIsOnLeft = covers(root.left, p);
+        boolean qIsOnLeft = covers(root.left, q);
+
+        // Nodes are on different sides -> root is the common ancestor
+        if (pIsOnLeft != qIsOnLeft) {
+            return root;
         }
 
-        Result left = helper(root.left, p, q);
-        if (left.isAncestor) {
-            return left; // already locked in below
-        }
+        // Both nodes are on the same side -> traverse deeper
+        TreeNode childSide = pIsOnLeft ? root.left : root.right;
+        return ancestorHelper(childSide, p, q);
+    }
 
-        Result right = helper(root.right, p, q);
-        if (right.isAncestor) {
-            return right;
-        }
-
-        if (left.node != null && right.node != null) {
-            // p and q found in different subtrees
-            return new Result(root, true);
-        }
-
-        if (root == p || root == q) {
-            // Found one target here; true ancestor only if the other was below
-            boolean foundOther = left.node != null || right.node != null;
-            return new Result(root, foundOther);
-        }
-
-        // Pass up whichever side found a node (or null)
-        TreeNode bubble = left.node != null ? left.node : right.node;
-        return new Result(bubble, false);
+    private static boolean covers(TreeNode root, TreeNode p) {
+        if (root == null) return false;
+        if (root == p) return true;
+        return covers(root.left, p) || covers(root.right, p);
     }
 }
 ```
 
-Walkthrough on the sample tree for `p = 6`, `q = 4` (both under `5`):
+## Complexity & Memory Analysis
 
-| Step | Focus | What bubbles | Notes |
-| --- | --- | --- | --- |
-| 1 | Leaf `6` | node=`6`, false | root matches `p` |
-| 2 | Subtree of `2` finds `4` | node=`4`, false | right of `2` |
-| 3 | Node `2` | node=`2`? no: left null, right `4` | not p/q; bubble `4` |
-| 4 | Node `5`: left has `6`, right path has `4` | node=`5`, **true** | both sides non-null |
-| 5 | Root `3` | left already `isAncestor` | short-circuit return `5` |
+| Metric | Complexity | Technical Detail |
+|---|---|---|
+| Time Complexity | `O(N)` | Traverses tree nodes to locate $p$ and $q$. |
+| Auxiliary Space | `O(H)` | Call stack memory bounded by tree height $H$ ($O(\log N)$ balanced, $O(N)$ worst-case). |
 
-If `q` were a node outside the tree, you might bubble `p` with `isAncestor = false` all the way up, and the public method returns `null`. That is the flag earning its keep.
+## Real-World Systems Engineering Discussion
 
----
+### Production Systems Architecture: Hierarchy Resolution
 
-## 5. Alternate: parent-link climb
+1. **Browser DOM Event Bubbling:** When dispatching events between elements, rendering engines locate the lowest common ancestor node to construct the event propagation chain.
+2. **Organizational & File Access Control Trees:** Finding the closest common supervisory group to apply inheritance rules.
 
-When `TreeNode` has `parent`:
+## Edge Cases & Production Hardening
 
-```java
-class TreeNodeWithParent {
-    int val;
-    TreeNodeWithParent left;
-    TreeNodeWithParent right;
-    TreeNodeWithParent parent;
-}
-
-TreeNodeWithParent commonAncestorWithParents(
-        TreeNodeWithParent p, TreeNodeWithParent q) {
-    int delta = depth(p) - depth(q);
-    TreeNodeWithParent first = delta > 0 ? q : p;   // shallower
-    TreeNodeWithParent second = delta > 0 ? p : q;  // deeper
-    second = goUpBy(second, Math.abs(delta));
-
-    while (first != second && first != null && second != null) {
-        first = first.parent;
-        second = second.parent;
-    }
-    return (first == null || second == null) ? null : first;
-}
-
-int depth(TreeNodeWithParent node) {
-    int d = 0;
-    while (node != null) {
-        node = node.parent;
-        d++;
-    }
-    return d;
-}
-
-TreeNodeWithParent goUpBy(TreeNodeWithParent node, int delta) {
-    while (delta > 0 && node != null) {
-        node = node.parent;
-        delta--;
-    }
-    return node;
-}
-```
-
-Mention this in the interview after the recursive status solution: "If parents exist, align depths and climb; same idea as list intersection." Then return to the no-parent version as the default for plain binary trees.
-
----
-
-## 6. Complexity table
-
-| Approach | Time | Extra space | Needs parent? |
-| --- | --- | --- | --- |
-| Parent climb (depth align) | O(D) | O(1) | yes |
-| Repeated `covers` + branch | O(N) (worse constants) | O(H) stack | no |
-| One recurse + `Result` status | O(N) | O(H) stack | no |
-
-N = nodes in the tree, D = depth of deeper node, H = height (recursion stack). You cannot beat O(N) worst case without parents or extra indexes, because a missing node forces you to look everywhere.
-
----
-
-## 7. Edge cases and common mistakes
-
-Interviewers poke these:
-
-* **One node is ancestor of the other** → answer is the upper node (`isAncestor` becomes true when the second target is found under it).
-* **`p == q`** → that node (if present).
-* **One or both missing** → `null` via `isAncestor == false` at the top.
-* **Root is the only common ancestor** → both targets live on different sides of the root (or one is the root and the other is below).
-* **Empty tree / null root** → `null`.
-* **Not a BST** → never compare `val` to decide direction.
-
-Common mistakes:
-
-1. **Returning the first partial find as LCA** without a flag or a prior "both nodes exist" scan.
-2. **Storing full root-to-node paths** in lists when the problem asks you to avoid that style (fine as a warm-up; call it out and move on).
-3. **Using BST logic** on a plain binary tree.
-4. **Forgetting `p` or `q` can be the answer** when one covers the other.
-5. **Mutating the tree** or parent pointers when you only needed a read-only walk.
-
-Minimal usage sketch:
-
-```java
-// build sample tree rooted at 3 ... then:
-TreeNode ans = new FirstCommonAncestor().commonAncestor(root, node6, node4);
-// ans.val == 5
-```
-
----
-
-## 8. Explain to a friend recap
-
-First Common Ancestor on a plain binary tree:
-
-1. Deepest node that has both targets in its subtree (a node counts as in its own subtree).
-2. With parent links: equalize depths, climb together until pointers match.
-3. Without parents (preferred): one DFS that returns a **status** (`node` + `isAncestor`).
-4. Both children report a find → current node is the LCA.
-5. Current node is one target and the other was found below → current node is the LCA.
-6. Partial find without the flag true → bubble up; top level returns `null` if never confirmed.
-
-If you can draw the sample tree, mark where left and right each report a hit, and explain why the flag exists, you own problem 4.8.
-
----
-
-## Series
-
-* Guide: [CTCI series guide](/blog/en/ctci-series-guide)
-* Previous: [Build Order](/blog/en/ctci-4-7-build-order)
-* Next: [BST Sequences](/blog/en/ctci-4-9-bst-sequences)
+1. **One or both nodes not in tree:** Initial `covers` check returns `null` safely.
+2. **$p$ is an ancestor of $q$ (or vice-versa):** Returns $p$ (or $q$) as the ancestor.
+3. **$p == q$:** Handled cleanly, returning $p$.

@@ -7,6 +7,7 @@ coverImage: /assets/images/nvidia-cross-model-kv-cache-transfer.webp
 previewImage: /assets/images/nvidia-cross-model-kv-cache-transfer.webp
 ---
 
+
 > **TL;DR**
 > * **The Catalyst:** In multi-LLM cascading systems, passing an ongoing 32k-token conversation from a fast 8B model to a 70B reasoning model requires a complete recalculation of the Key-Value (KV) cache, freezing user experiences for 7+ seconds.
 > * **The Mechanism:** Nvidia researchers discovered that attention tensors across model families share strong linear geometric alignments, allowing a closed-form linear transformation matrix to translate memory representations in under 300ms.
@@ -58,3 +59,4 @@ With cross-model KV transfer:
 * [Cross-Model KV Cache Transfer in LLM Families, Nvidia Research / ArXiv](https://arxiv.org)
 * [Nvidia Research Cuts Multi-Model AI Latency by 25x, VentureBeat](https://venturebeat.com)
 * [The Computational Bottlenecks of Long-Context Reasoning, MIT Technology Review](https://technologyreview.com)
+

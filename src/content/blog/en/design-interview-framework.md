@@ -310,3 +310,4 @@ A system design interview is not "draw every server in the company." It is a sho
 Practice that skeleton on three different problems (storage, realtime chat, read-heavy feed) until the transitions feel automatic. The goal is not a pretty diagram. The goal is a design conversation that would not embarrass you with a senior engineer on your first week.
 
 If you want the full growth path before more interview prompts, start with [scale from zero to millions](/blog/en/design-scale-zero-to-millions). For a practice order across this series, see the [learning path](/blog/en/design-interview-learning-path).
+

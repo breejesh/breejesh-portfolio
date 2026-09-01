@@ -369,3 +369,4 @@ Architecture is a budget. Spend it where users feel pain.
 - Let copies of the database answer most "show me" questions (replicas), and keep a fast notepad (cache) plus neighborhood copy shops (CDN) for popular and static content.
 - Keep servers forgetful about who is logged in locally (stateless), and push slow chores (email, image work) onto a waiting line (queue).
 - Only when one main database still cannot write or store enough do you split by domain or by shard, and only when users span the world do you add more regions, always naming what freshness or simplicity you give up.
+

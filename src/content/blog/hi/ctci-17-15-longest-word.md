@@ -1,44 +1,101 @@
 ---
-title: "Longest Word: Find Longest Word Built from Other Words (CTCI 17.15)"
-description: "CTCI problem 17.15: find the longest word in an array that can be built by concatenating other words in the array."
-date: "2025-10-02"
-tags: [एल्गोरिदम और डेटा संरचनाएं, बैकएंड और डेटाबेस]
+title: "सबसे लंबा शब्द (Longest Word): मिश्रित शब्दों का मेमोइज़्ड रिकर्सिव अपघटन (सीटीसीआई १७.१५)"
+description: "लंबाई-अवरोही सॉर्टिंग और मेमोइज़्ड रिकर्सिव प्रीफिक्स विभाजन का उपयोग करके अन्य शब्दों के संयोजन से बने सबसे लंबे शब्द की O(N · L^2) में पहचान करना।"
+date: "2026-05-06"
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-17-15-longest-word.webp
 previewImage: /assets/images/ctci-17-15-longest-word.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १७.१५ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १७.१५: find the longest word in an array that can be built by concatenating other words in the array.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** शब्दों की एक सूची दी गई है, सूची के अन्य शब्दों को जोड़कर बनाया जा सकने वाला सबसे लंबा शब्द खोजने के लिए एक प्रोग्राम लिखें।
+> * **मुख्य समाधान:** **लंबाई-अवरोही सॉर्टिंग और मेमोइज़्ड रिकर्सिव प्रीफिक्स विभाजन**:
+>   1. **लंबाई अनुसार सॉर्टिंग**: सभी शब्दों को लंबाई के घटते क्रम में सॉर्ट करें।
+>   2. **मेमोइज़ेशन मैप**: शब्दों को `Map<String, Boolean>` में स्टोर करें।
+>   3. **रिकर्सिव विभाजन**: प्रत्येक शब्द के लिए $i \in [1, \text{length}-1]$ पर विभाजन करें:
+>      * जांचें कि क्या बायां हिस्सा शब्दकोश में है और दायां हिस्सा रिकर्सिव कॉल द्वारा मान्य होता है।
+>   4. घटते क्रम में `true` लौटाने वाला पहला शब्द ही सबसे लंबा संयुक्त शब्द होता है।
+>   5. यह **$O(N \log N + N \cdot L^2)$ समय** और **$O(N \cdot L)$ स्पेस** में चलता है।
+> * **रियल-वर्ल्ड सिस्टम:** जर्मन भाषा में संयुक्त शब्दों का लेमेटाइजेशन (Apache Lucene) और डोमेन नेम फ्रॉड डिटेक्शन।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१७.१५** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १७.१५: find the longest word in an array that can be built by concatenating other words in the array.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १७.१५) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"शब्दों की एक सूची में से उस सबसे लंबे शब्द को खोजें जो सूची के दो या अधिक अन्य शब्दों के योग से बना हो।"*
+
+## २. रिकर्सिव प्रीफिक्स विभाजन की कार्यप्रणाली
+
+लंबाई के घटते क्रम में जांच करने से पहला मान्य शब्द मिलते ही प्रोग्राम तुरंत परिणाम दे सकता है।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public static String printLongestWord(String[] arr) {
-    Arrays.sort(arr, (a, b) -> Integer.compare(b.length(), a.length()));
-    Set<String> map = new HashSet<>(Arrays.asList(arr));
-    for (String word : arr) {
-        if (canBuildWord(word, true, map)) return word;
+import java.util.*;
+
+public class LongestWord {
+
+    /**
+     * सबसे लंबे संयुक्त शब्द की खोज।
+     */
+    public static String printLongestWord(String[] list) {
+        if (list == null || list.length == 0) return "";
+
+        // 1. लंबाई के घटते क्रम में सॉर्टिंग
+        Arrays.sort(list, (a, b) -> Integer.compare(b.length(), a.length()));
+
+        // 2. मेमोइज़ेशन मैप
+        Map<String, Boolean> map = new HashMap<>();
+        for (String w : list) {
+            map.put(w, true);
+        }
+
+        // 3. सबसे बड़े से छोटे की ओर मूल्यांकन
+        for (String w : list) {
+            if (canBuildWord(w, true, map)) {
+                return w;
+            }
+        }
+
+        return "";
     }
-    return "";
-}
-private static boolean canBuildWord(String str, boolean isOriginal, Set<String> map) {
-    if (map.contains(str) && !isOriginal) return true;
-    for (int i = 1; i < str.length(); i++) {
-        String left = str.substring(0, i);
-        String right = str.substring(i);
-        if (map.contains(left) && canBuildWord(right, false, map)) return true;
+
+    private static boolean canBuildWord(String str, boolean isOriginalWord, Map<String, Boolean> map) {
+        if (map.containsKey(str) && !isOriginalWord) {
+            return map.get(str);
+        }
+
+        for (int i = 1; i < str.length(); i++) {
+            String left = str.substring(0, i);
+            String right = str.substring(i);
+
+            if (map.containsKey(left) && map.get(left) && canBuildWord(right, false, map)) {
+                map.put(str, true);
+                return true;
+            }
+        }
+
+        map.put(str, false);
+        return false;
     }
-    return false;
 }
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## जटिलता विश्लेषण
+
+| चरण | समय जटिलता | सहायक स्पेस | अर्ली एग्जिट |
+|---|---|---|---|
+| **सॉर्टिंग** | $O(N \log N)$ | $O(1)$ | घटती लंबाई |
+| **रिकर्सिव पार्सिंग** | **$O(N \cdot L^2)$** | **$O(N \cdot L)$** | **प्रथम मिलान पर तुरंत समाप्ति** |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: सर्च इंजन और भाषा विश्लेषण
+
+१. **ल्यूसीन डीकंपाउंडिंग टोकन फ़िल्टर:** जर्मन और नॉर्डिक भाषाओं में बिना स्पेस वाले संयुक्त शब्दों को इंडेक्स करने के लिए मूल शब्दों में विभाजित करना।
+२. **साइबर सुरक्षा:** ब्रांड नामों के संयोजन वाली दुर्भावनापूर्ण यूआरएल (URLs) की पहचान।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **कोई संयुक्त शब्द न मिलना:** खाली स्ट्रिंग `""` लौटाना।
+२. **स्वयं से मिलान का जाल:** `isOriginalWord` बूलियन फ्लैग किसी शब्द को स्वयं से मेल खाने से रोकता है।

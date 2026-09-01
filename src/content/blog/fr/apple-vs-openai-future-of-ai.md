@@ -7,6 +7,7 @@ coverImage: /assets/images/apple-vs-openai-cover.webp
 previewImage: /assets/images/apple-vs-openai-cover.webp
 ---
 
+
 Le 10 juillet 2026, Apple a déposé une plainte fédérale majeure contre OpenAI devant la Cour de district des États-Unis pour le district nord de Californie. La plainte accuse OpenAI d'avoir orchestré une campagne systématique visant à s'approprier des secrets commerciaux d'Apple, des plans d'architecture matérielle et des prototypes physiques afin d'accélérer le développement de ses propres équipements d'intelligence artificielle.
 
 Cette action en justice marque l'effondrement définitif d'un partenariat annoncé deux ans plus tôt lors de la WWDC 2024. Ce qui avait débuté comme une intégration logicielle pour Siri s'est transformé en un affrontement judiciaire pour le contrôle du matériel informatique de demain.
@@ -57,3 +58,4 @@ La phase de découverte des preuves contraindra les deux entreprises à fournir 
 La plainte d'Apple contre OpenAI ne constitue pas un simple litige commercial. C'est une bataille directe pour la maîtrise des équipements physiques à l'ère de l'intelligence artificielle.
 
 En dénonçant le vol de secrets commerciaux et l'appropriation de prototypes, Apple signale sa volonté de protéger ses investissements dans ses puces et son design. Alors que les modèles de langage sur le cloud ont tendance à se banaliser, l'appareil tenu en main par l'utilisateur demeure l'enjeu central à Silicon Valley.
+

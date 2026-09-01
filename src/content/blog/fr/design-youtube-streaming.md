@@ -180,3 +180,4 @@ Un créateur **envoie** un master dans un entrepôt avec un ticket temporaire, p
 On ne streame pas seulement l'original parce qu'il est trop gros, trop rigide et trop hostile aux réseaux faibles. Le coût suit l'audience : **la livraison d'octets et les rayons pleins de copies** comptent en général plus que les serveurs qui stockent les titres. Conçois pour que les gros fichiers évitent la couche app, que la conversion soit asynchrone, et que le trafic heureux de lecture vive en bordure.
 
 Si tu retiens une seule phrase : **le cinéaste dépose une bande ; le studio tire beaucoup de bobines et les stocke près du public.**
+

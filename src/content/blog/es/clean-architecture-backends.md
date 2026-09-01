@@ -7,6 +7,7 @@ coverImage: /assets/images/clean-architecture-backends.webp
 previewImage: /assets/images/clean-architecture-backends.webp
 ---
 
+
 La mayoría de reescrituras de backend empiezan igual. Las reglas de negocio viven en controladores. Los controladores hablan con el ORM. El ORM se cuela en los tests. Seis meses después, cambiar una regla de pago implica tocar handlers HTTP, SQL y un consumer de cola que nadie recordaba. La arquitectura limpia es un conjunto de hábitos que frenan ese deterioro. No es religión, y no es gratis.
 
 Este post cubre lo que aguanta presión real de producto: **capas**, la **regla de dependencia**, **casos de uso**, y una sección directa sobre **cuándo todo esto es exceso**.
@@ -304,3 +305,4 @@ Antes de añadir otra capa, pregunta:
 Si sí, extrae un caso de uso y un puerto. Si no, deja el código aburrido y cierra el ticket.
 
 La arquitectura limpia mantiene los backends cuando protege las reglas de negocio del churn de frameworks y las hace baratas de probar. Se vuelve ceremonia cuando cada archivo es una interfaz esperando una segunda implementación que nunca llega. Usa la regla de dependencia donde el dolor es real, mantén los bordes finos y deja que los casos de uso lleven los nombres que el producto ya usa.
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/oauth2-for-developers.webp
 previewImage: /assets/images/oauth2-for-developers.webp
 ---
 
+
 OAuth 2.0 es el protocolo que usa la mayoría de las apps cuando un usuario dice "deja que esta app lea mi calendario" sin entregar la contraseña. Aun así se despliegan implementaciones rotas: SPA sin PKCE, tokens en query strings, `state` omitido "para el MVP", refresh tokens guardados como si fueran cookies de sesión, e implicit flow copiado de un sample de 2018.
 
 Este post es un mapa práctico de **authorization code + PKCE**, los tipos de token que tocas cada día, y los bugs que aparecen en code review y en incidentes.
@@ -331,3 +332,4 @@ Si tu wiki interna aún dice "la SPA debe usar implicit," actualiza la wiki ante
 Despliega **authorization code + PKCE**, trata **redirect URIs y `state` como controles de seguridad**, mantén **access tokens cortos** y **refresh tokens aburridamente bien protegidos**, y valida tokens en el resource server con **issuer, audience, expiry y scope**. La mayoría de los incidentes de "OAuth es difícil" no son fallos de cripto exótica. Son checks saltados, tokens en el sitio equivocado y sample code de otro tipo de client.
 
 Si mañana revisas un PR, empieza por: PKCE presente, `state` comprobado, allowlist de redirect exacta, almacenamiento de tokens escrito, y ningún bearer en query strings. Esa lista corta atrapa una gran parte de los bugs reales.
+

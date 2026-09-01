@@ -7,6 +7,7 @@ coverImage: /assets/images/aws-spot-reserved-ondemand.webp
 previewImage: /assets/images/aws-spot-reserved-ondemand.webp
 ---
 
+
 Cloud compute typically consumes over half of an organization's monthly AWS bill. Yet engineering teams routinely default to On-Demand instances out of habit, leaving 50% to 70% in potential savings on the table. Others avoid Spot instances entirely after experiencing a single unexpected node termination, or lock themselves into 3-year commitments for workloads that change within six months.
 
 Choosing the wrong EC2 pricing model burns money fast. Understanding the exact trade-offs between On-Demand, Spot, and Reserved Instances (including Savings Plans) enables you to reduce infrastructure costs by 50% to 70% without compromising uptime.
@@ -177,3 +178,4 @@ Before selecting an instance pricing tier, evaluate your workload against these 
 * Is the workload a stateful database or core infrastructure component running 24/7? **Use Savings Plans.**
 * Is the workload an unproven prototype or an unpredictable short-term burst? **Use On-Demand.**
 * Are you migrating between architectures or instance types over the next 12 months? **Choose Compute Savings Plans over EC2 Instance Savings Plans.**
+

@@ -1,75 +1,98 @@
 ---
-title: "Sparse Search: Búsqueda en Arreglo Esparcido de Cadenas (CTCI 10.5)"
-description: "Problema CTCI 10.5 en Java: encuentra una cadena en un arreglo ordenado intercalado con cadenas vacías."
-date: "2026-01-23"
+title: "Búsqueda Dispersa: Búsqueda Binaria en Arreglos con Cadenas Vacías (CTCI 10.5)"
+description: "Encuentra la ubicacion de una cadena en un arreglo ordenado intercalado con cadenas vacias usando busqueda binaria con punteros expansivos en tiempo O(log N)."
+date: "2026-05-06"
 tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-10-5-sparse-search.webp
 previewImage: /assets/images/ctci-10-5-sparse-search.webp
 ---
 
-
 > **TL;DR**
-> * **El Problema:** Dominar el problema CTCI 10.5 con eficiencia de nivel de producción.
-> * **El Enfoque:** Problema CTCI 10.5 en Java: encuentra una cadena en un arreglo ordenado intercalado con cadenas vacías.
-> * **Complejidad:** Relación óptima entre tiempo y espacio.
+> * **El Problema del Libro:** Dado un arreglo ordenado de cadenas de texto intercalado con cadenas vacias (`""`), escribe un metodo para encontrar la posicion de una cadena dada.
+> * **La Solución Óptima:** Búsqueda Binaria con Expansión de Punteros: (1) Calcula `mid = (first + last) / 2`; (2) Si `strings[mid]` esta vacia `""`, expande dos punteros (`left = mid - 1` y `right = mid + 1`) hacia afuera hasta encontrar la cadena no vacia mas cercana; (3) Si todo el rango esta vacio, termina la busqueda; (4) Compara la cadena no vacia y procede con la busqueda binaria; (5) Se ejecuta en **tiempo promedio $O(\log N)$** y peor caso $O(N)$.
+> * **Realidad en Producción:** Busqueda en tablas con registros eliminados (tombstones) en RocksDB y columnas dispersas en formatos Parquet.
 
-Este artículo ofrece una guía clara y detallada del problema CTCI **10.5**. Examinamos el enunciado, comparamos la fuerza bruta con la solución óptima y escribimos código en Java.
+## 1. Formulación del Problema del Libro
 
----
+En *Cracking the Coding Interview* (Problema 10.5), se nos plantea:
 
-## 1. Analogía del mundo real
+*"Encuentra el indice de una cadena en un arreglo ordenado que contiene multiples cadenas vacias intermedias."*
 
-Piensa en el problema CTCI 10.5 como organizar elementos de forma eficiente. La elección de la estructura de datos adecuada elimina iteraciones innecesarias.
+**Ejemplo:**
+`find("ball", {"at", "", "", "", "ball", "", "", "car", "", "", "dad", "", ""})` $\to 4$
 
----
+## 2. Ajuste del Punto Medio
 
-## 2. Enunciado claro del problema
+Cuando `strings[mid]` es `""`, no es posible saber hacia que lado bifurcar.
 
-**Problema 10.5:** Problema CTCI 10.5 en Java: encuentra una cadena en un arreglo ordenado intercalado con cadenas vacías.
+Expandiendo dos punteros hacia los extremos se localiza la cadena valida mas cercana para definir el nuevo punto medio.
 
----
-
-## 3. Enfoque óptimo e implementación
+## Implementación de Producción
 
 ```java
 public class SparseSearch {
+    /**
+     * Busca la cadena str en el arreglo disperso.
+     * Complejidad Temporal: O(log N) promedio, O(N) peor caso.
+     * Complejidad Espacial: O(log N)
+     */
     public static int search(String[] strings, String str) {
-        if (strings == null || str == null || str.isEmpty()) return -1;
-        return search(strings, str, 0, strings.length - 1);
+        if (strings == null || str == null || str.isEmpty()) {
+            return -1;
+        }
+        return searchHelper(strings, str, 0, strings.length - 1);
     }
 
-    private static int search(String[] strings, String str, int first, int last) {
+    private static int searchHelper(String[] strings, String str, int first, int last) {
         if (first > last) return -1;
-        int mid = (first + last) / 2;
+
+        int mid = (last + first) / 2;
 
         if (strings[mid].isEmpty()) {
-            int left = mid - 1, right = mid + 1;
+            int left = mid - 1;
+            int right = mid + 1;
+
             while (true) {
-                if (left < first && right > last) return -1;
-                if (right <= last && !strings[right].isEmpty()) { mid = right; break; }
-                if (left >= first && !strings[left].isEmpty()) { mid = left; break; }
-                right++; left--;
+                if (left < first && right > last) {
+                    return -1;
+                } else if (right <= last && !strings[right].isEmpty()) {
+                    mid = right;
+                    break;
+                } else if (left >= first && !strings[left].isEmpty()) {
+                    mid = left;
+                    break;
+                }
+                left--;
+                right++;
             }
         }
 
-        if (strings[mid].equals(str)) return mid;
-        else if (strings[mid].compareTo(str) < 0) return search(strings, str, mid + 1, last);
-        else return search(strings, str, first, mid - 1);
+        if (str.equals(strings[mid])) {
+            return mid;
+        } else if (strings[mid].compareTo(str) < 0) {
+            return searchHelper(strings, str, mid + 1, last);
+        } else {
+            return searchHelper(strings, str, first, mid - 1);
+        }
     }
 }
 ```
 
----
+## Análisis de Complejidad y Memoria
 
-## 4. Complejidad Temporal y Espacial
+| Caso | Complejidad Temporal | Espacio Auxiliar | Detalle Técnico |
+|---|---|---|---|
+| Caso Promedio (Cadenas Distribuidas) | `O(log N)` | `O(log N)` | La busqueda de la cadena no vacia toma $O(1)$ pasos amortizados. |
+| Peor Caso (Casi Todo Vacío) | `O(N)` | `O(log N)` | Los punteros recorren el arreglo entero. |
 
-| Métrica | Complejidad | Explicación |
-| --- | --- | --- |
-| Complejidad Temporal | O(N) / O(log N) | Recorrido óptimo de datos |
-| Complejidad Espacial | O(1) / O(N) | Memoria acotada |
+## Discusión de Ingeniería de Sistemas en Producción
 
----
+### Arquitectura de Sistemas en Producción: Tombstones en Motores LSM
 
-## 5. Casos Límite y Resumen
+1. **Registros Lápida (Tombstones en Cassandra):** Los registros eliminados permanecen como huecos vacios hasta la compactacion; los algoritmos de busqueda dispersa navegan por los indices sin requerir reconstrucciones continuas.
+2. **Columnas Nulas en Parquet:** Indexacion eficiente de campos altamente dispersos.
 
-Verifica siempre condiciones de borde, valores nulos y límites de tamaño en entrevistas técnicas.
+## Casos Límite y Robustez en Producción
+
+1. **Cadena Buscada Vacía:** Retorna `-1` de inmediato.
+2. **Arreglo Exclusivamente de Cadenas Vacías:** Detecta limites y retorna `-1`.

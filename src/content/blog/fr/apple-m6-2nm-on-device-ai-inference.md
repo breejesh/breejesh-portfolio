@@ -7,6 +7,7 @@ coverImage: /assets/images/apple-m6-2nm-on-device-ai-inference.webp
 previewImage: /assets/images/apple-m6-2nm-on-device-ai-inference.webp
 ---
 
+
 > **TL;DR**
 > * **Le matériel :** Apple a annoncé le M6 (première puce grand public 2nm) dans le Mac Mini et le M5 Ultra (quad-die, 512 Go de mémoire unifiée) dans le Mac Studio le 25 août. Précommandes ouvertes immédiatement ; disponibilité le 22 septembre.
 > * **Le virage stratégique :** 4x plus rapide en inférence IA et 512 Go de mémoire unifiée permettent d'exécuter des LLM de 70 milliards de paramètres et plus localement. Apple positionne le calcul embarqué comme une alternative crédible aux API d'inférence cloud.
@@ -67,3 +68,4 @@ La date de lancement du 22 septembre met ces machines entre les mains des dével
 ---
 
 *Spécifications produit issues des communiqués de presse Apple (25 août 2026). Analyse du noeud de fabrication par MacRumors, 9to5Mac et Forbes. Contraste d'infrastructure cloud basé sur les rapports de l'accord Anthropic-Nscale.*
+

@@ -7,14 +7,15 @@ coverImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 previewImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 ---
 
+
 सैम ऑल्टमैन ने असल में कहा: हमारे पास राजस्व की योजना नहीं है। जब सामान्य बुद्धि वाला सिस्टम बन जाएगा, हम उसी से पूछेंगे कि निवेशकों को रिटर्न कैसे दिया जाए।
 
 पहले यह मजाक लगता था। २०२६ में यह इकबाल लगता है। एआई ट्रेड इतना बड़ा हो गया कि अमेरिकी ट्रेजरी के लीक ड्राफ्ट में कहा गया कि यह क्षेत्र **अर्थव्यवस्था में डॉटकॉम कंपनियों से ज्यादा धंसा हुआ** है। शेयर बाजार, प्राइवेट क्रेडिट, डेटा सेंटर कर्ज, क्लाउड, चिप्स और बिजली कंपनियां एक ही धारणा पर टिकी हैं: फ्रंटियर मॉडल की मांग आखिरकार लोहा चुकाएगी।
 
 वनेसा विंगॉर्ड का *ओपनएआई: डॉटकॉम से बड़ा बुलबुला* सार्वजनिक केस चलाता है। नीचे संख्याएं और प्रोत्साहन, प्रचार नहीं।
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 640px; border-radius: 12px; margin: 20px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
-  <iframe src="https://www.youtube-nocookie.com/embed/zDtvrme-L-0" title="Vanessa Wingårdh: OpenAI A Bubble Bigger Than Dotcom" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"></iframe>
+<div style="position: relative; padding-bottom: ५६.२५%; height: ०; overflow: hidden; max-width: ६४०px; border-radius: १२px; margin: २०px ०; box-shadow: ० ४px २०px rgba(०,०,०,०.१५);">
+  <iframe src="https://www.youtube-nocookie.com/embed/zDtvrme-L-०" title="Vanessa Wingårdh: OpenAI A Bubble Bigger Than Dotcom" frameborder="०" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position: absolute; top: ०; left: ०; width: १००%; height: १००%; border: ०;"></iframe>
 </div>
 
 ---
@@ -137,3 +138,4 @@ previewImage: /assets/images/openai-bubble-bigger-than-dotcom.webp
 ५. **निजी में “सिस्टमिक” फुसफुसाते और सार्वजनिक में कैपेक्स की तालियां बजाते नियामक** देर-चक्र व्यवहार है।
 
 सैम की मूल योजना मॉडल से पूछना थी कि निवेशक पैसे कैसे वापस पाएं। बाकी सबके लिए बेहतर सवाल सरल है: **जब संगीत धीमा पड़े, जीपीयू, कर्ज और बिजली अनुबंध किसके पास रहेंगे?**
+

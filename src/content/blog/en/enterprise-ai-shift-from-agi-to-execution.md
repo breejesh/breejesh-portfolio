@@ -7,6 +7,7 @@ coverImage: /assets/images/context-compaction-kv-cache-compression.webp
 previewImage: /assets/images/context-compaction-kv-cache-compression.webp
 ---
 
+
 > **TL;DR**
 > * **The Catalyst:** Enterprise AI surveys in mid-2026 revealed that over 74% of exploratory generative AI pilots failed to reach production, causing board-level scrutiny over unconstrained R&D spending.
 > * **The Mechanism:** Enterprise technology leaders shifted capital away from conversational chatbots and open-ended autonomous agents toward unglamorous, deterministic automation: automated claims processing, ERP data reconciliation, and structured code refactoring.
@@ -61,3 +62,4 @@ As one multinational insurance CIO remarked during a keynote: "We don't need a p
 * [Gartner Magic Quadrant for Enterprise Conversational and Workflow AI, Gartner](https://gartner.com)
 * [Why Generative AI Pilots Failed to Scale: The 2026 Autopsy, MIT Sloan Management Review](https://sloanreview.mit.edu)
 * [The Enterprise SaaS Spending Realignment, TechCrunch](https://techcrunch.com)
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/github-actions-ci-from-scratch.webp
 previewImage: /assets/images/github-actions-ci-from-scratch.webp
 ---
 
+
 GitHub Actions, c'est du CI collé au code. Vous déposez du YAML sous `.github/workflows/`, vous poussez, et des runners prennent les jobs sur les événements que vous choisissez : pull request, push sur `main`, un schedule, ou un clic manuel.
 
 Ce billet donne le modèle mental minimal plus les briques qui existent vraiment en production : **workflows, jobs, steps, cache, secrets, matrix builds**, et les erreurs qui font mentir les checks verts ou allongent chaque run à 12 minutes.
@@ -450,3 +451,4 @@ Une PR s'ouvre, les checks démarrent en moins d'une minute, l'install est surto
 Parte de monojob Node (ou Python) ci-dessus. Ajoutez la matrix quand vous supportez plusieurs runtimes. Découpez les jobs quand le wall-clock parallèle ou l'isolement du deploy valent le coût de réinstall. Cachez les deps, pas les excuses.
 
 Quand c'est vert et que vous ne faites toujours pas confiance, le bug est presque toujours dans **ce que** vous lancez ou **quel commit** vous lancez, pas dans l'indentation YAML.
+

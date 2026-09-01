@@ -1,40 +1,116 @@
 ---
-title: "Smart Pointer: Building a Custom Reference Counting Pointer in C++ (CTCI 12.9)"
-description: "CTCI problem 12.9: implementing a custom SmartPointer class with ref count incrementing and automatic memory deallocation."
-date: "2026-04-20"
+title: "स्मार्ट पॉइंटर (Smart Pointer): सी++ में संदर्भ-गणना साझा स्वामित्व कार्यान्वयन (सीटीसीआई १२.९)"
+description: "सी++ में स्क्रैच से ऑटोमैटिक ऑब्जेक्ट डिस्ट्रक्शन, कॉपी सिमेंटिक्स और ऑपरेटर ओवरलोडिंग के साथ रेफरेंस-काउंटिंग स्मार्ट पॉइंटर क्लास का निर्माण।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-12-9-smart-pointer.webp
 previewImage: /assets/images/ctci-12-9-smart-pointer.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १२.९ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १२.९: implementing a custom SmartPointer class with ref count incrementing and automatic memory deallocation.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** एक स्मार्ट पॉइंटर क्लास लिखें। स्मार्ट पॉइंटर एक ऐसा डेटा प्रकार है, जिसे आमतौर पर टेम्प्लेट के साथ लागू किया जाता है, जो पॉइंटर का अनुकरण करता है और संदर्भ गणना (Reference Counting) द्वारा स्वचालित मेमोरी प्रबंधन प्रदान करता है।
+> * **मुख्य समाधान:** **रेफरेंस-काउंटिंग शेयर्ड स्मार्ट पॉइंटर**: (१) दो पॉइंटर्स प्रबंधित करें: कच्चा डेटा पॉइंटर `T* ref` और हीप पर आवंटित साझा काउंटर `unsigned* ref_count`; (२) **कंस्ट्रक्टर**: ऑब्जेक्ट इनिशियलाइज़ करें और काउंटर को मान १ दें; (३) **कॉपी कंस्ट्रक्टर**: पता साझा करें और `(*ref_count)++` बढ़ाएं; (४) **कॉपी असाइनमेंट**: मौजूदा संदर्भ को घटाएं (० होने पर डिलीट करें) और नए ऑब्जेक्ट से जुड़ें; (५) **डिस्ट्रक्टर**: काउंटर घटाएं और मान ० होने पर ऑब्जेक्ट व काउंटर दोनों को हीप से मुक्त करें; (६) `operator*` और `operator->` को ओवरलोड करें।
+> * **रियल-वर्ल्ड सिस्टम:** C++11 `std::shared_ptr` और `boost::shared_ptr` का आंतरिक तंत्र।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१२.९** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १२.९: implementing a custom SmartPointer class with ref count incrementing and automatic memory deallocation.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १२.९) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"रेफरेंस काउंटिंग और स्वचालित मेमोरी प्रबंधन के साथ सी++ में स्मार्ट पॉइंटर क्लास टेम्प्लेट लागू करें।"*
+
+## २. साझा संदर्भ गणना आर्किटेक्चर
+
+सभी प्रतियों द्वारा समान काउंटर साझा करने के लिए पूर्णांक काउंटर को हीप मेमोरी में होना चाहिए।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```cpp
+#include <iostream>
+
 template <typename T>
 class SmartPointer {
+private:
     T* ref;
     unsigned* ref_count;
-public:
-    SmartPointer(T* ptr) : ref(ptr), ref_count(new unsigned(1)) {}
-    ~SmartPointer() {
-        if (--(*ref_count) == 0) {
+
+    void remove() {
+        if (!ref_count) return;
+
+        (*ref_count)--;
+        if (*ref_count == 0) {
             delete ref;
             delete ref_count;
+            ref = nullptr;
+            ref_count = nullptr;
         }
+    }
+
+public:
+    explicit SmartPointer(T* ptr = nullptr) {
+        ref = ptr;
+        ref_count = new unsigned(1);
+    }
+
+    SmartPointer(const SmartPointer<T>& sptr) {
+        ref = sptr.ref;
+        ref_count = sptr.ref_count;
+        if (ref_count) {
+            (*ref_count)++;
+        }
+    }
+
+    SmartPointer<T>& operator=(const SmartPointer<T>& sptr) {
+        if (this == &sptr) {
+            return *this; // स्व-असाइनमेंट सुरक्षा
+        }
+
+        remove();
+
+        ref = sptr.ref;
+        ref_count = sptr.ref_count;
+        if (ref_count) {
+            (*ref_count)++;
+        }
+        return *this;
+    }
+
+    ~SmartPointer() {
+        remove();
+    }
+
+    T& operator*() const {
+        return *ref;
+    }
+
+    T* operator->() const {
+        return ref;
+    }
+
+    T* get() const {
+        return ref;
+    }
+
+    unsigned use_count() const {
+        return ref_count ? *ref_count : 0;
     }
 };
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और शून्य इनपुट की जांच करें।
+## जटिलता और मेमोरी विश्लेषण
+
+| ऑपरेशन | जटिलता | तकनीकी विवरण |
+|---|---|---|
+| कॉपी / असाइनमेंट | `O(1)` | एटॉमिक काउंटर वृद्धि / कमी। |
+| डीरेफरेंस (`*` / `->`) | `O(1)` | बिना किसी ओवरहेड के सीधा पॉइंटर एक्सेस। |
+| मेमोरी ओवरहेड | १६ बाइट्स | डेटा पॉइंटर + कंट्रोल ब्लॉक काउंटर पॉइंटर। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: `std::make_shared`
+
+१. **कंटीगुअस कंट्रोल ब्लॉक (`std::make_shared`):** दो अलग `new` कॉल्स के बजाय ऑब्जेक्ट और काउंटर को एकल मेमोरी ब्लॉक में आवंटित करता है।
+२. **सर्कुलर रेफरेंस मेमोरी लीक:** दो `shared_ptr` एक-दूसरे की ओर इशारा करने पर काउंटर कभी ० नहीं होता, जिसे `std::weak_ptr` द्वारा हल किया जाता है।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **स्व-असाइनमेंट (`ptr = ptr`):** `this == &sptr` जांच द्वारा सुरक्षित।

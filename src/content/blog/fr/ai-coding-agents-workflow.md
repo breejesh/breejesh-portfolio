@@ -7,6 +7,7 @@ coverImage: /assets/images/ai-coding-agents-workflow.webp
 previewImage: /assets/images/ai-coding-agents-workflow.webp
 ---
 
+
 Les agents de code IA excellent à produire du code plausible très vite. Ils excellent aussi à produire des bugs plausibles, de mauvaises abstractions et des "correctifs" qui cassent trois fichiers voisins. L'écart entre les démos et la production n'est pas le QI du modèle. C'est le processus.
 
 Je traite les agents style Cursor et les complétions style Copilot comme un junior très rapide: utiles, infatigables, et tout à fait prêts à inventer quelque chose qui a l'air juste. Votre travail n'est pas de taper moins. Votre travail est de contrôler le contexte, d'exiger des preuves, et de rejeter avec assurance.
@@ -185,3 +186,4 @@ Les agents de code IA relèvent le plafond de vitesse pour produire du code cand
 Maîtrisez le contexte. Écrivez le contrat d'abord. Revoyez comme si l'auteur était intelligent et indigne de confiance. Rejetez sans culpabilité. Gardez l'agent sur le travail mécanique bien borné, et gardez les décisions de design humaines.
 
 Faites cela, et les agents cessent d'être une source de dette silencieuse en production. Ils deviennent ce que promettaient les démos: un outil tranchant avec un opérateur responsable.
+

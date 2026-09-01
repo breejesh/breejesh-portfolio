@@ -336,3 +336,4 @@ Avec trois bibliothécaires, **N** est combien tiennent la fiche, **W** combien 
 Les copies divergent parfois. Répare les trous courts avec handoffs et hints. Répare la longue dérive avec une réparation en arrière-plan. Garde l'API client minuscule pour que le travail dur reste dans le cluster.
 
 Voilà un store clé-valeur distribué : pas une table de hachage magique sur le réseau, mais un plan de rayons, un plan de copies, et un règlement du personnel pour les jours où quelque chose casse.
+

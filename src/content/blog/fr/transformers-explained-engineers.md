@@ -7,6 +7,7 @@ coverImage: /assets/images/transformers-explained-engineers.webp
 previewImage: /assets/images/transformers-explained-engineers.webp
 ---
 
+
 Vous n'avez pas besoin d'un doctorat pour raisonner sur les transformers. Vous avez besoin d'un modèle mental qui tient en production : pourquoi la latence explose avec les longs prompts, pourquoi la VRAM meurt avant le CPU, et pourquoi un "contexte 128k" n'est pas gratuit.
 
 Voici cette carte. Pas de résumé de paper. Pas de hype. Seulement les pièces que vous touchez vraiment quand vous appelez une API, lancez un modèle local ou déboguez un serveur d'inférence.
@@ -191,3 +192,4 @@ Où ça fait mal en production :
 Si vous ne gardez qu'une phrase systèmes : **le prefill construit le cache, le decode lit un cache qui grossit tout en streamant les poids, et la facture suit les tokens dans les deux phases.**
 
 C'est assez pour lire les docs produit, dimensionner des GPU et discuter utilement avec l'équipe modèles sans prétendre avoir réécrit l'algèbre du paper de 2017.
+

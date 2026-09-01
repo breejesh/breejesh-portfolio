@@ -365,3 +365,4 @@ That is the design. Everything else (shards, caches, trends, filters) is detail 
 ## Closing
 
 Search autocomplete is not a fancy AI demo. It is a **prefix top-k service** with a soft real-time index. The structure that matches the product is a letter tree. The trick that makes production work is **precomputed short lists** at the nodes people actually walk. Keep the learn path and the answer path separate, and the system stays both fast and understandable.
+

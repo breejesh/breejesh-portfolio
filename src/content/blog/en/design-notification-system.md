@@ -290,3 +290,4 @@ A notification system is the school office of your product. Other services bring
 ## Closing
 
 Build the school office well: **channels** for the doors, **preferences** for consent, **templates** for consistent wording, **queues** so the front desk never freezes, and **retries** so temporary failure is not permanent silence. Decouple accept from deliver. Isolate channels. Treat outside providers as unreliable coworkers. Everything else hangs off that spine.
+

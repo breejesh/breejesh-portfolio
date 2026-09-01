@@ -309,3 +309,4 @@ Si solo recuerdas dos bugs de producción: dos procesos que comparten el mismo w
 Los IDs únicos parecen una feature de una línea hasta que muchos escritores comparten el producto. **UUID** quita coordinación y cobra en anchura y (en versiones aleatorias) localidad de índice. **Ticket servers** mantienen enteros cortos y reintroducen un cuello central salvo que asignes rangos. **Snowflake** empaqueta hora, identidad de máquina y un contador por tick en 64 bits, como un recibo que nunca reimprime la misma línea en la misma caja en el mismo momento.
 
 Protege el reloj y el worker id. Todo lo demás es aritmética.
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/java-virtual-threads.webp
 previewImage: /assets/images/java-virtual-threads.webp
 ---
 
+
 Java Virtual Threads fundamentally rewrite the economics of concurrent backend services by decoupling lightweight application tasks from expensive kernel threads.
 
 **Java 21 virtual threads** (Project Loom) change that model. You can run a huge number of concurrent blocking tasks without sizing a classic worker pool for every request.
@@ -105,3 +106,4 @@ The load test simulated **3,000 total requests** at different concurrency levels
 ### Conclusion
 
 Java 21's virtual threads are one of the biggest concurrency updates since lambdas in Java 8. By making threads cheap to create, Project Loom reduces the need for complex reactive code and oversized thread pools, and makes high-concurrency Java applications simpler to write.
+

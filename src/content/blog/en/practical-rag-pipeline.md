@@ -7,6 +7,7 @@ coverImage: /assets/images/practical-rag-pipeline.webp
 previewImage: /assets/images/practical-rag-pipeline.webp
 ---
 
+
 Retrieval-augmented generation looks simple on a slide: embed docs, store vectors, retrieve top-k, stuff the prompt, generate. In production that pipeline leaks quality at every stage. This post is a concrete walkthrough of a practical RAG stack, the decisions that actually move the needle, and the cases where RAG is the wrong tool.
 
 Knowledge here is framed as of early 2026. Tool names change; the failure modes mostly do not.
@@ -285,3 +286,4 @@ Most teams invert this: UI and agent demos first, retrieval quality last. Users 
 A practical RAG pipeline is mostly information retrieval with an LLM at the end. Chunk so units match how people ask. Embed with a pinned model. Retrieve hybrid. Rerank the shortlist. Generate under strict grounding rules. Evaluate every change.
 
 When the corpus is incomplete, the question is multi-hop, or the task is pure calculation, say so and build the right component. RAG is powerful inside its lane. Outside that lane it becomes a fluent way to be wrong.
+

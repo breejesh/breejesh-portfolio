@@ -1,32 +1,80 @@
 ---
-title: "Private Constructor: Inaccessible Constructors & Singleton Pattern in Java (CTCI 13.1)"
-description: "CTCI problem 13.1: why and how private constructors are used in Java for Singleton pattern and utility classes."
-date: "2025-10-08"
+title: "प्राइवेट कंस्ट्रक्टर (Private Constructor): इनहेरिटेंस रोकथाम और क्रिएशनल पैटर्न (सीटीसीआई १३.१)"
+description: "जावा में इनहेरिटेंस पर प्राइवेट कंस्ट्रक्टर्स के प्रभाव, कंपाइलर super() रिज़ॉल्यूशन, सिंगलटन और यूटिलिटी क्लास आर्किटेक्चर का गहन विश्लेषण।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-13-1-private-constructor.webp
 previewImage: /assets/images/ctci-13-1-private-constructor.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १३.१ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १३.१: why and how private constructors are used in जावा for Singleton pattern and utility classes.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** इनहेरिटेंस के संदर्भ में, जावा में कंस्ट्रक्टर को प्राइवेट रखने का क्या प्रभाव होता है?
+> * **मुख्य समाधान:** **Super() की अप्राप्यता द्वारा सबक्लासिंग की रोकथाम**: (१) जावा में प्रत्येक चाइल्ड क्लास के कंस्ट्रक्टर को अपने पेरेंट क्लास के कंस्ट्रक्टर को कॉल करना अनिवार्य होता है (`super()` द्वारा); (२) यदि क्लास के सभी कंस्ट्रक्टर्स `private` घोषित हैं, तो कोई भी बाहरी क्लास `super()` तक नहीं पहुंच सकती, जिससे इनहेरिटेंस असंभव हो जाता है (कंपाइलर एरर आता है); (३) **नेस्टेड इनर क्लास अपवाद**: उसी क्लास के भीतर परिभाषित स्टैटिक इनर क्लासेस प्राइवेट कंस्ट्रक्टर का उपयोग करके इनहेरिट कर सकती हैं; (४) **डिज़ाइन पैटर्न**: इसका उपयोग सिंगलटन (Singleton) पैटर्न, स्थिर यूटिलिटी क्लासेस (`Math`, `Arrays`) और फैक्ट्री मेथड्स लागू करने के लिए किया जाता है।
+> * **रियल-वर्ल्ड सिस्टम:** स्प्रिंग फ्रेमवर्क (Spring Framework) बीन फैक्ट्रीज़ और जावा रिकॉर्ड्स।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१३.१** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १३.१: why and how private constructors are used in जावा for Singleton pattern and utility classes.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १३.१) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"जावा में किसी क्लास के सभी कंस्ट्रक्टर्स को प्राइवेट घोषित करने का इनहेरिटेंस और ऑब्जेक्ट निर्माण पर क्या प्रभाव पड़ता है?"*
+
+## २. जावा इनहेरिटेंस और `super()` रिज़ॉल्यूशन
+
+जब कोई चाइल्ड क्लास इंस्टैंशिएट होती है:
+* कंस्ट्रक्टर चेनिंग द्वारा `super()` को कॉल करना अनिवार्य होता है।
+* यदि पेरेंट कंस्ट्रक्टर प्राइवेट है, तो कंपाइलर इनहेरिटेंस को रोक देता है।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```java
-public class Singleton {
-    private static final Singleton INSTANCE = new Singleton();
-    private Singleton() {} // Private constructor prevents instantiation
-    public static Singleton getInstance() { return INSTANCE; }
+public class DatabaseConnectionPool {
+    private DatabaseConnectionPool() {
+        System.out.println("सिंगलटन इनिशियलाइज़ेशन...");
+    }
+
+    private static class InstanceHolder {
+        private static final DatabaseConnectionPool INSTANCE = new DatabaseConnectionPool();
+    }
+
+    public static DatabaseConnectionPool getInstance() {
+        return InstanceHolder.INSTANCE;
+    }
+
+    // नेस्टेड इनर क्लासेस इनहेरिट कर सकती हैं
+    public static class TestablePool extends DatabaseConnectionPool {
+        public TestablePool() {
+            super(); // अनुमत क्योंकि यह इनर क्लास है
+        }
+    }
+}
+
+public final class MathUtils {
+    private MathUtils() {
+        throw new AssertionError("यूटिलिटी क्लास को इंस्टैंशिएट नहीं किया जा सकता");
+    }
+
+    public static int clamp(int val, int min, int max) {
+        return Math.max(min, Math.min(max, val));
+    }
 }
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और शून्य इनपुट की जांच करें।
+## सक्षम डिज़ाइन पैटर्न
+
+| पैटर्न | उद्देश्य | प्राइवेट कंस्ट्रक्टर की भूमिका |
+|---|---|---|
+| **सिंगलटन** | पूरे एप्लिकेशन में केवल १ इंस्टेंस। | बाहरी यूज़र्स को `new MyClass()` कॉल करने से रोकना। |
+| **यूटिलिटी क्लास** | केवल स्टैटिक फ़ंक्शंस का समूह। | हीप में व्यर्थ ऑब्जेक्ट्स बनने से बचाना। |
+| **स्टैटिक फैक्ट्री** | नियंत्रित ऑब्जेक्ट निर्माण (`Optional.of()`)। | ऑब्जेक्ट्स के पुनर्चक्रण और कैशिंग की अनुमति देना। |
+| **बिल्डर पैटर्न** | अपरिवर्तनीय जटिल ऑब्जेक्ट्स का निर्माण। | निर्माण प्रक्रिया को केवल बिल्डर तक सीमित रखना। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: जावा १७+ सील्ड क्लासेस
+
+१. **सील्ड क्लासेस (`sealed`):** जावा १७ में `sealed ... permits` कीवर्ड पेश किया गया, जो कंस्ट्रक्टर्स को छिपाए बिना सबक्लासिंग को नियंत्रित करता है।
+२. **रिफ्लेक्शन सुरक्षा:** प्राइवेट कंस्ट्रक्टर के भीतर `throw new AssertionError()` जोड़कर `setAccessible(true)` हमलों से सुरक्षा।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **सीरियलाइज़ेशन सुरक्षा:** डीसीरियलाइज़ेशन द्वारा नए ऑब्जेक्ट बनने से रोकने के लिए `readResolve()` लागू करना।

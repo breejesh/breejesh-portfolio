@@ -7,6 +7,7 @@ coverImage: /assets/images/ai-coding-agents-workflow.webp
 previewImage: /assets/images/ai-coding-agents-workflow.webp
 ---
 
+
 AI coding agents produce plausible code at blistering speed. They also produce plausible bugs, subtle abstractions, and fixes that silently break neighboring modules. The gap between a weekend demo and production is not model IQ; it is engineering process.
 
 I treat Cursor-style agents and Copilot-style completions the same way I treat a very fast junior engineer: useful, tireless, and completely willing to invent something that looks right. Your job is not to type less. Your job is to control context, demand proof, and reject confidently.
@@ -185,3 +186,4 @@ AI coding agents raise the ceiling on how fast you can produce candidate code. T
 Own the context. Write the contract first. Review like the author is clever and untrustworthy. Reject without guilt. Keep the agent on mechanical, well-bounded work and keep design decisions human.
 
 Do that, and agents stop being a source of quiet production debt. They become what the demos promised: a sharp tool with a responsible operator.
+

@@ -369,3 +369,4 @@ L'architecture est un budget. Dépense-le là où les utilisateurs sentent la do
 - Laisse des copies de la base répondre à la plupart des "montre-moi" (réplicas), et garde un carnet rapide (cache) plus des copisteries de quartier (CDN) pour le populaire et le statique.
 - Fais en sorte que les serveurs n'aient pas le login seulement en mémoire locale (sans état), et pousse les corvées lentes (email, images) dans une file d'attente (queue).
 - Seulement quand une base principale ne peut plus écrire ni stocker assez tu découpes par domaine ou par shard, et seulement quand les utilisateurs sont dans le monde entier tu ajoutes des régions, en nommant toujours quelle fraîcheur ou simplicité tu abandonnes.
+

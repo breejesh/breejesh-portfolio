@@ -7,6 +7,7 @@ coverImage: /assets/images/nom-ai-showcase.webp
 previewImage: /assets/images/nom-ai-showcase.webp
 ---
 
+
 Le suivi des calories est un pilier des apps fitness modernes. Presque tous les trackers populaires du marché partagent les mêmes défauts : ils imposent des abonnements payants, affichent des publicités intrusives, nécessitent une connexion Internet permanente y revendent vos habitudes alimentaires à des courtiers en données tiers.
 
 **NomAI propose une autre voie.** C'est un tracker de calories pour Android gratuit, open-source y entièrement hors ligne, fondé sur le respect absolu de la vie privée y l'IA embarquée sur le smartphone.
@@ -158,3 +159,4 @@ Le fichier du modèle pesant ~1,4 Go, il ne peut pas être intégré directement
 NomAI est plus qu'un simple tracker de calories : c'est un démonstrateur technologique pour une nouvelle génération d'applications mobiles. Il prouve que nous pouvons aujourd'hui concevoir des applications intelligentes, fluides, respectueuses de la vie privée et sans aucun coût d'infrastructure récurrent pour le développeur.
 
 Le code source est disponible sur [GitHub](https://github.com/breejesh/nom.ai). Si l'IA embarquée, la conception hors ligne ou la protection des données vous intéressent, n'hésitez pas à jeter un œil au dépôt et à contribuer.
+

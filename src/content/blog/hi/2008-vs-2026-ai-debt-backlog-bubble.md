@@ -7,6 +7,7 @@ coverImage: /assets/images/2008-vs-2026-ai-debt-backlog-bubble.webp
 previewImage: /assets/images/2008-vs-2026-ai-debt-backlog-bubble.webp
 ---
 
+
 > **आसान शब्दों में सार**
 > * **समस्या:** बड़ी तकनीकी कंपनियां (माइक्रोसॉफ्ट, ऑरेकल, गूगल, अमेज़न) २०२६ में नए डेटा सेंटरों पर ७२५ अरब डॉलर खर्च कर रही हैं। वे इस निर्माण के लिए २.१ ट्रिलियन डॉलर के भविष्य के अनुबंधों के दम पर कर्ज ले रही हैं। इन अनुबंधों का आधा हिस्सा केवल दो घाटे में चल रही कंपनियों पर निर्भर है: ओपनएआई और एन्थ्रोपिक।
 > * **कमी:** २००६ के सबप्राइम लोन की तरह, इन समझौतों को कभी भी असली मुनाफे से चुकाने के लिए नहीं बनाया गया था। वे हर फंडिंग दौर में दोगुने मूल्यांकन पर नए निवेशकों से पैसे जुटाकर पुराने बिल भरने पर टिके हैं।
@@ -126,8 +127,8 @@ previewImage: /assets/images/2008-vs-2026-ai-debt-backlog-bubble.webp
 मुफ्त मॉडलों को हर काम में अव्वल होने की जरूरत नहीं है। उन्हें केवल मामूली खर्च पर ९५% काम का होना काफी है।
 
 यह स्थिति एआई स्टार्टअप पर दोतरफा वार करती है:
-1. कंपनियां अपने काम को अपने निजी सर्वरों पर ले जा रही हैं।
-2. बंद मॉडलों की अपनी कीमतें तय करने की ताकत छिन गई है और उन्हें ग्राहकों को बनाए रखने के लिए कीमतों में ६५% तक की कटौती करनी पड़ रही है।
+१. कंपनियां अपने काम को अपने निजी सर्वरों पर ले जा रही हैं।
+२. बंद मॉडलों की अपनी कीमतें तय करने की ताकत छिन गई है और उन्हें ग्राहकों को बनाए रखने के लिए कीमतों में ६५% तक की कटौती करनी पड़ रही है।
 
 जब ओपनएआई शेयर बाजार में लिस्ट होने की तैयारी करेगा, तो ८५२ अरब डॉलर से १ ट्रिलियन डॉलर का लक्ष्य केवल १.२ गुना की बढ़त होगी। यह कंपनी के इतिहास का सबसे छोटा उछाल होगा, और यह ऐसे समय आएगा जब सर्वर के बिल रिकॉर्ड ऊंचाई पर होंगे और प्रति-टोकन मुनाफा गिर रहा होगा।
 
@@ -178,23 +179,24 @@ previewImage: /assets/images/2008-vs-2026-ai-debt-backlog-bubble.webp
 
 इन ५ स्पष्ट संकेतों पर नजर रखें:
 
-1. **फंडिंग राउंड में वैल्यूएशन की बढ़त:** देखें कि लगातार होने वाले राउंड में मूल्यांकन कितने गुना बढ़ता है। जब यह बढ़त १.३ गुना से नीचे आ जाए, तो कर्ज बदलने का पहिया अटकने लगता है।
-2. **अनुबंध बैकलॉग बनाम असली कमाई:** ध्यान दें कि अनुबंधों का बैकलॉग बढ़ रहा है या रुक गया है। सपाट बैकलॉग का मतलब है कि कंपनियां महंगे एआई अनुबंधों को रिन्यू करने से बच रही हैं।
-3. **खर्च में कटौती का मोड़:** सबसे स्पष्ट मोड़ तब आएगा जब कोई बड़ी क्लाउड कंपनी अपने डेटा सेंटर बजट में कटौती की घोषणा करेगी और शेयर बाजार में उसके शेयर चढ़ेंगे। जिस दिन बाजार खर्च घटाने पर शेयर को इनाम देगा, उसी दिन निर्माण की यह दौड़ समाप्त हो जाएगी।
-4. **आपकी बचत का संकेंद्रण:** आम एसएंडपी ५०० इंडेक्स फंड का लगभग ४०% पैसा केवल १० बड़ी तकनीकी कंपनियों में लगा है। एआई खर्च में सुस्ती पूरे इंडेक्स को प्रभावित करेगी।
-5. **कागजी वादों की जगह वास्तविक संपत्तियां:** जैसे-जैसे कागजी वादों पर सवाल उठेंगे, पूंजी स्वतंत्र ऊर्जा स्रोतों, भौतिक बुनियादी ढांचे और खुद के सर्वरों की ओर रुख करेगी।
+१. **फंडिंग राउंड में वैल्यूएशन की बढ़त:** देखें कि लगातार होने वाले राउंड में मूल्यांकन कितने गुना बढ़ता है। जब यह बढ़त १.३ गुना से नीचे आ जाए, तो कर्ज बदलने का पहिया अटकने लगता है।
+२. **अनुबंध बैकलॉग बनाम असली कमाई:** ध्यान दें कि अनुबंधों का बैकलॉग बढ़ रहा है या रुक गया है। सपाट बैकलॉग का मतलब है कि कंपनियां महंगे एआई अनुबंधों को रिन्यू करने से बच रही हैं।
+३. **खर्च में कटौती का मोड़:** सबसे स्पष्ट मोड़ तब आएगा जब कोई बड़ी क्लाउड कंपनी अपने डेटा सेंटर बजट में कटौती की घोषणा करेगी और शेयर बाजार में उसके शेयर चढ़ेंगे। जिस दिन बाजार खर्च घटाने पर शेयर को इनाम देगा, उसी दिन निर्माण की यह दौड़ समाप्त हो जाएगी।
+४. **आपकी बचत का संकेंद्रण:** आम एसएंडपी ५०० इंडेक्स फंड का लगभग ४०% पैसा केवल १० बड़ी तकनीकी कंपनियों में लगा है। एआई खर्च में सुस्ती पूरे इंडेक्स को प्रभावित करेगी।
+५. **कागजी वादों की जगह वास्तविक संपत्तियां:** जैसे-जैसे कागजी वादों पर सवाल उठेंगे, पूंजी स्वतंत्र ऊर्जा स्रोतों, भौतिक बुनियादी ढांचे और खुद के सर्वरों की ओर रुख करेगी।
 
 ---
 
 ## स्रोत एवं संदर्भ
 
-<div style="display: flex; align-items: center; gap: 16px; padding: 16px; margin: 24px 0; border: 1px solid var(--border-color); border-radius: 12px; background: var(--surface-elevated); text-decoration: none;">
-  <a href="https://www.youtube.com/watch?v=Zgbzdk-eqJ0" target="_blank" rel="noopener noreferrer" style="flex-shrink: 0; display: block; width: 140px; border-radius: 8px; overflow: hidden;">
-    <img src="https://i.ytimg.com/vi/Zgbzdk-eqJ0/hqdefault.jpg" alt="२००८ बनाम २०२६: द सेम डोमिनोज आर फॉलिंग" style="width: 100%; height: auto; display: block; border-radius: 8px;" />
+<div style="display: flex; align-items: center; gap: १६px; padding: १६px; margin: २४px ०; border: १px solid var(--border-color); border-radius: १२px; background: var(--surface-elevated); text-decoration: none;">
+  <a href="https://www.youtube.com/watch?v=Zgbzdk-eqJ०" target="_blank" rel="noopener noreferrer" style="flex-shrink: ०; display: block; width: १४०px; border-radius: ८px; overflow: hidden;">
+    <img src="https://i.ytimg.com/vi/Zgbzdk-eqJ०/hqdefault.jpg" alt="२००८ बनाम २०२६: द सेम डोमिनोज आर फॉलिंग" style="width: १००%; height: auto; display: block; border-radius: ८px;" />
   </a>
-  <div style="flex: 1; min-width: 0;">
-    <div style="font-size: 0.8rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">मूल वीडियो स्रोत</div>
-    <a href="https://www.youtube.com/watch?v=Zgbzdk-eqJ0" target="_blank" rel="noopener noreferrer" style="font-weight: 700; color: var(--text-primary); text-decoration: none; font-size: 1rem; line-height: 1.4; display: block; margin-bottom: 6px;">२००८ बनाम २०२६: द सेम डोमिनोज आर फॉलिंग</a>
-    <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">द जे मार्टिन शो (जय मार्टिन द्वारा २.१ ट्रिलियन डॉलर के टेक-ऑर-पे एआई बैकलॉग, २/२८ हाइब्रिड लोन, क्लाउड ऋण और सरकारी बॉन्ड पुनर्वित्त का विश्लेषण)।</div>
+  <div style="flex: १; min-width: ०;">
+    <div style="font-size: ०.८rem; font-weight: ६००; color: var(--accent-color); text-transform: uppercase; letter-spacing: ०.०५em; margin-bottom: ४px;">मूल वीडियो स्रोत</div>
+    <a href="https://www.youtube.com/watch?v=Zgbzdk-eqJ०" target="_blank" rel="noopener noreferrer" style="font-weight: ७००; color: var(--text-primary); text-decoration: none; font-size: १rem; line-height: १.४; display: block; margin-bottom: ६px;">२००८ बनाम २०२६: द सेम डोमिनोज आर फॉलिंग</a>
+    <div style="font-size: ०.८५rem; color: var(--text-secondary); line-height: १.४;">द जे मार्टिन शो (जय मार्टिन द्वारा २.१ ट्रिलियन डॉलर के टेक-ऑर-पे एआई बैकलॉग, २/२८ हाइब्रिड लोन, क्लाउड ऋण और सरकारी बॉन्ड पुनर्वित्त का विश्लेषण)।</div>
   </div>
 </div>
+

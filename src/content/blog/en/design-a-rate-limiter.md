@@ -303,3 +303,4 @@ Two pictures stick:
 Many servers each with a **private notebook** quietly multiply your limit. One **shared notebook** (often Redis) keeps the real budget. Walk a request as: client → load balancer → auth → shared check → allow into real work or 429 with "try later."
 
 If you remember one production lesson: **shared counters beat clever local math**, and **clocks will lie** unless you force a single time source. Start with token bucket or sliding window counter on Redis, put coarse limits at the edge, keep product quotas next to auth, and measure denys before you "fix" them by cranking the number.
+

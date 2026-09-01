@@ -7,6 +7,7 @@ coverImage: /assets/images/lora-finetuning-guide.webp
 previewImage: /assets/images/lora-finetuning-guide.webp
 ---
 
+
 Fine-tuning modern foundation models from scratch is financially impractical for most engineering teams. Low-Rank Adaptation (LoRA) solves this by freezing base weights and training small rank decomposition matrices.
 
 This is the checklist I use before burning GPU hours.
@@ -144,3 +145,4 @@ Pack data to the chat template, mask prompt tokens if you only want completion l
 LoRA is not a substitute for data quality. It spends GPU budget on the slices of the network that move your product metric. Start with **QLoRA + rank 16 + full attention/MLP modules** on a strong instruction base. Measure with the same prompts you ship. Grow rank or unfreeze more only when eval says you need capacity.
 
 If full fine-tune still wins on your offline suite and you can afford the hardware, use it. Otherwise ship the adapter and keep the base frozen.
+

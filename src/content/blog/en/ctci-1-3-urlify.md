@@ -1,216 +1,78 @@
 ---
-title: "CTCI 1.3 URLify: Replace Spaces with %20 from the End"
-description: "In-place URL encoding for a char array with true length. Count spaces, walk backward, write %20 without stomping characters you still need."
-date: "2025-10-31"
+title: "URLify: Replacing Spaces with '%20' In-Place from the Back (CTCI 1.3)"
+description: "How to replace all spaces in a string with '%20' in-place using a two-pointer backwards merge algorithm in O(N) time without extra string allocations."
+date: "2026-05-06"
 tags: [Algorithms & Data Structures]
 coverImage: /assets/images/ctci-1-3-urlify.webp
 previewImage: /assets/images/ctci-1-3-urlify.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** Balance optimal time against memory boundaries without unnecessary data structure overhead.
-> * **The Approach:** In-place URL encoding for a char array with true length. Count spaces, walk backward, write %20 without stomping characters you still need.
-> * **Complexity:** Optimal Time and Space bounds verified with edge-case handling.
+> * **The Book Problem:** Write a method to replace all spaces in a string with '%20'. You are given the "true" length of the string and sufficient buffer at the end.
+> * **The Breakthrough:** Count spaces to calculate `newLength = trueLength + spaces * 2`. Scan backwards from `trueLength - 1`, writing characters into `newLength - 1`, expanding `' '` into `'0'`, `'2'`, `'%'` in-place in $O(N)$ time.
+> * **Production Reality:** HTTP URI percent-encoding in web servers (Nginx) and kernel socket URL parsers.
 
-URLs cannot carry raw spaces. A space becomes the three-character token `%20`. Interview versions of this problem do not ask you to call a library helper. They hand you a `char[]` that already has extra room at the end, plus the **true length** of the string (how many characters actually matter before the padding). Your job is to rewrite the array in place.
+## 1. The Book Problem Formulation
 
-This is problem **1.3** in the Arrays and Strings chapter of the classic CTCI-style set. Part of the [CTCI Java series](/blog/en/ctci-series-guide).
+In *Cracking the Coding Interview* (Problem 1.3), we are asked:
 
----
+*"Write a method to replace all spaces in a string with '%20'. You are given the 'true' length of the string and an array with sufficient trailing buffer space."*
 
-## Everyday analogy
+Example: `"Mr John Smith    ", 13` $\to$ `"Mr%20John%20Smith"`.
 
-Picture a row of theater seats. The first thirteen seats hold the real people. Extra empty seats sit at the end of the row.
+## 2. Why Forward Shifting Fails & The Reverse Write Solution
 
-Each person who is standing (a space) needs three seats instead of one: the letters `%`, `2`, and `0`. If you start packing from the **front**, every person behind you has to shuffle right, again and again. That is slow and easy to mess up.
+Replacing spaces starting from index 0 requires shifting all subsequent characters 2 positions to the right on every space encountered, degrading to $O(N^2)$ time.
 
-If you start from the **back**, you claim the empty seats first and place people (or `%20`) into free slots. Nobody you still need to move gets overwritten. That is the whole trick.
+*Optimal Backward Pass:* We compute final length `newLength = trueLength + (spaceCount * 2)`. Moving backward, we copy non-space characters directly to `newLength - 1`, and when a space is encountered, write `'0'`, `'2'`, `'%'` backwards without shifting.
 
----
-
-## Problem in plain words
-
-**Input**
-
-* `chars`: a character array. The real string lives in indices `0 .. trueLength - 1`. The rest of the array is spare buffer space.
-* `trueLength`: how many characters of real content exist (not the full array length).
-
-**Output**
-
-* The same array, edited so every space in the true string is replaced by `%`, `2`, `0`.
-* Return type is often `void` (mutate in place) or the final string for easy testing.
-
-**Assumptions you should confirm out loud**
-
-1. The array has enough spare capacity for the expansion. Each space adds two extra characters.
-2. Only spaces inside the true-length region matter. Trailing buffer characters are not "content spaces."
-3. In Java, use `char[]` so you can write in place. Building a new `String` with `StringBuilder` solves a different problem (still fine to mention as the easy path, then do the in-place version).
-
-**Classic example**
-
-```
-Input:  chars = ['M','r',' ','J','o','h','n',' ','S','m','i','t','h',' ',' ',' ',' ']
-        trueLength = 13
-Output: ['M','r','%','2','0','J','o','h','n','%','2','0','S','m','i','t','h']
-```
-
-The string `"Mr John Smith"` has length 13 and two spaces. Final length is `13 + 2 * 2 = 17`.
-
----
-
-## How to think before coding
-
-### Brute force idea (and why it hurts)
-
-Scan left to right. When you see a space, shift every later character two positions right, then write `%20`. Shifting is `O(n)` per space, so many spaces means roughly `O(n²)`. Interviewers will ask for better.
-
-### Better idea: edit from the end
-
-1. Count how many spaces sit in the true-length region.
-2. Compute the final write index: you need `trueLength + 2 * spaceCount` slots (indices `0` through that number minus one).
-3. Walk the true string from right to left.
-4. For a non-space character, copy it into the next free slot from the end.
-5. For a space, write `'0'`, then `'2'`, then `'%'` (still going backward, so the three characters land in the correct order when you read left to right).
-
-Why backward works: every write goes into a slot that either was buffer or already held a character you finished processing. You never clobber unread input.
-
----
-
-## Java solution
+## Production Implementation
 
 ```java
-public final class Urlify {
-    private Urlify() {}
-
+public class URLify {
     /**
-     * Replaces spaces with %20 in place.
-     * chars must have room for the expansion: trueLength + 2 * spaceCount.
+     * Replaces spaces with '%20' in-place in a character array.
+     * Time: O(N)
+     * Space: O(1) auxiliary space
      */
-    public static void urlify(char[] chars, int trueLength) {
-        if (chars == null || trueLength < 0 || trueLength > chars.length) {
-            throw new IllegalArgumentException("bad length");
-        }
-
-        int spaces = 0;
+    public static void replaceSpaces(char[] str, int trueLength) {
+        int spaceCount = 0;
         for (int i = 0; i < trueLength; i++) {
-            if (chars[i] == ' ') {
-                spaces++;
-            }
+            if (str[i] == ' ') spaceCount++;
         }
 
-        // Index of the last slot we will write into.
-        int write = trueLength + spaces * 2 - 1;
+        int index = trueLength + spaceCount * 2;
+        if (trueLength < str.length) str[trueLength] = '\0'; // End of original string
 
-        if (write >= chars.length) {
-            throw new IllegalArgumentException("array too small for %20 expansion");
-        }
-
-        for (int read = trueLength - 1; read >= 0; read--) {
-            char c = chars[read];
-            if (c == ' ') {
-                chars[write] = '0';
-                chars[write - 1] = '2';
-                chars[write - 2] = '%';
-                write -= 3;
+        for (int i = trueLength - 1; i >= 0; i--) {
+            if (str[i] == ' ') {
+                str[index - 1] = '0';
+                str[index - 2] = '2';
+                str[index - 3] = '%';
+                index -= 3;
             } else {
-                chars[write] = c;
-                write--;
+                str[index - 1] = str[i];
+                index -= 1;
             }
         }
-    }
-
-    /** Convenience for tests: build a padded char array from a string and true length. */
-    public static String urlifyString(String s, int trueLength) {
-        int spaces = 0;
-        for (int i = 0; i < trueLength; i++) {
-            if (s.charAt(i) == ' ') {
-                spaces++;
-            }
-        }
-        int finalLen = trueLength + spaces * 2;
-        char[] chars = new char[finalLen];
-        for (int i = 0; i < trueLength; i++) {
-            chars[i] = s.charAt(i);
-        }
-        urlify(chars, trueLength);
-        return new String(chars);
     }
 }
 ```
 
-### Walkthrough of the example
+## Complexity & Memory Analysis
 
-Start: true content `"Mr John Smith"`, two spaces, `write` starts at index `16`.
+| Metric | Complexity | Technical Detail |
+|---|---|---|
+| Time Complexity | `O(N)` | Two linear passes (one count, one reverse write). |
+| Auxiliary Space | `O(1)` | Operates directly within allocated character buffer. |
 
-| Step | read char | Action | write after |
-| --- | --- | --- | --- |
-| 1 | `h` | copy to 16 | 15 |
-| 2 | `t` | copy to 15 | 14 |
-| 3 | `i` | copy to 14 | 13 |
-| 4 | `m` | copy to 13 | 12 |
-| 5 | `S` | copy to 12 | 11 |
-| 6 | space | write `%20` at 9-11 | 8 |
-| 7 | `n` | copy to 8 | 7 |
-| ... | ... | keep going | ... |
-| last spaces / letters | ... | finish at the front | done |
+## Real-World Systems Engineering Discussion
 
-When you finish, the array holds `"Mr%20John%20Smith"`.
+### Production Systems Architecture: HTTP URI Percent Encoding (RFC 3986)
 
----
+Nginx, Envoy, and Netty web servers perform in-place URL percent-encoding and decoding on raw socket byte buffers to avoid allocating temporary string objects on high-throughput request paths.
 
-## Complexity
+## Edge Cases & Production Hardening
 
-| Measure | Cost | Why |
-| --- | --- | --- |
-| Time | `O(n)` | One pass to count spaces, one pass to rewrite. `n` is `trueLength`. |
-| Extra space | `O(1)` | Only a few integers. The output reuses the given array. |
-
-If the interviewer allows a new string, `StringBuilder` is also `O(n)` time and `O(n)` extra space. The in-place version is the point of this prompt.
-
----
-
-## Edge cases interviewers poke
-
-* **Zero spaces:** final length equals `trueLength`. The reverse loop just copies each character onto itself (or onto the same index if there is no growth). Still correct.
-* **All spaces:** every character expands to `%20`. Need `3 * trueLength` capacity.
-* **Leading or trailing spaces in true content:** still encode them. `" hi "` with true length 4 becomes `"%20hi%20"`.
-* **Empty true length (`0`):** nothing to do. Guard against negative lengths.
-* **Array too small:** fail fast. In a whiteboard setting, state the capacity formula: final size = `trueLength + 2 * spaceCount`.
-* **Tabs or other whitespace:** the classic problem only replaces the space character `' '`. Ask if other whitespace counts. Usually it does not.
-* **Unicode / multi-byte:** `char` in Java is UTF-16 code unit. For interview URL-encoding of ASCII text, stick to spaces.
-
----
-
-## Common mistakes
-
-1. **Editing forward** and shifting repeatedly: quadratic, and hard to get right under pressure.
-2. **Using `chars.length` as true length.** The buffer padding spaces at the end are not content. That is why `trueLength` is given separately.
-3. **Writing `%`, `2`, `0` in the wrong order when going backward.** Remember: the rightmost of the three slots gets `'0'` first when you write from the end.
-4. **Off-by-one on `write`.** Start at `trueLength + 2 * spaces - 1`, not at `trueLength + 2 * spaces`.
-5. **Mutating while still reading ahead of the write head in the wrong direction.** Backward avoids that collision.
-
----
-
-## Quick check you can run
-
-```java
-public static void main(String[] args) {
-    // 13 chars of content, room for two spaces -> +4
-    char[] chars = "Mr John Smith    ".toCharArray(); // length 17
-    Urlify.urlify(chars, 13);
-    System.out.println(new String(chars)); // Mr%20John%20Smith
-
-    System.out.println(Urlify.urlifyString("Mr John Smith", 13));
-    System.out.println(Urlify.urlifyString("nospace", 7)); // nospace
-    System.out.println(Urlify.urlifyString("  ", 2));      // %20%20
-}
-```
-
----
-
-## Explain to a friend
-
-You have a character array with the real string up front and empty seats at the end. Spaces must become three characters, `%20`. Count the spaces, figure out how far the string will grow, then walk from the last real character backward. Copy normal letters into free seats from the back. When you hit a space, drop `%20` into three seats. Because you fill from the end, you never overwrite a character you still need to read. One count pass, one write pass, linear time, constant extra memory.
-
-Next in Chapter 1: [Palindrome Permutation](/blog/en/ctci-1-4-palindrome-permutation). Previous: [Check Permutation](/blog/en/ctci-1-2-check-permutation).
+1. No spaces in string: Index remains equal to trueLength, array untouched.
+2. Multiple consecutive spaces: Expanded to `%20%20` correctly.

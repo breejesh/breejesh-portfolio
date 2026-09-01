@@ -7,6 +7,7 @@ coverImage: /assets/images/docker-compose-local-dev.webp
 previewImage: /assets/images/docker-compose-local-dev.webp
 ---
 
+
 "Works on my machine" usually means a local laptop is not running the same process graph as production. Different database versions, missing caches, and unpinned dependencies create subtle bugs. Different Postgres version. No Redis. API process starts before the database accepts connections. Env vars set in a shell profile that CI never sees.
 
 **Docker Compose** will not make local identical to Kubernetes or ECS. It can get close enough that startup order, config, and dependency health behave the same way on every developer machine and in most CI jobs. Close enough is the goal.
@@ -304,3 +305,4 @@ Document that sequence in the repo README in under fifteen lines. If onboarding 
 Compose is not a production orchestrator substitute. It is the cheapest way to make every laptop run the same service graph with the same readiness rules. Pin versions, inject config explicitly, wait on healthchecks, and keep volumes intentional.
 
 Do that, and "works on my machine" starts meaning "works on the shared local stack," which is much closer to staging than a bare process and a system Postgres install.
+

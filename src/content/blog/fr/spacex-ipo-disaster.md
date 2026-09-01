@@ -7,6 +7,7 @@ coverImage: /assets/images/spacex-ipo-disaster.webp
 previewImage: /assets/images/spacex-ipo-disaster.webp
 ---
 
+
 L'introduction en bourse (IPO) de SpaceX (sous le ticker SPCX) marquera l'histoire de la finance. Dépassant une valorisation de 2,3 billions de dollars (2.3 trillion USD) dès ses premières heures de cotation, elle est instantanément devenue la septième entreprise la plus précieuse de la planète, rivalisant avec le PIB de nations entières du G7.
 
 Pour l'observateur occasionnel, c'était le couronnement d'un pionnier légendaire de l'aérospatiale. Après tout, SpaceX a réduit le coût des lancements orbitaux de 85 %, a fait des fusées réutilisables une réalité commerciale et a construit Starlink, une constellation de satélites rentable qui a généré 4,4 milliards de dollars de bénéfice d'exploitation sur 11,4 milliards de dollars de revenus en 2025.
@@ -58,3 +59,4 @@ SpaceX était un modèle d'ingénierie d'élite, disposant d'un monopole naturel
 Même si les transactions croisées (comme le fait que Google loue de la puissance de calcul à xAI pour 920 millions de dollars par mois tout en détenant 6 % de son capital) permettent de gonfler artificiellement les chiffres à court terme, elles ne changent rien à la réalité des flux de trésorerie sous-jacents.
 
 Pour les investisseurs, l'IPO sous le symbole SPCX illustre parfaitement les dérives de l'ingénierie financière lorsqu'elle tente de s'affranchir des limites physiques et économiques. La fusée peut s'élever haut grâce aux achats forcés des fonds indiciels, mais la gravité finit toujours par l'emporter.
+

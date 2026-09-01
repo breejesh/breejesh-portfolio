@@ -7,6 +7,7 @@ coverImage: /assets/images/2008-vs-2026-ai-debt-backlog-bubble.webp
 previewImage: /assets/images/2008-vs-2026-ai-debt-backlog-bubble.webp
 ---
 
+
 > **Resumen en Lenguaje Sencillo**
 > * **El Problema:** Los gigantes tecnológicos (Microsoft, Oracle, Google, Amazon) están gastando $725 mil millones en construir centros de datos en 2026. Pagan estas obras pidiendo préstamos respaldados por $2.1 billones en contratos futuros. La mitad de esos contratos provienen de dos empresas sin beneficios: OpenAI y Anthropic.
 > * **El Fallo:** Igual que las hipotecas subprime de 2006, estos acuerdos nunca se pensaron para pagarse con beneficios reales. Dependen de duplicar la valoración en cada ronda de inversión para pedir más dinero prestado y pagar las facturas de servidores pasadas.
@@ -198,3 +199,4 @@ Presta atención a estos 5 indicadores claros:
     <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">The J Martin Show con Jay Martin (Análisis sobre los $2.1B en contratos informáticos take-or-pay, hipotecas 2/28, deuda corporativa de la nube y refinanciación del Tesoro).</div>
   </div>
 </div>
+

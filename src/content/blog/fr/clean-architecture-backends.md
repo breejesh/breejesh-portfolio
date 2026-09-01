@@ -7,6 +7,7 @@ coverImage: /assets/images/clean-architecture-backends.webp
 previewImage: /assets/images/clean-architecture-backends.webp
 ---
 
+
 La plupart des réécritures de backend commencent pareil. Les règles métier vivent dans les controllers. Les controllers parlent à l'ORM. L'ORM fuit dans les tests. Six mois plus tard, changer une règle de paiement veut dire toucher les handlers HTTP, le SQL et un consumer de file que plus personne ne se rappelait. La clean architecture est un ensemble d'habitudes qui ralentissent cette dérive. Ce n'est pas une religion, et ce n'est pas gratuit.
 
 Ce billet couvre ce qui tient sous la pression produit réelle: **couches**, **règle de dépendance**, **cas d'usage**, et une section franche sur **quand tout ça est excessif**.
@@ -304,3 +305,4 @@ Avant d'ajouter une autre couche, demandez:
 Si oui, extrayez un cas d'usage et un port. Sinon, laissez le code ennuyeux et fermez le ticket.
 
 La clean architecture garde les backends maintenables quand elle protège les règles métier du churn de frameworks et les rend bon marché à tester. Elle devient cérémonie quand chaque fichier est une interface qui attend une seconde implémentation qui n'arrive jamais. Utilisez la règle de dépendance là où la douleur est réelle, gardez les bords minces, et laissez les cas d'usage porter les noms que le produit utilise déjà.
+

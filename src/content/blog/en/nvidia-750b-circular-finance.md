@@ -7,6 +7,7 @@ coverImage: /assets/images/nvidia-750b-circular-finance.webp
 previewImage: /assets/images/nvidia-750b-circular-finance.webp
 ---
 
+
 The AI infrastructure buildout is sustained by a capital loop where GPU hardware revenues, cloud capacity reservations, and startup funding rounds cycle directly into one another.
 
 Bloomberg's July 27 report put a clean number on the pattern: a fresh round of AI infrastructure deals that, stacked together, top **$750 billion**. Late June, the **Bank for International Settlements** already flagged AI spending and circular financing as a risk to the broader economy. Big tech has gone from propping up growth to putting that growth on a balance sheet loop.
@@ -145,3 +146,4 @@ Practical takeaways if you build, buy, or invest around this stack:
 Huang is right that countries like Korea have the industrial base to pour a lot of this concrete and silicon. The harder question is whether end customers can turn that iron into cash flows that service the debt, the leases, and the pension capital underneath.
 
 BIS already called circular AI financing an economy-level risk. Nvidia's $750B week is not a plot twist. It is the plot, in higher resolution.
+

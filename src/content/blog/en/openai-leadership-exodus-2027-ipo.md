@@ -7,6 +7,7 @@ coverImage: /assets/images/openai-leadership-exodus-2027-ipo.webp
 previewImage: /assets/images/openai-leadership-exodus-2027-ipo.webp
 ---
 
+
 > **TL;DR**
 > * **The Departures:** At least 14 senior executives have left OpenAI in 2026, including COO Brad Lightcap, CRO Denise Dresser, Apps CEO Fidji Simo, and Head of Data Centers Chris Malone. Infrastructure and sales divisions are being reorganized.
 > * **The Paradox:** Product output has never been higher. GPT-5.6 (Sol/Terra/Luna), the Jalapeño inference ASIC, and developer tool integrations all shipped in 2026. Revenue is reportedly approaching $10B ARR.
@@ -80,3 +81,4 @@ The product is strong. The revenue is scaling. The organizational foundation is,
 ---
 
 *Executive departure details from Business Insider, LiveMint, and Investing.com. Product timelines from OpenAI press releases and blog posts. IPO guidance from Time and 24/7 Wall Street reporting. Legal exposure analysis based on The Week and public court filings.*
+

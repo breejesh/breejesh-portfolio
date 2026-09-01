@@ -1,31 +1,74 @@
 ---
-title: "Grade Dictionary: Outer Joins and Aggregations (CTCI 14.4)"
-description: "CTCI problem 14.4: writing SQL queries to join Students, Courses, and Teachers with aggregate functions."
-date: "2025-10-21"
-tags: [एल्गोरिदम और डेटा संरचनाएं, बैकएंड और डेटाबेस]
+title: "रिलेशनल जॉइन्स (Relational Joins): गणितीय सिद्धांत और इंजन निष्पादन रणनीतियाँ (सीटीसीआई १४.४)"
+description: "SQL जॉइन्स (INNER, LEFT, RIGHT, FULL OUTER, CROSS) के प्रकार, सेट थ्योरी और डेटाबेस निष्पादन एल्गोरिदम (Hash Join, Merge Join, Nested Loop) का विश्लेषण।"
+date: "2026-05-06"
+tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-14-4-grade-dictionary.webp
 previewImage: /assets/images/ctci-14-4-grade-dictionary.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १४.४ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १४.४: writing एसक्यूएल queries to join Students, Courses, and Teachers with aggregate functions.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** विभिन्न प्रकार के जॉइन (JOINs) क्या हैं? बताएं कि वे कैसे भिन्न हैं और रिलेशनल डेटाबेस में उनका क्या महत्व है।
+> * **सेट थ्योरी वर्गीकरण:**
+>   1. **`INNER JOIN`**: सख्त प्रतिच्छेदन ($A \cap B$) जिसमें दोनों तालिकाओं में मेल खाने वाली पंक्तियाँ शामिल होती हैं।
+>   2. **`LEFT OUTER JOIN`**: बाईं तालिका $A$ की सभी पंक्तियों को सुरक्षित रखता है, दाईं तालिका के छूटे हुए मानों को `NULL` भरता है।
+>   3. **`RIGHT OUTER JOIN`**: दाईं तालिका $B$ की सभी पंक्तियों को सुरक्षित रखता है।
+>   4. **`FULL OUTER JOIN`**: पूर्ण संघ ($A \cup B$) जो दोनों पक्षों के बेमेल रिकॉर्ड्स को बरकरार रखता है।
+>   5. **`CROSS JOIN`**: कार्तीय गुणनफल ($A \times B$) जिसके परिणामस्वरूप $|A| \times |B|$ पंक्तियाँ उत्पन्न होती हैं।
+> * **इंजन निष्पादन एल्गोरिदम**: डेटाबेस ऑप्टिमाइज़र **Nested Loop Join** ($O(M \log N)$), **Hash Join** ($O(M + N)$) और **Sort-Merge Join** ($O(M \log M + N \log N)$) के बीच चयन करते हैं।
+> * **रियल-वर्ल्ड सिस्टम:** PostgreSQL और MySQL में `EXPLAIN ANALYZE` द्वारा क्वेरी अनुकूलन।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१४.४** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १४.४: writing एसक्यूएल queries to join Students, Courses, and Teachers with aggregate functions.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १४.४) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"SQL में विभिन्न प्रकार के जॉइन्स, उनके गणितीय गुणधर्म और रिलेशनल इंजन निष्पादन रणनीतियों की व्याख्या करें।"*
+
+## २. रिलेशनल जॉइन सेट थ्योरी
+
+* **INNER JOIN:** केवल वे रिकॉर्ड्स जो जॉइन शर्त को पूरा करते हैं।
+* **LEFT JOIN:** मुख्य तालिका के सभी रिकॉर्ड्स को संरक्षित करता है।
+* **FULL OUTER JOIN:** दोनों तालिकाओं के सभी रिकॉर्ड्स का पूर्ण मिलान।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```sql
-SELECT Students.StudentName, Courses.CourseName, StudentCourses.Grade
-FROM Students
-INNER JOIN StudentCourses ON Students.StudentID = StudentCourses.StudentID
-INNER JOIN Courses ON StudentCourses.CourseID = Courses.CourseID;
+-- 1. INNER JOIN: कम से कम एक ऑर्डर वाले ग्राहक
+SELECT c.CustomerID, c.Name, o.OrderID
+FROM Customers c
+INNER JOIN Orders o ON c.CustomerID = o.CustomerID;
+
+-- 2. LEFT JOIN: सभी ग्राहक (बिना ऑर्डर वाले भी)
+SELECT c.CustomerID, c.Name, COALESCE(o.Amount, 0.0) AS TotalAmount
+FROM Customers c
+LEFT JOIN Orders o ON c.CustomerID = o.CustomerID;
+
+-- 3. FULL OUTER JOIN: सभी ग्राहक और अनाथ ऑर्डर्स
+SELECT c.CustomerID, o.OrderID
+FROM Customers c
+FULL OUTER JOIN Orders o ON c.CustomerID = o.CustomerID;
+
+-- 4. CROSS JOIN: सभी आकारों और रंगों का संयोजन
+SELECT s.SizeName, col.ColorName
+FROM Sizes s
+CROSS JOIN Colors col;
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और इनपुट की जांच करें।
+## डेटाबेस इंजन भौतिक निष्पादन एल्गोरिदम
+
+| जॉइन एल्गोरिदम | कार्यप्रणाली | समय जटिलता | सर्वोत्तम उपयोग |
+|---|---|---|---|
+| **Nested Loop Join** | बाहरी टेबल की प्रत्येक पंक्ति के लिए भीतरी B-Tree इंडेक्स खोजना | $O(M \log N)$ | इंडेक्स वाली भीतरी टेबल के साथ छोटी बाहरी टेबल। |
+| **Hash Join** | रैम में छोटी टेबल की हैश टेबल बनाना और बड़ी टेबल से खोजना | $O(M + N)$ | समानता शर्त (`=`) वाली बड़ी अक्रमित टेबलें। |
+| **Sort-Merge Join** | दोनों इनपुट्स को सॉर्ट करके समानांतर स्कैन करना | $O(M \log M + N \log N)$ | पहले से सॉर्टेड डेटा या असमानता जॉइन्स ($<, >$)। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: ग्रेस हैश जॉइन (Grace Hash Join)
+
+१. **मेमोरी से डिस्क स्पिल:** यदि हैश टेबल आवंटित रैम (`work_mem`) से अधिक हो जाती है, तो डेटाबेस दोनों तालिकाओं को डिस्क बकेट्स में विभाजित करता है ताकि OOM क्रैश न हो।
+२. **स्टैटिस्टिक्स अपडेट:** अपूर्ण या पुराने स्टैटिस्टिक्स होने पर ऑप्टिमाइज़र गलत जॉइन एल्गोरिदम चुन सकता है, जिससे क्वेरी बहुत धीमी हो जाती है।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **NULL समानता:** SQL में `NULL = NULL` का मान `UNKNOWN` होता है और यह `INNER JOIN` में कभी मेल नहीं खाता।

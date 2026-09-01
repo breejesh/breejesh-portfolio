@@ -7,6 +7,7 @@ coverImage: /assets/images/how-dns-works-for-engineers.webp
 previewImage: /assets/images/how-dns-works-for-engineers.webp
 ---
 
+
 DNS es la guía telefónica de internet, y esa analogía solo sirve a medias. Un ingeniero no necesita un cuento sobre "buscar nombres." Necesitas la **ruta de resolución**, los **tipos de registro que publicas**, cómo **TTL y cachés** retrasan cada cambio, y memoria muscular con **`dig`** cuando producción dice que el host está bien y los usuarios dicen que no.
 
 Si despliegas apps, migras dominios, montas correo o depuras "en mi máquina funciona" tras un cambio de DNS, este es el mapa.
@@ -278,3 +279,4 @@ DNS está bien cuando **el nombre, el tipo, la vista (pública vs privada) y la 
 5. Los incidentes tras cambios de DNS suelen ser lag de caché, nombre/tipo mal, o delegación rota, no "internet caído."
 
 Domina esa ruta y `dig` deja de ser un comando misterioso y pasa a ser la primera herramienta cuando el hostname es el sospechoso.
+

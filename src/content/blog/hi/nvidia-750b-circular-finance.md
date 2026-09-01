@@ -7,6 +7,7 @@ coverImage: /assets/images/nvidia-750b-circular-finance.webp
 previewImage: /assets/images/nvidia-750b-circular-finance.webp
 ---
 
+
 एनवीडिया इस हफ्ते सिर्फ चिप्स नहीं बेच रहा। वह उन ग्राहकों का बीमा भी कर रहा है जो उन्हें खरीदते हैं।
 
 २७ जुलाई की ब्लूमबर्ग रिपोर्ट ने इस पैटर्न पर साफ संख्या रखी: एआई बुनियादी ढांचे के नए सौदों की लहर, जो एक साथ **७५० अरब डॉलर** से ऊपर जाती है। जून के अंत में **अंतरराष्ट्रीय निपटान बैंक** पहले ही एआई खर्च और चक्रीय वित्तपोषण को पूरी अर्थव्यवस्था के लिए जोखिम बता चुका था। बिग टेक विकास को आगे बढ़ाने वाली ताकत से हटकर उसी विकास को बैलेंस शीट के लूप पर रखने वाली ताकत बन गई है।
@@ -18,11 +19,11 @@ previewImage: /assets/images/nvidia-750b-circular-finance.webp
 
 अगर यह अमूर्त लगता है, तो नहीं है। यही वह हिंडोला है जिसे कोल्डफ्यूजन ने *बिग टेक इस टाइम थोड़ी चालबाज है* में काटा: पैसा एक लोगो से निकलता है, दूसरे पर "मांग" बनकर बैठता है, और मूल्यांकन, राजस्व या सकल घरेलू उत्पाद के रूप में लौटता है।
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 640px; border-radius: 12px; margin: 20px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
-  <iframe src="https://www.youtube-nocookie.com/embed/nZmoq_XJW6Y" title="ColdFusion: Big Tech is Being Kind of Dodgy At the Moment" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"></iframe>
+<div style="position: relative; padding-bottom: ५६.२५%; height: ०; overflow: hidden; max-width: ६४०px; border-radius: १२px; margin: २०px ०; box-shadow: ० ४px २०px rgba(०,०,०,०.१५);">
+  <iframe src="https://www.youtube-nocookie.com/embed/nZmoq_XJW६Y" title="ColdFusion: Big Tech is Being Kind of Dodgy At the Moment" frameborder="०" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position: absolute; top: ०; left: ०; width: १००%; height: १००%; border: ०;"></iframe>
 </div>
 
-सौदे की मुख्य रिपोर्टिंग: [याहू फाइनेंस पर ब्लूमबर्ग](https://finance.yahoo.com/technology/ai/articles/nvidia-750-billion-deals-revive-102003935.html), [एनवीडिया-एसके प्रेस विज्ञप्ति](https://investor.nvidia.com/news/press-release-details/2026/SK-Group-and-NVIDIA-Expand-Strategic-Partnership-Across-AI-Factories-and-Next-Generation-Memory/default.aspx), [एचबीएम लॉक-इन पर सीएनबीसी](https://www.cnbc.com/2026/07/25/nvidia-locks-down-memory-from-sk-hynix-as-part-of-500-billion-ai-deal.html)।
+सौदे की मुख्य रिपोर्टिंग: [याहू फाइनेंस पर ब्लूमबर्ग](https://finance.yahoo.com/technology/ai/articles/nvidia-७५०-billion-deals-revive-१०२००३९३५.html), [एनवीडिया-एसके प्रेस विज्ञप्ति](https://investor.nvidia.com/news/press-release-details/२०२६/SK-Group-and-NVIDIA-Expand-Strategic-Partnership-Across-AI-Factories-and-Next-Generation-Memory/default.aspx), [एचबीएम लॉक-इन पर सीएनबीसी](https://www.cnbc.com/२०२६/०७/२५/nvidia-locks-down-memory-from-sk-hynix-as-part-of-५००-billion-ai-deal.html)।
 
 ---
 
@@ -145,3 +146,4 @@ previewImage: /assets/images/nvidia-750b-circular-finance.webp
 हुआंग सही हैं कि कोरिया जैसे देशों के पास यह कंक्रीट और सिलिकॉन डालने का औद्योगिक आधार है। कठिन सवाल यह है कि अंतिम ग्राहक उस लोहे को ऐसे कैश फ्लो में बदल सकते हैं या नहीं जो कर्ज, पट्टे और नीचे पड़ी पेंशन पूंजी चुका सके।
 
 अंतरराष्ट्रीय निपटान बैंक पहले ही चक्रीय एआई वित्त को अर्थव्यवस्था-स्तर का जोखिम कह चुका है। एनवीडिया का ७५० अरब वाला हफ्ता कोई प्लॉट ट्विस्ट नहीं। यही कथानक है, ऊंचे रिज़ॉल्यूशन में।
+

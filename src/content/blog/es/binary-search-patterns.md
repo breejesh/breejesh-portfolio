@@ -7,6 +7,7 @@ coverImage: /assets/images/binary-search-patterns.webp
 previewImage: /assets/images/binary-search-patterns.webp
 ---
 
+
 La búsqueda binaria no es un solo truco. En entrevistas y en producción se repiten pocas formas: encontrar un valor, encontrar un límite, y buscar sobre la *respuesta* en lugar del array. La mayoría de los bugs no son "olvidé el log n". Son errores off-by-one en el invariante del bucle.
 
 Este post es el mapa corto que guardo. Plantillas en Python, el modelo mental de cada forma, y las trampas que te roban media hora en la pizarra.
@@ -297,3 +298,4 @@ Memoriza los **invariantes**, no doce nombres de problemas. Cuando lower/upper b
 La búsqueda binaria falla cuando el rango no encoge, el predicado no es monótono, o mezclas actualizaciones cerradas y semiabiertas. Clava esas tres y el resto es ponerle nombre.
 
 Si solo practicas un ejercicio esta semana: implementa lower_bound y min-feasible desde cero dos veces, sin mirar, y córrelos en arrays vacíos, de un elemento y con todos los duplicados. Eso cubre la mayor parte de lo que piden entrevistas y producción.
+

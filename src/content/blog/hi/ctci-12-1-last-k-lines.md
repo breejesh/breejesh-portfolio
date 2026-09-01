@@ -1,46 +1,83 @@
 ---
-title: "Last K Lines: Print Last K Lines of File in C++ (CTCI 12.1)"
-description: "CTCI problem 12.1 in C++: print the last K lines of a file using a circular array buffer for O(K) memory."
-date: "2026-01-06"
+title: "अंतिम K लाइनें (Last K Lines): सी++ में सर्कुलर रिंग बफर स्ट्रीमिंग (सीटीसीआई १२.१)"
+description: "पूरी फाइल को मेमोरी में लोड किए बिना सर्कुलर रिंग बफर (Ring Buffer) द्वारा इनपुट फाइल की अंतिम K लाइनें O(N) समय और O(K) मेमोरी में प्रिंट करना।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-12-1-last-k-lines.webp
 previewImage: /assets/images/ctci-12-1-last-k-lines.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १२.१ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १२.१ in C++: print the last K lines of a file using a circular array buffer for O(K) memory.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** सी++ में किसी इनपुट फाइल की अंतिम $K$ लाइनें प्रिंट करने की विधि लिखें।
+> * **मुख्य समाधान:** **K आकार का सर्कुलर रिंग बफर**: (१) $K$ आकार का एक स्ट्रिंग वेक्टर आवंटित करें; (२) `std::getline()` द्वारा फ़ाइल को क्रमिक रूप से पढ़ें और प्रत्येक पंक्ति को `ringBuffer[count % K]` में लिखें; (३) मॉड्यूलो ऑपरेटर `% K` पुरानी लाइनों को बिना मेमोरी शिफ्टिंग के स्वचालित रूप से ओवरराइट करता है; (४) फ़ाइल के अंत (EOF) पर पहुँचने पर, `start = count % K` से $\min(count, K)$ लाइनें प्रिंट करें; (५) यह **$O(N)$ समय** और रैम में **$O(K)$ स्पेस** में निष्पादित होता है।
+> * **रियल-वर्ल्ड सिस्टम:** यूनिक्स (UNIX) की `tail -n K` कमांड और लिनक्स कर्नल का `dmesg` बफर।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१२.१** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १२.१ in C++: print the last K lines of a file using a circular array buffer for O(K) memory.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १२.१) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"सी++ में किसी बड़ी टेक्स्ट फ़ाइल की अंतिम K पंक्तियों को कुशल मेमोरी सीमाओं के तहत प्रिंट करने के लिए विधि लिखें।"*
+
+## २. सर्कुलर रिंग बफर की कार्यप्रणाली
+
+यदि फ़ाइल ५० जीबी की हो और $K = 100$ हो, तो पूरी फ़ाइल को मेमोरी में लोड करने पर रैम समाप्त हो जाएगी।
+
+$K$ आकार का रिंग बफर बनाकर:
+$$\text{इंडेक्स} = \text{count} \pmod K$$
+फ़ाइल समाप्त होने पर सबसे पुरानी पंक्ति `start = count % K` पर होती है, जिससे सभी $K$ पंक्तियाँ सही कालानुक्रम में प्रिंट हो जाती हैं।
+
+## प्रोडक्शन कार्यान्वयन
 
 ```cpp
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
+#include <algorithm>
 
-void printLastKLines(const char* fileName, int K) {
-    std::ifstream file(fileName);
-    std::string L[K];
-    int size = 0;
-    std::string line;
-    while (std::getline(file, line)) {
-        L[size % K] = line;
-        size++;
+void printLastKLines(const std::string& filename, int k) {
+    if (k <= 0) return;
+
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Error: Unable to open file " << filename << std::endl;
+        return;
     }
-    int start = size > K ? (size % K) : 0;
-    int count = std::min(K, size);
-    for (int i = 0; i < count; i++) {
-        std::cout << L[(start + i) % K] << std::endl;
+
+    std::vector<std::string> ringBuffer(k);
+    int count = 0;
+    std::string line;
+
+    while (std::getline(file, line)) {
+        ringBuffer[count % k] = std::move(line);
+        count++;
+    }
+
+    int start = (count < k) ? 0 : (count % k);
+    int totalToPrint = std::min(count, k);
+
+    for (int i = 0; i < totalToPrint; i++) {
+        std::cout << ringBuffer[(start + i) % k] << "\n";
     }
 }
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और शून्य इनपुट की जांच करें।
+## जटिलता और मेमोरी विश्लेषण
+
+| मापदंड | जटिलता | तकनीकी विवरण |
+|---|---|---|
+| समय जटिलता | `O(N)` | $N$ पंक्तियों वाली फ़ाइल का एकल रैखिक स्कैन। |
+| सहायक मेमोरी | `O(K)` | रैम में ठीक $K$ स्ट्रिंग्स तक सख्ती से सीमित। |
+| डिस्क I/O | `Sequential` | ऑपरेटिंग सिस्टम पेज कैशिंग के साथ अनुक्रमिक रीड। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: ऑपरेटिंग सिस्टम लॉग बफर
+
+१. **यूनिक्स `tail -n K`:** गैर-इंडेक्सेबल पाइप इनपुट के लिए रैम में रिंग बफर का उपयोग करता है।
+२. **लिनक्स कर्नल `printk` बफर (`dmesg`):** कर्नेल क्रैश और हार्डवेयर अलर्ट को एक निश्चित आकार के रिंग बफर (`__log_buf`) में लिखता है।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **फाइल में K से कम लाइनें ($N < K$):** बिना किसी खाली स्लॉट के ठीक $N$ लाइनें प्रिंट करना।
+२. **खाली फाइल ($N = 0$):** बिना किसी आउटपुट या त्रुटि के सुरक्षित रूप से समाप्त होना।

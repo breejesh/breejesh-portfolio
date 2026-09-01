@@ -7,6 +7,7 @@ coverImage: /assets/images/postgres-indexes-that-matter.webp
 previewImage: /assets/images/postgres-indexes-that-matter.webp
 ---
 
+
 Los índices son el atajo de rendimiento más barato que muchos equipos siguen usando mal. Añade diez y las escrituras se arrastran. Omite el correcto y un informe semanal bloquea el primario varios minutos. Postgres no te salva de una forma mala. Premia una buena.
 
 Este post es la lista corta que uso en apps reales: B-tree por defecto, índices parciales para predicados calientes, orden de columnas en compuestos, covering con `INCLUDE`, y los casos en los que un índice empeora las cosas. Sin catálogo de todos los métodos de acceso. Solo los que aparecen una y otra vez en `EXPLAIN (ANALYZE, BUFFERS)`.
@@ -322,3 +323,4 @@ Son las herramientas correctas cuando B-tree y partial/covering ya no encajan. L
 Empieza con B-tree en las claves por las que filtras y ordenas. Igualdad a la izquierda, rangos y sort después. Encoge con parciales cuando solo te importa un subconjunto. Cubre listas de lectura calientes con `INCLUDE` cuando los heap fetches salen en buffers. Borra índices que nunca escanean, y no añadas cinco índices de una columna cuando un compuesto encaja con la query.
 
 Si un cambio no aparece en `EXPLAIN (ANALYZE, BUFFERS)` con datos realistas, aún no es una victoria de índice. Es una suposición.
+

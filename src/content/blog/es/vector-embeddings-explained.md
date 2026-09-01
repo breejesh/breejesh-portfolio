@@ -7,6 +7,7 @@ coverImage: /assets/images/vector-embeddings-explained.webp
 previewImage: /assets/images/vector-embeddings-explained.webp
 ---
 
+
 La mayoría de los equipos conoce los embeddings el día que alguien dice "métele un vector DB y listo." Ese atajo sirve para un demo. También esconde lo único que importa: un embedding es un **resumen numérico de longitud fija del significado**, y todo sistema de retrieval solo es tan bueno como lo que ese resumen guarda y lo que tira.
 
 Este post es la versión de ingeniero. No es un survey de investigación. Qué son los embeddings, cómo se comparan, qué significan las dimensiones en la práctica, cómo los usan búsqueda y RAG, y los errores que aparecen cuando ya estás en producción.
@@ -255,3 +256,4 @@ Click-through, recencia, autoridad y reglas de negocio siguen importando. Los ve
 Si solo recuerdas una frase: **los embeddings convierten "encontrar significado relacionado" en geometría, y tu sistema aún tiene que elegir las unidades correctas, la métrica correcta y los candidatos correctos antes de que cualquier LLM escriba una respuesta pulida.**
 
 Eso basta para diseñar un path de retrieval, leer la ficha de un modelo sin desconectarte, y empujar cuando alguien trate una base vectorial como sustituto de pensar en producto.
+

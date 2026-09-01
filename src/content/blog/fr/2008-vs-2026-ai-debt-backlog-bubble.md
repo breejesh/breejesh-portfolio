@@ -7,6 +7,7 @@ coverImage: /assets/images/2008-vs-2026-ai-debt-backlog-bubble.webp
 previewImage: /assets/images/2008-vs-2026-ai-debt-backlog-bubble.webp
 ---
 
+
 > **L'Essentiel en Termes Clairs**
 > * **Le Problème:** Les géants de la tech (Microsoft, Oracle, Google, Amazon) investissent 725 milliards de dollars dans de nouveaux centres de données en 2026. Ils financent ces travaux en empruntant contre 2,1 billions de dollars de contrats futurs. La moitié de ces contrats repose sur deux startups déficitaires: OpenAI et Anthropic.
 > * **La Faille:** Comme pour les subprimes de 2006, ces engagements n'ont jamais été pensés pour être remboursés avec de vrais bénéfices. Ils dépendent d'une valorisation doublée à chaque levée de fonds pour emprunter toujours plus et régler les factures passées.
@@ -198,3 +199,4 @@ Gardez un œil sur ces 5 indicateurs clairs:
     <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">The J Martin Show avec Jay Martin (Analyse sur le carnet take-or-pay de 2,1 T$, la mécanique des prêts 2/28, la dette des hyperscalers et le refinancement du Trésor US).</div>
   </div>
 </div>
+

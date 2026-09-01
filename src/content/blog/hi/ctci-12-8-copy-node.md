@@ -1,42 +1,100 @@
 ---
-title: "Copy Node: Deep Copy a Graph / Data Structure in C++ (CTCI 12.8)"
-description: "CTCI problem 12.8: deep copying a data structure containing pointers and cycle references using std::map pointer lookup."
-date: "2026-02-24"
+title: "नोड कॉपी (Copy Node): चक्रीय निर्देशित ग्राफ का डीप क्लोनिंग (सीटीसीआई १२.८)"
+description: "पॉइंटर-मैपिंग हैश टेबल का उपयोग करके C++ में चक्रीय संदर्भों (Cyclic References) वाले निर्देशित ग्राफ या जटिल नोड संरचना का O(V + E) समय में डीप कॉपी।"
+date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
 coverImage: /assets/images/ctci-12-8-copy-node.webp
 previewImage: /assets/images/ctci-12-8-copy-node.webp
 ---
 
-
 > **टीएल;डीआर**
-> * **समस्या:** सीटीसीआई समस्या १२.८ का तकनीकी विवरण।
-> * **दृष्टिकोण:** सीटीसीआई problem १२.८: deep copying a data structure containing pointers and cycle references using std::map pointer lookup.
-> * **जटिलता:** इष्टतम समय और मेमोरी संतुलन।
+> * **किताब का सवाल:** एक ऐसा मेथड लिखें जो `Node` संरचना के पॉइंटर को पैरामीटर के रूप में लेता है और दी गई डेटा संरचना की एक पूरी कॉपी लौटाता है। `Node` संरचना में अन्य दो `Node` संरचनाओं के पॉइंटर्स शामिल हैं।
+> * **मुख्य समाधान:** **पॉइंटर हैश मैप द्वारा साइकिल डिटेक्शन के साथ डीप कॉपी**: (१) डेटा संरचना में चक्र (Cycles) हो सकते हैं, जिससे सामान्य रिकर्शन में स्टैक ओवरफ्लो हो सकता है; (२) `std::unordered_map<const Node*, Node*> nodeMap` बनाए रखें जो मूल नोड पते को उसके क्लोन पते से मैप करता है; (३) नोड विज़िट करते समय: यदि `null` है तो `nullptr` लौटाएं; यदि `nodeMap` में पहले से मौजूद है, तो मौजूदा क्लोन लौटाएं (अनंत रिकर्शन चक्र को रोकता है); (४) अन्यथा नया `Node* clone = new Node()` बनाएं, रिकर्शन से *पहले* इसे मैप में दर्ज करें और फिर `ptr1` व `ptr2` को रिकर्सिव रूप से क्लोन करें; (५) यह **$O(V + E)$ समय** और **$O(V)$ स्पेस** में पूरा होता है।
+> * **रियल-वर्ल्ड सिस्टम:** कंपाइलर एएसटी (AST) ग्राफ डुप्लीकेशन और मशीन लर्निंग कम्प्यूटेशनल ग्राफ क्लोनिंग।
 
-तकनीकी साक्षात्कार में आपसे समस्या **१२.८** पूछी जाती है। प्रारंभिक समाधान सीधा दिखता है, लेकिन वास्तविक सिस्टम में समय और मेमोरी की दक्षता अनिवार्य होती है। यहाँ इसका स्पष्ट मानसिक मॉडल, संपूर्ण कोड और मुख्य सावधानियाँ दी गई हैं।
+## १. किताब का सवाल और संदर्भ
 
-## १. संदर्भ और समस्या कथन
-सीटीसीआई problem १२.८: deep copying a data structure containing pointers and cycle references using std::map pointer lookup.
+*क्रैकिंग द कोडिंग इंटरव्यू* (समस्या १२.८) में पूछा गया है:
 
-## २. कोड और कार्यान्वयन
+*"दो पॉइंटर्स वाले नोड्स की संरचना (जिसमें चक्र हो सकते हैं) की पूरी डीप कॉपी बनाने के लिए C++ में फंक्शन लिखें।"*
 
 ```cpp
 struct Node {
-    int data;
     Node* ptr1;
     Node* ptr2;
 };
-
-Node* copyNode(Node* cur, std::map<Node*, Node*>& nodeMap) {
-    if (!cur) return nullptr;
-    if (nodeMap.count(cur)) return nodeMap[cur];
-    Node* newNode = new Node{cur->data, nullptr, nullptr};
-    nodeMap[cur] = newNode;
-    newNode->ptr1 = copyNode(cur->ptr1, nodeMap);
-    newNode->ptr2 = copyNode(cur->ptr2, nodeMap);
-    return newNode;
-}
 ```
 
-## ३. सारांश और एज केसेस
-हमेशा सीमांत स्थितियों और शून्य इनपुट की जांच करें।
+## २. चक्रीय पॉइंटर ट्रैवर्सल और मेमोइज़ेशन
+
+चाइल्ड पॉइंटर्स में जाने से **पहले** क्लोन किए गए नोड को हैश मैप में दर्ज करना:
+$$\text{nodeMap}[\text{original}] = \text{clone}$$
+इसके बाद किसी भी बैक-एज पर तुरंत मौजूदा क्लोन का पता मिल जाता है और अनंत चक्र रुक जाता है।
+
+## प्रोडक्शन कार्यान्वयन
+
+```cpp
+#include <iostream>
+#include <unordered_map>
+
+struct Node {
+    Node* ptr1;
+    Node* ptr2;
+    int data;
+
+    Node(int val = 0) : ptr1(nullptr), ptr2(nullptr), data(val) {}
+};
+
+class NodeCloner {
+private:
+    static Node* copyRecursive(const Node* root, std::unordered_map<const Node*, Node*>& nodeMap) {
+        if (!root) return nullptr;
+
+        // यदि पहले से क्लोन किया गया है, तो मौजूदा पॉइंटर लौटाएं
+        auto it = nodeMap.find(root);
+        if (it != nodeMap.end()) {
+            return it->second;
+        }
+
+        // नया क्लोन बनाएं और तुरंत मैप में दर्ज करें
+        Node* clone = new Node(root->data);
+        nodeMap[root] = clone;
+
+        // बाहर जाने वाले पॉइंटर्स को रिकर्सिव रूप से कॉपी करें
+        clone->ptr1 = copyRecursive(root->ptr1, nodeMap);
+        clone->ptr2 = copyRecursive(root->ptr2, nodeMap);
+
+        return clone;
+    }
+
+public:
+    /**
+     * ग्राफ संरचना का डीप क्लोन बनाता है।
+     * समय जटिलता: O(V + E)
+     * स्पेस जटिलता: O(V)
+     */
+    static Node* copy(const Node* root) {
+        std::unordered_map<const Node*, Node*> nodeMap;
+        return copyRecursive(root, nodeMap);
+    }
+};
+```
+
+## जटिलता और मेमोरी विश्लेषण
+
+| मापदंड | जटिलता | तकनीकी विवरण |
+|---|---|---|
+| समय जटिलता | `O(V + E)` | प्रत्येक वर्टेक्स और पॉइंटर एज को ठीक एक बार प्रोसेस किया जाता है। |
+| सहायक मेमोरी | `O(V)` | $V$ पॉइंटर जोड़ियों को संग्रहीत करने वाला हैश मैप। |
+
+## वास्तविक दुनिया में सिस्टम इंजीनियरिंग उपयोग
+
+### प्रोडक्शन सिस्टम आर्किटेक्चर: कंपाइलर ग्राफ क्लोनिंग (LLVM)
+
+१. **LLVM बेसिक ब्लॉक क्लोनिंग:** ऑप्टिमाइज़ेशन पास `ValueToValueMapTy` पॉइंटर मैप का उपयोग करके निर्देशों के सबग्राफ को डुप्लिकेट करते हैं।
+२. **डायमंड टोपोलॉजी:** कई पेरेंट्स द्वारा साझा किए गए चाइल्ड नोड को केवल एक बार क्लोन किया जाता है।
+
+## सीमा स्थितियां और प्रोडक्शन सुरक्षा
+
+१. **स्व-संदर्भ नोड्स (`node->ptr1 = node`):** बिना किसी स्टैक ओवरफ्लो के सुरक्षित हैंडलिंग।
+२. **नल पॉइंटर:** सुरक्षित रूप से `nullptr` लौटाना।

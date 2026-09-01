@@ -369,3 +369,4 @@ La arquitectura es un presupuesto. Gástalo donde el usuario siente el dolor.
 - Deja que copias de la base respondan la mayoría de "muéstrame" (réplicas), y guarda un bloc de notas rápido (caché) más copisterías de barrio (CDN) para lo popular y lo estático.
 - Haz que los servidores no recuerden el login solo en su memoria local (sin estado), y empuja tareas lentas (email, imágenes) a una fila de espera (cola).
 - Solo cuando una base principal aún no puede escribir ni guardar lo bastante partes por dominio o por shard, y solo cuando los usuarios están en todo el mundo añades más regiones, siempre nombrando qué frescura o simplicidad cedes.
+

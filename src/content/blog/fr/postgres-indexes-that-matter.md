@@ -7,6 +7,7 @@ coverImage: /assets/images/postgres-indexes-that-matter.webp
 previewImage: /assets/images/postgres-indexes-that-matter.webp
 ---
 
+
 Les index sont le levier de performance le moins cher que beaucoup d'équipes utilisent encore mal. Ajoutez-en dix et les écritures rampent. Oubliez le bon et un rapport hebdo bloque le primaire pendant des minutes. Postgres ne vous sauve pas d'une mauvaise forme. Il récompense une bonne.
 
 Ce billet est la liste courte que j'utilise sur des apps réelles: B-tree par défaut, index partiels pour les prédicats chauds, ordre des colonnes en composite, covering avec `INCLUDE`, et les cas où un index empire les choses. Pas de catalogue de toutes les méthodes d'accès. Seulement ceux qui reviennent dans `EXPLAIN (ANALYZE, BUFFERS)`.
@@ -322,3 +323,4 @@ Ce sont les bons outils quand B-tree et partiel/covering ne suffisent plus. La p
 Commencez par un B-tree sur les clés que vous filtrez et triez. Égalité à gauche, plages et tri ensuite. Réduisez avec des partiels quand seul un sous-ensemble compte. Couvrez les listes de lecture chaudes avec `INCLUDE` quand les heap fetches apparaissent dans les buffers. Supprimez les index qui ne scannent jamais, et n'ajoutez pas cinq index mono-colonne quand un composite colle à la requête.
 
 Si un changement n'apparaît pas dans `EXPLAIN (ANALYZE, BUFFERS)` sur des données réalistes, ce n'est pas encore une victoire d'index. C'est une hypothèse.
+

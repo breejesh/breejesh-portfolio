@@ -7,6 +7,7 @@ coverImage: /assets/images/practical-rag-pipeline.webp
 previewImage: /assets/images/practical-rag-pipeline.webp
 ---
 
+
 La generación aumentada por recuperación (RAG) parece simple en una diapositiva: embeber documentos, guardar vectores, recuperar top-k, rellenar el prompt y generar. En producción ese pipeline pierde calidad en cada etapa. Este post es un recorrido concreto de un stack RAG práctico, las decisiones que de verdad mueven la aguja y los casos en los que RAG es la herramienta equivocada.
 
 El conocimiento aquí se enmarca a inicios de 2026. Los nombres de herramientas cambian; los modos de fallo, casi no.
@@ -285,3 +286,4 @@ La mayoría de equipos invierte este orden: UI y demos de agentes primero, calid
 Un pipeline RAG práctico es, sobre todo, recuperación de información con un LLM al final. Trocea para que las unidades coincidan con cómo pregunta la gente. Embebe con un modelo fijado. Recupera en híbrido. Reordena la shortlist. Genera con reglas estrictas de grounding. Evalúa cada cambio.
 
 Cuando el corpus está incompleto, la pregunta es multi-hop o la tarea es puro cálculo, dilo y construye el componente correcto. RAG es potente dentro de su carril. Fuera de ese carril se convierte en una forma fluida de equivocarse.
+

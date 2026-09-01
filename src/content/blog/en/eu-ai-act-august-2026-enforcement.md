@@ -7,6 +7,7 @@ coverImage: /assets/images/eu-ai-act-august-2026-enforcement.webp
 previewImage: /assets/images/eu-ai-act-august-2026-enforcement.webp
 ---
 
+
 > **TL;DR**
 > * **The Catalyst:** On August 2, 2026, the European Union's landmark AI Act began active enforcement of its General-Purpose AI (GPAI) and synthetic media transparency requirements, backed by fines up to 35 million Euros or 7% of global annual turnover.
 > * **The Mechanism:** The EU AI Office in Brussels gained direct authority to audit training data provenance, evaluate systemic risk red-teaming, and mandate cryptographic C2PA watermarks across all consumer generative AI platforms.
@@ -62,3 +63,4 @@ As Brussels begins issuing its first formal information requests, August 2026 ma
 * [How Tech Giants Are Complying with European AI Watermarking, The Verge](https://theverge.com)
 * [Official Implementation Guidelines, European AI Office / European Commission](https://digital-strategy.ec.europa.eu)
 * [The Open Source AI Exemption Debate Under the EU AI Act, VentureBeat](https://venturebeat.com)
+

@@ -180,3 +180,4 @@ Un creador **sube** un master a un almacén con un ticket temporal, no por la re
 No se transmite solo el original porque es demasiado grande, demasiado rígido y demasiado hostil a redes flojas. El coste sigue a la audiencia: **la entrega de bytes y las estanterías llenas de copias** suelen importar más que los servidores que guardan títulos. Diseña para que los archivos pesados eviten la capa de la app, la conversión sea asíncrona y el tráfico feliz de visionado viva en el borde.
 
 Si recuerdas una sola frase: **el cineasta deja una cinta; el estudio hace muchas bobinas y las repone cerca del público.**
+

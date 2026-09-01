@@ -7,6 +7,7 @@ coverImage: /assets/images/tailwind-css-production-patterns.webp
 previewImage: /assets/images/tailwind-css-production-patterns.webp
 ---
 
+
 Tailwind CSS provides a disciplined utility-first design workflow that enforces consistent design tokens and purges unused CSS for minimal production bundles.
 
 This is not a starter tutorial. It assumes you already use Tailwind. The goal is code that still makes sense when a third engineer opens the PR.
@@ -404,3 +405,4 @@ If you only extract for the third call site, you still win. Premature abstractio
 * The scanner sees every package that emits class names.
 
 Tailwind does not remove design systems. It makes a lightweight design system cheaper to express. The production pattern is the same as any other UI stack: **shared structure, clear variants, tokens over magic numbers**, and the discipline to extract when paste starts to lie.
+

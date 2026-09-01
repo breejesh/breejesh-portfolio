@@ -7,6 +7,7 @@ coverImage: /assets/images/fargate-vs-ec2-always-on.webp
 previewImage: /assets/images/fargate-vs-ec2-always-on.webp
 ---
 
+
 Fargate es la respuesta por defecto en muchos architecture reviews. Sin AMIs. Sin capacity providers. Sin "quién parcheó el nodo." Defines CPU y memoria, publicas un task y AWS lo ejecuta.
 
 Ese es el producto correcto para mucho trabajo. Es el producto incorrecto para mucho trabajo **always-on**. La factura lo deja claro tras unos meses de tráfico 24/7 estable.
@@ -113,3 +114,4 @@ Fargate no es una estafa. Es una **prima de conveniencia**. Págalo para trabajo
 Para flotas always-on con suelos predecibles, capacidad EC2 (ECS o EKS) más packing honesto y un Savings Plan suele ser la decisión adulta. Haz la matemática con **tus** tasas de reserva y **tu** coste de ops, no con un slide de conferencia que asume bin packing perfecto o cero tiempo de ingenieros.
 
 Si la factura de la nube de enero ya se siente como resaca, empieza con un servicio always-on, treinta días de métricas y una hoja de cálculo. El architecture review puede esperar a que los números sean aburridos.
+

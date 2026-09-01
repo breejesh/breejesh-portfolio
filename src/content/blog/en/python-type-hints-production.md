@@ -7,6 +7,7 @@ coverImage: /assets/images/python-type-hints-production.webp
 previewImage: /assets/images/python-type-hints-production.webp
 ---
 
+
 Python type annotations have matured from optional documentation into an indispensable static analysis toolchain that catches contract failures before code reaches staging.
 
 This is a field guide for that approach. Not a catalog of every feature in `typing`, and not a purity contest between checkers. The goal is fewer production surprises with a budget you can defend in code review.
@@ -332,3 +333,4 @@ Type hints pay off when they protect **contracts**, not when they decorate **imp
 * **One checker in CI**, gradual strictness, few escape hatches and fewer lies
 
 Skip ceremony that does not change bug rates. Python typing is a tool for teams shipping services under change. Use it like an engineer, not like a collector of PEPs.
+

@@ -1,43 +1,73 @@
 ---
-title: "Volume of Histogram: Trapping Rain Water DP / Two-Pointer Solution (CTCI 17.21)"
-description: "CTCI problem 17.21: compute total volume of water trapped between bars in a 2D histogram in O(N) time."
-date: "2026-03-01"
+title: "Volumen del Histograma: Trampa de Agua con Dos Punteros en O(N) (CTCI 17.21)"
+description: "Calcula el volumen total de agua atrapada entre barras de un histograma usando un barrido in-situ de dos punteros en tiempo O(N) y espacio O(1)."
+date: "2026-05-06"
 tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-17-21-volume-of-histogram.webp
 previewImage: /assets/images/ctci-17-21-volume-of-histogram.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** CTCI problem 17.21 technical mechanics.
-> * **The Approach:** CTCI problem 17.21: compute total volume of water trapped between bars in a 2D histogram in O(N) time.
-> * **Complexity:** Optimal Time and Memory bounds.
+> * **El Problema del Libro:** Dado un histograma representado por alturas de barras, calcula el volumen total de agua que puede retener si llueve.
+> * **La Solución Óptima:** **Trampa de Agua con Dos Punteros In-Place**:
+>   1. Inicializar `left=0`, `right=n-1`, `leftMax=0`, `rightMax=0`, `water=0`.
+>   2. Si `height[left] <= height[right]`, el agua en `left` es `leftMax - height[left]`, avanza `left`. Si no, el agua en `right` es `rightMax - height[right]`, retrocede `right`.
+>   3. Se ejecuta en **tiempo $O(N)$** y **espacio $O(1)$**.
+> * **Realidad en Producción:** Simulacion de inundaciones en modelos digitales de elevacion y calculo de mascaras de cobertura en GPU.
 
-This article provides a clear breakdown of CTCI problem **17.21**.
+## 1. Formulación del Problema del Libro
 
-## 1. Context and Problem Statement
-CTCI problem 17.21: compute total volume of water trapped between bars in a 2D histogram in O(N) time.
+En *Cracking the Coding Interview* (Problema 17.21), se nos plantea:
 
-## 2. Technical Code & Mechanics
+*"Imagina un histograma. Diseña un algoritmo para calcular el volumen de agua que retendría si alguien vertiera agua por arriba."*
+
+## 2. Por Qué Funcionan los Dos Punteros
+
+La clave: el agua retenida en cualquier barra es `min(max_izquierda, max_derecha) - altura_barra`. Dos punteros permiten calcular esto sin almacenar arreglos de maximos.
+
+## Implementación de Producción
 
 ```java
-public static int computeVolume(int[] histo) {
-    int left = 0, right = histo.length - 1;
-    int leftMax = 0, rightMax = 0, volume = 0;
-    while (left < right) {
-        if (histo[left] < histo[right]) {
-            if (histo[left] >= leftMax) leftMax = histo[left];
-            else volume += leftMax - histo[left];
-            left++;
-        } else {
-            if (histo[right] >= rightMax) rightMax = histo[right];
-            else volume += rightMax - histo[right];
-            right--;
+public class VolumeOfHistogram {
+
+    public static int computeHistogramVolume(int[] heights) {
+        if (heights == null || heights.length < 3) return 0;
+
+        int left = 0, right = heights.length - 1;
+        int leftMax = 0, rightMax = 0;
+        int water = 0;
+
+        while (left < right) {
+            if (heights[left] <= heights[right]) {
+                leftMax = Math.max(leftMax, heights[left]);
+                water += leftMax - heights[left];
+                left++;
+            } else {
+                rightMax = Math.max(rightMax, heights[right]);
+                water += rightMax - heights[right];
+                right--;
+            }
         }
+
+        return water;
     }
-    return volume;
 }
 ```
 
-## 3. Key Takeaways and Edge Cases
-Always test boundary conditions and invalid input states.
+## Análisis de Complejidad
+
+| Enfoque | Complejidad Temporal | Espacio | Observaciones |
+|---|---|---|---|
+| **Dos Punteros** | **$O(N)$** | **$O(1)$** | **Optimo; un solo paso.** |
+| Arrays Max Izquierda/Derecha | $O(N)$ | $O(N)$ | Logica mas clara, requiere dos arreglos auxiliares. |
+| Fuerza Bruta | $O(N^2)$ | $O(1)$ | Para cada barra, explorar izquierda y derecha. |
+
+## Discusión de Ingeniería de Sistemas en Producción
+
+1. **Modelos Digitales de Elevacion (DEM):** Simulaciones de inundacion en SIG calculan la retencion de agua en cuencas mediante el mismo argumento de frontera min-max.
+2. **Rasterizacion GPU:** Calculo de mascaras de cobertura de pixels para anti-aliasing del buffer de profundidad.
+
+## Casos Límite y Robustez
+
+1. **Array Monotono:** Produce `0` correctamente (el agua se escurre por un lado).
+2. **Todos Ceros / Barra Unica:** Retorna `0`.

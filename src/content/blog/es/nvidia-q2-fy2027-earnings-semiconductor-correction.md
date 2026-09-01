@@ -7,6 +7,7 @@ coverImage: /assets/images/nvidia-q2-fy2027-earnings-semiconductor-correction.we
 previewImage: /assets/images/nvidia-q2-fy2027-earnings-semiconductor-correction.webp
 ---
 
+
 > **TL;DR**
 > * **El catalizador:** Nvidia reporta las ganancias del Q2 fiscal FY2027 el 26 de agosto, con Wall Street esperando ~$92 mil millones en ingresos, un aumento interanual del 97% impulsado casi en su totalidad por la IA en centros de datos.
 > * **La paradoja:** El índice semiconductores (SOX) ha corregido casi un 29% desde su pico de junio 2026. Todos los demás fabricantes de chips están sangrando, pero los números de Nvidia siguen componiéndose.
@@ -70,3 +71,4 @@ El número va a ser enorme. La pregunta es si "enorme" es suficiente cuando el s
 ---
 
 *Datos de mercado de Motley Fool, Kiplinger, IG y mesas de investigación de KuCoin. Datos de corrección del SOX del PHLX Semiconductor Index. Análisis de acuerdos de infraestructura de Nvidia cruzado con Bloomberg, CNBC y Morningstar.*
+

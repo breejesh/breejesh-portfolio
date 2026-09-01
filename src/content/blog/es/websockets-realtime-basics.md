@@ -7,6 +7,7 @@ coverImage: /assets/images/websockets-realtime-basics.webp
 previewImage: /assets/images/websockets-realtime-basics.webp
 ---
 
+
 HTTP es petición y respuesta. Los productos en tiempo real necesitan que el servidor empuje datos sin esperar al siguiente poll: chat, paneles en vivo, estado multijugador, ticks de trading, cursores colaborativos. Los **WebSockets** te dan un canal full-duplex de larga duración sobre una sola conexión TCP. Lo difícil no es abrir un socket. Lo difícil es mantener miles de ellos honestos ante cortes de red, caducidad de auth y deploys multi-pod.
 
 Esta es la checklist de producción que me habría gustado tener la primera vez que un "feed en vivo simple" se cruzó con balanceadores y clientes móviles.
@@ -295,3 +296,4 @@ La división importante: **mapa local de sockets** en el gateway, **bus comparti
 - Plataformas serverless con vida corta de request y sin soporte de sockets: usa un servicio realtime gestionado o un tier gateway de larga duración.
 
 Los WebSockets son un transporte. No sustituyen el diseño de auth, los event ids idempotentes ni un plan de fan-out multi-nodo. Acerta el handshake, demuestra vida con heartbeats, reconecta con paciencia, controla cada suscripción y pon un bus entre pods. El resto es acabado de producto sobre una conexión que se mantiene en pie.
+

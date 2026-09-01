@@ -1,42 +1,44 @@
 ---
-title: "Sorted Merge: Mezclar Arreglo B en Arreglo A Ordenado in-place (CTCI 10.1)"
-description: "Problema CTCI 10.1 en Java: fusiona dos arreglos ordenados A y B dentro de A trabajando hacia atrás."
-date: "2026-02-18"
+title: "Fusión Ordenada: Fusión In-Place de Arreglos con Dos Punteros Inversos (CTCI 10.1)"
+description: "Fusiona el arreglo ordenado B dentro del arreglo ordenado A con buffer al final in-place usando punteros inversos en tiempo O(A + B) y espacio O(1)."
+date: "2026-05-06"
 tags: [Algoritmos y Estructuras]
 coverImage: /assets/images/ctci-10-1-sorted-merge.webp
 previewImage: /assets/images/ctci-10-1-sorted-merge.webp
 ---
 
-
 > **TL;DR**
-> * **El Problema:** Dominar el problema CTCI 10.1 con eficiencia de nivel de producción.
-> * **El Enfoque:** Problema CTCI 10.1 en Java: fusiona dos arreglos ordenados A y B dentro de A trabajando hacia atrás.
-> * **Complejidad:** Relación óptima entre tiempo y espacio.
+> * **El Problema del Libro:** Se te dan dos arreglos ordenados, $A$ y $B$, donde $A$ tiene un buffer al final lo suficientemente grande para contener a $B$. Escribe un metodo para fusionar $B$ dentro de $A$ en orden.
+> * **La Solución Óptima:** Fusión Inversa In-Place con Tres Punteros: (1) `indexA = lastA - 1`, `indexB = lastB - 1` e `indexMerged = lastA + lastB - 1`; (2) Compara desde el final y copia el mayor en $A[\text{indexMerged}]$; (3) Si quedan elementos en $B$, se copian directamente; (4) Se ejecuta en **tiempo $O(A + B)$** y **espacio $O(1)$** sin desplazar elementos hacia la derecha ni usar arreglos adicionales.
+> * **Realidad en Producción:** Compactacion de tablas SSTable en arboles LSM (RocksDB).
 
-Este artículo ofrece una guía clara y detallada del problema CTCI **10.1**. Examinamos el enunciado, comparamos la fuerza bruta con la solución óptima y escribimos código en Java.
+## 1. Formulación del Problema del Libro
 
----
+En *Cracking the Coding Interview* (Problema 10.1), se nos plantea:
 
-## 1. Analogía del mundo real
+*"Fusiona dos arreglos ordenados A y B dentro de A in-place, sabiendo que A cuenta con espacio suficiente al final."*
 
-Piensa en el problema CTCI 10.1 como organizar elementos de forma eficiente. La elección de la estructura de datos adecuada elimina iteraciones innecesarias.
+## 2. Lógica de Fusión Inversa
 
----
+Fusionar desde el inicio requeriria desplazar los elementos de $A$ repetidamente ($O(N^2)$).
 
-## 2. Enunciado claro del problema
+Al comenzar desde el extremo final del buffer vacio:
+$$\text{indexMerged} = \text{lastA} + \text{lastB} - 1$$
+Los elementos mayores se ubican en el espacio libre sin sobreescribir datos no leidos de $A$.
 
-**Problema 10.1:** Problema CTCI 10.1 en Java: fusiona dos arreglos ordenados A y B dentro de A trabajando hacia atrás.
-
----
-
-## 3. Enfoque óptimo e implementación
+## Implementación de Producción
 
 ```java
 public class SortedMerge {
+    /**
+     * Fusiona el arreglo B en el arreglo A in-place.
+     * Complejidad Temporal: O(A + B)
+     * Complejidad Espacial: O(1)
+     */
     public static void merge(int[] a, int[] b, int lastA, int lastB) {
         int indexA = lastA - 1;
         int indexB = lastB - 1;
-        int indexMerged = lastA + lastB - 1;
+        int indexMerged = lastB + lastA - 1;
 
         while (indexB >= 0) {
             if (indexA >= 0 && a[indexA] > b[indexB]) {
@@ -52,17 +54,21 @@ public class SortedMerge {
 }
 ```
 
----
+## Análisis de Complejidad y Memoria
 
-## 4. Complejidad Temporal y Espacial
+| Métrica | Complejidad | Detalle Técnico |
+|---|---|---|
+| Complejidad Temporal | `O(A + B)` | Exactamente $lastA + lastB$ comparaciones lineales. |
+| Espacio Auxiliar | `O(1)` | Tres variables puntero de tipo entero. |
 
-| Métrica | Complejidad | Explicación |
-| --- | --- | --- |
-| Complejidad Temporal | O(N) / O(log N) | Recorrido óptimo de datos |
-| Complejidad Espacial | O(1) / O(N) | Memoria acotada |
+## Discusión de Ingeniería de Sistemas en Producción
 
----
+### Arquitectura de Sistemas en Producción: Compactación en Árboles LSM
 
-## 5. Casos Límite y Resumen
+1. **Fusión de Cursors SSTable:** Motores como RocksDB y Cassandra fusionan bloques ordenados en streaming evitando asignaciones adicionales de memoria intermedia.
+2. **Protección de Sobrescritura:** La indexacion inversa garantiza la integridad de los datos en estructuras de buffer contiguo.
 
-Verifica siempre condiciones de borde, valores nulos y límites de tamaño en entrevistas técnicas.
+## Casos Límite y Robustez en Producción
+
+1. **Arreglo B Vacío ($lastB = 0$):** Bucle finaliza inmediatamente; $A$ queda inalterado.
+2. **Arreglo A Vacío ($lastA = 0$):** Copia todos los elementos de $B$ en $A$.

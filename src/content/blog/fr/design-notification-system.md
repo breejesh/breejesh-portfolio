@@ -290,3 +290,4 @@ Un système de notifications, c'est le secrétariat de votre produit. Les autres
 ## Clôture
 
 Construisez bien le secrétariat : **canaux** pour les portes, **préférences** pour le consentement, **templates** pour un libellé cohérent, **files** pour que le guichet ne se fige pas, et **retries** pour qu'une panne temporaire ne soit pas un silence permanent. Découplez accepter et livrer. Isolez les canaux. Traitez les fournisseurs externes comme des collègues peu fiables. Tout le reste s'accroche à cette colonne.
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/meta-muse-glimmer-cover.webp
 previewImage: /assets/images/meta-muse-glimmer-cover.webp
 ---
 
+
 > **TL;DR**
 > * **El problema:** Los laboratorios cerrados y la dependencia de la nube centralizan las capacidades de los agentes en centros de datos corporativos, limitando la ejecución sin conexión y la soberanía del desarrollador.
 > * **La solución:** Meta Superintelligence Labs lanzó Muse Glimmer (30B), un modelo de pesos abiertos bajo licencia Apache 2.0 destilado de Muse Spark y equipado con decodificación especulativa DFlash para ejecución local en una sola GPU.
@@ -92,3 +93,4 @@ Desplegar Muse Glimmer en entornos de escritorio en producción requiere gestion
 * **Entornos y orquestación:** Muse Glimmer es compatible de forma nativa con llama.cpp, ExecuTorch, MLX, vLLM, SGLang, Ollama, Unsloth y OpenClaw.
 * **Personalización para desarrolladores:** Los equipos pueden adaptar el modelo para bucles agénticos específicos utilizando PyTorch TorchTitan.
 * **Debates regulatorios:** El ensayo de Zuckerberg presiona a las entidades reguladoras internacionales para tratar los pesos de modelos abiertos como infraestructura transparente en lugar de código restringido.
+

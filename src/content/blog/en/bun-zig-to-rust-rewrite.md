@@ -7,6 +7,7 @@ coverImage: /assets/images/bun-zig-to-rust-rewrite.webp
 previewImage: /assets/images/bun-zig-to-rust-rewrite.webp
 ---
 
+
 > **TL;DR**
 > * **The Problem:** Bun's Zig codebase suffered chronic memory bugs from mixing manual allocators with JavaScriptCore's garbage collector. Zig's anti-AI policies and pre-1.0 instability blocked automated maintenance after Anthropic acquired the project.
 > * **The Insight:** Instead of a multi-year human effort, Bun ran 64 parallel Claude agents with adversarial reviewers to port 535,000 lines across 1,448 files in 11 days.
@@ -97,3 +98,4 @@ The bigger question is what this means for AI-driven rewrites in general. Bun ha
 * [Things You Should Never Do, Part I, Joel Spolsky (2000)](https://www.joelonsoftware.com/2000/04/06/things-you-should-never-do-part-i/)
 * [Bun Official Documentation](https://bun.sh/docs)
 * [The Zig Programming Language](https://ziglang.org/documentation/master/)
+

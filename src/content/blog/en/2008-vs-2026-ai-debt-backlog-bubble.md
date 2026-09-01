@@ -7,6 +7,7 @@ coverImage: /assets/images/2008-vs-2026-ai-debt-backlog-bubble.webp
 previewImage: /assets/images/2008-vs-2026-ai-debt-backlog-bubble.webp
 ---
 
+
 > **The Big Picture**
 > * **The Problem:** Big Tech companies (Microsoft, Oracle, Google, Amazon) are spending $725 billion on new data centers in 2026. They are paying for this construction by borrowing money against $2.1 trillion in future compute contracts. Half of those contracts come from just two unprofitable startups: OpenAI and Anthropic.
 > * **The Flaw:** Just like subprime home loans in 2006, these deals were never designed to be paid off with profits. They rely on companies doubling their valuation in each funding round so they can borrow more cash to pay yesterday's server bills.
@@ -198,3 +199,4 @@ Keep an eye on these 5 simple indicators:
     <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">The J Martin Show with Jay Martin (Analysis on the $2.1T take-or-pay computing backlog, 2/28 hybrid ARM mechanics, hyperscaler debt, and sovereign Treasury rollovers).</div>
   </div>
 </div>
+

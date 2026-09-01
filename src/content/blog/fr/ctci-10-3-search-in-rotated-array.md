@@ -1,70 +1,94 @@
 ---
-title: "Search in Rotated Array: Recherche dans un Tableau Trié Et Pivoté (CTCI 10.3)"
-description: "Problème CTCI 10.3 en Java: recherche binaire modifiée dans un tableau trié ayant subi une rotation."
-date: "2026-03-11"
+title: "Recherche dans un Tableau Pivoté: Recherche Binaire Adaptée aux Décalages (CTCI 10.3)"
+description: "Trouvez un élément dans un tableau trié ayant subi une rotation inconnue par recherche binaire avec gestion des doublons en temps moyen O(log N)."
+date: "2026-05-06"
 tags: [Algorithmes et Structures]
 coverImage: /assets/images/ctci-10-3-search-in-rotated-array.webp
 previewImage: /assets/images/ctci-10-3-search-in-rotated-array.webp
 ---
 
-
 > **TL;DR**
-> * **Le Problème:** Maîtriser le problème CTCI 10.3 avec une efficacité de niveau production.
-> * **L'Approche:** Problème CTCI 10.3 en Java: recherche binaire modifiée dans un tableau trié ayant subi une rotation.
-> * **Complexité:** Compromis optimal entre temps et espace.
+> * **Le Problème du Livre:** Soit un tableau trié de $n$ entiers ayant été pivoté un nombre inconnu de fois. Écrivez un code pour localiser un élément donné dans ce tableau.
+> * **La Solution Optimale:** Recherche Binaire avec Invariant de Moitié Triée : (1) Au moins l'une des deux moitiés ($[left, mid]$ ou $[mid, right]$) est obligatoirement ordonnée de façon monotone ; (2) Si $A[left] < A[mid]$, la moitié gauche est triée : si la cible $x \in [A[left], A[mid]]$, chercher à gauche, sinon à droite ; (3) Si $A[mid] < A[left]$, la moitié droite est triée ; (4) Si $A[left] == A[mid]$ (doublons), chercher des deux côtés si nécessaire ; (5) S'exécute en **temps moyen $O(\log N)$** et pire cas $O(N)$.
+> * **Réalité en Production:** Recherche d'offset dans les tampons circulaires de messages (Apache Kafka).
 
-Cet article propose une explication claire et accessible du problème CTCI **10.3**. Nous examinons l'énoncé, comparons l'approche brute à la solution optimale en Java.
+## 1. Formulation du Problème du Livre
 
----
+Dans *Cracking the Coding Interview* (Problème 10.3), l'énoncé est :
 
-## 1. Analogie du monde réel
+*"Trouvez l'indice d'un element dans un tableau initialement trie ayant subi une rotation circulaire a un pivot inconnu."*
 
-Pensez au problème CTCI 10.3 comme à l'organisation efficace d'objets au quotidien. Choisir la bonne structure de données élimine les itérations inutiles.
+## 2. Invariant de la Moitié Ordonnée
 
----
+À chaque division dichotomique :
+* Si $A[left] < A[mid]$, la moitié gauche est strictement ordonnée.
+* Si $A[mid] < A[left]$, la moitié droite est strictement ordonnée.
+* Si $A[left] == A[mid]$, la présence de doublons impose une vérification de $A[right]$ ou une exploration bilatérale.
 
-## 2. Énoncé clair du problème
-
-**Problème 10.3:** Problème CTCI 10.3 en Java: recherche binaire modifiée dans un tableau trié ayant subi une rotation.
-
----
-
-## 3. Approche optimale et implémentation
+## Implémentation de Production
 
 ```java
-public class SearchRotatedArray {
+public class SearchInRotatedArray {
+    /**
+     * Recherche x dans un tableau trie pivote.
+     * Complexite Temporelle: O(log N) moyen, O(N) pire cas.
+     * Complexite Spatiale: O(log N)
+     */
     public static int search(int[] a, int left, int right, int x) {
-        if (left > right) return -1;
-        int mid = left + (right - left) / 2;
-        if (a[mid] == x) return mid;
+        if (right < left) return -1;
 
-        if (a[left] < a[mid]) { // Left half is normally sorted
-            if (x >= a[left] && x < a[mid]) return search(a, left, mid - 1, x);
-            else return search(a, mid + 1, right, x);
-        } else if (a[mid] < a[left]) { // Right half is normally sorted
-            if (x > a[mid] && x <= a[right]) return search(a, mid + 1, right, x);
-            else return search(a, left, mid - 1, x);
-        } else { // Duplicates handling
-            int location = -1;
-            if (a[mid] != a[right]) location = search(a, mid + 1, right, x);
-            if (location == -1) location = search(a, left, mid - 1, x);
-            return location;
+        int mid = left + (right - left) / 2;
+        if (a[mid] == x) {
+            return mid;
+        }
+
+        // Cas 1: Moitie gauche normalement triee
+        if (a[left] < a[mid]) {
+            if (x >= a[left] && x < a[mid]) {
+                return search(a, left, mid - 1, x);
+            } else {
+                return search(a, mid + 1, right, x);
+            }
+        }
+        // Cas 2: Moitie droite normalement triee
+        else if (a[mid] < a[left]) {
+            if (x > a[mid] && x <= a[right]) {
+                return search(a, mid + 1, right, x);
+            } else {
+                return search(a, left, mid - 1, x);
+            }
+        }
+        // Cas 3: Doublons
+        else {
+            if (a[mid] != a[right]) {
+                return search(a, mid + 1, right, x);
+            } else {
+                int result = search(a, left, mid - 1, x);
+                if (result == -1) {
+                    return search(a, mid + 1, right, x);
+                }
+                return result;
+            }
         }
     }
 }
 ```
 
----
+## Analyse de Complexité et Mémoire
 
-## 4. Complexité Temporelle et Spatiale
+| Cas | Complexité Temporelle | Espace Auxiliaire | Détail Technique |
+|---|---|---|---|
+| Entiers Distincts | `O(log N)` | `O(log N)` | Recherche dichotomique standard. |
+| Avec Doublons (Pire Cas) | `O(N)` | `O(log N)` | Se produit quand toutes les valeurs sont identiques ($[2, 2, 2, 2]$). |
 
-| Métrique | Complexité | Explication |
-| --- | --- | --- |
-| Complexité Temporelle | O(N) / O(log N) | Parcours optimal des données |
-| Complexité Spatiale | O(1) / O(N) | Empreinte mémoire contrôlée |
+## Ingénierie des Systèmes en Production
 
----
+### Architecture Système : Recherche dans les Buffers Circulaires
 
-## 5. Cas Limites et Résumé
+1. **Pilotes Réseau Haute Vitesse (DPDK) :** Les anneaux de paquets bouclent continuellement sur eux-mêmes ; la recherche binaire rotative permet de localiser des horodatages sans réalignement de mémoire.
+2. **Partitions de Bases de Données :** Indexation de plages de clés sur des partitions tournantes.
 
-Vérifiez toujours les conditions aux limites, les valeurs nulles et la taille des tableaux en entretien.
+## Cas Limites et Robustesse
+
+1. **Élément Absent :** Renvoie `-1` sans erreur d'indice.
+2. **Tableau sans Rotation :** Traitement identique à une dichotomie classique.

@@ -7,6 +7,7 @@ coverImage: /assets/images/kimi-k3-cover.webp
 previewImage: /assets/images/kimi-k3-cover.webp
 ---
 
+
 The timeline treated **Kimi K3** like a **Claude Fable 5** funeral. A 2.8T open model, #1 on a coding arena, near-frontier intelligence scores. Cue the "China ends the frontier" posts.
 
 So: is K3 actually a Fable 5 killer?
@@ -168,3 +169,4 @@ Primary and independent sources used for numbers and charts in this post:
 12. [BenchLM: Kimi K3 release note](https://benchlm.ai/blog/posts/kimi-3-release-data-coming-soon) : Arena Elo, independent index framing
 
 Scores change as boards refresh. Prefer the live chart links in the section above when you need current rankings.
+

@@ -7,6 +7,7 @@ coverImage: /assets/images/kubernetes-ship-a-service.webp
 previewImage: /assets/images/kubernetes-ship-a-service.webp
 ---
 
+
 Kubernetes feels overwhelming when approached as an encyclopedia of fifty distinct YAML resources. In practice, shipping a reliable service centers on mastering four core primitives: Deployments, Services, Ingress, and health probes.
 
 That is the practical path. Everything else (Jobs, CronJobs, StatefulSets, NetworkPolicies, CRDs) can wait until the first service is healthy.
@@ -303,3 +304,4 @@ Certs, DNS, and image pull secrets are platform setup. Wire them once; app YAML 
 7. Confirm a bad deploy rolls back: `kubectl rollout undo deployment/billing-api`.
 
 That is enough Kubernetes to own a service end to end. Learn the rest when a failure or a product requirement forces it, not because a syllabus listed it.
+

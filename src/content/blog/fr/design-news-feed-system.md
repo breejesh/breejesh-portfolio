@@ -399,3 +399,4 @@ Une bonne réponse a:
 S'il reste du temps: scale horizontal du web tier, sharding des posts, réplicas de lecture multi-région, et pourquoi le feed est un index dérivé plutôt qu'un énorme join SQL de "tout ce que mes amis ont jamais écrit."
 
 Liés sur ce blog: [motifs de cache Redis](/blog/fr/redis-caching-patterns), [architecture event-driven](/blog/fr/event-driven-architecture-intro), [concevoir un rate limiter](/blog/fr/design-a-rate-limiter).
+

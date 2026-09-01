@@ -223,3 +223,4 @@ System design skill is not "I memorized YouTube." It is "I can assemble load bal
 Start where you are weak. If numbers scare you, do estimation. If async confuses you, do crawler and notifications before Drive. If you freeze on structure, run the framework post twice with a timer.
 
 Then keep going. Steady practice is enough. You do not need to be dramatic about it. You only need to show up for the next session.
+

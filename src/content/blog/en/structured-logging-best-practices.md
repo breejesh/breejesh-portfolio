@@ -7,6 +7,7 @@ coverImage: /assets/images/structured-logging-best-practices.webp
 previewImage: /assets/images/structured-logging-best-practices.webp
 ---
 
+
 Unstructured plain-text logs are an operational liability during production outages. Emitting structured JSON logs with correlation IDs enables immediate filtering across distributed services.
 
 This is the checklist I want on every production service: JSON (or equivalent), correlation IDs, honest levels, no raw PII, and strict rules on high-cardinality fields. Skip the theory catalog. Ship the habits that cut mean time to understand.
@@ -298,3 +299,4 @@ None of these need a new vendor. They need conventions and a few lines of middle
 Structured logging is not a format debate. It is an operations contract: every service speaks the same field language, carries IDs across boundaries, refuses to dump secrets, and keeps cardinality under control so search stays fast and bills stay boring.
 
 Start with JSON + correlation IDs + level policy + redaction. Add fancy sampling and schema registries when the basics hold under load. When the next incident hits, you want one `request_id` query, not five greps and a hope.
+

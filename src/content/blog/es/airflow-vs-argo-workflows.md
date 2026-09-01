@@ -7,6 +7,7 @@ coverImage: /assets/images/airflow-vs-argo-workflows.webp
 previewImage: /assets/images/airflow-vs-argo-workflows.webp
 ---
 
+
 La gente dice "Airflow vs Argo" como si fuera un mano a mano de un solo producto. No lo es.
 
 **Apache Airflow** es un orquestador de workflows con larga historia en equipos de datos: DAGs en Python, scheduler, workers y una base de metadatos. **Argo Workflows** es un motor de workflows nativo de Kubernetes: cada paso suele ser un pod, las definiciones son YAML (o YAML generado) y el control plane vive en el cluster.
@@ -152,3 +153,4 @@ Airflow y Argo Workflows resuelven el mismo titular (correr un grafo de pasos co
 * No elijas por moda de blog post. Elige por dónde corre el trabajo, quién escribe los pipelines y qué control plane estás dispuesto a mantener sano a las 3am.
 
 Si el cluster es joven y el data stack es ancho, empieza con Airflow. Si cada job ya es un contenedor y el warehouse es solo otro cliente API en un pod, Argo Workflows se sentirá menos falso.
+

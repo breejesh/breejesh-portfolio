@@ -7,6 +7,7 @@ coverImage: /assets/images/serverless-database.webp
 previewImage: /assets/images/serverless-database.webp
 ---
 
+
 Las arquitecturas serverless como AWS Lambda se escalan instantáneamente para manejar picos de tráfico entrante. Sin embargo, las bases de datos relacionales tradicionales como PostgreSQL y MySQL no se diseñaron para este modelo de escalado efímero. Estas esperan un grupo estable de conexiones de larga duración, no miles de conexiones efímeras creadas y destruidas en segundos.
 
 Cuando cientos o miles de instancias de Lambda se inician simultáneamente, pueden abrumar fácilmente a tu base de datos, lo que provoca el **agotamiento del grupo de conexiones**, fallas en cascada y tiempo de inactividad de la aplicación.
@@ -256,3 +257,4 @@ El enfoque de defensa en profundidad combina múltiples estrategias:
 5. **Monitorear activamente** con consultas a `pg_stat_activity` y alarmas de CloudWatch.
 
 Ninguna estrategia basta por sí sola. En la práctica, las arquitecturas serverless más resilientes utilizan un proxy como defensa principal y aplican las demás estrategias como capas de seguridad operacional adicionales.
+
