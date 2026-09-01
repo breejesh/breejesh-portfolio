@@ -3,8 +3,8 @@ title: "लैंगटन की चींटी (Langton's Ant): अनंत 
 description: "अनंत २डी तल पर लैंगटन की चींटी के सेल्युलर ऑटोमेटा का समन्वय हैशसेट (Coordinate HashSets) और बाउंडिंग बॉक्स द्वारा O(K) में सिमुलेशन।"
 date: "2026-05-06"
 tags: [एल्गोरिदम और डेटा संरचनाएं]
-coverImage: /assets/images/ctci-16-22-langtons-ant.webp
-previewImage: /assets/images/ctci-16-22-langtons-ant.webp
+coverImage: /assets/images/ctci-16-22-langton-s-ant.webp
+previewImage: /assets/images/ctci-16-22-langton-s-ant.webp
 ---
 
 > **टीएल;डीआर**

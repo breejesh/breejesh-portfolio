@@ -141,7 +141,7 @@ Just like in 2006, AI does not need to fail for the financial structure to break
 This is not just a problem for Silicon Valley venture capitalists. The debt is stacked across three connected layers:
 
 1. **Tier 1 (Unprofitable AI Startups):** Burning tens of billions annually on compute commitments; dependent on valuation step-ups to fund payroll and GPU contracts.
-2. **Tier 2 (Open-Source Deflation):** Free and low-cost open models trigger 40%–65% price slashing across commercial APIs, compressing unit economics.
+2. **Tier 2 (Open-Source Deflation):** Free and low-cost open models trigger 40%-65% price slashing across commercial APIs, compressing unit economics.
 3. **Tier 3 (Cloud Hyperscalers):** $2.1 Trillion in contract backlog supporting over $725 Billion in debt-funded datacenter infrastructure builds.
 4. **Tier 4 (S&P 500 & Sovereign Debt):** Top 10 stocks make up ~40% of the S&P 500, while the US Treasury faces $12 Trillion in debt rollovers by 2027 under higher yield scrutiny.
 

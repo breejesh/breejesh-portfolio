@@ -12,7 +12,7 @@ previewImage: /assets/images/ctci-17-25-word-rectangle.webp
 > * **The Optimal Solution:** **Trie-Pruned DFS Word Rectangle Search**:
 >   1. **Group words by length** in a dictionary. Build a Trie for each word-length group.
 >   2. **Enumerate rectangle dimensions** (width × height): try the largest area first.
->   3. **Row DFS**: Iteratively place a word of length `width` as the next row. After each word is placed, **prune columns** using the Trie for words of length `height` — if any column prefix is invalid, backtrack immediately.
+>   3. **Row DFS**: Iteratively place a word of length `width` as the next row. After each word is placed, **prune columns** using the Trie for words of length `height` - if any column prefix is invalid, backtrack immediately.
 >   4. Time: **exponential** worst-case with aggressive Trie pruning cutting almost all invalid branches.
 > * **Production Reality:** Crossword puzzle generation engines, word game board validation, and constraint propagation in NLP lattice parsing.
 
@@ -49,7 +49,7 @@ import java.util.*;
 
 public class WordRectangle {
 
-    // TrieNode omitted for brevity — standard insert/startsWith implementation
+    // TrieNode omitted for brevity - standard insert/startsWith implementation
 
     static Map<Integer, List<String>> groupByLength(String[] words) {
         Map<Integer, List<String>> map = new HashMap<>();

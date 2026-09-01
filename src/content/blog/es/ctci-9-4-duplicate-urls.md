@@ -24,7 +24,7 @@ En *Cracking the Coding Interview* (Problema 9.4), se nos plantea:
 * **Longitud Media:** 100 bytes.
 * **Tamano Total:** $10^{10} \times 100\text{ bytes} = 1\text{ TB}$.
 
-Dado que 1 TB excede la RAM de un servidor estandar (32–64 GB), analizamos las soluciones optimas.
+Dado que 1 TB excede la RAM de un servidor estandar (32-64 GB), analizamos las soluciones optimas.
 
 ---
 

@@ -90,7 +90,7 @@ public class MaxSubmatrix {
 
 | Phase | Time Complexity | Space |
 |---|---|---|
-| Row Pair Iteration | $O(M^2)$ | — |
+| Row Pair Iteration | $O(M^2)$ | - |
 | Column Sum Update + Kadane | $O(N)$ per pair | $O(N)$ |
 | **Total** | **$O(M^2 \cdot N)$** | **$O(N)$** |
 

@@ -86,7 +86,7 @@ public class FindDuplicates {
 
 ### Production Systems Architecture: Embedded Bit Arrays
 
-1. **Embedded Microcontroller Firmware (ARM Cortex-M):** Sensors reading continuous integer IDs operate under tight SRAM budgets (e.g. 8 KB–16 KB), relying on compact bit arrays for deduplication.
+1. **Embedded Microcontroller Firmware (ARM Cortex-M):** Sensors reading continuous integer IDs operate under tight SRAM budgets (e.g. 8 KB-16 KB), relying on compact bit arrays for deduplication.
 2. **TCP Sliding Window Sequence Tracking:** Sliding window acknowledgment masks track received packet numbers using fixed-size bit fields.
 
 ## Edge Cases & Production Hardening

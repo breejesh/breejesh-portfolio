@@ -25,7 +25,7 @@ In *Cracking the Coding Interview* (Problem 9.4), we are asked:
 * **Raw Dataset Size:** $10^{10} \times 100\text{ bytes} = 1\text{ TB}$.
 * **Hashed Dataset Size (64-bit MD5/MurmurHash):** $10^{10} \times 8\text{ bytes} = 80\text{ GB}$.
 
-Because 1 TB exceeds standard server RAM (32 GB–64 GB), we explore three production architectures.
+Because 1 TB exceeds standard server RAM (32 GB-64 GB), we explore three production architectures.
 
 ---
 

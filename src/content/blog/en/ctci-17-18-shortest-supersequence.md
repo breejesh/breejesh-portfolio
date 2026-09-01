@@ -8,7 +8,7 @@ previewImage: /assets/images/ctci-17-18-shortest-supersequence.webp
 ---
 
 > **TL;DR**
-> * **The Book Problem:** Given two arrays — `big` and `small` — find the shortest subarray of `big` containing all elements of `small`.
+> * **The Book Problem:** Given two arrays - `big` and `small` - find the shortest subarray of `big` containing all elements of `small`.
 > * **The Optimal Solution:** **Sliding Window with Next-Occurrence Index Tracking**:
 >   1. **Precompute Query Map**: For each element in `small`, build a sorted list of indices in `big` where it appears.
 >   2. **Priority Queue Pointer**: Use a Min-Heap tracking the current sweep pointer for each element of `small`.

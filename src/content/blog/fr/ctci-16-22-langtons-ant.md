@@ -3,8 +3,8 @@ title: "La Fourmi de Langton: Automates Cellulaires sur Grille Infinie (CTCI 16.
 description: "Simulez l'automate cellulaire de la fourmi de Langton sur un plan 2D infini à l'aide de HashSets de coordonnées et de boîtes englobantes en O(K)."
 date: "2026-05-06"
 tags: [Algorithmes et Structures]
-coverImage: /assets/images/ctci-16-22-langtons-ant.webp
-previewImage: /assets/images/ctci-16-22-langtons-ant.webp
+coverImage: /assets/images/ctci-16-22-langton-s-ant.webp
+previewImage: /assets/images/ctci-16-22-langton-s-ant.webp
 ---
 
 > **TL;DR**

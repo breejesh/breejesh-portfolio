@@ -63,7 +63,7 @@ public class MaxSubmatrix {
 
 | Fase | Complejidad Temporal | Espacio |
 |---|---|---|
-| Iteracion de Pares de Filas | $O(M^2)$ | — |
+| Iteracion de Pares de Filas | $O(M^2)$ | - |
 | Actualizacion de Suma + Kadane | $O(N)$ por par | $O(N)$ |
 | **Total** | **$O(M^2 \cdot N)$** | **$O(N)$** |
 

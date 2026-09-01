@@ -3,8 +3,8 @@ title: "Langton's Ant: Cellular Automata Simulation on Infinite Grids (CTCI 16.2
 description: "Simulate Langton's Ant cellular automaton on an infinite 2D plane using coordinate HashSets, dynamic bounding boxes, and state machines in O(K) time."
 date: "2026-05-06"
 tags: [Algorithms & Data Structures]
-coverImage: /assets/images/ctci-16-22-langtons-ant.webp
-previewImage: /assets/images/ctci-16-22-langtons-ant.webp
+coverImage: /assets/images/ctci-16-22-langton-s-ant.webp
+previewImage: /assets/images/ctci-16-22-langton-s-ant.webp
 ---
 
 > **TL;DR**

@@ -63,7 +63,7 @@ public class MaxSubmatrix {
 
 | Phase | Complexité Temporelle | Espace |
 |---|---|---|
-| Itération des Paires de Lignes | $O(M^2)$ | — |
+| Itération des Paires de Lignes | $O(M^2)$ | - |
 | Mise à Jour des Sommes + Kadane | $O(N)$ par paire | $O(N)$ |
 | **Total** | **$O(M^2 \cdot N)$** | **$O(N)$** |
 

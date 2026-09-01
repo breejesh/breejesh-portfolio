@@ -3,8 +3,8 @@ title: "La Hormiga de Langton: Autómatas Celulares en Planos Infinitos (CTCI 16
 description: "Simula el automata celular de la hormiga de Langton en una cuadricula infinita mediante conjuntos hash de coordenadas y cajas delimitadoras en O(K)."
 date: "2026-05-06"
 tags: [Algoritmos y Estructuras]
-coverImage: /assets/images/ctci-16-22-langtons-ant.webp
-previewImage: /assets/images/ctci-16-22-langtons-ant.webp
+coverImage: /assets/images/ctci-16-22-langton-s-ant.webp
+previewImage: /assets/images/ctci-16-22-langton-s-ant.webp
 ---
 
 > **TL;DR**

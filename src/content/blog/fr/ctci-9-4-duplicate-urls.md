@@ -24,7 +24,7 @@ Dans *Cracking the Coding Interview* (Problème 9.4), l'énoncé est :
 * **Longueur Moyenne :** 100 octets.
 * **Volume Brut :** $10^{10} \times 100\text{ octets} = 1\text{ To}$.
 
-1 To dépassant la RAM d'une machine standard (32–64 Go), nous explorons trois solutions adaptées.
+1 To dépassant la RAM d'une machine standard (32-64 Go), nous explorons trois solutions adaptées.
 
 ---
 

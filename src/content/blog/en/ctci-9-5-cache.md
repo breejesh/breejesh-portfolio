@@ -23,7 +23,7 @@ In *Cracking the Coding Interview* (Problem 9.5), we are asked:
 | Architecture | Pros | Cons |
 |---|---|---|
 | **Option 1: Isolated Local Cache** | Zero network latency. | Low cache hit rate (same query routed to 100 different machines duplicates cache entries 100 times). |
-| **Option 2: Dedicated Distributed Cache** | High cache hit rate; optimal memory utilization; query maps to single dedicated cache server. | Extra network hop (1–2 ms) on cache hit. |
+| **Option 2: Dedicated Distributed Cache** | High cache hit rate; optimal memory utilization; query maps to single dedicated cache server. | Extra network hop (1-2 ms) on cache hit. |
 | **Option 3: Two-Tier Hybrid (Recommended)** | L1 local cache holds top 1% viral queries (80% traffic); L2 distributed cluster handles remaining tail queries. | Slightly higher architectural complexity. |
 
 ## Production Implementation
