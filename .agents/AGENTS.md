@@ -193,6 +193,7 @@ When the user corrects your approach, append a one-line rule here before ending 
 - For macroeconomic, financial, and news analysis blog posts, omit code blocks and prioritize rigorous market data tables, balance sheet breakdowns, and policy mechanics.
 - Avoid formulaic blog templates; synthesize multiple news sources with critical analytical value-add across diverse archetypes (investigative journalism, tech startups, macro policy, and industry trends), omitting code blocks when not discussing specific code implementations.
 - Do not apply blanket bans on natural technical/business vocabulary (like 'landscape', 'leverage', 'deep dive', 'seamless'); permit their use when contextually accurate and substantive, while avoiding hollow AI filler phrasing.
+- Never duplicate the frontmatter coverImage inside the blog post Markdown body; the page template renders the cover image automatically.
 
 ---
 
