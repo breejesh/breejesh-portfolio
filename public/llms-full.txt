@@ -25,6 +25,19 @@ Anthropic's draft IPO filing shows explosive revenue, a giant mostly non-cash lo
 > * **The Mechanism:** OpenAI is negotiating a $30 billion private round at a $1.4 trillion valuation, a price it proposed itself, and reportedly wants to close before Anthropic lists. Whoever prices first sets the comparable for every frontier lab that follows.
 > * **The Outlook:** The loss is mostly accounting. The revenue is real and growing faster than almost anything in software history. The risk that matters is structural: Anthropic's three largest compute suppliers (Google, Amazon and Microsoft) are also its competitors, and the filing itself warns that compute could be "curtailed, repriced, or terminated."
 
+### Kimi K3.1 Pro: Three Points From the Frontier, Twelve Days From Open Weights
+
+- **URL:** [https://breejeshrathod.com/blog/en/kimi-k3-1-pro](https://breejeshrathod.com/blog/en/kimi-k3-1-pro)
+- **Date:** 2026-10-23
+- **Tags:** AI & Machine Learning
+
+Moonshot's Kimi K3.1 Pro is the same 2.8T-parameter model as K3 with far more reinforcement learning. It scores 55 on the Artificial Analysis Intelligence Index, three behind Claude Opus 5.5, at $2 / $10 per million tokens, with weights promised by November 4. Here's what the price cut, the benchmarks and the cyber filtering actually mean.
+
+> **TL;DR**
+> * **The Catalyst:** Moonshot AI released Kimi K3.1 Pro and a faster K3.1 Pro Highspeed on October 23, 2026. It is live in the Kimi apps, Kimi Work, Kimi Code and the API, at $2 / $10 per million input / output tokens. Moonshot says full weights will be released by November 4.
+> * **The Mechanism:** There is no new architecture. K3.1 Pro is K3, the 2.8T-parameter mixture-of-experts model from July, put through much more post-training: large-scale reinforcement learning across hundreds of task domains. On the Artificial Analysis Intelligence Index it moves from 44 to 55, fourth overall and three points behind Claude Opus 5.5.
+> * **The Outlook:** The per-token price fell by a third, but the cost per task barely moved because the model writes more. The real news is the calendar. If the weights ship as promised, the gap between the best open model and the best closed one falls to three index points.
+
 ### Three Million Workstation Cards: China's $35 Billion Nvidia Order Shows Where Export Controls Leak
 
 - **URL:** [https://breejeshrathod.com/blog/en/china-nvidia-rtx-pro-5500-orders](https://breejeshrathod.com/blog/en/china-nvidia-rtx-pro-5500-orders)
