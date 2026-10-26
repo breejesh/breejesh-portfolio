@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #ffffff;
+    display: inline-block;
+    padding: 10px;
+  }
+  svg {
+    display: block;
+  }
+</style>
+</head>
+<body>
+<div id="container">Loading...</div>
+<script type="module">
+  // Try local node_modules first, fallback to esm.sh CDN if local is absent
+  let exportToSvg;
+  try {
+    const mod = await import("./node_modules/@excalidraw/utils/dist/prod/index.js");
+    exportToSvg = mod.exportToSvg;
+  } catch (e) {
+    const mod = await import("https://esm.sh/@excalidraw/utils@0.1.1");
+    exportToSvg = mod.exportToSvg;
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const jsonFile = urlParams.get('file') || 'diagram.excalidraw';
+
+  async function loadAndRender() {
+    try {
+      const resp = await fetch(jsonFile);
+      const data = await resp.json();
+      let elements = data.elements || [];
+      
+      elements = elements.filter(e => !e.isDeleted);
+
+      const svg = await exportToSvg({
+        data: {
+          elements: elements,
+          appState: {
+            exportBackground: true,
+            viewBackgroundColor: "#ffffff",
+            exportWithDarkMode: false,
+            exportPadding: 20
+          },
+          files: data.files || null
+        }
+      });
+
+      const container = document.getElementById("container");
+      container.innerHTML = "";
+      container.appendChild(svg);
+
+      const doneMarker = document.createElement("div");
+      doneMarker.id = "RENDER_COMPLETE";
+      document.body.appendChild(doneMarker);
+      document.title = "DONE";
+    } catch (err) {
+      console.error("Render failed:", err);
+      const errMarker = document.createElement("div");
+      errMarker.id = "RENDER_ERROR";
+      errMarker.innerText = err.toString();
+      document.body.appendChild(errMarker);
+    }
+  }
+
+  loadAndRender();
+</script>
+</body>
+</html>
