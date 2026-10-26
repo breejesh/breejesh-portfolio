@@ -195,6 +195,7 @@ When the user corrects your approach, append a one-line rule here before ending 
 - Do not apply blanket bans on natural technical/business vocabulary (like 'landscape', 'leverage', 'deep dive', 'seamless'); permit their use when contextually accurate and substantive, while avoiding hollow AI filler phrasing.
 - Never duplicate the frontmatter coverImage inside the blog post Markdown body; the page template renders the cover image automatically.
 - When backdating blog posts, always backdate their git commits (author and committer dates) to match the article publication dates.
+- When the agent has no built-in image generator, generate cover images with the Antigravity CLI (`agy -p "Use your image generation tool to create one 16:9 ... save it as PNG at <path>" --mode accept-edits`), asking for no text or logos, then convert to 1000px WebP under 150 KB; never fall back to abstract SVG covers.
 
 ---
 
