@@ -1,306 +1,206 @@
 ---
-title: "Concevoir un rate limiter : algorithmes, patterns Redis et réalité des gateways"
-description: "Le rate limiting pour débutants absolus : analogie du videur de boîte, pourquoi les limites existent, token bucket et sliding window en langage clair, Redis comme carnet partagé, et une requête de bout en bout."
+title: "Concevoir un limiteur de débit : algorithmes, motifs Redis et réalité de la passerelle"
+description: "Comment fonctionnent vraiment les limiteurs de débit en production : choisir entre token bucket, fenêtre glissante et GCRA, une implémentation Lua atomique sur Redis, la place du limiteur dans la passerelle, l'échec ouvert ou fermé selon l'endpoint, la sémantique du 429, et les problèmes d'horloges et de clés chaudes qui surgissent à grande échelle."
 date: "2026-04-10"
 tags: [Design Système et Architecture]
 coverImage: /assets/images/design-a-rate-limiter.webp
 previewImage: /assets/images/design-a-rate-limiter.webp
 ---
 
-
 > **TL;DR**
-> * **Le Problème:** La conception d'architectures évolutives exige un équilibre entre disponibilité, débit et complexité opérationnelle.
-> * **L'Essentiel:** Le rate limiting pour débutants absolus : analogie du videur de boîte, pourquoi les limites existent, token bucket et sliding window en langage clair, Redis comme carnet partagé, et une requête de bout en bout.
-> * **Le Résultat:** Plan technique avec des objectifs quantitatifs et la gestion des pannes en production.
+> * **Le problème :** Un limiteur de débit doit décider d'accepter ou de refuser chaque requête, de manière cohérente sur toute une flotte de passerelles, en ajoutant bien moins d'une milliseconde de latence, sans devenir lui-même la panne qu'il devait empêcher.
+> * **La conception :** Appliquer la limite dans la passerelle d'API. Construire la clé par tenant, utilisateur, IP et route. Exécuter un token bucket sous forme d'un script Lua atomique unique sur un cluster Redis partitionné, mettre en cache localement les clés chaudes, et décider par endpoint si une défaillance du limiteur échoue en mode ouvert ou fermé. Renvoyer `429` avec `Retry-After` et des en-têtes de limite lisibles par machine.
+> * **Le résultat :** Un aller-retour Redis par requête, des limites équitables entre de nombreux nœuds de passerelle, un comportement maîtrisé quand Redis ralentit, et des limites que les clients peuvent comprendre.
 
-Imagine une boîte de nuit pleine un samedi soir. Un videur à la porte a un travail simple : laisser entrer les gens au rythme que la salle peut encaisser. Trop de monde d'un coup et le bar, les toilettes et les sorties saturent. Trop strict et les clients honnêtes partent en colère. Un **rate limiter** est ce videur pour ton API. Chaque requête s'approche et demande : "est-ce que je peux entrer maintenant ?" Le limiter répond oui, attends, ou non.
+Toute API publique finit par apprendre la même leçon : la boucle de réessais d'un client est la panne d'un autre. Un limiteur de débit est l'assurance la moins chère contre cela et, comme la plupart des assurances, il ne compte que le pire jour de l'année.
 
-Ce billet enseigne le rate limiting comme un professeur patient : d'abord les raisons humaines, puis les deux algorithmes que tu croiseras vraiment, puis le piège multi-serveurs, puis le parcours complet d'une seule requête. Tu n'as pas besoin d'expérience en systèmes distribués. Tu as besoin de curiosité et de l'envie de penser tickets et seaux d'eau quelques minutes.
-
----
-
-## Pourquoi les limites existent (en termes humains)
-
-Sans videur, trois douleurs arrivent vite.
-
-**Équité.** Une personne qui martèle le refresh peut manger toute la salle. Les autres attendent. Les limites donnent à chaque invité (utilisateur, IP, clé API) un budget pour qu'un voisin bruyant ne prive pas les autres.
-
-**Coût.** Chaque requête coûte quelque chose : CPU, temps base de données, argent vers un SMS ou une API d'IA tierce. Trafic gratuit illimité = facture gratuite illimitée. Les limites gardent les offres free viables et les offres payantes honnêtes.
-
-**Abus.** Les bots testent des mots de passe, scrapent ton catalogue ou spam les inscriptions. Une limite n'arrête pas pour toujours un attaquant motivé, mais elle freine les attaques bon marché assez pour que logs, CAPTCHA et sécu respirent.
-
-Langage produit que tu connais déjà :
-
-- Plan free : 100 appels API par jour.
-- Login : quelques essais, puis pause.
-- API météo : 60 requêtes par minute par clé.
-
-La même idée partout : **un budget d'actions dans le temps**.
+Cet article en conçoit un comme on le ferait pour une vraie plateforme d'API. Il assume ses choix d'algorithme, reste précis sur l'implémentation Redis et honnête sur ce qui casse.
 
 ---
 
-## Ce que tu comptes
+## À quoi sert vraiment un limiteur de débit
 
-Avant de choisir un algo, décide **qui** tu limites et **ce qu'** un "ticket" veut dire.
+Quand on dit « rate limiting », on désigne quatre choses différentes. L'article bien connu de Stripe sur ses limiteurs les distingue nettement, et la distinction tient toujours :
 
-| Tu comptes par... | Sens dans la vraie vie | Quand ça se tord |
+| Type de limiteur | Question à laquelle il répond | Règle typique |
 | --- | --- | --- |
-| Adresse IP | "Ce réseau téléphone" | Beaucoup de gens partagent une IP (bureau, opérateur mobile) |
-| User id | "Cette personne connectée" | Comptes bot partagés ou utilisateurs de service oubliés |
-| Clé API | "Cette app partenaire" | Une clé utilisée depuis beaucoup d'endroits à la fois |
-| Tenant + route | "Cette entreprise sur cet endpoint cher" | Une feature chaude brûle le quota de toute l'entreprise |
-| Tout le monde | "Protéger la cuisine partagée" | Un tenant bruyant blesse la plateforme |
+| Limiteur de débit de requêtes | Ce client envoie-t-il trop de requêtes par unité de temps ? | 100 requêtes par seconde par clé d'API |
+| Limiteur de requêtes concurrentes | Ce client a-t-il trop de requêtes en cours ? | 20 recherches coûteuses simultanées par utilisateur |
+| Délestage de la flotte | Le système entier approche-t-il de sa capacité ? | Réserver 20 % de la capacité au trafic critique |
+| Délestage par utilisation des workers | Ce groupe de workers est-il saturé ? | Abandonner les tâches peu prioritaires quand le groupe est occupé à 90 % |
 
-Un bon limiter répond à trois choses :
-
-1. **Autoriser ou refuser** (oui ou non maintenant).
-2. **Combien attendre** si refus (guidance type `Retry-After`).
-3. **Combien de budget reste** pour que le client ralentisse poliment.
-
-Le statut HTTP **429** veut dire "trop de requêtes." Pense au "pas encore" poli du videur.
+Cet article se concentre sur le premier, celui auquel pensent les recruteurs et la plupart des équipes produit. Les trois autres méritent d'être nommés, car un limiteur de débit seul ne vous protégera pas d'un client unique qui lance quelques requêtes très coûteuses.
 
 ---
 
-## Deux modèles mentaux que tu garderas
+## Exigences et budget
 
-Entretiens et production tournent autour de deux idées. Apprends-les avec des images dans la tête, pas seulement des formules.
+* Décider en ajoutant **moins de 1 ms** de latence p99 dans la passerelle.
+* Appliquer les limites **globalement** sur de nombreux nœuds de passerelle, pas nœud par nœud.
+* Gérer des règles par **tenant, utilisateur, clé d'API, IP et route**, avec différents niveaux (gratuit, pro, entreprise).
+* Tolérer les **rafales** légitimes (une page qui déclenche 15 appels d'API au chargement) sans laisser passer l'abus soutenu.
+* Se dégrader de façon **prévisible** quand le magasin d'état du limiteur lui-même est lent ou indisponible.
+* Indiquer aux clients **quand réessayer**.
 
-### 1. Token bucket = une cruche de tickets
-
-Imagine une cruche sur le comptoir. Elle peut contenir **B** tickets (la capacité). Chaque seconde (ou minute), la boîte verse **R** nouveaux tickets dans la cruche (le taux de remplissage). Quand tu arrives, il te faut un ticket. S'il y en a un, tu le prends et tu entres. Si la cruche est vide, tu attends.
-
-Sensations importantes :
-
-- Si la boîte est calme, les tickets s'empilent jusqu'à remplir la cruche. Tu peux alors laisser entrer une **rafale** courte (jusqu'à B personnes d'un coup).
-- Après la rafale, la cruche est vide. Les nouveaux n'entrent qu'à la vitesse du remplissage (taux R).
-- Taille de rafale et vitesse long terme sont des manettes séparées. Le produit adore : "autoriser un pic court, jamais plus que R pour toujours."
-
-C'est le **token bucket**. Les tokens sont des tickets. La capacité est le nombre de tickets de réserve. Le taux est la vitesse à laquelle tu en fabriques de nouveaux.
-
-### 2. Sliding window = une bande de temps qui roule
-
-Imagine un guichet qui ne regarde que les **60 dernières secondes**, pas "cette minute du calendrier." Une fenêtre de verre glisse sur la ligne du temps. Tu comptes combien de gens sont entrés sous ce verre. Si le compte est sous la limite, la personne suivante reçoit un tampon. Sinon, elle attend que d'anciens tampons sortent de la fenêtre.
-
-Deux saveurs courantes :
-
-**Sliding window log (exact, cher) :** tu notes chaque horodatage d'entrée. À chaque nouvelle personne, tu effaces les tampons de plus de 60 secondes et tu comptes le reste. Parfaitement juste. Lourd si des millions frappent, car chaque requête écrit et nettoie.
-
-**Sliding window counter (assez bien, pratique) :** au lieu de chaque tampon, deux seaux approximatifs : "minute précédente" et "minute courante." Tu les mélanges selon l'avancement dans la minute courante. Presque aussi lisse que le log, avec deux nombres au lieu d'une longue liste.
-
-**Fixed window** est le cousin naïf : "seulement 100 par minute calendaire." À 12:00:59 quelqu'un use 100. À 12:01:00 le compteur reset et il en use encore 100. En deux secondes il a utilisé 200. Les limites souples le tolèrent. Les SLA durs souvent non.
-
-| Idée | Image du quotidien | Sensation de rafale | Coût mémoire |
-| --- | --- | --- | --- |
-| Fixed window | Remettre le clicker à zéro chaque minute pile | Pics aux bords | Minuscule (un compteur) |
-| Sliding log | Liste exacte d'invités des 60 dernières s | Lisse et juste | Grande |
-| Sliding counter | Mélange approx de deux minutes | Quasi lisse | Minuscule (deux compteurs) |
-| Token bucket | Cruche de tickets qui se remplit lentement | Rafales contrôlées | Minuscule |
-| Leaky bucket | Évier qui s'écoule à gouttes fixes | Sortie lisse | File ou compteur |
-
-**Leaky bucket** (image bonus) : les gens font la queue, et la porte en laisse passer un à chaque tick fixe, comme un évier qui se vide à débit constant. La sortie est lisse. File pleine : les nouveaux sont refusés. Utile quand ce que tu protèges a besoin d'une arrivée stable plus que de pics courts.
-
-Pour la plupart des APIs, le sweet spot est **token bucket** ou **sliding window counter**.
+À 200 000 requêtes par seconde sur la flotte, un aller-retour vers le magasin d'état par requête représente 200 000 opérations par seconde. Une seule partition Redis gère sans difficulté de l'ordre de 100 000 opérations simples par seconde : prévoyez donc un cluster partitionné avec de la marge, plus un cache local pour les clés les plus chaudes.
 
 ---
 
-## Token bucket dans la forme de code la plus simple
+## Choisir l'algorithme
 
-Un processus, une horloge, pas encore de Redis. La cruche en code :
+| Algorithme | Fonctionnement | Comportement en rafale | Mémoire par clé | Précision | Où on le trouve |
+| --- | --- | --- | --- | --- | --- |
+| Fenêtre fixe | Compte les requêtes par fenêtre calendaire (par exemple par minute) | Autorise le double de la limite à la frontière de fenêtre | Un compteur | Faible aux bords | Quotas simples, plafonds journaliers |
+| Journal glissant | Stocke chaque horodatage et compte ceux de la dernière fenêtre | Pas de rafale à la frontière | Une entrée par requête | Exacte | Endpoints à faible volume et forte valeur |
+| Compteur à fenêtre glissante | Mélange pondéré de la fenêtre fixe courante et de la précédente | Lisse les bords | Deux compteurs | Approchée, très proche en pratique | Cloudflare a décrit cette approche pour sa limitation en périphérie |
+| Token bucket | Seau de `capacity` jetons rechargé à `rate` ; chaque requête consomme des jetons | Autorise des rafales jusqu'à la capacité, puis un débit constant | Deux nombres | Exacte pour son modèle | Passerelles d'API, API des fournisseurs cloud |
+| Leaky bucket | Les requêtes sont mises en file et s'écoulent à débit fixe | Lisse la sortie, ajoute de la latence | File | Exacte | Mise en forme du trafic |
+| GCRA | Suit un unique « temps d'arrivée théorique » | Identique au token bucket | Un horodatage | Exacte | Héritage télécom ; bibliothèques comme redis-cell |
 
-```python
-import time
+Mon choix par défaut est le **token bucket**. Il exprime les deux nombres qui intéressent vraiment les équipes produit (débit soutenu et taille de rafale), coûte deux champs par clé et s'explique facilement aux clients : « 100 par seconde, avec des rafales jusqu'à 200 ».
 
-class TokenBucket:
-    def __init__(self, rate: float, capacity: float):
-        self.rate = rate          # tickets ajoutés par seconde
-        self.capacity = capacity  # max de tickets dans la cruche
-        self.tokens = capacity
-        self.updated_at = time.monotonic()
+Le problème de frontière de la fenêtre fixe mérite d'être énoncé en entretien : avec une limite de 100 par minute, un client peut envoyer 100 requêtes à 12:00:59 et 100 de plus à 12:01:00, soit 200 requêtes en deux secondes.
 
-    def allow(self, cost: float = 1.0) -> bool:
-        now = time.monotonic()
-        elapsed = now - self.updated_at
-        # remplir selon le temps écoulé, jamais au-dessus de capacity
-        self.tokens = min(self.capacity, self.tokens + elapsed * self.rate)
-        self.updated_at = now
-        if self.tokens >= cost:
-            self.tokens -= cost
-            return True
-        return False
+---
+
+## Où vit le limiteur
+
+![Architecture du limiteur de débit : clients mobiles et d'API qui atteignent une passerelle avec filtre de limitation, laquelle interroge un cluster Redis et un cache local de jetons, récupère des règles auprès d'un service de configuration, transmet le trafic autorisé aux backends et émet ses décisions vers un flux de métriques](/assets/images/hld/design-rate-limiter-architecture.webp)
+
+* **Mobile App / API Client.** Des appelants non fiables. Certains sont bogués, quelques-uns hostiles, la plupart corrects.
+* **API Gateway + filtre de limitation.** Le point d'application. Elle analyse déjà l'authentification et le routage, donc elle dispose de l'identité et de la route nécessaires pour construire la clé. Appliquer la limite ici protège tous les backends avec une seule implémentation (le service de rate limit global d'Envoy et la plupart des passerelles managées suivent ce schéma).
+* **Rules Config.** Un petit service ou dépôt de configuration qui définit les limites par niveau, tenant et route. Les passerelles récupèrent les règles toutes les quelques secondes et les gardent en mémoire : une panne de configuration ne bloque jamais le trafic.
+* **Redis Cluster (compteurs).** L'état partagé. Chaque décision est un `EVALSHA` d'un script Lua préchargé, ce qui rend la lecture, la recharge et la décrémentation atomiques.
+* **Local Token Cache.** Pour une poignée de clés extrêmement chaudes (un gros tenant qui martèle une route), les passerelles peuvent louer à Redis un petit lot de jetons et les consommer localement, en échangeant un peu de précision contre beaucoup moins d'allers-retours.
+* **Orders API / Search API.** Les backends ne voient que le trafic autorisé. Les routes coûteuses (recherche) ont des limites plus strictes que les routes bon marché (lecture des commandes).
+* **Limit Metrics.** Chaque décision est émise de façon asynchrone, pour voir qui est limité, ajuster les règles et repérer les faux positifs. Ce flux ne doit jamais se trouver sur le chemin de la requête.
+
+La note rouge du schéma représente la décision de politique la plus importante de ce système ; elle est traitée plus bas.
+
+---
+
+## Le chemin de décision d'une requête
+
+![Chemin de décision du limiteur : la requête arrive, on construit la clé à partir de l'utilisateur, de l'IP et de la route, on trouve la règle, on exécute un token bucket atomique, puis on transmet au backend ou on rejette avec 429 et Retry-After](/assets/images/hld/design-rate-limiter-decision.webp)
+
+1. **Construire la clé.** Par exemple `rl:{tenant:acme}:route:search`. Les accolades forment un hash tag Redis Cluster, qui place toutes les clés d'un tenant dans le même slot si vous avez un jour besoin d'opérations multi-clés.
+2. **Trouver la règle.** La plus spécifique l'emporte : exception du tenant pour la route, puis niveau du tenant, puis niveau par défaut. Une requête sans règle correspondante reçoit quand même la règle par défaut, jamais « illimité ».
+3. **Exécuter le seau de façon atomique.** Lire, recharger, consommer et écrire doivent former une seule opération. Deux passerelles qui lisent puis écrivent en parallèle verront chacune un jeton et le consommeront toutes les deux.
+4. **Accepter ou rejeter.** Les requêtes acceptées continuent avec des en-têtes décrivant le budget restant. Les requêtes rejetées reçoivent `429 Too Many Requests` et un `Retry-After`.
+
+Voici le seau complet sous forme de script Lua Redis. Il utilise l'heure du serveur Redis plutôt que l'horloge de la passerelle, ce qui élimine le décalage d'horloge entre nœuds.
+
+```lua
+-- KEYS[1]: bucket key   ARGV[1]: capacity   ARGV[2]: refill tokens/sec   ARGV[3]: cost
+local cap, rate, cost = tonumber(ARGV[1]), tonumber(ARGV[2]), tonumber(ARGV[3])
+local t = redis.call('TIME')  -- Redis 5+ replicates script effects, so TIME is safe here
+local now = tonumber(t[1]) * 1000 + math.floor(tonumber(t[2]) / 1000)
+
+local b = redis.call('HMGET', KEYS[1], 'tokens', 'ts')
+local tokens = tonumber(b[1]) or cap
+local ts = tonumber(b[2]) or now
+
+tokens = math.min(cap, tokens + (now - ts) / 1000 * rate)
+local allowed = 0
+if tokens >= cost then
+  tokens = tokens - cost
+  allowed = 1
+end
+
+redis.call('HSET', KEYS[1], 'tokens', tokens, 'ts', now)
+redis.call('PEXPIRE', KEYS[1], math.ceil(cap / rate * 1000) + 1000)
+
+local retry_ms = 0
+if allowed == 0 then retry_ms = math.ceil((cost - tokens) / rate * 1000) end
+return { allowed, math.floor(tokens), retry_ms }
 ```
 
-Ce qu'un professeur soigneux soulignerait :
-
-- Préfère une **horloge stable** (monotone) pour le refill, pour qu'un saut d'horloge de laptop n'invente pas de tickets gratuits.
-- **Cost** peut être plus que 1. Une route chère "exporter tout" peut coûter 10 tickets ; un health check cheap, 1 ou même 0.
-- Un processus suffit pour la démo. Plusieurs serveurs ont besoin d'une cruche **partagée**, sinon chaque serveur est son propre videur avec un budget plein.
+Le `PEXPIRE` compte plus qu'il n'y paraît : les seaux inactifs expirent dès qu'ils auraient été entièrement rechargés, donc la mémoire suit le nombre de clients actifs, pas celui de tous les clients ayant jamais existé.
 
 ---
 
-## Plusieurs serveurs : carnets privés vs un carnet partagé
+## Dire aux clients ce qui s'est passé
 
-Le piège multi-serveurs en langage clair.
+Un limiteur qui rejette sans explication génère des tickets de support et aggrave les réessais côté client.
 
-Tu fais tourner **20** copies de ton API derrière un load balancer. Chaque copie tient un carnet privé : "cet utilisateur a utilisé 5 sur 100." L'utilisateur peut frapper les 20. Si le trafic se répartit, il obtient en gros **20 × 100** avant d'entendre non. Ta limite annoncée est devenue fiction.
+* **Statut :** `429 Too Many Requests` (défini dans la RFC 6585). N'utilisez pas `503` pour des limites par client ; cela leur dit que tout le service est en panne.
+* **`Retry-After` :** le nombre de secondes avant qu'un réessai ait des chances d'aboutir (RFC 9110). Le script Lua ci-dessus renvoie exactement ce nombre.
+* **En-têtes de budget :** l'API de GitHub renvoie `x-ratelimit-limit`, `x-ratelimit-remaining` et `x-ratelimit-reset` à chaque réponse, et le groupe de travail HTTPAPI de l'IETF normalise les champs `RateLimit` et `RateLimit-Policy`. Choisissez une convention et documentez-la.
+* **Consignes aux clients :** publiez qu'ils doivent réessayer avec un délai exponentiel et du jitter. Sans jitter, tous les clients limités réessaient au même instant et vous obtenez une ruée synchronisée.
 
-| Approche | Image | Ce qui se passe vraiment |
+---
+
+## Échec ouvert ou fermé ?
+
+Quand Redis est lent ou injoignable, le limiteur doit deviner. Il n'existe pas de bonne réponse universelle, c'est pourquoi le choix doit se configurer **par route**, et non globalement.
+
+| Type de route | Politique | Pourquoi |
 | --- | --- | --- |
-| Limite seulement en mémoire app | Chaque videur a un carnet privé | Le budget se multiplie par le nombre de serveurs |
-| Sticky sessions seulement | "Toujours la même porte" | Retries et réseaux mobiles cassent le stickiness |
-| Store partagé (souvent Redis) | Un carnet que tous lisent et écrivent | La vraie limite est à peu près la vraie limite |
+| Lectures, navigation du catalogue, la plupart des API | Échec ouvert | Une panne du limiteur ne doit pas devenir une panne totale. Les backends ont leur propre délestage |
+| Connexion, réinitialisation de mot de passe, vérification OTP | Échec fermé | Ces limites existent pour bloquer le bourrage d'identifiants et la force brute. Échouer en mode ouvert retire la protection précisément quand un attaquant pourrait être à l'origine de l'instabilité |
+| Écritures coûteuses, paiements | Échec fermé, ou repli sur une limite locale prudente | Ici, la surcharge coûte cher et se répare mal |
 
-**Redis** est le carnet partagé préféré de beaucoup d'équipes : très rapide, bon pour compteurs et petits hashes, scripts qui mettent à jour une clé sans que deux apps se marchent dessus.
-
-### Patterns que les gens déploient vraiment
-
-**Page fixed window dans le carnet**
-
-```
-key = rl:{apiKey}:{yyyyMMddHHmm}
-count = INCR key
-if count == 1: EXPIRE key 120
-if count > limit: DENY
-```
-
-Bon marché et simple. Accepte les pics au bord si le produit peut vivre avec.
-
-**Token bucket sur un hash partagé**
-
-Tu stockes `tokens` et `last_refill_time` sur une clé Redis. À chaque requête, un petit **script Lua** (une étape atomique sur Redis) remplit selon le temps, dépense un token si possible, écrit le solde, et renvoie allow/deny plus tickets restants. Sans update atomique, deux serveurs peuvent lire "il en reste 1," tous les deux autoriser, et sur-vendre le dernier ticket.
-
-**Sliding log en sorted set**
-
-Tu stockes des timestamps, tu drop les vieux, tu comptes, tu ajoutes le nouveau tampon. Exact, mais mémoire et CPU grandissent avec le trafic. À haut QPS, c'est souvent le premier pattern que tu regrettes.
-
-**Sliding counter avec deux pages**
-
-Clés pour "cette fenêtre" et "la précédente," mélangées avec un poids. Presque toute la douceur, peu du coût.
-
-### Fail-open vs fail-closed (quand le carnet manque)
-
-Si Redis est down, il te faut encore une politique :
-
-- **Fail open :** laisser passer le trafic (peut-être avec un plafond local d'urgence). Beaucoup d'apps grand public choisissent ça pour que la douleur Redis ne devienne pas une panne totale.
-- **Fail closed :** refuser. Paiements et login choisissent souvent ça pour que le chaos ne veuille pas dire essais illimités gratuits.
-
-Aucun n'est gratuit. Choisis exprès par surface, et alarme les erreurs Redis dans les deux cas.
-
-### Les horloges mentent si tu les laisses
-
-Si chaque serveur d'app utilise sa propre horloge murale pour "dans quelle minute suis-je," deux serveurs peuvent diverger un instant. Pattern plus sûr : **temps serveur Redis** dans le script pour refill et id de fenêtre. Pour les démos locales, horloge monotone. Ne fais jamais confiance à un timestamp inventé par le client.
+Fixez un délai d'expiration court sur l'appel Redis (quelques millisecondes). Un limiteur qui attend Redis pendant 2 secondes a déjà échoué, simplement plus lentement.
 
 ---
 
-## Parcours d'une requête API à travers le limiter
+## Les problèmes qui surgissent à grande échelle
 
-Rencontre **Priya**. Elle est connectée. Son plan free autorise **100 requêtes par minute**, avec une rafale courte de **20**. Le système a beaucoup de pods API et un carnet Redis.
+**Les clés chaudes.** Un tenant énorme peut concentrer une grande part du trafic sur une seule clé Redis, donc sur une seule partition. Solutions : découper la clé (`rl:{acme}:search:0..7`, chacune avec un huitième du débit) ou louer des jetons par lots aux passerelles via le cache local. Les deux échangent un peu de précision contre du débit.
 
-1. **Le client envoie la requête**  
-   Le navigateur ou l'app mobile appelle `GET /api/weather?city=Pune` avec le cookie de session de Priya (ou sa clé API).
+**Le multi-région.** Une limite globale entre régions exige soit un magasin global (latence), soit un budget partagé (chaque région reçoit une part, rééquilibrée périodiquement). La plupart des systèmes choisissent des budgets par région et acceptent qu'un client qui sollicite deux régions obtienne un peu plus que la limite nominale.
 
-2. **Le load balancer choisit un pod**  
-   N'importe quel serveur sain peut la servir. C'est OK, car le compte ne vivra pas seulement dans la mémoire de ce pod.
+**Le décalage d'horloge.** Utiliser l'horloge des passerelles dans le calcul du seau fait diverger deux nœuds sur le temps écoulé. Utiliser `TIME` de Redis, comme ci-dessus, l'évite. Si votre magasin n'a pas d'horloge serveur, utilisez un temps monotone sur une autorité unique.
 
-3. **Auth d'abord (en général)**  
-   L'app vérifie que c'est Priya. La clé de rate devient quelque chose comme `rl:user:priya123`, pas seulement son IP. (Tu peux encore avoir une limite IP pour les bots qui ne se connectent jamais.)
+**Les réessais amplifient la charge.** Clients, SDK et service meshes réessaient tous. Si chaque couche réessaie trois fois, une requête utilisateur peut devenir des dizaines. Comptez les réessais sur le même budget, et assurez-vous que les réessais internes respectent aussi `Retry-After`.
 
-4. **Check du limiter (le videur)**  
-   L'app (ou un plugin gateway) appelle Redis avec la clé, la règle (token bucket : capacity 20, refill environ 100/60 par seconde) et cost 1. Le script Lua :
-   - lit tokens courants et dernier refill,
-   - ajoute des tickets pour le temps passé (plafonné à capacity),
-   - si tokens ≥ 1, soustrait 1 et autorise,
-   - sinon refuse et calcule un petit délai de retry.
-
-5. **Chemin allow**  
-   La requête continue vers la logique métier, peut-être le service météo, renvoie 200. Les en-têtes peuvent dire combien de tickets restent pour que son SDK ralentisse avant le prochain deny.
-
-6. **Chemin deny**  
-   La requête ne brûle pas de travail cher. Le client reçoit **429**, un indice `Retry-After`, et remaining = 0. Les clients honnêtes attendent. Les abusifs restent freinés par le carnet partagé sur tous les pods.
-
-7. **Observabilité**  
-   Les métriques comptent allows et denys. Si les denys explosent pour une clé, l'on-call demande "panne réelle, limite produit trop serrée, ou client bruyant ?" avant de "réparer" en montant le chiffre à l'aveugle.
-
-Toute cette histoire est le system design d'un rate limiter : **politique + algorithme + store partagé + feedback client clair**.
+**Les limites font partie du produit.** Elles appartiennent à votre tarification et à votre contrat. Les modifier en silence casse des intégrations. Versionnez-les et annoncez-les comme une API.
 
 ---
 
-## Où se tient le videur (réalité des gateways)
+## Une réponse calibrée pour l'entretien
 
-Tu peux placer des limites à plusieurs endroits. Beaucoup d'équipes empilent des couches, comme la sécu du club dans la rue, à la porte, et au salon VIP.
+1. Clarifiez ce qui est limité (par utilisateur, par IP, par clé) et si les limites sont strictes ou souples.
+2. Placez le limiteur dans la passerelle, avec l'état partagé dans Redis.
+3. Choisissez le token bucket, en vous appuyant sur le problème de frontière de la fenêtre fixe.
+4. Rendez la vérification atomique avec un script Lua.
+5. Renvoyez `429` avec `Retry-After`.
+6. Discutez de l'échec ouvert ou fermé par endpoint et du problème des clés chaudes.
 
-| Emplacement | Force | Faiblesse |
-| --- | --- | --- |
-| CDN / edge | Stoppe le junk tôt | Clés grossières ; peu de contexte métier |
-| API gateway | Plans par clé, 429 prêts | "Ce body coûte 5" devient maladroit |
-| Service mesh (Envoy) | Limites locales par route | Local seul = encore N × limite |
-| Middleware app | Connaît user et plan produit | Facile d'oublier sur un nouveau service |
-| Lib par service | Rapide pour une équipe | Drift entre langages |
-
-Règle pratique : **limites IP grossières à l'edge**, **limites user ou plan après auth**, **garde-fous en plus sur les mutations chères** (reset mot de passe, export bulk). Les gateways ne suppriment pas les limites app. Ils évitent que chaque service junior réinvente la maths des tickets le jour un.
-
-Pile hiérarchique d'exemple :
-
-1. Par IP (abus)
-2. Par utilisateur (équité)
-3. Par route de tenant (produit)
-4. Circuit global sur une dépendance fragile
-
-Refuse si **n'importe quelle** couche dit non. Vérifie d'abord les couches cheap quand tu peux.
+Cela couvre ce que la plupart des recruteurs veulent entendre. Le reste est de la profondeur à proposer si le temps le permet.
 
 ---
 
-## Un design défendable en entretien
+## Liste de contrôle pour la production
 
-**Clarifie d'abord :**
-
-- 100 requêtes par utilisateur par minute, rafale 20.
-- Doit marcher sur 20 instances d'app.
-- Préférer faible latence ; léger overshoot OK si Redis vacille.
-- Renvoyer 429 avec guidance de retry.
-
-**Propose :**
-
-1. Clé : `rl:user:{userId}` (hash-tagged si Redis Cluster).
-2. Algorithme : token bucket, capacity 20, refill 100/60 tokens par seconde.
-3. Storage : Redis primary, Lua atomique, temps Redis pour le refill.
-4. Placement : gateway pour IP grossière ; app (ou plugin gateway vers Redis) pour quotas user après auth.
-5. Panne : fail-open local court avec plafond local dur ; alarme sur erreurs Redis.
-6. Observabilité : compteurs allow/deny, histogramme remaining, top des clés refusées.
-
-**Dis les trade-offs à voix haute :**
-
-- Fixed window est simple mais bursty aux bords.
-- Sliding log est exact mais lourd.
-- Token bucket colle au langage produit (rafale + soutenu).
-- Exactitude globale parfaite sous split réseau est chère ; approximer avec un mode de panne choisi est de l'ingénierie normale.
+- [ ] Règles définies par niveau, tenant et route, avec un niveau par défaut pour tout le reste
+- [ ] Vérification et consommation atomiques (Lua ou opération équivalente côté serveur)
+- [ ] Heure du serveur pour le calcul du seau
+- [ ] Les clés de seau expirent quand elles sont inactives
+- [ ] Délai d'expiration court sur le magasin d'état, avec une politique d'échec ouvert ou fermé par route
+- [ ] `429`, `Retry-After` et en-têtes de budget documentés pour les clients
+- [ ] Atténuation des clés chaudes (clés découpées ou location locale de jetons)
+- [ ] Décisions envoyées aux métriques ; tableaux de bord du taux de limitation par tenant et par route
+- [ ] Limites de concurrence séparées pour les endpoints coûteux
+- [ ] Test de charge incluant un Redis lent, pas seulement un Redis en panne
 
 ---
 
-## Checklist production
+## Ce qui reste
 
-- [ ] Clés avec user/tenant/route, pas seulement l'IP
-- [ ] Chemin d'update atomique (Lua ou équivalent), pas de courses read-then-write naïves
-- [ ] Hash tags Cluster si scripts multi-clés
-- [ ] Source d'horloge partagée ou monotone
-- [ ] 429 + Retry-After + en-têtes remaining documentés
-- [ ] Fail-open ou fail-closed choisi par surface
-- [ ] Load test avec N instances et une hot key
-- [ ] Dashboards taux de deny et erreurs Redis
-- [ ] Limites séparées pour login, reset password et mutations chères
-- [ ] Runbooks "monter la limite" vs "trouver le client bruyant"
+Le limiteur de débit est le seul composant dont le rôle est de dire non à vos propres clients. S'il est un peu mal réglé, ceux que vous limitez sont vos meilleurs clients, ceux dont les intégrations ont grandi plus vite que vos règles.
+
+Alors journalisez chaque rejet, et lisez le journal. Quelque part là-dedans se trouve un client que vous auriez dû appeler au lieu de le limiter.
 
 ---
 
-## Récap pour un ami
+## Sources
 
-Un rate limiter est un **videur pour ton API**. Il existe pour qu'un invité ne mange pas la salle (**équité**), pour que la facture cloud n'explose pas (**coût**), et pour que les bots ne te martèlent pas gratuitement (**abus**).
-
-Deux images restent :
-
-1. **Token bucket :** une cruche de tickets qui se remplit lentement. Une courte file peut entrer s'il y a des tickets en réserve. Sur le long terme tu ne vas jamais plus vite que le taux de remplissage.
-2. **Sliding window :** tu ne comptes que ce qui s'est passé dans la dernière bande de temps pendant que la fenêtre avance. Les listes exactes d'invités sont justes mais lourdes ; deux compteurs mélangés suffisent souvent.
-
-Plusieurs serveurs avec chacun un **carnet privé** multiplient en silence ta limite. Un **carnet partagé** (souvent Redis) garde le vrai budget. Parcours une requête : client → load balancer → auth → check partagé → allow vers le vrai travail ou 429 avec "réessaie plus tard."
-
-Si tu ne retiens qu'une leçon de production : **les compteurs partagés battent la maths locale maline**, et **les horloges mentent** si tu n'imposes pas une seule source de temps. Commence par token bucket ou sliding window counter sur Redis, mets des limites grossières à l'edge, garde les quotas produit près de l'auth, et mesure les denys avant de les "réparer" en montant le chiffre.
-
+* [Stripe : Scaling your API with rate limiters](https://stripe.com/blog/rate-limiters)
+* [Cloudflare : How we built rate limiting capable of scaling to millions of domains](https://blog.cloudflare.com/counting-things-a-lot-of-different-things/)
+* [Envoy proxy : global rate limiting](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/global_rate_limiting)
+* [RFC 6585 : Additional HTTP Status Codes (429)](https://www.rfc-editor.org/rfc/rfc6585)
+* [Projet IETF : RateLimit header fields for HTTP](https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/)
+* [GitHub REST API : rate limits](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api)
+* [Redis : scripting with Lua](https://redis.io/docs/latest/develop/interact/programmability/eval-intro/)
+* Dans la même série : [Concevoir un raccourcisseur d'URL](/blog/fr/design-url-shortener), [Motifs de cache avec Redis](/blog/fr/redis-caching-patterns)

@@ -1,295 +1,144 @@
 ---
-title: "Concevoir un crawler web : frontier, politesse, fetch, dedup et scale"
-description: "Comment fonctionne un crawler web en langage simple : seeds, file frontier, politesse, fetch, parse, store et dedup. Une page suivie dans le pipeline, plus un récap pour un ami."
+title: "Concevoir un robot d'exploration web : frontière, politesse, téléchargement, déduplication et nouvelle exploration à grande échelle"
+description: "Un robot capable d'explorer un milliard de pages : calcul de capacité, frontière d'URL à la Mercator avec files de priorité devant et une file par hôte derrière, robots.txt et politesse, téléchargement asynchrone avec cache DNS, stockage WARC, déduplication d'URL et de contenu par SimHash, pièges à robots et planification des nouvelles visites."
 date: "2025-10-30"
 tags: [Design Système et Architecture]
 coverImage: /assets/images/design-web-crawler.webp
 previewImage: /assets/images/design-web-crawler.webp
 ---
 
-
 > **TL;DR**
-> * **Le Problème:** La conception d'architectures évolutives exige un équilibre entre disponibilité, débit et complexité opérationnelle.
-> * **L'Essentiel:** Comment fonctionne un crawler web en langage simple : seeds, file frontier, politesse, fetch, parse, store et dedup. Une page suivie dans le pipeline, plus un récap pour un ami.
-> * **Le Résultat:** Plan technique avec des objectifs quantitatifs et la gestion des pannes en production.
+> * **Le problème :** Télécharger un milliard de pages par mois depuis des millions de sites indépendants, sans en surcharger aucun, sans récupérer deux fois la même chose, sans se perdre dans des espaces d'URL infinis, tout en revisitant les pages qui changent.
+> * **La conception :** Une boucle frontière, téléchargement, stockage, analyse, filtrage, déduplication, puis retour à la frontière. La frontière place des files de priorité devant et une file par hôte derrière, régulées par un tas de « prochaine heure de visite autorisée », si bien que la politesse est garantie par construction. La vérification des URL déjà vues utilise un filtre de Bloom adossé à un magasin clé-valeur ; le contenu quasi dupliqué est repéré par SimHash.
+> * **Le résultat :** Environ 400 pages par seconde en régime continu avec une flotte modeste, chaque hôte contacté au plus une fois toutes les quelques secondes, et un effort d'exploration consacré aux pages nouvelles, importantes ou susceptibles d'avoir changé.
 
-Imaginez un bibliothécaire qui veut une fiche pour chaque livre public sur Terre, sauf que les "livres" sont des pages web et que de nouvelles apparaissent chaque seconde. Ou imaginez un robot aspirateur qui doit visiter chaque pièce d'un immeuble de la taille d'une ville : il lui faut une liste de pièces à nettoyer, il ne doit pas frapper la même porte cent fois, et il doit se souvenir des pièces déjà nettoyées pour ne pas tourner en boucle pour toujours.
+Un robot d'exploration ressemble au programme le plus simple de cette série : télécharger une page, trouver ses liens, télécharger ceux-là. Écrire cette boucle prend dix minutes. La faire tourner sur le vrai web pendant une semaine vous apprend tout le reste : des serveurs qui ralentissent quand vous êtes impoli, des calendriers aux liens « mois suivant » sans fin, un million de pages qui sont la même page avec des identifiants de session différents, et des propriétaires de sites qui vous écrivent.
 
-Un **crawler web** est ce bibliothécaire et ce robot réunis en logiciel. Les moteurs de recherche, les archives, les moniteurs de prix et les outils de recherche utilisent tous une forme de ce système. Le crawler de Google est célèbre, mais l'idée est la même à toute taille : commencer quelque part, télécharger une page, trouver des liens, les visiter ensuite, stocker ce qu'on a trouvé, et éviter de refaire le même travail.
-
-Ce billet s'adresse aux débutants absolus. Nous nommerons chaque pièce en mots simples, suivrons une page dans tout le pipeline, et terminerons par un récap que vous pourriez raconter à un ami autour d'un café.
+Cet article conçoit un robot généraliste, du genre qui alimente un index de recherche ou un grand corpus de recherche comme Common Crawl.
 
 ---
 
-## Quel problème résout-on ?
+## Exigences et chiffres
 
-Le web public est un graphe géant. Chaque page est un nœud. Chaque hyperlien est une arête dirigée d'une page vers une autre. Personne ne vous remet une carte complète. Vous n'avez que quelques adresses de départ et les liens écrits sur chaque page visitée.
+**Fonctionnelles :** partir d'URL de départ, découvrir et télécharger des pages HTML, stocker le contenu brut, extraire les liens, respecter robots.txt, revisiter les pages au fil du temps.
 
-Le crawler doit donc :
+**Non fonctionnelles :** politesse (ne jamais surcharger un site), robustesse face au HTML mal formé et aux espaces d'URL hostiles, passage à des milliards de pages, extensibilité vers de nouveaux types de contenu.
 
-1. Partir d'une courte liste d'adresses connues et fiables.
-2. Tenir une liste de tâches des pages encore à visiter.
-3. Télécharger chaque page avec soin pour ne pas écraser un site.
-4. Lire le HTML, en extraire le texte utile et les liens.
-5. Sauver la page quelque part de durable.
-6. Repérer les doublons pour ne pas gaspiller disque et temps.
-7. Répéter jusqu'à épuisement du budget ou de la file.
-
-Si vous ne retenez que la boucle : **découvrir → télécharger → comprendre → sauver → découvrir encore.**
-
----
-
-## La distribution des rôles (en mots simples)
-
-| Nom | Ce que cela veut dire dans la vraie vie |
-| --- | --- |
-| **Seed URLs** | Les premières portes que vous ouvrez exprès |
-| **Frontier (file)** | La liste de post-it "à visiter ensuite" |
-| **Politesse (politeness)** | Ne pas marteler un seul site ; attendre son tour par hôte |
-| **Fetch** | Télécharger vraiment la page en HTTP |
-| **Parse** | Lire le HTML, trouver liens et contenu |
-| **Store** | Garder le corps de page et les métadonnées sur disque ou object storage |
-| **Dedup** | Ignorer les adresses et les corps déjà traités |
-
-En entretien on dit "URL frontier", "fetcher", "content store" et "URL seen". Ce ne sont que les noms professionnels du même casting.
-
----
-
-## Seed URLs : où commence le crawl
-
-Une **seed** est une URL que vous mettez dans le système à la main (ou depuis une liste de confiance) avant que la découverte ne commence. Le crawler ne peut pas inventer la première page à partir de rien. Les seeds sont les portes d'entrée.
-
-De bonnes seeds ressemblent à :
-
-- Des homepages connues (sites d'actualité, portails gouvernementaux, racines d'universités).
-- Des hubs thématiques si vous ne vous intéressez qu'au shopping, au sport ou à la doc.
-- Des sitemaps ou les "meilleurs hôtes du crawl du mois dernier" quand vous redémarrez.
-
-De mauvaises seeds vous piègent. Si chaque seed est un minuscule blog qui ne se lie qu'à lui-même, le robot aspirateur ne quitte jamais un couloir. Pour un crawl large, vous voulez **beaucoup de quartiers différents**, pas une seule clique dense.
-
-Les seeds entrent d'abord dans la frontier. Ensuite, presque chaque nouvelle URL vient des liens trouvés sur des pages déjà téléchargées.
-
----
-
-## La frontier : la liste de tâches d'internet
-
-La **URL frontier** est la file des pages qui attendent d'être téléchargées. Voyez-la comme la liste du robot des pièces encore sales, ou la pile du bibliothécaire des livres encore non vérifiés.
-
-Habitudes importantes pour cette liste :
-
-1. **Premier entré, premier sorti est l'histoire simple.** Le parcours en largeur (BFS) signifie : visiter d'abord le voisinage des seeds, puis élargir. Cela correspond à "nettoyer toutes les pièces de cet étage avant de plonger dans un sous-sol sans fin."
-2. **Le parcours en profondeur est un mauvais défaut.** Suivre une seule chaîne de liens pour toujours peut vous piéger dans des calendriers, des ids de session ou des chemins infinis.
-3. **La priorité aide.** La homepage d'un grand journal mérite souvent l'attention avant un fil de commentaires au hasard. Les systèmes de production gardent plusieurs files frontales (haute, moyenne, basse priorité) et y piochent avec un biais vers le travail important sans affamer complètement le reste.
-4. **La liste est énorme.** Des centaines de millions d'URL en attente ne tiennent pas confortablement dans la RAM d'un portable. Les frontiers réelles vivent dans des files persistées sur disque, souvent découpées entre machines par nom d'hôte.
-
-Une astuce de structure de plus : beaucoup de designs utilisent des **front queues** pour la priorité et des **back queues** par hôte de site. La priorité décide *quel type* de travail est prêt ; la file par hôte décide *quand* cet hôte peut être recontacté. C'est ainsi que politesse et ordre utile cohabitent dans le même système.
-
-```
-nouvelle URL → scorer la priorité → front queues → router par hôte → back queue par hôte → worker
-```
-
----
-
-## Politesse : ne pas marteler un seul site
-
-Si votre robot trouve 500 liens sur `example.com` et ouvre 500 connexions d'un coup, vous ne crawlz pas. Vous attaquez. Les sites ralentissent, renvoient des erreurs ou bannissent votre IP. Un bon crawler traite chaque hôte comme le bureau d'une bibliothèque partagée : une requête soignée à la fois (ou une petite limite documentée), puis une courte pause.
-
-La **politesse** signifie en général :
-
-- Au plus un téléchargement actif par hôte (parfois par IP, car beaucoup de sites partagent une machine).
-- Un délai entre deux visites du même hôte (par exemple une ou deux secondes, ou ce que demande le site).
-- Lire d'abord **`robots.txt`**. C'est un petit fichier que les propriétaires publient à `https://host/robots.txt` pour dire "vous pouvez crawler ici" et "restez hors de `/admin`."
-- Un **User-Agent** clair avec une page de contact, pour que les humains sachent qui vous êtes.
-- Reculer plus fort quand le site renvoie `429` (trop de requêtes) ou `503` (indisponible).
-
-Si vous ne gardez qu'une règle de production de ce billet : **ne laissez jamais le crawl parallèle devenir un déni de service contre un seul hôte.** Le débit sur tout le web compte. La politesse par hôte n'est pas négociable.
-
----
-
-## Fetch : télécharger la page
-
-**Fetch** est le moment où le worker dit vraiment "donne-moi cette URL" sur le réseau.
-
-Un chemin de fetch soigné ressemble à :
-
-1. Prendre la prochaine URL autorisée dans la frontier (en respectant le délai de l'hôte).
-2. La normaliser (hôte en minuscules, enlever les fragments inutiles comme `#section` ; les formes relatives se corrigent au parse).
-3. Vérifier les règles robots de cet hôte (depuis un cache si vous les avez déjà chargées).
-4. Résoudre le DNS (avec un cache local pour ne pas attendre la résolution de nom à chaque fois).
-5. HTTP GET avec des timeouts courts, une taille max de corps et un budget limité de redirections.
-6. Passer le corps de la réponse au parser, ou enregistrer l'échec et continuer.
-
-Détails pratiques qu'un débutant devrait encore entendre :
-
-| Préoccupation | Règle simple |
-| --- | --- |
-| Timeouts | Échouer en secondes, pas en minutes |
-| Gros fichiers | Plafonner la taille pour qu'un téléchargement monstre ne bloque pas le worker |
-| Redirections | Limiter les sauts ; traiter un saut vers un nouvel hôte sous la politesse de cet hôte |
-| Compression | Accepter gzip ; économiser la bande passante |
-| Recrawl | Utiliser `If-None-Match` / `If-Modified-Since` quand vous avez déjà une copie |
-
-À l'échelle vous lancez beaucoup de fetchers sur beaucoup de machines, en général **shardés par hôte** pour que le verrou de politesse de `example.com` vive à côté des workers qui parlent à `example.com`.
-
----
-
-## Parse : lire le HTML et trouver les prochaines portes
-
-**Parse** signifie : regarder dans les octets téléchargés et les comprendre assez pour stocker le contenu et extraire les liens.
-
-Pour le HTML cela veut souvent dire :
-
-1. Confirmer que c'est à peu près du HTML (pas un binaire au hasard que vous ne vouliez pas).
-2. Extraire le texte principal et des métadonnées utiles (titre, indices de langue, URL canonique si présente).
-3. Trouver chaque lien `a href="..."`.
-4. Transformer les liens relatifs (`/about`) en absolus (`https://example.com/about`) avec l'URL finale après redirections.
-5. Nettoyer l'URL : enlever les `#fragments`, parfois jeter le tracking si le produit le permet.
-
-Ensuite un **filtre d'URL** jette le travail que vous refusez de faire :
-
-- Schémas `mailto:`, `javascript:`, `data:`.
-- Types de fichiers indésirables (`.zip`, `.mp4`) sauf si le produit dit le contraire.
-- URLs absurdement longues qui ressemblent à des pièges à araignées.
-- Hôtes en liste noire.
-
-Ce qui survit passe par le **dedup d'URL** (ci-dessous) et, si c'est nouveau, revient dans la frontier.
-
-À petite échelle, le parse peut vivre sur la même machine que le fetch. À grande échelle, workers de téléchargement et de parse sont des étapes séparées pour qu'un parser lent ne bloque pas le réseau.
-
----
-
-## Store : garder ce que vous avez payé pour télécharger
-
-**Store** est la mémoire durable du crawl : le corps de la page plus assez de métadonnées pour l'utiliser plus tard (l'indexer, l'archiver, la comparer la semaine prochaine).
-
-Découpage typique :
-
-- **Blob / object storage** pour le HTML (ou HTML compressé). Gros volume, écritures lourdes, tiers bon marché dans le temps.
-- **Base de métadonnées** pour de petits faits : URL, heure de fetch, code de statut, content-type, hash de contenu, taille.
-
-Vous gardez les métadonnées pour répondre sans relire chaque blob : "Quand l'avons-nous téléchargée la dernière fois ?" "Était-ce un 404 ?" "Ce hash est-il déjà connu ?"
-
-La politique de recrawl vit à côté. Les pages importantes changent souvent ; la longue traîne peut attendre plus longtemps. Un recrawl aveugle de tout le web est cher, donc les systèmes apprennent les rythmes de changement et dépensent le budget là où la fraîcheur compte.
-
----
-
-## Dedup : sauter le travail déjà fait
-
-Le web adore les copies. Le même article peut apparaître sur `www` et sur le domaine nu. Les miroirs réimpriment le même corps sous de nouvelles URLs. Sans **déduplication**, vous brûlez disque et CPU en déjà-vu.
-
-Il y a deux couches, et un débutant doit garder les deux :
-
-| Couche | Question | Analogie du quotidien |
+| Hypothèse | Valeur | Conséquence |
 | --- | --- | --- |
-| **URL seen** | Avons-nous déjà planifié ou téléchargé cette adresse ? | Avons-nous déjà écrit ce numéro de pièce sur la liste de nettoyage ? |
-| **Content seen** | Avons-nous déjà stocké ce corps de page (ou un jumeau exact) ? | Avons-nous déjà classé ce texte de livre exact sous une autre cote ? |
+| Pages par mois | 1 milliard | ~385 pages/s en moyenne |
+| Page HTML moyenne | ~100 Ko | ~100 To/mois bruts, quelques dizaines de To compressés |
+| Durée moyenne d'un téléchargement | ~500 ms | ~200 téléchargements simultanés suffisent ; prévoir des milliers pour la marge |
+| Liens par page | ~50 | ~20 000 nouvelles URL candidates par seconde avant déduplication |
+| URL vues en un an | Des dizaines de milliards | L'ensemble des URL vues ne tient pas naïvement dans la mémoire d'une machine |
 
-Le **dedup d'URL** empêche la frontier d'exploser avec le même lien trouvé sur mille pages. Les implémentations vont d'un simple ensemble en base à un filtre de Bloom devant un store durable. Les filtres de Bloom économisent la mémoire mais peuvent parfois dire "vu" alors que l'URL était nouvelle (vous perdez un peu de couverture). Les stores exacts coûtent plus de mémoire ou de disque.
-
-Le **dedup de contenu** hache le corps (copies exactes). Si le hash existe déjà, vous évitez d'écrire un autre blob complet, ou vous ne stockez qu'un pointeur vers la première copie. La détection de quasi-doublons (le même article avec d'autres pubs) est un système plus lourd, pour plus tard. Le hash exact est le défaut d'entretien.
-
-Les deux couches comptent pour des bugs différents :
-
-- Deux URLs, un corps → le dedup de contenu économise le stockage.
-- URLs uniques infinies avec de la query bidon → filtres d'URL, limites de chemin et budgets par hôte sauvent la frontier.
+Les chiffres intéressants ne concernent pas la bande passante. Ce sont les 20 000 URL candidates par seconde qui exigent une réponse à « l'ai-je déjà vue ? », et les millions d'hôtes qui ont chacun besoin de leur propre limite de rythme.
 
 ---
 
-## Vue d'ensemble
+## Le pipeline
 
-```
-Seed URLs
-    │
-    ▼
-┌─────────────┐     ┌──────────────┐     ┌────────────────┐
-│ URL Frontier│────►│ Fetcher      │────►│ Parser         │
-│ (priorité + │     │ DNS, robots, │     │ liens + body   │
-│  politesse) │     │ HTTP GET     │     └────────┬───────┘
-└──────▲──────┘     └──────────────┘              │
-       │                                          ▼
-       │                                 hash de contenu nouveau ?
-       │                                    │         │
-       │                                   oui        non → jeter ou lien seulement
-       │                                    ▼
-       │                                 content store
-       │                                    ▼
-       │                                 extraire les liens
-       │                                    ▼
-       │                                 filtrer + URL seen ?
-       │                                    │
-       └────────────── seulement les nouvelles URLs ──┘
-```
+![Pipeline du robot d'exploration : les URL de départ entrent dans la frontière, les téléchargeurs utilisent des caches DNS et robots.txt et stockent les pages brutes en WARC dans un stockage objet, l'analyseur extrait texte et liens, SimHash déduplique le contenu avant l'indexation, les liens sortants passent par un filtre d'URL et une vérification des URL vues avant que les inédites ne retournent à la frontière, et un planificateur de nouvelle exploration réinjecte les pages qui changent](/assets/images/hld/design-web-crawler-pipeline.webp)
+
+* **Seed URLs.** Un ensemble de départ de sites connus et de qualité. Leur qualité façonne toute l'exploration.
+* **URL Frontier.** La liste de tâches. Elle décide à la fois *quoi* télécharger ensuite (priorité) et *quand* chaque hôte peut être contacté (politesse). C'est le cœur de la conception, avec son propre schéma plus bas.
+* **Fetchers (HTTP asynchrone).** Des milliers de connexions simultanées depuis une poignée de machines grâce aux E/S non bloquantes. Délais d'expiration, limites de taille et de redirections sur chaque requête. Identifiez-vous avec un user agent clair et une URL de contact.
+* **Cache DNS + cache robots.txt.** Les résolutions DNS peuvent vite devenir le goulot d'étranglement à des centaines de téléchargements par seconde : mettez-les en cache agressivement. Récupérez le `robots.txt` de chaque hôte une fois, gardez-le environ un jour, et vérifiez chaque URL avant de la télécharger. La RFC 9309 (2022) a enfin normalisé le protocole d'exclusion des robots.
+* **Raw Pages (WARC dans un stockage objet).** Stockez exactement ce que vous avez téléchargé, en-têtes compris, dans des fichiers WARC (le format d'archivage utilisé par Common Crawl et Internet Archive). L'analyse peut être refaite plus tard ; le téléchargement, non.
+* **Parser.** Transforme le HTML en texte et en liens, résout les URL relatives et survit au balisage cassé.
+* **Content Dedup (SimHash).** De nombreuses URL servent un contenu identique ou presque (miroirs, versions imprimables, paramètres de suivi). Une empreinte SimHash sur 64 bits permet de repérer les quasi-doublons en comparant la distance de Hamming ; Google a décrit exactement cela dans son article de 2007 sur l'exploration.
+* **URL Filter.** Normalise les URL (hôte en minuscules, suppression des ports par défaut et des fragments, paramètres de suivi triés ou supprimés), applique les règles de périmètre et bloque les pièges connus.
+* **URL Seen (Bloom + KV).** Un filtre de Bloom répond « certainement pas vue » en mémoire ; les « peut-être » sont confirmés dans un magasin clé-valeur persistant indexé par un hachage de l'URL normalisée.
+* **Consommateurs index et recherche.** Les documents uniques partent vers ce qui exploite l'exploration.
+* **Planificateur de nouvelle exploration.** Remet les URL connues dans la frontière selon leur fréquence de changement.
 
 ---
 
-## Suivre une page dans le pipeline
+## La frontière : priorité devant, politesse derrière
 
-Suivons une seule page pour que les pièces cessent de sembler abstraites.
+![Frontière d'URL à la Mercator : des files de priorité F1 à F3 alimentent un sélecteur biaisé qui oriente les URL par hôte vers des files arrière à un seul hôte ; un tas ordonné par la prochaine heure autorisée de chaque hôte libère les hôtes prêts vers les threads de téléchargement, et après chaque téléchargement la prochaine heure de l'hôte est repoussée d'un délai](/assets/images/hld/design-web-crawler-frontier.webp)
 
-**Mise en place.** Les seeds incluent `https://news.example/`. La frontier est vide sauf cette seed. La politesse dit : un fetch à la fois par hôte, avec un court délai.
+Cette conception en deux étages vient du robot Mercator (Heydon et Najork, 1999) et reste la réponse de référence :
 
-1. **Chargement de seed.** `https://news.example/` entre dans la frontier avec une haute priorité car c'est une homepage.
+1. **Les files avant** contiennent les URL par priorité. La priorité peut venir d'une importance de type PageRank, d'un besoin de fraîcheur ou simplement de la qualité du domaine.
+2. Un **sélecteur biaisé** puise dans les files avant en favorisant la haute priorité, sans affamer complètement la basse.
+3. Les URL sont orientées vers des **files arrière**, avec exactement un hôte par file arrière. Toutes les URL de `news.example` attendent dans la même file.
+4. Un **tas** contient une entrée par file arrière : le premier instant où cet hôte peut être recontacté.
+5. Les threads de téléchargement retirent l'hôte dont l'heure est venue, téléchargent une URL de sa file, puis le replacent avec une nouvelle heure : **maintenant plus un délai**, souvent un multiple (par exemple 10 fois) de la durée du dernier téléchargement, et jamais moins que le crawl-delay demandé par le site.
 
-2. **Dequeue sous politesse.** Un worker tire cette URL. Aucun autre fetch vers `news.example` n'est en cours. Les règles robots sont chargées depuis `https://news.example/robots.txt` et mises en cache. Le chemin `/` est autorisé.
+La note rouge résume toute la politique de politesse en une ligne. Un serveur lent obtient automatiquement plus de répit, puisque ses téléchargements durent plus longtemps et que son délai augmente.
 
-3. **Fetch.** Le DNS résout `news.example`. Le worker envoie un HTTP GET avec un User-Agent clair et un timeout de 10 secondes. Statut 200. Le corps fait environ 80 Ko de HTML.
-
-4. **Parse.** Le parser lit le titre "Example News," le texte principal de l'article et trouve des liens :
-   - `https://news.example/politics/bill-42`
-   - `https://news.example/sports/final`
-   - `https://other-site.org/op-ed`
-   - `mailto:tips@news.example` (filtré)
-   - `/local/weather` (devient `https://news.example/local/weather`)
-
-5. **Dedup de contenu.** Le hash du HTML est nouveau. Écrire le corps en object storage. Écrire les métadonnées : URL, heure, 200, hash, taille.
-
-6. **Filtre d'URL et URL seen.**  
-   - `mailto:` jeté.  
-   - Les trois liens http(s) sont normalisés.  
-   - Aucun n'était dans l'ensemble URL-seen, donc les trois sont marqués vus et enfilés.  
-   - `other-site.org` va dans une back queue différente de `news.example`.
-
-7. **Cycles suivants.**  
-   - Le worker doit attendre le délai de politesse avant la prochaine URL `news.example`.  
-   - Un autre worker peut télécharger `https://other-site.org/op-ed` tout de suite si cet hôte est libre.  
-   - Quand `politics/bill-42` est téléchargé plus tard, son corps peut être unique, ou correspondre à un miroir déjà stocké (dedup de contenu).  
-   - Les liens trouvés là-bas remplissent à nouveau la frontier.
-
-8. **Chemin d'échec (même idée de page).** Si le fetch expire, le système enregistre l'échec, peut réessayer avec backoff, et ne prétend pas que la page a été stockée. Si robots interdit `/admin`, cette URL ne quitte jamais l'étape "vérifier robots."
-
-Après une page vous avez déjà pratiqué chaque idée majeure : seed, frontier, politesse, fetch, parse, store, double dedup et planification multi-hôte.
+Répartir la frontière sur plusieurs machines devient simple avec cette structure : partitionnez par hôte (hachage du nom d'hôte), pour que la file arrière et l'état de politesse de chaque hôte vivent sur une seule machine.
 
 ---
 
-## Quelques notes d'échelle (toujours en langage simple)
+## Pièges et autres territoires hostiles
 
-Quand on dit "concevez un crawler pour un milliard de pages par mois," la forme reste la même. Les meubles grossissent.
+| Piège | Exemple | Défense |
+| --- | --- | --- |
+| Espaces d'URL infinis | Calendrier aux liens « mois suivant » sans fin | Profondeur et longueur d'URL maximales ; budget de pages par hôte |
+| Identifiants de session et paramètres de suivi | `?sid=abc123` rend chaque URL unique | Règles de normalisation ; apprentissage des paramètres par hôte |
+| Faux 404 | Pages « introuvable » servies avec le statut 200 | La déduplication de contenu repère le gabarit répété |
+| Réponses énormes ou binaires | Un fichier de 2 Go derrière une URL qui ressemble à du HTML | Vérification du type de contenu, plafonds de taille, streaming avec arrêt anticipé |
+| Serveurs au goutte-à-goutte | Des réponses qui livrent un octet par seconde | Délais sur la durée totale, pas seulement sur la connexion |
+| Spam et fermes de liens | Des millions de pages générées automatiquement | Signaux de qualité dans la priorité ; budgets par domaine |
 
-- **Débit approximatif :** 1 milliard de pages / 30 jours / 86 400 secondes ≈ 400 pages par seconde en moyenne. Le pic peut être plus haut.
-- **Stockage :** Si le HTML moyen fait des centaines de kilo-octets, les données brutes mensuelles font des centaines de téraoctets. Compression et rétention multi-années en font un vrai design de stockage, pas un dossier latéral.
-- **Shard par hôte :** Gardez des tranches de frontier, l'état de politesse et souvent les workers de fetch regroupés par hash d'hôte pour qu'une machine possède un ensemble de sites.
-- **Pièges à araignées :** Calendriers infinis, ids de session et chemins récursifs essayent de garder le robot dans un couloir pour toujours. Plafonnez la longueur d'URL, la profondeur de chemin et les pages par hôte et par jour. Prévoyez un coupe-circuit humain.
-- **Sites lourds en JS :** Certains liens n'apparaissent qu'après qu'un navigateur exécute du JavaScript. Le rendu complet est cher. Utilisez-le pour les hôtes à forte valeur, pas pour chaque page au hasard le premier jour.
-
-Vous n'avez pas besoin de construire le crawler de Google en entretien. Vous devez montrer que vous comprenez la boucle, la politesse et les deux types de dedup.
-
----
-
-## Récap pour un ami
-
-Un crawler web est un logiciel qui catalogue le web public comme un bibliothécaire catalogue des livres et un robot aspirateur visite des pièces.
-
-Vous commencez avec quelques **seed URLs**, les portes choisies exprès. Elles entrent dans une **frontier**, une grande file de tâches des pages encore à visiter. Les workers tirent de cette file, mais restent **polis** : une requête soignée à la fois par site web, avec des délais, et ils honorent `robots.txt` pour que les propriétaires puissent dire "restez hors de ce couloir."
-
-**Fetch** télécharge la page. **Parse** lit le HTML, garde le texte utile et trouve de nouveaux liens. **Store** conserve la page et ses métadonnées. **Dedup** travaille deux fois : une pour ne pas enfiler la même URL pour toujours, et une pour ne pas stocker le même corps d'article sous dix adresses.
-
-Puis les nouveaux liens rejoignent la frontier, et le robot continue de marcher. Tout le design est cette boucle, rendue sûre pour les sites visités et assez bon marché pour tourner à l'échelle d'internet.
+Le budget de pages par hôte est la défense la plus efficace à elle seule. Aucun site ne reçoit plus que sa part, quel que soit le nombre de liens qu'il génère.
 
 ---
 
-## Conclusion
+## La nouvelle exploration : la fraîcheur est un budget
 
-Si vous ne dessinez qu'un diagramme en entretien, dessinez la boucle : frontier → fetch poli → parse → content store → extraction de liens → filtre d'URL et seen → retour à la frontier. Étiquetez les seeds à l'entrée. Dites à voix haute que priorité et politesse vivent dans la frontier, pas comme une idée de dernière minute.
+Les pages changent à des rythmes très différents. La une d'un journal change toutes les quelques minutes ; un article archivé ne change jamais. Tout retélécharger selon un cycle fixe gaspille l'essentiel du budget.
 
-Le web sera toujours désordonné : HTML cassé, pièges, doublons, hôtes lents. Un bon design de crawler s'attend à ce désordre. Il est patient par hôte, agressif pour ne pas se répéter, et honnête sur la part d'internet qu'il peut vraiment nettoyer aujourd'hui.
+* Conservez l'historique des changements par URL (le SimHash a-t-il changé depuis la dernière visite ?).
+* Estimez un taux de changement et programmez la visite suivante en proportion, entre un intervalle minimal et un maximal.
+* Utilisez des requêtes conditionnelles (`If-Modified-Since`, `If-None-Match`) pour qu'une page inchangée coûte un `304` plutôt qu'un téléchargement complet.
+* Donnez des intervalles plus courts aux pages importantes ; laissez vieillir la longue traîne.
+* Exploitez les sitemaps quand les sites en proposent, car ils indiquent souvent des dates de dernière modification.
 
+---
+
+## Être un bon citoyen
+
+* Respectez `robots.txt`, y compris les règles d'exclusion pour votre user agent et tout crawl-delay.
+* Identifiez le robot dans le user agent avec une URL qui explique ce qu'il est et comment s'en exclure.
+* Publiez les plages d'adresses IP depuis lesquelles vous explorez, pour que les exploitants puissent vous vérifier.
+* Reculez sur `429` et `503`, et respectez `Retry-After`.
+* Fournissez une adresse de contact, et lisez-la vraiment.
+
+La tolérance du web envers les robots est un bien commun. Chaque robot mal élevé pousse les exploitants à bloquer plus agressivement tous les autres.
+
+---
+
+## Liste de contrôle pour la production
+
+- [ ] La frontière impose un hôte par file arrière avec un tas des prochaines heures autorisées
+- [ ] robots.txt récupéré, mis en cache et vérifié avant chaque URL ; sémantique de la RFC 9309
+- [ ] DNS en cache ; délais par requête sur la connexion, le premier octet et la durée totale
+- [ ] Règles de normalisation et de périmètre des URL versionnées et testées
+- [ ] Vérification des URL vues par filtre de Bloom et magasin persistant
+- [ ] Détection des quasi-doublons par SimHash ou équivalent
+- [ ] Budgets de pages par hôte et par domaine ; limites de profondeur et de longueur d'URL
+- [ ] Réponses brutes stockées en WARC avant l'analyse
+- [ ] Nouvelle exploration planifiée selon le taux de changement observé ; requêtes conditionnelles
+- [ ] Tableaux de bord : pages/s, taux d'erreur par classe, hôtes en attente, taille de la frontière, taux de doublons
+
+---
+
+## Ce qui reste
+
+Un robot d'exploration est un invité dans des millions de maisons à la fois. L'ingénierie parle de vitesse, mais la réputation parle de manières : frapper, attendre, ne pas revenir trop souvent, partir quand on vous le demande.
+
+Quelque part, un petit blog sur un serveur bon marché reçoit la visite de votre robot tous les quelques jours. Il ne connaîtra jamais votre nom. Il ne devrait jamais non plus remarquer votre passage.
+
+---
+
+## Sources
+
+* [Heydon et Najork, « Mercator: A Scalable, Extensible Web Crawler » (1999)](https://www.cs.cornell.edu/courses/cs685/2002fa/mercator.pdf)
+* [Manku, Jain et Das Sarma, « Detecting Near-Duplicates for Web Crawling » (WWW 2007)](https://research.google/pubs/detecting-near-duplicates-for-web-crawling/)
+* [RFC 9309 : Robots Exclusion Protocol](https://www.rfc-editor.org/rfc/rfc9309)
+* [Common Crawl : présentation et données WARC](https://commoncrawl.org/overview)
+* [ISO 28500 : format de fichier WARC (description de la Bibliothèque du Congrès)](https://www.loc.gov/preservation/digital/formats/fdd/fdd000236.shtml)
+* Dans la même série : [Concevoir l'autocomplétion de recherche](/blog/fr/design-search-autocomplete), [Estimations au dos de l'enveloppe](/blog/fr/design-back-of-envelope-estimation), [Comment fonctionne le DNS](/blog/fr/how-dns-works-for-engineers)

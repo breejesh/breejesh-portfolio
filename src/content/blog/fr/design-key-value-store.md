@@ -1,339 +1,196 @@
 ---
-title: "Concevoir un store clé-valeur comme un vestiaire : put, get, CAP et quorums"
-description: "Guide pour débutants des stores clé-valeur distribués. Put et get comme ranger et récupérer, CAP en histoire simple, partitions comme des livres sur des rayons, réplication comme des copies, quorums comme des bibliothécaires qui doivent se mettre d'accord."
+title: "Concevoir un magasin clé-valeur distribué : partitionnement, quorums, hinted handoff et stockage LSM"
+description: "Un magasin clé-valeur de type Dynamo, en partant de zéro : partitionnement sur un anneau de hachage, arithmétique des quorums N/W/R et ce qu'elle ne garantit pas, résolution des conflits, hinted handoff et réparation par arbres de Merkle, appartenance par gossip, et le moteur de stockage LSM en dessous."
 date: "2025-10-28"
 tags: [Design Système et Architecture, Backend et Bases de Données]
 coverImage: /assets/images/design-key-value-store.webp
 previewImage: /assets/images/design-key-value-store.webp
 ---
 
-
 > **TL;DR**
-> * **Le Problème:** La conception d'architectures évolutives exige un équilibre entre disponibilité, débit et complexité opérationnelle.
-> * **L'Essentiel:** Guide pour débutants des stores clé-valeur distribués. Put et get comme ranger et récupérer, CAP en histoire simple, partitions comme des livres sur des rayons, réplication comme des copies, quorums comme des bibliothécaires qui doivent se mettre d'accord.
-> * **Le Résultat:** Plan technique avec des objectifs quantitatifs et la gestion des pannes en production.
+> * **Le problème :** Stocker des milliards de petites valeurs derrière `put(key, value)` et `get(key)`, sur de nombreuses machines, en restant disponible en écriture quand certaines tombent, avec une latence prévisible de quelques millisecondes.
+> * **La conception :** Partitionner les clés sur un anneau de hachage cohérent, répliquer chaque clé sur N nœuds et laisser les clients choisir W et R par requête. Accepter les écritures pendant les pannes grâce aux quorums relâchés et au hinted handoff, réparer la dérive par read repair et arbres de Merkle, détecter les pannes par gossip, et stocker les données de chaque nœud dans un arbre LSM.
+> * **Le résultat :** Un système qui échange un peu de cohérence contre de la disponibilité, de façon contrôlée et réglable. C'est la conception derrière l'article Dynamo d'Amazon, Cassandra et Riak, et le modèle mental derrière DynamoDB.
 
-Imagine un vestiaire géant dans un stade. Tu donnes ton manteau. On te remet un ticket avec un numéro. Plus tard tu montres le ticket et tu récupères le même manteau. C'est un **store clé-valeur** dans la vraie vie.
+Un magasin clé-valeur a la plus petite API de toute cette série : deux verbes. C'est précisément pour cela que c'est une bonne question d'entretien. Sans rien derrière quoi se cacher, chaque décision porte sur la distribution : où vivent les données, combien de copies existent, que se passe-t-il quand une copie manque, et ce que signifie même « la valeur actuelle » quand deux machines ne sont pas d'accord.
 
-- La **clé** est le numéro du ticket.
-- La **valeur** est le manteau.
-- **put** signifie ranger ce manteau sous ce ticket.
-- **get** signifie récupérer le manteau de ce ticket.
-
-Tu n'as pas besoin de savoir comment le portant est organisé. Tu as seulement besoin d'une règle fiable : même ticket, même manteau.
-
-Les ordinateurs utilisent la même idée. Redis, Memcached, les systèmes façon Dynamo et beaucoup de couches de métadonnées de produits commencent ici. Deux verbes, une montagne d'ingénierie derrière.
-
-Ce billet enseigne cette ingénierie comme le ferait un bon professeur : d'abord l'image, puis les noms difficiles seulement quand ils comptent.
+Cet article construit un magasin de type Dynamo, parce que cette conception oblige à affronter explicitement chacune de ces questions.
 
 ---
 
-## Les deux verbes : ranger et récupérer
+## Les exigences
 
-Un store clé-valeur est une base de données avec une interface minuscule.
+* **API :** `put(key, value)`, `get(key)`, et éventuellement `delete(key)`. Des valeurs jusqu'à environ 1 Mo ; la plupart sous 10 Ko.
+* **Échelle :** des dizaines de téraoctets, des centaines de milliers d'opérations par seconde.
+* **La disponibilité d'abord :** les écritures doivent réussir même quand quelques nœuds ou une zone de disponibilité entière sont injoignables. Les paniers d'achat et les magasins de sessions sont les exemples classiques : perdre une écriture est pire que lire brièvement une ancienne valeur.
+* **Une cohérence réglable :** certains appelants ont besoin de relire ce qu'ils viennent d'écrire ; d'autres acceptent volontiers une valeur légèrement périmée en échange d'une latence plus faible.
+* **L'exploitabilité :** ajouter et retirer des nœuds sans interruption ; se remettre automatiquement de la perte d'un disque.
 
-| Verbe | Sens du quotidien | Ce qu'il fait |
+**Esquisse de capacité :** 20 To de données avec un facteur de réplication de 3, cela fait 60 To sur disque. Avec des nœuds d'environ 2 To chacun, maintenus sous 60 % de remplissage pour laisser de la marge à la compaction, il faut environ 50 nœuds. Si chaque nœud sert confortablement 10 000 opérations par seconde, le cluster en sert environ 500 000 par seconde avant tout cache.
+
+---
+
+## CAP, énoncé précisément
+
+Le théorème CAP dit que pendant une **partition** réseau, un système doit choisir entre la **cohérence** (chaque lecture voit la dernière écriture) et la **disponibilité** (chaque requête adressée à un nœud vivant reçoit une réponse qui n'est pas une erreur). Sans partition, on peut avoir les deux.
+
+PACELC ajoute la partie qu'on oublie : **sinon**, en l'absence de partition, on échange encore la **latence** contre la **cohérence**, car attendre davantage de réplicas prend plus de temps.
+
+| Style de système | Pendant une partition | En temps normal | Exemples |
+| --- | --- | --- | --- |
+| CP | Refuse les requêtes du côté minoritaire | Cohérent, latence plus élevée | etcd, ZooKeeper, Spanner |
+| AP | Continue d'accepter lectures et écritures partout | Réglable ; souvent cohérence à terme | Dynamo, Cassandra, Riak |
+
+Cet article construit la variante AP, avec des réglages qui permettent aux appelants de se rapprocher de la cohérence quand ils en ont besoin.
+
+---
+
+## Partitionnement et réplication
+
+Les clés sont placées sur un anneau de hachage cohérent avec nœuds virtuels (voir l'[article sur le hachage cohérent](/blog/fr/design-consistent-hashing) de cette série). La **liste de préférence** de chaque clé correspond aux N premiers nœuds physiques distincts dans le sens horaire à partir de sa position, répartis sur plusieurs zones de disponibilité. Avec N = 3, chaque clé a trois réplicas, et la perte d'un nœud ou d'une zone ne fait perdre aucune donnée.
+
+N'importe quel nœud peut servir de **coordinateur** pour une requête. Les clients envoient leurs requêtes à n'importe quel nœud (qui les transmet si besoin), ou utilisent un client conscient des partitions qui envoie directement à un réplica, économisant un saut.
+
+---
+
+## Les quorums : le réglage dont tout le monde parle
+
+Pour chaque requête, le coordinateur envoie l'opération aux N réplicas et attend un sous-ensemble :
+
+* **W** = le nombre de réplicas qui doivent confirmer une écriture pour qu'elle réussisse.
+* **R** = le nombre de réplicas qui doivent répondre à une lecture pour qu'elle renvoie un résultat.
+
+Si **R + W > N**, chaque quorum de lecture recoupe chaque quorum d'écriture sur au moins un réplica, donc une lecture verra au moins une copie de la dernière écriture réussie.
+
+| N, W, R | Comportement | À utiliser quand |
 | --- | --- | --- |
-| `put(key, value)` | Ranger | Enregistrer ou remplacer la valeur de cette clé |
-| `get(key)` | Récupérer | Renvoyer la valeur, ou dire clairement "introuvable" |
+| 3, 1, 1 | Le plus rapide, le plus faible ; les lectures peuvent facilement manquer des écritures récentes | Données de type cache, métriques |
+| 3, 2, 2 | Quorums qui se recoupent ; tolère un réplica lent ou mort sur chaque chemin | Le réglage par défaut courant |
+| 3, 3, 1 | Lectures rapides ; les écritures échouent si un réplica tombe | Données très lues qui changent rarement |
+| 3, 1, 3 | Écritures rapides, lectures lentes | Journalisation très écrite et rarement lue |
 
-Les clés sont uniques. Les valeurs peuvent être tout ce qui est assez petit pour ton design : une session, un JSON, un compteur, un instantané de panier. Dans la version entretien, les valeurs font souvent quelques kilo-octets, pas des films entiers.
-
-Optionnel plus tard : supprimer, expirer avec une minuterie (TTL), "écrire seulement si la clé est encore en version X." Laisse-les de côté tant que le chemin central ne tient pas.
-
-**Tiroirs étiquetés :** imagine un mur de tiroirs. Chaque tiroir a une étiquette (clé). Dedans se trouve un objet (valeur). Put ouvre le tiroir et range. Get ouvre le tiroir et regarde. Ce modèle mental suffit pour commencer.
+**Ce que les quorums ne garantissent pas.** R + W > N n'est pas la linéarisabilité. Avec des écritures concurrentes, des horodatages « la dernière écriture gagne » et des quorums relâchés (voir plus bas), une lecture peut encore renvoyer une valeur plus ancienne ou une valeur écrasée ensuite. *Designing Data-Intensive Applications* de Martin Kleppmann reste l'explication la plus claire de ces cas limites. Si vous avez besoin d'une vraie sémantique compare-and-set, il vous faut un protocole de consensus (Paxos, Raft) ou une écriture conditionnelle, pas un quorum plus grand.
 
 ---
 
-## Pourquoi une seule machine ne suffit pas
+## Le chemin d'écriture quand un réplica est en panne
 
-Sur une seule machine, le store peut être une table de hachage en mémoire. Parfait pour des démos et de tout petits caches.
+![Écriture par quorum de type Dynamo : le client envoie put au nœud coordinateur A, qui écrit sur les réplicas B et C, expire sur le réplica D, envoie une écriture avec indice au nœud E et répond ok après deux confirmations ; E rejoue l'indice vers D plus tard ; le gossip gère l'appartenance](/assets/images/hld/design-kv-store-quorum.webp)
 
-Puis la réalité arrive :
+* **Client.** Envoie `put(k, v)` avec le niveau de cohérence de son choix.
+* **Node A (coordinateur).** Transmet l'écriture à la liste de préférence de la clé et répond dès que W réplicas ont confirmé. Il n'attend pas le réplica le plus lent.
+* **Nodes B et C (réplicas 1 et 2).** Confirment. Avec W = 2, le client obtient le succès à ce stade.
+* **Node D (réplica 3, en panne).** L'écriture expire. Avec un quorum strict, le coordinateur ne compterait que B et C et poursuivrait.
+* **Node E (détient l'indice pour D).** Avec un **quorum relâché**, le coordinateur écrit la copie de D sur le nœud sain suivant de l'anneau, marquée d'un indice indiquant « ceci appartient à D ». La durabilité reste ainsi à trois copies pendant la panne.
+* **Rejeu ultérieur.** Quand le gossip signale le retour de D, E lui transmet les écritures indicées puis les supprime. C'est le **hinted handoff**.
+* **Gossip.** Chaque seconde, chaque nœud échange son état d'appartenance et ses battements de cœur avec quelques pairs pris au hasard. Cassandra ajoute un détecteur de pannes phi accrual, qui produit un niveau de suspicion plutôt qu'un simple vivant ou mort, pour qu'un réseau lent ne déclare pas instantanément des nœuds morts.
 
-1. La map ne rentre plus en RAM.
-2. La machine redémarre et tout disparaît si tu n'as pas aussi écrit sur disque.
-3. Une machine ne peut pas répondre à un million de requêtes par seconde pour toujours.
-4. Un bâtiment perd le courant et tout le produit tombe.
-
-Tu ajoutes donc beaucoup de machines. Tu as maintenant un nouveau problème : **quelle machine détient quelle clé**, et **que se passe-t-il si cette machine meurt** ?
-
-C'est toute l'histoire d'un store clé-valeur *distribué*.
+La note verte énonce la règle de recoupement. Le prix des quorums relâchés, c'est que pendant un temps, les « W nœuds » qui ont confirmé ne sont pas forcément les vrais nœuds de la clé ; c'est l'une des raisons pour lesquelles les quorums seuls ne garantissent pas une cohérence forte.
 
 ---
 
-## Fichier de bibliothèque : trouver le bon rayon
+## Quand les réplicas divergent
 
-Une bibliothèque ne jette pas tous les livres en un seul tas. Elle utilise un catalogue et un plan de rayons.
+Les réplicas dérivent : un nœud manque des écritures pendant une panne plus longue que la fenêtre d'indices, un disque est remplacé, le réseau vacille. Trois mécanismes les réconcilient :
 
-- Le **catalogue** te dit où vit un livre.
-- Les livres sont **répartis sur les rayons** pour qu'aucun rayon ne porte toute la bibliothèque.
-- Les livres populaires ont des **copies supplémentaires** pour que plus de gens puissent emprunter.
+1. **Read repair.** Quand une lecture avec R > 1 voit des versions différentes, le coordinateur renvoie la plus récente et la réécrit sur les réplicas en retard.
+2. **L'anti-entropie par arbres de Merkle.** Chaque nœud construit un arbre de hachages sur ses plages de clés. Deux réplicas comparent leurs hachages racines et ne descendent que dans les sous-arbres qui diffèrent, ce qui leur permet de trouver quelques clés divergentes parmi des milliards en échangeant très peu de données. Cassandra l'exécute via `nodetool repair`.
+3. **Le hinted handoff**, vu plus haut, pour les pannes courtes.
 
-Un store clé-valeur distribué fait les mêmes trois métiers :
+**Quelle version gagne ?** Il faut une règle :
 
-| Idée de bibliothèque | Idée système | Pourquoi ça existe |
+| Stratégie | Fonctionnement | Coût |
 | --- | --- | --- |
-| Règle du catalogue pour "quel rayon" | **Partitionnement** (souvent avec hachage cohérent) | Répartir les clés entre machines |
-| Copies supplémentaires d'un livre | **Réplication** | Survivre à la perte d'une machine et servir plus de lectures |
-| Règles du personnel pour l'emprunt et le retour | **Quorums et politique de cohérence** | Décider quand une écriture ou une lecture "compte" |
+| La dernière écriture gagne (LWW) | L'horodatage le plus élevé l'emporte | Simple, mais les écritures concurrentes perdent des données en silence ; dépend de la synchronisation des horloges |
+| Horloges vectorielles | Chaque version porte des compteurs par nœud ; les versions concurrentes sont conservées comme sœurs | Pas de perte silencieuse, mais l'application doit fusionner les sœurs (le panier de Dynamo le faisait) |
+| CRDT | Types de données dont la fusion est sans conflit par construction (compteurs, ensembles, tables) | Élégants quand ils conviennent ; tous les types de données n'ont pas de CRDT naturel |
 
-Garde ce tableau en tête. Presque chaque boîte que tu dessines y revient.
+Cassandra utilise LWW par colonne. Le Dynamo original utilisait des horloges vectorielles et déléguait la fusion à l'application. DynamoDB propose des écritures conditionnelles pour que les applications évitent les conflits plutôt que de les résoudre.
 
----
-
-## CAP, raconté avec une histoire simple
-
-Tu gères un vestiaire avec **trois comptoirs** qui doivent rester synchronisés par talkie-walkie. Appelle-les A, B et C. Un invité peut s'adresser à n'importe lequel.
-
-Maintenant les radios cassent. Le comptoir C ne peut plus parler à A et B. Les invités continuent d'arriver. Tu dois choisir une politique.
-
-### Option 1 : Tout le monde voit toujours la même réponse
-
-Tu gèles le côté cassé. Le comptoir C arrête d'accepter des manteaux jusqu'à ce que les radios marchent. A et B peuvent aussi refuser des opérations risquées tant qu'ils ne sont pas sûrs.
-
-Les invités à C entendent : "Désolé, le système est coupé. Revenez plus tard."
-
-Personne n'obtient deux histoires différentes sur le ticket 42. Le prix est que certains invités n'obtiennent **aucune réponse** pendant la panne.
-
-En langage CAP, cela penche **CP** : préférer la **cohérence** sous une **partition**. Les banques et les grands livres veulent souvent ce goût. Afficher le mauvais solde est pire qu'un "réessayez" temporaire.
-
-### Option 2 : Quelqu'un obtient toujours une réponse même si le réseau casse
-
-Les comptoirs A et B continuent d'accepter des manteaux. C aussi, avec ce qu'il sait encore. Les invités reçoivent toujours un ticket et une réponse.
-
-Plus tard les radios guérissent. Le personnel découvre que le ticket 42 a deux manteaux différents sur deux comptoirs. Quelqu'un doit fusionner, choisir un gagnant, ou demander à l'invité de résoudre le bazar.
-
-En langage CAP, cela penche **AP** : préférer la **disponibilité** sous une **partition**. Paniers, sessions et beaucoup de caches produit choisissent cela et réparent ensuite.
-
-### Ce que signifient les lettres en mots simples
-
-| Lettre | Sens simple |
-| --- | --- |
-| **C** Consistency | Les clients sains voient la même réponse à jour (forme forte) |
-| **A** Availability | Les nœuds vivants continuent de répondre aux requêtes |
-| **P** Partition tolerance | Le système a un plan quand les nœuds ne peuvent pas parler |
-
-Dans un vrai système multi-machines, les réseaux cassent. Il faut vivre avec **P**. Le choix vivant est souvent **à quel point tu t'accroches à C plutôt qu'à A quand le réseau est malade**.
-
-Il n'y a pas de bouton gratuit "toujours parfait, toujours ouvert, toujours anti split-brain." En entretien, on aime t'entendre demander : *qu'est-ce qui est pire pour ce produit, une réponse temporairement fausse ou aucune réponse ?*
+**Les suppressions sont des écritures.** Une suppression écrit une **pierre tombale**, un marqueur indiquant « cette clé a été supprimée à l'instant T ». Les pierres tombales doivent vivre plus longtemps que la plus longue panne possible d'un réplica, sinon un réplica qui a manqué la suppression ressuscitera la valeur pendant la réparation. Le `gc_grace_seconds` de Cassandra (10 jours par défaut) existe précisément pour cela.
 
 ---
 
-## Partitionnement : répartir les livres sur les rayons
+## Dans un nœud : le moteur de stockage LSM
 
-Tu ne peux pas mettre chaque clé sur chaque machine sans un coût énorme. Tu **partitionnes** (shards) l'espace de clés.
+![Moteur de stockage LSM : les écritures s'ajoutent à un commit log et s'insèrent dans un memtable en mémoire qui est vidé vers des SSTables immuables ; les lectures consultent le memtable, les filtres de Bloom puis seulement les SSTables susceptibles de contenir la clé ; la compaction en arrière-plan fusionne les SSTables et supprime les pierres tombales](/assets/images/hld/design-kv-store-lsm.webp)
 
-Image du quotidien : le rayon 1 a les tickets 1-1000, le 2 a 1001-2000, et ainsi de suite. En informatique la règle est souvent plus maligne que des plages fixes pour la plupart des designs clé-valeur.
+La plupart des magasins de type Dynamo utilisent un arbre LSM (log-structured merge tree), la conception derrière LevelDB, RocksDB et le moteur de stockage de Cassandra.
 
-### Hachage cohérent en une phrase
+**Le chemin d'écriture**
 
-Imagine des serveurs debout sur un grand cercle (un "anneau de hash"). Tu hashes chaque clé sur le même cercle. Tu marches dans le sens des aiguilles d'une montre jusqu'à un serveur. Ce serveur possède la clé.
+1. Ajouter l'écriture au **commit log** et faire un fsync (ou une validation groupée), pour qu'elle survive à un crash.
+2. L'insérer dans le **memtable**, une structure triée en mémoire.
+3. Quand le memtable est plein, le vider sur disque sous forme de **SSTable**, un fichier trié immuable. Les écritures ne modifient jamais un fichier en place, ce qui les rend séquentielles et rapides.
 
-Pourquoi les gens aiment ça :
+**Le chemin de lecture**
 
-- Quand un serveur rejoint ou quitte, **seules les clés proches bougent**, pas presque toutes.
-- Avec des **nœuds virtuels**, une grosse machine peut posséder plus de points sur l'anneau qu'une petite, et la charge se répartit mieux.
+1. Consulter le memtable.
+2. Pour chaque SSTable, interroger son **filtre de Bloom**, une structure probabiliste compacte qui répond « certainement pas ici » ou « peut-être ici ». Un filtre bien dimensionné écarte l'immense majorité des fichiers qui ne contiennent pas la clé.
+3. Ne lire que les SSTables susceptibles de la contenir, de la plus récente à la plus ancienne.
 
-Tu n'as pas besoin de toute la maths pour designer au tableau. Tu as besoin de l'intention : **propriété stable des clés avec un remaniement minimal**.
+**La compaction** tourne en arrière-plan : elle fusionne les SSTables et élimine les valeurs écrasées et les pierres tombales expirées. La compaction par paliers de taille favorise le débit d'écriture ; la compaction par niveaux favorise la latence de lecture et l'espace, au prix d'une amplification d'écriture plus forte.
 
-Les clés chaudes font encore mal. Une clé célébrité tombe toujours sur un seul emplacement primaire. Des caches devant, un design de clé plus malin ou un plan dédié pour le chemin chaud aident. L'anneau seul ne soigne pas la célébrité.
-
----
-
-## Réplication : garder des copies pour qu'un incendie de rayon ne soit pas fatal
-
-Si le ticket 42 vit sur une seule machine et que cette machine meurt, le manteau est parti. Les bibliothèques gardent plusieurs copies des livres populaires. Les systèmes clé-valeur gardent **N réplicas**.
-
-Défaut d'entretien courant : **N = 3**. Trois copies de chaque clé sur trois machines distinctes, idéalement dans des racks ou zones différents pour qu'une coupure électrique n'efface pas toutes les copies.
-
-Règle de placement après avoir trouvé le premier serveur sur l'anneau : avance et choisis les **N machines distinctes** suivantes.
-
-La réplication achète :
-
-1. **Durabilité** si un disque meurt.
-2. **Disponibilité** si un nœud est hors ligne.
-3. **Échelle de lecture** si beaucoup de lecteurs peuvent frapper des copies différentes.
-
-Elle crée aussi un nouveau casse-tête : les copies peuvent **diverger** un moment. C'est pourquoi CAP et les quorums comptent.
-
----
-
-## Quorum : la majorité des bibliothécaires doit se mettre d'accord
-
-Trois bibliothécaires tiennent des copies de la même fiche. Tu as besoin d'une règle pour savoir quand un dépôt ou une consultation est "terminé."
-
-| Symbole | Sens simple |
-| --- | --- |
-| **N** | Combien de copies existent |
-| **W** | Combien de copies doivent confirmer une **écriture** avant le succès |
-| **R** | Combien de copies tu dois entendre sur une **lecture** |
-
-Un **coordinateur** (n'importe quel nœud qui a reçu la requête client) interroge l'ensemble de réplicas et compte les réponses.
-
-### La règle d'or du chevauchement
-
-Si **W + R > N**, une lecture réussie et une écriture réussie doivent partager au moins une copie en régime stable. Cette copie devrait avoir vu la dernière écriture réussie. Tu obtiens une **cohérence plus forte**.
-
-Exemples avec **N = 3** :
-
-| W | R | Sensation |
+| | Arbre LSM | B-tree |
 | --- | --- | --- |
-| 1 | 1 | Rapide et fragile. Lectures périmées plus probables. |
-| 2 | 2 | Défaut courant. Majorité d'accord en écriture et en lecture. |
-| 3 | 1 | Écritures très soigneuses, lectures rapides. Encore faible si R est minuscule et qu'une copie en retard répond. |
-| 1 | 3 | Écritures rapides, lectures soigneuses qui interrogent tout le monde. |
-
-**Important :** W = 1 ne signifie **pas** "stocker une seule copie." Cela signifie "dire succès au client après une confirmation," pendant que d'autres copies peuvent encore rattraper.
-
-La latence suit le **membre le plus lent du quorum**, pas le plus rapide. Monte W ou R et la cohérence s'améliore ; la latence de queue empire souvent.
-
-En histoire : pour classer une nouvelle fiche, deux bibliothécaires sur trois doivent la tamponner (W = 2). Pour répondre à un visiteur, deux sur trois doivent rapporter la fiche qu'ils tiennent (R = 2). Si leurs histoires s'entrechoquent, tu résous les versions (section suivante) avant de parler.
+| Écritures | Séquentielles, rapides | Mises à jour de pages en place, E/S aléatoires |
+| Lectures | Peuvent toucher plusieurs fichiers ; les filtres de Bloom aident | Un seul parcours d'arbre |
+| Espace | Duplication temporaire jusqu'à la compaction | Fragmentation avec le temps |
+| Moteurs typiques | RocksDB, LevelDB, Cassandra | InnoDB, PostgreSQL, BoltDB |
 
 ---
 
-## Quand les copies divergent : versions
+## Des scénarios de panne à raconter
 
-Deux invités mettent à jour le ticket 42 en même temps de part et d'autre d'une partition réseau. Les deux écritures réussissent sous une politique souple. Tu as maintenant deux "vérités."
-
-Simple mais rude : **la dernière écriture gagne** par horodatage. Les horloges peuvent mentir sous décalage, donc tu peux jeter en silence une vraie mise à jour.
-
-Plus soigneux : les **horloges vectorielles** (ou vecteurs de version similaires) suivent *qui* a vu *quoi*. Si une version vient clairement après l'autre, garde la lignée plus récente. Si elles divergent, tu as des **frères** (siblings) : vrai conflit. L'app fusionne (les articles du panier se combinent) ou montre les deux.
-
-Pour beaucoup de clés produit, last-write-wins est ce que les équipes livrent car la perte silencieuse est acceptable. Pour paniers et état collaboratif, fusionner les frères est plus sûr. Dis la règle produit à voix haute.
-
----
-
-## Que se passe-t-il quand un bibliothécaire est malade
-
-### Panne courte : quorum souple et hinted handoff
-
-Les règles strictes peuvent tout bloquer si trop de réplicas préférés sont down. Le **quorum souple** (sloppy quorum) garde le comptoir ouvert : pour une écriture, prends les **W premières machines saines** de la liste de préférence, même si ce ne sont pas les propriétaires habituels. Un voisin peut garder une note : "ce manteau appartient au comptoir C." Quand C revient, le voisin **remet** la note. C'est le **hinted handoff**.
-
-### Dérive longue : anti-entropie et arbres de Merkle
-
-Les indices réparent les micro-pannes. L'isolement long a besoin d'une réparation en arrière-plan. Les réplicas comparent les données efficacement avec des **arbres de Merkle** (arbres de hash) : si deux racines coïncident, cette plage coïncide. Sinon, on descend et on synchronise seulement les seaux qui diffèrent. Tu copies la **différence**, pas toute la bibliothèque.
-
-### Gossip pour l'appartenance
-
-Les nœuds ont besoin d'une idée partagée de qui est vivant. Ils font du **gossip** : ils échangent périodiquement l'appartenance et les battements de cœur avec des pairs au hasard. Pas besoin d'une seule "machine patronne" pour ce dessin, même si les ops réelles ajoutent souvent un plan de contrôle.
-
----
-
-## Comment put et get voyagent de bout en bout
-
-### put(key, value) - ranger le manteau
-
-1. Le client envoie put à un coordinateur (n'importe quel nœud, ou un load balancer en choisit un).
-2. Le coordinateur hashe la clé et trouve la liste de préférence de N machines.
-3. Il transmet l'écriture à ces machines (ou à des remplaçants sains sous quorum souple).
-4. Il attend **W** accusés de réception réussis.
-5. Il renvoie le succès, ou une erreur si le quorum ne se forme jamais.
-
-Sur chaque réplica qui accepte l'écriture, un chemin durable courant est :
-
-1. Ajouter au **commit log** sur disque (survivre au crash du processus).
-2. Mettre à jour une structure en mémoire (**memtable**).
-3. Plus tard **flusher** vers des fichiers triés sur disque (**SSTables**).
-4. La **compaction** en arrière-plan fusionne les fichiers et nettoie les clés supprimées.
-
-### get(key) - récupérer le manteau
-
-1. Le coordinateur trouve la liste de préférence.
-2. Il lit jusqu'à **R** réponses (ou des substituts sains).
-3. Si les versions entrent en conflit, il les résout.
-4. Optionnellement il répare les copies en retard (**read repair**).
-5. Il renvoie la valeur ou not-found.
-
-Astuces de lecture locale que tu peux nommer : regarder la mémoire d'abord, utiliser des **filtres de Bloom** pour sauter les fichiers disque qui ne peuvent pas contenir la clé, fusionner les versions, appliquer les suppressions.
-
----
-
-## Forme de l'architecture (un dessin)
-
-```
-Client
-  |
-  v
-Coordinateur (n'importe quel nœud peut jouer ce rôle)
-  |
-  +---> N réplicas pour cette clé (sur l'anneau de hash)
-  |
-  +---> Gossip / appartenance
-  |
-  +---> Stockage local (commit log + memtable + SSTables)
-```
-
-Propriétés qui valent d'être dites en entretien :
-
-- L'API client reste **get/put**.
-- Il n'y a **pas de maître unique pour tout l'espace de clés**. Chaque clé a sa liste de préférence.
-- Chaque nœud peut coordonner, stocker, réparer et faire du gossip. Des rôles symétriques simplifient les opérations.
-- Ajouter un nœud met à jour l'anneau et streame les plages de clés qu'il doit posséder.
-
----
-
-## Ce que ce design optimise
-
-Ce croquis classique façon Dynamo penche **AP avec cohérence réglable** :
-
-- Les partitions sont attendues.
-- Le système préfère continuer de répondre.
-- Tu règles le soin des lectures et écritures avec **N, W, R**.
-
-Si le produit est un solde de paiement, tu peux choisir une histoire plus stricte et accepter plus de refus sous panne. Si c'est un blob de session ou un cache de feature flags, la disponibilité gagne souvent.
-
----
-
-## Intuition de capacité (dis des chiffres ronds à voix haute)
-
-Style tableau blanc, pas un plan financier :
-
-- Valeur moyenne 1 KB, petite clé, un peu de métadonnées → environ 1,3 KB sur disque par item avant copies.
-- 1 milliard de clés → environ 1,3 TB bruts. Avec N = 3 et l'overhead de fichiers, prévois plusieurs TB de stockage cluster utile.
-- 100k QPS lecture et 10k écriture : dimensionne le fan-out. Chaque écriture peut toucher N machines ; le client attend W.
-- Le trafic inter-zones est une vraie ligne de coût, pas de la magie gratuite.
-
-Te tromper d'un facteur 2 va. Oublier la réplication ou le pic de charge ne va pas.
-
----
-
-## Histoires de panne à raconter
-
-1. **Un réplica down :** quorum souple et hints gardent put/get vivants ; handoff à la reprise.
-2. **Deux sur trois down (N = 3, W = 2) :** les écritures peuvent échouer tant que tu n'as pas W. Discute politique temporaire vs refuser les writes.
-3. **Partition réseau :** AP continue des deux côtés ; les conflits apparaissent à la guérison. CP gèle le côté dangereux.
-4. **Réplica lent :** la latence du quorum suit la W-ième ou R-ième réponse, pas la plus rapide.
-5. **Disque plein sur un nœud :** ce nœud se décharge ou meurt ; l'anneau et la réparation doivent déplacer des plages.
-
-Si tu peux dérouler put et get sous "un nœud down" et "deux versions ont divergé," tu as le cœur de l'entretien.
-
----
-
-## Antisèche des curseurs
-
-| Curseur | Ce qu'il change |
+| Événement | Ce que fait le système |
 | --- | --- |
-| N | Combien de copies ; durabilité et coût de stockage |
-| W / R | Cohérence vs latence |
-| Nombre de nœuds virtuels | À quel point le rééquilibrage de charge est doux |
-| Placement multi-zones | Survivre à de plus grosses pannes vs plus de latence d'écriture |
-| Durée de vie des hints | Combien de temps les détenteurs temporaires gardent des données étrangères |
-| Planning de réparation | À quelle vitesse la dérive est nettoyée vs bande passante de fond |
+| Un nœud tombe pendant 5 minutes | Les écritures en quorum relâché vont au nœud suivant avec des indices ; le hinted handoff rejoue au retour |
+| Le disque d'un nœud meurt définitivement | On remplace le nœud ; ses plages sont transférées depuis les autres réplicas ; la réparation Merkle vérifie |
+| Une zone de disponibilité est isolée | Avec des réplicas répartis sur plusieurs zones et W = 2, les écritures continuent côté majoritaire ; le côté minoritaire peut encore accepter des écritures en quorum relâché, à réconcilier ensuite |
+| Une horloge décalée sur un nœud | Avec LWW, ses écritures peuvent gagner ou perdre à tort. Surveillez le décalage d'horloge et alertez |
+| Une clé chaude | Les réplicas de cette clé sont surchargés ; le partitionnement n'y peut rien. Mettez-la en cache ou repensez la clé |
 
 ---
 
-## Récap pour un ami
+## Aide-mémoire des réglages
 
-Un store clé-valeur est un **vestiaire géant** : ticket entre, manteau sort. **put** range, **get** récupère.
+| Réglage | Valeur typique | À augmenter pour | À baisser pour |
+| --- | --- | --- | --- |
+| Facteur de réplication N | 3 | Durabilité, capacité de lecture | Coût de stockage |
+| Quorum d'écriture W | 2 | Durabilité à la confirmation | Latence d'écriture, disponibilité |
+| Quorum de lecture R | 2 | Lectures plus fraîches | Latence de lecture |
+| Fenêtre d'indices | 3 heures | Couvrir des pannes plus longues par handoff | Disque consommé par les indices |
+| Délai de grâce des pierres tombales | 10 jours | Sécurité contre la résurrection | Espace et coût de lecture des pierres tombales |
 
-Une machine est un seul placard. Beaucoup de machines ont besoin d'un **plan de bibliothèque** : répartir les livres sur les rayons (**partitionnement**), garder des copies de rechange (**réplication**), et faire s'accorder le personnel avec des règles claires (**quorums**).
+---
 
-Quand les talkie-walkies cassent entre comptoirs, tu choisis : **la même réponse pour tout le monde** (même si certains invités attendent) ou **toujours répondre à quelqu'un** (même s'il faut nettoyer les écarts plus tard). Ce choix, c'est CAP sous partition.
+## Liste de contrôle pour la production
 
-Avec trois bibliothécaires, **N** est combien tiennent la fiche, **W** combien doivent tamponner une écriture, **R** combien tu interroges en lecture. Si W + R > N, une bonne lecture devrait voir une bonne écriture.
+- [ ] Réplicas répartis sur plusieurs zones de disponibilité, pas seulement sur plusieurs nœuds
+- [ ] Niveau de cohérence par défaut choisi par table et documenté pour les appelants
+- [ ] Stratégie de conflit explicite (LWW avec horloges surveillées, horloges vectorielles ou CRDT)
+- [ ] Fenêtre de hinted handoff et calendrier de réparation alignés sur le délai de grâce des pierres tombales
+- [ ] Réparation anti-entropie régulière en place et surveillée
+- [ ] Taux de faux positifs des filtres de Bloom et nombre de SSTables par lecture suivis
+- [ ] Stratégie de compaction choisie par charge ; disques sous ~60 % pour garder de la marge
+- [ ] Tableaux de bord : p99 par opération et par niveau de cohérence, indices en attente, avancement des réparations, mutations abandonnées
 
-Les copies divergent parfois. Répare les trous courts avec handoffs et hints. Répare la longue dérive avec une réparation en arrière-plan. Garde l'API client minuscule pour que le travail dur reste dans le cluster.
+---
 
-Voilà un store clé-valeur distribué : pas une table de hachage magique sur le réseau, mais un plan de rayons, un plan de copies, et un règlement du personnel pour les jours où quelque chose casse.
+## Ce qui reste
 
+Un magasin clé-valeur, c'est là où les systèmes distribués cessent d'être abstraits. Deux verbes, et pourtant toutes les questions difficiles surgissent : quelle copie est la vraie, combien de temps attendre, que faire du nœud absent pendant une heure qui a son avis sur le passé.
+
+Les meilleures conceptions ne prétendent pas que ces questions ont une seule réponse. Elles donnent un réglage à l'appelant et écrivent, très clairement, ce que chaque position promet et ce qu'elle ne promet pas.
+
+---
+
+## Sources
+
+* [DeCandia et al., « Dynamo: Amazon's Highly Available Key-value Store » (SOSP 2007)](https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf)
+* [Lakshman et Malik, « Cassandra: A Decentralized Structured Storage System »](https://www.cs.cornell.edu/projects/ladis2009/papers/lakshman-ladis2009.pdf)
+* [O'Neil et al., « The Log-Structured Merge-Tree (LSM-Tree) » (1996)](https://www.cs.umb.edu/~poneil/lsmtree.pdf)
+* [Documentation d'Apache Cassandra : hints, réparation et compaction](https://cassandra.apache.org/doc/latest/cassandra/managing/operating/index.html)
+* [Abadi, « Consistency Tradeoffs in Modern Distributed Database System Design » (PACELC)](https://www.cs.umd.edu/~abadi/papers/abadi-pacelc.pdf)
+* [Hayashibara et al., « The Phi Accrual Failure Detector »](https://ieeexplore.ieee.org/document/1353004)
+* Dans la même série : [Concevoir le hachage cohérent](/blog/fr/design-consistent-hashing), [Concevoir un générateur d'identifiants uniques](/blog/fr/design-unique-id-generator)

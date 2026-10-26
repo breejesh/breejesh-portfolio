@@ -1,226 +1,156 @@
 ---
 title: "Keep Learning System Design: Building Blocks, Practice Order, and This Series"
-description: "After the classic interview designs, learn the reusable building blocks in plain English, follow a beginner practice order, and use this blog series as your study map."
+description: "A study plan for system design: the order to read this series in and why, the building blocks that every design reuses, how to practice so it sticks, the books and engineering blogs worth your time, and how to tell when you are actually ready."
 date: "2026-01-30"
 tags: [System Design & Architecture]
 coverImage: /assets/images/design-interview-learning-path.webp
 previewImage: /assets/images/design-interview-learning-path.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
-> * **The Insight:** After the classic interview designs, learn the reusable building blocks in plain English, follow a beginner practice order, and use this blog series as your study map.
-> * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
+> * **The Problem:** System design is usually learned as a pile of unrelated case studies. People memorize "how Twitter works" and then freeze when the prompt is slightly different.
+> * **The Path:** Learn the process first (framework, estimation, scaling), then the building blocks (partitioning, replication, IDs, rate limiting), then the classic product designs that combine them, then the large data-heavy systems. Practice each one out loud, with a timer, before reading the solution.
+> * **The Result:** You stop memorizing designs and start recognizing the same dozen ideas in new combinations. That is what transfers to interviews and to real architecture reviews.
 
-You finished the list. Rate limiter. URL shortener. Feed. Chat. Drive. Video. It feels like a finish line.
+Every post in this series reuses the same small set of ideas: split the data, copy the data, put a queue in front of slow work, cache what is read often, and decide what happens when something fails. The case studies are just different arrangements of those ideas.
 
-Then a new prompt shows up with a different product name, and the same few ideas walk back into the room. That is not a failure. That is the lesson.
-
-**The designs were practice problems. The building blocks are the real course.**
-
-This post is a study plan for after that first pass. I will keep it plain. One sentence per block. A practice order that compounds. Links into this series so you always know what to open next. Think of me as a patient professor: no hype, just a map you can actually follow.
-
-If the interview process still feels fuzzy, start with the [interview framework](/blog/en/design-interview-framework) and [back-of-the-envelope estimation](/blog/en/design-back-of-envelope-estimation). If you have never walked a single server into a multi-region sketch, do [scale from zero to millions](/blog/en/design-scale-zero-to-millions) once with a timer.
+This post is the map: what to read in which order, what to practice, and where to go after this series runs out.
 
 ---
 
-## What "ready" actually means
+## The Roadmap
 
-You are not ready because you can redraw one architecture from memory. You are in good shape when you can:
+![Learning roadmap in four phases: phase zero covers process with the interview framework, estimation and scaling from zero to millions; phase one covers building blocks with consistent hashing, key-value store, unique ID generator, rate limiter and URL shortener; phase two covers product designs with notifications, news feed, chat and autocomplete; phase three covers large systems with web crawler, Google Drive and video streaming; a note says the building blocks reappear in every later design](/assets/images/hld/design-learning-roadmap.webp)
 
-1. **Name the blocks** a design needs before you draw boxes.
-2. **Explain why** a block is in or out for this product.
-3. **Swap tools** (Redis vs Memcached, Kafka vs SQS, hash vs range shard) without rewriting the whole story.
-4. **Estimate roughly** (QPS, storage, bandwidth) before you invent services.
-5. **Defend two or three trade-offs** out loud under mild pushback.
-
-Interviews reward that muscle. Real on-call work rewards it more.
+The phases are ordered so that each one leans on the previous one. The news feed is much easier once you already know how sharding and caching behave; the video platform is much easier once queues and idempotent workers feel routine.
 
 ---
 
-## Building blocks (one plain sentence each)
+## Phase 0: The Process
 
-Most product designs are remixes of a small set of ideas. Learn these cold. Every new prompt gets shorter.
+Read these first, even if you have done system design before. They are the habits the rest of the series assumes.
 
-### Load balancer
-
-A **load balancer** sits in front of many servers and sends each request to a healthy one so no single box has to take all the traffic.
-
-### Cache
-
-A **cache** stores a hot copy of data close to the app so most reads never hit the slow primary database.
-
-### Shard
-
-A **shard** is one slice of a dataset (or write load) so many machines share work that one machine could never hold forever.
-
-### Queue
-
-A **queue** holds work for later so the user request does not wait on email, encoding, fan-out, crawl, or a flaky third-party API.
-
-### Replica
-
-A **replica** is an extra copy of data used for failover and often for extra read capacity when one copy is not enough.
-
-### Bonus idea: consistency vs availability
-
-When the network breaks between machines, you often cannot promise perfect agreement and perfect uptime on the same path at the same time, so you choose per feature which pain you accept.
-
-You do not need CAP theorem slogans on every slide. You need a calm sentence: "For checkout I prefer stronger consistency. For a social feed I can live with a short delay."
+* [A Practical Framework for System Design Interviews](/blog/en/design-interview-framework): how to spend 45 minutes and what gets scored.
+* [Back-of-the-Envelope Estimation](/blog/en/design-back-of-envelope-estimation): turning adjectives into numbers that pick the design for you.
+* [Scale From Zero to Millions of Users](/blog/en/design-scale-zero-to-millions): the standard evolution from one server to a multi-region system, each step triggered by a real bottleneck.
 
 ---
 
-## How the blocks show up in the series
+## Phase 1: Building Blocks
 
-You do not need every cell filled on a whiteboard. You need to know which cells carry the load for the prompt in front of you.
+Each of these is small enough to design completely and shows up inside almost every bigger design.
 
-| Design | Load balance | Cache | Shard | Queue | Replica |
-| --- | --- | --- | --- | --- | --- |
-| [URL shortener](/blog/en/design-url-shortener) | redirect tier | hot codes | by code | analytics later | mapping store |
-| [Rate limiter](/blog/en/design-a-rate-limiter) | gateway | Redis state | by key | rare | Redis HA |
-| [News feed](/blog/en/design-news-feed-system) | API + workers | timeline | by user | fan-out jobs | graph + posts |
-| [Chat](/blog/en/design-chat-system) | connection servers | presence | by conversation | offline push | message store |
-| [Search autocomplete](/blog/en/design-search-autocomplete) | query tier | prefix cache | dictionary | rebuild jobs | index copies |
-| [YouTube-style](/blog/en/design-youtube-streaming) | CDN + API | thumbs, manifests | video / user | transcode | object store |
-| [Google Drive-style](/blog/en/design-google-drive) | upload edges | metadata | by owner / file | scan, index | metadata + blobs |
-
-Deeper patterns for individual blocks:
-
-- Caching: [Redis caching patterns](/blog/en/redis-caching-patterns)
-- Async work: [event-driven architecture](/blog/en/event-driven-architecture-intro)
-- Live connections: [WebSockets basics](/blog/en/websockets-realtime-basics)
+| Post | The idea you take away |
+| --- | --- |
+| [Consistent Hashing](/blog/en/design-consistent-hashing) | Adding a node should move a small fraction of keys, not almost all of them |
+| [Distributed Key-Value Store](/blog/en/design-key-value-store) | Quorums, replication, conflict handling and how LSM storage makes writes cheap |
+| [Unique ID Generator](/blog/en/design-unique-id-generator) | Ordered IDs without a central counter, and the cost of clock trouble |
+| [Rate Limiter](/blog/en/design-a-rate-limiter) | Algorithm trade-offs and atomic counters in a shared store |
+| [URL Shortener](/blog/en/design-url-shortener) | Key generation, read-heavy caching and keeping the hot path tiny |
 
 ---
 
-## Practice order for beginners
+## Phase 2: Product Designs
 
-Random hopping feels productive until it does not. This order builds prerequisites first. Adjust if a section is already strong for you.
+These combine the building blocks into systems users touch directly. The interesting parts are about latency, fan-out and delivery guarantees.
 
-### Phase 0: Process and numbers (1 to 2 sessions)
-
-1. [Interview framework](/blog/en/design-interview-framework): requirements, API, data, high level, detailed technical breakdowns, wrap-up.
-2. [Back-of-envelope estimation](/blog/en/design-back-of-envelope-estimation): QPS, storage, bandwidth, rough machine counts without fake precision.
-3. [Scale zero to millions](/blog/en/design-scale-zero-to-millions): vertical scale, load balancer, cache, replica, shard as one story.
-
-### Phase 1: Core data-plane blocks (3 to 5 sessions)
-
-4. [Consistent hashing](/blog/en/design-consistent-hashing)
-5. [Key-value store](/blog/en/design-key-value-store)
-6. [Unique ID generator](/blog/en/design-unique-id-generator)
-7. [Rate limiter](/blog/en/design-a-rate-limiter)
-8. [URL shortener](/blog/en/design-url-shortener)
-
-Why this order: hashing and key-value ideas keep reappearing. IDs show up in almost every write path. Rate limiting teaches shared counters under messy clocks. The URL shortener is the first full product that still fits a 45-minute run.
-
-### Phase 2: Async and social graphs (4 to 6 sessions)
-
-9. [Web crawler](/blog/en/design-web-crawler)
-10. [Notification system](/blog/en/design-notification-system)
-11. [News feed](/blog/en/design-news-feed-system)
-12. [Chat system](/blog/en/design-chat-system)
-13. [Search autocomplete](/blog/en/design-search-autocomplete)
-
-Here queues, fan-out, presence, and prefix structures stop being abstract. Pair chat with [WebSockets basics](/blog/en/websockets-realtime-basics) if connection state still feels magical.
-
-### Phase 3: Heavy media and files (2 to 3 sessions)
-
-14. [YouTube-style streaming](/blog/en/design-youtube-streaming)
-15. [Google Drive-style](/blog/en/design-google-drive)
-
-These force CDN thinking, object storage, chunked upload, encoding pipelines, and metadata consistency. Do them after you can already tell a clean story about queues and replication.
+| Post | The idea you take away |
+| --- | --- |
+| [Notification System](/blog/en/design-notification-system) | Queues, retries, idempotency and respecting user preferences |
+| [News Feed](/blog/en/design-news-feed-system) | Fan-out on write vs read, and the hybrid that handles celebrities |
+| [Chat System](/blog/en/design-chat-system) | Long-lived connections, per-conversation ordering and delivery states |
+| [Search Autocomplete](/blog/en/design-search-autocomplete) | Precomputing answers offline so the online path is a lookup |
 
 ---
 
-## How to practice each design
+## Phase 3: Large, Data-Heavy Systems
 
-Use the same loop every time. Boring loops win.
+Here the hard part is volume and cost: petabytes, billions of pages, millions of concurrent viewers.
 
-1. **Timer on** (35 to 45 minutes). Speak out loud even alone.
-2. **Requirements first.** What is in scope? What is out?
-3. **Numbers early.** Even rough ones change the design.
-4. **One high-level diagram.** Then deep-dive only two or three hot spots.
-5. **Write three trade-offs** at the end, not ten.
-6. **Next day, redraw from blank** with no notes. Gaps become your study list.
-
-Optional stretch: build a tiny version of one block (token bucket in Redis, a short code service, a simple fan-out worker). Interviews care about judgment more than code, but shipping a block once kills a lot of hand-waving.
+| Post | The idea you take away |
+| --- | --- |
+| [Web Crawler](/blog/en/design-web-crawler) | A frontier that balances priority and politeness, plus dedup at scale |
+| [Google Drive](/blog/en/design-google-drive) | Block-level sync, content addressing and conflict handling |
+| [Video Streaming](/blog/en/design-youtube-streaming) | Resumable uploads, parallel transcoding, adaptive bitrate and CDN economics |
 
 ---
 
-## Series map (this blog)
+## The Building Blocks, One Line Each
 
-| Order | Topic | Link |
+If you only keep one table from this series, keep this one. Nearly every design question is a combination of these.
+
+| Block | Reach for it when | Main cost |
 | --- | --- | --- |
-| 1 | Scale from zero to millions | [design-scale-zero-to-millions](/blog/en/design-scale-zero-to-millions) |
-| 2 | Back-of-envelope estimation | [design-back-of-envelope-estimation](/blog/en/design-back-of-envelope-estimation) |
-| 3 | Interview framework | [design-interview-framework](/blog/en/design-interview-framework) |
-| 4 | Rate limiter | [design-a-rate-limiter](/blog/en/design-a-rate-limiter) |
-| 5 | Consistent hashing | [design-consistent-hashing](/blog/en/design-consistent-hashing) |
-| 6 | Key-value store | [design-key-value-store](/blog/en/design-key-value-store) |
-| 7 | Unique ID generator | [design-unique-id-generator](/blog/en/design-unique-id-generator) |
-| 8 | URL shortener | [design-url-shortener](/blog/en/design-url-shortener) |
-| 9 | Web crawler | [design-web-crawler](/blog/en/design-web-crawler) |
-| 10 | Notification system | [design-notification-system](/blog/en/design-notification-system) |
-| 11 | News feed | [design-news-feed-system](/blog/en/design-news-feed-system) |
-| 12 | Chat system | [design-chat-system](/blog/en/design-chat-system) |
-| 13 | Search autocomplete | [design-search-autocomplete](/blog/en/design-search-autocomplete) |
-| 14 | YouTube-style streaming | [design-youtube-streaming](/blog/en/design-youtube-streaming) |
-| 15 | Google Drive-style | [design-google-drive](/blog/en/design-google-drive) |
-| 16 | This learning path | [design-interview-learning-path](/blog/en/design-interview-learning-path) |
-
-Supporting posts that sharpen the edges:
-
-- [How DNS works](/blog/en/how-dns-works-for-engineers)
-- [How HTTPS and TLS work](/blog/en/how-https-tls-works)
-- [OAuth 2.0 for developers](/blog/en/oauth2-for-developers)
-- [Redis caching patterns](/blog/en/redis-caching-patterns)
-- [Event-driven architecture](/blog/en/event-driven-architecture-intro)
-- [WebSockets for real-time apps](/blog/en/websockets-realtime-basics)
+| Load balancer | You have more than one instance | Another hop; health checks to get right |
+| Cache | Reads dominate and some staleness is fine | Invalidation and cold starts |
+| Read replicas | Reads exceed one database | Replication lag |
+| Sharding | Data or writes exceed one database | Cross-shard queries, rebalancing, hot keys |
+| Replication and quorums | You need to survive node loss | Write latency and conflict handling |
+| Message queue | Work can be async or must be retried | Duplicates; you need idempotent consumers |
+| CDN | Static or media content to many users | Cost and cache invalidation |
+| Object storage | Large blobs | Higher latency than local disk |
+| Consistent hashing | Nodes join and leave often | Uneven load without virtual nodes |
+| Rate limiting | Protecting shared resources | False positives during legitimate spikes |
 
 ---
 
-## A simple weekly plan
+## How to Practice So It Sticks
 
-If you have limited time, do not polish the plan. Ship the plan.
+Reading a solution feels like learning. It mostly is not. What works:
 
-| Day | Focus | Output |
-| --- | --- | --- |
-| Mon | One block deep (cache or queue or shard) | One page of notes + failure modes |
-| Wed | One full design from the series | Timed whiteboard or doc |
-| Fri | Redraw the previous design cold | List of gaps only |
-| Weekend (optional) | One real company eng blog | Three ideas you can reuse |
-
-Four steady weeks beat twelve weekends of passive video.
+1. **Attempt first.** Before reading a post in this series, set a 45-minute timer and design the system yourself on paper, out loud, using the framework.
+2. **Then compare.** Read the post and write down the one or two things you missed. Those notes are your real study material.
+3. **Revisit a week later.** Design the same system again from scratch without looking. If you can explain the main trade-off without notes, you own it.
+4. **Change one requirement.** Redo a design with a twist: the URL shortener with a global audience and strict privacy, the chat system with end-to-end encryption, the feed with no ranking. Twists are what interviews actually do.
+5. **Practice with another person.** Mock interviews with a peer expose the communication gaps that solo practice hides. Take turns playing interviewer; that role teaches you what a good answer sounds like.
 
 ---
 
-## How to keep learning after the series
+## Where to Go After This Series
 
-Whiteboard drills plateau. Stretch in three quiet directions.
+**Books**
 
-**1. Read one real architecture per week.** Ask only: which blocks did they use, what failed at the last scale, and what did they refuse to do?
+* *Designing Data-Intensive Applications* by Martin Kleppmann. The best single book on how storage, replication and consistency really work. Read it slowly.
+* *System Design Interview* volumes 1 and 2 by Alex Xu. Good breadth of case studies; this series covers many of the same problems from a different angle.
+* *Site Reliability Engineering* (the Google SRE book). Free online. The chapters on risk, monitoring and overload explain the operational side that whiteboard designs skip.
 
-**2. Compare two designs that share a block.** Rate limiter vs unique ID generator both need care under multi-node writes. Feed fan-out vs notification fan-out both need queues and idempotency, but different latency budgets. Write five bullets on what transfers and what does not.
+**Papers worth reading once**
 
-**3. Add a little operational depth.** Metrics (QPS, p99, queue lag, cache hit ratio), simple failure drills (kill a cache node, stall a consumer), and cost (when CDN beats clever code).
+* Amazon's Dynamo paper (the ideas behind the key-value store post).
+* Google's Bigtable and MapReduce papers.
+* The Raft paper, for a readable explanation of consensus.
 
-Teaching someone else is the fastest audit. If you cannot explain consistent hashing without looking at a diagram, you do not own it yet. That is fine. That is information.
+**Engineering blogs**
 
----
-
-## Recap for a friend
-
-If you had to text this in one breath:
-
-You finished a pile of system design problems. Those were reps, not the curriculum. The curriculum is five blocks: load balancer spreads traffic, cache speeds hot reads, shard splits data across machines, queue defers slow work, replica copies data for safety and reads. Learn the blocks, practice designs in order from process and numbers up to media systems, and keep a short weekly loop of study, timed design, and cold redraw. The series on this blog is one full path through that plan.
+Company engineering blogs describe real systems with real constraints. Netflix, Discord, Cloudflare, Uber, Slack and Meta all publish detailed posts on how they built and scaled specific systems. Read one a week and ask yourself which building blocks it uses.
 
 ---
 
-## Closing
+## How to Tell You Are Ready
 
-System design skill is not "I memorized YouTube." It is "I can assemble load balancing, caching, sharding, queues, replication, and honest consistency choices under a new product story."
+You are ready for interviews, and for real design discussions, when:
 
-Start where you are weak. If numbers scare you, do estimation. If async confuses you, do crawler and notifications before Drive. If you freeze on structure, run the framework post twice with a timer.
+* You can take an unfamiliar prompt and produce a requirement list in five minutes without stalling.
+* Your estimates end with a conclusion, not just numbers.
+* For every component you draw, you can say what breaks without it.
+* You can name the main trade-off of your design and what would make you choose differently.
+* You can go deep on at least one area (storage, messaging or caching) until the interviewer runs out of questions.
 
-Then keep going. Steady practice is enough. You do not need to be dramatic about it. You only need to show up for the next session.
+---
 
+## The Leftover
+
+I used to think the goal was to know more architectures. It turned out the goal was to need fewer. Once the dozen building blocks feel familiar, every new system looks like a remix, and the real question becomes which trade-off this particular product can afford.
+
+That is a much calmer place to design from. Start at Phase 0.
+
+---
+
+## Sources
+
+* [Martin Kleppmann, "Designing Data-Intensive Applications"](https://dataintensive.net/)
+* [Google SRE Book (free online)](https://sre.google/sre-book/table-of-contents/)
+* [DeCandia et al., "Dynamo: Amazon's Highly Available Key-value Store" (2007)](https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf)
+* [Chang et al., "Bigtable: A Distributed Storage System for Structured Data" (2006)](https://research.google/pubs/bigtable-a-distributed-storage-system-for-structured-data/)
+* [Ongaro and Ousterhout, "In Search of an Understandable Consensus Algorithm" (Raft, 2014)](https://raft.github.io/raft.pdf)
+* [Alex Xu, "System Design Interview: An Insider's Guide"](https://www.amazon.com/System-Design-Interview-insiders-Second/dp/B08CMF2CQF)

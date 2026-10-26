@@ -1,426 +1,171 @@
 ---
-title: "Diseñar un sistema de chat: walkie-talkies, correos y ticks verdes"
-description: "Diseño de un sistema de chat para principiantes absolutos: ruta en línea en vivo frente a almacenamiento de historial, 1:1 y grupos pequeños, presencia, ticks de entrega y cómo explicárselo a un amigo."
+title: "Diseña un sistema de chat: WebSockets, orden de mensajes, ticks de entrega y presencia"
+description: "Un diseño de chat para producción: servidores WebSocket con estado y un registro de sesiones, números de secuencia por conversación, envíos idempotentes, almacenamiento particionado por conversación, confirmaciones de entrega y lectura como cursores, grupos, sincronización entre dispositivos, presencia, notificaciones push de respaldo y cifrado de extremo a extremo."
 date: "2025-11-19"
 tags: [Diseño de Sistemas y Arquitectura, Backend y Bases de Datos]
 coverImage: /assets/images/design-chat-system.webp
 previewImage: /assets/images/design-chat-system.webp
 ---
 
-
 > **TL;DR**
-> * **El Problema:** Diseñar arquitecturas escalables requiere equilibrar disponibilidad, rendimiento y complejidad operativa.
-> * **La Clave:** Diseño de un sistema de chat para principiantes absolutos: ruta en línea en vivo frente a almacenamiento de historial, 1:1 y grupos pequeños, presencia, ticks de entrega y cómo explicárselo a un amigo.
-> * **El Resultado:** Plano técnico con objetivos cuantitativos y mitigación de fallos en producción.
+> * **El problema:** Entregar mensajes entre usuarios en bastante menos de un segundo, en orden, exactamente una vez desde el punto de vista del usuario, con redes móviles inestables, varios dispositivos por usuario y usuarios que pasan días desconectados.
+> * **El diseño:** Mantener un WebSocket persistente por dispositivo en servidores de chat con estado, registrar en un registro de sesiones qué servidor tiene a cada usuario, asignar a cada mensaje un número de secuencia por conversación al persistirlo, enrutarlo por un bus de entrega al servidor del destinatario, recurrir a notificaciones push si está desconectado y tratar las confirmaciones de entrega y lectura como cursores sobre esa secuencia.
+> * **El resultado:** El orden y la deduplicación salen de los números de secuencia, una reconexión se convierte en "mándame todo lo posterior a la secuencia N" y la parte con estado del sistema se reduce a una capa fina de conexiones que puede fallar sin perder un solo mensaje.
 
-Abre WhatsApp o iMessage. Escribe una línea. Pulsa enviar. Aparece un tick. A veces un punto verde dice que tu amigo está en línea. Parece magia. No es magia. Son dos ideas antiguas con ropa moderna.
+El chat parece el producto más sencillo de esta serie: escribes y el otro lo ve. Por debajo, es aquel en el que los usuarios notan cada fallo. Un mensaje desordenado, un duplicado tras reconectar, un tick que dice "leído" cuando no lo fue: cada uno es un informe de error con captura de pantalla incluida.
 
-**Idea 1: un walkie-talkie.** Cuando ambas personas están conectadas ahora mismo, el servidor mantiene una línea abierta para que las palabras lleguen en una fracción de segundo.
-
-**Idea 2: una oficina de correos.** Cada mensaje también se archiva en un almacén (la base de datos). Cuando alguien estaba offline, o abre la app más tarde en otro teléfono, el historial se obtiene de ese almacén, no del aire.
-
-Si recuerdas solo una frase de este post, que sea esta: **la conexión en vivo es para la velocidad; el almacén de mensajes es para la verdad.**
-
-Esta guía enseña el diseño de un sistema de chat como lo haría un profesor paciente: lenguaje claro primero, comportamiento real del producto después, cajas de entrevista al final. Acotamos un producto estilo Messenger: chat 1:1, grupos pequeños, texto, presencia en línea, ticks de entrega e historial multi-dispositivo. Para detalles de WebSocket a nivel de cable (handshake, heartbeats, reconnect), ver [WebSockets para apps en tiempo real](/blog/es/websockets-realtime-basics). Aquí nos quedamos en la arquitectura de producto.
+Este artículo diseña una mensajería de conversaciones 1:1 y grupos pequeños al estilo de WhatsApp, Signal o Messenger.
 
 ---
 
-## ¿Qué estamos construyendo?
+## Requisitos y cifras
 
-Antes de cajas y flechas, fija el producto. Las entrevistas se rompen cuando alguien inventa canales a escala Discord y el enunciado era "WhatsApp para amigos".
+**Funcionales:** chats 1:1 y de grupo (hasta unos cientos de miembros), texto y multimedia, indicadores de enviado, entregado y leído, presencia en línea, historial en todos los dispositivos y notificaciones push cuando se está desconectado.
 
-| Pregunta | Respuesta por defecto en este post |
-| --- | --- |
-| ¿1:1, grupos o ambos? | Ambos |
-| Tamaño de grupo | Unos 100 miembros como máximo |
-| Clientes | Teléfono y web |
-| Escala de ejemplo | Decenas de millones de usuarios diarios (orden de magnitud) |
-| Tipo de mensaje | Texto primero; fotos después |
-| Historial | Conservarlo mucho tiempo |
-| Misma cuenta en teléfono + portátil | Sí |
-| Cifrado de extremo a extremo | Fuera de alcance salvo que lo pidan |
-| Avisar cuando está offline | Sí (notificación push) |
+**No funcionales:** latencia de extremo a extremo por debajo de 500 ms para destinatarios conectados; ningún mensaje perdido después de que el remitente vea "enviado"; orden dentro de cada conversación; funcionar en redes móviles poco fiables.
 
-**Lo que el usuario debe poder hacer**
-
-1. Enviar y recibir mensajes 1:1 con baja latencia cuando ambos están en línea.
-2. Chatear en un grupo pequeño.
-3. Ver quién está en línea u offline (presencia).
-4. Abrir la app y cargar mensajes anteriores.
-5. Mantenerse sincronizado en varios dispositivos.
-6. Recibir un push cuando está offline y ponerse al día al abrir la app.
-
-**Lo que no diseñamos salvo que lo pidan:** llamadas de voz, canales de un millón de personas, reacciones, búsqueda en todo el historial, cifrado E2E completo. Nómbralos fuera de alcance para que la conversación sea honesta.
-
----
-
-## El modelo mental central: walkie-talkie y oficina de correos
-
-### Walkie-talkie = ruta en línea
-
-Imagina a dos amigos con walkie-talkies en el mismo canal. Pulsa el botón, habla, suelta. El otro oye **si** está escuchando **ahora mismo**.
-
-En el chat:
-
-- El teléfono mantiene una **conexión de larga duración** con un servidor de chat (normalmente un WebSocket).
-- Cuando envías "voy de camino", el servidor puede **empujar** ese texto a la conexión abierta de tu amigo al instante.
-- No hace falta preguntar cada segundo "¿hay mensajes nuevos?". El servidor habla cuando pasa algo.
-
-Ese cable en vivo es por lo que el chat se siente instantáneo. También es por lo que los servidores de chat son difíciles: millones de teléfonos pueden tener un socket abierto al mismo tiempo.
-
-### Oficina de correos = almacenamiento del historial
-
-Un walkie-talkie no sirve para la conversación de la semana pasada. Para eso necesitas un sistema de archivo.
-
-En el chat:
-
-- Cada mensaje aceptado se **escribe en almacenamiento durable** (una base pensada para muchos appends pequeños).
-- Si tu amigo estaba offline, el mensaje sigue en el almacén.
-- Cuando abre la app, el cliente pregunta: "dame todo después del message id X".
-- Cuando cambia del teléfono al portátil, el portátil carga el historial del mismo almacén.
-
-**Regla práctica**
-
-| Ruta | Trabajo | Fallo si confías solo en ella |
+| Supuesto | Valor | Derivado |
 | --- | --- | --- |
-| Conexión en vivo (walkie-talkie) | Entrega rápida mientras estás en línea | Pierde lo enviado desconectado |
-| Almacén de mensajes (correos) | Historial durable y puesta al día | Demasiado lento si solo se hace pull sin push |
+| Usuarios activos diarios | 50M | |
+| Mensajes por usuario y día | 40 | 2.000M mensajes/día, ~23k/s de media, ~70k/s en pico |
+| Tamaño medio del mensaje (con metadatos) | ~200 bytes | ~400 GB/día antes de replicar |
+| Conexiones concurrentes en pico | 15M | Con ~500k conexiones por servidor bien afinado, ~30 servidores más margen |
 
-El chat de producción usa **ambas**. El push en vivo acelera. El almacén es la fuente de verdad. Si un push se pierde en una red inestable, la siguiente sincronización desde el almacén cierra el hueco.
+Las conexiones persistentes son baratas una a una, pero son muchísimas. WhatsApp contó en 2012 que tenía más de dos millones de conexiones concurrentes en un solo servidor Erlang, así que la capa de conexiones tiene menos que ver con el número bruto y más con lo bien que aguanta las tormentas de reconexión.
 
 ---
 
-## ¿Cómo se mantiene el teléfono "en la línea"?
+## Por qué WebSockets
 
-Las peticiones web normales son como enviar una postal y esperar respuesta. Bien para login o perfil. Mal para chat.
-
-El chat necesita que el servidor hable **primero** cuando llega un mensaje para ti. Opciones comunes:
-
-| Enfoque | Resumen para principiantes | ¿Sirve para chat? |
+| Transporte | Cómo llega el servidor al cliente | Encaje para chat |
 | --- | --- | --- |
-| Short polling | La app pregunta cada pocos segundos "¿algo nuevo?" | Derrochador; casi siempre "no" |
-| Long polling | La app pregunta y el servidor aguanta hasta que hay algo | Funciona; torpe a escala |
-| **WebSocket** | Un tubo abierto en ambos sentidos tras un pequeño handshake | **Sí, por defecto** |
-| HTTP REST | Petición y respuesta normales | Login, páginas de historial, ajustes |
+| Short polling | El cliente pregunta cada pocos segundos | Derrochador y con retraso |
+| Long polling | El cliente mantiene una petición abierta hasta que hay novedades | Funciona, pero cada mensaje cuesta una petición nueva |
+| Server-Sent Events | Flujo en una sola dirección desde el servidor | Sirve para recibir, pero hace falta otra ruta para enviar |
+| WebSocket | Conexión bidireccional sobre un único socket TCP/TLS | Encaje natural: poco sobrecoste en ambos sentidos |
 
-Muchos productos envían mensajes por WebSocket y usan HTTP para lo aburrido (alta, lista de amigos, historial antiguo). La división importante:
-
-- **APIs HTTP sin estado:** cualquier servidor puede responder; fácil de escalar.
-- **Gateways de chat con estado:** cada teléfono en vivo queda en **un** nodo de chat que sostiene su socket.
-
-Las conexiones pegajosas exigen un mapa: "el usuario B está conectado en el chat server 7, dispositivo teléfono". Ese mapa vive en un almacén rápido (a menudo Redis). Sin él, el servidor 1 no sabe cómo gritar a B, que está en el servidor 7.
+Las apps móviles usan además el canal push del sistema operativo (APNs, FCM) como señal para despertar cuando la app está en segundo plano y el socket cerrado.
 
 ---
 
-## Arquitectura a vista de pájaro (sigue siendo simple)
+## La arquitectura
 
-Tres tipos de piezas, no cincuenta logotipos.
+![Arquitectura del chat: Alice y Bob se conectan por WebSocket a servidores de chat distintos; el servicio de mensajes asigna un número de secuencia y lo añade a la base de datos de mensajes, enruta por un bus de entrega que busca el servidor de Bob en el registro de sesiones, entrega en el servidor de chat de Bob, recurre a un notificador push si Bob está desconectado, y un servicio de presencia sigue los latidos](/assets/images/hld/design-chat-architecture.webp)
 
-### 1. APIs de producto aburridas (sin estado)
+* **Alice / Bob.** Cada dispositivo mantiene un WebSocket abierto mientras la app está en primer plano. La unidad de conexión son los dispositivos, no los usuarios.
+* **Chat Servers.** Terminan los WebSockets y apenas hacen nada más. Son la única capa con estado (tienen los sockets), así que se mantienen finos: autenticar, reenviar envíos, empujar entregas y retransmitir confirmaciones.
+* **Message Service.** Sin estado. Valida el mensaje, asigna el siguiente **número de secuencia de la conversación**, lo persiste y solo entonces confirma al remitente. Es el momento del "un tick gris": cuando Alice lo ve, el mensaje es duradero.
+* **Messages DB.** Particionada por conversación y ordenada por número de secuencia, para que "dame los mensajes de la conversación X posteriores a la secuencia N" sea una lectura de rango contigua. Discord describió exactamente esta forma (canal más intervalo de tiempo como partición, con IDs Snowflake dentro) en sus artículos sobre cómo guarda miles de millones, y después billones, de mensajes.
+* **Delivery Bus.** Cada servidor de chat se suscribe a su propio tema. Enrutar un mensaje a Bob es publicarlo en el tema del servidor que tenga los sockets de Bob.
+* **Session Registry.** `user -> [(device, server)]`, en Redis con TTL que renuevan los latidos. Responde a "¿dónde está Bob ahora mismo?".
+* **Push Notifier.** Si Bob no tiene ningún socket vivo, se envía un push por APNs o FCM. El push es una pista, no la entrega: cuando la app despierta, sincroniza desde la base de datos.
+* **Presence Service.** Sigue los latidos para calcular el estado en línea y la última conexión, como se ve más abajo.
 
-Auth, perfil, contactos, lista de conversaciones, historial. Detrás de un balanceador normal. Añades máquinas cuando crece el tráfico.
+La decisión de diseño clave es que **la persistencia va antes que la entrega**. Un mensaje existe desde el momento en que está en la base de datos con un número de secuencia. Todo lo demás es un intento de hacerlo llegar antes a los dispositivos.
 
-### 2. Servidores de chat (con estado)
+---
 
-Sostienen sesiones WebSocket. Aceptan mensajes nuevos. Empujan mensajes, "está escribiendo" y eventos de presencia. Buscan dónde está conectado un usuario.
+## Orden, idempotencia y sincronización
 
-### 3. Sistemas de apoyo
+Tres mecanismos pequeños hacen casi todo el trabajo de corrección:
 
-| Pieza | Trabajo en palabras simples |
+1. **IDs de mensaje generados por el cliente.** El cliente adjunta un `client_id` único a cada envío. Si la red pierde la confirmación y el cliente reintenta, el Message Service ve el mismo `client_id` en esa conversación y devuelve el número de secuencia original en lugar de guardar un duplicado.
+2. **Números de secuencia por conversación.** Un orden global entre todos los chats es innecesario y caro. Lo que los usuarios ven es el orden dentro de una conversación. Un contador por conversación (en la base de datos o en un servicio secuenciador dueño de esa partición) da un orden total y permite detectar huecos.
+3. **Sincronización por cursor.** Cada dispositivo recuerda la secuencia más alta que tiene de cada conversación. Al reconectar, pide todo lo posterior. Sin ambigüedad sobre si se perdió algo, y el mismo mecanismo sirve para un móvil que vuelve tras una semana desconectado y para un portátil que acaba de despertar.
+
+---
+
+## Los ticks de entrega son cursores
+
+![Secuencia de confirmaciones de entrega y lectura: Alice envía un mensaje con un client id, el servidor de chat 1 lo añade con la secuencia 1043 y devuelve un tick gris, el mensaje se enruta al servidor de chat 7 y se entrega a Bob, la confirmación de entrega de Bob produce dos ticks grises, y la actualización del cursor de lectura de Bob se guarda y produce dos ticks azules](/assets/images/hld/design-chat-ticks.webp)
+
+| Indicador | Qué significa de verdad | Lo dispara |
+| --- | --- | --- |
+| Un tick gris (enviado) | Persistido en el servidor con número de secuencia | Commit del Message Service |
+| Dos ticks grises (entregado) | Al menos un dispositivo del destinatario lo tiene | Confirmación del dispositivo |
+| Dos ticks azules (leído) | El destinatario abrió la conversación hasta ese punto | Avance del cursor de lectura |
+
+La nota verde es el truco que escala: **las confirmaciones de lectura son cursores, no marcas por mensaje.** El dispositivo de Bob informa de "he leído la conversación X hasta la secuencia 1043". Una sola escritura cubre todos los mensajes anteriores. En un grupo, cada miembro tiene su cursor, y "leído por 12 de 40" es un recuento sobre cursores, no 40 escrituras por mensaje.
+
+---
+
+## Grupos
+
+Para grupos pequeños (hasta unos cientos de miembros), funciona el **fan-out en escritura**: tras persistir una vez en la partición de la conversación del grupo, se enruta una entrega al servidor de cada miembro conectado y se envían notificaciones push a los desconectados. El mensaje se guarda una vez; solo se multiplican las entregas.
+
+Para canales muy grandes (de miles a millones de miembros, al estilo de los servidores de Discord o los canales de difusión), se deja de entregar a todos. Los miembros leen el log del canal al abrirlo y solo quienes lo están mirando reciben empujes en tiempo real. Es el mismo dilema push frente a pull del [artículo del news feed](/blog/es/design-news-feed-system).
+
+---
+
+## Presencia sin fundir el sistema
+
+La presencia es engañosamente cara. Si cada cambio de estado se difunde a todos los contactos, un usuario que se conecta puede disparar cientos de mensajes, y una red móvil que hace parpadear su conexión los dispara una y otra vez.
+
+* **Latidos con TTL.** Los clientes envían un latido cada 30 segundos más o menos; el usuario está en línea mientras la clave esté fresca. Una desconexión breve no lo pasa a desconectado al instante.
+* **Suscribir, no difundir.** Envía actualizaciones de presencia solo de los contactos cuyo chat está abierto en la pantalla de alguien, o agrupa actualizaciones para las listas de contactos.
+* **Antirrebote.** Junta en una sola actualización los cambios rápidos entre conectado y desconectado.
+* **La última conexión es barata; la presencia en vivo no.** Muchos productos muestran "última vez" (una marca de tiempo leída bajo demanda) en lugar de un punto en vivo para todos.
+
+---
+
+## Varios dispositivos
+
+Cada dispositivo es una conexión y un cursor distintos. Un mensaje para Bob se entrega a todos sus dispositivos conectados, y un mensaje que Bob envía desde el portátil también debe aparecer en su móvil, que no es más que otra entrega a sus propios dispositivos. Con cifrado de extremo a extremo esto se complica: el remitente cifra por separado para cada dispositivo destinatario (el enfoque del protocolo Signal que WhatsApp adoptó en 2016), así que el servidor enruta texto cifrado que no puede leer.
+
+---
+
+## Cifrado de extremo a extremo, en breve
+
+Con E2EE, el servidor guarda y enruta texto cifrado opaco. Eso cambia el diseño en puntos concretos:
+
+* La búsqueda en el servidor sobre el contenido es imposible; se busca en el dispositivo.
+* La detección de spam y abusos se apoya en metadatos, denuncias y señales del cliente, no en analizar el contenido.
+* El historial en un dispositivo nuevo exige una copia de seguridad cifrada o una transferencia entre dispositivos, porque el servidor no puede descifrarlo por ti.
+
+El diseño de enrutamiento, secuencias y cursores de arriba funciona igual; nunca necesitó leer el contenido.
+
+---
+
+## Modos de fallo
+
+| Fallo | Comportamiento |
 | --- | --- |
-| Almacén de mensajes | El almacén de correos de todo el historial |
-| Generador de IDs | Ids de mensaje únicos, idealmente casi ordenados en el tiempo |
-| Mapa de sesiones | `user_id → qué servidor de chat y qué dispositivos` |
-| Almacén de presencia | En línea / offline, última actividad |
-| Bus entre servidores | Avisa a otros nodos "entrega esto al usuario B" |
-| Servicio push | Notificación en la pantalla de bloqueo si no hay socket vivo |
-| Object storage (después) | Fotos y vídeos |
-
-```
-Teléfono / web ──HTTP──► API (auth, páginas de historial)
-Teléfono / web ──WS────► Servidor de chat ──► bus ──► otros servidores
-                              │
-                              ├── almacén de mensajes (verdad)
-                              ├── mapa de sesión + presencia
-                              └── proveedor push (si offline)
-```
+| Caída de un servidor de chat | Sus sockets se cortan; los clientes reconectan (con jitter) a otro servidor y sincronizan desde sus cursores. No se pierde nada porque nada vive solo en los servidores de chat |
+| Tormenta de reconexiones tras un despliegue o un corte de red | Espera exponencial con jitter en los clientes; vaciar servidores gradualmente durante los despliegues |
+| Se pierde la confirmación de vuelta al remitente | El cliente reintenta con el mismo `client_id`; el servidor deduplica |
+| Destinatario desconectado una semana | Notificaciones push como pistas; sincronización completa desde el cursor al abrir |
+| Registro de sesiones desactualizado | La entrega a un servidor muerto agota el tiempo; se recurre al push y la sincronización lo arregla |
+| Partición lenta en la Messages DB | Los envíos de esa conversación se ralentizan; las demás no se ven afectadas gracias al particionado |
 
 ---
 
-## Ponerse en línea: unirse a la torre de walkie-talkie correcta
+## Lista de comprobación para producción
 
-Cuando se abre la app:
-
-1. El cliente inicia sesión en la API y obtiene un token de corta vida.
-2. **Service discovery** responde: "conecta tu WebSocket a este host de chat" (sano, no saturado, preferiblemente en la región cercana).
-3. El cliente abre el WebSocket con ese token.
-4. El servidor de chat valida el token, escribe la entrada en el mapa de sesiones, te marca **en línea** y empieza a escuchar heartbeats.
-
-Si ese servidor muere, discovery deja de anunciarlo. Los clientes se reconectan con backoff y caen en un nodo sano. Los mensajes no enviados esperan en un outbox local del teléfono hasta que el servidor los confirme.
-
-Piensa en discovery como el operador que te asigna una torre de radio libre en lugar de meter a todos en una torre rota.
-
----
-
-## ¿Qué se guarda por cada mensaje?
-
-Las escrituras de chat son sobre todo appends: nuevas líneas al final de una conversación. Un registro práctico se parece a esto:
-
-| Campo | Por qué |
-| --- | --- |
-| `message_id` | Id único, preferiblemente ordenable por tiempo |
-| `conversation_id` | Qué hilo de chat |
-| `sender_id` | Quién lo envió |
-| `body` | El texto |
-| `created_at` | Hora del servidor |
-| `type` | texto, aviso de sistema, etc. |
-| `client_msg_id` (opcional) | Evita doble envío cuando la red reintenta |
-
-Patrones de acceso que importan:
-
-1. **Abrir una conversación:** últimos N mensajes de ese `conversation_id`, luego páginas más antiguas al hacer scroll.
-2. **Poner al día un dispositivo:** todo de este usuario más nuevo que el cursor X.
-3. **Fan-out de grupo pequeño:** a menudo una copia o puntero en el inbox de cada miembro para que cada teléfono lea **su** correo.
-
-En entrevistas suele gustar una historia de key-value o wide-column (partición por conversación o por inbox del destinatario) porque el volumen de escritura es alto y el acceso es por clave, no por joins complejos. SQL con buenos índices funciona a menor escala; di cuándo te graduarías de él.
-
-**Idempotencia:** el teléfono puede enviar el mismo mensaje dos veces tras un parpadeo. Clave `(sender_id, client_msg_id)` para que la oficina de correos selle una carta, no dos copias.
+- [ ] Persistir antes de confirmar; "enviado" significa duradero
+- [ ] IDs generados por el cliente para reintentos idempotentes
+- [ ] Números de secuencia por conversación; detección de huecos en los clientes
+- [ ] Sincronización por cursor en cada reconexión
+- [ ] Confirmaciones de lectura guardadas como cursores, no como filas por mensaje
+- [ ] Registro de sesiones con TTL renovados por latidos; push de respaldo si falla el enrutamiento
+- [ ] Presencia con antirrebote y basada en suscripciones
+- [ ] Reconexión con espera y jitter; vaciado gradual de conexiones al desplegar
+- [ ] Paneles: p99 de envío a entrega, conexiones por servidor, tasa de reconexión, tasa de push de respaldo, duplicados detectados
 
 ---
 
-## Flujo 1:1: A escribe a B
+## Lo que queda
 
-A está en el chat server 1. B está en el chat server 2.
+Los ticks son la interfaz más honesta del software moderno. Un tick gris dice que el servidor lo tiene. Dos dicen que un dispositivo lo tiene. El azul dice que una persona lo miró.
 
-```
-1. A → WebSocket → servidor 1: {to: B, body, client_msg_id}
-2. Servidor 1 comprueba: ¿pueden hablar? ¿rate limit ok?
-3. Asigna message_id, escribe en el almacén
-4. Ack a A → la UI muestra "enviado"
-5. Busca a B en el mapa de sesiones
-6a. B en línea: avisa al servidor 2 por el bus → push en el socket de B → "entregado" cuando la app de B confirma
-6b. B offline: encola notificación push; el mensaje espera en el almacén para el sync
-7. Lectura: la app de B reporta "vi hasta message_id" → actualiza almacén → avisa a los dispositivos de A
-```
-
-**Orden:** mantén el orden **dentro de una conversación** (o al menos por emisor). El orden global de todos los chats del planeta es caro e inútil.
-
-**Verdad frente a velocidad:** si el bus pierde un push en vivo, B sigue recibiendo el mensaje al sincronizar desde el almacén. El fan-out en vivo no sustituye al almacenamiento durable.
+Todo en este diseño existe para que esas tres pequeñas afirmaciones sean ciertas, siempre, en un tren que atraviesa un túnel. Y aun así, en algún lugar, un tick gris se quedará ahí una hora y quien envió el mensaje lo mirará fijamente, algo que ninguna arquitectura puede arreglar.
 
 ---
 
-## Ticks de entrega: qué significa cada marca
-
-Los usuarios leen los ticks como emociones. Los ingenieros deben mapearlos a eventos.
-
-| Lo que ves | Lo que el sistema significa |
-| --- | --- |
-| Reloj / enviando / fallido | Solo en el teléfono; el servidor no lo ha aceptado |
-| **Enviado** (un tick) | El servidor escribió el mensaje y devolvió `message_id` |
-| **Entregado** (dos ticks) | Al menos un dispositivo del destinatario lo recibió (o lo marcó tras el fetch) |
-| **Leído** (azul / relleno) | El cliente del destinatario reportó el mensaje como visto |
-
-Notas defendibles en una entrevista:
-
-- **Enviado** es autoridad del servidor tras persistir. No muestres "enviado" solo porque la UI lo pintó de forma optimista.
-- **Entregado** necesita un ack del cliente en la ruta en vivo, o un ack tras pull del almacén. Con multi-dispositivo, elige una regla: "cualquier dispositivo" es habitual.
-- **Leído** a menudo se agrupa: "leído hasta id X" en lugar de una fila por mensaje cada vez que alguien hace scroll.
-- Nunca bloquees el envío porque la otra persona no ha leído. El estado viaja al lado de la ruta principal.
-
-Analogía del walkie-talkie: "enviado" significa que la oficina de correos aceptó la carta. "Entregado" significa que llegó a su buzón o a su mano. "Leído" significa que la abrió.
-
----
-
-## Grupos pequeños: un grito, muchos buzones
-
-Para grupos de hasta unos 100 miembros, un modelo práctico es **fan-out en escritura** hacia inboxes por usuario:
-
-1. A envía a `group_id`.
-2. El servidor carga la lista de miembros (con caché).
-3. Escribe el mensaje canónico una vez para el historial del grupo.
-4. Coloca una copia o puntero en el **inbox de sync de cada miembro**.
-5. Empuja en vivo a cada miembro en línea en su servidor de chat.
-6. Los offline reciben push y se sincronizan después.
-
-¿Por qué copiar con N pequeño?
-
-- Cada cliente solo lee **su** inbox para ponerse al día. Modelo mental simple.
-- Entregas parciales y rarezas de membresía son más fáciles por usuario.
-- El coste es O(miembros) en almacenamiento y trabajo por mensaje. Bien con 100. Doloroso con 100.000.
-
-Para canales enormes (piensa en Discord público), inviertes el modelo: guardas una vez por canal, los miembros hacen pull o se suscriben al stream, y la presencia se vuelve aproximada. Di ese trade-off en voz alta. No finjas que un diseño 1:1 escala a una sala de un millón solo "añadiendo servidores".
-
-**Cambio de membresía:** ¿un nuevo miembro ve el historial de antes de unirse? Es una regla de producto. Menciónala.
-
----
-
-## Presencia: los puntos verdes y grises
-
-"En línea" no es un booleano pintado una vez al login. Las redes móviles parpadean. Un diseño ingenuo te pone offline en cada desconexión breve y la lista de contactos parpadea.
-
-### Señales que funcionan
-
-| Evento | Efecto en presencia |
-| --- | --- |
-| Login WebSocket correcto | Candidato a en línea |
-| Heartbeat cada pocos segundos | Seguir en línea |
-| Logout limpio | Offline al instante |
-| Heartbeats perdidos más allá de una ventana de gracia (ejemplo: 30s) | Offline |
-| Parpadeo de red bajo la ventana de gracia | Seguir en línea |
-
-Guarda algo como:
-
-```
-user_id → { status: online|offline, last_active_at, devices: [...] }
-```
-
-A menudo en Redis con un TTL refrescado por heartbeats.
-
-### ¿A quién hay que avisar?
-
-Con una lista de amigos normal, publica cambios de presencia a los amigos interesados (o a quien está viendo ese perfil). Sus servidores de chat empujan un pequeño "ahora en línea".
-
-En grupos enormes, no spamees a 100.000 personas cada vez que alguien parpadea en línea. Carga la presencia al abrir la lista de miembros; refresca bajo demanda.
-
-La presencia es **eventualmente consistente**. Unos segundos equivocados valen más que fundir el sistema bajo tormentas de estado.
-
-Analogía: la luz verde significa "te oigo en el canal ahora mismo", no "poseo un walkie-talkie en algún lugar del mundo".
-
----
-
-## Multi-dispositivo: la misma persona, dos radios
-
-Teléfono y portátil abiertos. Cada dispositivo guarda un **cursor**: el último message id que ya aplicó.
-
-Al conectar o reanudar:
-
-1. Abre la conexión en vivo (y/o sync HTTP).
-2. Pide: mensajes para mí con `message_id > cursor`.
-3. Aplícalos, avanza el cursor, pinta la UI.
-
-Mientras ambos están en vivo, el mapa de sesiones guarda **varias** conexiones por usuario. El fan-out empuja a cada conexión para que ambas pantallas se actualicen sin esperar al siguiente pull. El cursor repara el modo suspensión, el avión y las apps matadas.
-
----
-
-## Escala sin jerga de pánico
-
-### Conexiones
-
-Cada nodo de chat sostiene un trozo de sockets abiertos. El número de conexiones (y la memoria por socket) suele doler antes que la CPU. Escalar en horizontal es más nodos de chat y discovery que reparte los nuevos logins. En un deploy, drena nodos viejos; los clientes se reconectan.
-
-Matemática de entrevista que puedes ajustar en vivo:
-
-- 50M usuarios diarios.
-- El pico de conexiones concurrentes puede ser una fracción del DAU (ejemplo: 10M en línea a la vez).
-- Si cada conexión cuesta del orden de 10 KB de RAM de servidor en buffers y estado de sesión, son decenas de GB de memoria de conexión **en toda la flota**, no en un solo portátil.
-
-### Ruta de mensajes
-
-- Particiona el almacén por conversación o por inbox del destinatario.
-- Ruta caliente: autorizar → id → **persistir** → ack "enviado" → fan-out asíncrono.
-- Mantén notificaciones push y analítica fuera de la ruta crítica del ack.
-
-### Fallos que merece la pena nombrar
-
-| Fallo | Mitigación |
-| --- | --- |
-| Muere un nodo de chat | Reconnect del cliente + discovery; puesta al día desde el almacén |
-| Caída del bus entre nodos | El almacén + sync es la verdad |
-| Envío duplicado | Idempotencia con `client_msg_id` |
-| Grupo caliente | Caché de miembros; rate limit; backpressure |
-| Tormenta de presencia | Gracia de heartbeat; bajo demanda en rosters grandes |
-| Mensaje gigante | Tope de tamaño en el gateway |
-
-### Consistencia en un aliento
-
-- Tras el ack del servidor: el mensaje es durable y aparecerá (push o sync posterior).
-- Entrega en vivo: mejor esfuerzo, ruta rápida.
-- Confirmaciones de lectura y presencia: eventuales.
-
-Esa división mantiene el botón de enviar honesto ante fallos parciales.
-
----
-
-## Seguridad y abuso (profundidad de entrevista)
-
-- Autentica el WebSocket; renueva tokens sin tirar el tubo a la ligera.
-- Autoriza cada envío (bloqueos, membresía de grupo).
-- Rate limit por usuario y por grupo.
-- Tope de tamaño del cuerpo.
-- TLS en el cable (WSS). Cifrado en reposo en el almacén. El E2E completo es otro diseño (claves en cada dispositivo).
-- El fan-out en el servidor implica que el servidor puede leer texto plano salvo que te comprometas con E2E. Di en qué mundo estás.
-
----
-
-## Diseño que puedes defender en la pizarra
-
-**Producto:** estilo Messenger a gran escala, 1:1 + grupos ≤100, texto, presencia, multi-dispositivo, push si offline.
-
-**Piezas:**
-
-1. Cluster de API HTTP (auth, perfil, historial).
-2. Discovery de endpoints de chat sanos.
-3. Flota de gateways de chat (WebSockets + actualizaciones de sesión).
-4. Generador de IDs.
-5. Almacén de mensajes (particionado para append y lecturas por conversación).
-6. Almacén rápido para sesiones y presencia.
-7. Pub/sub o cola para entrega entre nodos.
-8. Workers de push (APNs / FCM).
-
-**Envío 1:1:** WS → validar → id → persistir → ack enviado → enrutar al nodo del destinatario o push → entregado/leído como eventos laterales.
-
-**Grupo:** igual, con expandir membresía y fan-out a inbox por usuario para N pequeño.
-
-**Sync:** cursor por dispositivo desde el almacén; push en vivo a todas las sesiones activas.
-
-**Trade-offs para decir en voz alta:**
-
-- WebSocket en ambos sentidos simplifica el cliente; HTTP para enviar + WS para recibir también funciona.
-- Copias de inbox por usuario simplifican grupos pequeños; se rompen en canales enormes.
-- El fan-out en vivo no sustituye al almacenamiento durable.
-- La presencia necesita heartbeats y gracia, no eventos crudos de desconexión TCP.
-- Un solo servidor con todos los sockets es un juguete, no un chat global.
-
----
-
-## Checklist de producción
-
-- [ ] Alcance: 1:1, tamaño de grupo, media, cifrado, retención
-- [ ] División HTTP vs WebSocket clara
-- [ ] Discovery solo devuelve nodos de chat sanos
-- [ ] Mapa de sesiones soporta multi-dispositivo
-- [ ] Ids de mensaje únicos y fáciles de fusionar
-- [ ] Envío idempotente con ids de cliente
-- [ ] Persistir antes (o con semántica clara) de "enviado"
-- [ ] Entregado y leído definidos para multi-dispositivo
-- [ ] Ruta push offline probada
-- [ ] Heartbeat de presencia + ventana de gracia
-- [ ] Coste de fan-out de grupo acotado (u otro modelo para N grande)
-- [ ] Rate limits y tamaño máximo de cuerpo en el borde
-- [ ] Historia de drenaje y reconnect en deploys y muerte de nodo
-- [ ] Métricas: conexiones, QPS de envío, latencia de ack, lag de fan-out, éxito de push, tasa de reconnect
-
----
-
-## Resumen que puedes contar a un amigo
-
-Imagina el chat como dos sistemas pegados.
-
-Primero, una **red de walkie-talkies**. Mientras estás en línea, el teléfono mantiene una línea viva con un servidor de chat. Los mensajes se empujan por esa línea y el chat se siente instantáneo. Los puntos verdes son "estoy en el canal ahora mismo", refrescados con heartbeats silenciosos para que un parpadeo del túnel no te pinte offline.
-
-Segundo, una **oficina de correos**. Cada mensaje aceptado se archiva. Los ticks significan: aceptado por correos (enviado), llegó a su dispositivo (entregado), abierto (leído). Si tu amigo dormía o estaba offline, la carta sigue en el almacén. Cuando abre la app, o un segundo dispositivo, tira del historial con un cursor: "dame todo después de lo último que ya tengo".
-
-El chat uno a uno es una carta con un grito en vivo si están conectados. Los grupos pequeños hacen muchas copias (o punteros) de buzón para que cada persona se ponga al día desde su propio inbox. Las salas públicas enormes necesitan otro modelo; no estires para siempre el diseño de grupo pequeño.
-
-Si falla un grito en vivo, el almacén sigue teniendo la carta. **La velocidad es el walkie-talkie. La verdad es la oficina de correos.** Ese es todo el sistema de chat en un aliento.
-
----
-
-## Cierre
-
-Un sistema de chat no es "WebSockets más una base de datos". Son sesiones en tiempo real pegajosas, un log durable de mensajes en append, y reglas de fan-out que cambian con el tamaño del grupo, más presencia y sync para que la vida multi-dispositivo y las redes inestables se sientan intencionadas y no rotas.
-
-Espina de entrevista: **HTTP para el CRUD aburrido, WebSocket para el cable en vivo, almacén como fuente de verdad, push como ruta rápida, inbox por usuario en grupos pequeños, heartbeats para presencia.** Todo lo demás es dimensionar, manejar fallos y acotar el producto.
-
-Cuando alguien pregunte "¿y si el grupo tiene un millón de miembros?", cambia el modelo de fan-out. No solo añadas servidores a un diseño de walkie-talkie y esperes.
-
+## Fuentes
+
+* [Blog de WhatsApp: 1 million is so 2011 (dos millones de conexiones por servidor)](https://blog.whatsapp.com/1-million-is-so-2011)
+* [Discord: How Discord Stores Billions of Messages](https://discord.com/blog/how-discord-stores-billions-of-messages)
+* [Discord: How Discord Stores Trillions of Messages](https://discord.com/blog/how-discord-stores-trillions-of-messages)
+* [Signal: The Double Ratchet Algorithm](https://signal.org/docs/specifications/doubleratchet/)
+* [RFC 6455: The WebSocket Protocol](https://www.rfc-editor.org/rfc/rfc6455)
+* Relacionado en esta serie: [Diseña un sistema de notificaciones](/blog/es/design-notification-system), [Diseña un sistema de news feed](/blog/es/design-news-feed-system), [Fundamentos de WebSockets y tiempo real](/blog/es/websockets-realtime-basics)

@@ -1,418 +1,188 @@
 ---
 title: "Design Consistent Hashing: Rings, Virtual Nodes, and Minimal Remapping"
-description: "Why hash(key) % N reseats almost everyone when one server leaves, how a hash ring maps keys by walking clockwise, virtual nodes for fair load, and where consistent hashing shows up in caches, databases, and load balancers."
+description: "Why hash(key) % N moves about 90% of keys when one node joins, how a hash ring with virtual nodes moves only about 1/N, measured load balance at 1, 10 and 200 vnodes, replication on the ring, and when rendezvous, jump or Maglev hashing is the better tool."
 date: "2026-01-13"
 tags: [System Design & Architecture]
 coverImage: /assets/images/design-consistent-hashing.webp
 previewImage: /assets/images/design-consistent-hashing.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
-> * **The Insight:** Why hash(key) % N reseats almost everyone when one server leaves, how a hash ring maps keys by walking clockwise, virtual nodes for fair load, and where consistent hashing shows up in caches, databases, and load balancers.
-> * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
+> * **The Problem:** Placing keys with `hash(key) % N` works until N changes. Add an eleventh cache node to ten and about 90% of keys suddenly map somewhere else, which for a cache means a near-total miss storm on the database behind it.
+> * **The Design:** Hash both keys and servers onto the same circular space. A key belongs to the first server point clockwise from it. Give each server a few hundred virtual nodes so load evens out, and walk further clockwise to pick replicas on distinct servers.
+> * **The Result:** Adding or removing a node moves roughly 1/N of keys. In a measured run with 10 nodes and 200 virtual nodes each, the most loaded node carried 1.11x the average, against 2.3x with one point per node.
 
-You have many users and many cache servers. Every piece of data (a **key**) must land on one server, and you must be able to find it again later. When a server dies or you add capacity, you want as little data as possible to move.
+Most distributed systems have to answer one boring question millions of times per second: *which machine owns this key?* Caches, sharded databases, load balancers that want session affinity, and object stores all need an answer that is fast, needs no central lookup, and does not fall apart when a machine is added or dies.
 
-**Consistent hashing** is the standard way to place keys so that membership changes only touch a small slice of the data, not the whole cluster.
-
-This post builds the idea from a restaurant floor plan, then maps it to the hash ring, virtual nodes, and real systems.
+Consistent hashing is the classic answer. It was introduced by Karger and colleagues in 1997 for web caching, popularized by Amazon's Dynamo paper in 2007, and today sits inside Cassandra, memcached clients, Envoy's load balancer and many more. This post explains how it works, measures what virtual nodes actually buy you, and covers the alternatives that are sometimes better.
 
 ---
 
-## The problem in plain words
+## Why `hash(key) % N` Breaks
 
-Imagine a restaurant with numbered tables. You seat guests with a simple rule: take the guest number, divide by the number of tables, and use the remainder.
+Modulo placement is perfectly balanced and perfectly fragile. A key stays on the same node after N changes to N+1 only if `h % N == h % (N+1)`, which happens for roughly 1 in N+1 keys.
 
-```
-table = guestNumber % numberOfTables
-```
+I measured it with 200,000 keys:
 
-That works while the table count never changes.
-
-### One table closes, chaos
-
-Suppose you had 4 tables and 8 regulars:
-
-| Guest | guestNumber | number % 4 | Table |
-| --- | --- | --- | --- |
-| A | 11 | 3 | T3 |
-| B | 14 | 2 | T2 |
-| C | 17 | 1 | T1 |
-| D | 20 | 0 | T0 |
-| E | 23 | 3 | T3 |
-| F | 26 | 2 | T2 |
-| G | 29 | 1 | T1 |
-| H | 32 | 0 | T0 |
-
-Table T1 breaks. Now there are 3 tables. Same guest numbers, new remainder:
-
-| Guest | guestNumber | number % 3 | Table |
-| --- | --- | --- | --- |
-| A | 11 | 2 | T2 |
-| B | 14 | 2 | T2 |
-| C | 17 | 2 | T2 |
-| D | 20 | 2 | T2 |
-| E | 23 | 2 | T2 |
-| F | 26 | 2 | T2 |
-| G | 29 | 2 | T2 |
-| H | 32 | 2 | T2 |
-
-In a real spread you still land on more than one table, but the painful fact stays: **most people change seats**, not only the people who sat at the broken table.
-
-In a cache cluster that means:
-
-1. Clients ask the wrong node for data that still exists elsewhere.
-2. Misses flood the database.
-3. You wanted to lose about 1/N of the cache. You paid closer to a full cold start.
-
-That is the rehashing problem. `hash(key) % N` is fine until `N` changes. Then it reseats almost the whole restaurant.
-
----
-
-## A better floor plan: lockers on a circular hallway
-
-Picture a long hallway of lockers numbered in a circle. Walk far enough in one direction and you loop back to locker 0. That circle is the **hash space**.
-
-```
-              0
-          .         .
-       .               .
-     .                   .
-   max                     small
-     .                   .
-       .               .
-          .         .
-            mid ring
-```
-
-Two ideas:
-
-1. **Servers** get fixed locker numbers (from hashing their name or IP).
-2. **Keys** get locker numbers too (from hashing the key).
-
-There is no `% numberOfServers`. Positions live in a fixed range, like `0` to `2^32 - 1` or a larger hash space. The circle does not shrink when a server leaves.
-
-### Waiters at fixed seats
-
-Think of each server as a waiter standing at one seat on a round table.
-
-Toy ring with positions 0 to 99:
-
-| Server | Seat |
+| Change | Keys that moved |
 | --- | --- |
-| s0 | 12 |
-| s1 | 37 |
-| s2 | 61 |
-| s3 | 88 |
+| `% 10` to `% 11` | 90.7% |
+| Consistent hash ring, 10 to 11 nodes, 200 virtual nodes each | 9.0% |
 
-Keys on the same circle:
-
-| Key | Seat |
-| --- | --- |
-| key0 | 18 |
-| key1 | 42 |
-| key2 | 70 |
-| key3 | 95 |
-
-```
-Ring (clockwise from 0):
-
-  0
-  |-- s0@12 -- key0@18 -- s1@37 -- key1@42 --
-  |-- s2@61 -- key2@70 -- s3@88 -- key3@95 -- (wrap to 0)
-```
+For a cache, 90% movement means 90% of reads miss at once and fall through to the database, usually at exactly the moment you added capacity because load was high. For a sharded database, it means moving 90% of your data to add one machine. Neither is acceptable.
 
 ---
 
-## Lookup: walk clockwise until you find a waiter
+## The Ring
 
-Rule:
+![Hash ring with virtual nodes for servers A, B and C, keys k1, k2 and k3 assigned to the first virtual node clockwise, plus notes on replication and adding a server](/assets/images/hld/design-consistent-hashing-ring.webp)
 
-1. Hash the key to a seat number `p`.
-2. Walk **clockwise** until you hit the next server seat.
-3. That server owns the key.
+* **Hash space.** Pick a hash function with a large output (64 bits is plenty) and treat its range as a circle: after the largest value comes zero.
+* **Servers on the ring.** Each server is hashed onto the circle, in practice many times, as virtual nodes (A1, A2, A3 in the diagram).
+* **Keys on the ring.** Each key is hashed onto the same circle.
+* **Ownership.** A key belongs to the first virtual node found walking clockwise. `k1` lands just before `B1`, so server B owns it.
+* **Joining.** A new server D places its virtual nodes on the ring. Each one takes over only the arc between itself and the previous point. Everything else stays where it was.
+* **Leaving.** When a server leaves, each of its arcs is absorbed by the next point clockwise. Again, only that server's keys move.
 
-| Key | Seat | First server clockwise | Owner |
-| --- | --- | --- | --- |
-| key0 | 18 | s1@37 | s1 |
-| key1 | 42 | s2@61 | s2 |
-| key2 | 70 | s3@88 | s3 |
-| key3 | 95 | s0@12 (wrap around) | s0 |
-
-In code you keep server seats sorted and binary-search the first position greater than or equal to `p`. If none, wrap to the first seat on the ring.
+Lookup is a binary search over the sorted list of virtual-node positions: `O(log V)` where V is the total number of virtual nodes. With 100 servers and 200 virtual nodes each, that is a search over 20,000 integers, which takes well under a microsecond.
 
 ```python
-import bisect
-import hashlib
+import bisect, hashlib
 
-def h(x: str) -> int:
-    # toy 32-bit space; production often uses 64-bit or larger
-    return int(hashlib.md5(x.encode()).hexdigest()[:8], 16)
+def h(s: str) -> int:
+    return int.from_bytes(hashlib.md5(s.encode()).digest()[:8], "big")
 
-class HashRing:
-    def __init__(self, nodes: list[str]):
-        self.positions: list[int] = []
-        self.owners: dict[int, str] = {}
+class Ring:
+    def __init__(self, nodes, vnodes=200):
+        self.vnodes, self.points, self.owner = vnodes, [], {}
         for n in nodes:
-            p = h(n)
-            self.positions.append(p)
-            self.owners[p] = n
-        self.positions.sort()
+            self.add(n)
 
-    def lookup(self, key: str) -> str:
-        p = h(key)
-        i = bisect.bisect_left(self.positions, p)
-        if i == len(self.positions):
-            i = 0  # wrap around
-        return self.owners[self.positions[i]]
+    def add(self, node):
+        for i in range(self.vnodes):
+            p = h(f"{node}#{i}")
+            bisect.insort(self.points, p)
+            self.owner[p] = node
+
+    def remove(self, node):
+        self.points = [p for p in self.points if self.owner[p] != node]
+        self.owner = {p: n for p, n in self.owner.items() if n != node}
+
+    def lookup(self, key):
+        i = bisect.bisect(self.points, h(key)) % len(self.points)
+        return self.owner[self.points[i]]
 ```
 
-Interview line: "sorted positions plus binary search, about O(log n) in ring points."
+MD5 here is used for distribution, not security. Any fast, well-mixed hash works; production systems often use Murmur3 or xxHash.
 
 ---
 
-## Add a waiter: only nearby guests move
+## Virtual Nodes: What They Actually Buy
 
-Add `s4` at seat 25.
+With one point per server, arcs have wildly different lengths, so some servers own far more of the ring than others. Virtual nodes fix this by averaging many small arcs. Same experiment, 200,000 keys across 10 servers:
 
-Before: `key0@18` walked to `s1@37`.
-
-After: from 18, the first server is now `s4@25`. Only keys in the arc that used to belong to the old neighbor get a new owner.
-
-```
-Before:  ... s0@12 -- key0@18 -------- s1@37 ...
-After:   ... s0@12 -- key0@18 -- s4@25 -- s1@37 ...
-                    only this arc remaps to s4
-```
-
-**What moves when you add a server:** keys between the new server and the previous server counter-clockwise. Everyone else keeps their waiter.
-
----
-
-## Remove a waiter: only their guests move
-
-Remove `s1@37`.
-
-Keys that used `s1` as their first clockwise server keep walking to the next live server (`s2@61`). Keys already owned by other servers stay put.
-
-```
-Before: keys that hit s1 first -> s1
-After:  those keys continue to s2; other arcs unchanged
-```
-
-You still take a miss storm for that arc in a cache. You do **not** reseat the whole restaurant.
-
-Rule of thumb: when 1 of n servers changes, about **k/n** keys move on average (k keys total), not almost all of them.
-
----
-
-## What consistent hashing promises (and what it does not)
-
-| Goal | Why it matters |
-| --- | --- |
-| Minimal remapping on join/leave | Avoid cache stampedes and long rebalances |
-| Even enough load | No single box owns most of the ring |
-| Deterministic lookup | Same membership view means same owner |
-| Cheap to compute | Placement sits on the hot path |
-
-It does **not** by itself give you replication, strong consistency, or automatic failover. Those sit on top: next N clockwise servers as replicas, gossip for membership, and so on.
-
----
-
-## Two problems with one seat per waiter
-
-### Unfair arcs
-
-The stretch of circle between two adjacent servers is a **partition**. If three waiters stand close together by chance, one waiter owns a huge empty arc and does all the work for that zone.
-
-```
-Bad luck layout:
-
-  s0 -------- s1 - s2 ------------------- s3 ---- (back)
-
-  s2 owns a huge gap; load is skewed
-```
-
-### Clustered seats
-
-With only a few physical servers on a huge ring, random placement can clump. Small N makes unfairness worse.
-
----
-
-## Virtual nodes: many seats per waiter
-
-A **virtual node** is an extra seat on the ring that still points at a real server. Each physical server appears many times under different hashes:
-
-```
-s0 -> s0_0, s0_1, s0_2, ...
-s1 -> s1_0, s1_1, s1_2, ...
-```
-
-Restaurant picture: each waiter has many reserved seats around the table, not one chair. Work spreads because no single gap decides their whole night.
-
-Toy example with 3 virtual seats per server:
-
-| Virtual id | Real server | Seat (example) |
+| Virtual nodes per server | Most loaded / average | Least loaded / average |
 | --- | --- | --- |
-| s0_0 | s0 | 10 |
-| s0_1 | s0 | 55 |
-| s0_2 | s0 | 90 |
-| s1_0 | s1 | 22 |
-| s1_1 | s1 | 48 |
-| s1_2 | s1 | 73 |
+| 1 | 2.30x | 0.12x |
+| 10 | 1.46x | 0.69x |
+| 200 | 1.11x | 0.92x |
 
-Lookup is the same: walk clockwise to the next **virtual** seat, then follow the pointer to the real server.
+The one-point ring is close to useless: one server carries more than twice its fair share while another sits nearly idle. At 200 virtual nodes, the spread is about ±10%.
 
-```
-key @ 50 -> next vnode s0_1@55 -> real s0
-```
+Virtual nodes have two more benefits:
 
-### Why this helps
+* **Weighted capacity.** A server with twice the memory gets twice the virtual nodes.
+* **Smoother failure.** When a server dies, its many small arcs are absorbed by many different successors, instead of one unlucky neighbor inheriting its entire load.
 
-| Effect | Explanation |
-| --- | --- |
-| Smaller variance | Many small arcs instead of one big gamble |
-| Smoother scale-out | A new node steals thin slices from many peers |
-| Weighted capacity | Bigger machines can get more virtual seats |
-| Fairer load | Work mixes around the table instead of clumping |
-
-Classic write-ups often use on the order of **100 to 200 virtual nodes per server** so load stays close enough to even. More virtual nodes means better balance and a larger ring map in memory. Tune it.
-
-```python
-class VNodeRing:
-    def __init__(self, nodes: list[str], vnodes: int = 150):
-        self.positions: list[int] = []
-        self.owners: dict[int, str] = {}
-        for n in nodes:
-            for i in range(vnodes):
-                p = h(f"{n}#{i}")
-                self.positions.append(p)
-                self.owners[p] = n
-        self.positions.sort()
-
-    def lookup(self, key: str) -> str:
-        p = h(key)
-        i = bisect.bisect_left(self.positions, p)
-        if i == len(self.positions):
-            i = 0
-        return self.owners[self.positions[i]]
-```
-
-Clients and servers must agree on the hash function and the virtual node count, or they will disagree on owners.
+The cost is memory for the ring and more metadata to move around. Cassandra historically defaulted to 256 tokens per node; version 4.0 lowered the default to 16 alongside a smarter token allocation algorithm, because very high counts made repairs and streaming more expensive. More is not free.
 
 ---
 
-## Which keys must move
+## Replication on the Ring
 
-When membership changes, the ring already defines the ranges.
+Dynamo-style systems use the ring to choose replicas as well. To store a key with replication factor 3, walk clockwise from the key and take the first **three distinct physical servers**, skipping additional virtual nodes of a server already chosen. The diagram's note shows this for `k1`: B owns it, then C and A hold replicas.
 
-**Add server S at position p:**
+Two refinements matter in production:
 
-```
-prev = neighbor counter-clockwise of S
-keys in (prev, p] move from the old owner of that arc to S
-```
-
-**Remove server S at position p:**
-
-```
-prev = neighbor counter-clockwise of S
-next = neighbor clockwise of S
-keys in (prev, p] move from S to next
-```
-
-With virtual nodes, do this per virtual seat of the joining or leaving machine. Many small transfers beat one giant transfer.
-
-For pure caches, "transfer" often means "let the new owner fill on miss." For databases, you stream ranges on purpose and control writes during handoff.
+* **Rack or zone awareness.** "Distinct servers" should really be "distinct failure domains." Three replicas in one rack are one replica during a power failure.
+* **Preference lists.** The ordered list of candidates (first three healthy nodes clockwise) is what lets a coordinator route around a temporarily failed replica, which is how sloppy quorums and hinted handoff work in Dynamo and Cassandra.
 
 ---
 
-## Replication on the ring (short add-on)
+## A Cache Cluster Built on the Ring
 
-Consistent hashing places the **primary**. Replication is often "keep walking clockwise":
+![Cache cluster architecture: users reach app servers with an embedded ring client, which watches membership in etcd and reads and writes cache nodes A to C, while a rebalancer copies moved arcs to joining node D](/assets/images/hld/design-consistent-hashing-cluster.webp)
 
-```
-key -> N1 (primary), N2, N3  # first three distinct physical servers
-```
+* **App Server + ring client.** The ring lives in the client library (this is how ketama-style memcached clients work). No proxy hop, no central lookup on the request path.
+* **etcd (membership).** The source of truth for which nodes are in the ring and their weights. Clients watch it and rebuild their ring when it changes. ZooKeeper, Consul or a gossip protocol can play the same role.
+* **Cache Nodes A, B, C.** Plain key-value servers. They do not need to know about the ring at all.
+* **Cache Node D (joining).** Added to membership in a "warming" state first. Clients start sending writes for its arcs while the rebalancer fills it.
+* **Rebalancer.** For a cache, rebalancing is optional: misses refill naturally. For a database or anything with state you cannot regenerate, the rebalancer streams the arcs that changed owners, throttled so it does not starve live traffic.
 
-Skip virtual seats that map to the same physical box so replicas land on different machines. Dynamo-style stores and Cassandra token rings use this pattern. Mention quorums only if the interview turns into a full key-value store design.
-
----
-
-## Where you actually see this
-
-| System class | How consistent hashing shows up |
-| --- | --- |
-| **Distributed caches** | Memcached clients, multi-node cache shards, CDN edge placement (and close cousins) |
-| **Databases / KV stores** | Dynamo partitions, Cassandra token rings, many custom hash rings |
-| **Chat / real-time** | Sticky guild or channel ownership so scale events do not reshuffle everything |
-| **Load balancers** | Stable backend choice as backends come and go (Maglev and relatives) |
-| **Request routing** | Sticky users, tenants, or shards without a central map on every request |
-
-Related ideas, not identical: **jump consistent hash**, **rendezvous (HRW) hashing**, and **Maglev permutation tables**. In an interview, name consistent hashing first, then say variants exist for faster lookup or less memory.
+The green note is the whole point: only about 1/N of keys move.
 
 ---
 
-## Interview flow you can run
+## What Consistent Hashing Does Not Solve
 
-1. **Problem:** `hash % N` reseats almost everyone when N changes.
-2. **Ring:** fixed hash space; servers and keys are points; no live `% N`.
-3. **Lookup:** first server clockwise (binary search on sorted seats).
-4. **Add/remove:** only the neighboring arc remaps (about 1/n of keys).
-5. **Pain:** uneven arcs when each server has one seat.
-6. **Virtual nodes:** many seats per physical server; fairer load; optional weights.
-7. **Ops:** how data moves, how clients learn membership, what temporary wrong owners look like.
-8. **Uses:** caches, partitioned DBs, sticky load balancers.
-
-**Clarify early:**
-
-- Cache only (miss on remap OK) vs durable store (must migrate)?
-- Replication factor?
-- Who owns membership (static config, ZooKeeper, gossip)?
-- Can clients be briefly wrong during a membership update?
-
-**Trade-offs to say out loud:**
-
-| Choice | Upside | Cost |
-| --- | --- | --- |
-| More virtual nodes | Flatter load | Bigger ring, slower rebuilds |
-| Client-side ring | No proxy hop | Every client needs the same membership view |
-| Proxy / coordinator | One central view | Extra hop |
-| Refill cache on miss | Simple ops | Origin spike on rebalance |
-| Streaming migration | Safer for DBs | Handoff complexity |
+* **Hot keys.** If one key gets 10% of all traffic, it still lives on one server. The ring balances keys, not requests. You need replication of hot keys, request coalescing or a local near-cache.
+* **Inconsistent ring views.** If half your clients have the new ring and half have the old one during a membership change, the same key is read from two places. For caches that means extra misses. For databases it means you need versioned ownership (epochs) and a handoff protocol.
+* **Cascading overload.** When a node dies, its successors absorb its load. If they were already at 80%, they may fall over too. "Consistent hashing with bounded loads" (Mirrokni, Thorup and Zadimoghaddam) caps each node's load and overflows to the next node clockwise; Vimeo described adopting it for their video delivery load balancing.
 
 ---
 
-## Production checklist
+## The Alternatives Worth Knowing
 
-- [ ] Hash is fast and well distributed on the hot path
-- [ ] Virtual node count is chosen and documented; weights match machine size
-- [ ] Lookup is O(log n) on ring points, not a linear scan
-- [ ] Membership changes are versioned; measure wrong-owner windows
-- [ ] On node loss, only affected arcs remount or refill
-- [ ] Replicas skip the same physical host
-- [ ] Metrics: keys per node, arc sizes, rebalance bytes, miss rate during joins
-- [ ] Runbooks for "add node" and "replace dead node" without full cluster restart
+| Technique | How it works | Strength | Weakness | Seen in |
+| --- | --- | --- | --- | --- |
+| Hash ring with virtual nodes | Clockwise successor on a circle | Arbitrary node add/remove, natural replica lists | Needs vnodes for balance; ring metadata | Dynamo, Cassandra, ketama clients, Envoy ring hash |
+| Rendezvous (highest random weight) | For each key, score every node with `hash(key, node)`, pick the highest | No ring, near-perfect balance, trivial weighted replicas (take top K) | `O(N)` per lookup | Load balancers and small clusters |
+| Jump consistent hash | Arithmetic jump function mapping a key to bucket 0..N-1 | No memory, very fast, excellent balance | Nodes can only be added or removed at the end of the numbering | Sharded storage with numbered shards |
+| Maglev hashing | Precomputed lookup table filled from per-backend permutations | `O(1)` lookups, very even, minimal disruption | Table rebuild on change; built for load balancers | Google Maglev, Envoy Maglev policy |
 
----
-
-## Recap for a friend
-
-Imagine a round restaurant. The dumb seating rule is `guest number % number of tables`. Close one table and almost everyone gets a new seat. That is `hash(key) % N`.
-
-The smart rule puts tables (servers) and guests (keys) on the same circular hallway of lockers. To seat a guest, walk clockwise until you hit the next waiter. Close one table and only the guests in that waiter's section move to the next waiter. Everyone else stays put.
-
-If each waiter only has one seat, luck can make sections huge or tiny. Give each waiter many reserved seats around the circle (virtual nodes) so the work stays fair.
-
-Same idea powers cache clusters, sharded databases, and sticky load balancers: place data so growth and failure move a slice, not the whole system.
+My rule of thumb: rendezvous hashing for small sets of backends (tens), a ring with virtual nodes for storage systems that need replica lists and arbitrary membership changes, jump hash when shards are numbered and only grow, and Maglev for L4 load balancers.
 
 ---
 
-## Wrap-up
+## Interview Flow
 
-`hash(key) % N` is fine until the pool moves. Then it remaps almost everything and turns a scale event into a reliability event.
+1. Start with `hash % N` and show what happens when N changes. Use the 90% number.
+2. Draw the ring and explain clockwise ownership.
+3. Show that adding a node moves only one arc.
+4. Point out imbalance with one point per node, then introduce virtual nodes.
+5. Add replication: next K distinct servers, ideally across zones.
+6. Mention one limitation (hot keys) and one alternative (rendezvous or jump hash).
 
-Consistent hashing puts keys and servers on a shared ring, assigns each key to the next server clockwise, and limits remapping to a local arc when nodes join or leave. Virtual nodes fix unfair arcs. If you can draw the ring, explain the remapping bound, and defend virtual node count plus membership, you own the interview chapter and the production instincts that sit on top of it.
+---
 
+## Production Checklist
+
+- [ ] Hash function is fast and well-distributed (Murmur3, xxHash); never Java-style `hashCode`
+- [ ] Virtual node count chosen and measured (load spread under your target)
+- [ ] Weights reflect real node capacity
+- [ ] Membership has a single source of truth and clients watch it
+- [ ] Ring changes are versioned so clients and servers can detect stale views
+- [ ] Replicas chosen across distinct failure domains
+- [ ] Rebalancing streams are throttled and observable
+- [ ] Hot-key handling exists separately from placement
+- [ ] Dashboard shows per-node key count and request rate, not just averages
+
+---
+
+## The Leftover
+
+The ring is one of those ideas that feels obvious once you see it and stays useful for decades. It does one thing: when the cluster changes, it keeps most of the world where it was.
+
+That is a modest promise. It is also the difference between adding a node at 3 a.m. to relieve pressure and adding a node at 3 a.m. that takes the database down with it.
+
+---
+
+## Sources
+
+* [Karger et al., "Consistent Hashing and Random Trees" (STOC 1997)](https://dl.acm.org/doi/10.1145/258533.258660)
+* [DeCandia et al., "Dynamo: Amazon's Highly Available Key-value Store" (SOSP 2007)](https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf)
+* [Lamping and Veach, "A Fast, Minimal Memory, Consistent Hash Algorithm" (jump hash, 2014)](https://arxiv.org/abs/1406.2294)
+* [Eisenbud et al., "Maglev: A Fast and Reliable Software Network Load Balancer" (NSDI 2016)](https://research.google/pubs/maglev-a-fast-and-reliable-software-network-load-balancer/)
+* [Mirrokni, Thorup and Zadimoghaddam, "Consistent Hashing with Bounded Loads"](https://arxiv.org/abs/1608.01350)
+* [Envoy: load balancer types (ring hash and Maglev)](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancers)
+* Related in this series: [Design a Key-Value Store](/blog/en/design-key-value-store), [Scale From Zero to Millions](/blog/en/design-scale-zero-to-millions)

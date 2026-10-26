@@ -1,402 +1,169 @@
 ---
-title: "Concevoir un système de news feed (guide débutant): fan-out, ranking et cache"
-description: "Guide en langage simple du news feed social: fan-out à l'écriture vs à la lecture comme remplir les boîtes aux lettres vs consulter le tableau d'affichage, ranking, cache et le problème des célébrités."
+title: "Concevoir un fil d'actualité : fan-out à l'écriture, fan-out à la lecture et le problème des célébrités"
+description: "Comment on construit vraiment les fils sociaux : calcul de capacité, fan-out push contre pull, l'hybride qu'utilisent les systèmes à l'échelle de Twitter, timelines dans Redis, fusion des célébrités à la lecture, classement en deux étapes, hydratation, pagination par curseur et les modes de défaillance de chaque chemin."
 date: "2025-10-05"
 tags: [Design Système et Architecture, Backend et Bases de Données]
 coverImage: /assets/images/design-news-feed-system.webp
 previewImage: /assets/images/design-news-feed-system.webp
 ---
 
-
 > **TL;DR**
-> * **Le Problème:** La conception d'architectures évolutives exige un équilibre entre disponibilité, débit et complexité opérationnelle.
-> * **L'Essentiel:** Guide en langage simple du news feed social: fan-out à l'écriture vs à la lecture comme remplir les boîtes aux lettres vs consulter le tableau d'affichage, ranking, cache et le problème des célébrités.
-> * **Le Résultat:** Plan technique avec des objectifs quantitatifs et la gestion des pannes en production.
+> * **Le problème :** Un fil d'accueil doit montrer à chaque utilisateur les publications les plus récentes et pertinentes de centaines de comptes suivis, en moins de 200 ms, pour des centaines de millions d'utilisateurs, alors que certains comptes ont des dizaines de millions d'abonnés.
+> * **La conception :** Précalculer les timelines en poussant les identifiants de publication dans la liste Redis de chaque abonné à la création d'une publication (fan-out à l'écriture), sauf pour les très gros comptes, dont les publications sont récupérées et fusionnées à la lecture. Un service de fil combine les deux sources, classe les candidats, hydrate les données de publications et d'utilisateurs depuis des caches, et pagine par curseur.
+> * **Le résultat :** Lire le fil devient une consultation de liste bon marché suivie d'une hydratation, les écritures sont absorbées de façon asynchrone par des workers, et le problème des célébrités passe d'une tempête d'écritures à une petite fusion à la lecture.
 
-Vous ouvrez Instagram, X ou Facebook. On ne vous donne pas une page blanche et un devoir de recherche. On vous donne une liste: amis, photos, blagues, actualités. Cette liste est le **news feed** (parfois **home timeline**).
+Le fil d'actualité est le problème de conception de systèmes qui récompense le plus une idée précise. Tout le reste (caches, partitionnement, classement) est un second rôle. L'idée, la voici : **il faut décider quand se fait le travail d'assemblage d'un fil, à l'écriture ou à la lecture, et la réponse est « les deux, selon qui publie »**.
 
-En entretien de system design, l'énoncé sonne énorme: "Concevez le feed Facebook" ou "Concevez le timeline Twitter." Ce n'est pas énorme si vous partez de la vie de tous les jours. Un feed ressemble plus à un **tableau d'affichage de quartier** et à une **tournée de livraison de journaux** qu'à de la magie.
-
-Ce texte enseigne ce design depuis zéro. Sans jargon préalable. Quand un terme apparaît, on le définit d'abord.
+Cet article construit le fil autour de cette décision.
 
 ---
 
-## L'image du quotidien
+## Exigences et chiffres
 
-Imaginez un tableau en liège au coin de votre rue.
+**Fonctionnelles :** les utilisateurs publient (texte, images, vidéo) ; ils voient un fil d'accueil des publications des comptes qu'ils suivent, les plus récentes ou les plus pertinentes d'abord ; défilement infini.
 
-- Les voisins épinglent des notes: "Vide-grenier samedi," "Chat perdu," "Nouvelle boulangerie."
-- Vous vous approchez, lisez ce qui compte, rentrez chez vous.
+**Non fonctionnelles :** p99 de chargement du fil sous 200 ms ; une nouvelle publication apparaît chez les abonnés en quelques secondes (pas forcément instantanément) ; le système tient quand une célébrité publie.
 
-Maintenant, multipliez ça par des millions de personnes, chacune avec son propre tableau, chacune suivant des centaines de "voisins." Deux questions dures apparaissent:
-
-1. **Quand** met-on une nouvelle note sur le tableau de chacun?
-2. Comment garder l'ouverture de l'app **rapide** quand le quartier est énorme?
-
-Ces deux questions sont tout l'entretien, habillées en ingénierie.
-
----
-
-## Ce dont le produit a vraiment besoin
-
-Avant l'architecture, fixez le produit. Les entretiens récompensent ceux qui clarifient, pas ceux qui inventent Kafka en premier.
-
-**Doit fonctionner**
-
-1. Un utilisateur peut **publier** un post (texte; photos et vidéo sont souvent stockés ailleurs et liés par URL).
-2. Un utilisateur peut **suivre** des personnes (ou être ami) et voir leurs posts dans le feed d'accueil.
-3. Le home feed montre des histoires récentes, en général les plus récentes d'abord en première version.
-4. Options plus tard: likes, commentaires, mute, proches, ranking plus intelligent.
-
-**Chiffres d'exemple à valider à voix haute** (exemples, pas une loi)
-
-| Objectif | Cible d'exemple |
-| --- | --- |
-| Utilisateurs actifs quotidiens | Environ 10 millions |
-| Follows d'une personne normale | Jusqu'à quelques milliers |
-| Follows de célébrité | Des millions de followers |
-| Trafic de publication | Des milliers de posts par seconde en pic |
-| Ouvrir le feed | Bien plus élevé que publier; c'est le chemin chargé |
-| Sensation du feed | Première page en quelques centaines de millisecondes |
-| Fraîcheur | Nouveaux posts visibles en quelques secondes pour les comptes normaux |
-
-**En général hors périmètre sauf demande:** enchère publicitaire complète, live video, Stories, Explore de "gens que vous ne suivez pas," chiffrement de bout en bout. Dites ce que vous *ne* construisez pas pour que l'heure reste sur l'assemblage du feed.
-
-Deux flux comptent plus que tout le reste:
-
-1. **Publish (chemin d'écriture):** quelqu'un poste; le système stocke et achemine vers les feeds des followers.
-2. **Home feed (chemin de lecture):** quelqu'un ouvre l'app; le système renvoie une page d'histoires prête à afficher.
-
----
-
-## Fan-out: l'idée qui décide de tout
-
-**Fan-out** signifie: "ce post unique doit devenir visible pour beaucoup de personnes."
-
-Un auteur. Beaucoup de followers. Comment répartir la nouvelle?
-
-Il y a deux stratégies classiques. Retenez-les avec le journal et le tableau d'affichage.
-
-### Fan-out à l'écriture: pré-remplir la boîte aux lettres de chacun
-
-Pensez à un livreur de journaux à 5 heures du matin.
-
-Quand vous publiez, des workers cherchent vos followers et **déposent une copie de la nouvelle dans la boîte de chaque follower** (en logiciel: dans la liste de feed préconstruite de chacun). Quand un follower ouvre l'app, son feed attend déjà. Ouvrir la boîte est bon marché.
-
-En jargon, c'est le **fan-out on write**, aussi appelé **modèle push**.
-
-**Pourquoi c'est agréable**
-
-- Les lectures du home feed sont simples: "donne-moi la page suivante de ma liste."
-- Pour les comptes normaux (centaines ou quelques milliers de followers), ça se sent presque en direct.
-
-**Pourquoi ça fait mal**
-
-- Le coût croît avec le nombre de followers. Un post de quelqu'un à 10 millions de followers essaie de mettre à jour 10 millions de boîtes.
-- Les gens qui n'ouvrent jamais l'app reçoivent quand même du courrier. Travail gaspillé.
-- Les comptes super populaires créent une **tempête d'écritures**.
-
-### Fan-out à la lecture: parcourir le quartier quand vous ouvrez l'app
-
-Inversez maintenant le design.
-
-Quand vous publiez, vous n'épinglez votre note que sur **votre** tableau (un seul post stocké). Quand un follower ouvre l'app, le système parcourt toutes les personnes qu'il suit, ramasse les notes récentes et les fusionne en une liste temporaire pour cette visite.
-
-En jargon, c'est le **fan-out on read**, aussi appelé **modèle pull**.
-
-**Pourquoi c'est agréable à la publication**
-
-- Publier est bon marché: écrire un post et s'arrêter.
-- Pas de travail gaspillé pour les utilisateurs inactifs.
-
-**Pourquoi ça fait mal à la lecture**
-
-- Ouvrir l'app fait un travail lourd: beaucoup de sources à récupérer et fusionner.
-- Si vous suivez des centaines de personnes actives, le coût de fusion et la latence montent.
-- Tenir un budget "ça se sent instantané" demande un cache soigné.
-
-### Comparaison en une phrase
-
-| Style | Image du quotidien | Moment dur |
+| Hypothèse | Valeur | Conséquence |
 | --- | --- | --- |
-| Fan-out à l'écriture | Pré-remplir chaque boîte à la publication | Une célébrité publie |
-| Fan-out à la lecture | Parcourir le tableau de chaque voisin à l'ouverture | L'utilisateur suit beaucoup de comptes actifs |
+| Utilisateurs actifs quotidiens | 300 M | |
+| Chargements du fil par utilisateur et par jour | 10 | 3 Md de lectures/jour, ~35 k/s en moyenne, ~100 k/s en pic |
+| Publications par jour | 50 M | ~600/s en moyenne |
+| Abonnés moyens par auteur | 200 | 10 Md d'insertions de timeline/jour, ~115 k/s |
+| Longueur de timeline conservée | 800 identifiants x 8 octets | ~6,4 Ko/utilisateur, ~2 To bruts pour tous avant le surcoût de Redis |
 
-La plupart des systèmes réels aboutissent à un **hybride**. On le voit après le problème des célébrités, car l'hybride existe surtout pour le résoudre.
+Deux choses sautent aux yeux. Les lectures du fil dominent le volume de requêtes. Mais le fan-out multiplie les écritures par le nombre d'abonnés, donc **ce sont les insertions dans les timelines, et non la création de publications, qui forment la plus grosse charge d'écriture**. Toute conception doit en tenir compte.
 
----
-
-## Le problème des célébrités (avec douceur)
-
-Un **compte célébrité** n'est pas "quelqu'un de célèbre." Dans ce design, cela signifie **un compte avec un nombre énorme de followers**: une pop star, une équipe, une marque d'info, une page de mèmes viraux.
-
-Reprenez le livreur de journaux.
-
-- Votre cousine poste une photo. Elle a 80 followers. Remplir 80 boîtes, c'est correct.
-- Une célébrité poste une photo. Elle a 20 millions de followers. Remplir 20 millions de boîtes pour une photo, c'est demander à un seul livreur de livrer le journal de la ville porte à porte **tout de suite**, chaque fois que cette personne éternue en ligne.
-
-Que se passe-t-il si vous n'utilisez que le fan-out à l'écriture pour les célébrités?
-
-1. **Publier se sent lent ou la file explose.** Des millions de petites mises à jour s'accumulent.
-2. **Les machines de cache fondent.** Clés chaudes et amplification d'écriture concentrent la douleur.
-3. **Les utilisateurs silencieux reçoivent quand même du courrier.** La plupart de ces 20 millions ne sont pas en ligne à cette seconde.
-
-Les systèmes de production traitent donc les célébrités autrement. Ils ne pré-remplissent **pas** chaque boîte pour les mega-comptes. Ils stockent le post de la célébrité une fois (ou dans une liste "posts de cet auteur") et le **tirent à la lecture** quand un follower ouvre le feed.
-
-Ce n'est pas de l'impolitesse envers les gens célèbres. C'est de la physique: le coût d'écriture ne doit pas croître sans borne pour une seule action.
-
-Une règle simple que les intervieweurs aiment:
-
-- Followers sous un seuil (disons 10 000): push dans les timelines des followers.
-- Followers au-dessus du seuil: écrire le post, marquer l'auteur comme **source pull**, fusionner à la lecture.
-
-Vous pouvez déplacer le seuil après avoir mesuré le lag de fan-out et la latence du home feed. L'idée compte plus que le chiffre exact.
+Twitter a publié des chiffres de la même forme en 2012 : environ 300 000 lectures de timeline par seconde pour quelque 6 000 tweets écrits par seconde, des timelines d'accueil plafonnées à 800 entrées dans Redis, et un fan-out qui prenait plusieurs minutes pour les comptes à dizaines de millions d'abonnés.
 
 ---
 
-## Hybride: le design que la plupart des équipes livrent
+## La décision centrale : quand le fil est-il construit ?
 
-| Type de compte | À la publication | Quand un follower ouvre le feed |
+| | Fan-out à l'écriture (push) | Fan-out à la lecture (pull) |
 | --- | --- | --- |
-| Normal | Fan-out à l'écriture dans les listes-boîtes des followers | Lire la liste préconstruite |
-| Célébrité / mega | Stocker le post; pas de push de masse | Fusionner la liste préconstruite **avec** les posts récents des célébrités suivies |
+| Moment du travail | À la publication, pousser l'identifiant dans la timeline de chaque abonné | À la lecture, récupérer les publications récentes de chaque compte suivi et fusionner |
+| Coût de lecture | Une lecture de liste | N requêtes, une par compte suivi, plus la fusion |
+| Coût d'écriture | Une insertion par abonné | Une insertion |
+| Fraîcheur | Quelques secondes de retard dues au fan-out | Toujours frais |
+| Travail gaspillé | Des timelines pour des utilisateurs qui n'ouvrent jamais l'app | Aucun |
+| Casse avec | Les célébrités à millions d'abonnés | Les utilisateurs qui suivent des milliers de comptes |
 
-Esquisse d'une fusion en lecture (conceptuel):
+Aucune approche pure ne survit au contact d'un vrai graphe social. Le push transforme une publication de célébrité en dizaines de millions d'écritures. Le pull transforme chaque chargement de fil en centaines de requêtes.
 
-```
-normal_ids   = derniers éléments de ma timeline préconstruite
-celeb_ids    = posts récents de chaque célébrité que je suis
-merged       = trier les deux par temps (plus récent d'abord)
-page         = prendre les N premiers, retenir un curseur pour "page suivante"
-```
-
-Cet hybride garde le travail quotidien de publication borné et l'ouverture de l'app légère, tout en montrant les posts de célébrités sans remplir la planète entière.
+**L'hybride** vers lequel convergent les systèmes en production : push pour les comptes ordinaires, pull pour un petit ensemble de très gros comptes, fusion à la lecture. Twitter a décrit exactement cela. Multifeed de Facebook est allé plus loin vers l'assemblage à la lecture, avec des serveurs agrégateurs qui interrogent des magasins d'activité par utilisateur au moment où le fil est demandé. Les deux sont valables ; l'hybride est le plus facile à défendre en entretien et à exploiter à échelle modérée.
 
 ---
 
-## Qui suit qui: le graphe
+## Le chemin de publication
 
-Vous avez besoin d'une liste fiable de relations:
+![Chemin de publication du fil : un auteur publie via la passerelle d'API vers le service de publications, qui stocke la publication dans une base partitionnée et émet un événement PostCreated ; des workers de fan-out parcourent le graphe social et poussent l'identifiant dans la timeline Redis de chaque abonné, en ignorant les auteurs de plus d'un million d'abonnés](/assets/images/hld/design-news-feed-publish.webp)
 
-- Qui me suit? (nécessaire pour le fan-out à l'écriture)
-- Qui est-ce que je suis? (nécessaire pour le fan-out à la lecture / fusion célébrité)
-- Ai-je mis en sourdine ou bloqué quelqu'un? (filtre écriture et lecture)
+* **Author.** Publie. Les médias partent d'abord directement vers le stockage objet (URL présignées) ; la publication ne fait que les référencer.
+* **API Gateway.** Authentification, limitation de débit, validation des requêtes.
+* **Post Service.** Attribue un identifiant ordonné dans le temps (façon Snowflake, voir l'[article sur les identifiants uniques](/blog/fr/design-unique-id-generator)), écrit la publication et répond immédiatement à l'utilisateur. Il n'attend pas le fan-out.
+* **Posts DB (partitionnée par identifiant).** Source de vérité du contenu. Les identifiants ordonnés dans le temps font de « publications récentes de l'auteur X » une requête de plage bon marché avec un index sur `(author_id, post_id)`.
+* **Événements PostCreated.** Un journal durable découple la requête de l'utilisateur du coûteux fan-out. Si le fan-out prend du retard, publier fonctionne toujours.
+* **Fan-out Workers.** Consomment les événements, parcourent les abonnés de l'auteur par lots de quelques milliers et poussent l'identifiant dans la timeline de chacun. Ils peuvent ignorer les abonnés inactifs depuis des semaines ; leur fil est reconstruit à la demande s'ils reviennent.
+* **Social Graph (abonnés).** Un magasin optimisé pour « qui suit X » et « qui Y suit-il ». TAO de Facebook en est l'exemple canonique à grande échelle. À plus petite échelle, une table d'arêtes partitionnée avec deux index suffit.
+* **Timelines Redis.** Une liste par utilisateur d'identifiants récents. `LPUSH` du nouvel identifiant, `LTRIM` à 800. Uniquement des identifiants, jamais des publications complètes, pour qu'une modification ou une suppression n'oblige pas à toucher des millions de listes.
 
-Appelez cela le **graphe de follows** ou graphe social. Il peut vivre dans une base relationnelle bien indexée, une base de graphes, ou un store en colonnes larges. Détail d'entretien qui compte:
-
-- Mettre en cache les listes chaudes de followers et de followees.
-- Appliquer mute, block et confidentialité (par exemple proches seulement) **avant** le fan-out, pour ne pas écrire des posts dans des timelines qui ne doivent jamais les voir.
-
-Pensez au graphe comme au **carnet d'adresses de la livraison de journaux**. De mauvaises adresses signifient de mauvaises boîtes.
-
----
-
-## Ce que vous stockez dans une "boîte" (timeline)
-
-Ne copiez **pas** le corps complet du post dans la liste de chaque follower. Copiez un **pointeur**: en général l'id du post et un score (souvent le temps).
-
-Pourquoi?
-
-- Une légende drôle n'a pas besoin de vivre en 50 000 copies de texte.
-- Les corps vivent une fois dans le store de posts (et le cache de posts). Les timelines ne tiennent que des ids.
-
-Modèle mental style Redis pour une timeline poussée:
-
-```
-timeline de l'utilisateur U = liste ordonnée de post_ids (le plus récent en haut)
-garder seulement les quelques centaines ou milliers d'ids les plus récents
-l'historique plus vieux peut basculer vers un store durable ou être reconstruit si besoin
-```
-
-La timeline est une **vue dérivée**, comme une table des matières personnalisée. La table des posts est la source de vérité du contenu.
+La note rouge est la règle des célébrités : au-delà d'un seuil d'abonnés (un million est un bon point de départ), on saute entièrement le fan-out et ce sont les lecteurs qui vont chercher.
 
 ---
 
-## Le cache en langage simple
+## Le chemin de lecture
 
-Un **cache** est une étagère rapide de réponses que vous pensez revoir bientôt. Le disque et les jointures lourdes sont l'entrepôt du fond. Le chemin du feed veut l'étagère.
+![Chemin de lecture du fil : le lecteur demande son fil via la passerelle ; le service de fil lit les identifiants poussés dans Redis, récupère les publications récentes des célébrités, envoie les candidats à un service de classement adossé à un magasin de caractéristiques, hydrate publications et utilisateurs depuis des caches et renvoie des URL de médias servies par un CDN](/assets/images/hld/design-news-feed-read.webp)
 
-Étagères utiles pour un feed:
+1. **Lire les identifiants poussés** dans la timeline Redis de l'utilisateur.
+2. **Récupérer les publications des célébrités.** Pour la poignée de gros comptes suivis, aller chercher leurs identifiants récents dans un magasin très mis en cache de « publications récentes par auteur ». Comme beaucoup de lecteurs suivent les mêmes célébrités, ce cache a un excellent taux de succès.
+3. **Classer.** Fusionner les deux listes en un ensemble de candidats (quelques centaines de publications) et l'envoyer au service de classement, qui note les candidats à partir de signaux comme l'affinité avec l'auteur, l'âge de la publication, l'engagement déjà obtenu et le type de contenu.
+4. **Hydrater.** Récupérer en un seul appel groupé les corps de publications, profils d'auteurs et compteurs des meilleurs résultats, depuis les caches.
+5. **Renvoyer une page** avec un curseur. Les URL de médias pointent vers le CDN : images et vidéos ne transitent jamais par le service de fil.
 
-| Étagère | Contenu | Pourquoi |
+La note verte concerne la pagination, facile à rater. **Utilisez des curseurs, pas des offsets.** Avec des offsets, une nouvelle publication arrivée entre la page 1 et la page 2 décale tout d'un cran, et les utilisateurs voient des doublons. Avec un curseur (« publications plus anciennes que l'identifiant X », ou un jeton opaque qui encode la position du classeur), les pages restent stables.
+
+---
+
+## Le classement, du simple au réel
+
+| Étape | Approche | Coût |
 | --- | --- | --- |
-| Cache de timeline | Ids de posts ordonnés par utilisateur | Ouvrir home ne doit pas tout reconstruire |
-| Cache de posts | Texte, liens média, id d'auteur | Beaucoup d'utilisateurs voient le même post viral |
-| Cache utilisateurs | Nom, avatar | Le même auteur apparaît sur beaucoup de cartes |
-| Cache de graphe | Followers / followees / mutes | Fan-out et fusion en ont besoin vite |
-| Compteurs | Likes et commentaires | Petits nombres mis à jour souvent |
+| Version 1 | Ordre antichronologique par identifiant | Rien. Les identifiants ordonnés dans le temps le rendent gratuit |
+| Version 2 | Score heuristique : affinité x poids du contenu x décroissance temporelle | Quelques signaux par candidat ; facile à expliquer |
+| Version 3 | Classement par apprentissage en deux étapes : génération de candidats peu coûteuse, puis un modèle appris sur quelques centaines | Magasin de caractéristiques, service de modèles, plateforme d'expérimentation |
 
-Le **CDN** (réseau de diffusion de contenu) est hors de ces étagères pour les **octets** réels des photos et vidéos. Votre API feed doit renvoyer des URLs, pas streamer des mégaoctets de vidéo via les serveurs d'app.
+Le premier EdgeRank de Facebook était une heuristique de version deux de cette forme exacte. La plupart des grands fils aujourd'hui sont en version trois. En entretien, commencez par la version un, décrivez la deux, et mentionnez l'existence de la trois. Ne concevez pas le système d'apprentissage sauf si on vous le demande.
 
-Astuce mémoire: des timelines d'ids seulement gardent la RAM vers `utilisateurs × longueur_timeline`, pas `utilisateurs × taille_corps_post`. Les corps sont partagés.
-
-Pour un kit de cache plus profond après ce post, voir [motifs de cache Redis](/blog/fr/redis-caching-patterns).
+Quel que soit le classement, gardez-le **hors du chemin d'écriture**. Il dépend du lecteur, de l'heure et d'un engagement qui n'a pas encore eu lieu : sa place est à la lecture.
 
 ---
 
-## Ranking: d'abord chronologique, plus malin ensuite
+## Esquisse du modèle de données
 
-**Ranking** veut dire choisir l'ordre. Les débutants peuvent commencer honnêtement:
-
-### Version 1: reverse chronological
-
-Le plus récent d'abord. Facile à expliquer. Facile à stocker (score = temps). Bon v1 d'entretien.
-
-### Version 2: ranking noté
-
-Les apps de production réordonnent souvent avec des signaux:
-
-- Quelle fraîcheur?
-- Quelle proximité entre le spectateur et l'auteur? (affinité)
-- Le post reçoit-il de l'engagement?
-- Est-ce un type que le spectateur aime (photo vs lien)?
-- Pénalités: déjà vu, sujets en sourdine, motifs de spam
-
-Forme de formule miniature (pas du ML de production):
-
-```
-score = récence + affinité + engagement - pénalités
-```
-
-Où tourne souvent le ranking:
-
-- **Pas** entièrement à la publication pour chaque spectateur (vous ne connaissez pas encore le contexte de chacun).
-- **Souvent** à la lecture: prendre une fenêtre candidate d'ids récents, re-noter, appliquer une légère diversité (pas cinq posts de la même personne d'affilée), renvoyer une page.
-
-Pour l'entretien: dites récupération chronologique d'abord, puis re-rank optionnel sur un petit ensemble de candidats. Le ranking machine learning complet est une autre carrière; nommez-le, ne vous y noyez pas.
+| Magasin | Clé | Valeur | Remarques |
+| --- | --- | --- | --- |
+| Posts DB | `post_id` | auteur, texte, références médias, created_at | Index sur `(author_id, post_id)` pour les timelines d'auteur |
+| Graphe social | `(follower_id, followee_id)` | created_at | Les deux sens indexés : abonnés de X, abonnements de Y |
+| Timeline Redis | `timeline:{user_id}` | liste d'identifiants | Plafonnée à 800 ; TTL pour les utilisateurs inactifs |
+| Cache de publications | `post:{post_id}` | publication sérialisée | Écriture directe à la création, invalidée à la modification ou suppression |
+| Compteurs | `post:{post_id}:likes` | entier | Séparés du corps ; mis à jour de façon asynchrone |
 
 ---
 
-## Chemin publish, étape par étape
+## Ce qui tourne mal
 
-1. Vérifier auth et rate limits (un utilisateur ne doit pas inonder le réseau).
-2. Valider le texte et les ids média.
-3. Créer un post id et **sauver le post de façon durable** (base de données). C'est la ligne de fiabilité.
-4. Mettre l'objet post dans le cache de posts.
-5. Enfiler le travail de fan-out (async). Répondre succès au client **après la sauvegarde durable**, pas après chaque boîte remplie.
-6. Les workers chargent les followers éligibles du graphe (filtres de confidentialité appliqués).
-7. Pour les followers normaux, ajouter le post id dans chaque cache de timeline.
-8. Pour les auteurs célébrité, sauter le push de masse; garder une liste "posts par auteur" pour le pull.
-9. Optionnel: enfiler des notifications ("Asha a posté") sur un chemin séparé.
-
-Pourquoi un fan-out async? Les utilisateurs acceptent "votre post est sauvé, les amis le verront dans une seconde." Ils n'acceptent pas un spinner de 30 secondes parce qu'un graphe à l'échelle célébrité se met à jour.
-
-Ce passage de relais async est la même famille de pensée que [l'architecture event-driven](/blog/fr/event-driven-architecture-intro).
+| Problème | Symptôme | Remède |
+| --- | --- | --- |
+| Publications de célébrités | La file de fan-out s'engorge pendant des minutes | Seuil d'abonnés ; pull à la lecture |
+| Publication chaude | Compteurs et clé de cache d'une publication saturés | Compteurs partitionnés ; cache local ; comptes approximatifs |
+| Publication supprimée encore visible | Les identifiants restent dans des millions de timelines | Filtrer à l'hydratation : publications absentes ou supprimées écartées |
+| Retard du fan-out | Les nouvelles publications arrivent tard | Prioriser le fan-out vers les abonnés récemment actifs |
+| Perte d'un nœud Redis | Certaines timelines vides | Reconstruction à la demande en allant chercher chez les auteurs suivis ; réplicas Redis |
+| Utilisateurs qui suivent des milliers de comptes | Grosses fusions si beaucoup sont des « célébrités » | Plafonner les auteurs en pull ; compter sur le push pour le reste |
+| Le fil montre deux fois la même publication | Pagination par offset | Pagination par curseur |
 
 ---
 
-## Chemin home feed, étape par étape
+## Conclusion d'entretien
 
-1. Auth, puis service de feed.
-2. Charger les ids candidats depuis `timeline:{me}`.
-3. Si l'utilisateur suit des célébrités, fusionner les posts récents de célébrités.
-4. Paginer avec un curseur (jeton opaque: "continue après ce score").
-5. **Hydrater**: charger en lot les corps de posts et profils d'auteurs (multi-get, pas une requête par carte).
-6. Attacher les compteurs si besoin.
-7. Passage de ranking optionnel.
-8. Renvoyer du JSON. Le client charge les médias depuis le CDN via les URLs du JSON.
+Une réponse solide tient dans cet ordre :
 
-L'hydratation est là où les implémentations débutantes meurent en silence: une boucle "récupère ce post, puis celui-là" crée une tempête N+1. Toujours en lot.
+1. Exigences et chiffres de lecture et d'écriture, y compris le multiplicateur du fan-out.
+2. Tableau push contre pull, et pourquoi aucun ne suffit seul.
+3. Hybride avec seuil de célébrité.
+4. Chemin de publication avec workers de fan-out asynchrones et timelines d'identifiants seulement.
+5. Chemin de lecture : fusion, classement, hydratation, curseur.
+6. Un ou deux modes de défaillance (célébrités, suppressions).
 
 ---
 
-## Esquisse simple du modèle de données
+## Liste de contrôle pour la production
 
-**Posts**
-
-| Champ | Rôle |
-| --- | --- |
-| post_id | Clé primaire |
-| author_id | Qui a écrit |
-| text | Taille plafonnée |
-| media_ids | Liens vers le service média / CDN |
-| visibility | public / followers / close friends |
-| created_at | Ordre temporel et pagination |
-| deleted_at | Soft delete |
-
-**Edges (follows)**
-
-| Champ | Rôle |
-| --- | --- |
-| follower_id | Qui suit |
-| followee_id | Qui est suivi |
-| state | active / muted / flags de blocage |
-
-Paire unique `(follower_id, followee_id)`. Index dans les deux sens pour répondre "followers de A" et "followees de B" sans scanner toute la table.
+- [ ] Fan-out asynchrone ; publier ne l'attend jamais
+- [ ] Les timelines ne stockent que des identifiants, avec longueur plafonnée et TTL pour les utilisateurs inactifs
+- [ ] Seuil de célébrité configuré et surveillé (retard de fan-out selon la taille de l'auteur)
+- [ ] Abonnés inactifs ignorés pendant le fan-out ; la reconstruction à la demande fonctionne
+- [ ] L'hydratation filtre le contenu supprimé, privé et bloqué
+- [ ] Pagination par curseur
+- [ ] Classement isolé du chemin d'écriture, avec repli chronologique si le classeur tombe
+- [ ] Tableaux de bord : p99 du fil, retard de la file de fan-out, taux de succès du cache de timelines, taille des lots d'hydratation
 
 ---
 
-## Ce qui casse (et des correctifs calmes)
+## Ce qui reste
 
-| Problème | Correctif calme |
-| --- | --- |
-| Publication célébrité fond le fan-out | Pull hybride; jamais de push vers des millions de timelines dans le thread de la requête |
-| Post supprimé encore présent en id | Flag soft-delete; l'hydratation le jette; scrub de fond optionnel |
-| Unfollow mais vieux posts restent | Accepter jusqu'au scroll, ou retirer en arrière-plan cet auteur de la timeline |
-| Mute / block ignorés | Filtrer au choix des destinations et à la lecture |
-| Ruée de cache sur un post viral | Chargement single-flight de l'objet post; chauffer le cache à la publication |
-| Lag de fan-out | Surveiller la profondeur de file et le temps jusqu'à livraison; ajouter des workers |
-| Complexité multi-région | Posts durables répliqués; timelines souvent régionales avec bascule soignée |
+Le fil, c'est l'endroit où l'inégalité de votre graphe social devient un problème d'ingénierie. La plupart des gens ont quelques centaines d'abonnés. Quelques-uns en ont des dizaines de millions. Une seule conception ne peut pas servir les deux, alors on en construit deux et on les recoud au dernier moment possible.
 
-La cohérence des feeds est en général **éventuelle** pour la livraison: la ligne du post est solide; les timelines rattrapent. Vous ne promettez pas le même milliseconde pour chaque follower dans le monde.
+Quelque part dans la file de fan-out, en ce moment, une publication de quelqu'un qui a dix abonnés attend derrière une pop star. L'hybride existe pour que cette publication arrive, elle aussi, à l'heure.
 
 ---
 
-## Petite intuition de capacité (dites-la à voix haute)
+## Sources
 
-Avec environ 10 millions d'utilisateurs actifs quotidiens:
-
-- Si les gens ouvrent souvent l'app et chaque ouverture montre beaucoup de cartes, le **chemin de lecture domine**.
-- Le pull pur pour tous ceux qui suivent des centaines d'auteurs actifs coûte vite cher. Le push aide le cas courant.
-- La mémoire des timelines est grande même avec des ids seulement: beaucoup d'utilisateurs × des centaines d'ids × octets par entrée. Plafonnez la longueur. Shardez le cache.
-
-Ce sont des chiffres de discussion, pas un plan financier. Ajustez avec l'intervieweur.
-
----
-
-## Que surveiller en production
-
-- Succès de publish et temps jusqu'à écriture durable.
-- Lag de la file de fan-out, surtout par tranches de taille de followers.
-- Latence du home feed (médiane et queue lente) et taux de hit de cache.
-- Misses d'hydratation qui frappent la base.
-- Part des pages pure-push vs fusion hybride.
-- Taux d'ids manquants ou supprimés dans le feed (doit rester bas).
-
-Protégez le publish avec des limites pour qu'un spammeur ne brûle pas la flotte de fan-out. Voir [concevoir un rate limiter](/blog/fr/design-a-rate-limiter).
-
----
-
-## Récap pour un ami
-
-Si vous aviez trente secondes au café:
-
-Un news feed est la liste personnalisée d'histoires de chaque personne, venant des gens qu'elle suit. Le choix dur est **quand** construire cette liste.
-
-**Fan-out à l'écriture**, c'est pré-remplir la boîte de chaque follower quand quelqu'un poste. Ouvrir l'app est facile; les posts de célébrité peuvent faire exploser la poste.
-
-**Fan-out à la lecture**, c'est stocker le post une seule fois, puis ramasser chez tous ceux que vous suivez à l'ouverture. Publier est facile; des listes de follows très actives rendent l'ouverture lente.
-
-**Hybride** pousse pour les comptes normaux et tire pour les célébrités pour qu'aucun chemin ne fonde.
-
-Le **cache** garde les timelines, posts et profils chauds sur une étagère rapide. Le **ranking** peut commencer par le plus récent d'abord puis re-noter un petit ensemble de candidats. Les timelines stockent des **ids**, pas des copies complètes de chaque légende. Publier doit réussir quand le post est sauvé, pendant que le remplissage des boîtes continue en arrière-plan.
-
-C'est tout le design, sans brouillard de buzzwords.
-
----
-
-## Clôture d'entretien
-
-Une bonne réponse a:
-
-1. Un périmètre produit clair.
-2. Deux flux: publish et home.
-3. Un choix net **push vs pull vs hybride**, avec le problème des célébrités nommé calmement.
-4. Un graphe de follows.
-5. Des timelines d'ids seulement, une hydratation multi-get et une carte de cache.
-6. Ranking chronologique d'abord, ranking noté en extension.
-
-S'il reste du temps: scale horizontal du web tier, sharding des posts, réplicas de lecture multi-région, et pourquoi le feed est un index dérivé plutôt qu'un énorme join SQL de "tout ce que mes amis ont jamais écrit."
-
-Liés sur ce blog: [motifs de cache Redis](/blog/fr/redis-caching-patterns), [architecture event-driven](/blog/fr/event-driven-architecture-intro), [concevoir un rate limiter](/blog/fr/design-a-rate-limiter).
-
+* [High Scalability : The Architecture Twitter Uses to Deal with 150M Active Users, 300K QPS (conférence de Raffi Krikorian)](https://highscalability.com/the-architecture-twitter-uses-to-deal-with-150m-active-users/)
+* [Bronson et al., « TAO: Facebook's Distributed Data Store for the Social Graph » (USENIX ATC 2013)](https://www.usenix.org/conference/atc13/technical-sessions/presentation/bronson)
+* [Facebook Engineering : Serving Facebook Multifeed](https://engineering.fb.com/2015/03/10/production-engineering/serving-facebook-multifeed-efficiency-performance-gains-through-redesign/)
+* [Documentation Redis : listes (LPUSH, LTRIM)](https://redis.io/docs/latest/develop/data-types/lists/)
+* Dans la même série : [Concevoir un générateur d'identifiants uniques](/blog/fr/design-unique-id-generator), [Concevoir un système de chat](/blog/fr/design-chat-system), [Passer de zéro à des millions d'utilisateurs](/blog/fr/design-scale-zero-to-millions)

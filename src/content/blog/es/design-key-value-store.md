@@ -1,339 +1,196 @@
 ---
-title: "Diseñar un almacén clave-valor como un guardarropa: put, get, CAP y quórums"
-description: "Guía para principiantes de almacenes clave-valor distribuidos. Put y get como guardar y buscar, CAP con una historia simple, particiones como libros en estantes, réplicas como copias y quórums como bibliotecarios que deben acordar."
+title: "Diseña un almacén clave-valor distribuido: particionado, quórums, hinted handoff y almacenamiento LSM"
+description: "Un almacén clave-valor al estilo Dynamo desde cero: particionado sobre un anillo de hash, la aritmética de quórums N/W/R y lo que no garantiza, resolución de conflictos, hinted handoff y reparación con árboles de Merkle, membresía por gossip y el motor de almacenamiento LSM que hay debajo."
 date: "2025-10-28"
 tags: [Diseño de Sistemas y Arquitectura, Backend y Bases de Datos]
 coverImage: /assets/images/design-key-value-store.webp
 previewImage: /assets/images/design-key-value-store.webp
 ---
 
-
 > **TL;DR**
-> * **El Problema:** Diseñar arquitecturas escalables requiere equilibrar disponibilidad, rendimiento y complejidad operativa.
-> * **La Clave:** Guía para principiantes de almacenes clave-valor distribuidos. Put y get como guardar y buscar, CAP con una historia simple, particiones como libros en estantes, réplicas como copias y quórums como bibliotecarios que deben acordar.
-> * **El Resultado:** Plano técnico con objetivos cuantitativos y mitigación de fallos en producción.
+> * **El problema:** Guardar miles de millones de valores pequeños detrás de `put(key, value)` y `get(key)`, en muchas máquinas, siguiendo disponible para escribir cuando algunas fallan y con una latencia predecible de pocos milisegundos.
+> * **El diseño:** Particionar las claves en un anillo de consistent hashing, replicar cada clave en N nodos y dejar que los clientes elijan W y R por petición. Aceptar escrituras durante los fallos con quórums laxos y hinted handoff, reparar la deriva con read repair y árboles de Merkle, detectar fallos con gossip y guardar los datos de cada nodo en un árbol LSM.
+> * **El resultado:** Un sistema que cambia algo de consistencia por disponibilidad de forma controlada y ajustable. Es el diseño detrás del artículo de Dynamo de Amazon, de Cassandra y de Riak, y el modelo mental detrás de DynamoDB.
 
-Imagina un guardarropa gigante en un estadio. Entregas tu abrigo. Te dan un ticket con un número. Más tarde muestras el ticket y recuperas el mismo abrigo. Eso es un **almacén clave-valor** en la vida real.
+Un almacén clave-valor tiene la API más pequeña de toda esta serie: dos verbos. Justo por eso es una buena pregunta de entrevista. Sin nada detrás de lo que esconderse, cada decisión trata de la distribución: dónde viven los datos, cuántas copias existen, qué pasa cuando falta una copia y qué significa siquiera "el valor actual" cuando dos máquinas no están de acuerdo.
 
-- La **clave** es el número del ticket.
-- El **valor** es el abrigo.
-- **put** significa guardar este abrigo bajo este ticket.
-- **get** significa recuperar el abrigo de este ticket.
-
-No necesitas saber cómo está organizado el perchero. Solo necesitas una regla fiable: mismo ticket, mismo abrigo.
-
-Los ordenadores usan la misma idea. Redis, Memcached, sistemas al estilo Dynamo y muchas capas de metadatos de productos empiezan aquí. Dos verbos, mucha ingeniería detrás.
-
-Este post enseña esa ingeniería como lo haría un buen profesor: primero la imagen, luego los nombres difíciles solo cuando importan.
+Este artículo construye un almacén al estilo Dynamo, porque ese diseño te obliga a enfrentarte de forma explícita a cada una de esas preguntas.
 
 ---
 
-## Los dos verbos: guardar y buscar
+## Requisitos
 
-Un almacén clave-valor es una base de datos con una interfaz minúscula.
+* **API:** `put(key, value)`, `get(key)` y opcionalmente `delete(key)`. Valores de hasta 1 MB aproximadamente; la mayoría por debajo de 10 KB.
+* **Escala:** decenas de terabytes, cientos de miles de operaciones por segundo.
+* **Primero la disponibilidad:** las escrituras deben funcionar aunque unos pocos nodos o una zona de disponibilidad entera no respondan. Los carritos de la compra y los almacenes de sesión son los ejemplos clásicos: perder una escritura es peor que leer brevemente un valor antiguo.
+* **Consistencia ajustable:** algunos llamantes necesitan leer lo que acaban de escribir; otros aceptan encantados un valor algo antiguo a cambio de menos latencia.
+* **Operabilidad:** añadir y quitar nodos sin cortes; recuperarse de la pérdida de un disco automáticamente.
 
-| Verbo | Significado cotidiano | Qué hace |
+**Esbozo de capacidad:** 20 TB de datos con factor de replicación 3 son 60 TB en disco. Con nodos de unos 2 TB cada uno, y manteniéndolos por debajo del 60% para dejar margen a la compactación, salen unos 50 nodos. Si cada nodo sirve con holgura 10.000 operaciones por segundo, el clúster sirve unas 500.000 operaciones por segundo antes de cualquier caché.
+
+---
+
+## CAP, dicho con precisión
+
+El teorema CAP dice que durante una **partición** de red un sistema debe elegir entre **consistencia** (cada lectura ve la última escritura) y **disponibilidad** (cada petición a un nodo vivo recibe una respuesta que no es un error). Sin partición, puedes tener las dos.
+
+PACELC añade la parte que la gente olvida: **si no** hay partición, sigues intercambiando **latencia** por **consistencia**, porque esperar a más réplicas tarda más.
+
+| Estilo de sistema | Durante una partición | Normalmente | Ejemplos |
+| --- | --- | --- | --- |
+| CP | Rechaza peticiones en el lado minoritario | Consistente, más latencia | etcd, ZooKeeper, Spanner |
+| AP | Sigue aceptando lecturas y escrituras en todas partes | Ajustable; a menudo consistencia eventual | Dynamo, Cassandra, Riak |
+
+Este artículo construye la variante AP, con perillas que permiten a los llamantes acercarse a la consistencia cuando la necesitan.
+
+---
+
+## Particionado y replicación
+
+Las claves se colocan en un anillo de consistent hashing con nodos virtuales (mira el [artículo de consistent hashing](/blog/es/design-consistent-hashing) de esta serie). La **lista de preferencia** de cada clave son los N primeros nodos físicos distintos en sentido horario desde su posición, repartidos entre zonas de disponibilidad. Con N = 3, cada clave tiene tres réplicas, y perder un nodo o una zona no pierde datos.
+
+Cualquier nodo puede actuar como **coordinador** de una petición. Los clientes envían las peticiones a cualquier nodo (que las reenvía si hace falta) o usan un cliente consciente de las particiones que envía directamente a una réplica, ahorrando un salto.
+
+---
+
+## Quórums: la perilla de la que todos hablan
+
+En cada petición, el coordinador envía la operación a las N réplicas y espera a un subconjunto:
+
+* **W** = cuántas réplicas deben confirmar una escritura para que tenga éxito.
+* **R** = cuántas réplicas deben responder a una lectura para que devuelva un resultado.
+
+Si **R + W > N**, cada quórum de lectura se solapa con cada quórum de escritura en al menos una réplica, así que una lectura verá al menos una copia de la última escritura con éxito.
+
+| N, W, R | Comportamiento | Úsalo cuando |
 | --- | --- | --- |
-| `put(key, value)` | Guardar | Guardar o reemplazar el valor de esta clave |
-| `get(key)` | Buscar / recuperar | Devolver el valor, o decir con claridad "no encontrado" |
+| 3, 1, 1 | El más rápido y el más débil; las lecturas pueden perderse escrituras recientes con facilidad | Datos tipo caché, métricas |
+| 3, 2, 2 | Quórums solapados; tolera una réplica lenta o caída en cada ruta | El valor por defecto habitual |
+| 3, 3, 1 | Lecturas rápidas; las escrituras fallan si cae cualquier réplica | Datos de mucha lectura que casi no cambian |
+| 3, 1, 3 | Escrituras rápidas, lecturas lentas | Registros de mucha escritura que casi no se leen |
 
-Las claves son únicas. Los valores pueden ser cualquier cosa lo bastante pequeña para tu diseño: una sesión, un JSON, un contador, la foto de un carrito. En la versión de entrevista, los valores suelen ser unos pocos kilobytes, no películas enteras.
-
-Opcional más tarde: borrar, caducar con un temporizador (TTL), "escribir solo si la clave sigue en la versión X." Déjalos fuera hasta que el camino central funcione.
-
-**Cajones etiquetados:** imagina una pared de cajones. Cada cajón tiene una etiqueta (clave). Dentro hay un objeto (valor). Put abre el cajón y guarda. Get abre el cajón y mira. Ese modelo mental basta para empezar.
+**Lo que los quórums no te dan.** R + W > N no es linealizabilidad. Con escrituras concurrentes, marcas de tiempo de última escritura gana y quórums laxos (más abajo), una lectura todavía puede devolver un valor antiguo o uno que se sobrescribió después. *Designing Data-Intensive Applications* de Martin Kleppmann es la explicación más clara de estos casos límite. Si necesitas semántica real de compare-and-set, necesitas un protocolo de consenso (Paxos, Raft) o una escritura condicional, no un quórum más grande.
 
 ---
 
-## Por qué un solo ordenador no alcanza
+## La ruta de escritura cuando una réplica está caída
 
-En una sola máquina, el almacén puede ser un mapa hash en memoria. Perfecto para demos y cachés minúsculas.
+![Escritura con quórum al estilo Dynamo: el cliente envía put al nodo coordinador A, que escribe en las réplicas B y C, agota el tiempo con la réplica D, envía una escritura con pista al nodo E y responde ok tras dos confirmaciones; E reenvía la pista a D más tarde; el gossip gestiona la membresía](/assets/images/hld/design-kv-store-quorum.webp)
 
-Luego llega la realidad:
+* **Client.** Envía `put(k, v)` con el nivel de consistencia que elige.
+* **Node A (coordinador).** Reenvía la escritura a la lista de preferencia de la clave y responde cuando W réplicas han confirmado. No espera a la réplica más lenta.
+* **Nodes B y C (réplicas 1 y 2).** Confirman. Con W = 2, el cliente recibe el éxito aquí.
+* **Node D (réplica 3, caída).** La escritura agota el tiempo. En un quórum estricto, el coordinador contaría solo B y C y seguiría.
+* **Node E (guarda la pista para D).** En un **quórum laxo**, el coordinador escribe la copia de D en el siguiente nodo sano del anillo, etiquetada con una pista que dice "esto es de D". Así la durabilidad se mantiene en tres copias durante la caída.
+* **Reenvío posterior.** Cuando el gossip informa de que D ha vuelto, E le transmite las escrituras con pista y las borra. Esto es el **hinted handoff**.
+* **Gossip.** Cada nodo intercambia cada segundo el estado de membresía y latidos con unos pocos pares aleatorios. Cassandra usa encima un detector de fallos phi accrual, que da un nivel de sospecha en lugar de un sí o no, para que una red lenta no marque nodos como muertos al instante.
 
-1. El mapa ya no cabe en RAM.
-2. La máquina se reinicia y todo se pierde si no escribiste también a disco.
-3. Una máquina no puede contestar un millón de peticiones por segundo para siempre.
-4. Un edificio se queda sin luz y el producto entero cae.
-
-Así que añades muchas máquinas. Ahora tienes un problema nuevo: **qué máquina guarda cada clave**, y **qué pasa si esa máquina muere**.
-
-Esa es toda la historia de un almacén clave-valor *distribuido*.
+La nota verde enuncia la regla del solapamiento. El precio de los quórums laxos es que, durante un tiempo, los "W nodos" que confirmaron pueden no ser los nodos de destino reales de la clave, que es una de las razones por las que los quórums por sí solos no garantizan consistencia fuerte.
 
 ---
 
-## Catálogo de biblioteca: encontrar el estante correcto
+## Cuando las réplicas no coinciden
 
-Una biblioteca no tira todos los libros en un montón. Usa un catálogo y un plan de estantes.
+Las réplicas se desvían: un nodo se pierde escrituras durante una caída más larga que la ventana de pistas, se cambia un disco, la red parpadea. Tres mecanismos las vuelven a juntar:
 
-- El **catálogo** te dice dónde vive un libro.
-- Los libros se **reparten entre estantes** para que ninguno cargue con toda la biblioteca.
-- Los libros populares tienen **copias extra** para que más gente pueda sacar uno.
+1. **Read repair.** Cuando una lectura con R > 1 ve versiones distintas, el coordinador devuelve la más reciente y la reescribe en las réplicas atrasadas.
+2. **Antientropía con árboles de Merkle.** Cada nodo construye un árbol de hashes sobre sus rangos de claves. Dos réplicas comparan los hashes raíz y bajan solo a los subárboles que difieren, de modo que encuentran unas pocas claves distintas entre miles de millones intercambiando muy pocos datos. Cassandra lo ejecuta como `nodetool repair`.
+3. **Hinted handoff**, visto arriba, para caídas cortas.
 
-Un almacén clave-valor distribuido hace los mismos tres trabajos:
+**¿Qué versión gana?** Necesitas una regla:
 
-| Idea de biblioteca | Idea de sistema | Por qué existe |
+| Estrategia | Cómo funciona | Coste |
 | --- | --- | --- |
-| Regla del catálogo para "qué estante" | **Particionado** (a menudo con hashing consistente) | Repartir claves entre máquinas |
-| Copias extra de un libro | **Replicación** | Sobrevivir a fallos y servir más lecturas |
-| Normas del personal para préstamo y devolución | **Quórums y política de consistencia** | Decidir cuándo un write o un read "cuenta" |
+| Última escritura gana (LWW) | Gana la marca de tiempo más alta | Sencilla, pero las escrituras concurrentes pierden datos en silencio; depende de la sincronización de relojes |
+| Relojes vectoriales | Cada versión lleva contadores por nodo; las versiones concurrentes se conservan como hermanas | Sin pérdidas silenciosas, pero la aplicación debe fusionar las hermanas (el carrito de Dynamo lo hacía) |
+| CRDT | Tipos de datos cuya fusión está libre de conflictos por construcción (contadores, conjuntos, mapas) | Elegantes donde encajan; no todo tipo de dato tiene un CRDT natural |
 
-Guarda esa tabla en la cabeza. Casi cada caja que dibujes vuelve a ella.
+Cassandra usa LWW por columna. El Dynamo original usaba relojes vectoriales y delegaba la fusión en la aplicación. DynamoDB ofrece escrituras condicionales para que las aplicaciones eviten los conflictos en lugar de resolverlos.
 
----
-
-## CAP, contado con una historia simple
-
-Diriges un guardarropa con **tres mostradores** que deben mantenerse sincronizados por walkie-talkie. Llámalos A, B y C. Un invitado puede acercarse a cualquiera.
-
-Ahora se rompen las radios. El mostrador C ya no puede hablar con A y B. Siguen llegando invitados. Tienes que elegir una política.
-
-### Opción 1: Todo el mundo ve siempre la misma respuesta
-
-Congelas el lado roto. El mostrador C deja de aceptar abrigos hasta que las radios vuelvan. A y B también pueden rechazar operaciones arriesgadas hasta estar seguros.
-
-Los invitados en C oyen: "Lo siento, el sistema está partido. Vuelve más tarde."
-
-Nadie recibe dos historias distintas sobre el ticket 42. El precio es que algunos invitados **no obtienen respuesta** durante el corte.
-
-En lenguaje CAP esto se inclina a **CP**: preferir **consistencia** bajo una **partición**. Bancos y libros de contabilidad suelen querer este sabor. Mostrar el saldo equivocado es peor que un "inténtalo de nuevo" temporal.
-
-### Opción 2: Alguien siempre obtiene una respuesta aunque la red se rompa
-
-Los mostradores A y B siguen aceptando abrigos. El C también, con lo que aún sepa. Los invitados siempre reciben ticket y respuesta.
-
-Más tarde las radios se curan. El personal descubre que el ticket 42 tiene dos abrigos distintos en dos mostradores. Alguien debe fusionar, elegir un ganador o pedir al invitado que resuelva el lío.
-
-En lenguaje CAP esto se inclina a **AP**: preferir **disponibilidad** bajo una **partición**. Carritos, sesiones y muchas cachés de producto eligen esto y reparan después.
-
-### Qué significan las letras en palabras llanas
-
-| Letra | Significado sencillo |
-| --- | --- |
-| **C** Consistency | Los clientes sanos ven la misma respuesta al día (forma fuerte) |
-| **A** Availability | Los nodos vivos siguen contestando peticiones |
-| **P** Partition tolerance | El sistema tiene un plan cuando los nodos no pueden hablar |
-
-En un sistema multi-máquina real, las redes fallan. Hay que vivir con **P**. La elección viva suele ser **cuánto te apegas a C frente a A cuando la red está enferma**.
-
-No hay un botón gratis de "siempre perfecto, siempre abierto, siempre a prueba de cerebro partido." En entrevistas gusta oírte preguntar: *¿qué es peor para este producto, una respuesta temporalmente incorrecta o ninguna respuesta?*
+**Los borrados son escrituras.** Un borrado escribe una **lápida**, una marca que dice "esta clave se borró en el instante T". Las lápidas deben vivir más que la caída de réplica más larga posible, o una réplica que se perdió el borrado resucitará el valor durante la reparación. El `gc_grace_seconds` de Cassandra (10 días por defecto) existe precisamente por esto.
 
 ---
 
-## Particionado: repartir los libros entre estantes
+## Dentro de un nodo: el motor de almacenamiento LSM
 
-No puedes poner cada clave en cada máquina sin un coste enorme. **Particionas** (haces shards) el espacio de claves.
+![Motor de almacenamiento LSM: las escrituras se añaden a un commit log y se insertan en un memtable en memoria que se vuelca a SSTables inmutables; las lecturas miran el memtable, consultan filtros de Bloom y leen solo las SSTables que probablemente contienen la clave; la compactación en segundo plano fusiona SSTables y elimina lápidas](/assets/images/hld/design-kv-store-lsm.webp)
 
-Imagen cotidiana: el estante 1 tiene tickets 1-1000, el 2 tiene 1001-2000, y así. En informática la regla suele ser más inteligente que rangos fijos para la mayoría de diseños clave-valor.
+La mayoría de almacenes al estilo Dynamo usan un árbol LSM (log-structured merge tree), el diseño detrás de LevelDB, RocksDB y el motor de almacenamiento de Cassandra.
 
-### Hashing consistente en una frase
+**Ruta de escritura**
 
-Imagina servidores de pie en un círculo grande (un "anillo de hash"). Hasheas cada clave al mismo círculo. Caminas en el sentido de las agujas del reloj hasta chocar con un servidor. Ese servidor es dueño de la clave.
+1. Añadir la escritura al **commit log** y hacer fsync (o confirmar en grupo), para que sobreviva a una caída.
+2. Insertarla en el **memtable**, una estructura ordenada en memoria.
+3. Cuando el memtable se llena, volcarlo a disco como una **SSTable**, un fichero ordenado e inmutable. Las escrituras nunca modifican ficheros en su sitio, lo que las hace secuenciales y rápidas.
 
-Por qué gusta:
+**Ruta de lectura**
 
-- Cuando un servidor entra o sale, **solo se mueven las claves cercanas**, no casi todas.
-- Con **nodos virtuales**, una máquina grande puede poseer más puntos del anillo que una pequeña, y la carga se reparte mejor.
+1. Mirar el memtable.
+2. Para cada SSTable, consultar su **filtro de Bloom**, una estructura probabilística compacta que responde "seguro que no está" o "quizá esté". Un filtro bien dimensionado descarta la inmensa mayoría de ficheros que no contienen la clave.
+3. Leer solo las SSTables que podrían contenerla, de la más nueva a la más antigua.
 
-No necesitas toda la matemática para diseñar en pizarra. Necesitas la intención: **propiedad estable de las claves con el mínimo reordenamiento**.
+**La compactación** se ejecuta en segundo plano, fusionando SSTables y descartando valores sobrescritos y lápidas caducadas. La compactación por tamaños favorece el rendimiento de escritura; la compactación por niveles favorece la latencia de lectura y el espacio a costa de más amplificación de escritura.
 
-Las claves calientes siguen doliendo. Una clave de celebridad cae en un único sitio primario. Cachés delante, un diseño de clave más listo o un plan dedicado para el camino caliente ayudan. El anillo solo no arregla la fama.
-
----
-
-## Replicación: copias para que un incendio en un estante no sea fatal
-
-Si el ticket 42 vive en una sola máquina y esa máquina muere, el abrigo se va. Las bibliotecas guardan varias copias de libros populares. Los sistemas clave-valor guardan **N réplicas**.
-
-Valor por defecto típico en entrevista: **N = 3**. Tres copias de cada clave en tres máquinas distintas, idealmente en racks o zonas distintas para que un corte de luz no borre todas las copias.
-
-Regla de colocación tras encontrar el primer servidor del anillo: avanza y elige las siguientes **N máquinas distintas**.
-
-La replicación compra:
-
-1. **Durabilidad** si muere un disco.
-2. **Disponibilidad** si un nodo está caído.
-3. **Escala de lectura** si muchos lectores pueden golpear copias distintas.
-
-También crea un nuevo dolor de cabeza: las copias pueden **discrepar** un tiempo. Por eso importan CAP y los quórums.
-
----
-
-## Quórum: la mayoría de bibliotecarios debe acordar
-
-Tres bibliotecarios tienen copias de la misma ficha. Necesitas una regla para cuándo un ingreso o una consulta está "hecho."
-
-| Símbolo | Significado sencillo |
-| --- | --- |
-| **N** | Cuántas copias existen |
-| **W** | Cuántas copias deben confirmar una **escritura** para dar éxito |
-| **R** | De cuántas copias debes oír en una **lectura** |
-
-Un **coordinador** (cualquier nodo que recibió la petición del cliente) pregunta al conjunto de réplicas y cuenta respuestas.
-
-### La regla de solapamiento de oro
-
-Si **W + R > N**, una lectura exitosa y una escritura exitosa deben compartir al menos una copia en estado estable. Esa copia debería haber visto la última escritura exitosa. Obtienes **consistencia más fuerte**.
-
-Ejemplos con **N = 3**:
-
-| W | R | Sensación |
+| | Árbol LSM | B-tree |
 | --- | --- | --- |
-| 1 | 1 | Rápido y frágil. Lecturas caducadas más probables. |
-| 2 | 2 | Default común. Mayoría de acuerdo en write y read. |
-| 3 | 1 | Escrituras muy cuidadosas, lecturas rápidas. Aún débil si R es minúsculo y responde una copia atrasada. |
-| 1 | 3 | Escrituras rápidas, lecturas cuidadosas que preguntan a todos. |
-
-**Importante:** W = 1 **no** significa "guardar solo una copia." Significa "decir al cliente éxito tras una confirmación," mientras otras copias aún pueden estar poniéndose al día.
-
-La latencia sigue al **miembro más lento del quórum**, no al más rápido. Subes W o R y la consistencia mejora; la latencia de cola suele empeorar.
-
-En forma de historia: para archivar una ficha nueva, dos de tres bibliotecarios deben sellarla (W = 2). Para contestar a un visitante, dos de tres deben reportar la ficha que tienen (R = 2). Si sus historias chocan, resuelves versiones (siguiente sección) antes de hablar.
+| Escrituras | Secuenciales, rápidas | Actualizaciones de páginas en su sitio, IO aleatoria |
+| Lecturas | Pueden tocar varios ficheros; los filtros de Bloom ayudan | Un recorrido del árbol |
+| Espacio | Duplicación temporal hasta la compactación | Fragmentación con el tiempo |
+| Motores típicos | RocksDB, LevelDB, Cassandra | InnoDB, PostgreSQL, BoltDB |
 
 ---
 
-## Cuando las copias discrepan: versiones
+## Historias de fallo para contar
 
-Dos invitados actualizan el ticket 42 a la vez en lados distintos de una partición de red. Ambas escrituras tienen éxito con una política laxa. Ahora hay dos "verdades."
-
-Simple pero tosco: **gana la última escritura** por marca de tiempo. Los relojes pueden mentir con desfase, así que puedes borrar en silencio una actualización real.
-
-Más cuidadoso: **relojes vectoriales** (o vectores de versión similares) rastrean *quién* vio *qué*. Si una versión viene claramente después de la otra, te quedas con el linaje posterior. Si divergen, tienes **hermanos**: conflicto real. La app fusiona (los ítems del carrito se combinan) o muestra ambos.
-
-Para muchas claves de producto, last-write-wins es lo que se envía a producción porque la pérdida silenciosa es aceptable. Para carritos y estado colaborativo, fusionar hermanos es más seguro. Di la regla del producto en voz alta.
-
----
-
-## Qué pasa cuando un bibliotecario está enfermo
-
-### Corte corto: quórum laxo y hinted handoff
-
-Las reglas estrictas pueden bloquearlo todo si demasiadas réplicas preferidas están caídas. El **quórum laxo** (sloppy quorum) mantiene el mostrador abierto: para un write, toma las primeras **W máquinas sanas** de la lista de preferencia, aunque no sean las dueñas habituales. Un vecino puede guardar una nota: "este abrigo pertenece al mostrador C." Cuando C vuelve, el vecino **entrega** la nota. Eso es **hinted handoff**.
-
-### Deriva larga: anti-entropía y árboles de Merkle
-
-Las pistas arreglan parpadeos. El aislamiento largo necesita reparación en segundo plano. Las réplicas comparan datos con eficiencia usando **árboles de Merkle** (árboles de hash): si dos raíces coinciden, ese rango coincide. Si no, bajan por los hijos y solo sincronizan los cubos que difieren. Copias la **diferencia**, no toda la biblioteca.
-
-### Gossip para la membresía
-
-Los nodos necesitan una idea compartida de quién está vivo. Hacen **gossip**: de vez en cuando intercambian membresía y latidos con pares al azar. No hace falta una sola "máquina jefa" para ese dibujo, aunque en operaciones reales a menudo se añade un plano de control.
-
----
-
-## Cómo viajan put y get de punta a punta
-
-### put(key, value) - guardar el abrigo
-
-1. El cliente envía put a un coordinador (cualquier nodo, o un balanceador elige uno).
-2. El coordinador hashea la clave y encuentra la lista de preferencia de N máquinas.
-3. Reenvía la escritura a esas máquinas (o a sustitutos sanos bajo quórum laxo).
-4. Espera **W** acks exitosos.
-5. Devuelve éxito, o error si el quórum nunca se forma.
-
-En cada réplica que acepta el write, un camino durable habitual es:
-
-1. Añadir al **commit log** en disco (sobrevivir al crash del proceso).
-2. Actualizar una estructura en memoria (**memtable**).
-3. Más tarde **volcar** a ficheros ordenados en disco (**SSTables**).
-4. La **compactación** en segundo plano fusiona ficheros y limpia claves borradas.
-
-### get(key) - recuperar el abrigo
-
-1. El coordinador encuentra la lista de preferencia.
-2. Lee hasta obtener **R** respuestas (o sustitutos sanos).
-3. Si las versiones chocan, las resuelve.
-4. Opcionalmente repara copias atrasadas (**read repair**).
-5. Devuelve el valor o not-found.
-
-Trucos locales de lectura que puedes nombrar: mirar memoria primero, usar **filtros de Bloom** para saltar ficheros de disco que no pueden contener la clave, fusionar versiones, aplicar borrados.
-
----
-
-## Forma de la arquitectura (un dibujo)
-
-```
-Cliente
-  |
-  v
-Coordinador (cualquier nodo puede jugar este rol)
-  |
-  +---> N réplicas de esta clave (en el anillo de hash)
-  |
-  +---> Gossip / membresía
-  |
-  +---> Almacenamiento local (commit log + memtable + SSTables)
-```
-
-Propiedades que vale la pena decir en una entrevista:
-
-- La API del cliente se queda en **get/put**.
-- **No hay un único maestro para todo el espacio de claves**. Cada clave tiene su lista de preferencia.
-- Cada nodo puede coordinar, almacenar, reparar y hacer gossip. Roles simétricos simplifican operaciones.
-- Añadir un nodo actualiza el anillo y transmite los rangos de claves que debe poseer.
-
----
-
-## Qué optimiza este diseño
-
-Este boceto clásico al estilo Dynamo se inclina a **AP con consistencia ajustable**:
-
-- Se esperan particiones.
-- El sistema prefiere seguir contestando.
-- Ajustas el cuidado de lecturas y escrituras con **N, W, R**.
-
-Si el producto es un saldo de pago, puedes elegir una historia más estricta y aceptar más rechazos bajo fallo. Si es un blob de sesión o una caché de feature flags, la disponibilidad suele ganar.
-
----
-
-## Intuición de capacidad (di números redondos en voz alta)
-
-Estilo pizarra, no un plan financiero:
-
-- Valor medio 1 KB, clave pequeña, algo de metadatos → unos 1,3 KB en disco por ítem antes de las copias.
-- 1000 millones de claves → unos 1,3 TB en bruto. Con N = 3 y overhead de ficheros, planifica varios TB de almacenamiento útil del clúster.
-- 100k QPS de lectura y 10k de escritura: dimensiona el fan-out. Cada write puede tocar N máquinas; el cliente espera a W.
-- El tráfico entre zonas es una línea de coste real, no magia gratis.
-
-Equivocarte por 2x está bien. Olvidar la replicación o la carga pico no.
-
----
-
-## Historias de fallo para narrar
-
-1. **Una réplica caída:** quórum laxo y pistas mantienen put/get; handoff al recuperarse.
-2. **Dos de tres caídas (N = 3, W = 2):** las escrituras pueden fallar hasta reunir W. Habla de política temporal frente a rechazar writes.
-3. **Partición de red:** AP sigue en ambos lados; los conflictos aparecen al curar. CP congela el lado inseguro.
-4. **Réplica lenta:** la latencia del quórum sigue a la respuesta W-ésima o R-ésima, no a la más rápida.
-5. **Disco lleno en un nodo:** ese nodo se descarga o muere; el anillo y la reparación deben mover rangos.
-
-Si puedes recorrer put y get bajo "un nodo caído" y "dos versiones divergieron," tienes el núcleo de la entrevista.
-
----
-
-## Chuleta de mandos
-
-| Mando | Qué cambia |
+| Evento | Qué hace el sistema |
 | --- | --- |
-| N | Cuántas copias; durabilidad y coste de almacenamiento |
-| W / R | Consistencia frente a latencia |
-| Número de nodos virtuales | Qué tan suave se reequilibra la carga |
-| Colocación multi-zona | Sobrevivir a cortes mayores frente a más latencia de write |
-| Vida de las pistas | Cuánto tiempo los titulares temporales guardan datos ajenos |
-| Agenda de reparación | Qué tan rápido se limpia la deriva frente a ancho de banda de fondo |
+| Un nodo cae durante 5 minutos | Las escrituras con quórum laxo van al siguiente nodo con pistas; el hinted handoff las reenvía al recuperarse |
+| El disco de un nodo muere para siempre | Se sustituye el nodo; sus rangos se transmiten desde las otras réplicas; la reparación con Merkle lo verifica |
+| Una zona de disponibilidad queda aislada | Con réplicas en varias zonas y W = 2, las escrituras continúan en el lado mayoritario; el minoritario puede seguir aceptando escrituras con quórums laxos, para reconciliarlas después |
+| Desfase de reloj en un nodo | Con LWW, sus escrituras pueden ganar o perder de forma incorrecta. Monitoriza el desfase de reloj y alerta |
+| Una clave caliente | Las réplicas de esa clave se sobrecargan; el particionado no lo arregla. Cachéala o rediseña la clave |
 
 ---
 
-## Resumen para un amigo
+## Chuleta de perillas
 
-Un almacén clave-valor es un **guardarropa gigante**: ticket entra, abrigo sale. **put** guarda, **get** recupera.
+| Perilla | Valor típico | Súbela para | Bájala para |
+| --- | --- | --- | --- |
+| Factor de replicación N | 3 | Durabilidad, capacidad de lectura | Coste de almacenamiento |
+| Quórum de escritura W | 2 | Durabilidad al confirmar | Latencia de escritura, disponibilidad |
+| Quórum de lectura R | 2 | Lecturas más frescas | Latencia de lectura |
+| Ventana de pistas | 3 horas | Cubrir caídas más largas con handoff | Disco usado por las pistas |
+| Periodo de gracia de lápidas | 10 días | Seguridad frente a resurrecciones | Espacio y coste de lectura de las lápidas |
 
-Una máquina es un solo armario. Muchas máquinas necesitan un **plan de biblioteca**: repartir libros entre estantes (**particionado**), guardar copias de repuesto (**replicación**) y hacer que el personal acuerde con reglas claras (**quórums**).
+---
 
-Cuando fallan los walkie-talkies entre mostradores, eliges: **la misma respuesta para todos** (aunque algunos invitados esperen) o **responder siempre a alguien** (aunque limpies desajustes después). Esa elección es CAP bajo una partición.
+## Lista de comprobación para producción
 
-Con tres bibliotecarios, **N** es cuántos tienen la ficha, **W** cuántos deben sellar un write, **R** a cuántos preguntas en un read. Si W + R > N, un buen read debería ver un buen write.
+- [ ] Réplicas repartidas entre zonas de disponibilidad, no solo entre nodos
+- [ ] Nivel de consistencia por defecto elegido por tabla y documentado para los llamantes
+- [ ] Estrategia de conflictos explícita (LWW con relojes monitorizados, relojes vectoriales o CRDT)
+- [ ] Ventana de hinted handoff y calendario de reparación alineados con el periodo de gracia de lápidas
+- [ ] Reparación antientropía periódica en marcha y monitorizada
+- [ ] Tasa de falsos positivos de los filtros de Bloom y SSTables por lectura vigiladas
+- [ ] Estrategia de compactación elegida por carga; disco por debajo del ~60% para tener margen
+- [ ] Paneles: p99 por operación y nivel de consistencia, pistas pendientes, progreso de la reparación, mutaciones descartadas
 
-Las copias a veces discrepan. Arregla huecos cortos con handoffs y pistas. Arregla la deriva larga con reparación en segundo plano. Mantén la API del cliente minúscula para que el trabajo duro se quede dentro del clúster.
+---
 
-Eso es un almacén clave-valor distribuido: no un mapa hash mágico en la red, sino un plan de estantes, un plan de copias y un reglamento del personal para los días en que algo se rompe.
+## Lo que queda
 
+Un almacén clave-valor es donde los sistemas distribuidos dejan de ser abstractos. Dos verbos y, aun así, aparecen todas las preguntas difíciles: qué copia es la real, cuánto esperar, qué hacer con el nodo que estuvo fuera una hora y tiene opiniones sobre el pasado.
+
+Los mejores diseños no fingen que esas preguntas tienen una sola respuesta. Le dan al llamante una perilla y dejan escrito, con mucha claridad, qué promete cada posición y qué no.
+
+---
+
+## Fuentes
+
+* [DeCandia et al., "Dynamo: Amazon's Highly Available Key-value Store" (SOSP 2007)](https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf)
+* [Lakshman y Malik, "Cassandra: A Decentralized Structured Storage System"](https://www.cs.cornell.edu/projects/ladis2009/papers/lakshman-ladis2009.pdf)
+* [O'Neil et al., "The Log-Structured Merge-Tree (LSM-Tree)" (1996)](https://www.cs.umb.edu/~poneil/lsmtree.pdf)
+* [Documentación de Apache Cassandra: hints, repair y compactación](https://cassandra.apache.org/doc/latest/cassandra/managing/operating/index.html)
+* [Abadi, "Consistency Tradeoffs in Modern Distributed Database System Design" (PACELC)](https://www.cs.umd.edu/~abadi/papers/abadi-pacelc.pdf)
+* [Hayashibara et al., "The Phi Accrual Failure Detector"](https://ieeexplore.ieee.org/document/1353004)
+* Relacionado en esta serie: [Diseña consistent hashing](/blog/es/design-consistent-hashing), [Diseña un generador de IDs únicos](/blog/es/design-unique-id-generator)

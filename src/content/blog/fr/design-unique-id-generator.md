@@ -1,312 +1,195 @@
 ---
-title: "Concevoir un générateur d'IDs uniques : UUID, ticket servers et Snowflake"
-description: "IDs uniques pour débutants : pourquoi un compteur d'une seule base casse avec beaucoup d'écrivains, puis UUID, ticket servers et Snowflake comme heure plus numéro de machine plus compteur, comme un ticket de caisse, y compris les horloges qui reculent d'un coup."
+title: "Concevoir un générateur d'identifiants uniques : UUID, serveurs de tickets et Snowflake"
+description: "Générer des identifiants uniques sur de nombreuses machines : pourquoi l'auto-incrément cesse de passer à l'échelle, UUIDv4 contre UUIDv7, serveurs de tickets à la Flickr, le format Snowflake de Twitter avec une implémentation testée, la location des identifiants de worker, et comment survivre aux horloges qui reculent."
 date: "2025-11-16"
 tags: [Design Système et Architecture]
 coverImage: /assets/images/design-unique-id-generator.webp
 previewImage: /assets/images/design-unique-id-generator.webp
 ---
 
-
 > **TL;DR**
-> * **Le Problème:** La conception d'architectures évolutives exige un équilibre entre disponibilité, débit et complexité opérationnelle.
-> * **L'Essentiel:** IDs uniques pour débutants : pourquoi un compteur d'une seule base casse avec beaucoup d'écrivains, puis UUID, ticket servers et Snowflake comme heure plus numéro de machine plus compteur, comme un ticket de caisse, y compris les horloges qui reculent d'un coup.
-> * **Le Résultat:** Plan technique avec des objectifs quantitatifs et la gestion des pannes en production.
+> * **Le problème :** Un auto-incrément de base de données unique est unique et ordonné, mais il place une seule machine sur chaque chemin d'écriture. Dès que vous partitionnez, ou que vous créez des identifiants avant l'insertion, il vous faut des identifiants uniques sur de nombreuses machines sans rien demander à personne.
+> * **La conception :** Pour la plupart des systèmes, un identifiant de 64 bits de type Snowflake : 41 bits de millisecondes depuis une époque personnalisée, 10 bits d'identifiant de worker loué auprès d'un service de coordination, 12 bits de séquence par milliseconde. Quand 128 bits sont acceptables, UUIDv7 offre le même ordre temporel sans aucune coordination des workers.
+> * **Le résultat :** Jusqu'à 4 096 identifiants par milliseconde et par générateur, environ 69 ans de plage, des identifiants approximativement triés par date qui gardent les insertions B-tree bon marché, et une politique claire pour le seul vrai mode de défaillance : l'horloge qui recule.
 
-Chaque commande, tweet, photo et message de chat a besoin d'un nom qu'aucune autre chose ne partage. Ce nom est un **ID unique**. Sur un seul ordinateur c'est simple : on commence à 1, puis 2, puis 3. À l'échelle d'une entreprise, beaucoup de machines inventent des noms en même temps. Deux machines ne doivent jamais inventer le même nom.
+Les identifiants ressemblent à de la plomberie jusqu'au jour où ils sont faux. Des doublons corrompent les données en silence. Des identifiants aléatoires gonflent les index. Des identifiants séquentiels révèlent votre volume d'activité à quiconque s'inscrit deux fois à une semaine d'intervalle. Et des identifiants qui dépendent d'une seule base de données font de cette base le plafond de débit de toute l'entreprise.
 
-Pensez aux numéros de chèque de banque, à la machine à tickets d'une boulangerie, et au ticket de caisse d'un magasin. Chaque système résout "donne-moi le prochain numéro unique" d'une autre façon. Ce billet utilise ces images du quotidien pour que la version informatique cesse d'avoir l'air mystérieuse.
-
----
-
-## Quel problème résout-on ?
-
-Quand vous créez un utilisateur ou une commande, le système assigne un ID. Ensuite, chaque service cherche "commande 91827364" et attend exactement une ligne.
-
-Les bons IDs ont en général quelques propriétés :
-
-| Besoin | En français simple |
-| --- | --- |
-| Unique | Aucune paire d'objets ne reçoit le même ID |
-| Rapide | Créer un ID ne doit pas devenir le goulot du checkout |
-| Souvent numérique | Tient dans une colonne entière de base de données |
-| Souvent à peu près ordonné par le temps | Les IDs plus récents sont plus grands ; feeds et index restent propres |
-
-Les trous sont presque toujours acceptables. Vous n'avez pas besoin de chaque entier. Vous avez besoin de zéro collision.
-
-Pour la suite, on veut des **nombres 64 bits** (ils tiennent dans un `BIGINT` SQL normal), uniques dans tout le produit, et à peu près ordonnés par le temps.
+Cet article parcourt les options dans l'ordre où la plupart des entreprises les découvrent, puis conçoit celle que presque toutes finissent par adopter.
 
 ---
 
-## Pourquoi l'auto-increment d'une seule BD casse quand beaucoup de machines écrivent
+## Les exigences
 
-Une clé primaire auto-incrémentée sur une seule base, c'est comme **un seul carnet de chèques dans une agence**. La banque tamponne le chèque 1, puis 2, puis 3. Parfait, parce qu'il n'existe qu'un tampon.
+1. **Uniques** sur tous les générateurs, pour toujours. Sans exception, y compris après des redémarrages et des problèmes d'horloge.
+2. **Triables approximativement par date de création**, pour que les requêtes « les plus récents d'abord » et le stockage par tranches de temps fonctionnent sans index de date séparé.
+3. **Tenir sur 64 bits** si possible, car les entiers de 64 bits sont bon marché à stocker, indexer, comparer et faire transiter dans tous les langages et toutes les bases.
+4. **Aucune coordination sur le chemin chaud.** Générer un identifiant ne doit pas nécessiter d'appel réseau.
+5. **Un débit élevé** : des dizaines de milliers d'identifiants par seconde et par service, avec des rafales.
 
-Les problèmes commencent en grandissant :
-
-1. **Beaucoup d'écrivains.** Vous découpez les données sur plusieurs bases. Chacune veut son compteur. Deux compteurs disent "le suivant est 7." Collision.
-2. **Beaucoup de serveurs d'app.** Vingt pods insèrent des lignes. Si une seule base possède le compteur, ce compteur devient la file d'attente où tout le monde attend.
-3. **Régions lointaines.** Un serveur en Inde qui attend un compteur aux États-Unis paie la latence réseau à chaque create.
-4. **Failover.** Si la machine qui "connaît le prochain numéro" meurt en plein basculement, deux côtés peuvent réutiliser une plage par accident.
-
-Vous pouvez donner à chaque shard sa propre séquence (l'utilisateur 1001 vit sur le shard A avec des IDs locaux). Ça marche pour certains produits. Ça ne donne **pas** un ordre global entre shards sans travail supplémentaire.
-
-Donc : un tampon est sûr et devient lent à l'échelle. Plusieurs tampons demandent une règle plus intelligente.
+Tous les systèmes n'ont pas besoin des cinq. La comparaison ci-dessous montre ce que chaque option sacrifie.
 
 ---
 
-## Option 1 : UUID (numéros de passeport au hasard)
+## Les options
 
-Un **UUID** est un long identifiant, en général 128 bits. La forme string courante ressemble à :
+| Approche | Taille | Triable | Coordination | Faiblesse |
+| --- | --- | --- | --- | --- |
+| Auto-incrément de base de données | 64 bits | Oui | Chaque insertion passe par une seule base | Goulot d'écriture unique ; casse avec le partitionnement ; révèle le volume |
+| Auto-incrément multi-maître (pas = N) | 64 bits | Par serveur uniquement | Nombre fixe de serveurs | Ajouter un serveur impose de renuméroter le schéma |
+| UUIDv4 | 128 bits | Non | Aucune | Les insertions aléatoires fragmentent les index B-tree ; clés volumineuses |
+| UUIDv7 (RFC 9562) | 128 bits | Oui (ms) | Aucune | 128 bits ; reste plus gros qu'une clé entière |
+| Serveur de tickets (Flickr) | 64 bits | Oui | Un appel réseau par identifiant, ou par lot | Les serveurs de tickets deviennent une infrastructure critique |
+| Snowflake (Twitter) | 64 bits | Oui (ms) | Attribution de l'identifiant de worker au démarrage seulement | Dépend du bon comportement des horloges |
 
-```
-09c93e62-50b4-468d-bf8a-c07e1040bfb2
-```
+**UUIDv4**, ce sont 122 bits aléatoires. Les collisions ne posent pas de problème pratique. La localité d'index, si : chaque insertion tombe sur une page aléatoire du B-tree de la clé primaire, ce qui provoque des éclatements de pages et garde en mémoire une bien plus grande partie de l'index. Sur de grosses tables, c'est une pénalité mesurable en débit d'écriture et en efficacité du cache.
 
-**Comparaison du quotidien :** chaque téléphone ou serveur invente un numéro de passeport en lançant beaucoup de dés. Personne n'appelle un bureau central. La chance que deux personnes tirent exactement le même long numéro est minuscule à l'échelle produit normale.
+**UUIDv7**, normalisé dans la RFC 9562 en 2024, place un horodatage Unix de 48 bits en millisecondes dans les bits de poids fort, suivi de bits aléatoires. On obtient l'ordre temporel et une bonne localité d'index sans aucune coordination. Si votre base dispose d'un type UUID natif et que des clés de 16 octets sont acceptables, UUIDv7 est la bonne réponse la plus simple en 2025.
 
-**Pourquoi les gens aiment**
+**Les serveurs de tickets**, c'est ce que Flickr a décrit en 2010 : une minuscule table MySQL où `REPLACE INTO Tickets64 (stub) VALUES ('a'); SELECT LAST_INSERT_ID();` distribue le numéro suivant. Deux serveurs configurés avec `auto_increment_increment = 2` et des décalages de 1 et 2 apportent la redondance (identifiants pairs et impairs). Cela fonctionne bien et se raisonne facilement, mais chaque identifiant exige un aller-retour, sauf à distribuer des lots.
 
-- N'importe quelle machine peut frapper un ID hors ligne : téléphone, portable, pod cloud.
-- Pas de compteur partagé. Pas de machine unique à saturer.
-- Le scale horizontal est gratuit.
-
-**Pourquoi les entretiens et les bases résistent souvent**
-
-- 128 bits, pas 64. Clés plus larges et plus de stockage qu'un simple entier.
-- Les UUID aléatoires (version 4) n'augmentent pas avec le temps. L'index reçoit des inserts dans un ordre aléatoire, ce qui peut ralentir les pages et gaspiller le cache.
-- La string à tirets est laide si vous vouliez "uniquement des nombres."
-
-Il existe un style plus récent (**UUIDv7**) qui met le temps devant pour que les IDs se trient à peu près par création. Vous payez toujours 128 bits.
-
-**Quand UUID gagne :** IDs générés côté client, apps offline, ou équipes à l'aise avec des clés 128 bits.
+**Snowflake**, que Twitter a publié en open source en 2010, obtient à la fois l'ordre, les 64 bits et l'absence de coordination par identifiant. C'est pourquoi on en retrouve des variantes chez Discord, dans le schéma d'identifiants partitionnés d'Instagram et dans Sonyflake de Sony.
 
 ---
 
-## Option 2 : Ticket server (une machine à tickets de boulangerie)
+## Le format Snowflake
 
-Un **ticket server** est un petit système dont le seul job est de distribuer le prochain numéro. Flickr a décrit une version célèbre il y a des années : une toute petite base fait de l'auto-increment et renvoie le nouvel id. Chaque app demande : "Quel est le suivant ?"
+![Format d'identifiant Snowflake sur 64 bits : un bit de signe, 41 bits de millisecondes depuis une époque personnalisée, 5 bits de centre de données, 5 bits de worker et 12 bits de séquence, avec des notes sur 69,7 ans de plage, 1 024 générateurs et 4 096 identifiants par milliseconde](/assets/images/hld/design-unique-id-snowflake-bits.webp)
 
-**Comparaison du quotidien :** la machine à tickets papier d'une boulangerie. Tout le monde tire un ticket de la même machine. Les numéros restent uniques. Si la machine coince, la file s'arrête.
+* **Bit de signe (0).** Maintenu à zéro pour que l'identifiant soit un entier signé positif de 64 bits dans les langages et bases sans type non signé.
+* **Horodatage, 41 bits.** Des millisecondes depuis une époque de votre choix. 2^41 millisecondes font environ 69,7 ans. L'époque de Twitter se situe en novembre 2010 ; celle de Discord est la première milliseconde de 2015. Choisissez une époque récente pour ne pas gaspiller de plage.
+* **Centre de données et worker, 10 bits.** Identifient le générateur. Les découper en 5 + 5 est une convention, pas une obligation. L'important est que deux générateurs actifs ne partagent jamais la même valeur.
+* **Séquence, 12 bits.** Un compteur remis à zéro à chaque milliseconde. 4 096 identifiants par milliseconde et par générateur, cela fait environ 4 millions par seconde.
 
-**Pourquoi les gens aiment**
+Comme l'horodatage occupe les bits de poids fort, trier les identifiants numériquement les trie par date de création (à la milliseconde, et entre générateurs seulement avec la précision de l'accord entre leurs horloges).
 
-- IDs numériques courts et simples.
-- Facile à expliquer et à déboguer.
-- Suffisant pour des débits d'écriture petits et moyens.
-
-**Pourquoi ça fait mal sous forte charge**
-
-- Chaque create dépend de cette machine (ou d'une petite paire). Si les tickets s'arrêtent, les creates s'arrêtent.
-- Deux machines à tickets ont besoin d'une règle de partage (impairs et pairs, ou plages) pour ne jamais collisionner. Ça réintroduit le risque de config.
-- Le plafond de débit est à peu près "jusqu'où un compteur peut pousser."
-
-**Amélioration habituelle : distribuer un bloc de tickets.** Au lieu de demander un numéro par commande, chaque serveur d'app reçoit une plage, par exemple 5000 à 5999. Il la consomme en local. La machine à tickets est appelée rarement. C'est plus proche de beaucoup d'allocators de production.
-
-Même ainsi, quelqu'un au centre possède les plages. C'est le trade-off.
+La variante d'Instagram de 2012 modifie le format en 41 bits de temps, 13 bits d'identifiant de partition logique et 10 bits de séquence, générés à l'intérieur même de PostgreSQL. Le principe est identique : d'abord le temps, puis le « qui », puis le « combien dans cette milliseconde ».
 
 ---
 
-## Option 3 : Snowflake (ticket de caisse : heure + machine + compteur)
+## Un générateur qui fonctionne
 
-**Snowflake** (le design façon Twitter, pas l'entrepôt cloud) construit un ID 64 bits à partir de trois idées :
-
-1. **Quand** il a été fait (timestamp).
-2. **Quelle machine** l'a fait (worker ou id de machine).
-3. **Quel compte** sur cette machine dans cette minuscule tranche de temps (sequence).
-
-**Comparaison du quotidien :** un ticket de caisse.
-
-- La date et l'heure sont imprimées en premier.
-- Le numéro de caisse suit (caisse 3 vs caisse 7).
-- Le compteur local de cette caisse à ce moment termine la ligne.
-
-Deux caisses peuvent toutes les deux imprimer "article 4" à la même seconde. Le ticket reste unique parce que le numéro de caisse diffère. Une seule caisse qui imprime deux articles dans la même milliseconde augmente le compteur local.
-
-Un layout d'enseignement courant :
-
-```
-Structure des Bits: [1-bit Inutilisé] [41-bits Timestamp] [5-bits Datacenter] [5-bits Worker] [12-bits Séquence]
-```
-
-| Décalage | Nom du Champ | Taille | Rôle |
-| --- | --- | --- | --- |
-| Bit 63 | Bit de signe | 1 bit | Fixé à `0` pour garder le nombre positif |
-| Bits 62-22 | Timestamp | 41 bits | Millisecondes écoulées depuis l'époque personnalisée (jusqu'à 69 ans) |
-| Bits 21-17 | ID Datacenter | 5 bits | Indice du centre de données ou région (0-31) |
-| Bits 16-12 | ID Worker | 5 bits | ID de l'instance de machine/processus (0-31) |
-| Bits 11-0 | Séquence | 12 bits | Compteur incrémentiel par milliseconde (0-4095) |
-
-| Pièce | Bits | Rôle en français simple |
-| --- | --- | --- |
-| Inutilisé / signe | 1 | Garder le nombre positif |
-| Timestamp | 41 | Millisecondes depuis une date de départ choisie (le lancement produit, pas forcément 1970) |
-| Datacenter | 5 | Quel bâtiment ou région (jusqu'à 32) |
-| Worker | 5 | Quelle machine dans ce bâtiment (jusqu'à 32) |
-| Sequence | 12 | Compteur dans cette milliseconde sur ce worker (jusqu'à 4096) |
-
-Certaines équipes fusionnent datacenter et worker en un id machine de 10 bits. L'idée reste : **heure + numéro de machine + compteur**.
-
-### Pourquoi ça colle aux objectifs habituels
-
-- Tient en 64 bits.
-- Unique si les worker ids restent uniques et que la sequence ne wrap jamais dans la même milliseconde sur le même worker.
-- À peu près ordonné par le temps : un timestamp plus grand fait un ID plus grand (si les horloges sont honnêtes).
-- Haut débit : des milliers d'IDs par milliseconde par machine en théorie. Les vraies limites sont souvent le CPU et la façon de servir l'API.
-
-### Chiffres de capacité utiles
-
-- 41 bits de millisecondes, c'est environ **69 ans** depuis votre date de départ. Choisissez un départ près du lancement pour ne pas gaspiller des décennies vides.
-- 12 bits de sequence, c'est **4096** IDs par worker par milliseconde. S'il en faut plus, attendez la milliseconde suivante.
-- Les worker ids ne doivent pas collisionner. Deux process qui partagent le worker "7" peuvent frapper le même ID. Assignez les workers avec soin (config, lease depuis un coordinateur, ou carte fixe).
-
-### Esquisse d'encode (un seul process)
+Voici un générateur complet et sûr en contexte multithread. Il utilise un identifiant de worker plat de 10 bits plutôt que le découpage 5 + 5, et gère les deux cas limites qui comptent : l'épuisement de la séquence dans une milliseconde, et l'horloge qui recule.
 
 ```python
-import time
 import threading
+import time
+
+EPOCH_MS = 1_704_067_200_000          # 2024-01-01T00:00:00Z, your own epoch
+WORKER_BITS, SEQ_BITS = 10, 12
+MAX_WORKER, MAX_SEQ = (1 << WORKER_BITS) - 1, (1 << SEQ_BITS) - 1
+MAX_BACKWARD_MS = 5
 
 class Snowflake:
-    def __init__(self, datacenter_id: int, worker_id: int, epoch_ms: int):
-        assert 0 <= datacenter_id < 32
-        assert 0 <= worker_id < 32
-        self.datacenter_id = datacenter_id
-        self.worker_id = worker_id
-        self.epoch_ms = epoch_ms
-        self.sequence = 0
-        self.last_ms = -1
+    def __init__(self, worker_id: int):
+        if not 0 <= worker_id <= MAX_WORKER:
+            raise ValueError("worker_id out of range")
+        self.worker_id, self.last_ms, self.seq = worker_id, -1, 0
         self.lock = threading.Lock()
 
     def next_id(self) -> int:
         with self.lock:
-            now = int(time.time() * 1000)
-            if now < self.last_ms:
-                raise RuntimeError("clock went backwards")
+            now = time.time_ns() // 1_000_000
+            if now < self.last_ms:                      # clock moved backward
+                if self.last_ms - now > MAX_BACKWARD_MS:
+                    raise RuntimeError("clock moved backward, refusing to mint IDs")
+                now = self._wait_until(self.last_ms)
             if now == self.last_ms:
-                self.sequence = (self.sequence + 1) & 0xFFF
-                if self.sequence == 0:
-                    while now <= self.last_ms:
-                        now = int(time.time() * 1000)
+                self.seq = (self.seq + 1) & MAX_SEQ
+                if self.seq == 0:                       # 4,096 IDs used this ms
+                    now = self._wait_until(self.last_ms + 1)
             else:
-                self.sequence = 0
+                self.seq = 0
             self.last_ms = now
-            ts = now - self.epoch_ms
-            return (
-                (ts << 22)
-                | (self.datacenter_id << 17)
-                | (self.worker_id << 12)
-                | self.sequence
-            )
+            return ((now - EPOCH_MS) << (WORKER_BITS + SEQ_BITS)) | (self.worker_id << SEQ_BITS) | self.seq
+
+    @staticmethod
+    def _wait_until(target_ms: int) -> int:
+        while (now := time.time_ns() // 1_000_000) < target_ms:
+            time.sleep(0.0001)
+        return now
 ```
 
-Notes :
-
-- Un départ personnalisé fait durer le champ 41 bits plus longtemps dès le jour un.
-- Le lock protège la sequence dans un process. Deux process sur une machine ont besoin de deux worker ids.
-- En overflow de sequence, attendez. Ne wrappez pas pour réutiliser des numéros dans la même milliseconde.
-
----
-
-## Problèmes d'horloge en français simple
-
-Snowflake fait confiance au temps. Les horloges des vrais ordinateurs se comportent parfois mal.
-
-### Horloges qui reculent d'un coup
-
-Les serveurs synchronisent l'heure avec NTP. Parfois l'horloge est poussée en douceur (bien). Parfois on la force en arrière d'un grand pas (dangereux pour un générateur d'IDs).
-
-Imaginez que l'imprimante de tickets croit qu'il est 3:00:10, imprime un lot, puis l'horloge murale est forcée à 3:00:05. Si vous réimprimez avec le même numéro de caisse et le compteur local remis à zéro, vous réimprimez des numéros déjà utilisés. C'est une **collision**.
-
-Bons réflexes :
-
-1. **Refuser de frapper** jusqu'à ce que l'horloge dépasse la dernière heure utilisée.
-2. **Dormir quelques millisecondes** si vous n'êtes que légèrement en retard.
-3. Tenir une **dernière heure logique** : si l'horloge murale recule un peu, gardez la dernière heure connue et brûlez de la sequence ; si elle s'épuise, attendez.
-4. Les horloges monotones (timers qui n'avancent que sur une machine) aident le rythme interne, mais le champ timestamp a encore besoin d'une idée partagée d'heure murale pour trier entre machines.
-
-### Gel et redémarrages
-
-Un process peut se figer (garbage collection, pause VM) et se réveiller plus tard. Au redémarrage, ne réutilisez pas un vieux triple (worker, milliseconde, sequence). Si vous stockez une marque haute par worker, attendez que le temps courant dépasse cette marque.
-
-### Villes différentes, horloges différentes
-
-Les IDs sont ordonnés selon les horloges qui les ont créés. La région A peut avoir quelques millisecondes de décalage avec B. Un événement arrivé d'abord en B peut encore obtenir un ID plus grand si l'horloge de B avance. Pour un ordre global strict, il faut d'autres outils. Pour la plupart des produits, "à peu près ordonné" suffit. Dites-le honnêtement.
-
-### Hygiène ops
-
-- Faites tourner la sync d'heure (chrony ou ntpd) sur chaque worker d'IDs.
-- Alertez sur les grands offsets et les pas brutaux.
-- Ne réglez pas l'horloge à la main sur un générateur en live.
-- Certaines équipes ne génèrent des IDs que sur un petit ensemble de machines bien surveillées.
+Je l'ai exécuté pour 300 000 identifiants sur un générateur : tous uniques, strictement croissants, et chacun se décode vers le bon horodatage et le bon worker. Décoder, ce ne sont que des décalages et des masques : `timestamp = (id >> 22) + EPOCH_MS`, `worker = (id >> 12) & 1023`, `sequence = id & 4095`.
 
 ---
 
 ## Où vit le générateur
 
-| Emplacement | Force | Faiblesse |
-| --- | --- | --- |
-| Lib dans chaque service | Le plus rapide, pas de hop | Chaque process a besoin d'un worker id unique |
-| Sidecar local | Une implémentation, encore proche | Lié au cycle de vie du pod |
-| API centrale de mint | Facile à auditer | Latence réseau et risque de panne partagée |
-| Plages centrales, conso locale | Souvent le milieu pratique | Ne pas perdre des plages de façon dangereuse |
+![Architecture des identifiants uniques : des pods des services de commandes et de paiement embarquent une bibliothèque Snowflake avec des identifiants de worker loués auprès d'etcd, synchronisent l'heure avec chrony, insèrent des lignes indexées par l'identifiant de 64 bits dans la base des commandes et publient des événements portant le même identifiant](/assets/images/hld/design-unique-id-architecture.webp)
 
-Les forts débits d'écriture préfèrent en général **Snowflake in-process avec des worker ids soignés**. Les objets admin à bas débit vont bien avec un ticket server ou une séquence de base classique.
+* **Pods de service avec bibliothèque embarquée.** Le générateur est une bibliothèque dans chaque service, pas un service réseau. Créer un identifiant est un appel de fonction sous verrou : pas de saut réseau, pas de dépendance sur le chemin de la requête.
+* **etcd (location des identifiants de worker).** Au démarrage, chaque pod loue un identifiant de worker libre avec un TTL (30 secondes par exemple) et le renouvelle tant qu'il vit. Si le pod meurt, le bail expire et l'identifiant peut être réutilisé, mais seulement après le TTL, donc deux pods vivants ne le partagent jamais. Les nœuds éphémères de ZooKeeper ou une table de baux en base fonctionnent de la même façon. Une configuration statique convient aussi à une flotte fixe, mais c'est précisément ce que l'autoscaling casse.
+* **Time Sync (chrony, mode slew).** La discipline d'horloge est la vraie dépendance du générateur. Configurez NTP/chrony pour ajuster progressivement l'horloge (l'accélérer ou la ralentir) plutôt que de la faire sauter, afin que les corrections ne ramènent jamais le temps en arrière.
+* **Orders DB.** La clé primaire est l'identifiant de 64 bits. Comme les identifiants sont ordonnés dans le temps, les nouvelles lignes arrivent au bord droit du B-tree, le cas le moins coûteux pour tout moteur relationnel.
+* **Order Events.** Le même identifiant circule dans les événements, les journaux et les traces, ce qui rend trivial le rapprochement entre une ligne et tout ce qui s'est passé autour.
 
----
-
-## Notes de sécurité (courtes)
-
-- Les IDs séquentiels ou triables par temps fuient le volume et le timing approximatif. Ne les traitez pas comme des jetons secrets. Autorisez toujours avec une vraie auth.
-- Parfois vous gardez des ids Snowflake en interne et montrez aux utilisateurs un id public aléatoire à part.
-- Les ids lourds en timestamp peuvent indiquer quand quelque chose a été créé. Traitez logs et URLs en conséquence.
+La note rouge décrit la politique face à la seule défaillance inquiétante, traitée ci-dessous.
 
 ---
 
-## Comparaison côte à côte
+## Le vrai problème, ce sont les horloges
 
-| Approche | Image du quotidien | Bits | Ordre temporel | Coordination | Panne principale |
-| --- | --- | --- | --- | --- | --- |
-| Auto-increment BD | Un carnet de chèques | 64 | Oui sur un primary | Une base | Cette base est le goulot |
-| UUID v4 | Passeports au hasard | 128 | Non | Aucune | Inserts aléatoires dans l'index |
-| UUID v7 | Passeport avec date devant | 128 | Oui | Aucune (horloge locale) | Clés plus larges |
-| Ticket server | Machine à tickets de boulangerie | 64 | Oui | Tickets centraux | La machine coince, la file s'arrête |
-| Snowflake | Ticket de caisse : heure + caisse + compteur | 64 | À peu près oui | Worker ids uniques | Sauts d'horloge, worker id partagé |
+L'unicité de Snowflake repose sur une hypothèse : un générateur ne réutilise jamais un couple `(timestamp, sequence)`. Une horloge qui recule brise cette hypothèse.
 
----
+**Pourquoi les horloges reculent :** un saut NTP après une longue dérive, une VM migrée vers un hôte à l'horloge différente, une modification manuelle, ou une implémentation de seconde intercalaire qui répète une seconde.
 
-## Récap à raconter à un ami
+**Les défenses, par ordre de préférence :**
 
-Imaginez que chaque nouvelle commande a besoin d'un numéro de ticket unique.
+1. **Empêcher les grands sauts.** Utilisez chrony ou ntpd configurés en ajustement progressif. Activez le lissage de seconde intercalaire (Google et AWS publient une heure lissée), pour qu'aucune seconde ne soit jamais répétée.
+2. **Absorber les petits sauts.** Si l'horloge a quelques millisecondes de retard sur le dernier horodatage utilisé, attendez qu'elle rattrape, comme le fait le code ci-dessus.
+3. **Refuser les grands sauts.** Si l'horloge a beaucoup de retard, arrêtez de produire des identifiants et levez une alerte. Échouer bruyamment vaut bien mieux que produire des doublons en silence.
+4. **Survivre aux redémarrages.** Au démarrage, attendez que l'horloge dépasse le dernier horodatage que le processus précédent a pu utiliser (ou persistez-le), surtout si un redémarrage peut atterrir sur un autre hôte.
 
-- **Un compteur d'une seule base**, c'est un tampon dans une agence. Sûr jusqu'à ce que beaucoup d'agences tamponnent en même temps, ou jusqu'à ce que tout le monde fasse la queue au même tampon.
-- **UUID**, c'est lancer des dés pour un long passeport. Pas de bureau central. Le numéro est grand et souvent aléatoire, donc les index de base peuvent se désorganiser.
-- **Ticket server**, c'est la machine de la boulangerie. Tout le monde tire au même endroit. Les numéros restent propres. Si la machine meurt, plus personne n'a de numéro sauf si vous distribuez des blocs de tickets à l'avance.
-- **Snowflake**, c'est un ticket de caisse : **heure + numéro de machine + compteur local**. Les machines travaillent en parallèle sans appeler le central à chaque fois. Il faut donner à chaque machine son propre numéro, et ne pas faire confiance à une horloge qui recule sans garde-fous.
-
-Si vous ne retenez que deux bugs de production : deux process qui partagent le même worker id, et le temps qui recule pendant que la sequence se réinitialise. Le layout de bits est la partie facile. Protéger l'identité et le temps, c'est le vrai travail.
+Rappelez-vous aussi que l'ordre temporel entre générateurs ne vaut que l'accord entre leurs horloges. Deux identifiants produits à une milliseconde d'écart sur deux machines différentes peuvent se trier dans un sens comme dans l'autre. « Approximativement triés », c'est la promesse honnête.
 
 ---
 
-## Un design que vous pouvez défendre (court)
+## Remarques de sécurité et de produit
 
-**Objectif :** nombres 64 bits, uniques dans le produit, à peu près ordonnés par le temps, des dizaines de milliers d'IDs par seconde, multi-AZ.
-
-**Proposition :**
-
-1. Bits style Snowflake : inutilisé + timestamp + worker + sequence.
-2. Epoch custom = jour de lancement du service en UTC.
-3. Worker ids en lease ou assignés pour qu'aucun couple de générateurs vivants ne partage le même.
-4. Frapper dans le process, pas via un appel distant à chaque insert.
-5. Sur rollback d'horloge : arrêter de frapper et alerter.
-6. Stocker en `BIGINT`. Pour les APIs JSON publiques, envisagez des strings décimales pour que les clients JavaScript ne perdent pas la précision au-dessus de `2^53 - 1`.
-
-**Quand choisir autre chose à voix haute :** UUID si 128 bits vous vont et que la simplicité gagne. Ticket server si le débit d'écriture est bas et que les entiers courts comptent. Snowflake quand vous voulez des IDs compacts, triables, haut débit et que vous investirez dans l'identité worker et la discipline d'horloge.
+* **Les identifiants divulguent de l'information.** Un identifiant Snowflake révèle quand quelque chose a été créé, et parfois dans quel centre de données. Des identifiants séquentiels de base révèlent le volume (créez deux commandes à une semaine d'intervalle et faites la soustraction). Pour des identifiants publics, envisagez un identifiant opaque distinct ou le chiffrement de l'identifiant interne.
+* **N'utilisez jamais un identifiant comme secret.** Impossible à deviner ne veut pas dire autorisé. Les contrôles d'autorisation s'appliquent à chaque recherche par identifiant.
+* **La précision en JavaScript.** En JavaScript, les nombres sont des doubles, sûrs seulement jusqu'à 2^53. Un Snowflake de 64 bits envoyé comme nombre JSON sera arrondi en silence dans les navigateurs. Envoyez les identifiants sous forme de chaînes dans le JSON. L'API de Discord fait exactement cela.
 
 ---
 
-## Clôture
+## Comment je choisirais
 
-Les IDs uniques ressemblent à une feature d'une ligne jusqu'à ce que beaucoup d'écrivains partagent le produit. **UUID** enlève la coordination et se paie en largeur et (pour les versions aléatoires) en localité d'index. **Ticket servers** gardent de courts entiers et réintroduisent un goulot central sauf si vous allouez des plages. **Snowflake** emballe heure, identité de machine et compteur par tick en 64 bits, comme un ticket de caisse qui ne réimprime jamais la même ligne sur la même caisse au même moment.
+| Situation | Choix |
+| --- | --- |
+| Une seule base, débit d'écriture modéré, identifiants internes | L'auto-incrément suffit. Pas de sur-ingénierie |
+| Besoin d'identifiants avant l'insertion, 16 octets acceptables, pas de budget d'exploitation pour coordonner | UUIDv7 |
+| Besoin d'entiers de 64 bits, nombreux services, débit élevé | Snowflake avec identifiants de worker loués |
+| Besoin de numéros strictement consécutifs (factures, séquences légales) | Un serveur de tickets ou une séquence de base, en acceptant le goulot |
 
-Protégez l'horloge et le worker id. Le reste est de l'arithmétique.
+---
 
+## Liste de contrôle pour la production
+
+- [ ] Époque choisie récente et documentée ; horizon de 69 ans noté
+- [ ] Identifiants de worker loués avec TTL auprès d'un service de coordination, jamais attribués à la main dans une flotte autoscalée
+- [ ] Synchronisation d'horloge en ajustement progressif ; lissage des secondes intercalaires activé
+- [ ] Politique d'horloge qui recule implémentée : attendre pour un petit décalage, échouer et alerter pour un grand
+- [ ] L'épuisement de la séquence attend la milliseconde suivante au lieu de reboucler
+- [ ] Identifiants sérialisés en chaînes dans les API JSON
+- [ ] Identifiants publics examinés pour éviter les fuites d'information
+- [ ] Métriques : identifiants produits par seconde, attentes dues à la séquence épuisée, erreurs de décalage d'horloge, échecs de renouvellement de bail
+
+---
+
+## Ce qui reste
+
+Un identifiant Snowflake est une minuscule autobiographie : quand il est né, où, et combien de frères et sœurs il a eus dans cette milliseconde.
+
+C'est aussi un pari discret : que l'horloge de cette machine continuera d'avancer. La plupart du temps, elle le fait. Toute la conception porte sur les rares fois où ce n'est pas le cas, et sur la garantie que le générateur s'en aperçoive avant votre base de données.
+
+---
+
+## Sources
+
+* [Twitter Engineering : Announcing Snowflake (2010)](https://blog.x.com/engineering/en_us/a/2010/announcing-snowflake)
+* [Flickr : Ticket Servers, Distributed Unique Primary Keys on the Cheap](https://code.flickr.net/2010/02/08/ticket-servers-distributed-unique-primary-keys-on-the-cheap/)
+* [Instagram Engineering : Sharding and IDs at Instagram](https://instagram-engineering.com/sharding-ids-at-instagram-1cf5a71e5a5c)
+* [RFC 9562 : Universally Unique IDentifiers (UUIDv7)](https://www.rfc-editor.org/rfc/rfc9562)
+* [Documentation développeur de Discord : Snowflakes](https://discord.com/developers/docs/reference#snowflakes)
+* [Google Public NTP : leap smear](https://developers.google.com/time/smear)
+* Dans la même série : [Concevoir un raccourcisseur d'URL](/blog/fr/design-url-shortener), [Concevoir un magasin clé-valeur](/blog/fr/design-key-value-store)

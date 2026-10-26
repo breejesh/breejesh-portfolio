@@ -1,183 +1,143 @@
 ---
-title: "Comment marche vraiment un service vidéo type YouTube : envoyer, convertir, stocker, lire"
-description: "Carte débutant du streaming vidéo : un cinéaste dépose une bande master, la plateforme fabrique plein de copies de qualités différentes, les stocke près des spectateurs et les sert via un CDN. Pourquoi l'original seul ne suffit pas, et l'intuition du coût en mots simples."
+title: "Concevoir une plateforme vidéo à l'échelle de YouTube : envois reprenables, transcodage parallèle, ABR et CDN"
+description: "Comment fonctionnent les plateformes vidéo de bout en bout : calcul de capacité, envois par morceaux reprenables, un DAG de transcodage qui découpe les vidéos en segments et encode une échelle de débits en parallèle, empaquetage HLS et DASH, lecture à débit adaptatif, cache CDN à plusieurs niveaux au plus près des spectateurs, et où part vraiment l'argent."
 date: "2025-09-29"
 tags: [Design Système et Architecture, Backend et Bases de Données]
 coverImage: /assets/images/design-youtube-streaming.webp
 previewImage: /assets/images/design-youtube-streaming.webp
 ---
 
-
 > **TL;DR**
-> * **Le Problème:** La conception d'architectures évolutives exige un équilibre entre disponibilité, débit et complexité opérationnelle.
-> * **L'Essentiel:** Carte débutant du streaming vidéo : un cinéaste dépose une bande master, la plateforme fabrique plein de copies de qualités différentes, les stocke près des spectateurs et les sert via un CDN. Pourquoi l'original seul ne suffit pas, et l'intuition du coût en mots simples.
-> * **Le Résultat:** Plan technique avec des objectifs quantitatifs et la gestion des pannes en production.
+> * **Le problème :** Accepter des fichiers énormes envoyés par des créateurs sur des connexions instables, transformer rapidement chacun en dizaines de formats et de qualités, et les diffuser sur tous les types d'appareils et de réseaux sans mise en mémoire tampon, à une échelle où la bande passante est le premier coût de l'entreprise.
+> * **La conception :** Des envois par morceaux reprenables vers un stockage objet ; un DAG de transcodage piloté par événements qui découpe chaque vidéo en courts segments et encode une échelle de débits en parallèle sur de nombreux workers ; un empaquetage HLS et DASH ; une lecture via des manifestes signés, un CDN à plusieurs niveaux avec des caches dans ou près des fournisseurs d'accès, et un lecteur qui choisit le débit de chaque segment.
+> * **Le résultat :** Une vidéo 4K de dix minutes devient visible en quelques minutes plutôt qu'en heures, l'immense majorité des octets est servie depuis des caches à quelques sauts réseau du spectateur, et la qualité s'adapte en continu au lieu de se figer.
 
-Tu ouvres une app, tu touches une vidéo, et ça démarre. On dirait de la magie. En dessous, c'est plus proche d'un studio de cinéma avec des entrepôts modernes.
+YouTube a indiqué que plus de 500 heures de vidéo sont mises en ligne chaque minute, et dès 2017 que l'on y regardait plus d'un milliard d'heures par jour. Ces deux chiffres définissent le système. Le côté écriture est un gigantesque pipeline de traitement par lots. Le côté lecture est l'un des plus grands problèmes de diffusion de contenu d'internet. Ils ne partagent presque rien, hormis le stockage entre les deux.
 
-**Imagine ceci.** Un cinéaste termine un film et dépose une seule bande master à la porte du studio. Le studio ne distribue pas cette unique bande à chaque salon. Il fabrique beaucoup de copies en qualités différentes, les envoie dans des magasins locaux près du public, et quand quelqu'un appuie sur lecture, le magasin voisin donne les prochaines minutes de film. Toute l'idée tient dans une histoire : **envoyer, convertir, stocker près des spectateurs, lire**.
-
-Ce billet suit ce chemin avec des mots simples. Pas besoin de connaître d'abord les noms des fournisseurs cloud. Si tu suis l'histoire de la bande, tu suis un design style YouTube.
+Cet article conçoit les deux côtés.
 
 ---
 
-## La grande idée en quatre étapes
+## Exigences et chiffres
 
-| Étape | Sens simple | Analogie du studio |
+**Fonctionnelles :** mettre en ligne des vidéos ; les traiter dans des formats diffusables ; les lire sur téléphones, navigateurs et téléviseurs ; adapter la qualité au réseau ; afficher miniatures et métadonnées.
+
+**Non fonctionnelles :** les envois survivent aux coupures de connexion ; les nouvelles vidéos sont lisibles en quelques minutes ; la lecture démarre en une seconde environ et se bloque rarement ; disponibilité mondiale.
+
+| Grandeur | Valeur | Conséquence |
 | --- | --- | --- |
-| **Envoyer** (upload) | Le créateur envoie le gros fichier original | Le cinéaste dépose la bande master |
-| **Convertir** (transcoder) | Des machines réécrivent ce fichier en plusieurs tailles et qualités | Le studio tire beaucoup de bobines : cinéma net, petit téléphone, réseau faible |
-| **Stocker** | Garder le master et toutes les copies en sécurité | Coffre pour le master, rayons pour chaque qualité |
-| **Lire** via **CDN** | Envoyer de petits morceaux depuis un serveur près du spectateur | Magasin local dans chaque ville, pas un seul entrepôt de l'autre côté de l'océan |
+| Mises en ligne | ~500 heures par minute | ~720 000 heures de vidéo nouvelle par jour |
+| Rendus par vidéo | ~6 résolutions x 2 ou 3 codecs | Chaque heure envoyée devient de nombreuses heures encodées |
+| Stockage encodé | De l'ordre de plusieurs Go par heure sur toute l'échelle | Des pétaoctets de stockage neuf par jour |
+| Temps de visionnage | Plus d'un milliard d'heures par jour (chiffre de 2017) | À ~2,5 Mbit/s en moyenne, de l'ordre d'un exaoctet de sortie par jour |
 
-Un **CDN** (réseau de diffusion de contenu) est simplement un réseau de magasins locaux pour les fichiers internet. Les spectateurs tirent la vidéo d'un magasin proche pour démarrer plus vite et pour que l'entrepôt principal ne soit pas écrasé par chaque requête.
-
----
-
-## Étape 1 : Envoyer (déposer le master)
-
-Quand quelqu'un envoie une vidéo, la plateforme ne devrait pas forcer le fichier entier à traverser ses serveurs d'application principaux. Ce serait comme faire passer tous les camions de livraison par l'accueil. L'accueil se bloque.
-
-Un meilleur schéma :
-
-1. L'app demande à la plateforme : "Je veux envoyer une vidéo. Voici le titre et la taille."
-2. La plateforme crée un enregistrement : "cette vidéo existe, statut en cours d'envoi."
-3. La plateforme donne au créateur un **ticket d'upload de courte durée** (un lien temporaire) vers un grand entrepôt de fichiers.
-4. Le téléphone ou le navigateur envoie le fichier **directement vers cet entrepôt**.
-5. Quand l'envoi est fini, la plateforme marque la vidéo comme **en traitement** et lance la conversion.
-
-Pourquoi un ticket ? Pour que le gros fichier ne traverse pas les petites machines "app", qui ne doivent gérer que titres, connexions et statut.
-
-Les gros fichiers montent souvent par **morceaux**. Si le réseau meurt à 80 %, le client ne reprend que les morceaux manquants au lieu de tout recommencer. Même idée qu'envoyer un livre chapitre par chapitre.
-
-Pendant que les octets arrivent, le créateur peut encore éditer le titre ou la description. Mais la vidéo n'est pas "prête à regarder" tant qu'au moins une copie lisible n'existe pas.
+La dernière ligne explique pourquoi le CDN, et non le transcodeur, domine le coût et l'architecture. Gagner 10 % de débit grâce à un meilleur encodage, c'est économiser 10 % de votre plus grosse facture.
 
 ---
 
-## Étape 2 : Convertir (fabriquer beaucoup de qualités)
+## Le pipeline de mise en ligne et de traitement
 
-**Convertir** ici veut dire **transcoder** : prendre l'original et le réécrire dans des formats et débits que téléphones, téléviseurs et navigateurs peuvent lire sans hoquet.
+![Pipeline de mise en ligne : le créateur envoie des morceaux via une API d'envoi reprenable vers un stockage objet brut, un événement VideoUploaded déclenche un orchestrateur de transcodage en DAG qui découpe la vidéo en morceaux de quatre secondes, les répartit sur une flotte d'encodeurs produisant une échelle de débits pour plusieurs codecs, un empaqueteur écrit segments et manifestes HLS et DASH, tandis que miniatures et contrôles de sécurité tournent en parallèle et marquent les métadonnées comme prêtes](/assets/images/hld/design-video-upload-pipeline.webp)
 
-### Pourquoi ne pas streamer uniquement le fichier original ?
+* **Creator.** Envoie depuis un téléphone dans le train ou depuis la connexion d'un studio. Le fichier peut peser des gigaoctets.
+* **Upload API (reprenable).** Découpe l'envoi en morceaux (de 8 à 16 Mo par exemple) avec un identifiant de session, pour qu'une connexion coupée reprenne au dernier morceau confirmé au lieu de tout recommencer. Les clients envoient souvent directement vers le stockage objet avec des URL présignées ; l'API ne fait que gérer la session.
+* **Envois bruts (stockage objet).** Le fichier original est conservé. De meilleurs encodeurs apparaissent tous les quelques ans, et réencoder les vidéos populaires depuis l'original est la manière dont les plateformes réduisent ensuite leur débit.
+* **Événement VideoUploaded.** Découple l'envoi du traitement. Un pic de mises en ligne met du travail en file au lieu de faire échouer des requêtes.
+* **Orchestrateur de transcodage en DAG.** Le traitement est un graphe orienté acyclique de tâches : analyser, découper, encoder chaque segment dans chaque rendu, fusionner, empaqueter, miniatures, contrôles de sécurité. L'orchestrateur suit l'état de chaque tâche et réessaie les échecs individuellement.
+* **Découpage en morceaux.** Couper la vidéo sur les images clés en segments de quelques secondes est la clé de la vitesse. Chaque segment s'encode indépendamment, donc une vidéo de 10 minutes devient des centaines de petites tâches parallèles.
+* **Flotte d'encodeurs (échelle x codecs).** Produit chaque rendu, en général H.264 pour la compatibilité plus VP9 ou AV1 pour l'efficacité. L'encodage consomme tellement de CPU que Google a conçu une puce de transcodage vidéo dédiée (le VCU Argos, décrit en 2021) pour YouTube.
+* **Packager (HLS / DASH).** Enveloppe les segments encodés dans les formats attendus par les lecteurs et écrit des manifestes listant tous les rendus. CMAF permet à HLS et DASH de partager les mêmes segments médias, ce qui divise par deux le stockage de la sortie empaquetée.
+* **Segments encodés + manifestes.** La source de vérité du côté lecture, généralement dans un stockage objet derrière le CDN.
+* **Miniatures + contrôles de sécurité.** Tournent en parallèle : extraction des miniatures, détection des droits d'auteur et classifieurs de politique. Une vidéo peut être lisible par la personne qui l'a envoyée tout en restant en examen avant publication.
+* **Base de métadonnées vidéo.** Titre, propriétaire, statut, rendus disponibles et état du traitement.
 
-C'est la question qu'un débutant doit se poser, et la réponse est le coeur du design.
+La note verte en est la récompense : le découpage fait passer le temps d'encodage de « proportionnel à la durée de la vidéo » à « proportionnel à la durée de la vidéo divisée par la taille de la flotte ».
 
-1. **Taille.** Un enregistrement brut de téléphone peut être énorme. Streamer ce seul gros fichier brûlerait les forfaits data et ferait buffer sans fin sur un réseau lent.
-2. **Les appareils diffèrent.** Un téléphone dans le métro en 4G faible et une TV du salon en fibre ont besoin de "bobines" différentes. Un seul master ne convient pas bien aux deux.
-3. **Le réseau change en cours de lecture.** Le lecteur doit pouvoir descendre vers une copie plus légère quand le signal se dégrade, puis remonter quand il revient. Il faut une échelle de qualités prête à l'avance.
-4. **Compatibilité.** Téléphones, navigateurs et TV ne parlent pas tous le même "langage" vidéo. La conversion produit les versions que chaque client comprend.
+**Une échelle de débits (indicative, H.264) :**
 
-Donc le studio n'envoie pas l'unique bande master à chaque maison. Il prépare **beaucoup de copies** : 360p grossier pour les mauvais réseaux, 720p normal, 1080p ou plus pour les liens solides, plus les pistes audio et une petite **liste de lecture** (manifeste) qui énumère ces options.
+| Rendu | Résolution | Débit typique |
+| --- | --- | --- |
+| 240p | 426 x 240 | ~0,4 Mbit/s |
+| 360p | 640 x 360 | ~0,8 Mbit/s |
+| 480p | 854 x 480 | ~1,4 Mbit/s |
+| 720p | 1280 x 720 | ~2,8 Mbit/s |
+| 1080p | 1920 x 1080 | ~5 Mbit/s |
+| 2160p (4K) | 3840 x 2160 | ~15 à 20 Mbit/s |
 
-Le lecteur lit la liste, choisit une qualité de départ et demande de **courts segments** (quelques secondes chacun). Ce n'est pas "télécharge tout le film, puis démarre." C'est "garde les prochains segments sous la main."
-
-Tu peux marquer une vidéo **prête** quand l'échelle minimale utile existe (par exemple une qualité moyenne plus l'audio). Les qualités plus hautes peuvent finir plus tard et rejoindre la liste.
-
----
-
-## Étape 3 : Stocker (coffre et rayons)
-
-Après conversion tu gardes :
-
-- L'**original** (master). Utile s'il faut reconvertir, corriger un bug du pipeline ou ajouter une nouvelle qualité.
-- Les **copies converties** (segments et listes pour chaque qualité).
-- De petits extras : **miniatures**, parfois un court aperçu.
-
-Les octets vivent dans un stockage d'objets (un entrepôt géant de fichiers). Les petits faits vivent dans une base de données : titre, propriétaire, durée, statut (`uploading` → `processing` → `ready` ou `failed`), et où se trouve la liste de lecture.
-
-Le statut compte. Les clients ne doivent pas bloquer sur l'appel d'upload jusqu'à la fin de la conversion. La conversion peut prendre des minutes. L'app interroge ou reçoit une notification : "encore en traitement" puis "prêt."
+Les plateformes modernes n'utilisent pas une échelle unique. Netflix a popularisé en 2015 l'**encodage par titre** : un dessin animé aux couleurs franches demande bien moins de bits qu'un film d'action granuleux pour la même qualité perçue, donc chaque titre reçoit sa propre échelle.
 
 ---
 
-## Étape 4 : Lire (magasin local près du spectateur)
+## La lecture et le CDN
 
-Quand un spectateur appuie sur lecture :
+![Chemin de lecture vidéo : le lecteur obtient d'abord une URL de manifeste signée auprès de l'API de lecture, qui vérifie droits et région auprès des métadonnées et des autorisations, puis demande les segments à un cache de périphérie situé près ou à l'intérieur du fournisseur d'accès, qui se rabat sur un cache régional intermédiaire et un bouclier d'origine devant les segments encodés ; le lecteur mesure débit et tampon pour choisir le débit de chaque segment](/assets/images/hld/design-video-playback-cdn.webp)
 
-1. L'app charge les **métadonnées** via l'API (titre, miniature, est-ce prêt ?).
-2. Le lecteur ouvre l'URL de la **liste**, souvent depuis le CDN.
-3. Le lecteur demande des **segments** à un **bord CDN proche**.
-4. Si ce bord n'a pas encore le segment, il le tire une fois de l'entrepôt principal, puis garde une copie pour le prochain spectateur voisin.
+1. **D'abord le manifeste.** Le lecteur appelle la Playback API, qui vérifie autorisations et règles régionales, puis renvoie une URL signée à courte durée de vie vers le manifeste.
+2. **Les segments depuis la périphérie.** Le lecteur demande les segments un par un au cache de périphérie le plus proche. Les vidéos populaires s'y trouvent presque toujours.
+3. **Des échecs par niveaux.** En cas d'échec, la périphérie interroge un cache régional intermédiaire, qui interroge un bouclier d'origine placé devant le stockage. Chaque niveau regroupe de nombreux échecs en une seule requête vers l'amont, si bien que l'origine ne voit qu'une infime fraction du trafic.
+4. **Le débit adaptatif.** Après chaque segment, le lecteur met à jour son estimation du débit et vérifie son tampon, puis choisit le rendu du segment suivant. Un court tunnel vous fait passer en 480p quelques secondes au lieu de figer la vidéo.
 
-**Règle de design :** l'API possède tickets, état et politique. Le CDN possède les octets du chemin heureux de lecture. Les serveurs d'app ne doivent pas streamer des multi-gigaoctets vers chaque téléphone.
+**Des caches chez les fournisseurs d'accès.** Les plus grandes plateformes installent des serveurs de cache directement dans les réseaux des fournisseurs d'accès : les appliances Open Connect de Netflix et le Global Cache de Google en sont les exemples connus. Les octets ne traversent alors jamais la partie coûteuse d'internet. Le fournisseur économise du transit, la plateforme économise de la sortie, et le spectateur gagne en latence.
 
-La qualité peut changer entre segments. C'est le streaming adaptatif (en entretien tu entendras **HLS** et **DASH** ; les deux sont des idées "liste plus segments"). Tu n'as pas besoin du RFC. Tu as besoin de l'image : échelle de copies, petits morceaux, bascule quand le réseau change.
-
----
-
-## Intuition du coût (avant les maths intimidantes)
-
-Oublie les noms de produits un instant. Pense comme le responsable du studio.
-
-**Où part l'argent pour la vidéo**
-
-1. **Déplacer des octets vers les spectateurs** coûte souvent le plus. Chaque lecture, ce sont des données qui quittent tes entrepôts vers les gens. Une vidéo à succès se regarde un million de fois ; chaque lecture est un autre trajet depuis un magasin local (ou un tirage froid depuis l'entrepôt central).
-2. **Stocker des copies** coûte plus que stocker un seul original. Une échelle de qualités multiplie l'espace. Tu paies les rayons, pas seulement le coffre du master.
-3. **La conversion** coûte du temps CPU. Les fermes d'encodage travaillent fort quand les uploads explosent. Cette facture est réelle, mais à grande échelle le **trafic de lecture** domine souvent.
-4. **Les serveurs d'app** pour titres et connexion sont en général la partie bon marché. Ne conçois pas comme si la base de données était la dépense principale d'un produit vidéo.
-
-**Pourquoi "stocker près des spectateurs" économise argent et douleur**
-
-Si tout le monde tire depuis un seul entrepôt central :
-
-- Les spectateurs lointains attendent plus longtemps.
-- Le lien central devient un embouteillage.
-- Tu paies pour renvoyer le même film populaire à travers les océans encore et encore.
-
-Les bords CDN locaux gardent les vidéos **chaudes** près du public. La plupart des lectures touchent une copie proche. Les vidéos froides, rarement regardées, peuvent rester plus loin. La popularité est une longue traîne : peu de vidéos portent la majeure partie du trafic ; la plupart se regardent à peine. Les plateformes malines dépensent l'espace en bordure sur ce que les gens regardent vraiment.
-
-**Calcul mental simple (ordre de grandeur, pas un devis)**
-
-Suppose des millions de personnes qui regardent quelques vidéos par jour, et chaque stream terminé fait quelques centaines de mégaoctets. Multiplie personnes × vidéos × taille et tu obtiens des **pétaoctets** de transfert. Même quelques centimes par gigaoctet de données sortantes deviennent une grosse facture quotidienne. C'est pourquoi les entretiens parlent sans cesse du "coût CDN", et pourquoi la conversion (fichiers plus petits, codecs efficaces) et le cache près des spectateurs comptent plus que peaufiner le formulaire d'upload.
-
-Tu n'as pas besoin des grilles de prix exactes. Tu as besoin de la punchline : **pour la vidéo, la livraison et le stockage battent souvent le coût de la couche applicative.**
+La note verte fixe l'objectif opérationnel : le niveau de périphérie doit servir l'écrasante majorité des octets.
 
 ---
 
-## Une image de tout le chemin
+## Où part l'argent
 
-```
-Téléphone/navigateur du créateur
-    |  1. demander un ticket d'upload
-    v
-API (métadonnées, auth, statut)
-    |  2. ticket
-    v
-Entrepôt de fichiers  <--- 3. le gros original atterrit ici
-    |
-    v
-Workers de conversion (file)  ---> beaucoup de qualités + liste + thumbs
-    |
-    v
-Rayons de l'entrepôt + magasins locaux CDN
-    |
-    v
-Lecteur du spectateur  <--- segments depuis le magasin le plus proche
-```
+| Coût | Moteur | Levier |
+| --- | --- | --- |
+| Diffusion (sortie du CDN) | Temps de visionnage x débit | Meilleurs codecs (AV1), échelles par titre, caches chez les fournisseurs d'accès |
+| Calcul d'encodage | Heures envoyées x rendus | Encoder la longue traîne à la demande ; ne dépenser plus de calcul que pour les vidéos populaires |
+| Stockage | Rendus x rétention | Supprimer les rendus hauts rarement vus ; garder les originaux en stockage froid |
+| Modération | Volume de mises en ligne | D'abord des classifieurs automatiques, examen humain là où c'est nécessaire |
 
-Trois plans, une phrase chacun :
-
-- **Plan API :** qui peut envoyer, quel est le titre, la vidéo est-elle prête.
-- **Plan octets :** originaux et objets convertis dans les entrepôts.
-- **Plan bordure :** copies CDN près des gens pour le visionnage réel.
+La longue traîne compte ici. La plupart des vidéos mises en ligne sont peu regardées. Une stratégie courante consiste à encoder une échelle minimale à l'envoi et à ne générer les rendus premium (4K, AV1) qu'une fois la vidéo devenue populaire, car le coût d'encodage ne vaut la peine que si les économies de diffusion suivent.
 
 ---
 
-## Sécurité en une respiration
+## Modes de défaillance
 
-- Les tickets d'upload expirent et pointent vers un seul objet.
-- Les vidéos privées ont besoin de liens de lecture de courte durée, pas d'une URL publique pour toujours.
-- Un contenu mauvais ou bloqué peut passer en retiré ; arrête de servir listes et segments.
-- Le live streaming est un cousin (même famille : ingest, packaging, CDN) mais avec un budget temps plus serré. Ce billet parle de vidéos déjà terminées (à la demande), pas d'un concert en direct.
+| Défaillance | Comportement attendu |
+| --- | --- |
+| La connexion d'envoi coupe à 80 % | Reprise au dernier morceau confirmé |
+| Une tâche d'encodage échoue | L'orchestrateur ne réessaie que ce segment ; le reste du DAG continue |
+| Encodeurs engorgés pendant un pic | La file grossit ; priorité aux envois courts et populaires ; publication des rendus bas d'abord |
+| Un nœud de cache de périphérie tombe | Le trafic bascule vers les voisins ; le niveau intermédiaire absorbe les échecs supplémentaires |
+| Vidéo virale, caches froids | Le regroupement des requêtes à chaque niveau évite une ruée sur l'origine |
+| Le réseau du spectateur se dégrade | L'ABR baisse la qualité au lieu de mettre en mémoire tampon |
 
 ---
 
-## Récap à raconter à un ami
+## Liste de contrôle pour la production
 
-Le streaming style YouTube n'est pas "poser un fichier sur un serveur et croiser les doigts."
+- [ ] Envois par morceaux reprenables, avec URL présignées directes vers le stockage
+- [ ] Originaux conservés pour de futurs réencodages
+- [ ] DAG piloté par événements avec réessais par tâche et sorties idempotentes
+- [ ] Découpage aligné sur les images clés pour encoder en parallèle
+- [ ] Échelles par titre ou selon le contenu ; codecs modernes pour le contenu populaire
+- [ ] HLS et DASH produits à partir de segments CMAF partagés
+- [ ] URL de manifeste signées et de courte durée ; contrôle des autorisations et de la région
+- [ ] CDN à plusieurs niveaux avec regroupement des requêtes et bouclier d'origine
+- [ ] Métriques du lecteur : temps de démarrage, taux de remise en mémoire tampon, débit moyen, changements de qualité
+- [ ] Tableaux de bord de coût : sortie par niveau, heures d'encodage par rendu, stockage par ancienneté
 
-Un créateur **envoie** un master dans un entrepôt avec un ticket temporaire, pas par l'accueil. Des machines **convertissent** ce master en beaucoup de qualités pour que téléphones et TV sur n'importe quel réseau puissent lire sans fondre. La plateforme **stocke** le master et les copies, et suit le statut dans une petite base. Quand quelqu'un appuie sur lecture, un **CDN** proche sert de courts segments depuis une échelle de qualités, en changeant quand le réseau change.
+---
 
-On ne streame pas seulement l'original parce qu'il est trop gros, trop rigide et trop hostile aux réseaux faibles. Le coût suit l'audience : **la livraison d'octets et les rayons pleins de copies** comptent en général plus que les serveurs qui stockent les titres. Conçois pour que les gros fichiers évitent la couche app, que la conversion soit asynchrone, et que le trafic heureux de lecture vive en bordure.
+## Ce qui reste
 
-Si tu retiens une seule phrase : **le cinéaste dépose une bande ; le studio tire beaucoup de bobines et les stocke près du public.**
+Chaque vidéo de ces plateformes existe en dizaines de copies, de tailles et de qualités différentes, réparties sur des milliers de machines, la plupart dans des bâtiments qui appartiennent au fournisseur d'accès de quelqu'un d'autre.
 
+Le spectateur ne voit rien de tout cela. Il voit une vidéo qui démarre, et un badge de qualité qui passe de 1080p à 720p quand le train entre dans un tunnel, puis revient à la sortie. Ce clignotement, c'est tout le système qui fonctionne.
+
+---
+
+## Sources
+
+* [Blog officiel de YouTube : statistiques de la plateforme (heures mises en ligne par minute)](https://blog.youtube/press/)
+* [Netflix Tech Blog : Per-Title Encode Optimization](https://netflixtechblog.com/per-title-encode-optimization-7e99442b62a2)
+* [Présentation de Netflix Open Connect](https://openconnect.netflix.com/en/)
+* [Ranganathan et al., « Warehouse-Scale Video Acceleration: Co-design and Deployment in the Wild » (ASPLOS 2021)](https://dl.acm.org/doi/10.1145/3445814.3446723)
+* [RFC 8216 : HTTP Live Streaming](https://www.rfc-editor.org/rfc/rfc8216)
+* [Alliance for Open Media : AV1](https://aomedia.org/av1-features/)
+* Dans la même série : [Concevoir Google Drive](/blog/fr/design-google-drive), [Passer de zéro à des millions d'utilisateurs](/blog/fr/design-scale-zero-to-millions), [Estimations au dos de l'enveloppe](/blog/fr/design-back-of-envelope-estimation)

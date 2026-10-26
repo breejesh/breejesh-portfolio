@@ -1,401 +1,222 @@
 ---
 title: "Design a URL Shortener: Encoding, Storage, Cache, Redirects, and Scale"
-description: "URL shortener system design explained for beginners: coat-check codes, create and redirect walk-throughs, Base62 encoding, storage, cache, and how to scale step by step."
+description: "A production-grade URL shortener design: capacity math, block-leased IDs with Feistel scrambling, Base62 codes, a cache-first redirect path, 301 vs 302 trade-offs, async click analytics, abuse controls and the failure modes that actually page you."
 date: "2026-04-02"
 tags: [System Design & Architecture]
 coverImage: /assets/images/design-url-shortener.webp
 previewImage: /assets/images/design-url-shortener.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
-> * **The Insight:** URL shortener system design explained for beginners: coat-check codes, create and redirect walk-throughs, Base62 encoding, storage, cache, and how to scale step by step.
-> * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
+> * **The Problem:** A shortener is two paths with wildly different shapes: a rare, write-heavy create path and a read path that can be 100x hotter, latency-sensitive, and the only thing users actually notice.
+> * **The Design:** Mint IDs from leased 1M-ID blocks, scramble them with a Feistel network, encode to 7 Base62 characters, store `code -> url` in a store sharded by code, and serve redirects from CDN and Redis with the database as a miss path. Click analytics leave the hot path through a queue.
+> * **The Result:** One database write per million links for ID allocation, a redirect p99 under 20 ms at the edge, analytics that can lag or drop without ever slowing a redirect, and a clear story for every failure mode.
 
-A URL shortener turns a long web address into a short one and, when someone clicks, sends their browser to the original page. Products like TinyURL and bit.ly do this. So do the short links inside almost every app you use.
+Every system design interview list has a URL shortener near the top, and most write-ups treat it as a warm-up. It is not. It is one of the cleanest examples of a system where **the read path and the write path deserve different architectures**, and where small decisions (which redirect status code, where a counter lives) decide whether the system survives a link going viral.
 
-Think of a coat check. You hand over a long heavy jacket. The clerk gives you a small paper number. Later you show the number and get the same jacket back. The number is not the jacket. It is a ticket that points to where the jacket is stored.
-
-A short URL is the same idea for the internet:
-
-- The long URL is the jacket (the full address).
-- The short code is the coat-check number (or a nickname for that long address).
-- The shortener is the clerk who keeps the list: number → jacket.
-
-This post teaches the design the way I would teach a first class on the topic. No assumed jargon. We walk one create, one click, then encoding, storage, cache, and scale.
+This post designs it the way I would for production, then calls out what changes in an interview.
 
 ---
 
-## What problem are we solving?
+## Requirements and the Numbers That Shape Them
 
-Long URLs are ugly and hard to share:
+**Functional**
 
-```
-https://shop.example.com/products/category/electronics/laptops/2026/model-x?utm_source=newsletter&ref=homepage
-```
+1. `POST /links` takes a long URL and returns a short one. Optional custom alias and expiry.
+2. `GET /{code}` redirects to the long URL, or returns 404 if the code is unknown, expired or taken down.
+3. Owners can see click counts. Approximate and slightly delayed is acceptable.
 
-A shortener turns that into something like:
+**Non-functional**
 
-```
-https://sho.rt/aB3xY9q
-```
+* Redirects must be fast and highly available. A broken short link is visible to everyone who clicks it.
+* Once a create call returns `201`, the mapping must never be lost. The user has already pasted the link somewhere.
+* Codes should not be trivially enumerable.
 
-Two jobs matter:
+**Back-of-the-envelope**
 
-1. **Create:** accept a long URL, invent a short code, remember the mapping, return the short link.
-2. **Redirect:** when someone opens the short link, look up the long URL and send the browser there.
-
-Everything else (click stats, custom names, expiry) is extra. Get create and redirect right first.
-
----
-
-## Coat check in one picture
-
-```
-Create path (hand over the jacket)
-  You → shortener API → pick a code → save "code → long URL" → return short link
-
-Redirect path (claim the jacket)
-  Friend clicks short link → shortener looks up code → replies "go to long URL"
-  → browser opens the long page
-```
-
-The short domain (`sho.rt`) is like the coat-check desk. The path after the slash (`aB3xY9q`) is the number on your ticket.
-
----
-
-## Walk-through: create a short link
-
-Imagine you want to share a product page. You call the create API.
-
-**Request (simplified)**
-
-```http
-POST /api/v1/links
-Content-Type: application/json
-
-{
-  "url": "https://shop.example.com/products/laptops/model-x"
-}
-```
-
-**What the server does, step by step**
-
-1. **Check the URL.** Only allow normal web links (`http` or `https`). Reject weird schemes that could be dangerous. Cap the length so nobody pastes a novel.
-2. **Make a short code.** For example `aB3xY9q`. We will cover how in the encoding section. For now, treat it as a unique ticket number.
-3. **Save the mapping** in a database:
-
-| code | long_url |
-| --- | --- |
-| aB3xY9q | https://shop.example.com/products/laptops/model-x |
-
-4. **Return the short URL** to you:
-
-```http
-201 Created
-{
-  "code": "aB3xY9q",
-  "short_url": "https://sho.rt/aB3xY9q",
-  "long_url": "https://shop.example.com/products/laptops/model-x"
-}
-```
-
-You paste `https://sho.rt/aB3xY9q` in a chat. Done. Creating is the rare path. Most traffic is people clicking, not people creating.
-
-Optional extras on create:
-
-- **Custom alias:** you ask for `launch` instead of a random code. The system checks that name is free and not reserved (`api`, `health`, and so on).
-- **TTL (time to live):** the link dies after a set time, like a temporary coat-check ticket.
-
----
-
-## Walk-through: one user click (redirect)
-
-Your friend taps the short link. Watch the full trip.
-
-```
-1. Browser asks: GET https://sho.rt/aB3xY9q
-2. Request hits a load balancer, then a redirect service.
-3. Service asks cache: "Do you know aB3xY9q?"
-   - Hit: use the stored long URL immediately.
-   - Miss: ask the database, then fill the cache for next time.
-4. Service responds with an HTTP redirect:
-   status 302 (or 301)
-   header Location: https://shop.example.com/products/laptops/model-x
-5. Browser follows Location and loads the real page.
-6. Optionally, the service drops a "someone clicked" event on a side queue for analytics.
-   That work must not slow down the redirect.
-```
-
-If the code is unknown, expired, or turned off, return **404**, not a guess.
-
-### 301 vs 302 in plain words
-
-| Status | Meaning | Why it matters |
+| Assumption | Value | Derived |
 | --- | --- | --- |
-| **301** | "This move is permanent." | Browsers and CDNs may remember hard. Fewer hits on your servers. Click counts can be lower than real human clicks. |
-| **302** | "This move is temporary." | Clients re-ask your service more often. Better if you care about accurate click analytics. |
+| New links per month | 100M | ~40 writes/s average, ~400/s at a 10x peak |
+| Read:write ratio | 100:1 | ~4,000 redirects/s average, ~40,000/s peak |
+| Row size (code, URL, owner, timestamps, flags) | ~500 bytes | ~50 GB/month, ~3 TB over 5 years |
+| Hot set | ~20% of links get ~80% of clicks | A few GB of `code -> url` fits easily in Redis |
+| Code space at 7 Base62 chars | 62^7 ≈ 3.5 trillion | ~2,900 years of headroom at 100M/month |
 
-Interview default when analytics matter: **302**. If you only care about cheap redirects and approximate counts, **301** is fine. Real products pick based on product needs, not fashion.
+Two things fall out of this table immediately. Storage is not the hard part: 3 TB is a modest database. And the redirect path is a caching problem far more than a database problem.
 
 ---
 
-## Encoding: how we invent short codes
+## The Architecture
 
-You need a small alphabet that is safe in URLs. The usual choice is **Base62**:
+![URL shortener high-level architecture: clicker and creator clients, CDN edge and API gateway, redirect and create services, Redis cache, sharded mappings database, click event queue and analytics rollups](/assets/images/hld/design-url-shortener-architecture.webp)
 
+Walk it left to right.
+
+* **Clicker / Creator.** Two very different clients. Clickers are anonymous, global and impatient. Creators are authenticated users or API integrations, far fewer of them.
+* **CDN Edge.** Terminates TLS close to the user and can cache redirect responses for popular codes. For a viral link, most clicks should never reach your origin.
+* **API Gateway.** Authenticates creators, enforces per-user and per-IP rate limits on creation, and rejects oversized or malformed payloads before they cost anything.
+* **Redirect Service.** A tiny stateless service with one job: resolve a code and return a redirect. It reads Redis first, falls back to the mappings database on a miss, and fires a click event without waiting for it.
+* **Create API.** Validates the URL (scheme allowlist, length cap, blocklist check), takes the next ID from its leased block, encodes it, and inserts the mapping.
+* **ID Range Allocator.** Hands out blocks of one million IDs to Create API pods. It is touched once per million links, so it can be a single row in a boring relational database.
+* **Redis (`code -> url`).** The hot cache. Entries carry a TTL, and "not found" results are cached briefly so scanners cannot hammer the database.
+* **Mappings DB.** The source of truth, sharded by code. Every redirect lookup is a primary-key read on `code`, which is the one access pattern this system must make cheap.
+* **Click Events, Rollup Workers, Click Counts.** Redirects emit events to a log (Kafka, Kinesis or similar). Workers aggregate them into per-link, per-day counts in an OLAP store. If this whole box catches fire, redirects keep working.
+
+The green note on the diagram is the contract: under 20 ms p99 at the edge, under 50 ms when the request has to go to Redis or the database.
+
+---
+
+## Minting Codes: Leased Blocks, a Feistel Scramble, Then Base62
+
+There are three common ways to produce a short code:
+
+| Approach | How it works | Strength | Weakness |
+| --- | --- | --- | --- |
+| Hash the URL | SHA-256 the URL, take the first 40 bits, Base62 it | Same URL can map to the same code | Collisions need retries; two users sharing one code mixes ownership and analytics |
+| Random code | 7 random Base62 characters, insert with a unique constraint | Unguessable | Retry on collision; every create is a uniqueness check against the full table |
+| Counter + encode | Unique integer, then Base62 | No collisions, no retries | Sequential codes are enumerable unless you scramble them |
+
+I prefer the counter, with two refinements.
+
+![ID allocation: a block counter leases million-ID ranges to create pods, IDs pass through a Feistel scramble and Base62 encoding to produce a 7-character code](/assets/images/hld/design-url-shortener-id-blocks.webp)
+
+**Leased blocks.** A single global counter would be a hot row. Instead, each Create API pod leases a block of one million IDs (`UPDATE counter SET next = next + 1000000 RETURNING next`) and hands them out from memory. That is one database write per million links. If a pod crashes, the rest of its block is simply never used. Gaps are fine; duplicates are not.
+
+**Feistel scramble.** Sequential IDs produce sequential codes, which makes enumerating every link trivial. A Feistel network is a keyed, reversible permutation over a fixed bit width: every 40-bit input maps to exactly one 40-bit output, so uniqueness is preserved, but neighbors stop looking like neighbors. This is not cryptographic secrecy. It is cheap obfuscation that removes the easiest scraping attack.
+
+**Base62.** `0-9a-zA-Z` is URL-safe without escaping. A 40-bit space (about 1.1 trillion IDs, roughly 900 years at 100M links a month) fits in 7 Base62 characters, since 62^7 is about 3.5 trillion. A 42-bit space would not: 2^42 is about 4.4 trillion, and the top quarter of it would spill into 8 characters.
+
+```python
+ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+HALF_BITS, MASK = 20, (1 << 20) - 1  # 40-bit permutation, always < 62**7
+
+def feistel(n: int, keys=(0x5bd1e, 0x1b873, 0x2f1d3)) -> int:
+    left, right = n >> HALF_BITS, n & MASK
+    for k in keys:
+        left, right = right, left ^ (((right * 0x9E3779B1) ^ k) & MASK)
+    return (left << HALF_BITS) | right
+
+def encode(n: int, width: int = 7) -> str:
+    out = []
+    while n:
+        n, r = divmod(n, 62)
+        out.append(ALPHABET[r])
+    return "".join(reversed(out)).rjust(width, "0")
+
+code = encode(feistel(8_000_123))  # 7 chars, unique per ID
 ```
-0-9  a-z  A-Z
-```
 
-That is 62 symbols. No `+` or `/` that Base64 needs to escape.
+**Custom aliases** go into the same `code` column with the same unique constraint, after a reserved-word check (`api`, `admin`, `login`, `health`) and a profanity and impersonation filter.
 
-### How many codes do we get?
+---
 
-| Code length | Rough capacity |
+## Storage
+
+The schema is deliberately boring:
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| `code` | `varchar(16)` primary key | Partition key; every redirect is a point read on it |
+| `long_url` | `text` | Validated at create time, never rewritten at read time |
+| `owner_id` | `bigint` | Secondary index for "my links" dashboards |
+| `created_at`, `expires_at` | timestamps | `expires_at` null means forever |
+| `status` | enum: active, disabled, taken_down | Lets you kill a link without deleting history |
+
+**SQL or key-value?** Either works. A managed key-value store (DynamoDB, Cassandra, Bigtable) makes the point-read path trivially scalable and has native TTL for expiring links. Postgres with hash-partitioning by `code` is perfectly adequate to several terabytes and gives you transactions for the allocator and owner queries for free. The wrong choice is anything that makes `GET by code` more than one round trip.
+
+**Shard by code, not by owner.** Sharding by owner would put a celebrity's links on one hot shard. Sharding by a hash of the code spreads load evenly, and the owner dashboard can use a secondary index or a separate table.
+
+**Never put counters on the mapping row.** `UPDATE links SET clicks = clicks + 1` on every redirect turns your hottest read into a contended write on a single row. A viral link will melt that row. Counts belong in the analytics pipeline.
+
+---
+
+## The Redirect Path, Precisely
+
+1. CDN checks its cache. Hit: return the cached redirect. Done.
+2. Redirect Service checks Redis. Hit: respond.
+3. Miss: read the mappings DB by primary key. If the row is missing, expired or not active, cache a short-lived "not found" and return 404. Otherwise populate Redis and respond.
+4. Fire a click event to the log asynchronously. If the log is slow, drop the event. Never block the redirect.
+
+**Which status code?** This decision has real consequences:
+
+| Status | Semantics (RFC 9110) | Caching | Use it when |
+| --- | --- | --- | --- |
+| 301 Moved Permanently | Permanent | Browsers and proxies cache aggressively | You want minimum origin load and do not need accurate click counts |
+| 302 Found | Temporary | Not cached by default | You need every click to reach you for analytics, or links can change |
+| 307 / 308 | Temporary / permanent, method preserved | As above | Rare for shorteners; matters if non-GET requests are redirected |
+
+My default is **302 with a short explicit `Cache-Control: max-age`** on the CDN (say 60 to 300 seconds). Popular links are served from the edge, analytics stay roughly honest (count CDN logs too), and a takedown propagates within minutes rather than living forever in someone's browser cache.
+
+**Cache stampede.** When a cold link suddenly goes viral, thousands of concurrent misses can hit the database for the same key. Use request coalescing (one fetch, many waiters) in the Redirect Service or a short lock in Redis.
+
+---
+
+## Abuse Is a Core Feature, Not an Add-On
+
+A shortener lends your domain's reputation to whatever URL someone pastes in. That makes it a phishing tool unless you design against it.
+
+* **Check destinations at create time** against a reputation feed such as Google Safe Browsing, and re-scan popular links periodically, because destinations change after creation.
+* **Rate limit creation** per account, per IP and per destination domain.
+* **Provide a preview page** (`sho.rt/aB3xY9q+` in Bitly's convention) so cautious users can see the destination before visiting it.
+* **Make takedown fast:** set `status = taken_down`, delete the Redis key, purge the CDN path. With a 302 and short edge TTL, that is minutes, not days.
+* **Rate limit redirects per IP** to slow down enumeration, even with scrambled codes.
+
+---
+
+## Failure Modes and What Should Happen
+
+| Failure | Expected behavior |
 | --- | --- |
-| 6 characters | about 57 billion |
-| 7 characters | about 3.5 trillion |
-| 8 characters | about 218 trillion |
-
-Seven characters is the common interview choice: short enough to share, large enough for huge growth.
-
-### Three ways to mint a code
-
-**A. Counter, then encode (coat-check machine)**
-
-1. Take the next global number: 1, 2, 3, … (database sequence, Redis `INCR`, or a distributed ID).
-2. Convert that number into Base62 characters.
-3. That string is your code.
-
-Pros: no accidental collision if the counter is unique. Simple story.
-
-Cons: codes can be guessable if they go `…9`, `…a`, `…b` in order. Mitigations: start high, scramble bits before encoding, or shuffle the alphabet. Still treat codes as public tickets, not secrets.
-
-Tiny mental picture of Base62 encode:
-
-```
-Number 125 → divide by 62, keep remainders → map remainders to alphabet → "21" (example shape)
-```
-
-**B. Hash the long URL**
-
-Hash the URL (SHA-256 or similar), take a prefix, turn it into Base62, check it is free. On collision, take more bits or add salt and try again.
-
-Pros: the same long URL can always map to the same short code if you want that product rule.
-
-Cons: collisions need a retry loop. Two different users may not want to share one code for the same destination (ownership and analytics get messy).
-
-**C. Random codes**
-
-Pick 7 random Base62 characters. Insert with a unique constraint. If taken, pick again.
-
-Pros: hard to guess. Simple code.
-
-Cons: retries when the keyspace fills (at 7 chars you are fine for a long time). Use a good random generator if guess resistance matters.
-
-**Practical default for interviews and many products:** unique ID (counter or Snowflake-style) → optional scramble → Base62. Custom aliases live in the same unique `code` column (or a dedicated unique alias column).
+| Redis down | Redirects fall through to the DB. Latency rises, correctness holds. Shed load at the edge if the DB nears capacity |
+| One DB shard down | Codes on that shard fail; everything else works. Replicas should take over in seconds |
+| Click log unavailable | Redirects continue; events are dropped or buffered locally. Counts will under-report for the window |
+| ID allocator unavailable | Pods keep minting from their current block. With 1M-ID blocks, that is hours of runway |
+| Bad deploy of Redirect Service | Blast radius is every link. Canary on a small traffic slice and keep the service tiny so rollbacks are fast |
+| A link goes viral | CDN absorbs most of it; request coalescing protects the DB from the first miss storm |
 
 ---
 
-## Storage: where the jacket list lives
+## What Changes in an Interview
 
-At heart this is a **key-value map**: short code → long URL, plus a little metadata.
+You will not have time for Feistel networks and CDN TTL tuning in 45 minutes. Prioritize:
 
-### Simple SQL table
+1. State the read:write ratio and the capacity math in two sentences.
+2. Draw the two paths separately.
+3. Pick counter plus Base62, and mention enumeration and the scramble fix.
+4. Explain why click counters do not live on the mapping row.
+5. Have an opinion on 301 vs 302.
 
-| Column | Role |
-| --- | --- |
-| `code` | Primary key. The ticket number. |
-| `long_url` | The real destination. |
-| `user_id` | Who owns the link (optional). |
-| `created_at` | When it was created. |
-| `expires_at` | When it dies (null = forever). |
-| `is_active` | Soft delete or takedown switch. |
-
-Lookups on redirect are always "find by code." That access pattern is perfect for a primary key or a key-value store.
-
-### NoSQL / key-value option
-
-Stores like DynamoDB or Cassandra shine here:
-
-- Partition key: `code`
-- Attributes: long URL and metadata
-- Native TTL for expiry when the product needs it
-
-Redirect becomes one key lookup. "List all links for user X" needs a secondary index or a separate table.
-
-### Do not put click counters on the hot row
-
-Updating `clicks = clicks + 1` on every redirect turns a read path into a write fight. A viral link hammers one row.
-
-Better:
-
-1. Redirect only **reads** the mapping.
-2. Emit a click event to a queue (async).
-3. Workers aggregate counts offline.
-
-For a tiny MVP: Redis `INCR` for a live counter is OK if you accept some loss and snapshot to durable storage later.
+That is enough to show judgment. The rest is a conversation.
 
 ---
 
-## Cache: the clerk's sticky note
+## Production Checklist
 
-Most clicks hit a small set of popular codes. Reading the database every time is slower and more expensive than necessary.
-
-**Three layers people talk about:**
-
-1. **CDN** in front of the short domain (great for global latency; can complicate exact analytics).
-2. **Redis (or Memcached)** close to the app: `code → long_url` with a TTL.
-3. **Database** as source of truth.
-
-**Redirect with cache, simple flow:**
-
-```
-ask Redis for code
-if found and still valid → redirect
-else
-  ask DB
-  if missing / inactive / expired → 404 (and maybe remember "not found" briefly)
-  else write Redis with a TTL → redirect
-also enqueue analytics (best effort)
-```
-
-**Why cache helps:** memory lookups are fast. Popular tickets stay on the sticky note. Rare tickets still go to the full jacket room (the DB).
-
-**Watch-outs:**
-
-- **Cache stampede:** many requests miss at once for a cold popular code. Coalesce work (one fetch, many waiters) or use a short lock.
-- **Negative cache:** briefly remember "this code does not exist" so scanners do not beat the DB.
-- **Takedown:** when you disable a link, delete or overwrite the cache entry so the old Location does not linger.
+- [ ] Capacity math written down, with read:write ratio and peak multiplier
+- [ ] IDs leased in blocks; allocator survives restarts; gaps documented as acceptable
+- [ ] Codes scrambled before encoding; custom aliases share the unique constraint
+- [ ] URL scheme allowlist, length cap and reputation check at create time
+- [ ] Redirect path: CDN, then Redis with TTL and negative caching, then DB by primary key
+- [ ] Request coalescing for cold-key stampedes
+- [ ] 302 plus short edge TTL, or a written reason for 301
+- [ ] Click events async, droppable, and never on the mapping row
+- [ ] Takedown clears DB status, Redis and CDN in one operation
+- [ ] Dashboards: redirect p99, cache hit ratio, 404 rate, create rate per account
 
 ---
 
-## Scale path, step by step
+## The Leftover
 
-Do not start with a 40-box diagram. Grow with pain.
+The interesting part of this system is not the encoding trick. It is the discipline of keeping the redirect path boring. Every feature request (real-time counts, A/B destinations, geo-routing) will try to move logic into it.
 
-### Stage 1: One app, one database
-
-Enough for a side project or early product.
-
-```
-Client → App (create + redirect) → DB
-```
-
-### Stage 2: Separate create and redirect a bit, add cache
-
-Redirects dominate. Put Redis in front of lookups. Keep create on the primary DB.
-
-```
-Create  → API → DB
-Redirect → API → Redis → (miss) DB
-```
-
-### Stage 3: Many redirect servers behind a load balancer
-
-Redirect handlers stay **stateless**. Scale them horizontally. Cache and DB hold the state.
-
-```
-Client → LB → Redirect pod 1..N → Redis → DB
-```
-
-### Stage 4: Read-heavy database tricks
-
-- Read replicas for cache misses if needed.
-- Keep analytics off the mapping table.
-- Partition (shard) the mapping table by code hash when one primary cannot hold the data and indexes.
-
-### Stage 5: Write path for high create volume
-
-Creates are usually far fewer than redirects. When creates grow:
-
-- Use a solid ID generator (block allocation, Snowflake-style IDs).
-- Keep a unique constraint on `code`.
-- Pin multi-region creates carefully so two regions never mint the same code.
-
-### Stage 6: Reliability rules that matter
-
-| Rule | Why |
-| --- | --- |
-| Redirect is more important than create | Users clicking must win over people making new links. |
-| Never lose a mapping after you returned 201 | The client already shared the short link. |
-| Analytics may drop under extreme load | Better a missing click event than a slow redirect. |
-| If Redis is down, fall through to DB | Higher latency, still correct. |
-| Fail open on metrics, fail closed on missing codes | Unknown code → 404, not a wrong page. |
-
-**Rough capacity intuition (say out loud in interviews):**
-
-- Creates might be thousands per second at peak.
-- Redirects can be 100x or more.
-- Each mapping row is often under 1 KB with metadata.
-- 100 million rows is tens of GB, not petabytes. Sharding is about growth and QPS, not panic on day one.
+Say no to most of them. The link someone pasted into a group chat three years ago should still work tomorrow morning, before your coffee and before anyone remembers that it exists.
 
 ---
 
-## Security and abuse (short list)
+## Sources
 
-Short codes are public tickets. Expect:
-
-1. **Guessing codes** by walking the space. Rate limit. Prefer longer or scrambled codes.
-2. **Phishing** via your trusted short domain. Scan or blocklist bad destinations. Offer report and takedown.
-3. **Spam creates** filling storage. Auth, quotas, CAPTCHA, paid tiers.
-4. **Open redirects** only if you ever let the long URL be user-controlled at click time (normally you fix it at create time and only serve that stored value).
-
-Never put secrets in a short URL and assume nobody will find them.
-
----
-
-## End-to-end design you can defend
-
-**Requirements example:** 7-char Base62 codes, optional custom alias and TTL, roughly accurate clicks, high redirect QPS, multi-AZ.
-
-**Pieces:**
-
-1. API service for create / list / delete (with auth).
-2. Thin redirect service (hot path stays light).
-3. ID generator for unique numbers.
-4. Primary store for mappings (SQL or DynamoDB-style).
-5. Redis for `code → url`.
-6. Queue + workers for click events and rollups.
-
-**Create:** validate → mint code → insert → return short URL.
-
-**Redirect:** cache → DB → 302 + Location → async click event.
-
-**Trade-offs to say out loud:**
-
-- Counter encoding is simple and collision-free; random and hash need uniqueness checks.
-- 301 saves origin load; 302 keeps analytics more honest.
-- Click counters on the mapping row will melt under viral traffic.
-- Redirect correctness beats perfect global analytics.
-
----
-
-## Recap you can tell a friend
-
-A URL shortener is a coat check for web addresses.
-
-You hand over a long jacket (long URL). The clerk gives you a small number (short code) and writes it in a book (database). When someone shows the number, the clerk looks it up and points them to the jacket rack (redirect with a `Location` header). For popular numbers, the clerk keeps a sticky note (cache) so they do not walk to the back room every time.
-
-Encoding is how you print ticket numbers from counters, hashes, or dice. Storage is the durable list. Cache is speed. Scale means many clerks for the front desk, a bigger book when needed, and never letting the click counter freeze the line.
-
-If you remember one production lesson: **protect the redirect path like an edge service**, and treat analytics as a side conversation, not a step that must finish before the user is allowed through the door.
-
----
-
-## Production checklist
-
-- [ ] Alphabet and code length chosen with growth math
-- [ ] Unique codes (counter or unique constraint)
-- [ ] URL validation and scheme allowlist
-- [ ] Reserved words for custom aliases
-- [ ] Redis cache with TTL and negative caching
-- [ ] 301 vs 302 decision written down for product and analytics
-- [ ] Analytics off the hot path
-- [ ] Expiry and takedown clear the cache
-- [ ] Rate limits on create and suspicious redirect volume
-- [ ] Load test hot key, cold key, cache failure, DB failover
-- [ ] Dashboards: create QPS, redirect QPS, cache hit ratio, p99 redirect latency, 404 rate
-
+* [RFC 9110: HTTP Semantics, Section 15.4 (Redirection 3xx)](https://www.rfc-editor.org/rfc/rfc9110#section-15.4)
+* [Google Safe Browsing API](https://developers.google.com/safe-browsing)
+* [Amazon DynamoDB: Time to Live](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html)
+* [Luby and Rackoff, "How to Construct Pseudorandom Permutations from Pseudorandom Functions" (Feistel networks)](https://doi.org/10.1137/0217022)
+* Related in this series: [Design a Unique ID Generator](/blog/en/design-unique-id-generator), [Design a Rate Limiter](/blog/en/design-a-rate-limiter), [Back-of-the-Envelope Estimation](/blog/en/design-back-of-envelope-estimation)

@@ -1,372 +1,159 @@
 ---
-title: "Escalar de cero a millones de usuarios: crece una capa a la vez"
-description: "Camino para principiantes desde un solo ordenador hasta millones de usuarios: separar capas, balanceadores, réplicas de lectura, caché, CDN, servidores sin estado, colas, multi-región y sharding de base de datos, con analogías claras y trade-offs en cada paso."
+title: "Escala de cero a millones de usuarios: ocho pasos, cada uno provocado por un cuello de botella real"
+description: "Cómo crecen de verdad los sistemas: de un solo servidor a balanceadores, réplicas de lectura y cachés, CDN y servidores de aplicación sin estado, colas y workers, varias regiones y, por último, particionado, con la métrica que debería disparar cada paso y los problemas nuevos que trae cada uno."
 date: "2026-04-15"
 tags: [Diseño de Sistemas y Arquitectura]
 coverImage: /assets/images/design-scale-zero-to-millions.webp
 previewImage: /assets/images/design-scale-zero-to-millions.webp
 ---
 
-
 > **TL;DR**
-> * **El Problema:** Diseñar arquitecturas escalables requiere equilibrar disponibilidad, rendimiento y complejidad operativa.
-> * **La Clave:** Camino para principiantes desde un solo ordenador hasta millones de usuarios: separar capas, balanceadores, réplicas de lectura, caché, CDN, servidores sin estado, colas, multi-región y sharding de base de datos, con analogías claras y trade-offs en cada paso.
-> * **El Resultado:** Plano técnico con objetivos cuantitativos y mitigación de fallos en producción.
+> * **El problema:** Todos los diagramas de arquitectura de los sistemas grandes muestran el estado final. Los equipos copian ese estado final el primer día y se ahogan en complejidad, o ignoran la escala hasta que la base de datos se cae en un lanzamiento.
+> * **El diseño:** Crecer en ocho pasos (separar la base de datos, añadir un balanceador, añadir réplicas de lectura y una caché, llevar los estáticos a un CDN y quitar el estado a los servidores de aplicación, mandar el trabajo lento a colas, añadir regiones, particionar la base principal) y dar cada paso solo cuando una métrica diga que el diseño anterior se ha agotado.
+> * **El resultado:** Un sistema que nunca es más complejo de lo que exige su tráfico, con el siguiente movimiento listo cuando un panel se pone en rojo. Muchos productos enormes funcionaron durante años con sorprendentemente pocas máquinas porque dieron estos pasos tarde y bien.
 
-Imagina un restaurante pequeño con un solo cocinero que también toma pedidos, lava platos y cobra. Con diez clientes al día funciona. Cuando llegan doscientos a la hora de comer, el cocinero no da abasto. No reconstruyes la ciudad. Contratas un anfitrión, más cocineros, un lavaplatos y, más tarde, quizás una segunda cocina.
+Stack Overflow, uno de los sitios con más tráfico de internet, funcionó durante años con unos nueve servidores web y unas pocas máquinas SQL Server. Instagram llegó a decenas de millones de usuarios con un equipo pequeño y una pila bastante convencional de Django, PostgreSQL, Redis y memcached. La lección no es que escalar sea fácil. Es que la mayor parte de escalar consiste en hacer lo siguiente que es obvio en el momento adecuado, midiendo, en lugar de hacer lo impresionante demasiado pronto.
 
-Los sistemas web crecen igual. Empiezas con una máquina. Añades ayuda solo cuando aparece un dolor real. Este post es ese camino de crecimiento, escrito para que un estudiante de primer año o alguien autodidacta pueda seguir cada paso. Las ideas también son las que esperan en entrevistas de diseño de sistemas: balanceadores, cachés, CDN, réplicas de base de datos, colas y multi-región, cada una explicada cuando la necesitas.
+![Ocho etapas de escalado como una escalera: un servidor, base de datos separada, balanceador con varios servidores de aplicación, réplicas de lectura y caché, CDN y servidores sin estado, cola y workers, varias regiones y particionado de la base principal, cada una con el cuello de botella que la provoca](/assets/images/hld/design-scale-stages.webp)
 
----
-
-## ¿Qué problema resolvemos?
-
-Tu app se hace popular. Más gente la abre a la vez. Las páginas van lentas. A veces el sitio cae del todo. Se pierden dinero y confianza.
-
-El problema no es "dibujar un diagrama bonito". El problema es:
-
-1. Mantener el sitio en pie cuando mucha gente lo usa.
-2. Responder lo bastante rápido para que la gente no se vaya.
-3. Guardar datos con seguridad sin perder lo que el usuario acaba de guardar.
-4. Gastar dinero y complejidad solo donde el usuario nota el dolor.
-
-"Millones de usuarios" es un eslogan hasta que fijas números aproximados. Si el entrevistador no los da, elige unos razonables en voz alta y diseña contra ellos.
-
-| Pregunta | Por qué importa |
-| --- | --- |
-| ¿Más lecturas o más escrituras? | Cachés y réplicas ayudan más a las lecturas |
-| ¿Pico frente a media? | Dimensionas para horas punta, no para la noche |
-| ¿Qué tan rápido crecen los datos? | Disco, copias de seguridad y cómo partes los datos se vuelven reales |
-| ¿Qué es "demasiado lento"? | De ahí salen las decisiones de caché y CDN |
-| ¿Cada lectura debe ver la última escritura? | Réplicas y multi-región cambian frescura por escala |
+La nota roja es la regla de todo el artículo. Cada paso de abajo indica qué lo dispara, qué aporta y qué problema nuevo crea.
 
 ---
 
-## ¿Qué pasa cuando un usuario abre la app?
+## Paso 1: un servidor
 
-Antes de cualquier arquitectura grande, sigue un solo clic.
+Aplicación, base de datos y ficheros en una sola máquina. Es la arquitectura correcta para un producto nuevo: una sola cosa que desplegar, una sola cosa de la que hacer copia, ninguna red entre componentes.
 
-1. El usuario escribe el nombre del sitio o toca tu app.
-2. El **DNS** (la guía telefónica de internet) convierte el nombre en la dirección de un ordenador.
-3. La petición viaja por la red hasta esa máquina.
-4. Corre tu código de **aplicación**: comprobar login, cargar un feed, hacer un pedido.
-5. La app lee o escribe en una **base de datos** (un lugar estructurado donde los datos viven a largo plazo).
-6. Vuelve una respuesta: HTML, JSON, una imagen, lo que el cliente necesite.
-
-Todo ese camino debe seguir siendo rápido y fiable cuando llegan más usuarios. Lo crecemos por etapas.
+**Cuándo pasar al siguiente:** la aplicación y la base de datos se pelean por CPU y memoria, o necesitas reiniciar una sin la otra.
 
 ---
 
-## Etapa 0: Un solo ordenador hace de todo
+## Paso 2: separar la base de datos
 
-Al principio, una máquina ejecuta el código del sitio y la base de datos. Barato. Simple. Fácil de depurar.
+Pon la base de datos en su propia máquina (o en un servicio gestionado). Ahora cada una se dimensiona por su cuenta, y el host de la base de datos no hace otra cosa que servir consultas.
 
-```
-Usuario → DNS → [ Web + App + Base de datos en una caja ]
-```
+**Problema nuevo:** el salto de red. Las consultas que eran baratas en localhost ahora cuestan un viaje de ida y vuelta, así que el patrón de N+1 consultas de repente importa.
 
-**Por qué funciona:** prototipos, proyectos personales, cientos de usuarios. Envías funciones en lugar de gestionar máquinas.
-
-**Qué se rompe:**
-
-- Un fallo o reinicio tumba todo el producto.
-- El trabajo de la app y el de la base pelean por la misma CPU y el mismo disco.
-- No puedes crecer el sitio y el almacén de datos por separado.
-- Comprar una caja más grande (**escalado vertical**: más CPU y RAM en una máquina) choca con un techo de precio y de tamaño.
-
-Cuando la máquina va siempre al límite, crecen las esperas de disco o cada despliegue da miedo, avanza.
+**Cuándo pasar al siguiente:** la CPU del servidor de aplicación se satura en el pico, o no puedes tolerar el corte cuando esa máquina se reinicia.
 
 ---
 
-## Etapa 1: Separar el sitio y la base de datos
+## Paso 3: balanceador y varios servidores de aplicación
 
-Pon el código de aplicación en una máquina. Pon la base de datos en otra.
+Pon dos o más servidores de aplicación detrás de un balanceador. Escalar la capa web pasa a ser añadir máquinas.
 
-```
-Usuario → DNS → [ Web / App ] → [ Base de datos ]
-```
+**Problema nuevo:** el estado. Si la sesión de un usuario vive en la memoria de un servidor, la siguiente petición puede caer en otro. O usas sesiones pegajosas (sencillo y frágil) o, mejor, sacas las sesiones de los servidores de aplicación por completo (paso 5).
 
-Piensa en la cocina y el almacén como habitaciones distintas. Los cocineros cocinan. El almacén guarda los ingredientes con seguridad.
-
-**Ganancias:**
-
-- Dimensionas cada máquina para su trabajo.
-- El disco de la base ya no se comparte con logs ruidosos de la app.
-- Puedes dejar la base en una red privada para que internet no hable con ella directamente.
-
-**Trade-offs:**
-
-- Un pequeño salto de red entre app y base (suele ir bien en la misma región de la nube).
-- Dos máquinas que vigilar, parchear y respaldar.
-- Sigue habiendo una caja de app y una base: dos **puntos únicos de fallo** (si esa pieza muere, el producto cae).
-
-Esta es la primera arquitectura de verdad. No la saltes para saltar a un clúster enorme el día uno.
+**Cuándo pasar al siguiente:** el límite ya no es la capa de aplicación sino la base de datos. Normalmente las lecturas.
 
 ---
 
-## Etapa 2: Un balanceador delante de varios servidores web
+## Paso 4: réplicas de lectura y una caché
 
-Un **balanceador de carga** es un policía de tráfico para servidores. Los usuarios hablan con el policía. El policía envía cada petición a un servidor web sano.
+La mayoría de productos leen mucho más de lo que escriben. Dos herramientas atacan las lecturas:
 
-```
-Usuario → DNS → [ Balanceador ] → Web1, Web2, WebN → [ Base de datos ]
-```
+* **Las réplicas de lectura** copian los datos de la principal de forma asíncrona y sirven las consultas de lectura.
+* **Una caché** (Redis o memcached) guarda los resultados calientes en memoria con **cache-aside**: leer de la caché y, si falla, leer de la base de datos y rellenar la caché con un TTL.
 
-**Ganancias:**
+**Problemas nuevos:**
 
-- Añades más servidores web cuando crece el tráfico (**escalado horizontal**: más máquinas de tamaño similar, no una gigante).
-- Despliegas código vaciando un servidor, actualizándolo y devolviéndolo mientras otros atienden.
-- Las **comprobaciones de salud** (sondas simples de "¿estás bien?") sacan de la lista a los servidores enfermos.
+* **Retraso de replicación.** Un usuario actualiza su perfil, recarga y ve el valor antiguo porque la lectura fue a una réplica. Envía a la principal las lecturas de un usuario durante un breve intervalo tras escribir (leer lo que escribiste) o lee los datos críticos de la principal.
+* **Invalidación de caché y estampidas.** Borra o actualiza las claves de caché al escribir, usa TTL como red de seguridad y agrupa los fallos concurrentes de la misma clave.
 
-**Trade-offs:**
-
-- El propio balanceador es crítico. Usa un balanceador gestionado en la nube o un par con conmutación por error.
-- Las **sesiones pegajosas** (enviar siempre al mismo usuario al mismo servidor porque el login vive en la memoria de ese servidor) ocultan un mal olor de diseño. Prefiere un almacén de sesión compartido más adelante.
-- TLS (cifrado HTTPS), timeouts y límites de conexión pasan a ser tu trabajo o el del proveedor.
-
-Las comprobaciones de salud deben golpear una ruta real de la app como `/health`, no solo "el puerto de red está abierto".
+**Cuándo pasar al siguiente:** los usuarios de otros países ven páginas lentas, o los despliegues duelen porque los servidores guardan estado.
 
 ---
 
-## Etapa 3: Escalar la capa web con más servidores
+## Paso 5: CDN y servidores de aplicación sin estado
 
-Cuando el balanceador existe, añadir servidores web suele ser la victoria más barata para peticiones que queman CPU.
+* **CDN.** Sirve imágenes, scripts, estilos y vídeo desde ubicaciones de borde cerca de los usuarios. El origen solo sirve respuestas dinámicas.
+* **Servidores sin estado.** Las sesiones pasan a un almacén compartido (Redis o tokens firmados), las subidas van a almacenamiento de objetos y nada importante vive en el disco de un servidor de aplicación. Cualquier servidor puede atender cualquier petición, así que el autoescalado y los despliegues se vuelven rutina.
 
-**Cuida estos detalles:**
+**Problema nuevo:** cabeceras de caché e invalidación de los estáticos. Pon una huella en los nombres de fichero (`app.3f9c1.js`) para no tener que purgar nunca.
 
-- Cada servidor web abre conexiones a la base. Muchos servidores por un pool grande pueden agotar el límite de conexiones de la base.
-- Configuración, secretos y feature flags deben venir de un solo lugar, no diferir por accidente en cada host.
-- Autoescala con señales reales (CPU, latencia de petición, profundidad de cola), no con métricas de vanidad.
-
-**Trade-off:** escalar la web es fácil. La **base de datos y el estado compartido** son el siguiente muro. La mayoría de productos chocan con la base mucho antes de quedarse sin CPU web.
+**Cuándo pasar al siguiente:** las peticiones son lentas porque hacen trabajo lento en línea (enviar emails, redimensionar imágenes, llamar a terceros).
 
 ---
 
-## Etapa 4: Base primaria más réplicas de lectura
+## Paso 6: colas y workers
 
-Una **primaria** (a veces llamada master) acepta escrituras: usuarios nuevos, posts, pagos. Las **réplicas** (copias de la base que siguen a la primaria) sirven muchas lecturas: inicio, perfiles, listados de producto.
+Saca de la ruta de la petición el trabajo lento o propenso a fallar. La petición escribe un mensaje y responde; los workers lo procesan.
 
-```
-Capa web → escrituras → BD primaria
-         → lecturas   → Réplica1, Réplica2
-```
+**Problemas nuevos:** reintentos e idempotencia (un mensaje puede entregarse dos veces), orden (solo dentro de una partición, si acaso) y visibilidad (un atasco es invisible si no lo pones en una gráfica). Una cola de mensajes muertos y alertas de profundidad de cola son obligatorias.
 
-Los cambios fluyen de la primaria a las réplicas. Ese flujo es la **replicación**.
-
-**Ganancias:**
-
-- Productos con muchas lecturas ganan un gran multiplicador.
-- Informes pesados pueden correr en una réplica para no aplastar la primaria.
-- Una réplica puede ser un repuesto en caliente si cae la primaria (con práctica y herramientas).
-
-**Trade-offs:**
-
-- **Retraso de replicación:** el usuario guarda datos, luego lee de una réplica y aún ve el valor viejo. En rutas que deben estar frescas, lee la primaria un rato, o acepta que algunas páginas pueden estar un poco desfasadas.
-- Todas las escrituras siguen yendo a una primaria. Aún no resolviste la escala de escritura.
-- El failover (promover una réplica a primaria) es trabajo operativo real: detectar fallo, promover, apuntar las apps a la nueva primaria, manejar escrituras en vuelo.
-
-En una entrevista, nombra la historia de consistencia. "Usamos réplicas asíncronas; el retraso puede ser cientos de milisegundos con carga" es mejor que fingir que toda lectura es instantáneamente fresca.
+**Cuándo pasar al siguiente:** la caída de una sola región sería un desastre para el negocio, o los usuarios lejanos tienen una latencia inaceptable en las peticiones dinámicas.
 
 ---
 
-## Etapa 5: Una caché para datos calientes
+## Paso 7: varias regiones
 
-Una **caché** es una memoria rápida a corto plazo, a menudo Redis o Memcached. La pones entre la app y la base para datos que mucha gente pide una y otra vez.
+Ejecuta la pila en dos o más regiones con GeoDNS o anycast llevando a cada usuario a la región sana más cercana.
 
-| Patrón | Idea | Riesgo |
+| Modelo | Cómo funciona | Coste |
 | --- | --- | --- |
-| Cache-aside | La app mira la caché; si falla, carga la BD y rellena la caché | Muchos clientes fallan a la vez al caducar |
-| Read-through | La librería de caché carga al fallar | Menos control en tu código |
-| Write-through | Escribe caché y BD juntos | Más latencia de escritura |
-| Write-behind | Escribe primero la caché, guarda la BD después | Si la caché muere antes del volcado, se pueden perder datos |
+| Activo-pasivo | Una región sirve tráfico; la otra está en espera con los datos replicados | La conmutación tarda minutos y hay que ensayarla; pueden perderse escrituras recientes |
+| Activo-activo, particionado | Los datos de cada usuario tienen una región de origen; ambas regiones sirven tráfico | Lógica de enrutamiento y de ubicación de datos; peticiones entre regiones para los datos compartidos |
+| Activo-activo, datos globales | Todas las regiones aceptan escrituras en los datos compartidos | Resolución de conflictos o una base de datos globalmente consistente con más latencia de escritura |
 
-**Ganancias:** menos carga en la base, respuestas más rápidas en claves populares, a menudo más barato que agrandar la primaria para siempre.
+**Problema nuevo:** los datos. Las capas sin estado se replican sin esfuerzo; las bases de datos no. Elige el modelo preguntándote qué pasa con una escritura hecha un segundo antes de que caiga una región.
 
-**Trade-offs:**
-
-- Un TTL mal puesto o invalidación incompleta sirve datos "fantasma" viejos.
-- La memoria cuesta dinero. Debes elegir reglas de desalojo (por ejemplo, quitar lo menos usado recientemente).
-- La caché suele no ser la fuente de verdad. Planifica reinicios en frío cuando la caché está vacía.
-
-Protege la base cuando caducan muchas claves a la vez: añade jitter aleatorio a los TTL, combina peticiones duplicadas, o sirve datos un poco viejos mientras un worker refresca.
+**Cuándo pasar al siguiente:** la base de datos principal ya no puede absorber la carga de escritura ni en la máquina más grande que puedas comprar.
 
 ---
 
-## Etapa 6: CDN para imágenes, scripts y otros archivos estáticos
+## Paso 8: particionar la base principal
 
-Una **CDN** (red de entrega de contenido) guarda copias de archivos en muchas ciudades cerca de los usuarios: imágenes, JavaScript, CSS, fuentes, descargas. Algunas CDN también pueden cachear HTML público o APIs GET públicas si defines bien las reglas.
+Antes de particionar, agota las opciones más baratas: una máquina más grande, ajustar consultas e índices, llevar las funcionalidades con muchas escrituras a bases de datos separadas por dominio (federación) y archivar los datos fríos. El particionado es el último paso por algo.
 
-```
-Usuario → borde CDN cerca → (fallo) → Origen (balanceador + web) → ...
-```
+Cuando particiones, reparte las filas entre muchas bases de datos según una **clave de partición**:
 
-**Ganancias:**
+* **Elige la clave según el patrón de acceso dominante.** Un SaaS multiinquilino particiona por inquilino; una app social, a menudo por usuario. Las consultas que incluyen la clave tocan un solo fragmento.
+* **Evita los fragmentos calientes.** Aplica un hash a la clave en lugar de usar rangos de tiempo o IDs secuenciales.
+* **Planifica el reparticionado desde el primer día.** Usa muchos fragmentos lógicos asignados a menos bases físicas, para que crecer signifique mover fragmentos lógicos y no rehacer el hash de cada fila (mira [consistent hashing](/blog/es/design-consistent-hashing)).
 
-- Usuarios lejos de tu centro de datos principal cargan más rápido.
-- Tus máquinas de origen gastan menos ancho de banda en estáticos pesados.
-- Picos de medios pegan primero en el borde, no solo en el núcleo.
-
-**Trade-offs:**
-
-- Debes purgar o versionar archivos (`app.a1b2c3.js`) para que nadie ejecute scripts viejos rotos.
-- Respuestas privadas o personalizadas no deben vivir en una caché de borde pública compartida.
-- Hay coste y dependencia del proveedor, pero suele ganar frente a sobredimensionar el origen para tráfico estático global.
-
-Por defecto en entrevista: estáticos en CDN primero. Solo después habla de cachear GET de API públicas con claves claras y `Cache-Control`.
+**Problemas nuevos:** las consultas y transacciones entre fragmentos pasan a ser código de aplicación, las restricciones de unicidad entre fragmentos necesitan un esquema global de IDs ([generador de IDs únicos](/blog/es/design-unique-id-generator)) y las operaciones se multiplican por el número de fragmentos.
 
 ---
 
-## Etapa 7: Servidores web sin estado (stateless)
+## El destino, como referencia
 
-**Sin estado** significa que cualquier servidor web puede atender cualquier petición de usuario. Las sesiones de login, contadores globales de límite de tasa y subidas a medias viven en almacenes compartidos (Redis, base de datos, object storage), no solo en la RAM de un servidor.
+![Arquitectura final: usuarios y apps móviles se resuelven por GeoDNS hacia la región más cercana, obtienen los estáticos de un CDN y llegan a servidores de aplicación sin estado y autoescalados detrás de un balanceador; los servidores usan Redis como caché y almacén de sesiones, escriben en bases de datos principales particionadas, leen de réplicas y encolan trabajo en segundo plano para workers mediante una cola de mensajes, con una segunda región que ejecuta la misma pila](/assets/images/hld/design-scale-final-architecture.webp)
 
-**Ganancias:**
+* **GeoDNS** envía a los usuarios a la región sana más cercana y conmuta a la Región B.
+* **CDN** sirve los estáticos desde el borde.
+* **Load Balancer** reparte las peticiones entre **App servers** sin estado y autoescalados.
+* **Redis** guarda las entradas de caché y las sesiones.
+* **Primary DBs (fragmentos 1..n)** reciben las escrituras; **Read replicas** reciben el tráfico de lectura.
+* **Message Queue** y **Workers** se encargan de todo lo que no necesita terminar antes de la respuesta.
 
-- El balanceador puede usar reglas simples (round-robin o menos conexiones).
-- Puedes añadir o quitar servidores sin "este usuario debe quedarse en el servidor 3".
-- Si muere un servidor, las sesiones siguen vivas si el almacén compartido está lo bastante sano.
-
-**Trade-offs:**
-
-- Un salto de red extra al almacén de sesión en peticiones autenticadas.
-- Ese almacén compartido se vuelve crítico. Replícalo y monitorízalo.
-- Conexiones largas como WebSockets necesitan otro plan (pegajosidad o fanout pub/sub).
-
-Si aún necesitas pegajosidad por legado, dilo y trátalo como deuda, no como diseño objetivo.
+Aquí acaban muchos productos grandes. Es un pésimo sitio para empezar.
 
 ---
 
-## Etapa 8: Más de un centro de datos (multi-región)
+## Qué medir para saber cuándo moverse
 
-Un **centro de datos** (o región en la nube) es un edificio lleno de máquinas en una geografía. Servir desde más de una región baja la latencia y ayuda cuando falla toda una región.
-
-Patrones comunes:
-
-1. **Activo-pasivo:** una región atiende; otra se mantiene caliente de respaldo.
-2. **Activo-activo:** ambas atienden tráfico. Más duro. Los datos deben replicarse con cuidado en ambos sentidos o por partición.
-
-**Ganancias:** mejor recuperación si muere una región, páginas más rápidas para usuarios globales, opciones de residencia de datos.
-
-**Trade-offs:**
-
-- Diseños de base muy charlatanes duelen cuando cada consulta cruza continentes.
-- Escrituras multi-master traen dolor de resolución de conflictos.
-- DNS geo, health checks y simulacros de failover son coste operativo continuo.
-- Algunos datos deben quedarse en-región por ley o política de producto.
-
-En entrevistas, empieza con activo-pasivo salvo que el producto sea claramente global y sensible a latencia como para pagar la complejidad activo-activo.
+| Señal | Sugiere |
+| --- | --- |
+| CPU de aplicación alta en pico, base de datos bien | Añadir servidores de aplicación (paso 3) |
+| CPU o IO de base de datos altas, sobre todo lecturas | Réplicas y caché (paso 4) |
+| p99 alto para usuarios lejos de tu región | CDN (paso 5) y luego regiones (paso 7) |
+| Latencia dominada por llamadas externas | Colas y workers (paso 6) |
+| Rendimiento de escritura o almacenamiento de la principal cerca del límite tras afinar | Federación y luego particionado (paso 8) |
 
 ---
 
-## Etapa 9: Colas de mensajes y trabajo en segundo plano
+## Lo que queda
 
-No toda acción del usuario debe terminar dentro de la petición HTTP. Una **cola de mensajes** es una fila de espera para trabajo: enviar email, redimensionar imágenes, indexar búsqueda, disparar webhooks.
+La arquitectura más cara es la que construiste para un tráfico que no tienes. La segunda más cara es la que se cae el día que llega el tráfico.
 
-```
-Web → poner trabajo en cola → [ Cola ] → Workers → BD / email / object storage ...
-```
-
-**Ganancias:**
-
-- Suaviza picos: los workers drenan a un ritmo que el sistema aguanta.
-- Aísla fallos: un proveedor de correo inestable no convierte el registro en un error 500.
-- Escalas productores (web) y consumidores (workers) por separado.
-
-**Trade-offs:**
-
-- La UI puede mostrar "procesando" porque el trabajo termina después (**consistencia eventual**: el sistema se vuelve correcto pronto, no siempre en el mismo instante).
-- La entrega suele ser **al menos una vez**. Los workers deben ser **idempotentes** (hacer el mismo trabajo dos veces no cobra dos veces ni manda dos emails).
-- Mensajes venenosos, colas de letras muertas y buenos logs son obligatorios, no opcionales.
-- Un orden estricto necesita diseño extra (claves de partición, particiones de un solo consumidor).
-
-Las colas no quitan trabajo. Lo mueven a un lugar donde puedes dimensionar, reintentar y observar a propósito.
+El camino entre ambas es aburrido: unos cuantos paneles, una lista escrita de los próximos tres pasos y la disciplina de dar un paso solo cuando una gráfica te lo pide. El diagrama impresionante seguirá ahí cuando lo necesites.
 
 ---
 
-## Etapa 10: Cuando una base primaria aún no basta
+## Fuentes
 
-Cuando la carga de escritura o el tamaño de datos superan una primaria:
-
-### Máquina más grande otra vez
-
-Más CPU, RAM, discos más rápidos. Simple hasta que el coste o el hardware te paren.
-
-### Partir por dominio (federación)
-
-Base de usuarios, base de pedidos, base de inventario. Dueños claros. Los joins entre dominios pasan al código de la app. Las transacciones multi-base se vuelven difíciles.
-
-### Sharding (partir filas en muchas bases)
-
-Un **shard** es una rebanada de los datos, a menudo por id de usuario o de tenant. Cada shard tiene su propia primaria (y suele tener sus réplicas).
-
-**Ganancias:** el volumen de escritura y el almacenamiento pueden crecer más o menos con el número de shards.
-
-**Trade-offs:**
-
-- Una mala clave de shard crea puntos calientes (un shard hace casi todo el trabajo).
-- Consultas que tocan muchos shards duelen.
-- Rehacer shards con datos en vivo es un proyecto, no un cambio de config.
-- Restricciones únicas e índices secundarios suelen ser locales al shard salvo que construyas índices globales.
-
-### NoSQL cuando encaja el patrón de acceso
-
-Almacenes de documentos, de columnas anchas o clave-valor ayudan en algunas cargas (muchas escrituras simples, documentos flexibles, búsquedas por clave). No son una mejora gratis si aún necesitas joins complejos y transacciones fuertes multi-fila.
-
-Elige el almacén por cómo consultas los datos, no por moda.
-
----
-
-## Juntando las capas
-
-Un camino maduro suele verse así. Aun así, añades capas solo cuando un cuello de botella real lo pide.
-
-```
-Usuarios
-  → DNS / enrutado geo
-  → CDN (estáticos, algunos GET públicos)
-  → Balanceador
-  → Web / API sin estado
-  → Caché
-  → BD primaria + réplicas de lectura (luego shards)
-  → Cola de mensajes → workers
-  → Object storage para archivos grandes
-```
-
-Hábito de entrevista: **nombra el cuello de botella, propone la siguiente capa, di el trade-off, sigue.** No vuelques el diagrama final completo salvo que te lo pidan.
-
----
-
-## Qué escuchan los entrevistadores
-
-1. Escalas **lecturas y escrituras** de forma distinta.
-2. Separás **cómputo y datos** lo bastante pronto.
-3. Tratás **caché y CDN** como de primera clase, con invalidación y privacidad.
-4. Haces la capa web **sin estado** antes del teatro multi-región.
-5. Usas **colas asíncronas** para trabajo que puede esperar, con workers idempotentes.
-6. Escalas la base de réplicas a partición por dominio a shards con los ojos abiertos sobre la consistencia.
-7. Puedes decir **qué se rompe** en cada paso.
-
----
-
-## Un orden práctico en producción
-
-1. Mide: latencia, tasa de error, CPU de la base, conexiones, I/O de disco.
-2. Arregla bugs obvios de app e índices faltantes antes de comprar arquitectura.
-3. Separa capas, añade balanceador, crece web, añade réplicas de lectura.
-4. Añade caché y CDN para rutas calientes y estáticas.
-5. Externaliza sesiones y haz los despliegues aburridos.
-6. Encola el trabajo pesado.
-7. Multi-región y sharding cuando las métricas y el riesgo de negocio justifiquen la complejidad.
-
-La arquitectura es un presupuesto. Gástalo donde el usuario siente el dolor.
-
----
-
-## Explícaselo a un amigo
-
-- Empieza como un restaurante de una sola persona: un ordenador corre el sitio y la base hasta que no da abasto.
-- Separa cocina y almacén (app frente a base), luego contrata un policía de tráfico (balanceador) y más cocineros (servidores web).
-- Deja que copias de la base respondan la mayoría de "muéstrame" (réplicas), y guarda un bloc de notas rápido (caché) más copisterías de barrio (CDN) para lo popular y lo estático.
-- Haz que los servidores no recuerden el login solo en su memoria local (sin estado), y empuja tareas lentas (email, imágenes) a una fila de espera (cola).
-- Solo cuando una base principal aún no puede escribir ni guardar lo bastante partes por dominio o por shard, y solo cuando los usuarios están en todo el mundo añades más regiones, siempre nombrando qué frescura o simplicidad cedes.
-
+* [Nick Craver: Stack Overflow, The Architecture (2016 Edition)](https://nickcraver.com/blog/2016/02/17/stack-overflow-the-architecture-2016-edition/)
+* [Instagram Engineering: What Powers Instagram](https://instagram-engineering.com/what-powers-instagram-hundreds-of-instances-dozens-of-technologies-adf2e22da2ad)
+* [AWS Well-Architected Framework: pilar de fiabilidad (patrones multirregión)](https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html)
+* [Martin Fowler: CQRS y modelos de lectura](https://martinfowler.com/bliki/CQRS.html)
+* Relacionado en esta serie: [Estimaciones de servilleta](/blog/es/design-back-of-envelope-estimation), [Diseña consistent hashing](/blog/es/design-consistent-hashing), [Patrones de caché con Redis](/blog/es/redis-caching-patterns)

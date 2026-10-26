@@ -1,368 +1,169 @@
 ---
-title: "Design a Search Autocomplete System: How Typeahead Really Works"
-description: "Search autocomplete for beginners: prefixes, a letter tree (trie), top suggestions, why we precompute answers, and a letter-by-letter walk of typing din."
+title: "Design Search Autocomplete: Tries With Precomputed Top-K, Two Paths, and a 100 ms Budget"
+description: "How typeahead works at scale: the per-keystroke latency budget, a trie that stores the top suggestions at every node, the offline pipeline that builds it from search logs with time decay and blocklists, sharding and CDN caching, client debouncing, and the failure modes that embarrass companies."
 date: "2025-11-14"
 tags: [System Design & Architecture]
 coverImage: /assets/images/design-search-autocomplete.webp
 previewImage: /assets/images/design-search-autocomplete.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
-> * **The Insight:** Search autocomplete for beginners: prefixes, a letter tree (trie), top suggestions, why we precompute answers, and a letter-by-letter walk of typing din.
-> * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
+> * **The Problem:** Return the ten best completions for whatever prefix the user has typed, on every keystroke, fast enough that suggestions feel instant (well under 100 ms end to end), for tens of thousands of requests per second, without ever suggesting something offensive.
+> * **The Design:** Split the system into two paths. The query path is a pure in-memory lookup in a trie where every node already stores its top-k completions, fronted by CDN and client caches. The data path aggregates search logs offline with time decay, filters them, builds new trie snapshots, and ships them to servers.
+> * **The Result:** A lookup costs one walk of `len(prefix)` steps and returns a list that was computed hours ago. All the expensive work, ranking, filtering and deduplication, happens offline where it can be slow and careful.
 
-You already use search autocomplete every day. Open Google, Amazon, or your phone messages. You type a few letters, and a short list of finished phrases appears before you hit Enter. That dropdown is not magic. It is a small system with one job: **given the letters you have typed so far, return a few good full queries, very fast.**
-
-Think of your **phone keyboard suggestions**. As you type `din`, the keyboard tries to finish the word for you. Or think of a **dictionary that only looks at the start of words**, not the middle, and hands you the most common matches first. That is the mental model for this whole design.
-
-This post teaches autocomplete the way I would teach it on a whiteboard to someone who has never built search before. We will use plain language, one small example (`din`), and only the ideas you need for an interview or a first production version.
+Autocomplete is one of the few features where latency is the product. A search box that suggests "dinner recipes" 300 ms after you typed "din" feels broken, even if the suggestions are good. The design follows from that one constraint: **nothing expensive may happen while the user is typing.**
 
 ---
 
-## What we are building (and what we are not)
+## Requirements and Numbers
 
-**In scope**
+**Functional:** given a prefix, return up to 10 suggestions ranked by popularity (optionally personalized and localized); update suggestions as search behavior changes; never suggest blocked content.
 
-1. User types a **prefix** (the start of a query).
-2. System returns the **top k** suggestions (often 5 to 10).
-3. Suggestions are ranked mostly by **how often people searched them**.
-4. The answer must feel instant (rough target: under about **100ms**).
-5. We keep the suggestion list reasonably up to date from real search logs.
+**Non-functional:** p99 under about 50 ms server-side so the end-to-end experience stays under 100 ms; highly available (if autocomplete fails, search must still work); results can be hours stale.
 
-**Out of scope unless someone asks**
+| Assumption | Value | Derived |
+| --- | --- | --- |
+| Daily active searchers | 10M | |
+| Searches per user per day | 10 | 100M searches/day |
+| Requests per search after debouncing | ~6 | ~600M requests/day, ~7k/s average, ~20k/s peak |
+| Distinct queries kept | ~100M | After dropping the long tail seen only once or twice |
+| Suggestions per node | 10 | Memory grows with nodes x k, which is why k stays small |
 
-- Full Google-quality ranking with machine learning
-- Fixing typos (`dinnr` → `dinner`)
-- Finding matches in the middle of a sentence
-- Personalized "just for you" lists
-
-Name those out loud in an interview so you do not get dragged into a research paper.
+The requests per search number is where client design matters. Without debouncing, a 15-character query is 15 requests.
 
 ---
 
-## Start with one word: prefix
+## Two Paths
 
-A **prefix** is simply the beginning of a string.
+![Search autocomplete architecture: on the query path the search box calls a CDN cache per prefix, which on a miss calls the autocomplete service that looks up in-memory trie shards holding top-10 lists; on the data path search logs feed an aggregator with counts and decay, a trie builder with blocklist filtering writes snapshots to object storage, and servers load new versions](/assets/images/hld/design-autocomplete-architecture.webp)
 
-| You typed | That is the prefix of |
+**Query path (milliseconds)**
+
+* **Search Box.** Debounces keystrokes (about 100 ms), caches responses per prefix locally, and cancels in-flight requests when a newer prefix is typed.
+* **CDN cache per prefix.** Short prefixes ("a", "th", "how") are requested by millions of users. Caching responses at the edge for a few minutes absorbs a large share of traffic before it reaches your servers. Personalized results cannot be cached this way, which is one reason personalization is usually a thin reranking layer on top.
+* **Autocomplete Service.** Stateless request handling: normalize the prefix (lowercase, trim, Unicode normalization), route to the right trie shard, return the stored list.
+* **Trie shards in RAM.** The whole index lives in memory. Every node stores its precomputed top 10.
+
+**Data path (hours)**
+
+* **Search Logs.** Every submitted search (not every keystroke) is logged with time, locale and whether the user clicked a result.
+* **Aggregator (counts + decay).** A batch or streaming job computes a score per query, weighting recent searches more heavily, so last week's breaking news fades and a new product name rises.
+* **Trie Builder + blocklist filter.** Drops blocked terms, personal data and spam, then builds the trie with top-k lists per node.
+* **Snapshots (object store).** Versioned trie files. Servers load a new version in the background and swap atomically; a bad build can be rolled back by pointing at the previous version.
+
+The split is the whole design. The query path never computes anything; the data path never serves anything.
+
+---
+
+## The Trie, With Top-K at Every Node
+
+![Trie for the prefix d, di, din and dis, where each node stores its own precomputed top-3 suggestions, so a lookup for din walks three nodes and returns dinner recipes, dinosaur and dining table without scanning the subtree](/assets/images/hld/design-autocomplete-trie.webp)
+
+A plain trie finds all words with a prefix by walking to the prefix node and then scanning everything below it. For the prefix "d," that subtree is enormous. The fix is to **store the answer at the node**: when building, push each query's score into the top-k list of every node along its path. A lookup is then a walk of `len(prefix)` steps followed by returning a list.
+
+```python
+import heapq
+
+class Node:
+    __slots__ = ("children", "top")
+    def __init__(self):
+        self.children, self.top = {}, []
+
+def build(counts: dict[str, int], k: int = 10) -> Node:
+    root = Node()
+    for query, score in counts.items():
+        node = root
+        for ch in query:
+            node = node.children.setdefault(ch, Node())
+            heapq.heappush(node.top, (score, query))
+            if len(node.top) > k:
+                heapq.heappop(node.top)          # keep only the k best
+    for node in _walk(root):                      # freeze: best first
+        node.top = [q for _, q in sorted(node.top, reverse=True)]
+    return root
+
+def _walk(node):
+    yield node
+    for child in node.children.values():
+        yield from _walk(child)
+
+def suggest(root: Node, prefix: str) -> list[str]:
+    node = root
+    for ch in prefix.lower():
+        node = node.children.get(ch)
+        if node is None:
+            return []
+    return node.top
+```
+
+With scores `discord: 2000, dictionary: 1200, dinner recipes: 900, disney plus: 850, discount codes: 800, dinosaur: 700, dining table: 650` and k = 3, `suggest("din")` returns `["dinner recipes", "dinosaur", "dining table"]`, matching the diagram. I ran it to check.
+
+**Memory trade-off.** Storing k suggestions at every node multiplies memory, so production systems store query IDs instead of strings, cap the depth at which lists are stored (deep prefixes are rare and can fall back to a subtree scan), and compress the structure. Lucene and Elasticsearch's completion suggester use finite state transducers (FSTs) for exactly this reason: they share common prefixes and suffixes and fit large vocabularies in memory.
+
+---
+
+## Ranking and Freshness
+
+| Signal | Effect |
 | --- | --- |
-| `d` | `dinner`, `dinosaur`, `doctor`, ... |
-| `di` | `dinner`, `dinosaur`, `diners near me`, ... |
-| `din` | `dinner recipes`, `dinosaur`, `diners near me`, ... |
-| `dino` | `dinosaur`, `dinosaur toys`, ... |
+| Query frequency with time decay | Base popularity that still lets new trends rise |
+| Click-through on results | Queries that lead nowhere are demoted |
+| Locale and language | "football" means different things in different countries |
+| Personal history | A light rerank of the global list, done in the service, not in the trie |
+| Trending detection | A small streaming side path that injects rising queries between full rebuilds |
 
-Autocomplete almost always means **prefix match from the start**, not "find this substring anywhere."
-
-If the product only needs that, say so. Mid-string match is a different, harder problem.
-
----
-
-## Why a plain list of words is not enough
-
-Imagine you store every popular search in a big table:
-
-```
-query                 times_searched
-------------------------------------
-dinner recipes        98012
-dinosaur              77120
-diners near me        54001
-doctor near me        41000
-... millions more ...
-```
-
-A naive answer for prefix `din` is:
-
-```sql
-SELECT query
-FROM queries
-WHERE query LIKE 'din%'
-ORDER BY times_searched DESC
-LIMIT 5;
-```
-
-That works on a laptop demo. At real scale, each keystroke becomes a request, and tens of thousands of requests per second may hit you. Scanning or sorting a giant table for every letter people type is too slow and too expensive.
-
-We need a structure built for **walking letters one by one**.
+A full rebuild every few hours handles most freshness needs. For breaking events, a streaming job can compute a small "trending" trie that the service merges with the main result, so a sudden spike appears in minutes rather than hours.
 
 ---
 
-## The phone keyboard idea: a tree of letters
+## Scaling the Query Path
 
-Here is the core picture.
-
-Imagine a **tree**. The root is empty (you have typed nothing). Each step down is one letter. Shared starts share the same path.
-
-That tree is called a **trie** (say "try"). People also call it a **prefix tree**.
-
-Tiny dictionary: `be`, `bee`, `beer`, `best`, `bet`.
-
-```
-        (root)
-          |
-          b
-          |
-          e
-       /  |  \
-      e   s   t
-      |   |
-      r   t
-```
-
-How to read it:
-
-- Path `b → e` is the prefix `be`.
-- Path `b → e → e → r` is the word `beer`.
-- Words that share a start share nodes, so you do not store the letters of `be` three separate times for `be`, `bee`, and `beer`.
-
-Same idea as keyboard suggestions: the keyboard is not rereading the whole dictionary from A to Z for every letter. It follows the path of letters you already typed, then looks at what can still grow from there.
+* **Replicate before you shard.** A filtered trie for one language often fits in tens of gigabytes of RAM. Replicating the whole trie to every server is simpler than sharding and gives each server the complete answer.
+* **Shard by prefix when it no longer fits.** Partition on the first character or two, with smarter splits for skewed letters (far more queries start with "s" than with "x"). The service routes by the normalized prefix.
+* **Cache aggressively at the edge.** Short prefixes are the hottest and least personal; give them CDN TTLs measured in minutes.
+* **Fail open to nothing.** If autocomplete is down, return an empty list quickly. The search box still works; users just type a bit more.
 
 ---
 
-## Walk typing `din` letter by letter
+## Safety Is Not Optional
 
-Suppose popular queries that start with `d` include:
+Autocomplete puts words in users' mouths. Every major search company has been embarrassed by a suggestion that completed a person's name with an accusation or a group's name with a slur.
 
-- `dinner recipes` (score 98012)
-- `dinosaur` (score 77120)
-- `diners near me` (score 54001)
-- `doctor near me` (score 41000)
-- `disney movies` (score 39000)
-
-**Step 1: user types `d`**
-
-Server walks one edge: root → `d`.
-
-Everything under `d` is a candidate: dinner, dinosaur, doctor, disney, and more. If we listed *all* of them, the list would be huge. So we only keep the **top few** for this prefix (more on that soon). Maybe:
-
-```
-prefix "d" → dinner recipes, dinosaur, diners near me, doctor near me, disney movies
-```
-
-**Step 2: user types `i` (now `di`)**
-
-Walk one more edge: `d` → `i`.
-
-`doctor` and anything that does not continue with `i` drop out. Still under `di`: dinner, dinosaur, diners, disney, and similar.
-
-```
-prefix "di" → dinner recipes, dinosaur, diners near me, disney movies, ...
-```
-
-**Step 3: user types `n` (now `din`)**
-
-Walk: `i` → `n`.
-
-Now the path is `d-i-n`. Only queries that start with `din` remain:
-
-```
-prefix "din" → dinner recipes, dinosaur, diners near me, ...
-```
-
-That is the whole query path in one sentence: **follow the letters the user typed, then return the best finished queries hanging under that node.**
-
-Time to reach the node is proportional to how many characters they typed. For short search boxes, that is a handful of steps, not a full table scan.
+* Maintain blocklists for hate, violence, sexual content and self-harm, applied in the builder and rechecked at serve time for emergency additions.
+* Strip personal data such as phone numbers and email addresses from logs before aggregation.
+* Apply extra caution to queries about people; many products do not suggest completions about named individuals in sensitive contexts.
+* Require a minimum number of distinct users before a query can be suggested, so one person or a bot cannot inject suggestions.
+* Provide an emergency kill switch per suggestion that takes effect in minutes, not at the next rebuild.
 
 ---
 
-## Top suggestions: we do not show everything
+## Production Checklist
 
-Users do not want 10,000 matches. They want a short, useful list.
-
-So the product says: return **top k**, often `k = 5` or `k = 10`.
-
-**How do we rank?**
-
-Simplest interview answer: **historical frequency**. Count how many times people finished that search. Higher count → higher rank. Optional later upgrades: recent trends, clicks on suggestions, language, location. Start with frequency so the design stays clear.
-
-Example response shape:
-
-```http
-GET /v1/autocomplete?q=din&limit=5
-```
-
-```json
-{
-  "prefix": "din",
-  "suggestions": [
-    {"query": "dinner recipes", "score": 98012},
-    {"query": "dinosaur", "score": 77120},
-    {"query": "diners near me", "score": 54001}
-  ]
-}
-```
-
-Empty or one-letter prefixes are awkward (almost the whole dictionary). Many products wait until **2 or 3 characters** before calling the server, or they show a special "trending" list for very short input.
+- [ ] Client debounce, local prefix cache and request cancellation
+- [ ] Prefix normalization identical in builder and service
+- [ ] Top-k stored per node; memory measured per build
+- [ ] Builds versioned, validated (size, sample queries, blocklist check) and atomically swapped
+- [ ] Rollback to the previous snapshot in one step
+- [ ] CDN caching for short, non-personalized prefixes
+- [ ] Minimum distinct-user threshold and blocklists, plus an emergency removal path
+- [ ] Fail fast with an empty list; search must not depend on autocomplete
+- [ ] Dashboards: p99 latency, cache hit rates (client, CDN, service), suggestion click-through, build age
 
 ---
 
-## Why we precompute (the most important production idea)
+## The Leftover
 
-You *could* do this on every request:
+The best autocomplete is the one users never think about. They type three letters, the thing they wanted is already there, and they press enter.
 
-1. Walk to the prefix node (`din`).
-2. Explore the whole subtree under it.
-3. Collect every finished query.
-4. Sort by score.
-5. Take top 5.
-
-For a rare prefix like `xylophone`, the subtree is tiny. For a common prefix like `a` or `the`, the subtree can be enormous. Sorting a huge pile under a 100ms budget, at huge QPS, fails.
-
-So we **precompute**.
-
-At each important node (or for each important prefix), store the answer ahead of time:
-
-```
-Node "din":
-  top: [dinner recipes, dinosaur, diners near me, ...]
-```
-
-Query path becomes:
-
-1. Walk to the node (or look up the prefix in a map).
-2. Return the list you already stored.
-
-You trade **memory** for **latency**. That trade is intentional. Autocomplete is a read-heavy product where speed is the product.
-
-### When do those lists get built?
-
-Not on every keystroke in the user's face. Separately:
-
-1. People finish searches (logs).
-2. A pipeline counts frequencies (hourly, daily, weekly, product choice).
-3. A job builds a new trie (or a map of `prefix → top-k`).
-4. Serving machines load the new snapshot and switch over.
-
-Think of it like printing a new pocket dictionary at night, then using that printed book for answers the next day. For newsy products you also add a short "trending" path, but the main idea stays: **do heavy work offline, answer online with ready-made lists.**
+Behind that moment is a pipeline that ran hours ago, a blocklist someone updated at midnight, and a snapshot that loaded without a sound. The user saw ten words. The system remembered millions of other people asking the same question first.
 
 ---
 
-## Two paths: learn vs answer
+## Sources
 
-Draw this split early. It keeps the design honest.
-
-```
-LEARN (slow is OK)
-  finished searches → counts → build top-k → publish snapshot
-
-ANSWER (must be fast)
-  user types → API → cache / trie → top-k list → response
-```
-
-If you update one global live tree on every completed search worldwide, you create write storms, lock fights, and inconsistent ranks. For a first design, prefer **periodic rebuild + atomic swap**.
-
----
-
-## A tiny capacity story (so scale feels real)
-
-Rough interview numbers you can say out loud:
-
-- 10 million people using the product per day
-- Each person searches about 10 times
-- Each search may type about 20 characters (if every keystroke hits the server)
-
-```
-Average QPS ≈ 10M * 10 * 20 / 86400 ≈ 24,000
-Peak might be about 2x → ~50,000
-```
-
-In production the client should **debounce** (wait ~150-300ms after the last key before calling) and cancel old requests when a new letter arrives. That cuts traffic a lot. Still, plan for a hot, read-heavy API.
-
-Also: browsers can cache non-personal suggestions for a while. Server caches (Redis or in-process) store hot prefixes like `din`, `how`, brand names. Cache misses load from the trie snapshot.
-
----
-
-## Safety and ugly results
-
-Popularity alone can surface bad suggestions. Hate speech, scams, or legal takedowns cannot wait for next week's rebuild.
-
-Put a **fast filter** on the answer path:
-
-- Blocklist of full queries and prefixes
-- Drop matches before they reach the user
-- Also remove them in the next rebuild so they stop taking top-k slots
-
-Immediate hide now, clean index soon.
-
----
-
-## Scaling without drowning in jargon
-
-One machine will not hold every language and every long-tail query forever.
-
-Practical ideas interviews like:
-
-| Idea | Plain meaning |
-| --- | --- |
-| Shard by prefix | Queries starting with `a-m` on one set of machines, `n-z` on another |
-| Fix letter skew | English loves `s` and `c` more than `x` and `z`; shard by real traffic, not pure alphabet slices |
-| Locale tries | Spanish rankings differ from Hindi rankings; separate indexes help |
-| Min characters | Do not serve global top-k for empty string |
-
-You do not need a perfect global real-time graph on day one. You need a **prefix → top-k** service that stays fast when traffic grows.
-
----
-
-## Client details that make the product feel good
-
-| Detail | Why |
-| --- | --- |
-| Debounce 150-300ms | Avoid a request per key mash |
-| Cancel in-flight calls | Backspace should not show a stale list |
-| Min length 2-3 | Avoid dumping the whole dictionary |
-| Local recent searches | Offline or failure still feels useful |
-| Cap prefix length | 50 characters is plenty for a search box |
-
-The backend design is the same for mobile apps and web.
-
----
-
-## End-to-end picture you can defend
-
-**Product:** prefix top-5 by popularity, tens of thousands of QPS peak, p99 under ~100ms, English first, periodic rebuild, fast moderation kills.
-
-**Pieces:**
-
-1. Autocomplete API (stateless, many copies)
-2. Trie or `prefix → top-k` snapshot in memory / Redis
-3. Durable snapshot store (versioned builds)
-4. Log → aggregate → build workers
-5. Read-path blocklist
-6. Optional short-window trending merge for breaking news
-
-**Query:** validate → cache → precomputed top-k → filter → respond.
-
-**Learn:** sample completed searches → aggregate → build → publish → warm cache → flip version.
-
----
-
-## Recap for a friend
-
-If you had to explain this at dinner in one minute:
-
-> Autocomplete is like phone keyboard suggestions for search. You type the start of a phrase (a **prefix**). The system does not reread every search ever done. It keeps a **tree of letters** (a trie). Each step is one letter. When you type `d`, then `i`, then `n`, it walks `d → i → n` and looks at a **short precomputed list** of the most popular full queries under that path, like `dinner recipes` and `dinosaur`. We precompute those top lists offline from real search counts so every keystroke stays cheap and fast. Serving answers and learning from new searches are two different jobs. Mixing them into one live update on every search is how these systems get slow and messy.
-
-That is the design. Everything else (shards, caches, trends, filters) is detail around that story.
-
----
-
-## Checklist before you ship (or finish the interview)
-
-- [ ] Prefix-only match agreed with product
-- [ ] `k` and ranking rule stated (frequency first)
-- [ ] Client debounce, cancel, min character length
-- [ ] Top-k stored per node or per prefix map
-- [ ] Offline or periodic build with atomic swap
-- [ ] Read-path safety filter with fast update
-- [ ] Cache layers for hot prefixes
-- [ ] Rate limits on the autocomplete endpoint
-- [ ] Dashboards: latency, cache hit rate, empty results, build lag
-
----
-
-## Closing
-
-Search autocomplete is not a fancy AI demo. It is a **prefix top-k service** with a soft real-time index. The structure that matches the product is a letter tree. The trick that makes production work is **precomputed short lists** at the nodes people actually walk. Keep the learn path and the answer path separate, and the system stays both fast and understandable.
-
+* [Elasticsearch: completion suggester (FST-based)](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters.html#completion-suggester)
+* [Apache Lucene: FST package documentation](https://lucene.apache.org/core/9_0_0/core/org/apache/lucene/util/fst/package-summary.html)
+* [Google Search Help: how Google autocomplete works and its policies](https://support.google.com/websearch/answer/7368877)
+* [MDN: debouncing and throttling user input (glossary)](https://developer.mozilla.org/en-US/docs/Glossary/Debounce)
+* Related in this series: [Design a Web Crawler](/blog/en/design-web-crawler), [Back-of-the-Envelope Estimation](/blog/en/design-back-of-envelope-estimation), [Redis caching patterns](/blog/en/redis-caching-patterns)

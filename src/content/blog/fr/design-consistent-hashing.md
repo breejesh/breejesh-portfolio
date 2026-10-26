@@ -1,418 +1,188 @@
 ---
-title: "Concevoir le consistent hashing : anneaux, nœuds virtuels et remapping minimal"
-description: "Pourquoi hash(key) % N réassigne presque tout le monde quand un serveur part, comment un anneau de hachage place les clés en marchant dans le sens horaire, les nœuds virtuels pour une charge équitable, et où le consistent hashing apparaît dans les caches, bases et load balancers."
+title: "Concevoir le hachage cohérent : anneaux, nœuds virtuels et remappage minimal"
+description: "Pourquoi hash(key) % N déplace environ 90 % des clés quand un nœud arrive, comment un anneau de hachage avec nœuds virtuels n'en déplace qu'environ 1/N, l'équilibre de charge mesuré avec 1, 10 et 200 nœuds virtuels, la réplication sur l'anneau, et quand préférer rendezvous, jump ou Maglev."
 date: "2026-01-13"
 tags: [Design Système et Architecture]
 coverImage: /assets/images/design-consistent-hashing.webp
 previewImage: /assets/images/design-consistent-hashing.webp
 ---
 
-
 > **TL;DR**
-> * **Le Problème:** La conception d'architectures évolutives exige un équilibre entre disponibilité, débit et complexité opérationnelle.
-> * **L'Essentiel:** Pourquoi hash(key) % N réassigne presque tout le monde quand un serveur part, comment un anneau de hachage place les clés en marchant dans le sens horaire, les nœuds virtuels pour une charge équitable, et où le consistent hashing apparaît dans les caches, bases et load balancers.
-> * **Le Résultat:** Plan technique avec des objectifs quantitatifs et la gestion des pannes en production.
+> * **Le problème :** Placer les clés avec `hash(key) % N` fonctionne tant que N ne change pas. Ajoutez un onzième nœud de cache à dix nœuds et environ 90 % des clés pointent soudain ailleurs, ce qui, pour un cache, signifie une avalanche d'échecs presque totale sur la base de données située derrière.
+> * **La conception :** Projeter clés et serveurs sur le même espace circulaire. Une clé appartient au premier point de serveur rencontré dans le sens horaire. Donner à chaque serveur quelques centaines de nœuds virtuels pour équilibrer la charge, et continuer dans le sens horaire pour choisir des réplicas sur des serveurs distincts.
+> * **Le résultat :** Ajouter ou retirer un nœud déplace environ 1/N des clés. Dans un essai mesuré avec 10 nœuds et 200 nœuds virtuels chacun, le nœud le plus chargé portait 1,11 fois la moyenne, contre 2,3 fois avec un seul point par nœud.
 
-Vous avez beaucoup d'utilisateurs et beaucoup de serveurs de cache. Chaque donnée (une **clé**) doit atterrir sur un serveur, et vous devez pouvoir la retrouver plus tard. Quand un serveur meurt ou que vous ajoutez de la capacité, vous voulez déplacer le moins de données possible.
+La plupart des systèmes distribués doivent répondre des millions de fois par seconde à une question banale : *quelle machine possède cette clé ?* Caches, bases partitionnées, répartiteurs de charge qui veulent de l'affinité de session et magasins d'objets ont besoin d'une réponse rapide, sans annuaire central, qui ne s'effondre pas quand une machine arrive ou tombe.
 
-Le **consistent hashing** est la façon standard de placer les clés pour qu'un changement de membership ne touche qu'une petite tranche des données, pas tout le cluster.
-
-Ce billet construit l'idée à partir du plan d'un restaurant, puis la mappe à l'anneau de hachage, aux nœuds virtuels et aux systèmes réels.
+Le hachage cohérent est la réponse classique. Il a été introduit par Karger et ses collègues en 1997 pour les caches web, popularisé par l'article Dynamo d'Amazon en 2007, et vit aujourd'hui dans Cassandra, dans les clients memcached, dans le répartiteur de charge d'Envoy et bien d'autres. Cet article explique son fonctionnement, mesure ce qu'apportent réellement les nœuds virtuels et passe en revue les alternatives parfois meilleures.
 
 ---
 
-## Le problème en mots simples
+## Pourquoi `hash(key) % N` casse
 
-Imaginez un restaurant avec des tables numérotées. Vous placez les clients avec une règle simple : prenez le numéro du client, divisez par le nombre de tables, et utilisez le reste.
+Le placement par modulo est parfaitement équilibré et parfaitement fragile. Une clé ne reste sur le même nœud lorsque N devient N+1 que si `h % N == h % (N+1)`, ce qui arrive pour environ une clé sur N+1.
 
-```
-table = numeroClient % nombreDeTables
-```
+Je l'ai mesuré avec 200 000 clés :
 
-Cela marche tant que le nombre de tables ne change jamais.
-
-### Une table ferme, le chaos
-
-Supposons 4 tables et 8 habitués :
-
-| Client | numeroClient | numero % 4 | Table |
-| --- | --- | --- | --- |
-| A | 11 | 3 | T3 |
-| B | 14 | 2 | T2 |
-| C | 17 | 1 | T1 |
-| D | 20 | 0 | T0 |
-| E | 23 | 3 | T3 |
-| F | 26 | 2 | T2 |
-| G | 29 | 1 | T1 |
-| H | 32 | 0 | T0 |
-
-La table T1 casse. Il reste 3 tables. Mêmes numéros, nouveau reste :
-
-| Client | numeroClient | numero % 3 | Table |
-| --- | --- | --- | --- |
-| A | 11 | 2 | T2 |
-| B | 14 | 2 | T2 |
-| C | 17 | 2 | T2 |
-| D | 20 | 2 | T2 |
-| E | 23 | 2 | T2 |
-| F | 26 | 2 | T2 |
-| G | 29 | 2 | T2 |
-| H | 32 | 2 | T2 |
-
-Dans un vrai tableau vous tombez encore sur plusieurs tables, mais le fait douloureux reste : **la plupart des gens changent de place**, pas seulement ceux de la table cassée.
-
-Dans un cluster de cache, cela veut dire :
-
-1. Les clients demandent au mauvais nœud des données qui existent encore ailleurs.
-2. Les misses inondent la base.
-3. Vous vouliez perdre environ 1/N du cache. Vous avez payé un redémarrage à froid presque complet.
-
-C'est le problème du rehashing. `hash(key) % N` va bien jusqu'à ce que `N` change. Alors il réassigne presque tout le restaurant.
-
----
-
-## Un meilleur plan : des casiers dans un couloir circulaire
-
-Imaginez un long couloir de casiers numérotés en cercle. Marchez assez loin dans une direction et vous revenez au casier 0. Ce cercle est l'**espace de hachage**.
-
-```
-              0
-          .         .
-       .               .
-     .                   .
-   max                     small
-     .                   .
-       .               .
-          .         .
-            mid ring
-```
-
-Deux idées :
-
-1. Les **serveurs** reçoivent des numéros de casier fixes (en hashant leur nom ou IP).
-2. Les **clés** reçoivent aussi des numéros de casier (en hashant la clé).
-
-Il n'y a pas de `% nombreDeServeurs`. Les positions vivent dans une plage fixe, comme `0` à `2^32 - 1` ou un espace plus grand. Le cercle ne rétrécit pas quand un serveur part.
-
-### Des serveurs comme des serveurs de salle à des places fixes
-
-Pensez chaque serveur machine comme un serveur de salle debout à une place d'une table ronde.
-
-Anneau jouet avec des positions de 0 à 99 :
-
-| Serveur | Place |
+| Changement | Clés déplacées |
 | --- | --- |
-| s0 | 12 |
-| s1 | 37 |
-| s2 | 61 |
-| s3 | 88 |
+| De `% 10` à `% 11` | 90,7 % |
+| Anneau de hachage cohérent, de 10 à 11 nœuds, 200 nœuds virtuels chacun | 9,0 % |
 
-Clés sur le même cercle :
-
-| Clé | Place |
-| --- | --- |
-| key0 | 18 |
-| key1 | 42 |
-| key2 | 70 |
-| key3 | 95 |
-
-```
-Anneau (horaire depuis 0) :
-
-  0
-  |-- s0@12 -- key0@18 -- s1@37 -- key1@42 --
-  |-- s2@61 -- key2@70 -- s3@88 -- key3@95 -- (retour à 0)
-```
+Pour un cache, 90 % de clés déplacées signifie que 90 % des lectures échouent d'un coup et retombent sur la base, généralement au moment précis où vous ajoutiez de la capacité parce que la charge était élevée. Pour une base partitionnée, cela signifie déplacer 90 % des données pour ajouter une machine. Aucun des deux n'est acceptable.
 
 ---
 
-## Lookup : marcher dans le sens horaire jusqu'à un serveur
+## L'anneau
 
-Règle :
+![Anneau de hachage avec nœuds virtuels pour les serveurs A, B et C, clés k1, k2 et k3 attribuées au premier nœud virtuel dans le sens horaire, avec des notes sur la réplication et l'ajout d'un serveur](/assets/images/hld/design-consistent-hashing-ring.webp)
 
-1. Hasher la clé vers une place `p`.
-2. Marcher dans le **sens horaire** jusqu'à la prochaine place serveur.
-3. Ce serveur possède la clé.
+* **L'espace de hachage.** Choisissez une fonction de hachage à large sortie (64 bits suffisent) et traitez son intervalle comme un cercle : après la plus grande valeur vient zéro.
+* **Les serveurs sur l'anneau.** Chaque serveur est projeté sur le cercle, en pratique de nombreuses fois, sous forme de nœuds virtuels (A1, A2, A3 sur le schéma).
+* **Les clés sur l'anneau.** Chaque clé est projetée sur le même cercle.
+* **La propriété.** Une clé appartient au premier nœud virtuel rencontré dans le sens horaire. `k1` tombe juste avant `B1`, c'est donc le serveur B qui la possède.
+* **L'arrivée.** Un nouveau serveur D place ses nœuds virtuels sur l'anneau. Chacun ne récupère que l'arc entre lui et le point précédent. Tout le reste ne bouge pas.
+* **Le départ.** Quand un serveur part, chacun de ses arcs est absorbé par le point suivant dans le sens horaire. Là encore, seules les clés de ce serveur bougent.
 
-| Clé | Place | Premier serveur horaire | Propriétaire |
-| --- | --- | --- | --- |
-| key0 | 18 | s1@37 | s1 |
-| key1 | 42 | s2@61 | s2 |
-| key2 | 70 | s3@88 | s3 |
-| key3 | 95 | s0@12 (tour complet) | s0 |
-
-En code, gardez les places triées et faites une recherche binaire de la première position `>= p`. Sinon, revenez au premier élément de l'anneau.
+La recherche est une recherche dichotomique dans la liste triée des positions de nœuds virtuels : `O(log V)`, V étant le nombre total de nœuds virtuels. Avec 100 serveurs et 200 nœuds virtuels chacun, c'est une recherche parmi 20 000 entiers, bien en dessous d'une microseconde.
 
 ```python
-import bisect
-import hashlib
+import bisect, hashlib
 
-def h(x: str) -> int:
-    # espace jouet 32 bits ; en production souvent 64 bits ou plus
-    return int(hashlib.md5(x.encode()).hexdigest()[:8], 16)
+def h(s: str) -> int:
+    return int.from_bytes(hashlib.md5(s.encode()).digest()[:8], "big")
 
-class HashRing:
-    def __init__(self, nodes: list[str]):
-        self.positions: list[int] = []
-        self.owners: dict[int, str] = {}
+class Ring:
+    def __init__(self, nodes, vnodes=200):
+        self.vnodes, self.points, self.owner = vnodes, [], {}
         for n in nodes:
-            p = h(n)
-            self.positions.append(p)
-            self.owners[p] = n
-        self.positions.sort()
+            self.add(n)
 
-    def lookup(self, key: str) -> str:
-        p = h(key)
-        i = bisect.bisect_left(self.positions, p)
-        if i == len(self.positions):
-            i = 0  # tour de l'anneau
-        return self.owners[self.positions[i]]
+    def add(self, node):
+        for i in range(self.vnodes):
+            p = h(f"{node}#{i}")
+            bisect.insort(self.points, p)
+            self.owner[p] = node
+
+    def remove(self, node):
+        self.points = [p for p in self.points if self.owner[p] != node]
+        self.owner = {p: n for p, n in self.owner.items() if n != node}
+
+    def lookup(self, key):
+        i = bisect.bisect(self.points, h(key)) % len(self.points)
+        return self.owner[self.points[i]]
 ```
 
-Phrase d'entretien : "positions triées plus recherche binaire, environ O(log n) en points de l'anneau."
+MD5 sert ici pour sa distribution, pas pour la sécurité. N'importe quel hachage rapide et bien mélangé convient ; en production on utilise souvent Murmur3 ou xxHash.
 
 ---
 
-## Ajouter un serveur : seuls les voisins bougent
+## Nœuds virtuels : ce qu'ils apportent vraiment
 
-Ajoutez `s4` à la place 25.
+Avec un seul point par serveur, les arcs ont des longueurs très différentes, si bien que certains serveurs possèdent bien plus d'anneau que d'autres. Les nœuds virtuels corrigent cela en moyennant de nombreux petits arcs. Même expérience, 200 000 clés réparties sur 10 serveurs :
 
-Avant : `key0@18` marchait jusqu'à `s1@37`.
-
-Après : depuis 18, le premier serveur est `s4@25`. Seules les clés de l'arc qui appartenait à l'ancien voisin changent de propriétaire.
-
-```
-Avant :  ... s0@12 -- key0@18 -------- s1@37 ...
-Après :  ... s0@12 -- key0@18 -- s4@25 -- s1@37 ...
-                    seul cet arc est remappé vers s4
-```
-
-**Ce qui bouge quand vous ajoutez un serveur :** les clés entre le nouveau serveur et le serveur précédent dans le sens antihoraire. Tout le reste garde son serveur.
-
----
-
-## Retirer un serveur : seuls ses clients bougent
-
-Retirez `s1@37`.
-
-Les clés qui utilisaient `s1` comme premier serveur horaire continuent jusqu'au prochain serveur vivant (`s2@61`). Les clés déjà possédées ailleurs ne bougent pas.
-
-```
-Avant : clés qui frappaient s1 en premier -> s1
-Après : ces clés continuent vers s2 ; les autres arcs inchangés
-```
-
-Dans un cache, vous prenez encore une tempête de misses sur cet arc. Vous ne **réassignez pas** tout le restaurant.
-
-Règle empirique : quand 1 serveur sur n change, environ **k/n** clés bougent en moyenne (k clés au total), pas presque toutes.
-
----
-
-## Ce que promet le consistent hashing (et ce qu'il ne promet pas)
-
-| Objectif | Pourquoi c'est important |
-| --- | --- |
-| Remapping minimal à l'arrivée ou au départ | Éviter les stampedes de cache et les longs rebalances |
-| Charge assez égale | Qu'une seule machine ne possède pas presque tout l'anneau |
-| Lookup déterministe | Même vue de membership implique même propriétaire |
-| Pas cher à calculer | Le placement est sur le chemin chaud |
-
-Il ne donne **pas** à lui seul la réplication, la cohérence forte ou le failover automatique. Cela s'ajoute par-dessus : les N prochains serveurs dans le sens horaire comme réplicas, le gossip pour le membership, etc.
-
----
-
-## Deux problèmes avec une seule place par serveur
-
-### Arcs injustes
-
-Le segment de cercle entre deux serveurs adjacents est une **partition**. Si trois serveurs se regroupent par hasard, l'un possède un énorme arc et fait presque tout le travail de cette zone.
-
-```
-Mauvais tirage :
-
-  s0 -------- s1 - s2 ------------------- s3 ---- (retour)
-
-  s2 possède un grand vide ; la charge est biaisée
-```
-
-### Places regroupées
-
-Avec peu de serveurs physiques sur un immense anneau, le placement aléatoire peut s'agglutiner. Un petit N aggrave l'injustice.
-
----
-
-## Nœuds virtuels : beaucoup de places par serveur
-
-Un **nœud virtuel** est une place supplémentaire sur l'anneau qui pointe encore vers un serveur réel. Chaque serveur physique apparaît de nombreuses fois sous des hashs différents :
-
-```
-s0 -> s0_0, s0_1, s0_2, ...
-s1 -> s1_0, s1_1, s1_2, ...
-```
-
-Image restaurant : chaque serveur de salle a plusieurs places réservées autour de la table, pas une seule chaise. Le travail se répartit parce qu'un seul écart ne décide pas de toute sa soirée.
-
-Exemple jouet avec 3 places virtuelles par serveur :
-
-| Id virtuel | Serveur réel | Place (exemple) |
+| Nœuds virtuels par serveur | Plus chargé / moyenne | Moins chargé / moyenne |
 | --- | --- | --- |
-| s0_0 | s0 | 10 |
-| s0_1 | s0 | 55 |
-| s0_2 | s0 | 90 |
-| s1_0 | s1 | 22 |
-| s1_1 | s1 | 48 |
-| s1_2 | s1 | 73 |
+| 1 | 2,30x | 0,12x |
+| 10 | 1,46x | 0,69x |
+| 200 | 1,11x | 0,92x |
 
-Le lookup ne change pas : marchez dans le sens horaire jusqu'à la prochaine place **virtuelle**, puis suivez le pointeur vers le serveur réel.
+L'anneau à un seul point est presque inutile : un serveur porte plus du double de sa part pendant qu'un autre reste presque inactif. À 200 nœuds virtuels, l'écart tourne autour de ±10 %.
 
-```
-key @ 50 -> prochain vnode s0_1@55 -> réel s0
-```
+Les nœuds virtuels apportent deux autres avantages :
 
-### Pourquoi cela aide
+* **Une capacité pondérée.** Un serveur doté de deux fois plus de mémoire reçoit deux fois plus de nœuds virtuels.
+* **Des pannes plus douces.** Quand un serveur meurt, ses nombreux petits arcs sont absorbés par de nombreux successeurs différents, au lieu qu'un voisin malchanceux hérite de toute sa charge.
 
-| Effet | Explication |
-| --- | --- |
-| Moins de variance | Beaucoup de petits arcs au lieu d'un gros pari |
-| Scale-out plus doux | Un nouveau nœud vole de fines tranches à beaucoup de voisins |
-| Capacité pondérée | Les plus grosses machines peuvent avoir plus de places virtuelles |
-| Charge plus juste | Le travail se mélange autour de la table |
-
-Les textes classiques utilisent souvent de l'ordre de **100 à 200 nœuds virtuels par serveur** pour que la charge reste assez égale. Plus de nœuds virtuels : meilleur équilibre et carte d'anneau plus grande en mémoire. À régler.
-
-```python
-class VNodeRing:
-    def __init__(self, nodes: list[str], vnodes: int = 150):
-        self.positions: list[int] = []
-        self.owners: dict[int, str] = {}
-        for n in nodes:
-            for i in range(vnodes):
-                p = h(f"{n}#{i}")
-                self.positions.append(p)
-                self.owners[p] = n
-        self.positions.sort()
-
-    def lookup(self, key: str) -> str:
-        p = h(key)
-        i = bisect.bisect_left(self.positions, p)
-        if i == len(self.positions):
-            i = 0
-        return self.owners[self.positions[i]]
-```
-
-Clients et serveurs doivent s'accorder sur la fonction de hash et le nombre de nœuds virtuels, sinon ils ne seront pas d'accord sur les propriétaires.
+Le coût, c'est la mémoire de l'anneau et davantage de métadonnées à déplacer. Cassandra a longtemps utilisé 256 tokens par nœud par défaut ; la version 4.0 a abaissé cette valeur à 16, avec un algorithme d'allocation de tokens plus intelligent, car des valeurs très élevées rendaient les réparations et le streaming plus coûteux. Plus n'est pas gratuit.
 
 ---
 
-## Quelles clés doivent bouger
+## La réplication sur l'anneau
 
-Quand le membership change, l'anneau définit déjà les plages.
+Les systèmes de type Dynamo utilisent aussi l'anneau pour choisir les réplicas. Pour stocker une clé avec un facteur de réplication de 3, on avance dans le sens horaire depuis la clé et on prend les trois premiers **serveurs physiques distincts**, en sautant les nœuds virtuels supplémentaires d'un serveur déjà retenu. La note du schéma l'illustre pour `k1` : B la possède, puis C et A en détiennent des réplicas.
 
-**Ajouter le serveur S à la position p :**
+Deux raffinements comptent en production :
 
-```
-prev = voisin antihoraire de S
-clés dans (prev, p] passent de l'ancien propriétaire de cet arc à S
-```
-
-**Retirer le serveur S à la position p :**
-
-```
-prev = voisin antihoraire de S
-next = voisin horaire de S
-clés dans (prev, p] passent de S à next
-```
-
-Avec des nœuds virtuels, faites-le pour chaque place virtuelle de la machine qui arrive ou part. Beaucoup de petits transferts battent un seul transfert géant.
-
-Pour un cache pur, "transférer" veut souvent dire "laisser le nouveau propriétaire se remplir au miss." Pour une base, vous streamez les plages exprès et vous contrôlez les écritures pendant la passation.
+* **La prise en compte des racks ou des zones.** « Serveurs distincts » devrait en réalité signifier « domaines de panne distincts ». Trois réplicas dans le même rack ne font qu'un seul réplica pendant une coupure de courant.
+* **Les listes de préférence.** La liste ordonnée des candidats (les trois premiers nœuds sains dans le sens horaire) permet à un coordinateur de contourner un réplica temporairement indisponible ; c'est ainsi que fonctionnent les quorums relâchés et le hinted handoff dans Dynamo et Cassandra.
 
 ---
 
-## Réplication sur l'anneau (ajout court)
+## Un cluster de cache bâti sur l'anneau
 
-Le consistent hashing place le **primaire**. La réplication est souvent "continuer dans le sens horaire" :
+![Architecture d'un cluster de cache : les utilisateurs atteignent des serveurs applicatifs dotés d'un client d'anneau intégré, qui surveille l'appartenance dans etcd et lit et écrit sur les nœuds de cache A à C, tandis qu'un rééquilibreur copie les arcs déplacés vers le nœud D en cours d'intégration](/assets/images/hld/design-consistent-hashing-cluster.webp)
 
-```
-key -> N1 (primaire), N2, N3  # trois premiers serveurs physiques distincts
-```
+* **App Server + client d'anneau.** L'anneau vit dans la bibliothèque cliente (c'est ainsi que fonctionnent les clients memcached de style ketama). Pas de saut par un proxy, pas d'annuaire central sur le chemin de la requête.
+* **etcd (appartenance).** La source de vérité sur les nœuds présents dans l'anneau et leurs poids. Les clients la surveillent et reconstruisent leur anneau quand elle change. ZooKeeper, Consul ou un protocole de gossip peuvent jouer le même rôle.
+* **Cache Nodes A, B, C.** De simples serveurs clé-valeur. Ils n'ont pas besoin de connaître l'anneau.
+* **Cache Node D (en cours d'intégration).** Ajouté d'abord à l'appartenance dans un état de « préchauffage ». Les clients commencent à lui envoyer les écritures de ses arcs pendant que le rééquilibreur le remplit.
+* **Rebalancer.** Pour un cache, le rééquilibrage est facultatif : les échecs se reremplissent naturellement. Pour une base, ou tout état impossible à régénérer, le rééquilibreur transfère les arcs qui ont changé de propriétaire, avec un débit plafonné pour ne pas affamer le trafic réel.
 
-Sautez les places virtuelles du même hôte physique pour que les réplicas atterrissent sur des machines différentes. Les systèmes style Dynamo et les anneaux de tokens Cassandra utilisent ce motif. Mentionnez les quorums seulement si l'entretien devient un design complet de key-value store.
-
----
-
-## Où vous le voyez vraiment
-
-| Classe de système | Comment le consistent hashing apparaît |
-| --- | --- |
-| **Caches distribués** | Clients Memcached, shards multi-nœuds, placement edge CDN (et cousins proches) |
-| **Bases / KV stores** | Partitions Dynamo, anneaux de tokens Cassandra, beaucoup d'anneaux maison |
-| **Chat / temps réel** | Propriété sticky de guildes ou canaux pour qu'un événement de scale ne redistribue pas tout |
-| **Load balancers** | Choix stable de backend quand le pool bouge (Maglev et parents) |
-| **Routage de requêtes** | Utilisateurs, tenants ou shards sticky sans carte centrale à chaque requête |
-
-Idées voisines, pas identiques : **jump consistent hash**, **rendezvous (HRW) hashing**, et **tables de permutation Maglev**. En entretien, nommez d'abord le consistent hashing, puis dites qu'il existe des variantes plus rapides ou moins gourmandes en mémoire.
+La note verte résume tout : seuls environ 1/N des clés se déplacent.
 
 ---
 
-## Flux d'entretien que vous pouvez suivre
+## Ce que le hachage cohérent ne résout pas
 
-1. **Problème :** `hash % N` réassigne presque tout le monde quand N change.
-2. **Anneau :** espace de hash fixe ; serveurs et clés sont des points ; pas de `% N` vivant.
-3. **Lookup :** premier serveur dans le sens horaire (recherche binaire sur places triées).
-4. **Ajout/retrait :** seul l'arc voisin est remappé (environ 1/n des clés).
-5. **Douleur :** arcs injustes avec une place par serveur.
-6. **Nœuds virtuels :** beaucoup de places par serveur physique ; charge plus juste ; poids optionnels.
-7. **Ops :** comment les données bougent, comment les clients apprennent le membership, à quoi ressemblent des propriétaires temporairement faux.
-8. **Usages :** caches, bases partitionnées, load balancers sticky.
-
-**Clarifiez tôt :**
-
-- Cache seulement (miss au remap OK) ou store durable (il faut migrer) ?
-- Facteur de réplication ?
-- Qui possède le membership (config statique, ZooKeeper, gossip) ?
-- Les clients peuvent-ils se tromper un instant pendant une mise à jour de membership ?
-
-**Trade-offs à dire à voix haute :**
-
-| Choix | Avantage | Coût |
-| --- | --- | --- |
-| Plus de nœuds virtuels | Charge plus plate | Anneau plus grand, rebuilds plus lents |
-| Anneau côté client | Pas de saut proxy | Chaque client doit voir le même membership |
-| Proxy / coordinateur | Vue centrale unique | Un hop de plus |
-| Remplir le cache au miss | Ops simples | Pic sur l'origine au rebalance |
-| Migration en streaming | Plus sûr pour les DB | Complexité de handoff |
+* **Les clés chaudes.** Si une clé reçoit 10 % de tout le trafic, elle vit toujours sur un seul serveur. L'anneau équilibre les clés, pas les requêtes. Il faut répliquer les clés chaudes, regrouper les requêtes ou ajouter un cache local de proximité.
+* **Des vues incohérentes de l'anneau.** Si, pendant un changement d'appartenance, la moitié des clients a le nouvel anneau et l'autre moitié l'ancien, la même clé est lue à deux endroits. Pour un cache, cela fait davantage d'échecs. Pour une base, il faut une propriété versionnée (des époques) et un protocole de passation.
+* **La surcharge en cascade.** Quand un nœud meurt, ses successeurs absorbent sa charge. S'ils étaient déjà à 80 %, ils peuvent tomber à leur tour. Le « hachage cohérent à charges bornées » (Mirrokni, Thorup et Zadimoghaddam) plafonne la charge de chaque nœud et déborde sur le suivant dans le sens horaire ; Vimeo a expliqué l'avoir adopté pour répartir la diffusion de ses vidéos.
 
 ---
 
-## Checklist production
+## Les alternatives à connaître
 
-- [ ] Le hash est rapide et bien réparti sur le chemin chaud
-- [ ] Le nombre de nœuds virtuels est choisi et documenté ; les poids matchent la taille des machines
-- [ ] Le lookup est O(log n) sur les points de l'anneau, pas un scan linéaire
-- [ ] Les changements de membership sont versionnés ; mesurez les fenêtres de mauvais propriétaire
-- [ ] À la perte d'un nœud, seuls les arcs touchés se remontent ou se rechargent
-- [ ] Les réplicas sautent le même hôte physique
-- [ ] Métriques : clés par nœud, tailles d'arc, octets de rebalance, taux de miss pendant les joins
-- [ ] Runbooks pour "ajouter un nœud" et "remplacer un nœud mort" sans redémarrer tout le cluster
+| Technique | Fonctionnement | Atout | Faiblesse | Où on la trouve |
+| --- | --- | --- | --- | --- |
+| Anneau de hachage avec nœuds virtuels | Successeur dans le sens horaire sur un cercle | Ajouts et retraits arbitraires, listes de réplicas naturelles | Nécessite des nœuds virtuels pour l'équilibre ; métadonnées d'anneau | Dynamo, Cassandra, clients ketama, ring hash d'Envoy |
+| Rendezvous (poids aléatoire le plus élevé) | Pour chaque clé, noter chaque nœud avec `hash(key, node)` et prendre le plus haut | Pas d'anneau, équilibre quasi parfait, réplicas pondérés triviaux (les K premiers) | `O(N)` par recherche | Répartiteurs de charge et petits clusters |
+| Jump consistent hash | Fonction arithmétique de saut qui associe une clé à un seau 0..N-1 | Aucune mémoire, très rapide, excellent équilibre | On ne peut ajouter ou retirer des nœuds qu'en fin de numérotation | Stockage partitionné à partitions numérotées |
+| Hachage Maglev | Table précalculée remplie à partir de permutations par backend | Recherches en `O(1)`, très uniforme, perturbation minimale | Reconstruction de la table à chaque changement ; conçu pour les répartiteurs de charge | Google Maglev, politique Maglev d'Envoy |
 
----
-
-## Récap pour un ami
-
-Imagine un restaurant rond. La règle bête de placement est `numéro du client % nombre de tables`. Tu fermes une table et presque tout le monde change de place. C'est `hash(key) % N`.
-
-La règle intelligente met tables (serveurs) et clients (clés) sur le même couloir circulaire de casiers. Pour placer un client, tu marches dans le sens horaire jusqu'au prochain serveur de salle. Tu fermes une table et seuls les clients de cette section passent au serveur suivant. Les autres restent.
-
-Si chaque serveur n'a qu'une place, la chance peut faire des sections énormes ou minuscules. Donne à chaque serveur beaucoup de places réservées autour du cercle (nœuds virtuels) pour que le travail reste juste.
-
-La même idée anime les clusters de cache, les bases shardées et les load balancers sticky : placer les données pour que la croissance et les pannes déplacent une tranche, pas tout le système.
+Ma règle empirique : rendezvous pour de petits ensembles de backends (quelques dizaines), anneau avec nœuds virtuels pour les systèmes de stockage qui ont besoin de listes de réplicas et de changements d'appartenance arbitraires, jump hash quand les partitions sont numérotées et ne font que croître, et Maglev pour les répartiteurs de charge de niveau 4.
 
 ---
 
-## Conclusion
+## Déroulé pour l'entretien
 
-`hash(key) % N` va bien jusqu'à ce que le pool bouge. Alors il remap presque tout et transforme un événement de scale en événement de fiabilité.
+1. Partez de `hash % N` et montrez ce qui se passe quand N change. Utilisez le chiffre de 90 %.
+2. Dessinez l'anneau et expliquez la propriété dans le sens horaire.
+3. Montrez qu'ajouter un nœud ne déplace qu'un arc.
+4. Pointez le déséquilibre avec un point par nœud, puis introduisez les nœuds virtuels.
+5. Ajoutez la réplication : les K serveurs distincts suivants, idéalement dans des zones différentes.
+6. Mentionnez une limite (les clés chaudes) et une alternative (rendezvous ou jump hash).
 
-Le consistent hashing place clés et serveurs sur un anneau partagé, assigne chaque clé au prochain serveur dans le sens horaire, et limite le remapping à un arc local quand des nœuds arrivent ou partent. Les nœuds virtuels corrigent les arcs injustes. Si vous pouvez dessiner l'anneau, expliquer la borne de remapping, et défendre le nombre de nœuds virtuels plus le membership, vous avez le chapitre d'entretien et les réflexes de production qui vont avec.
+---
 
+## Liste de contrôle pour la production
+
+- [ ] Fonction de hachage rapide et bien distribuée (Murmur3, xxHash) ; jamais un `hashCode` à la Java
+- [ ] Nombre de nœuds virtuels choisi et mesuré (écart de charge sous votre cible)
+- [ ] Des poids qui reflètent la capacité réelle des nœuds
+- [ ] Une source de vérité unique pour l'appartenance, surveillée par les clients
+- [ ] Des changements d'anneau versionnés pour détecter les vues périmées
+- [ ] Des réplicas répartis sur des domaines de panne distincts
+- [ ] Des flux de rééquilibrage plafonnés et observables
+- [ ] Une gestion des clés chaudes distincte du placement
+- [ ] Un tableau de bord par nœud du nombre de clés et du débit de requêtes, pas seulement des moyennes
+
+---
+
+## Ce qui reste
+
+L'anneau fait partie de ces idées qui paraissent évidentes dès qu'on les voit et restent utiles pendant des décennies. Il ne fait qu'une chose : quand le cluster change, il laisse presque tout le monde à sa place.
+
+C'est une promesse modeste. C'est aussi la différence entre ajouter un nœud à 3 heures du matin pour soulager la pression, et ajouter un nœud à 3 heures du matin qui emporte la base de données avec lui.
+
+---
+
+## Sources
+
+* [Karger et al., « Consistent Hashing and Random Trees » (STOC 1997)](https://dl.acm.org/doi/10.1145/258533.258660)
+* [DeCandia et al., « Dynamo: Amazon's Highly Available Key-value Store » (SOSP 2007)](https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf)
+* [Lamping et Veach, « A Fast, Minimal Memory, Consistent Hash Algorithm » (jump hash, 2014)](https://arxiv.org/abs/1406.2294)
+* [Eisenbud et al., « Maglev: A Fast and Reliable Software Network Load Balancer » (NSDI 2016)](https://research.google/pubs/maglev-a-fast-and-reliable-software-network-load-balancer/)
+* [Mirrokni, Thorup et Zadimoghaddam, « Consistent Hashing with Bounded Loads »](https://arxiv.org/abs/1608.01350)
+* [Envoy : types de répartiteurs de charge (ring hash et Maglev)](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancers)
+* Dans la même série : [Concevoir un magasin clé-valeur](/blog/fr/design-key-value-store), [Passer de zéro à des millions d'utilisateurs](/blog/fr/design-scale-zero-to-millions)

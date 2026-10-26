@@ -1,293 +1,147 @@
 ---
-title: "Design a Notification System: Push, SMS, Email, Queues, and Reliability"
-description: "How a notification system works, explained for beginners: channels, user preferences, message templates, queues, retries, and the path from an order shipped event to a phone alert."
+title: "Design a Notification System: Push, Email, SMS, Preferences, and Reliable Delivery"
+description: "A production notification platform: one API for every producer, preference and quiet-hour checks, per-channel queues and workers, APNs/FCM/email/SMS providers, idempotency keys, retries with backoff and dead-letter queues, token hygiene, deliverability rules and the metrics that show it works."
 date: "2026-06-07"
 tags: [System Design & Architecture]
 coverImage: /assets/images/design-notification-system.webp
 previewImage: /assets/images/design-notification-system.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
-> * **The Insight:** How a notification system works, explained for beginners: channels, user preferences, message templates, queues, retries, and the path from an order shipped event to a phone alert.
-> * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
+> * **The Problem:** Dozens of internal services want to tell users things. Without a shared platform, each one integrates APNs, an email provider and an SMS gateway separately, ignores user preferences in its own way, and retries until users get the same message three times.
+> * **The Design:** A single Notification API accepts requests with an idempotency key, checks preferences, contacts and quiet hours, and fans out to per-channel queues. Channel workers render templates, call providers, retry transient failures with jittered backoff, dead-letter the rest, and clean up invalid tokens. Provider receipts feed a delivery log.
+> * **The Result:** At-least-once delivery that looks exactly-once to users, channels that fail independently, campaigns that cannot starve password resets, and one place to answer "did the user get it?"
 
-Imagine a school office that must tell parents important news. Sometimes it texts. Sometimes it emails. Sometimes it sends a short note that pops up on a parent's phone. The office does not yell into the street and hope someone hears. It keeps a list of parents, checks how each parent wants to be reached, fills in a standard form with the child's name and the news, and only then sends the message. If the text fails because the phone is off, the office tries again later. That school office is the right picture of a **notification system**.
+Notifications are the part of a product that leaves the product. They land on lock screens and in inboxes, next to everything else competing for attention. Get them wrong and users do not file bug reports; they turn notifications off, and you lose the channel forever.
 
-This post teaches that design from zero. No interview jargon first. Plain pieces, then one full walk from "order shipped" to a phone buzz.
+This post designs the shared platform that sits between "an order shipped" and "a phone buzzed."
 
 ---
 
-## What problem are we solving?
+## Requirements
 
-An app has many reasons to talk to a person:
+**Functional**
 
-- Your package left the warehouse.
-- Here is your login code.
-- Your card was charged.
-- A friend liked your photo.
+* Channels: mobile push (iOS and Android), email, SMS, and optionally in-app.
+* Producers send a semantic event ("order shipped," "password reset"), not a pre-rendered message.
+* Respect user preferences per category and channel, unsubscribes, and quiet hours.
+* Templates per notification type and locale.
+* Delivery status per notification, queryable by support teams.
 
-Those are **events**. A notification system turns events into messages people can see: **push** on a phone, **SMS** text, or **email**. Other product services should not each reinvent texting and emailing. They tell the notification system "please notify this user about this event," and the notification system does the rest.
+**Non-functional**
 
-In the school picture:
+* Transactional messages (password resets, security alerts) delivered within seconds, even during a marketing blast.
+* Never send the same notification twice to the same user because of an internal retry.
+* Channels and providers fail independently: an SMS provider outage must not delay push.
 
-| School office | Notification system |
+**Numbers:** 50M notifications on a normal day is about 600 per second on average, but a marketing campaign to 30M users scheduled at 9 a.m. can demand tens of thousands per second for a while. **Design for the burst, and isolate it.**
+
+---
+
+## The Architecture
+
+![Notification architecture: order, marketing and security producers call the notification API with an idempotency key, which checks preferences and contacts and fans out to push, email and SMS queues; channel workers render templates and call APNs/FCM, an email service provider and an SMS gateway, whose receipts and webhooks feed a delivery log](/assets/images/hld/design-notification-architecture.webp)
+
+* **Producers (Order Service, Marketing Campaigns, Security Alerts).** They call one API with an event type, recipient and data. They never talk to APNs or Twilio directly.
+* **Notification API (idempotency key).** Validates the request, rejects duplicates by idempotency key (for example `order-8812:shipped`), assigns a priority class, and decides which channels apply.
+* **Preferences + Contacts.** User opt-ins per category and channel, unsubscribes, quiet hours and time zone, plus device tokens, verified email addresses and phone numbers. Legally required opt-outs (marketing email, SMS) are checked here, every time.
+* **Channel Queues (push, email, sms).** One queue per channel, and in practice separate high-priority and bulk queues per channel, so a campaign cannot sit in front of a password reset.
+* **Senders (Push, Email, SMS Workers).** Pull jobs, render the template, call the provider, record the result, and apply the retry policy below.
+* **Templates (i18n).** Versioned templates per notification type and locale. Rendering happens at send time, so a fixed typo applies to messages still in the queue.
+* **Providers (APNs / FCM, Email ESP, SMS Gateway).** External systems with their own rate limits, error codes and outages. Wrap each behind an adapter so you can add a second provider for failover.
+* **Delivery Log.** Every attempt and every provider receipt or webhook (delivered, bounced, opened, unsubscribed) lands here. Support can answer "did she get the code?" without reading logs.
+
+---
+
+## Walking One Event: "Order Shipped"
+
+1. The order service calls `POST /notifications` with `type=order_shipped`, `user_id=42`, the tracking data, and `idempotency_key=order-8812:shipped`.
+2. The API checks the key. If it was seen in the last few days, it returns the original result. Retries from the order service are now harmless.
+3. Preferences say user 42 wants shipping updates by push and email, not SMS. It is 2 a.m. in their time zone, but shipping updates are allowed during quiet hours as a "silent" push.
+4. The API enqueues one push job and one email job, both high priority, both carrying the idempotency key.
+5. The push worker renders the localized template, sends to every active device token through APNs or FCM, and logs the response. The email worker renders the HTML template and hands it to the email provider.
+6. Later, provider webhooks report "delivered" for email and, through the app's own receipt, "displayed" for push. The delivery log shows the full history.
+
+---
+
+## Retries, Dead Letters and Exactly-Once Illusions
+
+![Notification retry flow: dequeue a job, check deduplication and quiet hours, call the provider; on 2xx mark sent, on retryable errors such as 429, 5xx or timeouts requeue with exponential backoff and jitter up to a limit before sending to a dead-letter queue, and on permanent errors such as 410 remove the bad token or address](/assets/images/hld/design-notification-retries.webp)
+
+Distributed systems deliver **at least once**. The trick is making that look like exactly once to the user:
+
+* **Classify errors.** Retry throttling (429), server errors (5xx) and timeouts. Do not retry permanent errors: APNs answers `410 Unregistered` for tokens that are no longer valid, and email providers report hard bounces. Retrying those only hurts your sender reputation.
+* **Backoff with jitter.** 1 s, 2 s, 4 s, with randomness and a cap. Without jitter, every failed job retries at the same instant and hammers a provider that is already struggling.
+* **Bounded attempts, then dead-letter.** After the limit, move the job to a dead-letter queue with the error attached. Someone or something must look at that queue; an unread DLQ is just a slower way to lose messages.
+* **Same idempotency key on every attempt.** The worker checks the delivery log before sending, and many providers accept an idempotency key too. A crash between "provider accepted" and "we recorded it" then causes no duplicate.
+* **Clean up.** Remove dead push tokens and suppress hard-bounced emails immediately, or every future send to that user wastes an attempt.
+
+---
+
+## Channel-Specific Realities
+
+| Channel | Cost | Latency | Gotchas |
+| --- | --- | --- | --- |
+| Push (APNs, FCM) | Effectively free | Seconds | Tokens rotate and expire; payload limit around 4 KB; OS may throttle or drop low-priority pushes; Google retired FCM's legacy APIs in 2024 in favor of HTTP v1 |
+| Email | Fractions of a cent | Seconds to minutes | Deliverability is reputation: SPF, DKIM and DMARC are mandatory; since 2024 Gmail and Yahoo require one-click unsubscribe for bulk senders and low spam-complaint rates |
+| SMS | Cents per message, varies by country | Seconds | Expensive at scale; carrier registration (10DLC in the US) and consent rules; sender IDs differ by country |
+| In-app | Free | Instant if online | Only works while the app is open; often stored as an inbox and synced |
+
+The cost column drives routing policy. An OTP code may be worth an SMS. A "your friend posted" update is not.
+
+---
+
+## Protecting Users From Your Own Company
+
+The hardest requirements are not technical:
+
+* **Frequency caps.** No more than N marketing pushes per user per day, enforced centrally, regardless of how many teams want to send.
+* **Quiet hours** in the user's time zone, with explicit exceptions for security and transactional messages.
+* **Collapse and digest.** Ten likes in five minutes should become one notification, not ten. Push providers support collapse keys; your platform should support batching windows.
+* **One unsubscribe means one unsubscribe.** The preference store is the single source of truth, and every channel checks it at send time, not when the campaign was scheduled.
+
+---
+
+## Metrics That Matter
+
+| Metric | Why |
 | --- | --- |
-| News about a student | Product event (order shipped, password reset) |
-| Parent contact card | User profile (email, phone, device tokens) |
-| "Call only for emergencies" rules | User preferences (opt-in / opt-out) |
-| Form letter with blanks | Templates |
-| Outbox tray waiting for the runner | Queue |
-| Runner who dials or mails | Worker that talks to Apple, SMS, or email providers |
-| Try again if the line is busy | Retries |
+| Time from event to provider accepted, by priority | Shows whether bulk traffic is delaying transactional messages |
+| Provider error rate by code | Separates your bugs (4xx) from their outages (5xx) |
+| Dead-letter queue depth and age | Messages you have silently failed to deliver |
+| Invalid token and hard-bounce rate | Contact data hygiene |
+| Opt-out rate after each campaign | The only honest measure of whether people want what you send |
 
 ---
 
-## Channels: the three doors messages walk through
+## Production Checklist
 
-A **channel** is simply *how* the message is delivered.
-
-### 1. Push
-
-A short alert on the phone lock screen. You do not send it to the phone radio yourself. You send it to **Apple** (APNs for iPhone) or **Google** (FCM for many Android phones). They deliver when the device is reachable.
-
-School picture: a quick note pinned on the parent's phone, not a full letter.
-
-### 2. SMS
-
-A text message to a phone number. You pay a gateway company (Twilio and similar). They talk to mobile carriers. SMS is expensive and often used for codes and urgent alerts.
-
-School picture: a real text to the parent's number.
-
-### 3. Email
-
-A longer message to an inbox. Most teams use email platforms (SendGrid, Amazon SES, Mailgun) so bounce handling and reputation are not reinvented.
-
-School picture: a full letter in the parent's email mailbox.
-
-**Design rule:** every channel is the same shape: *queue → worker → outside provider*. Shared brain, different messengers.
-
-You almost never own the last mile. Apple, carriers, and email networks do. Your job is to ask them correctly, remember what you asked, and recover when they fail.
+- [ ] One API for all producers; no direct provider integrations elsewhere
+- [ ] Idempotency keys required on every request and reused on every retry
+- [ ] Preferences, unsubscribes and quiet hours checked at send time
+- [ ] Separate high-priority and bulk queues per channel
+- [ ] Retry classification, jittered backoff, attempt limits and a monitored DLQ
+- [ ] Invalid tokens and hard bounces removed automatically
+- [ ] SPF, DKIM, DMARC and one-click unsubscribe for email
+- [ ] Frequency caps and collapse or digest for noisy events
+- [ ] Delivery log queryable by support, with provider receipts attached
+- [ ] Secondary provider configured for critical channels
 
 ---
 
-## Preferences: do not message people who said no
+## The Leftover
 
-Parents get angry if the school texts every lunch menu. Users mute apps that spam them. So the system stores **preferences**:
+The best notification system is the one users barely notice: the code arrives when they asked for it, the package update arrives when the package moves, and nothing arrives at 3 a.m. that could have waited.
 
-- Channel: push yes, SMS no, email yes.
-- Category: security yes, marketing no, product tips yes.
-- Quiet hours: no marketing pings at 2am in the user's timezone.
-
-Before sending, the office checks the card:
-
-1. Load settings for this user, channel, and category.
-2. Skip if they opted out.
-3. For non-security news, respect quiet hours.
-4. Security and money messages (password reset, payment failed) often still go through even if marketing is off. Product and law decide that. Say it clearly.
-
-Respecting preferences is not politeness only. It protects trust and email deliverability. A system that ignores mute is a broken system.
+That restraint is a design decision, not a default. Every team that ships a feature will want a notification for it. The platform is where somebody gets to say "fold it into the daily digest," and be right.
 
 ---
 
-## Templates: form letters with blanks
-
-You do not want every team writing raw HTML email in their own service. The notification system owns **templates**: approved text with blanks.
-
-Example push template:
-
-```
-Your order {{order_id}} has shipped. Track it: {{tracking_url}}
-```
-
-At send time, the system fills blanks with real data: order id, name, amount, link.
-
-Templates should be:
-
-- **Per channel** (push is short; email can be long HTML; SMS has a tight character budget).
-- **Per language** when you have many locales.
-- **Versioned** so a bad edit can be rolled back.
-- **Safe**: escape user-controlled text so weird names do not break HTML.
-
-School picture: a stack of form letters. Staff never freehand legal wording for every call.
-
----
-
-## Queues: the outbox tray
-
-If the school principal waits on hold with every phone carrier while parents pile up at the desk, the whole office freezes. Same for software.
-
-A **queue** is a waiting line for work:
-
-1. Something important happens (order shipped).
-2. The notification **API** records the intent and puts jobs on the queue.
-3. It answers "accepted" quickly (HTTP 202 style).
-4. Separate **workers** pull jobs and talk to Apple, SMS, or email.
-
-Why queues matter:
-
-- Spikes (big sale, flash campaign) land in the tray instead of crushing the API.
-- SMS outage does not block push. Give each channel its own queue.
-- Failed jobs can wait and try again without the original service hanging forever.
-
-```
-[ Order service ]
-       |
-       v
-[ Notification API ]
-  check user, prefs, template
-  write a log row
-       |
-       +---> [ Push queue ]  --> push workers  --> Apple / Google
-       |
-       +---> [ SMS queue ]   --> SMS workers   --> SMS provider
-       |
-       +---> [ Email queue ] --> email workers --> email provider
-```
-
-**Decouple accept from deliver.** Accept means "we wrote it down and put it in the tray." Deliver means "the outside world got it." Those are two steps.
-
----
-
-## Retries: try again, but not forever
-
-Networks fail. Providers return "busy." Phones are offline. So workers **retry**.
-
-Simple rules:
-
-| What went wrong | What to do |
-| --- | --- |
-| Temporary error (timeout, 503) | Wait longer each time (backoff), try again |
-| Bad phone token or dead email | Mark permanent fail; stop retrying that destination |
-| Provider rate limit | Slow down; requeue with delay |
-| Poison message (broken template data) | After N tries, send to a **dead-letter queue** and alert humans |
-
-Cap attempts. Infinite retry on a broken template turns into a self-attack on your provider bill.
-
-Also: the world is **at-least-once**, not perfect exactly-once. Timeouts can make you unsure if the SMS already left. Callers should send an **idempotency key** (a unique "we already asked for this receipt once" id). The system remembers that key and drops exact duplicates inside a window. Users hate lost password resets more than a rare double push, but you still dedupe hard when you can.
-
----
-
-## Contact data you must store
-
-Without addresses, nothing leaves the building.
-
-| Data | Why |
-| --- | --- |
-| Email, phone | Destinations for email and SMS |
-| Device push tokens | One user can have many phones; tokens expire |
-| Locale and timezone | Language and quiet hours |
-| Preferences | Channel and category switches |
-| Notification log | What you tried, status, provider message ids |
-
-Tokens arrive when the app installs or the user logs in. When Apple or Google says a token is dead forever, mark it inactive. Never assume one phone forever.
-
----
-
-## Walk one event: order shipped → phone buzz
-
-Follow one story end to end.
-
-**Scene:** Warehouse system marks order `ord_9f3a` as shipped for user `cus_12`. Product wants push and email. User opted out of SMS marketing, but this is a transactional shipping update.
-
-### Step 1: The event
-
-Warehouse (or order service) calls the notification service:
-
-```http
-POST /internal/v1/notifications
-
-{
-  "idempotency_key": "ord_9f3a:shipped:v1",
-  "user_id": "cus_12",
-  "template_id": "order_shipped",
-  "channels": ["email", "push"],
-  "category": "transactional",
-  "data": {
-    "order_id": "ord_9f3a",
-    "tracking_url": "https://shop.example/t/abc"
-  }
-}
-```
-
-Only trusted internal services should call this. Secrets for Apple and SMS live in a secret store, not in chat or random config files.
-
-### Step 2: The office checks the parent card
-
-Notification API:
-
-1. Authenticates the caller.
-2. Sees the same idempotency key was not already fully handled.
-3. Loads email, devices, preferences, and the `order_shipped` template.
-4. Skips SMS (not requested). Keeps email and push if settings allow.
-5. Checks rate limits so one service cannot flood a user or melt the SMS budget.
-6. Writes a **notification log** row with status `pending` (intent is recorded).
-7. Enqueues one email job and one push job (or one push job per active device).
-8. Returns `202 Accepted` with a `notification_id`. The order service does not wait for Apple.
-
-School picture: staff stamps the request form, drops slips in the outbox, and tells the warehouse "we have it."
-
-### Step 3: Email worker
-
-1. Pulls the email job from the email queue.
-2. Fills the email template with order id and tracking link.
-3. Calls the email provider.
-4. Stores the provider's message id.
-5. Marks the log `sent` (or `failed` with a reason).
-
-### Step 4: Push worker (the path to the phone)
-
-1. Pulls the push job.
-2. Looks up active device tokens for `cus_12`.
-3. Builds a short payload from the push template.
-4. Posts to APNs or FCM for each token.
-5. On "token invalid," deactivates that device row.
-6. On temporary error, retries with backoff.
-7. Updates the log.
-
-### Step 5: The phone
-
-Apple or Google delivers when the device is online. The user sees: "Your order ord_9f3a has shipped..." Optional deep link opens the tracking page.
-
-### Step 6: Later receipts
-
-Providers may send webhooks: delivered, bounced, opened. Those update analytics without blocking the original send path. The hot path stays thin.
-
-That is the whole spine: **event → check prefs → record intent → queue → worker → provider → device**.
-
----
-
-## A design you can defend (interview shape)
-
-If someone asks you to design this on a whiteboard, say:
-
-1. **Stateless notification API** for auth, validation, preferences, rate limits, and idempotency.
-2. **Database + cache** for users, devices, settings, templates, and the notification log.
-3. **Per-channel queues and workers** with adapters for push, SMS, and email providers.
-4. **Templates** rendered in workers, versioned and localized.
-5. **At-least-once** delivery with retries, dead-letter queue, and idempotency keys.
-6. **Monitoring** on queue age and provider error rates.
-
-Trade-offs to say out loud:
-
-- One shared queue is simpler; per-channel queues isolate failures.
-- Sending sync is easier to debug and dies when a provider is slow.
-- Perfect exactly-once across carriers is not free; idempotency plus dedupe is the practical bar.
-- Marketing blasts and password codes should not share the same priority and money budget.
-- Running your own email servers looks cheap until reputation work eats the team.
-
-Rough scale example (adjust with the interviewer): millions of push per day, fewer SMS because SMS costs money, soft real-time (seconds are fine for shipping; OTP needs a fast priority path).
-
----
-
-## Recap for a friend
-
-A notification system is the school office of your product. Other services bring news. The office looks up how each person wants to be reached, fills a standard form, writes the request in a log, and drops work into waiting trays. Different runners handle push, SMS, and email through outside companies. If a send fails for a temporary reason, they try again a few times. If it is permanently broken, they stop and tell someone. Users who said "no marketing texts" do not get marketing texts. An "order shipped" event becomes a short phone alert because the API accepted the job, a worker filled the template, and Apple or Google delivered it when the phone was ready. The hard part is not the JSON you send to a provider. The hard part is accepting work fast, respecting preferences, surviving flaky third parties, and never silently losing important messages.
-
----
-
-## Closing
-
-Build the school office well: **channels** for the doors, **preferences** for consent, **templates** for consistent wording, **queues** so the front desk never freezes, and **retries** so temporary failure is not permanent silence. Decouple accept from deliver. Isolate channels. Treat outside providers as unreliable coworkers. Everything else hangs off that spine.
-
+## Sources
+
+* [Apple: Sending notification requests to APNs (status codes, including 410)](https://developer.apple.com/documentation/usernotifications/sending-notification-requests-to-apns)
+* [Firebase Cloud Messaging: migrate from legacy APIs to HTTP v1](https://firebase.google.com/docs/cloud-messaging/migrate-v1)
+* [Google: Email sender guidelines (bulk sender requirements)](https://support.google.com/a/answer/81126)
+* [RFC 8058: Signaling one-click functionality for list email headers](https://www.rfc-editor.org/rfc/rfc8058)
+* [AWS Architecture Blog: Exponential backoff and jitter](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/)
+* Related in this series: [Design a Chat System](/blog/en/design-chat-system), [Design a Rate Limiter](/blog/en/design-a-rate-limiter), [Event-driven architecture](/blog/en/event-driven-architecture-intro)

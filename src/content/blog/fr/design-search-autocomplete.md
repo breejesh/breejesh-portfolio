@@ -1,368 +1,169 @@
 ---
-title: "Concevoir un système d'autocomplétion de recherche : comment le typeahead marche vraiment"
-description: "Autocomplétion de recherche pour débutants : préfixes, arbre de lettres (trie), meilleures suggestions, pourquoi on précalcule les réponses, et une marche lettre par lettre en tapant din."
+title: "Concevoir l'autocomplétion de recherche : tries à top-k précalculé, deux chemins et un budget de 100 ms"
+description: "Comment fonctionne l'autocomplétion à grande échelle : le budget de latence par frappe, un trie qui stocke les meilleures suggestions à chaque nœud, le pipeline hors ligne qui le construit à partir des journaux de recherche avec décroissance temporelle et listes de blocage, partitionnement et cache CDN, anti-rebond côté client, et les défaillances qui embarrassent les entreprises."
 date: "2025-11-14"
 tags: [Design Système et Architecture]
 coverImage: /assets/images/design-search-autocomplete.webp
 previewImage: /assets/images/design-search-autocomplete.webp
 ---
 
-
 > **TL;DR**
-> * **Le Problème:** La conception d'architectures évolutives exige un équilibre entre disponibilité, débit et complexité opérationnelle.
-> * **L'Essentiel:** Autocomplétion de recherche pour débutants : préfixes, arbre de lettres (trie), meilleures suggestions, pourquoi on précalcule les réponses, et une marche lettre par lettre en tapant din.
-> * **Le Résultat:** Plan technique avec des objectifs quantitatifs et la gestion des pannes en production.
+> * **Le problème :** Renvoyer les dix meilleures complétions pour le préfixe saisi, à chaque frappe, assez vite pour que les suggestions paraissent instantanées (bien moins de 100 ms de bout en bout), pour des dizaines de milliers de requêtes par seconde, sans jamais suggérer quoi que ce soit d'offensant.
+> * **La conception :** Séparer le système en deux chemins. Le chemin de requête est une recherche purement en mémoire dans un trie dont chaque nœud stocke déjà ses k meilleures complétions, avec des caches CDN et client devant. Le chemin de données agrège hors ligne les journaux de recherche avec décroissance temporelle, les filtre, construit de nouveaux instantanés du trie et les envoie aux serveurs.
+> * **Le résultat :** Une recherche coûte un parcours de `len(prefix)` étapes et renvoie une liste calculée il y a des heures. Tout le travail coûteux, classement, filtrage et déduplication, se fait hors ligne, là où il peut être lent et soigneux.
 
-Vous utilisez déjà l'autocomplétion de recherche tous les jours. Ouvrez Google, Amazon ou les messages du téléphone. Vous tapez quelques lettres, et une courte liste de phrases finies apparaît avant d'appuyer sur Entrée. Ce menu déroulant n'est pas de la magie. C'est un petit système avec un seul travail : **étant donné les lettres déjà tapées, renvoyer quelques bonnes requêtes, très vite.**
-
-Pensez aux **suggestions du clavier du téléphone**. Pendant que vous tapez `din`, le clavier essaie de finir le mot pour vous. Ou pensez à un **dictionnaire qui ne regarde que le début des mots**, pas le milieu, et vous tend d'abord les correspondances les plus courantes. C'est le modèle mental de tout ce design.
-
-Ce billet enseigne l'autocomplétion comme je l'expliquerais au tableau à quelqu'un qui n'a jamais construit de recherche. Langage simple, un petit exemple (`din`), et seulement les idées utiles pour un entretien ou une première version en production.
+L'autocomplétion fait partie des rares fonctionnalités où la latence est le produit. Une barre de recherche qui suggère « dinner recipes » 300 ms après que vous avez tapé « din » paraît cassée, même si les suggestions sont bonnes. La conception découle de cette seule contrainte : **rien de coûteux ne doit se produire pendant que l'utilisateur tape.**
 
 ---
 
-## Ce que l'on construit (et ce que l'on ne construit pas)
+## Exigences et chiffres
 
-**Dans le périmètre**
+**Fonctionnelles :** pour un préfixe donné, renvoyer jusqu'à 10 suggestions classées par popularité (éventuellement personnalisées et localisées) ; mettre à jour les suggestions quand le comportement de recherche évolue ; ne jamais suggérer de contenu bloqué.
 
-1. L'utilisateur tape un **préfixe** (le début d'une requête).
-2. Le système renvoie les **top k** suggestions (souvent 5 à 10).
-3. Les suggestions sont classées surtout selon **combien de fois les gens les ont cherchées**.
-4. La réponse doit sembler instantanée (cible indicative : sous environ **100ms**).
-5. On garde la liste raisonnablement à jour à partir des logs de recherche réels.
+**Non fonctionnelles :** p99 sous environ 50 ms côté serveur pour que l'expérience complète reste sous 100 ms ; haute disponibilité (si l'autocomplétion tombe, la recherche doit continuer de marcher) ; les résultats peuvent avoir quelques heures de retard.
 
-**Hors périmètre sauf si on le demande**
+| Hypothèse | Valeur | Conséquence |
+| --- | --- | --- |
+| Utilisateurs qui cherchent chaque jour | 10 M | |
+| Recherches par utilisateur et par jour | 10 | 100 M de recherches/jour |
+| Requêtes par recherche après anti-rebond | ~6 | ~600 M de requêtes/jour, ~7 k/s en moyenne, ~20 k/s en pic |
+| Requêtes distinctes conservées | ~100 M | Après élimination de la longue traîne vue une ou deux fois |
+| Suggestions par nœud | 10 | La mémoire croît avec nœuds x k, d'où un k petit |
 
-- Ranking façon Google avec apprentissage automatique
-- Correction de typos (`dinnr` → `dinner`)
-- Trouver des correspondances au milieu d'une phrase
-- Listes personnalisées "rien que pour vous"
-
-Nommez-les à voix haute en entretien pour ne pas finir dans un article de recherche.
+Le nombre de requêtes par recherche est l'endroit où la conception du client compte. Sans anti-rebond, une requête de 15 caractères, c'est 15 requêtes.
 
 ---
 
-## Commencez par un mot : préfixe
+## Deux chemins
 
-Un **préfixe** est simplement le début d'une chaîne.
+![Architecture de l'autocomplétion : sur le chemin de requête, la barre de recherche appelle un cache CDN par préfixe qui, en cas d'échec, appelle le service d'autocomplétion, lequel cherche dans des partitions du trie en mémoire contenant des listes top-10 ; sur le chemin de données, les journaux de recherche alimentent un agrégateur avec comptes et décroissance, un constructeur de trie avec filtre de blocage écrit des instantanés dans un stockage objet, et les serveurs chargent les nouvelles versions](/assets/images/hld/design-autocomplete-architecture.webp)
 
-| Vous avez tapé | C'est le préfixe de |
+**Chemin de requête (millisecondes)**
+
+* **Search Box.** Applique un anti-rebond aux frappes (environ 100 ms), met en cache localement les réponses par préfixe et annule les requêtes en cours quand un préfixe plus récent est saisi.
+* **Cache CDN par préfixe.** Les préfixes courts (« a », « th », « how ») sont demandés par des millions d'utilisateurs. Mettre les réponses en cache en périphérie pendant quelques minutes absorbe une grande part du trafic avant qu'il n'atteigne vos serveurs. Les résultats personnalisés ne peuvent pas être mis en cache ainsi, ce qui explique en partie pourquoi la personnalisation est généralement une fine couche de reclassement par-dessus.
+* **Autocomplete Service.** Traitement des requêtes sans état : normaliser le préfixe (minuscules, espaces supprimés, normalisation Unicode), router vers la bonne partition du trie, renvoyer la liste stockée.
+* **Partitions du trie en RAM.** Tout l'index vit en mémoire. Chaque nœud stocke son top 10 précalculé.
+
+**Chemin de données (heures)**
+
+* **Search Logs.** Chaque recherche soumise (pas chaque frappe) est journalisée avec l'heure, la langue et le fait que l'utilisateur ait cliqué ou non sur un résultat.
+* **Agrégateur (comptes et décroissance).** Un traitement par lots ou en flux calcule un score par requête, en pondérant davantage les recherches récentes, pour que l'actualité de la semaine dernière s'efface et que le nom d'un nouveau produit monte.
+* **Trie Builder + filtre de blocage.** Écarte les termes bloqués, les données personnelles et le spam, puis construit le trie avec des listes top-k par nœud.
+* **Snapshots (stockage objet).** Des fichiers de trie versionnés. Les serveurs chargent une nouvelle version en arrière-plan et basculent atomiquement ; une mauvaise construction s'annule en pointant vers la version précédente.
+
+Cette séparation est toute la conception. Le chemin de requête ne calcule jamais rien ; le chemin de données ne sert jamais rien.
+
+---
+
+## Le trie, avec un top-k à chaque nœud
+
+![Trie pour les préfixes d, di, din et dis, où chaque nœud stocke son propre top-3 précalculé, de sorte qu'une recherche de din parcourt trois nœuds et renvoie dinner recipes, dinosaur et dining table sans explorer le sous-arbre](/assets/images/hld/design-autocomplete-trie.webp)
+
+Un trie classique trouve tous les mots d'un préfixe en descendant jusqu'au nœud du préfixe, puis en parcourant tout ce qui se trouve en dessous. Pour le préfixe « d », ce sous-arbre est immense. La parade consiste à **stocker la réponse dans le nœud** : à la construction, on pousse le score de chaque requête dans la liste top-k de chaque nœud de son chemin. Une recherche devient alors un parcours de `len(prefix)` étapes suivi du renvoi d'une liste.
+
+```python
+import heapq
+
+class Node:
+    __slots__ = ("children", "top")
+    def __init__(self):
+        self.children, self.top = {}, []
+
+def build(counts: dict[str, int], k: int = 10) -> Node:
+    root = Node()
+    for query, score in counts.items():
+        node = root
+        for ch in query:
+            node = node.children.setdefault(ch, Node())
+            heapq.heappush(node.top, (score, query))
+            if len(node.top) > k:
+                heapq.heappop(node.top)          # keep only the k best
+    for node in _walk(root):                      # freeze: best first
+        node.top = [q for _, q in sorted(node.top, reverse=True)]
+    return root
+
+def _walk(node):
+    yield node
+    for child in node.children.values():
+        yield from _walk(child)
+
+def suggest(root: Node, prefix: str) -> list[str]:
+    node = root
+    for ch in prefix.lower():
+        node = node.children.get(ch)
+        if node is None:
+            return []
+    return node.top
+```
+
+Avec les scores `discord: 2000, dictionary: 1200, dinner recipes: 900, disney plus: 850, discount codes: 800, dinosaur: 700, dining table: 650` et k = 3, `suggest("din")` renvoie `["dinner recipes", "dinosaur", "dining table"]`, comme sur le schéma. Je l'ai exécuté pour vérifier.
+
+**Le compromis mémoire.** Stocker k suggestions à chaque nœud multiplie la mémoire, donc les systèmes en production stockent des identifiants de requête plutôt que des chaînes, plafonnent la profondeur à laquelle les listes sont stockées (les préfixes profonds sont rares et peuvent se rabattre sur un parcours du sous-arbre) et compressent la structure. Le completion suggester de Lucene et d'Elasticsearch utilise des transducteurs à états finis (FST) précisément pour cette raison : ils partagent préfixes et suffixes communs et font tenir de grands vocabulaires en mémoire.
+
+---
+
+## Classement et fraîcheur
+
+| Signal | Effet |
 | --- | --- |
-| `d` | `dinner`, `dinosaur`, `doctor`, ... |
-| `di` | `dinner`, `dinosaur`, `diners near me`, ... |
-| `din` | `dinner recipes`, `dinosaur`, `diners near me`, ... |
-| `dino` | `dinosaur`, `dinosaur toys`, ... |
+| Fréquence de la requête avec décroissance temporelle | Une popularité de base qui laisse quand même monter les nouvelles tendances |
+| Clics sur les résultats | Les requêtes qui ne mènent nulle part sont rétrogradées |
+| Langue et région | « football » ne veut pas dire la même chose selon les pays |
+| Historique personnel | Un léger reclassement de la liste globale, fait dans le service, pas dans le trie |
+| Détection des tendances | Un petit chemin en flux qui injecte les requêtes montantes entre deux reconstructions complètes |
 
-L'autocomplétion signifie presque toujours une **correspondance de préfixe depuis le début**, pas "trouve ce morceau n'importe où".
-
-Si le produit n'a besoin que de ça, dites-le. La correspondance en milieu de chaîne est un autre problème, plus dur.
-
----
-
-## Pourquoi une simple liste de mots ne suffit pas
-
-Imaginez que vous stockez chaque recherche populaire dans une grande table :
-
-```
-query                 times_searched
-------------------------------------
-dinner recipes        98012
-dinosaur              77120
-diners near me        54001
-doctor near me        41000
-... des millions d'autres ...
-```
-
-Une réponse naïve pour le préfixe `din` :
-
-```sql
-SELECT query
-FROM queries
-WHERE query LIKE 'din%'
-ORDER BY times_searched DESC
-LIMIT 5;
-```
-
-Ça marche en démo sur un laptop. À vraie échelle, chaque frappe peut devenir une requête, et des dizaines de milliers de requêtes par seconde peuvent arriver. Scanner ou trier une table géante pour chaque lettre est trop lent et trop cher.
-
-Il nous faut une structure faite pour **parcourir les lettres une par une**.
+Une reconstruction complète toutes les quelques heures couvre l'essentiel des besoins de fraîcheur. Pour l'actualité brûlante, un traitement en flux peut calculer un petit trie « tendances » que le service fusionne avec le résultat principal, pour qu'un pic soudain apparaisse en quelques minutes plutôt qu'en quelques heures.
 
 ---
 
-## L'idée du clavier téléphone : un arbre de lettres
+## Faire passer le chemin de requête à l'échelle
 
-Voici l'image centrale.
-
-Imaginez un **arbre**. La racine est vide (vous n'avez rien tapé). Chaque pas vers le bas est une lettre. Les débuts partagés partagent le même chemin.
-
-Cet arbre s'appelle un **trie** (on prononce "try"). On l'appelle aussi **arbre de préfixes**.
-
-Minuscule dictionnaire : `be`, `bee`, `beer`, `best`, `bet`.
-
-```
-        (root)
-          |
-          b
-          |
-          e
-       /  |  \
-      e   s   t
-      |   |
-      r   t
-```
-
-Comment le lire :
-
-- Le chemin `b → e` est le préfixe `be`.
-- Le chemin `b → e → e → r` est le mot `beer`.
-- Les mots qui partagent un début partagent des nœuds, donc vous ne stockez pas les lettres de `be` trois fois séparément pour `be`, `bee` et `beer`.
-
-Même idée que les suggestions clavier : le clavier ne relit pas tout le dictionnaire de A à Z pour chaque lettre. Il suit le chemin des lettres déjà tapées, puis regarde ce qui peut encore grandir à partir de là.
+* **Répliquer avant de partitionner.** Un trie filtré pour une langue tient souvent dans quelques dizaines de gigaoctets de RAM. Répliquer le trie entier sur chaque serveur est plus simple que de le partitionner et donne à chaque serveur la réponse complète.
+* **Partitionner par préfixe quand il ne tient plus.** Découper sur le premier ou les deux premiers caractères, avec des coupes plus fines pour les lettres déséquilibrées (bien plus de requêtes commencent par « s » que par « x »). Le service route selon le préfixe normalisé.
+* **Mettre en cache agressivement en périphérie.** Les préfixes courts sont les plus chauds et les moins personnels ; donnez-leur des TTL CDN de quelques minutes.
+* **Échouer en ne renvoyant rien.** Si l'autocomplétion est en panne, renvoyez vite une liste vide. La barre de recherche fonctionne toujours ; les utilisateurs tapent juste un peu plus.
 
 ---
 
-## Marche en tapant `din` lettre par lettre
+## La sécurité n'est pas optionnelle
 
-Supposons que les requêtes populaires qui commencent par `d` incluent :
+L'autocomplétion met des mots dans la bouche des utilisateurs. Toutes les grandes entreprises de recherche ont été embarrassées par une suggestion qui complétait le nom d'une personne par une accusation, ou celui d'un groupe par une insulte.
 
-- `dinner recipes` (score 98012)
-- `dinosaur` (score 77120)
-- `diners near me` (score 54001)
-- `doctor near me` (score 41000)
-- `disney movies` (score 39000)
-
-**Étape 1 : l'utilisateur tape `d`**
-
-Le serveur marche un bord : racine → `d`.
-
-Tout ce qui est sous `d` est candidat : dinner, dinosaur, doctor, disney, et plus. Si on listait *tout*, la liste serait énorme. Donc on ne garde que les **quelques meilleures** pour ce préfixe (on y revient). Peut-être :
-
-```
-prefix "d" → dinner recipes, dinosaur, diners near me, doctor near me, disney movies
-```
-
-**Étape 2 : l'utilisateur tape `i` (maintenant `di`)**
-
-Marche un bord de plus : `d` → `i`.
-
-`doctor` et tout ce qui ne continue pas avec `i` sortent. Restent sous `di` : dinner, dinosaur, diners, disney, et proches.
-
-```
-prefix "di" → dinner recipes, dinosaur, diners near me, disney movies, ...
-```
-
-**Étape 3 : l'utilisateur tape `n` (maintenant `din`)**
-
-Marche : `i` → `n`.
-
-Le chemin est maintenant `d-i-n`. Seules les requêtes qui commencent par `din` restent :
-
-```
-prefix "din" → dinner recipes, dinosaur, diners near me, ...
-```
-
-Toute la route de requête en une phrase : **suivre les lettres tapées par l'utilisateur, puis renvoyer les meilleures requêtes complètes accrochées sous ce nœud.**
-
-Le temps pour atteindre le nœud est proportionnel au nombre de caractères tapés. Pour de courtes barres de recherche, c'est une poignée de pas, pas un scan de table entier.
+* Maintenez des listes de blocage pour la haine, la violence, le contenu sexuel et l'automutilation, appliquées dans le constructeur et revérifiées au moment de servir pour les ajouts urgents.
+* Retirez des journaux les données personnelles comme les numéros de téléphone et les adresses e-mail avant l'agrégation.
+* Redoublez de prudence pour les requêtes portant sur des personnes ; beaucoup de produits ne suggèrent pas de complétions sur des personnes nommées dans des contextes sensibles.
+* Exigez un nombre minimal d'utilisateurs distincts avant qu'une requête puisse être suggérée, pour qu'une seule personne ou un bot ne puisse pas injecter de suggestions.
+* Prévoyez un interrupteur d'urgence par suggestion, effectif en quelques minutes, pas à la prochaine reconstruction.
 
 ---
 
-## Meilleures suggestions : on ne montre pas tout
+## Liste de contrôle pour la production
 
-Les utilisateurs ne veulent pas 10 000 correspondances. Ils veulent une liste courte et utile.
-
-Le produit dit donc : renvoyer **top k**, souvent `k = 5` ou `k = 10`.
-
-**Comment classer ?**
-
-Réponse simple d'entretien : **fréquence historique**. Compter combien de fois les gens ont fini cette recherche. Plus le compte est haut → meilleur rang. Améliorations optionnelles plus tard : tendances récentes, clics sur suggestions, langue, lieu. Commencez par la fréquence pour garder le design clair.
-
-Forme de réponse exemple :
-
-```http
-GET /v1/autocomplete?q=din&limit=5
-```
-
-```json
-{
-  "prefix": "din",
-  "suggestions": [
-    {"query": "dinner recipes", "score": 98012},
-    {"query": "dinosaur", "score": 77120},
-    {"query": "diners near me", "score": 54001}
-  ]
-}
-```
-
-Les préfixes vides ou d'une lettre sont gênants (presque tout le dictionnaire). Beaucoup de produits attendent **2 ou 3 caractères** avant d'appeler le serveur, ou montrent une liste spéciale de "tendances" pour une saisie très courte.
+- [ ] Anti-rebond côté client, cache local par préfixe et annulation des requêtes
+- [ ] Normalisation des préfixes identique dans le constructeur et dans le service
+- [ ] Top-k stocké par nœud ; mémoire mesurée à chaque construction
+- [ ] Constructions versionnées, validées (taille, requêtes d'échantillon, vérification de la liste de blocage) et basculées atomiquement
+- [ ] Retour à l'instantané précédent en une étape
+- [ ] Cache CDN pour les préfixes courts et non personnalisés
+- [ ] Seuil minimal d'utilisateurs distincts et listes de blocage, plus une procédure de retrait d'urgence
+- [ ] Échec rapide avec une liste vide ; la recherche ne doit pas dépendre de l'autocomplétion
+- [ ] Tableaux de bord : latence p99, taux de succès des caches (client, CDN, service), clics sur les suggestions, âge de la construction
 
 ---
 
-## Pourquoi on précalcule (l'idée de production la plus importante)
+## Ce qui reste
 
-Vous *pourriez* faire ceci à chaque requête :
+La meilleure autocomplétion est celle à laquelle les utilisateurs ne pensent jamais. Ils tapent trois lettres, ce qu'ils voulaient est déjà là, et ils appuient sur Entrée.
 
-1. Marcher jusqu'au nœud du préfixe (`din`).
-2. Explorer tout le sous-arbre en dessous.
-3. Collecter chaque requête terminée.
-4. Trier par score.
-5. Prendre le top 5.
-
-Pour un préfixe rare comme `xylophone`, le sous-arbre est minuscule. Pour un préfixe courant comme `a` ou `the`, il peut être énorme. Trier un tas géant sous un budget de 100ms, à fort QPS, échoue.
-
-Donc on **précalcule**.
-
-À chaque nœud important (ou pour chaque préfixe important), on stocke la réponse à l'avance :
-
-```
-Node "din":
-  top: [dinner recipes, dinosaur, diners near me, ...]
-```
-
-La route de requête devient :
-
-1. Marcher jusqu'au nœud (ou chercher le préfixe dans une map).
-2. Renvoyer la liste déjà stockée.
-
-Vous échangez de la **mémoire** contre de la **latence**. Cet échange est voulu. L'autocomplétion est un produit très orienté lecture où la vitesse *est* le produit.
-
-### Quand ces listes sont-elles construites ?
-
-Pas à chaque frappe sous le nez de l'utilisateur. À part :
-
-1. Les gens finissent des recherches (logs).
-2. Un pipeline compte les fréquences (par heure, jour, semaine : choix produit).
-3. Un job construit un nouveau trie (ou une map `prefix → top-k`).
-4. Les machines de service chargent le nouveau snapshot et basculent.
-
-Pensez à imprimer un dictionnaire de poche la nuit, puis à utiliser ce livre imprimé le lendemain. Pour des produits d'actualité vous ajoutez aussi un court chemin "tendances", mais l'idée principale reste : **travail lourd hors ligne, réponses en ligne avec des listes déjà prêtes.**
+Derrière ce moment, il y a un pipeline exécuté il y a des heures, une liste de blocage que quelqu'un a mise à jour à minuit, et un instantané chargé sans un bruit. L'utilisateur a vu dix mots. Le système s'est souvenu de millions de personnes qui avaient posé la même question avant lui.
 
 ---
 
-## Deux chemins : apprendre vs répondre
+## Sources
 
-Dessinez cette séparation tôt. Elle garde le design honnête.
-
-```
-APPRENDRE (lent est OK)
-  recherches finies → comptages → construire top-k → publier snapshot
-
-RÉPONDRE (doit être rapide)
-  utilisateur tape → API → cache / trie → liste top-k → réponse
-```
-
-Si vous mettez à jour un arbre global en direct à chaque recherche finie dans le monde, vous créez des tempêtes d'écriture, des combats de verrous et des rangs inconsistants. Pour un premier design, préférez **rebuild périodique + bascule atomique**.
-
----
-
-## Une mini histoire de capacité (pour que l'échelle soit concrète)
-
-Chiffres d'entretien que vous pouvez dire à voix haute :
-
-- 10 millions de personnes utilisent le produit par jour
-- Chaque personne cherche environ 10 fois
-- Chaque recherche peut taper environ 20 caractères (si chaque frappe frappe le serveur)
-
-```
-QPS moyen ≈ 10M * 10 * 20 / 86400 ≈ 24 000
-Le pic peut être ~2x → ~50 000
-```
-
-En production le client devrait faire un **debounce** (attendre ~150-300ms après la dernière touche avant d'appeler) et annuler les anciennes requêtes quand une nouvelle lettre arrive. Cela coupe beaucoup de trafic. Planifiez quand même une API chaude et très orientée lecture.
-
-Aussi : les navigateurs peuvent mettre en cache un moment des suggestions non personnelles. Les caches serveur (Redis ou en processus) stockent les préfixes chauds comme `din`, `how`, noms de marques. Un miss charge depuis le snapshot du trie.
-
----
-
-## Sécurité et résultats moches
-
-La popularité seule peut faire remonter de mauvaises suggestions. Discours haineux, arnaques ou retraits légaux ne peuvent pas attendre le rebuild de la semaine prochaine.
-
-Mettez un **filtre rapide** sur le chemin de réponse :
-
-- Liste de blocage de requêtes complètes et de préfixes
-- Écarter les correspondances avant l'utilisateur
-- Les retirer aussi au prochain rebuild pour qu'elles cessent d'occuper des places top-k
-
-Masquage immédiat maintenant, index propre bientôt.
-
----
-
-## Scaler sans se noyer dans le jargon
-
-Une machine ne tiendra pas toutes les langues et toute la longue traîne pour toujours.
-
-Idées pratiques appréciées en entretien :
-
-| Idée | Sens simple |
-| --- | --- |
-| Shard par préfixe | Requêtes commençant par `a-m` sur un groupe de machines, `n-z` sur un autre |
-| Corriger le biais des lettres | L'anglais aime `s` et `c` plus que `x` et `z` ; shard selon le vrai trafic, pas de tranches d'alphabet pures |
-| Tries par locale | Le ranking en espagnol n'est pas celui en hindi ; des index séparés aident |
-| Minimum de caractères | Ne servez pas le top-k global pour la chaîne vide |
-
-Vous n'avez pas besoin d'un graphe global temps réel parfait le jour un. Vous avez besoin d'un service **prefix → top-k** qui reste rapide quand le trafic grossit.
-
----
-
-## Détails client qui rendent le produit agréable
-
-| Détail | Pourquoi |
-| --- | --- |
-| Debounce 150-300ms | Éviter une requête par frappe |
-| Annuler les appels en vol | Le retour arrière ne doit pas montrer une liste périmée |
-| Longueur min 2-3 | Éviter de déverser tout le dictionnaire |
-| Recherches locales récentes | Offline ou panne reste utile |
-| Plafond de longueur du préfixe | 50 caractères suffisent pour une barre de recherche |
-
-Le design backend est le même pour apps mobiles et web.
-
----
-
-## Image de bout en bout que vous pouvez défendre
-
-**Produit :** top-5 par préfixe selon popularité, dizaines de milliers de QPS en pic, p99 sous ~100ms, anglais d'abord, rebuild périodique, modération rapide.
-
-**Pièces :**
-
-1. API d'autocomplétion (sans état, beaucoup de copies)
-2. Trie ou snapshot `prefix → top-k` en mémoire / Redis
-3. Stockage durable de snapshots (builds versionnés)
-4. Log → agrégation → workers de build
-5. Blocklist sur le chemin de lecture
-6. Fusion optionnelle de tendances à fenêtre courte pour l'actualité
-
-**Requête :** valider → cache → top-k précalculé → filtrer → répondre.
-
-**Apprendre :** échantillonner les recherches finies → agréger → construire → publier → chauffer le cache → basculer de version.
-
----
-
-## Récap pour un ami
-
-Si vous deviez l'expliquer au dîner en une minute :
-
-> L'autocomplétion, c'est comme les suggestions du clavier du téléphone pour la recherche. Vous tapez le début d'une phrase (un **préfixe**). Le système ne relit pas toutes les recherches de l'histoire. Il garde un **arbre de lettres** (un trie). Chaque pas est une lettre. Quand vous tapez `d`, puis `i`, puis `n`, il marche `d → i → n` et regarde une **courte liste précalculée** des requêtes complètes les plus populaires sous ce chemin, comme `dinner recipes` et `dinosaur`. On précalcule ces listes top hors ligne à partir de vrais comptages de recherche pour que chaque frappe reste bon marché et rapide. Servir les réponses et apprendre des nouvelles recherches sont deux jobs différents. Les mélanger dans une mise à jour live à chaque recherche, c'est comme ces systèmes deviennent lents et confus.
-
-Voilà le design. Tout le reste (shards, caches, tendances, filtres) est du détail autour de cette histoire.
-
----
-
-## Checklist avant de livrer (ou de finir l'entretien)
-
-- [ ] Correspondance préfixe seule convenue avec le produit
-- [ ] `k` et règle de ranking dits (fréquence d'abord)
-- [ ] Debounce, annulation et longueur min côté client
-- [ ] Top-k stocké par nœud ou map par préfixe
-- [ ] Build offline ou périodique avec bascule atomique
-- [ ] Filtre de sécurité en lecture avec mise à jour rapide
-- [ ] Couches de cache pour préfixes chauds
-- [ ] Rate limits sur l'endpoint d'autocomplétion
-- [ ] Tableaux de bord : latence, hit rate du cache, résultats vides, lag du build
-
----
-
-## Clôture
-
-L'autocomplétion de recherche n'est pas une démo d'IA tape-à-l'œil. C'est un **service top-k par préfixe** avec un index presque temps réel. La structure qui colle au produit est un arbre de lettres. L'astuce qui fait marcher la production, ce sont les **listes courtes précalculées** aux nœuds que les gens marchent vraiment. Séparez le chemin d'apprentissage du chemin de réponse, et le système reste à la fois rapide et compréhensible.
-
+* [Elasticsearch : completion suggester (fondé sur les FST)](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters.html#completion-suggester)
+* [Apache Lucene : documentation du paquet FST](https://lucene.apache.org/core/9_0_0/core/org/apache/lucene/util/fst/package-summary.html)
+* [Aide de la recherche Google : fonctionnement et règles de la saisie semi-automatique](https://support.google.com/websearch/answer/7368877)
+* [MDN : anti-rebond (glossaire)](https://developer.mozilla.org/en-US/docs/Glossary/Debounce)
+* Dans la même série : [Concevoir un robot d'exploration web](/blog/fr/design-web-crawler), [Estimations au dos de l'enveloppe](/blog/fr/design-back-of-envelope-estimation), [Motifs de cache avec Redis](/blog/fr/redis-caching-patterns)

@@ -1,220 +1,152 @@
 ---
-title: "Diseñar Google Drive: cómo funciona una carpeta mágica en cada dispositivo"
-description: "Almacenamiento estilo Google Drive para principiantes absolutos: subida, descarga, sync, trozos, versiones, compartir y qué pasa cuando dos móviles editan el mismo archivo sin red."
+title: "Diseña Google Drive: sincronización por bloques, almacenamiento direccionado por contenido, versiones y conflictos"
+description: "Cómo funciona por dentro la sincronización de ficheros en la nube: dividir los ficheros en bloques con hash para que solo viajen los cambios, almacenamiento de bloques direccionado por contenido, un servicio de metadatos con diarios de cambios por espacio de nombres, notificaciones que avisan a los dispositivos, concurrencia optimista, copias en conflicto, versiones, compartición y almacenamiento frío."
 date: "2026-02-10"
 tags: [Diseño de Sistemas y Arquitectura]
 coverImage: /assets/images/design-google-drive.webp
 previewImage: /assets/images/design-google-drive.webp
 ---
 
-
 > **TL;DR**
-> * **El Problema:** Diseñar arquitecturas escalables requiere equilibrar disponibilidad, rendimiento y complejidad operativa.
-> * **La Clave:** Almacenamiento estilo Google Drive para principiantes absolutos: subida, descarga, sync, trozos, versiones, compartir y qué pasa cuando dos móviles editan el mismo archivo sin red.
-> * **El Resultado:** Plano técnico con objetivos cuantitativos y mitigación de fallos en producción.
+> * **El problema:** Mantener idéntica la misma carpeta en un portátil, un móvil y un navegador, para decenas de millones de usuarios con gigabytes cada uno, sobre redes inestables, mientras la gente edita los mismos ficheros sin conexión y espera que nunca se pierda nada.
+> * **El diseño:** Dividir los ficheros en bloques de tamaño fijo identificados por su hash, subir solo los bloques que el servidor no tiene y confirmar cada versión nueva como una lista de hashes de bloques en una base de datos de metadatos. Cada confirmación se añade a un diario de cambios por espacio de nombres; un servicio de notificaciones avisa a los demás dispositivos para que traigan los cambios posteriores a su cursor. Las confirmaciones usan concurrencia optimista, y perder una carrera produce una copia en conflicto en lugar de una sobrescritura silenciosa.
+> * **El resultado:** Editar un fichero grande sube megabytes en lugar de gigabytes, el contenido idéntico se guarda una vez, los dispositivos se ponen al día con una consulta de cursor y el único escenario de pérdida de datos que queda es el que provocan los usuarios a propósito.
 
-Imagina una carpeta mágica. Dejas una foto en el portátil. Abres el móvil en el bus y la misma foto ya está ahí. Editas una hoja de cálculo en el trabajo. En casa, la tableta muestra los números nuevos. No se siente como un "servidor". Se siente como una sola carpeta que vive en todas partes a la vez.
+Un producto de sincronización hace una promesa que suena sencilla y no lo es: *la carpeta es la misma en todas partes*. Por debajo, es un sistema distribuido donde cada portátil es una réplica que pasa días desconectada, y los usuarios que la editan son quienes escriben los conflictos.
 
-Eso es el producto cuando alguien dice "diseña Google Drive". Bajo el cristal no hay magia. Hay ingeniería cuidadosa alrededor de seis ideas: **subida (upload)**, **descarga (download)**, **sincronización (sync)**, **trozos (chunks)**, **versiones** y **compartir (share)**. Este post explica cada una como lo haría con un alumno brillante que nunca ha dibujado un diagrama de sistema.
-
-Dejamos fuera la coedición en vivo (muchas personas escribiendo a la vez en un Google Doc). Eso es otro producto, más difícil. Aquí diseñamos una carpeta de archivos normales: PDFs, fotos, zips, documentos de oficina.
+Dropbox popularizó la arquitectura que describe este artículo, y Google Drive, OneDrive e iCloud Drive resuelven el mismo problema de formas bastante parecidas.
 
 ---
 
-## La carpeta mágica, en lenguaje sencillo
+## Requisitos y cifras
 
-Tus dispositivos no son el hogar real de los archivos. El hogar real es un sistema grande y cuidadoso en la nube. Cada móvil o portátil guarda una **copia** de los archivos que te importan (o una lista de ellos, si son enormes). Cuando cambias algo, el dispositivo se lo dice a la nube. Cuando la nube se entera de un cambio, se lo dice a tus otros dispositivos. La "carpeta que aparece en todas partes" es la ilusión creada por ese bucle.
+**Funcionales:** subir, descargar y sincronizar ficheros y carpetas entre dispositivos; historial de versiones y restauración; compartir con permisos; ediciones sin conexión que se sincronizan después; notificaciones cuando cambia el contenido compartido.
 
-Dos trabajos no deben fallar nunca:
+**No funcionales:** no perder nunca datos confirmados; sincronizar los cambios en segundos cuando los dispositivos están conectados; ser eficiente en redes lentas y con datos medidos; escalar a cientos de petabytes.
 
-1. **Los bytes no pueden desaparecer.** Si subes el vídeo de una boda, perderlo no es un bug. Es un desastre.
-2. **Los nombres y "cuál es la versión más reciente" deben coincidir** en cada dispositivo al que le importe. Si el móvil dice que `presupuesto.xlsx` está vacío y el portátil tiene los números de la semana pasada, la gente creerá que se borraron datos aunque los bytes sigan a salvo.
-
-Todo lo de abajo sirve a esos dos trabajos.
-
----
-
-## Subida: meter un archivo en la nube
-
-**Subida** significa: "toma este archivo de mi dispositivo y guárdalo con seguridad lejos de aquí."
-
-Para un archivo pequeño (una nota de texto corta), la app puede enviar el archivo entero de una vez. Para un archivo grande (un vídeo de 2 GB con datos móviles inestables), un envío largo a menudo se rompe a mitad. Por eso los sistemas serios al estilo Drive usan una **subida reanudable**:
-
-1. La app pregunta al servidor: "Quiero subir un archivo de este tamaño, con este nombre, en esta carpeta."
-2. El servidor abre una **sesión** y responde: "De acuerdo. Envíame trozos. Si te desconectas, pregúntame hasta dónde llegamos."
-3. La app envía el archivo en trozos. Si el Wi-Fi muere al 70%, se reconecta y sigue desde el 70%, no desde cero.
-
-Antes de aceptar el cuerpo, el servidor comprueba reglas simples: ¿el usuario puede escribir aquí? ¿El archivo está bajo el límite de tamaño? ¿Queda cuota?
-
-**Nota de clase:** nunca digas al usuario "subida completa" hasta que sean verdad dos cosas: los bytes del archivo están guardados con seguridad, y la fila de base de datos que apunta a esos bytes está guardada. Si solo salvas una de las dos, aparecen archivos fantasma o datos huérfanos.
+| Supuesto | Valor | Derivado |
+| --- | --- | --- |
+| Usuarios | 50M | |
+| Almacenamiento medio por usuario | 10 GB | ~500 PB lógicos, antes de deduplicar y comprimir |
+| Cambios de ficheros por usuario y día | ~2 | ~100M confirmaciones/día, ~1.200/s de media |
+| Tamaño medio de fichero | ~500 KB, con una cola larga de ficheros de varios GB | La mayoría de confirmaciones son pequeñas; unas pocas dominan el ancho de banda |
+| Dispositivos por usuario | 2 a 3 | Cada cambio lo descargan 1 o 2 dispositivos más |
 
 ---
 
-## Descarga: traer un archivo de vuelta
+## La arquitectura
 
-**Descarga** es lo contrario: "dame los bytes de este archivo para abrirlo o guardarlo."
+![Arquitectura de una unidad en la nube: clientes de portátil, móvil y web llegan a un balanceador; el servicio de bloques sube y deduplica bloques direccionados por contenido en un almacén de bloques, la API de metadatos confirma versiones de ficheros en una base de datos de metadatos particionada por espacio de nombres, las confirmaciones se añaden a un diario de cambios por espacio de nombres, un servicio de notificaciones avisa a otros dispositivos de que algo cambió y los bloques antiguos pasan a un nivel frío](/assets/images/hld/design-drive-architecture.webp)
 
-Los sistemas grandes rara vez empujan archivos enormes por los mismos servidores de API pequeños que gestionan el login y las listas de carpetas. Un patrón habitual es:
-
-1. Tu app pregunta: "¿Puedo descargar el archivo X?"
-2. La API comprueba permisos.
-3. La API devuelve un enlace especial de corta vida (una **URL firmada**) hacia el gran almacén de archivos.
-4. Tu app obtiene los bytes de ese almacén directamente.
-
-Para apps de sync que ya tienen la mayor parte de un archivo, a menudo solo descargas las **piezas cambiadas** (ver trozos más abajo), no el archivo entero otra vez.
-
----
-
-## Sync: mantener honestos a todos los dispositivos
-
-**Sync** es el corazón de la carpeta mágica. Significa: después de que algo cambie en cualquier sitio, los demás sitios se ponen al día.
-
-Una historia simple:
-
-1. Renombras `viaje.jpg` a `paris.jpg` en el portátil.
-2. El portátil dice a la nube: "este archivo ahora se llama paris.jpg."
-3. La nube guarda ese hecho y avisa a tu móvil: "algo cambió en esta carpeta."
-4. El móvil pide la lista de cambios, ve el renombre y actualiza el nombre local.
-
-Si el móvil estaba sin red (modo avión), se perdió el aviso. Cuando vuelve online, dice: "la última vez que conocí el mundo era el cambio número 1200. ¿Qué pasó después?" La nube envía una lista de puesta al día. Ese número suele llamarse **cursor** o **change id**. Piénsalo como un marcapáginas en la historia de la carpeta.
-
-Sync no es lo mismo que "enviarte el archivo por correo." Sync es continuo, automático y bidireccional (cuando el producto permite editar desde varios dispositivos).
+* **Cliente de sincronización del portátil.** La pieza más compleja. Vigila el sistema de ficheros, mantiene una base de datos local con lo que cree que tiene el servidor, divide los ficheros modificados en bloques, sube, confirma y aplica los cambios remotos. Dropbox reescribió el suyo (el motor "Nucleus", en Rust) precisamente porque la corrección de la sincronización es así de difícil.
+* **Móvil / Web.** Normalmente no replican toda la carpeta; navegan por los metadatos y descargan ficheros bajo demanda.
+* **Load Balancer.** Envía el tráfico de bloques y el de metadatos a flotas separadas, porque tienen formas distintas: cuerpos grandes en streaming frente a peticiones pequeñas y transaccionales.
+* **Block Service (subida, deduplicación).** Acepta bloques direccionados por hash. Si ya existe un bloque con ese hash, se omite la subida. Admite transferencias reanudables.
+* **Block Store (direccionado por contenido).** Un almacén de objetos donde la clave es el hash del bloque. Inmutable: un bloque nunca se modifica, solo se referencia o se recolecta. Dropbox trasladó en 2016 la mayor parte de este nivel desde Amazon S3 a su propio sistema de escala de exabytes, Magic Pocket.
+* **Metadata API (ficheros, versiones).** El registro autoritativo del árbol: rutas, versiones, listas de bloques y permisos. Cada cambio es una transacción aquí.
+* **Metadata DB (particionada por espacio de nombres).** Un espacio de nombres es la raíz de un usuario o una carpeta compartida. Particionar por espacio de nombres mantiene en un mismo fragmento todo el historial de una carpeta y su diario, así que las confirmaciones son transacciones de un solo fragmento.
+* **Change Journal (por espacio de nombres).** Un log ordenado de cada confirmación en un espacio de nombres. Cada dispositivo recuerda su cursor (su posición en el diario).
+* **Notification (long-poll / WebSocket).** No transporta los cambios, solo "algo cambió en el espacio de nombres N". El dispositivo pide entonces a la API de metadatos todo lo posterior a su cursor.
+* **Cold tier.** Los bloques referenciados solo por versiones antiguas o por ficheros poco usados pasan a un almacenamiento más barato.
 
 ---
 
-## Trozos (chunks): partir archivos grandes en piezas
+## Por qué los bloques lo cambian todo
 
-Volver a subir una presentación de 50 MB porque corregiste una errata es la forma de quemar datos móviles y paciencia.
+![Flujo de subida y confirmación: dividir el fichero en bloques de 4 MB, calcular el hash de cada bloque, preguntar al servidor qué hashes faltan, subir solo los bloques que faltan y confirmar una versión nueva con la versión padre esperada; si el padre coincide se guarda la versión 8 y se avisa a los dispositivos, y si otra confirmación llegó antes el cliente guarda una copia en conflicto](/assets/images/hld/design-drive-upload-commit.webp)
 
-Por eso el sistema a menudo **parte un archivo en trozos** (también llamados **bloques**). Un tamaño típico de clase es de unos pocos megabytes por trozo.
+Tratar los ficheros como objetos enteros significa que cambiar un byte de un vídeo de 1 GB vuelve a subir 1 GB. Tratarlos como listas de bloques resuelve tres problemas a la vez:
 
-Imagina un tren largo de vagones. Cada vagón es un trozo. Cada vagón recibe una huella (un **hash**): un código corto calculado a partir de sus bytes exactos. Los mismos bytes siempre dan la misma huella.
+1. **Sincronización delta.** Solo viajan los bloques cambiados. Dropbox ha contado que usa bloques de 4 MB. Una edición en mitad de un fichero grande suele tocar uno o dos bloques. (Los bloques de tamaño fijo se desplazan cuando se insertan bytes al principio de un fichero; el troceado definido por contenido con un hash rodante, la idea detrás de rsync y de muchas herramientas de copia de seguridad, mantiene estables los límites a cambio de más complejidad.)
+2. **Deduplicación.** Los bloques idénticos se guardan una vez, estén en la versión anterior del mismo fichero, en una copia que hizo el usuario o en el mismo instalador descargado por muchos usuarios. La deduplicación entre usuarios tiene implicaciones de privacidad: un atacante puede averiguar si un contenido ya existe observando la velocidad de subida, así que muchos servicios limitan la deduplicación a una misma cuenta.
+3. **Reanudación.** Una subida fallida continúa en el siguiente bloque que falta, no desde cero.
 
-Lo que guarda la nube:
+**El protocolo de confirmación:**
 
-- Los objetos de trozo crudos en un almacén enorme (object storage).
-- Una receta para cada **versión** de un archivo: "la versión 7 de informe.pdf es el trozo A, luego B, luego C, en ese orden."
+1. El cliente calcula los hashes de los bloques y pregunta "¿cuáles de estos hashes te faltan?".
+2. El cliente sube solo esos.
+3. El cliente confirma `fichero X, nueva lista de bloques, versión padre v7`.
+4. El servidor solo acepta si la versión actual sigue siendo v7, y entonces lo añade al diario.
 
-Cuando editas y solo cambia el medio:
-
-1. La app vuelve a hashear los trozos nuevos.
-2. Los trozos sin cambio ya viven en el almacén. No los subas otra vez.
-3. Solo se suben las huellas nuevas.
-4. Una receta nueva (versión 8) apunta a la nueva lista ordenada de huellas.
-
-**Por qué importa:**
-
-- **Delta sync:** envía solo lo que cambió.
-- **Deduplicación:** si dos archivos comparten un trozo idéntico (misma huella), puedes guardar ese trozo una sola vez (al menos dentro de una cuenta).
-- **Historial sin copias completas:** las versiones antiguas guardan sus recetas. Los trozos compartidos sin cambio no se duplican en cada versión.
-
-Para abrir un archivo, el cliente lee la receta, descarga los vagones que le faltan y los pega en orden.
+La nota verde es la recompensa práctica. La nota roja es la regla de concurrencia que hace funcionar la siguiente sección.
 
 ---
 
-## Versiones: el rastro de deshacer
+## Conflictos: nunca elegir un ganador en silencio
 
-A la gente le encanta "necesito la copia del martes pasado." Un sistema al estilo Drive guarda **versiones** de un archivo.
+Dos dispositivos editan el mismo fichero sin conexión. Los dos vuelven a conectarse. Los dos confirman con padre v7. El primero gana y se convierte en v8. El segundo recibe "conflicto: el padre ha cambiado".
 
-Cada guardado con éxito puede crear una fila de versión nueva: quién la guardó, cuándo, tamaño, checksum y la lista ordenada de trozos. El árbol de carpetas apunta a la versión **actual** de cada nombre de archivo. Las versiones antiguas se quedan en el historial hasta que una política de retención las quite.
+¿Qué debe hacer el cliente? Todos los grandes productos de sincronización tomaron la misma decisión: **conservar ambos**. La edición perdedora se guarda al lado con un nombre como `report (Alice's conflicted copy 2026-02-10).docx`. Es feo. También es la única respuesta que nunca destruye el trabajo de nadie.
 
-Regla de diseño importante: trata las versiones como **solo añadir**. No reescribas la receta antigua en el sitio. Apunta el archivo a una versión nueva cuando la nueva esté del todo lista. Así una subida a medias nunca se convierte en "el archivo oficial."
+Los editores colaborativos en tiempo real (Google Docs, Office online) lo evitan de otra forma: sincronizan operaciones finas mediante transformación operacional o CRDT, no ficheros enteros. La sincronización de ficheros y la colaboración en documentos son productos distintos por algo.
 
----
+Otros casos de conflicto que conviene tratar de forma explícita:
 
-## Compartir: dejar entrar a otras personas
-
-**Compartir** significa: "esta persona puede leer (o editar) este archivo o carpeta."
-
-Detrás de escena eso es una **ACL** (lista de control de acceso): filas que dicen "el usuario B tiene rol escritor en la carpeta Proyectos." Cada descarga y cada lectura de metadata debe comprobar esas reglas. Un enlace de descarga firmado debe ser de corta vida y difícil de adivinar, o ligado a la persona correcta, para que un enlace filtrado no viva para siempre.
-
-Compartir también afecta al sync. Cuando compartes una carpeta con un compañero, sus dispositivos deben empezar a enterarse de los cambios en esa carpeta. Cuando revocas el acceso, sus clientes deben dejar de recibir esos cambios (y pueden perder copias locales, según la política del producto).
-
----
-
-## Conflicto: la historia de los dos móviles
-
-Esta es la historia que uso en clase.
-
-Tienes dos móviles. Ambos tienen la carpeta mágica. Ambos se quedan sin red en un vuelo. En el móvil A editas `notas.txt` y escribes "Comprar leche." En el móvil B editas el mismo `notas.txt` y escribes "Comprar huevos." Ningún móvil puede hablar con la nube todavía, así que cada uno cree que su edición está bien.
-
-Aterrizáis. El móvil A se conecta primero y sube su versión. La nube la acepta. `notas.txt` en el servidor ahora dice "Comprar leche."
-
-El móvil B se conecta e intenta subir "Comprar huevos." La nube mira el sello de versión (un **etag** o id de versión) y dice: "Tu base estaba vieja. Alguien ya guardó una versión más nueva."
-
-¿Qué debe hacer el producto?
-
-**Mala idea:** quedarse en silencio solo con la última subida. Quien usaba el móvil A pierde "Comprar leche" sin aviso. Eso se siente como pérdida de datos.
-
-**Buena idea para archivos normales:** guardar las dos. El primer escritor gana como archivo principal. El segundo escritor conserva sus bytes como algo del estilo `notas (conflicto del móvil B).txt`, o la app muestra una pantalla clara de conflicto para que un humano elija o fusione a mano.
-
-La fusión automática es razonable para texto puro con herramientas cuidadas. No es gratis para un `.xlsx` cualquiera o una foto. Así que para un Drive general, **copias de conflicto más elección del usuario** es honesto. La coedición con varios cursores en vivo es el otro producto que dejamos fuera de alcance.
-
-La misma idea aplica si dos personas editan con red: el servidor serializa los commits. El primer guardado con éxito gana el puntero principal. Al perdedor se le dice que resuelva.
-
----
-
-## Un dibujo simple del sistema
-
-No necesitas cincuenta cajas. Necesitas unos pocos papeles:
-
-```
-Tus dispositivos (web, escritorio, móvil)
-        |
-   Balanceador de carga
-        |
-   Servidores API  ----  "¿Quién eres? ¿Cuál es el árbol de carpetas? ¿Quién puede editar?"
-        |
-   Base de metadata  (nombres, versiones, compartidos, historial de cambios)
-        |
-   Camino de trozos / bloques ---- Almacén de objetos (las piezas reales del archivo)
-        |
-   Camino de notificaciones  (despierta dispositivos: "algo cambió")
-```
-
-- **Servidores API** gestionan login, listar carpetas, iniciar subidas, compartir y "¿esta subida ha terminado?"
-- **Object storage** guarda trozos duraderos. Está pensado para mantener bytes a salvo en varias máquinas y lugares.
-- **Base de metadata** guarda la verdad sobre nombres, padres, versión actual y ACLs. Esta parte necesita un acuerdo fuerte: dos dispositivos no deben discrepar sobre "cuál es la última."
-- **Notificaciones** (long poll, push o similar) despiertan clientes inactivos para que no machaquen "lista todo" cada segundo.
-
-La versión de juguete del día uno puede ser un servidor de aplicación y una carpeta en disco. Muere cuando se llena el disco, se cae la máquina o tres dispositivos necesitan un abanico fiable de cambios. El dibujo de arriba es la forma adulta que esperan en entrevistas.
-
----
-
-## Flujo de subida, de punta a punta (otra vez, despacio)
-
-1. El cliente crea una sesión de subida (nombre, carpeta padre, tamaño).
-2. El servidor registra una entrada pendiente y devuelve cómo enviar trozos.
-3. El cliente sube trozos. El servidor los guarda en el almacén.
-4. Cuando llegan todos los trozos y cuadran los checksums, el servidor escribe una receta de versión nueva y mueve el puntero del archivo hacia ella.
-5. El servidor publica un evento de cambio.
-6. Otros dispositivos se despiertan, tiran de la receta nueva, descargan solo los trozos que faltan y actualizan el archivo local.
-
-Si el paso 4 falla después de que aterrizaron los trozos, un trabajo de limpieza borra después los trozos no usados. Nunca dejes el puntero principal a medias.
-
----
-
-## Cómo se ve "bien"
-
-| Objetivo | Significado sencillo |
+| Caso | Resolución sensata |
 | --- | --- |
-| Durabilidad | Los archivos del usuario sobreviven a fallos de máquina |
-| Metadata fuerte | Todo el mundo coincide en el nombre y la versión más recientes |
-| Sync barato | Solo los trozos cambiados cruzan la red |
-| Compartir justo | Permisos comprobados en cada acción sensible |
-| Conflictos honestos | Sin sobrescrituras silenciosas cuando se encuentran dos ediciones |
-
-Números aproximados de entrevista si te los piden: decenas de millones de usuarios diarios, cuotas gratis medidas en gigabytes por persona, cientos de subidas medias por segundo en todo el sistema, y mucha más cuota de almacenamiento de la que una sola base SQL debería guardar nunca como cuerpos crudos de archivo. Los blobs viven en object storage. Las bases de datos guardan hechos pequeños sobre esos blobs.
+| Edición en un dispositivo, borrado en otro | Conservar el fichero editado; los borrados no deben destruir ediciones más nuevas |
+| Renombrado en un dispositivo, edición en otro | Aplicar ambas cosas: el fichero acaba renombrado y con el contenido nuevo |
+| Dos carpetas creadas con el mismo nombre | Fusionar si es seguro; si no, añadir un sufijo a una |
+| Renombrados que solo cambian mayúsculas en sistemas que no las distinguen | Tratarlos con cuidado; una fuente clásica de bugs de sincronización |
 
 ---
 
-## Resumen para un amigo
+## Versiones, restauración y borrado
 
-Si tuvieras sesenta segundos en un café:
+Como los bloques son inmutables y las versiones son listas de hashes, el historial de versiones sale casi gratis: cada versión es una pequeña fila de metadatos. Restaurar una versión antigua es una nueva confirmación que apunta a la lista de bloques antigua.
 
-Google Drive es una **carpeta mágica** que parece vivir en cada dispositivo. En realidad, cada dispositivo guarda una copia, y un sistema en la nube es la fuente de verdad. **Subir** manda tu archivo arriba (en trozos si es grande, y reanudable si muere la red). **Descargar** lo trae de vuelta, a menudo con un enlace especial corto hacia un almacén de archivos. **Sync** es el bucle que dice a otros dispositivos "algo cambió" y les deja ponerse al día con un marcapáginas de los últimos cambios vistos. Los **trozos** parten archivos en piezas con huella para que un edit pequeño no reenvíe el archivo entero, y para que el historial reutilice piezas sin cambio. Las **versiones** son recetas de solo añadir de "cómo se veía el archivo al guardarlo." **Compartir** es una lista de permisos comprobada en cada apertura. Cuando **dos móviles editan sin red**, importan las dos ediciones: la primera en llegar al servidor se convierte en el archivo principal, y la segunda debería ser una copia de conflicto o una elección clara para un humano, nunca una pérdida silenciosa.
+Borrar es más difícil de lo que parece. Un bloque solo puede eliminarse cuando ninguna versión de ningún fichero lo referencia, y las versiones se conservan durante una ventana de retención (por ejemplo, 30 días o más en los planes de pago). La recolección de basura es un trabajo en segundo plano cuidadoso, con recuento de referencias o marcado y barrido sobre los metadatos, porque borrar un bloque que sigue referenciado es una pérdida de datos permanente.
 
-Protege los bytes. Ponte de acuerdo en lo último. Envía solo lo que cambió. Di la verdad cuando choquen dos ediciones.
+---
 
-Ese es el diseño.
+## Compartir
 
+Una carpeta compartida es su propio espacio de nombres, montado en el árbol de cada miembro. Los permisos viven en el espacio de nombres (lector, comentarista, editor). Como el diario y las notificaciones van por espacio de nombres, una edición de un miembro avisa a los dispositivos de todos los miembros exactamente por la misma ruta que los cambios propios de un usuario.
+
+Los enlaces ("cualquiera con el enlace") son una concesión aparte y revocable, con caducidad y contraseña opcionales, que la API de metadatos comprueba en cada acceso.
+
+---
+
+## Modos de fallo
+
+| Fallo | Comportamiento |
+| --- | --- |
+| Subida interrumpida | Reanudar en el siguiente bloque que falta |
+| La confirmación funciona, pero el cliente cae antes de registrarla | Al reiniciar, el cliente consulta el diario y ve su propia confirmación |
+| Servicio de notificaciones caído | Los clientes vuelven a consultar su cursor periódicamente |
+| Fragmento de metadatos caído | Ese espacio de nombres no puede confirmar; los demás no se ven afectados. Los clientes encolan los cambios locales |
+| Bloque corrupto en el almacenamiento | La discrepancia de hash se detecta al leer; se repara desde una réplica o desde fragmentos con códigos de borrado |
+| Un bug del cliente lo borra todo en local | El historial de versiones del servidor y la papelera permiten recuperarlo; limita y confirma los borrados masivos |
+
+---
+
+## Lista de comprobación para producción
+
+- [ ] Hash de bloques y negociación de bloques que faltan antes de subir
+- [ ] Almacenamiento de bloques direccionado por contenido e inmutable, con comprobación de integridad al leer
+- [ ] Metadatos particionados por espacio de nombres; confirmaciones como transacciones de un solo fragmento
+- [ ] Concurrencia optimista con versiones padre; copias en conflicto, nunca sobrescrituras silenciosas
+- [ ] Diario de cambios por espacio de nombres y cursores por dispositivo
+- [ ] Notificaciones como pistas con consulta periódica de respaldo
+- [ ] Política de retención de versiones y recolección de basura segura y auditada
+- [ ] Protección frente a borrados masivos y papelera
+- [ ] Paneles: latencia de sincronización (de la confirmación a su aplicación en otro dispositivo), tasa de conflictos, bytes de subida ahorrados por deduplicación, retraso del diario
+
+---
+
+## Lo que queda
+
+La magia de una carpeta sincronizada es que la gente olvida que existe. Guardan un fichero en el portátil por la noche y lo abren en el móvil por la mañana sin pensar en los cientos de bloques, hashes, diarios y cursores que hay en medio.
+
+El día que recuerdan que existe suele ser el día en que hizo una copia en conflicto. Nombre feo, ambas versiones intactas. Ese fichero es el sistema cumpliendo su única promesa real.
+
+---
+
+## Fuentes
+
+* [Dropbox Tech Blog: Rewriting the heart of our sync engine (Nucleus)](https://dropbox.tech/infrastructure/rewriting-the-heart-of-our-sync-engine)
+* [Dropbox Tech Blog: Inside the Magic Pocket](https://dropbox.tech/infrastructure/inside-the-magic-pocket)
+* [Dropbox Tech Blog: Streaming file synchronization](https://dropbox.tech/infrastructure/streaming-file-synchronization)
+* [Ayuda de Dropbox: copias en conflicto](https://help.dropbox.com/organize/conflicted-copy)
+* [Tridgell y Mackerras, "The rsync algorithm"](https://rsync.samba.org/tech_report/)
+* Relacionado en esta serie: [Diseña un almacén clave-valor](/blog/es/design-key-value-store), [Diseña una plataforma de vídeo a escala YouTube](/blog/es/design-youtube-streaming), [Diseña un sistema de notificaciones](/blog/es/design-notification-system)

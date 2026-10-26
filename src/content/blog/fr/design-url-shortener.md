@@ -1,401 +1,222 @@
 ---
-title: "Concevoir un raccourcisseur d'URL : encodage, stockage, cache, redirections et scale"
-description: "System design d'un raccourcisseur d'URL expliqué aux débutants : tickets de vestiaire, parcours création et redirection, Base62, stockage, cache, et scale étape par étape."
+title: "Concevoir un raccourcisseur d'URL : encodage, stockage, cache, redirections et montée en charge"
+description: "Une conception de raccourcisseur d'URL prête pour la production : calcul de capacité, identifiants loués par blocs et brouillés par un réseau de Feistel, codes Base62, chemin de redirection qui privilégie le cache, arbitrage 301 contre 302, analytique de clics asynchrone, lutte contre les abus et les modes de défaillance qui réveillent vraiment l'astreinte."
 date: "2026-04-02"
 tags: [Design Système et Architecture]
 coverImage: /assets/images/design-url-shortener.webp
 previewImage: /assets/images/design-url-shortener.webp
 ---
 
-
 > **TL;DR**
-> * **Le Problème:** La conception d'architectures évolutives exige un équilibre entre disponibilité, débit et complexité opérationnelle.
-> * **L'Essentiel:** System design d'un raccourcisseur d'URL expliqué aux débutants : tickets de vestiaire, parcours création et redirection, Base62, stockage, cache, et scale étape par étape.
-> * **Le Résultat:** Plan technique avec des objectifs quantitatifs et la gestion des pannes en production.
+> * **Le problème :** Un raccourcisseur, ce sont deux chemins aux profils très différents : un chemin de création rare et orienté écriture, et un chemin de lecture jusqu'à 100 fois plus chaud, sensible à la latence, et le seul que les utilisateurs remarquent vraiment.
+> * **La conception :** Générer les identifiants à partir de blocs loués d'un million, les brouiller avec un réseau de Feistel, les encoder en 7 caractères Base62, stocker `code -> url` dans un magasin partitionné par code, et servir les redirections depuis le CDN et Redis, la base de données ne servant qu'en cas d'échec de cache. L'analytique des clics quitte le chemin chaud via une file.
+> * **Le résultat :** Une écriture en base par million de liens pour l'allocation des identifiants, un p99 de redirection sous 20 ms en périphérie, une analytique qui peut prendre du retard ou perdre des événements sans jamais ralentir une redirection, et une réponse claire pour chaque mode de défaillance.
 
-Un raccourcisseur d'URL transforme une longue adresse web en une courte et, quand quelqu'un clique, envoie le navigateur vers la page d'origine. Des produits comme TinyURL et bit.ly font cela. Les liens courts de presque toutes les apps aussi.
+Toutes les listes d'entretiens de conception de systèmes placent le raccourcisseur d'URL en tête, et la plupart des articles le traitent comme un échauffement. Ce n'en est pas un. C'est l'un des exemples les plus nets d'un système où **le chemin de lecture et le chemin d'écriture méritent des architectures différentes**, et où de petites décisions (quel code de redirection, où vit un compteur) déterminent si le système survit à un lien qui devient viral.
 
-Pensez à un vestiaire. Vous confiez un long manteau lourd. Le préposé vous donne un petit numéro sur un ticket. Plus tard vous montrez le numéro et récupérez le même manteau. Le numéro n'est pas le manteau. C'est un ticket qui pointe vers l'endroit où le manteau est rangé.
-
-Une URL courte, c'est la même idée sur internet :
-
-- L'URL longue est le manteau (l'adresse complète).
-- Le code court est le numéro de vestiaire (ou un surnom pour cette longue adresse).
-- Le raccourcisseur est le préposé qui tient la liste : numéro → manteau.
-
-Ce billet enseigne le design comme une première leçon. Sans jargon présumé. On parcourt une création, un clic, puis l'encodage, le stockage, le cache et le scale.
+Cet article le conçoit comme je le ferais pour la production, puis indique ce qui change en entretien.
 
 ---
 
-## Quel problème résout-on ?
+## Les exigences et les chiffres qui les façonnent
 
-Les URL longues sont laides et difficiles à partager :
+**Fonctionnelles**
 
-```
-https://shop.example.com/products/category/electronics/laptops/2026/model-x?utm_source=newsletter&ref=homepage
-```
+1. `POST /links` reçoit une URL longue et renvoie une URL courte. Alias personnalisé et expiration optionnels.
+2. `GET /{code}` redirige vers l'URL longue, ou renvoie 404 si le code est inconnu, expiré ou retiré.
+3. Les propriétaires voient le nombre de clics. Une valeur approximative et légèrement différée est acceptable.
 
-Un raccourcisseur les transforme en quelque chose comme :
+**Non fonctionnelles**
 
-```
-https://sho.rt/aB3xY9q
-```
+* Les redirections doivent être rapides et très disponibles. Un lien court cassé est visible par tous ceux qui cliquent.
+* Une fois que la création a renvoyé `201`, la correspondance ne doit jamais être perdue. L'utilisateur a déjà collé le lien quelque part.
+* Les codes ne doivent pas être énumérables trivialement.
 
-Deux jobs comptent :
+**Calcul au dos de l'enveloppe**
 
-1. **Créer :** accepter une URL longue, inventer un code court, mémoriser le mapping, renvoyer le lien court.
-2. **Rediriger :** quand quelqu'un ouvre le lien court, retrouver l'URL longue et y envoyer le navigateur.
-
-Tout le reste (stats de clics, noms personnalisés, expiration) est en plus. D'abord réussir create et redirect.
-
----
-
-## Le vestiaire en un schéma
-
-```
-Chemin de création (remettre le manteau)
-  Vous → API du raccourcisseur → choisir un code → sauver "code → URL longue" → renvoyer le lien court
-
-Chemin de redirection (réclamer le manteau)
-  Un ami clique → le raccourcisseur cherche le code → répond "va vers l'URL longue"
-  → le navigateur ouvre la vraie page
-```
-
-Le domaine court (`sho.rt`) est le comptoir du vestiaire. La partie après le slash (`aB3xY9q`) est le numéro sur votre ticket.
-
----
-
-## Parcours : créer un lien court
-
-Imaginez que vous voulez partager une page produit. Vous appelez l'API de création.
-
-**Requête (simplifiée)**
-
-```http
-POST /api/v1/links
-Content-Type: application/json
-
-{
-  "url": "https://shop.example.com/products/laptops/model-x"
-}
-```
-
-**Ce que fait le serveur, étape par étape**
-
-1. **Vérifier l'URL.** N'autoriser que les liens web normaux (`http` ou `https`). Rejeter les schémas bizarres potentiellement dangereux. Limiter la longueur pour que personne ne colle un roman.
-2. **Fabriquer un code court.** Par exemple `aB3xY9q`. Comment on l'invente est dans la section encodage. Pour l'instant, traitez-le comme un numéro de ticket unique.
-3. **Enregistrer le mapping** en base :
-
-| code | long_url |
-| --- | --- |
-| aB3xY9q | https://shop.example.com/products/laptops/model-x |
-
-4. **Vous renvoyer l'URL courte :**
-
-```http
-201 Created
-{
-  "code": "aB3xY9q",
-  "short_url": "https://sho.rt/aB3xY9q",
-  "long_url": "https://shop.example.com/products/laptops/model-x"
-}
-```
-
-Vous collez `https://sho.rt/aB3xY9q` dans un chat. Terminé. Créer est le chemin rare. La plupart du trafic, ce sont des clics, pas des créations.
-
-Extras optionnels à la création :
-
-- **Alias personnalisé :** vous demandez `launch` au lieu d'un code aléatoire. Le système vérifie que le nom est libre et non réservé (`api`, `health`, etc.).
-- **TTL (durée de vie) :** le lien meurt après un temps, comme un ticket de vestiaire temporaire.
-
----
-
-## Parcours : un clic utilisateur (redirection)
-
-Votre ami tape sur le lien court. Suivez le trajet complet.
-
-```
-1. Le navigateur demande : GET https://sho.rt/aB3xY9q
-2. La requête arrive sur un load balancer, puis un service de redirection.
-3. Le service demande au cache : « Tu connais aB3xY9q ? »
-   - Hit : utilise tout de suite l'URL longue stockée.
-   - Miss : demande à la base, puis remplit le cache pour la prochaine fois.
-4. Le service répond avec une redirection HTTP :
-   statut 302 (ou 301)
-   en-tête Location : https://shop.example.com/products/laptops/model-x
-5. Le navigateur suit Location et charge la vraie page.
-6. Optionnellement, le service dépose un événement « quelqu'un a cliqué » sur une file latérale pour l'analytics.
-   Ce travail ne doit pas ralentir la redirection.
-```
-
-Si le code est inconnu, expiré ou désactivé, renvoyez **404**, pas une devinette.
-
-### 301 vs 302 en mots simples
-
-| Statut | Signification | Pourquoi ça compte |
+| Hypothèse | Valeur | Conséquence |
 | --- | --- | --- |
-| **301** | « Ce déménagement est permanent. » | Navigateurs et CDN peuvent mémoriser fort. Moins de hits sur vos serveurs. Les compteurs de clics peuvent sous-compter les vrais clics humains. |
-| **302** | « Ce déménagement est temporaire. » | Les clients re-interrogent plus souvent votre service. Mieux si vous voulez des analytics de clics plus justes. |
+| Nouveaux liens par mois | 100 M | ~40 écritures/s en moyenne, ~400/s lors d'un pic à 10x |
+| Rapport lecture:écriture | 100:1 | ~4 000 redirections/s en moyenne, ~40 000/s en pic |
+| Taille d'une ligne (code, URL, propriétaire, dates, statut) | ~500 octets | ~50 Go/mois, ~3 To sur 5 ans |
+| Ensemble chaud | ~20 % des liens reçoivent ~80 % des clics | Quelques Go de `code -> url` tiennent largement dans Redis |
+| Espace de codes à 7 caractères Base62 | 62^7 ≈ 3 500 milliards | Des siècles de marge à 100 M par mois |
 
-Défaut d'entretien quand l'analytics compte : **302**. Si vous voulez surtout des redirections peu chères et des comptes approximatifs, **301** convient. Les vrais produits choisissent selon le besoin, pas la mode.
+Deux constats sautent aux yeux. Le stockage n'est pas la partie difficile : 3 To, c'est une base modeste. Et le chemin de redirection est bien plus un problème de cache qu'un problème de base de données.
 
 ---
 
-## Encodage : comment on invente les codes courts
+## L'architecture
 
-Il faut un petit alphabet sûr dans les URL. Le choix habituel est **Base62** :
+![Architecture de haut niveau du raccourcisseur : clients qui cliquent et qui créent, CDN et passerelle d'API, services de redirection et de création, cache Redis, base de correspondances partitionnée, file d'événements de clic et agrégats analytiques](/assets/images/hld/design-url-shortener-architecture.webp)
 
+Parcourez-la de gauche à droite.
+
+* **Celui qui clique / celui qui crée.** Deux clients très différents. Ceux qui cliquent sont anonymes, mondiaux et impatients. Ceux qui créent sont des utilisateurs authentifiés ou des intégrations d'API, bien moins nombreux.
+* **CDN Edge.** Termine le TLS près de l'utilisateur et peut mettre en cache les réponses de redirection des codes populaires. Pour un lien viral, la plupart des clics ne devraient jamais atteindre votre origine.
+* **API Gateway.** Authentifie les créateurs, applique des limites de création par utilisateur et par IP, et rejette les charges trop lourdes ou mal formées avant qu'elles ne coûtent quoi que ce soit.
+* **Redirect Service.** Un minuscule service sans état avec une seule mission : résoudre un code et renvoyer une redirection. Il lit d'abord Redis, se rabat sur la base des correspondances en cas d'échec, et émet un événement de clic sans l'attendre.
+* **Create API.** Valide l'URL (liste blanche de schémas, longueur maximale, liste de blocage), prend l'identifiant suivant de son bloc loué, l'encode et insère la correspondance.
+* **ID Range Allocator.** Distribue des blocs d'un million d'identifiants aux pods de Create API. Il est sollicité une fois par million de liens, il peut donc s'agir d'une simple ligne dans une base relationnelle sans histoire.
+* **Redis (`code -> url`).** Le cache chaud. Les entrées ont un TTL, et les résultats « introuvable » sont mis en cache brièvement pour que les scanners ne martèlent pas la base.
+* **Mappings DB.** La source de vérité, partitionnée par code. Chaque recherche de redirection est une lecture par clé primaire sur `code`, le seul motif d'accès que ce système doit rendre bon marché.
+* **Click Events, Rollup Workers, Click Counts.** Les redirections émettent des événements vers un journal (Kafka, Kinesis ou équivalent). Les workers les agrègent en compteurs par lien et par jour dans un magasin OLAP. Si tout ce bloc prend feu, les redirections continuent de fonctionner.
+
+La note verte du schéma est le contrat : moins de 20 ms de p99 en périphérie, moins de 50 ms quand la requête doit aller jusqu'à Redis ou à la base.
+
+---
+
+## Générer les codes : blocs loués, brouillage de Feistel, puis Base62
+
+Il existe trois façons courantes de produire un code court :
+
+| Approche | Fonctionnement | Atout | Faiblesse |
+| --- | --- | --- | --- |
+| Hachage de l'URL | SHA-256 de l'URL, garder les 40 premiers bits, passer en Base62 | La même URL peut donner le même code | Les collisions imposent des réessais ; deux utilisateurs qui partagent un code mélangent propriété et analytique |
+| Code aléatoire | 7 caractères Base62 aléatoires, insertion avec contrainte d'unicité | Impossible à deviner | Réessais en cas de collision ; chaque création est un contrôle d'unicité sur toute la table |
+| Compteur + encodage | Entier unique, puis Base62 | Ni collision ni réessai | Des codes séquentiels sont énumérables si on ne les brouille pas |
+
+Je préfère le compteur, avec deux améliorations.
+
+![Allocation des identifiants : un compteur de blocs loue des plages d'un million d'identifiants aux pods de création, qui passent par un brouillage de Feistel puis un encodage Base62 pour produire un code de 7 caractères](/assets/images/hld/design-url-shortener-id-blocks.webp)
+
+**Des blocs loués.** Un compteur global unique serait une ligne chaude. À la place, chaque pod de Create API loue un bloc d'un million d'identifiants (`UPDATE counter SET next = next + 1000000 RETURNING next`) et les distribue depuis sa mémoire. Cela fait une écriture en base par million de liens. Si un pod tombe, le reste de son bloc n'est simplement jamais utilisé. Les trous sont acceptables ; les doublons, non.
+
+**Le brouillage de Feistel.** Des identifiants séquentiels produisent des codes séquentiels, ce qui rend l'énumération de tous les liens triviale. Un réseau de Feistel est une permutation réversible et paramétrée par une clé sur une largeur de bits fixe : chaque entrée de 40 bits correspond à exactement une sortie de 40 bits, donc l'unicité est préservée, mais les voisins cessent de se ressembler. Ce n'est pas un secret cryptographique. C'est une obfuscation peu coûteuse qui supprime l'attaque de collecte la plus simple.
+
+**Base62.** `0-9a-zA-Z` est sûr dans une URL sans échappement. Un espace de 40 bits (environ 1 100 milliards d'identifiants, soit environ 900 ans à 100 M de liens par mois) tient dans 7 caractères Base62, puisque 62^7 vaut environ 3 500 milliards. Un espace de 42 bits ne tiendrait pas : 2^42 vaut environ 4 400 milliards, et son quart supérieur déborderait sur 8 caractères.
+
+```python
+ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+HALF_BITS, MASK = 20, (1 << 20) - 1  # 40-bit permutation, always < 62**7
+
+def feistel(n: int, keys=(0x5bd1e, 0x1b873, 0x2f1d3)) -> int:
+    left, right = n >> HALF_BITS, n & MASK
+    for k in keys:
+        left, right = right, left ^ (((right * 0x9E3779B1) ^ k) & MASK)
+    return (left << HALF_BITS) | right
+
+def encode(n: int, width: int = 7) -> str:
+    out = []
+    while n:
+        n, r = divmod(n, 62)
+        out.append(ALPHABET[r])
+    return "".join(reversed(out)).rjust(width, "0")
+
+code = encode(feistel(8_000_123))  # 7 chars, unique per ID
 ```
-0-9  a-z  A-Z
-```
 
-Ce sont 62 symboles. Sans `+` ni `/` que Base64 force à échapper.
+**Les alias personnalisés** vont dans la même colonne `code`, avec la même contrainte d'unicité, après une vérification des mots réservés (`api`, `admin`, `login`, `health`) et un filtre contre les grossièretés et l'usurpation.
 
-### Combien de codes obtient-on ?
+---
 
-| Longueur du code | Capacité approximative |
+## Le stockage
+
+Le schéma est volontairement ennuyeux :
+
+| Colonne | Type | Remarques |
+| --- | --- | --- |
+| `code` | `varchar(16)` clé primaire | Clé de partition ; chaque redirection est une lecture ponctuelle dessus |
+| `long_url` | `text` | Validée à la création, jamais réécrite à la lecture |
+| `owner_id` | `bigint` | Index secondaire pour les tableaux de bord « mes liens » |
+| `created_at`, `expires_at` | horodatages | `expires_at` nul signifie pour toujours |
+| `status` | énumération : active, disabled, taken_down | Permet de neutraliser un lien sans effacer son historique |
+
+**SQL ou clé-valeur ?** Les deux conviennent. Un magasin clé-valeur managé (DynamoDB, Cassandra, Bigtable) rend la lecture ponctuelle trivialement scalable et offre un TTL natif pour les liens qui expirent. Postgres avec un partitionnement par hachage de `code` suffit largement jusqu'à plusieurs téraoctets et offre gratuitement des transactions pour l'allocateur et les requêtes par propriétaire. Le mauvais choix, c'est tout ce qui fait de `GET par code` plus d'un aller-retour.
+
+**Partitionnez par code, pas par propriétaire.** Partitionner par propriétaire placerait les liens d'une célébrité sur une seule partition chaude. Partitionner par hachage du code répartit la charge, et le tableau de bord du propriétaire peut s'appuyer sur un index secondaire ou une table séparée.
+
+**Ne mettez jamais de compteur sur la ligne de correspondance.** `UPDATE links SET clicks = clicks + 1` à chaque redirection transforme votre lecture la plus chaude en écriture disputée sur une seule ligne. Un lien viral fera fondre cette ligne. Les compteurs ont leur place dans le pipeline analytique.
+
+---
+
+## Le chemin de redirection, précisément
+
+1. Le CDN consulte son cache. Succès : il renvoie la redirection en cache. Terminé.
+2. Redirect Service consulte Redis. Succès : il répond.
+3. Échec : il lit la base des correspondances par clé primaire. Si la ligne manque, a expiré ou n'est pas active, il met brièvement en cache un « introuvable » et renvoie 404. Sinon, il alimente Redis et répond.
+4. Il émet un événement de clic vers le journal de façon asynchrone. Si le journal est lent, l'événement est abandonné. On ne bloque jamais la redirection.
+
+**Quel code de statut ?** Cette décision a des conséquences concrètes :
+
+| Statut | Sémantique (RFC 9110) | Mise en cache | À utiliser quand |
+| --- | --- | --- | --- |
+| 301 Moved Permanently | Permanent | Navigateurs et proxys mettent en cache agressivement | Vous voulez une charge minimale sur l'origine et n'avez pas besoin de comptes de clics précis |
+| 302 Found | Temporaire | Pas de cache par défaut | Vous avez besoin que chaque clic vous parvienne pour l'analytique, ou les liens peuvent changer |
+| 307 / 308 | Temporaire / permanent, méthode conservée | Comme ci-dessus | Rare pour un raccourcisseur ; utile si des requêtes autres que GET sont redirigées |
+
+Mon choix par défaut : **302 avec un `Cache-Control: max-age` court et explicite** au niveau du CDN (de 60 à 300 secondes, par exemple). Les liens populaires sont servis depuis la périphérie, l'analytique reste raisonnablement honnête (comptez aussi les journaux du CDN), et un retrait se propage en quelques minutes au lieu de vivre éternellement dans le cache du navigateur de quelqu'un.
+
+**Ruée sur le cache.** Quand un lien froid devient soudain viral, des milliers d'échecs de cache simultanés peuvent frapper la base pour la même clé. Utilisez la coalescence des requêtes (une lecture, plusieurs en attente) dans Redirect Service, ou un verrou court dans Redis.
+
+---
+
+## La lutte contre les abus est une fonctionnalité centrale, pas un ajout
+
+Un raccourcisseur prête la réputation de votre domaine à n'importe quelle URL collée par quelqu'un. Il devient un outil d'hameçonnage si vous ne le concevez pas pour l'empêcher.
+
+* **Vérifiez les destinations à la création** auprès d'une source de réputation comme Google Safe Browsing, et réanalysez périodiquement les liens populaires, car les destinations changent après coup.
+* **Limitez la création** par compte, par IP et par domaine de destination.
+* **Proposez une page d'aperçu** (`sho.rt/aB3xY9q+` selon la convention de Bitly) pour que les utilisateurs prudents voient la destination avant d'y aller.
+* **Rendez le retrait rapide :** passez `status = taken_down`, supprimez la clé Redis et purgez le chemin du CDN. Avec un 302 et un TTL de périphérie court, c'est une affaire de minutes, pas de jours.
+* **Limitez les redirections par IP** pour freiner l'énumération, même avec des codes brouillés.
+
+---
+
+## Modes de défaillance et comportement attendu
+
+| Défaillance | Comportement attendu |
 | --- | --- |
-| 6 caractères | environ 57 milliards |
-| 7 caractères | environ 3,5 billions |
-| 8 caractères | environ 218 billions |
-
-Sept caractères est le choix d'entretien courant : assez court pour partager, assez grand pour croître énormément.
-
-### Trois façons de fabriquer un code
-
-**A. Compteur, puis encode (machine de vestiaire)**
-
-1. Prenez le prochain numéro global : 1, 2, 3, … (séquence DB, Redis `INCR`, ou ID distribué).
-2. Convertissez ce nombre en caractères Base62.
-3. Cette chaîne est votre code.
-
-Avantages : pas de collision accidentelle si le compteur est unique. Histoire simple.
-
-Inconvénients : les codes peuvent être devinables s'ils avancent `…9`, `…a`, `…b` dans l'ordre. Mitigations : partir haut, brouiller les bits avant encode, ou permuter l'alphabet. Traitez quand même les codes comme des tickets publics, pas des secrets.
-
-Image mentale minimale de l'encode Base62 :
-
-```
-Nombre 125 → diviser par 62, garder les restes → mapper les restes sur l'alphabet → "21" (forme d'exemple)
-```
-
-**B. Hash de l'URL longue**
-
-Hachez l'URL (SHA-256 ou similaire), prenez un préfixe, passez en Base62, vérifiez qu'il est libre. En collision, prenez plus de bits ou ajoutez un sel et réessayez.
-
-Avantages : la même URL longue peut toujours mapper vers le même code court si vous voulez cette règle produit.
-
-Inconvénients : les collisions demandent une boucle de retry. Deux utilisateurs différents peuvent ne pas vouloir partager un code pour la même destination (propriété et analytics se compliquent).
-
-**C. Codes aléatoires**
-
-Tirez 7 caractères Base62 au hasard. Insérez avec contrainte d'unicité. Si pris, tirez encore.
-
-Avantages : durs à deviner. Code simple.
-
-Inconvénients : retries quand l'espace se remplit (à 7 caractères vous êtes tranquilles longtemps). Utilisez un bon générateur aléatoire si la résistance aux devinettes compte.
-
-**Défaut pratique pour entretiens et beaucoup de produits :** ID unique (compteur ou style Snowflake) → brouillage optionnel → Base62. Les alias custom vivent dans la même colonne unique `code` (ou une colonne d'alias unique dédiée).
+| Redis indisponible | Les redirections se rabattent sur la base. La latence augmente, l'exactitude tient. Délestez en périphérie si la base approche de sa limite |
+| Une partition de la base indisponible | Les codes de cette partition échouent ; tout le reste fonctionne. Les réplicas doivent prendre le relais en quelques secondes |
+| Journal des clics indisponible | Les redirections continuent ; les événements sont abandonnés ou mis en tampon localement. Les compteurs seront sous-estimés sur la période |
+| Allocateur d'identifiants indisponible | Les pods continuent de puiser dans leur bloc actuel. Avec des blocs d'un million, cela laisse des heures de marge |
+| Mauvais déploiement de Redirect Service | Le rayon d'impact, c'est chaque lien. Déployez en canari sur une petite part du trafic et gardez le service minuscule pour que le retour arrière soit rapide |
+| Un lien devient viral | Le CDN en absorbe l'essentiel ; la coalescence des requêtes protège la base de la première tempête d'échecs de cache |
 
 ---
 
-## Stockage : où vit la liste des manteaux
+## Ce qui change en entretien
 
-Au fond c'est une **map clé-valeur** : code court → URL longue, plus un peu de métadonnées.
+Vous n'aurez pas le temps de parler de réseaux de Feistel ni de réglage des TTL de CDN en 45 minutes. Priorisez :
 
-### Table SQL simple
+1. Énoncez le rapport lecture:écriture et le calcul de capacité en deux phrases.
+2. Dessinez les deux chemins séparément.
+3. Choisissez compteur plus Base62, et mentionnez l'énumération et la parade du brouillage.
+4. Expliquez pourquoi les compteurs de clics ne vivent pas sur la ligne de correspondance.
+5. Ayez un avis sur 301 contre 302.
 
-| Colonne | Rôle |
-| --- | --- |
-| `code` | Clé primaire. Le numéro du ticket. |
-| `long_url` | La vraie destination. |
-| `user_id` | Qui possède le lien (optionnel). |
-| `created_at` | Date de création. |
-| `expires_at` | Date de mort (null = pour toujours). |
-| `is_active` | Soft delete ou coupure d'urgence. |
-
-Les lookups en redirection sont toujours « trouver par code ». Ce pattern d'accès est parfait pour une clé primaire ou un store clé-valeur.
-
-### Option NoSQL / clé-valeur
-
-Des stores comme DynamoDB ou Cassandra brillent ici :
-
-- Clé de partition : `code`
-- Attributs : URL longue et métadonnées
-- TTL natif pour l'expiration quand le produit en a besoin
-
-La redirection devient une seule lecture par clé. « Lister tous les liens de l'utilisateur X » demande un index secondaire ou une autre table.
-
-### Ne mettez pas les compteurs de clics sur la ligne chaude
-
-Mettre à jour `clicks = clicks + 1` à chaque redirection transforme un chemin de lecture en bagarre d'écriture. Un lien viral martèle une seule ligne.
-
-Mieux :
-
-1. La redirection ne fait que **lire** le mapping.
-2. Émettez un événement de clic vers une file (async).
-3. Des workers agrègent les comptes hors ligne.
-
-Pour un petit MVP : Redis `INCR` pour un compteur live est OK si vous acceptez une certaine perte et snapshottez ensuite vers un stockage durable.
+Cela suffit à montrer votre jugement. Le reste est une conversation.
 
 ---
 
-## Cache : le post-it du préposé
+## Liste de contrôle pour la production
 
-La plupart des clics touchent un petit ensemble de codes populaires. Lire la base à chaque fois est plus lent et plus cher que nécessaire.
-
-**Trois couches dont on parle :**
-
-1. **CDN** devant le domaine court (bonne latence mondiale ; peut compliquer l'analytics exacte).
-2. **Redis (ou Memcached)** près de l'app : `code → long_url` avec un TTL.
-3. **Base de données** comme source de vérité.
-
-**Redirection avec cache, flux simple :**
-
-```
-demander Redis pour le code
-si trouvé et encore valide → rediriger
-sinon
-  demander la DB
-  si manquant / inactif / expiré → 404 (et peut-être retenir « introuvable » un moment)
-  sinon écrire Redis avec TTL → rediriger
-aussi enfiler l'analytics (best effort)
-```
-
-**Pourquoi le cache aide :** les lectures mémoire sont rapides. Les tickets populaires restent sur le post-it. Les tickets rares vont encore à la réserve des manteaux (la DB).
-
-**Points de vigilance :**
-
-- **Cache stampede :** beaucoup de requêtes miss en même temps pour un code populaire froid. Coalescer le travail (un fetch, plusieurs attendent) ou un court verrou.
-- **Cache négatif :** retenir brièvement « ce code n'existe pas » pour que les scanners ne battent pas la DB.
-- **Takedown :** quand vous désactivez un lien, supprimez ou écrasez l'entrée de cache pour que l'ancien Location ne traîne pas.
+- [ ] Calcul de capacité écrit, avec rapport lecture:écriture et multiplicateur de pic
+- [ ] Identifiants loués par blocs ; l'allocateur survit aux redémarrages ; les trous sont documentés comme acceptables
+- [ ] Codes brouillés avant encodage ; les alias personnalisés partagent la contrainte d'unicité
+- [ ] Liste blanche de schémas, longueur maximale et contrôle de réputation à la création
+- [ ] Chemin de redirection : CDN, puis Redis avec TTL et cache négatif, puis base par clé primaire
+- [ ] Coalescence des requêtes contre les ruées sur clés froides
+- [ ] 302 avec TTL de périphérie court, ou une justification écrite pour 301
+- [ ] Événements de clic asynchrones, abandonnables, et jamais sur la ligne de correspondance
+- [ ] Le retrait nettoie statut en base, Redis et CDN en une seule opération
+- [ ] Tableaux de bord : p99 des redirections, taux de succès du cache, taux de 404, rythme de création par compte
 
 ---
 
-## Chemin de scale, étape par étape
+## Ce qui reste
 
-Ne commencez pas par un schéma à 40 boîtes. Grandissez avec la douleur.
+Le plus intéressant dans ce système n'est pas l'astuce d'encodage. C'est la discipline qui consiste à garder le chemin de redirection ennuyeux. Chaque demande de fonctionnalité (compteurs en temps réel, destinations A/B, routage géographique) essaiera d'y glisser de la logique.
 
-### Étape 1 : Une app, une base
-
-Assez pour un side project ou un produit tôt.
-
-```
-Client → App (create + redirect) → DB
-```
-
-### Étape 2 : Séparer un peu create et redirect, ajouter le cache
-
-Les redirections dominent. Mettez Redis devant les lookups. Gardez create sur la DB primaire.
-
-```
-Create   → API → DB
-Redirect → API → Redis → (miss) DB
-```
-
-### Étape 3 : Beaucoup de serveurs de redirection derrière un load balancer
-
-Les handlers de redirection restent **stateless**. Scalez-les horizontalement. Cache et DB tiennent l'état.
-
-```
-Client → LB → Pod de redirection 1..N → Redis → DB
-```
-
-### Étape 4 : Astuces base de données orientées lecture
-
-- Réplicas de lecture pour les miss de cache si besoin.
-- Gardez l'analytics hors de la table de mappings.
-- Partitionnez (shard) la table de mappings par hash du code quand un primary ne tient plus données + index.
-
-### Étape 5 : Chemin d'écriture pour un fort volume de create
-
-Les créations sont en général bien moins nombreuses que les redirections. Quand elles croissent :
-
-- Utilisez un générateur d'ID solide (allocation de blocs, IDs style Snowflake).
-- Gardez une contrainte d'unicité sur `code`.
-- En multi-région, pilotez les creates pour que deux régions ne mintent jamais le même code.
-
-### Étape 6 : Règles de fiabilité qui comptent
-
-| Règle | Pourquoi |
-| --- | --- |
-| Redirect est plus important que create | Les clics doivent gagner face aux nouvelles créations. |
-| Ne perdez jamais un mapping après un 201 | Le client a déjà partagé le lien court. |
-| L'analytics peut perdre sous charge extrême | Mieux un événement de clic manqué qu'une redirection lente. |
-| Si Redis est down, retomber sur la DB | Latence plus haute, toujours correct. |
-| Fail open sur les métriques, fail closed sur les codes inconnus | Code inconnu → 404, pas une mauvaise page. |
-
-**Intuition de capacité (dites-le à voix haute en entretien) :**
-
-- Les creates peuvent être des milliers par seconde en pic.
-- Les redirects peuvent être 100x ou plus.
-- Chaque ligne de mapping fait souvent moins de 1 Ko avec métadonnées.
-- 100 millions de lignes, ce sont des dizaines de Go, pas des pétaoctets. Le sharding, c'est pour la croissance et le QPS, pas la panique le jour un.
+Dites non à la plupart. Le lien que quelqu'un a collé dans une discussion de groupe il y a trois ans doit encore fonctionner demain matin, avant votre café et avant que quiconque se souvienne qu'il existe.
 
 ---
 
-## Sécurité et abus (liste courte)
+## Sources
 
-Les codes courts sont des tickets publics. Attendez-vous à :
-
-1. **Deviner des codes** en parcourant l'espace. Rate limit. Préférez des codes plus longs ou brouillés.
-2. **Phishing** via votre domaine court de confiance. Scannez ou bloquez les mauvaises destinations. Offrez signalement et takedown.
-3. **Spam de creates** qui remplit le stockage. Auth, quotas, CAPTCHA, offres payantes.
-4. **Open redirects** seulement si vous laissez un jour l'URL longue contrôlée par l'utilisateur au moment du clic (normalement vous la figez à la création et ne servez que cette valeur stockée).
-
-Ne mettez jamais de secrets dans une URL courte en espérant que personne ne les trouve.
-
----
-
-## Design de bout en bout que vous pouvez défendre
-
-**Exemple de requirements :** codes Base62 de 7 caractères, alias et TTL optionnels, clics à peu près justes, fort QPS de redirect, multi-AZ.
-
-**Pièces :**
-
-1. Service API pour create / list / delete (avec auth).
-2. Service de redirection mince (le hot path reste léger).
-3. Générateur d'ID pour des numéros uniques.
-4. Store primaire des mappings (SQL ou style DynamoDB).
-5. Redis pour `code → url`.
-6. File + workers pour les événements de clic et les agrégats.
-
-**Create :** valider → mint le code → insert → renvoyer l'URL courte.
-
-**Redirect :** cache → DB → 302 + Location → événement de clic async.
-
-**Trade-offs à dire à voix haute :**
-
-- L'encodage par compteur est simple et sans collision ; random et hash ont besoin de contrôles d'unicité.
-- 301 soulage l'origine ; 302 garde l'analytics plus honnête.
-- Des compteurs de clics sur la ligne de mapping fondent sous trafic viral.
-- La justesse de la redirection bat l'analytics globale parfaite.
-
----
-
-## Récap à raconter à un ami
-
-Un raccourcisseur d'URL, c'est un vestiaire pour adresses web.
-
-Vous confiez un long manteau (URL longue). Le préposé vous donne un petit numéro (code court) et l'écrit dans un carnet (base de données). Quand quelqu'un montre le numéro, le préposé cherche et le pointe vers le porte-manteau (redirection avec en-tête `Location`). Pour les numéros populaires, il garde un post-it (cache) pour ne pas courir à la réserve à chaque fois.
-
-L'encodage, c'est comment on imprime les numéros de ticket à partir de compteurs, de hashs ou de dés. Le stockage est la liste durable. Le cache est la vitesse. Scaler, c'est beaucoup de préposés au comptoir, un plus gros carnet si besoin, et ne jamais laisser le compteur de clics geler la file.
-
-Si vous retenez une leçon de production : **protégez le chemin de redirection comme un service d'edge**, et traitez l'analytics comme une conversation de côté, pas comme une étape qui doit finir avant de laisser l'utilisateur passer la porte.
-
----
-
-## Checklist production
-
-- [ ] Alphabet et longueur de code choisis avec une math de croissance
-- [ ] Codes uniques (compteur ou contrainte d'unicité)
-- [ ] Validation d'URL et allowlist de schémas
-- [ ] Mots réservés pour les alias custom
-- [ ] Cache Redis avec TTL et cache négatif
-- [ ] Décision 301 vs 302 écrite pour produit et analytics
-- [ ] Analytics hors du hot path
-- [ ] Expiration et takedown vident le cache
-- [ ] Rate limits sur create et sur un volume de redirect suspect
-- [ ] Load test clé chaude, clé froide, panne de cache, failover DB
-- [ ] Dashboards : QPS create, QPS redirect, ratio de hit cache, latence p99 redirect, taux de 404
-
+* [RFC 9110 : HTTP Semantics, section 15.4 (Redirection 3xx)](https://www.rfc-editor.org/rfc/rfc9110#section-15.4)
+* [Google Safe Browsing API](https://developers.google.com/safe-browsing)
+* [Amazon DynamoDB : Time to Live](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html)
+* [Luby et Rackoff, « How to Construct Pseudorandom Permutations from Pseudorandom Functions » (réseaux de Feistel)](https://doi.org/10.1137/0217022)
+* Dans la même série : [Concevoir un générateur d'identifiants uniques](/blog/fr/design-unique-id-generator), [Concevoir un limiteur de débit](/blog/fr/design-a-rate-limiter), [Estimations au dos de l'enveloppe](/blog/fr/design-back-of-envelope-estimation)

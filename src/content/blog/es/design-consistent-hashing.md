@@ -1,418 +1,188 @@
 ---
-title: "Diseñar consistent hashing: anillos, nodos virtuales y reasignación mínima"
-description: "Por qué hash(key) % N reseata a casi todos cuando un servidor se va, cómo un anillo de hash mapea claves caminando en sentido horario, nodos virtuales para carga justa, y dónde aparece consistent hashing en cachés, bases de datos y balanceadores."
+title: "Diseña consistent hashing: anillos, nodos virtuales y remapeo mínimo"
+description: "Por qué hash(key) % N mueve cerca del 90% de las claves cuando entra un nodo, cómo un anillo de hash con nodos virtuales mueve solo alrededor de 1/N, el equilibrio de carga medido con 1, 10 y 200 nodos virtuales, la replicación sobre el anillo y cuándo conviene más rendezvous, jump o Maglev."
 date: "2026-01-13"
 tags: [Diseño de Sistemas y Arquitectura]
 coverImage: /assets/images/design-consistent-hashing.webp
 previewImage: /assets/images/design-consistent-hashing.webp
 ---
 
-
 > **TL;DR**
-> * **El Problema:** Diseñar arquitecturas escalables requiere equilibrar disponibilidad, rendimiento y complejidad operativa.
-> * **La Clave:** Por qué hash(key) % N reseata a casi todos cuando un servidor se va, cómo un anillo de hash mapea claves caminando en sentido horario, nodos virtuales para carga justa, y dónde aparece consistent hashing en cachés, bases de datos y balanceadores.
-> * **El Resultado:** Plano técnico con objetivos cuantitativos y mitigación de fallos en producción.
+> * **El problema:** Colocar claves con `hash(key) % N` funciona hasta que N cambia. Añade un undécimo nodo de caché a diez y alrededor del 90% de las claves pasan a apuntar a otro sitio, lo que para una caché significa una tormenta de fallos casi total contra la base de datos que hay detrás.
+> * **El diseño:** Proyectar claves y servidores sobre el mismo espacio circular. Una clave pertenece al primer punto de servidor en sentido horario. Dar a cada servidor unos cientos de nodos virtuales para equilibrar la carga, y seguir avanzando en sentido horario para elegir réplicas en servidores distintos.
+> * **El resultado:** Añadir o quitar un nodo mueve aproximadamente 1/N de las claves. En una prueba medida con 10 nodos y 200 nodos virtuales cada uno, el nodo más cargado llevaba 1,11 veces la media, frente a 2,3 veces con un punto por nodo.
 
-Tienes muchos usuarios y muchos servidores de caché. Cada dato (una **clave**) debe caer en un servidor, y debes poder encontrarlo después. Cuando un servidor muere o añades capacidad, quieres que se mueva la menor cantidad posible de datos.
+La mayoría de sistemas distribuidos tienen que responder millones de veces por segundo a una pregunta aburrida: *¿qué máquina es dueña de esta clave?* Cachés, bases de datos particionadas, balanceadores que quieren afinidad de sesión y almacenes de objetos necesitan una respuesta rápida, sin consulta central, que no se venga abajo cuando se añade una máquina o se cae otra.
 
-**Consistent hashing** es la forma estándar de colocar claves de modo que un cambio de miembros solo toque un trozo pequeño de los datos, no todo el cluster.
-
-Este post construye la idea desde el plano de un restaurante, y luego la mapea al anillo de hash, a los nodos virtuales y a sistemas reales.
+Consistent hashing es la respuesta clásica. Lo presentaron Karger y sus colegas en 1997 para cachés web, lo popularizó el artículo de Dynamo de Amazon en 2007, y hoy está dentro de Cassandra, de clientes de memcached, del balanceador de Envoy y de muchos más. Este artículo explica cómo funciona, mide lo que realmente aportan los nodos virtuales y repasa las alternativas que a veces son mejores.
 
 ---
 
-## El problema en palabras simples
+## Por qué `hash(key) % N` se rompe
 
-Imagina un restaurante con mesas numeradas. Sientas a los clientes con una regla simple: toma el número del cliente, divídelo por el número de mesas y usa el resto.
+La colocación por módulo está perfectamente equilibrada y es perfectamente frágil. Una clave solo se queda en el mismo nodo cuando N pasa a N+1 si `h % N == h % (N+1)`, lo que ocurre aproximadamente con 1 de cada N+1 claves.
 
-```
-mesa = numeroCliente % numeroDeMesas
-```
+Lo medí con 200.000 claves:
 
-Funciona mientras el número de mesas no cambie nunca.
-
-### Se cierra una mesa, caos
-
-Supón 4 mesas y 8 clientes habituales:
-
-| Cliente | numeroCliente | numero % 4 | Mesa |
-| --- | --- | --- | --- |
-| A | 11 | 3 | T3 |
-| B | 14 | 2 | T2 |
-| C | 17 | 1 | T1 |
-| D | 20 | 0 | T0 |
-| E | 23 | 3 | T3 |
-| F | 26 | 2 | T2 |
-| G | 29 | 1 | T1 |
-| H | 32 | 0 | T0 |
-
-Se rompe la mesa T1. Ahora hay 3 mesas. Mismos números, nuevo resto:
-
-| Cliente | numeroCliente | numero % 3 | Mesa |
-| --- | --- | --- | --- |
-| A | 11 | 2 | T2 |
-| B | 14 | 2 | T2 |
-| C | 17 | 2 | T2 |
-| D | 20 | 2 | T2 |
-| E | 23 | 2 | T2 |
-| F | 26 | 2 | T2 |
-| G | 29 | 2 | T2 |
-| H | 32 | 2 | T2 |
-
-En una tabla real aún caes en más de una mesa, pero el hecho doloroso se mantiene: **casi todos cambian de asiento**, no solo los que estaban en la mesa rota.
-
-En un cluster de caché eso significa:
-
-1. Los clientes preguntan al nodo equivocado por datos que aún existen en otro sitio.
-2. Los misses inundan la base de datos.
-3. Querías perder cerca de 1/N de la caché. Pagaste casi un arranque en frío completo.
-
-Ese es el problema del rehashing. `hash(key) % N` va bien hasta que `N` cambia. Entonces reseata casi todo el restaurante.
-
----
-
-## Un mejor plano: taquillas en un pasillo circular
-
-Imagina un pasillo largo de taquillas numeradas en círculo. Si caminas lo bastante en una dirección, vuelves a la taquilla 0. Ese círculo es el **espacio de hash**.
-
-```
-              0
-          .         .
-       .               .
-     .                   .
-   max                     small
-     .                   .
-       .               .
-          .         .
-            mid ring
-```
-
-Dos ideas:
-
-1. Los **servidores** reciben números de taquilla fijos (hasheando su nombre o IP).
-2. Las **claves** también reciben números de taquilla (hasheando la clave).
-
-No hay `% numeroDeServidores`. Las posiciones viven en un rango fijo, como `0` a `2^32 - 1` o un espacio mayor. El círculo no se encoge cuando un servidor se va.
-
-### Camareros en asientos fijos
-
-Piensa en cada servidor como un camarero de pie en un asiento de una mesa redonda.
-
-Anillo de juguete con posiciones de 0 a 99:
-
-| Servidor | Asiento |
+| Cambio | Claves que se movieron |
 | --- | --- |
-| s0 | 12 |
-| s1 | 37 |
-| s2 | 61 |
-| s3 | 88 |
+| De `% 10` a `% 11` | 90,7% |
+| Anillo de consistent hashing, de 10 a 11 nodos, 200 nodos virtuales cada uno | 9,0% |
 
-Claves en el mismo círculo:
-
-| Clave | Asiento |
-| --- | --- |
-| key0 | 18 |
-| key1 | 42 |
-| key2 | 70 |
-| key3 | 95 |
-
-```
-Anillo (horario desde 0):
-
-  0
-  |-- s0@12 -- key0@18 -- s1@37 -- key1@42 --
-  |-- s2@61 -- key2@70 -- s3@88 -- key3@95 -- (vuelta a 0)
-```
+En una caché, mover el 90% significa que el 90% de las lecturas fallan a la vez y caen sobre la base de datos, normalmente justo cuando añadías capacidad porque la carga era alta. En una base de datos particionada significa mover el 90% de los datos para añadir una máquina. Ninguna de las dos cosas es aceptable.
 
 ---
 
-## Lookup: camina en sentido horario hasta un camarero
+## El anillo
 
-Regla:
+![Anillo de hash con nodos virtuales para los servidores A, B y C, claves k1, k2 y k3 asignadas al primer nodo virtual en sentido horario, con notas sobre replicación y sobre añadir un servidor](/assets/images/hld/design-consistent-hashing-ring.webp)
 
-1. Hashea la clave a un asiento `p`.
-2. Camina en **sentido horario** hasta el siguiente asiento de servidor.
-3. Ese servidor es dueño de la clave.
+* **Espacio de hash.** Elige una función de hash con una salida grande (64 bits es de sobra) y trata su rango como un círculo: después del valor más alto viene el cero.
+* **Servidores en el anillo.** Cada servidor se proyecta sobre el círculo, en la práctica muchas veces, como nodos virtuales (A1, A2, A3 en el diagrama).
+* **Claves en el anillo.** Cada clave se proyecta sobre el mismo círculo.
+* **Propiedad.** Una clave pertenece al primer nodo virtual que se encuentra avanzando en sentido horario. `k1` cae justo antes de `B1`, así que el dueño es el servidor B.
+* **Entrada.** Un servidor nuevo D coloca sus nodos virtuales en el anillo. Cada uno se queda solo con el arco entre él y el punto anterior. Todo lo demás sigue donde estaba.
+* **Salida.** Cuando un servidor sale, cada uno de sus arcos lo absorbe el siguiente punto en sentido horario. De nuevo, solo se mueven las claves de ese servidor.
 
-| Clave | Asiento | Primer servidor en horario | Dueño |
-| --- | --- | --- | --- |
-| key0 | 18 | s1@37 | s1 |
-| key1 | 42 | s2@61 | s2 |
-| key2 | 70 | s3@88 | s3 |
-| key3 | 95 | s0@12 (da la vuelta) | s0 |
-
-En código mantienes los asientos ordenados y haces búsqueda binaria del primer valor mayor o igual que `p`. Si no hay, vuelves al primero del anillo.
+La búsqueda es una búsqueda binaria sobre la lista ordenada de posiciones de nodos virtuales: `O(log V)`, donde V es el número total de nodos virtuales. Con 100 servidores y 200 nodos virtuales cada uno, es una búsqueda sobre 20.000 enteros, que tarda muy por debajo de un microsegundo.
 
 ```python
-import bisect
-import hashlib
+import bisect, hashlib
 
-def h(x: str) -> int:
-    # espacio de juguete de 32 bits; en producción a menudo 64 bits o más
-    return int(hashlib.md5(x.encode()).hexdigest()[:8], 16)
+def h(s: str) -> int:
+    return int.from_bytes(hashlib.md5(s.encode()).digest()[:8], "big")
 
-class HashRing:
-    def __init__(self, nodes: list[str]):
-        self.positions: list[int] = []
-        self.owners: dict[int, str] = {}
+class Ring:
+    def __init__(self, nodes, vnodes=200):
+        self.vnodes, self.points, self.owner = vnodes, [], {}
         for n in nodes:
-            p = h(n)
-            self.positions.append(p)
-            self.owners[p] = n
-        self.positions.sort()
+            self.add(n)
 
-    def lookup(self, key: str) -> str:
-        p = h(key)
-        i = bisect.bisect_left(self.positions, p)
-        if i == len(self.positions):
-            i = 0  # vuelta al anillo
-        return self.owners[self.positions[i]]
+    def add(self, node):
+        for i in range(self.vnodes):
+            p = h(f"{node}#{i}")
+            bisect.insort(self.points, p)
+            self.owner[p] = node
+
+    def remove(self, node):
+        self.points = [p for p in self.points if self.owner[p] != node]
+        self.owner = {p: n for p, n in self.owner.items() if n != node}
+
+    def lookup(self, key):
+        i = bisect.bisect(self.points, h(key)) % len(self.points)
+        return self.owner[self.points[i]]
 ```
 
-Frase de entrevista: "posiciones ordenadas más búsqueda binaria, del orden O(log n) en puntos del anillo."
+Aquí MD5 se usa por su distribución, no por seguridad. Sirve cualquier hash rápido y bien mezclado; en producción se suele usar Murmur3 o xxHash.
 
 ---
 
-## Añadir un camarero: solo se mueven los vecinos
+## Nodos virtuales: lo que aportan de verdad
 
-Añade `s4` en el asiento 25.
+Con un punto por servidor, los arcos tienen longitudes muy distintas, así que algunos servidores poseen mucho más anillo que otros. Los nodos virtuales lo corrigen promediando muchos arcos pequeños. Mismo experimento, 200.000 claves entre 10 servidores:
 
-Antes: `key0@18` caminaba hasta `s1@37`.
-
-Después: desde 18, el primer servidor es `s4@25`. Solo las claves del arco que antes pertenecían al vecino antiguo cambian de dueño.
-
-```
-Antes:   ... s0@12 -- key0@18 -------- s1@37 ...
-Después: ... s0@12 -- key0@18 -- s4@25 -- s1@37 ...
-                    solo este arco se reasigna a s4
-```
-
-**Qué se mueve al añadir un servidor:** las claves entre el nuevo servidor y el servidor anterior en sentido antihorario. El resto se queda con su camarero.
-
----
-
-## Quitar un camarero: solo se mueven sus clientes
-
-Quita `s1@37`.
-
-Las claves que usaban `s1` como primer servidor en horario siguen hasta el siguiente servidor vivo (`s2@61`). Las que ya tenían otro dueño no se mueven.
-
-```
-Antes: claves que golpeaban s1 primero -> s1
-Después: esas claves continúan a s2; los otros arcos no cambian
-```
-
-En una caché aún tienes una tormenta de misses en ese arco. **No** reseatas todo el restaurante.
-
-Regla práctica: cuando cambia 1 de n servidores, en promedio se mueven unas **k/n** claves (k claves en total), no casi todas.
-
----
-
-## Qué promete consistent hashing (y qué no)
-
-| Objetivo | Por qué importa |
-| --- | --- |
-| Reasignación mínima al unirse o salir | Evitar estampidas de caché y rebalances largos |
-| Carga suficientemente pareja | Que una sola caja no posea casi todo el anillo |
-| Lookup determinista | Misma vista de miembros implica mismo dueño |
-| Barato de calcular | La colocación está en el camino caliente |
-
-**No** te da por sí solo replicación, consistencia fuerte ni failover automático. Eso va encima: los siguientes N servidores en horario como réplicas, gossip para membresía, etc.
-
----
-
-## Dos problemas con un solo asiento por camarero
-
-### Arcos injustos
-
-El tramo de círculo entre dos servidores vecinos es una **partición**. Si tres camareros se agrupan por azar, uno posee un arco enorme y hace casi todo el trabajo de esa zona.
-
-```
-Diseño con mala suerte:
-
-  s0 -------- s1 - s2 ------------------- s3 ---- (vuelta)
-
-  s2 posee un hueco enorme; la carga se desbalancea
-```
-
-### Asientos agrupados
-
-Con pocos servidores físicos en un anillo enorme, la colocación aleatoria puede amontonarse. Un N pequeño empeora la injusticia.
-
----
-
-## Nodos virtuales: muchos asientos por camarero
-
-Un **nodo virtual** es un asiento extra en el anillo que sigue apuntando a un servidor real. Cada servidor físico aparece muchas veces con hashes distintos:
-
-```
-s0 -> s0_0, s0_1, s0_2, ...
-s1 -> s1_0, s1_1, s1_2, ...
-```
-
-Imagen del restaurante: cada camarero tiene muchos asientos reservados alrededor de la mesa, no una sola silla. El trabajo se reparte porque un solo hueco no decide toda su noche.
-
-Ejemplo de juguete con 3 asientos virtuales por servidor:
-
-| Id virtual | Servidor real | Asiento (ejemplo) |
+| Nodos virtuales por servidor | Más cargado / media | Menos cargado / media |
 | --- | --- | --- |
-| s0_0 | s0 | 10 |
-| s0_1 | s0 | 55 |
-| s0_2 | s0 | 90 |
-| s1_0 | s1 | 22 |
-| s1_1 | s1 | 48 |
-| s1_2 | s1 | 73 |
+| 1 | 2,30x | 0,12x |
+| 10 | 1,46x | 0,69x |
+| 200 | 1,11x | 0,92x |
 
-El lookup no cambia: camina en horario al siguiente asiento **virtual** y sigue el puntero al servidor real.
+El anillo de un solo punto es casi inútil: un servidor lleva más del doble de lo que le toca mientras otro está casi parado. Con 200 nodos virtuales, la dispersión ronda el ±10%.
 
-```
-key @ 50 -> siguiente vnode s0_1@55 -> real s0
-```
+Los nodos virtuales tienen dos ventajas más:
 
-### Por qué ayuda
+* **Capacidad ponderada.** Un servidor con el doble de memoria recibe el doble de nodos virtuales.
+* **Fallos más suaves.** Cuando un servidor muere, sus muchos arcos pequeños los absorben muchos sucesores distintos, en lugar de que un vecino desafortunado herede toda su carga.
 
-| Efecto | Explicación |
-| --- | --- |
-| Menos varianza | Muchos arcos pequeños en lugar de una gran apuesta |
-| Escala más suave | Un nodo nuevo roba rebanadas finas de muchos vecinos |
-| Capacidad ponderada | Máquinas más grandes pueden tener más asientos virtuales |
-| Carga más justa | El trabajo se mezcla alrededor de la mesa |
-
-Textos clásicos suelen usar del orden de **100 a 200 nodos virtuales por servidor** para que la carga quede lo bastante pareja. Más nodos virtuales: mejor balance y un mapa del anillo más grande en memoria. Ajústalo.
-
-```python
-class VNodeRing:
-    def __init__(self, nodes: list[str], vnodes: int = 150):
-        self.positions: list[int] = []
-        self.owners: dict[int, str] = {}
-        for n in nodes:
-            for i in range(vnodes):
-                p = h(f"{n}#{i}")
-                self.positions.append(p)
-                self.owners[p] = n
-        self.positions.sort()
-
-    def lookup(self, key: str) -> str:
-        p = h(key)
-        i = bisect.bisect_left(self.positions, p)
-        if i == len(self.positions):
-            i = 0
-        return self.owners[self.positions[i]]
-```
-
-Clientes y servidores deben coincidir en la función de hash y en el número de nodos virtuales, o no se pondrán de acuerdo en los dueños.
+El coste es memoria para el anillo y más metadatos que mover. Cassandra usó durante años 256 tokens por nodo por defecto; la versión 4.0 bajó el valor por defecto a 16 junto a un algoritmo de asignación de tokens más inteligente, porque cifras muy altas encarecían las reparaciones y el streaming. Más no es gratis.
 
 ---
 
-## Qué claves deben moverse
+## Replicación sobre el anillo
 
-Cuando cambia la membresía, el anillo ya define los rangos.
+Los sistemas tipo Dynamo usan el anillo también para elegir réplicas. Para guardar una clave con factor de replicación 3, avanza en sentido horario desde la clave y toma los tres primeros **servidores físicos distintos**, saltando los nodos virtuales adicionales de un servidor ya elegido. La nota del diagrama lo muestra con `k1`: el dueño es B, y luego C y A guardan réplicas.
 
-**Añadir servidor S en la posición p:**
+En producción importan dos refinamientos:
 
-```
-prev = vecino antihorario de S
-claves en (prev, p] pasan del dueño antiguo de ese arco a S
-```
-
-**Quitar servidor S en la posición p:**
-
-```
-prev = vecino antihorario de S
-next = vecino horario de S
-claves en (prev, p] pasan de S a next
-```
-
-Con nodos virtuales, hazlo por cada asiento virtual de la máquina que entra o sale. Muchas transferencias pequeñas vencen a una gigante.
-
-En cachés puras, "transferir" suele ser "dejar que el nuevo dueño se llene en miss." En bases de datos, copias rangos a propósito y controlas escrituras durante el traspaso.
+* **Conciencia de rack o zona.** "Servidores distintos" debería significar en realidad "dominios de fallo distintos". Tres réplicas en un mismo rack son una sola réplica durante un corte de energía.
+* **Listas de preferencia.** La lista ordenada de candidatos (los tres primeros nodos sanos en sentido horario) es lo que permite a un coordinador esquivar una réplica caída temporalmente, y así funcionan los quórums laxos y el hinted handoff en Dynamo y Cassandra.
 
 ---
 
-## Replicación en el anillo (añadido corto)
+## Un clúster de caché construido sobre el anillo
 
-Consistent hashing coloca el **primario**. La replicación suele ser "seguir caminando en horario":
+![Arquitectura de un clúster de caché: los usuarios llegan a servidores de aplicación con un cliente de anillo integrado, que observa la membresía en etcd y lee y escribe en los nodos de caché A a C, mientras un rebalanceador copia los arcos movidos al nodo D que se incorpora](/assets/images/hld/design-consistent-hashing-cluster.webp)
 
-```
-key -> N1 (primario), N2, N3  # primeros tres servidores físicos distintos
-```
+* **App Server + cliente de anillo.** El anillo vive en la librería cliente (así funcionan los clientes de memcached de estilo ketama). Sin salto por un proxy ni consulta central en la ruta de la petición.
+* **etcd (membresía).** La fuente de verdad de qué nodos están en el anillo y con qué peso. Los clientes la observan y reconstruyen su anillo cuando cambia. ZooKeeper, Consul o un protocolo de gossip pueden hacer el mismo papel.
+* **Cache Nodes A, B, C.** Servidores clave-valor normales. No necesitan saber nada del anillo.
+* **Cache Node D (incorporándose).** Se añade primero a la membresía en estado de "calentamiento". Los clientes empiezan a enviar escrituras de sus arcos mientras el rebalanceador lo rellena.
+* **Rebalancer.** En una caché, rebalancear es opcional: los fallos se rellenan solos. En una base de datos, o en cualquier cosa con estado que no puedas regenerar, el rebalanceador transmite los arcos que cambiaron de dueño, con un límite de velocidad para no asfixiar el tráfico real.
 
-Salta asientos virtuales del mismo host físico para que las réplicas caigan en máquinas distintas. Almacenes al estilo Dynamo y anillos de tokens de Cassandra usan este patrón. Menciona quórums solo si la entrevista se convierte en el diseño completo de un almacén clave-valor.
-
----
-
-## Dónde lo ves de verdad
-
-| Clase de sistema | Cómo aparece consistent hashing |
-| --- | --- |
-| **Cachés distribuidas** | Clientes de Memcached, shards de caché multi-nodo, colocación en edge de CDN (y parientes cercanos) |
-| **Bases / KV stores** | Particiones Dynamo, anillos de tokens de Cassandra, muchos anillos a medida |
-| **Chat / tiempo real** | Propiedad sticky de guilds o canales para que un evento de escala no reordene todo |
-| **Balanceadores** | Elección estable de backend cuando el pool cambia (Maglev y parientes) |
-| **Enrutado de peticiones** | Usuarios, tenants o shards sticky sin un mapa central en cada request |
-
-Ideas cercanas, no idénticas: **jump consistent hash**, **rendezvous (HRW) hashing** y **tablas de permutación Maglev**. En entrevista, nombra primero consistent hashing y luego di que hay variantes más rápidas o con menos memoria.
+La nota verde es lo esencial: solo se mueve alrededor de 1/N de las claves.
 
 ---
 
-## Flujo de entrevista que puedes seguir
+## Lo que consistent hashing no resuelve
 
-1. **Problema:** `hash % N` reseata a casi todos cuando cambia N.
-2. **Anillo:** espacio de hash fijo; servidores y claves son puntos; no hay `% N` en vivo.
-3. **Lookup:** primer servidor en horario (búsqueda binaria en asientos ordenados).
-4. **Añadir/quitar:** solo se reasigna el arco vecino (unas 1/n de las claves).
-5. **Dolor:** arcos injustos con un asiento por servidor.
-6. **Nodos virtuales:** muchos asientos por servidor físico; carga más justa; pesos opcionales.
-7. **Ops:** cómo se mueven datos, cómo los clientes aprenden la membresía, qué son dueños temporalmente incorrectos.
-8. **Usos:** cachés, DB particionadas, balanceadores sticky.
-
-**Aclara pronto:**
-
-- ¿Solo caché (miss al remapear OK) o almacén durable (hay que migrar)?
-- ¿Factor de replicación?
-- ¿Quién posee la membresía (config estática, ZooKeeper, gossip)?
-- ¿Pueden los clientes equivocarse un momento durante un cambio de miembros?
-
-**Trade-offs para decir en voz alta:**
-
-| Elección | Ventaja | Coste |
-| --- | --- | --- |
-| Más nodos virtuales | Carga más plana | Anillo más grande, rebuilds más lentos |
-| Anillo en el cliente | Sin salto de proxy | Cada cliente necesita la misma vista de miembros |
-| Proxy / coordinador | Una vista central | Un hop extra |
-| Rellenar caché en miss | Ops simples | Pico en el origen al rebalancear |
-| Migración en streaming | Más seguro para DB | Complejidad de traspaso |
+* **Claves calientes.** Si una clave recibe el 10% de todo el tráfico, sigue viviendo en un solo servidor. El anillo equilibra claves, no peticiones. Necesitas replicar las claves calientes, coalescer peticiones o una caché cercana local.
+* **Vistas del anillo inconsistentes.** Si durante un cambio de membresía la mitad de tus clientes tiene el anillo nuevo y la otra mitad el viejo, la misma clave se lee desde dos sitios. En cachés eso significa más fallos. En bases de datos significa que necesitas propiedad versionada (épocas) y un protocolo de traspaso.
+* **Sobrecarga en cascada.** Cuando un nodo muere, sus sucesores absorben su carga. Si ya estaban al 80%, pueden caer también. "Consistent hashing with bounded loads" (Mirrokni, Thorup y Zadimoghaddam) limita la carga de cada nodo y desborda al siguiente en sentido horario; Vimeo explicó que lo adoptó para el balanceo de su entrega de vídeo.
 
 ---
 
-## Checklist de producción
+## Las alternativas que conviene conocer
 
-- [ ] El hash es rápido y bien repartido en el camino caliente
-- [ ] El número de nodos virtuales está elegido y documentado; los pesos coinciden con el tamaño de máquina
-- [ ] El lookup es O(log n) en puntos del anillo, no un escaneo lineal
-- [ ] Los cambios de membresía van versionados; mide ventanas de dueño incorrecto
-- [ ] Al perder un nodo, solo se remontan o rellenan los arcos afectados
-- [ ] Las réplicas saltan el mismo host físico
-- [ ] Métricas: claves por nodo, tamaños de arco, bytes de rebalance, tasa de miss al unirse
-- [ ] Runbooks para "añadir nodo" y "reemplazar nodo muerto" sin reiniciar todo el cluster
+| Técnica | Cómo funciona | Ventaja | Inconveniente | Dónde se ve |
+| --- | --- | --- | --- | --- |
+| Anillo de hash con nodos virtuales | Sucesor en sentido horario sobre un círculo | Altas y bajas arbitrarias de nodos, listas de réplicas naturales | Necesita nodos virtuales para equilibrar; metadatos del anillo | Dynamo, Cassandra, clientes ketama, ring hash de Envoy |
+| Rendezvous (peso aleatorio más alto) | Para cada clave, puntuar cada nodo con `hash(key, node)` y elegir el más alto | Sin anillo, equilibrio casi perfecto, réplicas ponderadas triviales (los K primeros) | `O(N)` por búsqueda | Balanceadores y clústeres pequeños |
+| Jump consistent hash | Función aritmética de salto que asigna una clave a un cubo 0..N-1 | Sin memoria, muy rápido, equilibrio excelente | Solo se pueden añadir o quitar nodos al final de la numeración | Almacenamiento particionado con fragmentos numerados |
+| Hashing Maglev | Tabla precalculada rellenada a partir de permutaciones por backend | Búsquedas `O(1)`, muy uniforme, disrupción mínima | Reconstruir la tabla al cambiar; pensado para balanceadores | Google Maglev, política Maglev de Envoy |
 
----
-
-## Resumen para un amigo
-
-Imagina un restaurante redondo. La regla tonta de asientos es `número de cliente % número de mesas`. Cierras una mesa y casi todos cambian de sitio. Eso es `hash(key) % N`.
-
-La regla lista pone mesas (servidores) y clientes (claves) en el mismo pasillo circular de taquillas. Para sentar a un cliente, caminas en sentido horario hasta el siguiente camarero. Cierras una mesa y solo se mueven los de esa sección al siguiente camarero. El resto se queda.
-
-Si cada camarero solo tiene un asiento, la suerte puede hacer secciones enormes o minúsculas. Dale a cada camarero muchos asientos reservados alrededor del círculo (nodos virtuales) para que el trabajo sea justo.
-
-La misma idea mueve clusters de caché, bases fragmentadas y balanceadores sticky: coloca datos para que el crecimiento y los fallos muevan un trozo, no todo el sistema.
+Mi regla práctica: rendezvous para conjuntos pequeños de backends (decenas), anillo con nodos virtuales para sistemas de almacenamiento que necesitan listas de réplicas y cambios arbitrarios de membresía, jump hash cuando los fragmentos están numerados y solo crecen, y Maglev para balanceadores L4.
 
 ---
 
-## Cierre
+## Guion para la entrevista
 
-`hash(key) % N` va bien hasta que el pool se mueve. Entonces reasigna casi todo y convierte un evento de escala en un evento de fiabilidad.
+1. Empieza con `hash % N` y muestra qué pasa cuando cambia N. Usa la cifra del 90%.
+2. Dibuja el anillo y explica la propiedad en sentido horario.
+3. Muestra que añadir un nodo mueve un solo arco.
+4. Señala el desequilibrio con un punto por nodo y luego introduce los nodos virtuales.
+5. Añade replicación: los siguientes K servidores distintos, idealmente en zonas distintas.
+6. Menciona una limitación (claves calientes) y una alternativa (rendezvous o jump hash).
 
-Consistent hashing pone claves y servidores en un anillo compartido, asigna cada clave al siguiente servidor en horario y limita la reasignación a un arco local cuando entran o salen nodos. Los nodos virtuales corrigen arcos injustos. Si puedes dibujar el anillo, explicar el límite de reasignación y defender el número de nodos virtuales más la membresía, tienes el capítulo de entrevista y los instintos de producción que van encima.
+---
 
+## Lista de comprobación para producción
+
+- [ ] Función de hash rápida y bien distribuida (Murmur3, xxHash); nunca un `hashCode` estilo Java
+- [ ] Número de nodos virtuales elegido y medido (dispersión de carga por debajo de tu objetivo)
+- [ ] Pesos que reflejan la capacidad real de cada nodo
+- [ ] La membresía tiene una única fuente de verdad y los clientes la observan
+- [ ] Los cambios del anillo están versionados para detectar vistas obsoletas
+- [ ] Réplicas elegidas en dominios de fallo distintos
+- [ ] Los flujos de rebalanceo tienen límite de velocidad y son observables
+- [ ] El tratamiento de claves calientes existe aparte de la colocación
+- [ ] El panel muestra número de claves y tasa de peticiones por nodo, no solo medias
+
+---
+
+## Lo que queda
+
+El anillo es una de esas ideas que parecen obvias en cuanto las ves y siguen siendo útiles durante décadas. Hace una sola cosa: cuando el clúster cambia, mantiene casi todo el mundo donde estaba.
+
+Es una promesa modesta. También es la diferencia entre añadir un nodo a las 3 de la madrugada para aliviar la presión y añadir un nodo a las 3 de la madrugada que se lleva por delante la base de datos.
+
+---
+
+## Fuentes
+
+* [Karger et al., "Consistent Hashing and Random Trees" (STOC 1997)](https://dl.acm.org/doi/10.1145/258533.258660)
+* [DeCandia et al., "Dynamo: Amazon's Highly Available Key-value Store" (SOSP 2007)](https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf)
+* [Lamping y Veach, "A Fast, Minimal Memory, Consistent Hash Algorithm" (jump hash, 2014)](https://arxiv.org/abs/1406.2294)
+* [Eisenbud et al., "Maglev: A Fast and Reliable Software Network Load Balancer" (NSDI 2016)](https://research.google/pubs/maglev-a-fast-and-reliable-software-network-load-balancer/)
+* [Mirrokni, Thorup y Zadimoghaddam, "Consistent Hashing with Bounded Loads"](https://arxiv.org/abs/1608.01350)
+* [Envoy: tipos de balanceador (ring hash y Maglev)](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancers)
+* Relacionado en esta serie: [Diseña un almacén clave-valor](/blog/es/design-key-value-store), [Escala de cero a millones](/blog/es/design-scale-zero-to-millions)

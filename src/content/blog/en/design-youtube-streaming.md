@@ -1,183 +1,143 @@
 ---
-title: "How a YouTube-like Video Service Really Works: Upload, Convert, Store, Play"
-description: "A beginner-friendly map of video streaming: a filmmaker drops off one tape, the platform makes many quality copies, stores them near viewers, and plays them through a CDN. Why the original alone is not enough, and how cost shows up in plain words."
+title: "Design a YouTube-Scale Video Platform: Resumable Uploads, Parallel Transcoding, ABR, and the CDN"
+description: "How video platforms work end to end: capacity math, resumable chunked uploads, a transcoding DAG that splits videos into segments and encodes a bitrate ladder in parallel, HLS and DASH packaging, adaptive bitrate playback, multi-tier CDN caching close to viewers, and where the money actually goes."
 date: "2025-09-29"
 tags: [System Design & Architecture, Backend & Databases]
 coverImage: /assets/images/design-youtube-streaming.webp
 previewImage: /assets/images/design-youtube-streaming.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
-> * **The Insight:** A beginner-friendly map of video streaming: a filmmaker drops off one tape, the platform makes many quality copies, stores them near viewers, and plays them through a CDN. Why the original alone is not enough, and how cost shows up in plain words.
-> * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
+> * **The Problem:** Accept enormous files from creators on unreliable connections, turn each into dozens of formats and qualities quickly, and stream them to viewers on every kind of device and network without buffering, at a scale where bandwidth is the largest cost in the business.
+> * **The Design:** Resumable chunked uploads into object storage; an event-driven transcoding DAG that splits each video into short segments and encodes a bitrate ladder across many workers in parallel; packaging into HLS and DASH; playback through signed manifests, a multi-tier CDN with caches inside or near ISPs, and a player that picks the bitrate for every segment.
+> * **The Result:** A ten-minute 4K upload becomes watchable in minutes instead of hours, the vast majority of bytes are served from caches a few network hops from the viewer, and quality adapts continuously instead of stalling.
 
-You open an app, tap a video, and it starts. That feels like magic. underlying mechanics it is closer to an old film studio with modern warehouses.
+YouTube has said that more than 500 hours of video are uploaded every minute, and back in 2017 that people watched over a billion hours a day. Those two numbers define the system. The write side is a giant batch-processing pipeline. The read side is one of the largest content delivery problems on the internet. They share almost nothing except the storage in between.
 
-**Picture this.** A filmmaker finishes a movie and drops one master tape at the studio door. The studio does not hand that single tape to every living room. It makes many copies in different qualities, ships those copies to local stores near the audience, and when someone presses play, a nearby store hands over the next few minutes of film. That is the whole product in one story: **upload, convert, store near viewers, play**.
-
-This post walks that path in plain words. No need to know cloud vendor names first. If you can follow the tape story, you can follow a YouTube-style design.
+This post designs both sides.
 
 ---
 
-## The big idea in four steps
+## Requirements and Numbers
 
-| Step | Plain meaning | Film-studio analogy |
+**Functional:** upload videos; process them into streamable formats; play them on phones, browsers and TVs; adapt quality to the network; show thumbnails and metadata.
+
+**Non-functional:** uploads survive dropped connections; new videos playable within minutes; playback starts in about a second and rarely rebuffers; global availability.
+
+| Quantity | Value | Implication |
 | --- | --- | --- |
-| **Upload** | The creator sends the big original file to the platform | Filmmaker drops off the master tape |
-| **Convert** (transcode) | Machines rewrite that file into several sizes and qualities | Studio makes many reels: crisp theater, small phone, low light |
-| **Store** | Keep the master and all copies safely | Vault for the master, shelves for every quality |
-| **Play** via **CDN** | Send small pieces from a server near the viewer | Local store near each city, not one warehouse across the ocean |
+| Uploads | ~500 hours per minute | ~720,000 hours of new video per day |
+| Renditions per video | ~6 resolutions x 2 to 3 codecs | Every uploaded hour becomes many hours of encoded output |
+| Encoded storage | Order of several GB per hour across the ladder | Petabytes of new storage per day |
+| Watch time | Over 1 billion hours per day (2017 figure) | At ~2.5 Mbps average, on the order of an exabyte of egress per day |
 
-A **CDN** (content delivery network) is just a network of local stores for internet files. Viewers pull video from a store close to them so playback starts faster and the main warehouse is not crushed by every request.
-
----
-
-## Step 1: Upload (drop off the master)
-
-When someone uploads a video, the platform should not force the entire file through its main app servers. That is like making every delivery truck drive through the front office. The office would jam.
-
-A better pattern:
-
-1. The app asks the platform: "I want to upload a video. Here is the title and size."
-2. The platform creates a record: "this video exists, status is uploading."
-3. The platform hands the creator a **short-lived upload ticket** (a temporary link) to a big file warehouse.
-4. The phone or browser sends the file **straight to that warehouse**.
-5. When the upload finishes, the platform marks the video as **processing** and starts conversion.
-
-Why a ticket? So the heavy file never has to travel through the small "app" machines that only need to handle titles, logins, and status.
-
-Large files often go up in **chunks**. If the network dies at 80%, the client retries the missing chunks instead of starting over. Same idea as mailing a book chapter by chapter.
-
-While bytes land, the creator can still edit the title or description. But the video is not "ready to watch" until at least one playable copy exists.
+The last row is why the CDN, not the transcoder, dominates cost and architecture. Saving 10% of bitrate through better encoding saves 10% of the largest bill you have.
 
 ---
 
-## Step 2: Convert (make many qualities)
+## The Upload and Processing Pipeline
 
-**Convert** here means **transcode**: take the original and rewrite it into formats and bitrates phones, TVs, and browsers can play smoothly.
+![Video upload pipeline: the creator uploads chunks through a resumable upload API into raw object storage, a VideoUploaded event triggers a transcode DAG orchestrator that splits the video into four-second chunks, fans them out to an encoder fleet producing a bitrate ladder across codecs, a packager writes HLS and DASH segments and manifests, while thumbnails and safety checks run in parallel and update video metadata to ready](/assets/images/hld/design-video-upload-pipeline.webp)
 
-### Why not stream only the original file?
+* **Creator.** Uploads from a phone on a train or a studio connection. The file can be gigabytes.
+* **Upload API (resumable).** Splits the upload into chunks (say 8 to 16 MB) with a session ID, so a dropped connection resumes from the last acknowledged chunk instead of starting over. Clients often upload directly to object storage with presigned URLs; the API only manages the session.
+* **Raw uploads (object store).** The original file is kept. Better encoders appear every few years, and re-encoding popular videos from the original is how platforms cut bitrate later.
+* **VideoUploaded event.** Decouples upload from processing. A spike in uploads queues work instead of failing requests.
+* **Transcode DAG orchestrator.** Processing is a directed acyclic graph of tasks: probe, split, encode each segment at each rendition, merge, package, thumbnail, safety checks. The orchestrator tracks task state and retries failures individually.
+* **Split into chunks.** Cutting the video at keyframes into segments of a few seconds is the key to speed. Each segment encodes independently, so a 10-minute video becomes hundreds of small parallel jobs.
+* **Encoder fleet (ladder x codecs).** Produces every rendition, typically H.264 for compatibility plus VP9 or AV1 for efficiency. Encoding is CPU-heavy enough that Google built a custom video transcoding chip (the Argos VCU, described in 2021) for YouTube.
+* **Packager (HLS / DASH).** Wraps encoded segments into the formats players expect and writes manifests listing every rendition. CMAF lets HLS and DASH share the same media segments, halving storage for the packaged output.
+* **Encoded segments + manifests.** The read side's source of truth, typically in object storage behind the CDN.
+* **Thumbnails + safety checks.** Run in parallel: thumbnail extraction, copyright matching, and policy classifiers. A video can be playable for the uploader while still under review for public listing.
+* **Video metadata DB.** Title, owner, status, renditions available, and processing state.
 
-This is the question beginners should ask, and the answer is the heart of the design.
+The green note is the payoff: splitting turns encoding time from "proportional to video length" into "proportional to video length divided by fleet size."
 
-1. **Size.** A raw phone recording can be huge. Streaming that one fat file would burn data plans and buffer forever on slow networks.
-2. **Devices differ.** A subway phone on weak 4G and a living-room TV on fiber need different "reels." One master cannot fit both well.
-3. **Networks change mid-play.** The player must be able to drop to a smaller copy when the signal gets bad, then climb again when it recovers. That needs a ladder of qualities ready in advance.
-4. **Compatibility.** Phones, browsers, and TVs do not all speak the same video language. Conversion produces the versions each client can understand.
+**A bitrate ladder (illustrative, H.264):**
 
-So the studio does not mail the single master tape to every house. It prepares **many copies**: rough 360p for bad networks, 720p for normal, 1080p or higher for strong links, plus audio tracks and a small **playlist** (manifest) that lists those options.
+| Rendition | Resolution | Typical bitrate |
+| --- | --- | --- |
+| 240p | 426 x 240 | ~0.4 Mbps |
+| 360p | 640 x 360 | ~0.8 Mbps |
+| 480p | 854 x 480 | ~1.4 Mbps |
+| 720p | 1280 x 720 | ~2.8 Mbps |
+| 1080p | 1920 x 1080 | ~5 Mbps |
+| 2160p (4K) | 3840 x 2160 | ~15 to 20 Mbps |
 
-The player reads the playlist, picks a starting quality, and fetches **short segments** (a few seconds each). It is not "download the whole movie, then start." It is "keep the next few segments in hand."
-
-You can mark a video **ready** when the minimum useful ladder exists (for example a mid quality plus audio). Higher qualities can finish later and join the playlist.
-
----
-
-## Step 3: Store (vault and shelves)
-
-After conversion you keep:
-
-- The **original** (master). Useful if you must re-convert later, fix a bug in the pipeline, or add a new quality.
-- The **converted copies** (segments and playlists for each quality).
-- Small extras: **thumbnails**, maybe a short preview.
-
-Bytes live in object storage (a giant file warehouse). Small facts live in a database: title, owner, duration, status (`uploading` → `processing` → `ready` or `failed`), and where the playlist lives.
-
-Status matters. Clients should not block on the upload call until conversion finishes. Conversion can take minutes. The app polls or gets a push: "still processing" then "ready."
+Modern platforms do not use one fixed ladder. Netflix popularized **per-title encoding** in 2015: a cartoon with flat colors needs far fewer bits than a grainy action film at the same perceived quality, so each title gets its own ladder.
 
 ---
 
-## Step 4: Play (local store near the viewer)
+## Playback and the CDN
 
-When a viewer presses play:
+![Video playback path: the viewer's player first gets a signed manifest URL from the playback API, which checks rights and region against metadata and entitlements, then requests segments from an edge cache near or inside the ISP, which falls back to a regional mid-tier cache and an origin shield in front of the encoded segments; the player measures throughput and buffer to pick each segment's bitrate](/assets/images/hld/design-video-playback-cdn.webp)
 
-1. The app loads **metadata** from the API (title, thumbnail, is it ready?).
-2. The player opens the **playlist** URL, usually from the CDN.
-3. The player requests **segments** from a **nearby CDN edge**.
-4. If that edge does not have the segment yet, it fetches once from the main warehouse, then keeps a copy for the next viewer nearby.
+1. **Manifest first.** The player calls the Playback API, which checks entitlements and region rules, and returns a short-lived signed URL to the manifest.
+2. **Segments from the edge.** The player requests segments one by one from the nearest edge cache. Popular videos are almost always there.
+3. **Tiered misses.** On a miss, the edge asks a regional mid-tier cache, which asks an origin shield in front of storage. Each tier collapses many misses into one upstream request, so the origin sees a tiny fraction of traffic.
+4. **Adaptive bitrate.** After each segment, the player updates its estimate of throughput and checks its buffer, then chooses the next segment's rendition. A short tunnel drops you to 480p for a few seconds instead of freezing the video.
 
-**Design rule:** the API owns tickets, state, and policy. The CDN owns happy-path playback bytes. App servers should not stream multi-gigabyte files to every phone.
+**Caches inside ISPs.** The biggest platforms place cache servers directly inside internet providers' networks: Netflix's Open Connect appliances and Google's Global Cache are the well-known examples. Bytes then never cross the expensive part of the internet. The ISP saves transit costs, the platform saves egress, and the viewer gets lower latency.
 
-Quality can change between segments. That is adaptive streaming (you will hear **HLS** and **DASH** in interviews; both are "playlist plus segments" ideas). You do not need the RFC. You need the picture: ladder of copies, short pieces, switch when the network changes.
-
----
-
-## Cost intuition (before the scary math)
-
-Forget product names for a moment. Think like a studio manager.
-
-**Where money goes for video**
-
-1. **Moving bytes to viewers** often costs the most. Every play is data leaving your warehouses toward people. A hit video plays a million times; each play is another trip from a local store (or a cold pull from the main warehouse).
-2. **Storing copies** costs more than storing one original. A ladder of qualities multiplies space. You pay for shelves, not only for the master vault.
-3. **Conversion** costs CPU time. Encode farms work hard when uploads spike. That bill is real, but at large scale the **playback traffic** often dominates.
-4. **App servers** for titles and logins are usually the cheap part. Do not design as if the database is the main expense of a video product.
-
-**Why "store near viewers" saves money and pain**
-
-If everyone worldwide pulls from one central warehouse:
-
-- Distant viewers wait longer.
-- The central link becomes a traffic jam.
-- You pay to ship the same popular film across oceans again and again.
-
-Local CDN edges keep **hot** videos close to audiences. Most plays hit a nearby copy. Cold, rarely watched videos can stay farther away. Popularity is a long tail: a few videos carry most traffic; most videos barely play. Smart platforms spend edge space on what people actually watch.
-
-**Simple mental math (order of magnitude, not a quote)**
-
-Suppose millions of people each watch a few videos a day, and each finished stream is a few hundred megabytes. Multiply people × videos × size and you get **petabytes** of transfer. Even a few cents per gigabyte of outbound data turns into a large daily bill. That is why interviews keep saying "CDN cost," and why conversion (smaller files, efficient codecs) and caching near viewers matter more than polishing the upload form.
-
-You do not need exact price sheets. You need the punchline: **for video, delivery and storage often beat the cost of the app layer.**
+The green note sets the operational target: the edge tier should serve the overwhelming majority of bytes.
 
 ---
 
-## One picture of the whole path
+## Where the Money Goes
 
-```
-Creator phone/browser
-    |  1. ask for upload ticket
-    v
-API (metadata, auth, status)
-    |  2. ticket
-    v
-File warehouse  <--- 3. big original lands here
-    |
-    v
-Convert workers (queue)  ---> many qualities + playlist + thumbs
-    |
-    v
-Warehouse shelves + CDN local stores
-    |
-    v
-Viewer player  <--- segments from nearest store
-```
+| Cost | Driver | Lever |
+| --- | --- | --- |
+| Delivery (CDN egress) | Watch time x bitrate | Better codecs (AV1), per-title ladders, ISP-embedded caches |
+| Encoding compute | Upload hours x renditions | Encode the long tail lazily; spend more compute only on popular videos |
+| Storage | Renditions x retention | Drop rarely watched high renditions; keep originals in cold storage |
+| Moderation | Upload volume | Automated classifiers first, human review where it matters |
 
-Three planes, one sentence each:
-
-- **API plane:** who may upload, what the title is, is the video ready.
-- **Byte plane:** originals and converted objects in warehouses.
-- **Edge plane:** CDN copies near people for actual watching.
+The long tail matters here. Most uploaded videos are watched rarely. A common strategy is to encode a minimal ladder at upload time and generate premium renditions (4K, AV1) only once a video proves popular, because the encoding cost is only worth paying if the delivery savings follow.
 
 ---
 
-## Safety in one breath
+## Failure Modes
 
-- Upload tickets expire and point at one object only.
-- Private videos need short-lived playback links, not a forever public URL.
-- Bad or blocked content can flip status to taken down; stop serving playlists and segments.
-- Live streaming is a cousin (same family: ingest, package, CDN) but with tighter time. This post is about finished videos (on demand), not a live concert.
+| Failure | Expected behavior |
+| --- | --- |
+| Upload connection drops at 80% | Resume from the last acknowledged chunk |
+| One encoding task fails | The orchestrator retries that segment only; the rest of the DAG continues |
+| Encoder backlog during a spike | Queue grows; prioritize short and popular uploads; publish lower renditions first |
+| Edge cache node fails | Traffic shifts to neighbors; mid-tier absorbs extra misses |
+| Viral video, cold caches | Request collapsing at each tier prevents a stampede on the origin |
+| Viewer's network degrades | ABR lowers quality instead of rebuffering |
 
 ---
 
-## Recap you can tell a friend
+## Production Checklist
 
-YouTube-style streaming is not "put one file on a server and hope."
+- [ ] Resumable, chunked uploads with direct-to-storage presigned URLs
+- [ ] Originals retained for future re-encoding
+- [ ] Event-driven DAG with per-task retries and idempotent outputs
+- [ ] Keyframe-aligned splitting for parallel encoding
+- [ ] Per-title or content-aware ladders; modern codecs for popular content
+- [ ] HLS and DASH from shared CMAF segments
+- [ ] Signed, short-lived manifest URLs; entitlement and region checks
+- [ ] Multi-tier CDN with request collapsing and an origin shield
+- [ ] Player metrics: startup time, rebuffer ratio, average bitrate, quality switches
+- [ ] Cost dashboards: egress by tier, encode hours by rendition, storage by age
 
-A creator **uploads** a master into a warehouse with a temporary ticket, not through the front office. Machines **convert** that master into many qualities so phones and TVs on any network can play without melting. The platform **stores** the master and the copies, and tracks status in a small database. When someone presses play, a **CDN** near them serves short segments from a ladder of qualities, switching as the network changes.
+---
 
-You do not stream only the original because it is too big, too inflexible, and too unfriendly to weak networks. Cost follows the audience: **delivery of bytes and shelves full of copies** usually matter more than the servers that store titles. Design so heavy files skip the app tier, conversion is async, and happy-path watch traffic lives at the edge.
+## The Leftover
 
-If you remember one line: **the filmmaker drops off one tape; the studio makes many reels and stocks them near the audience.**
+Every video on these platforms exists in dozens of copies, at different sizes and qualities, scattered across thousands of machines, most of them in buildings owned by somebody else's internet provider.
 
+The viewer sees none of that. They see a video that starts, and a quality badge that flickers from 1080p to 720p when the train enters a tunnel and back again when it leaves. That flicker is the whole system working.
+
+---
+
+## Sources
+
+* [YouTube Official Blog: platform statistics (hours uploaded per minute)](https://blog.youtube/press/)
+* [Netflix Tech Blog: Per-Title Encode Optimization](https://netflixtechblog.com/per-title-encode-optimization-7e99442b62a2)
+* [Netflix Open Connect overview](https://openconnect.netflix.com/en/)
+* [Ranganathan et al., "Warehouse-Scale Video Acceleration: Co-design and Deployment in the Wild" (ASPLOS 2021)](https://dl.acm.org/doi/10.1145/3445814.3446723)
+* [RFC 8216: HTTP Live Streaming](https://www.rfc-editor.org/rfc/rfc8216)
+* [Alliance for Open Media: AV1](https://aomedia.org/av1-features/)
+* Related in this series: [Design Google Drive](/blog/en/design-google-drive), [Scale From Zero to Millions](/blog/en/design-scale-zero-to-millions), [Back-of-the-Envelope Estimation](/blog/en/design-back-of-envelope-estimation)

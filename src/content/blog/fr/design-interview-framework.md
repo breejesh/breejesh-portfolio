@@ -1,313 +1,187 @@
 ---
-title: "Un cadre pratique pour les entretiens de system design"
-description: "Une checklist pour candidats stressés en entretien de system design: d'abord les questions, puis le plan des boîtes, ensuite le détail. Étapes en langage simple, dialogue d'exemple et budget temps réutilisable de 45-60 minutes."
+title: "Un cadre pratique pour les entretiens de conception de systèmes : ce qui est noté et comment répartir 45 minutes"
+description: "Un plan reproductible pour les entretiens de conception de systèmes : ce que les recruteurs notent vraiment, un budget minute par minute, les questions de clarification qui comptent, comment présenter une conception de haut niveau et obtenir l'adhésion, où approfondir selon le type de problème, un exemple de dialogue et les habitudes qui font échouer des candidats par ailleurs solides."
 date: "2026-01-22"
 tags: [Design Système et Architecture]
 coverImage: /assets/images/design-interview-framework.webp
 previewImage: /assets/images/design-interview-framework.webp
 ---
 
-
 > **TL;DR**
-> * **Le Problème:** La conception d'architectures évolutives exige un équilibre entre disponibilité, débit et complexité opérationnelle.
-> * **L'Essentiel:** Une checklist pour candidats stressés en entretien de system design: d'abord les questions, puis le plan des boîtes, ensuite le détail. Étapes en langage simple, dialogue d'exemple et budget temps réutilisable de 45-60 minutes.
-> * **Le Résultat:** Plan technique avec des objectifs quantitatifs et la gestion des pannes en production.
+> * **Le problème :** Les entretiens de conception de systèmes sont ouverts à dessein. Des ingénieurs solides les ratent non par manque de connaissances mais par manque de structure : ils plongent dans les détails, conçoivent pour des exigences que personne n'a formulées et manquent de temps avant d'avoir montré leur profondeur.
+> * **Le cadre :** Clarifier (5 minutes), estimer (5), conception de haut niveau avec adhésion (15), approfondissements sur deux ou trois parties difficiles (15), conclusion avec compromis et prochaines étapes (5). Présentez vos décisions comme des compromis, pas comme des faits.
+> * **Le résultat :** Une conversation que le recruteur peut noter sur tous les axes qui l'intéressent : gestion de l'ambiguïté, conception cohérente, profondeur technique et communication, avec du temps pour approfondir là où cela compte.
 
-Personne n'attend que vous reconstruisiez Google Search en 45 minutes. L'interviewer ne cherche pas un diagramme parfait. Il veut voir comment vous transformez un énoncé flou en problème clair, comment vous planifiez avant de peaufiner les détails, et si vous le traitez comme un coéquipier.
+Il n'existe pas de bonne réponse à « concevez Twitter » en 45 minutes. Les recruteurs le savent. Ce qu'ils notent, c'est la manière dont vous passez d'un énoncé ambigu à une conception raisonnable, et votre façon de raisonner quand ils vous poussent dans vos retranchements.
 
-Si cela fait encore peur, prenez une image que vous connaissez déjà.
-
-**Visite chez le médecin:** le médecin demande ce qui fait mal, depuis quand, et ce que vous avez déjà essayé. Ensuite seulement viennent les examens ou l'ordonnance. Sauter droit à la chirurgie sans questions, c'est de la faute professionnelle.
-
-**Rénovation de maison:** un bon artisan mesure la pièce, demande combien de personnes y vivent et regarde le budget avant de choisir le carrelage. Dessiner une cuisine de luxe à la minute une, puis découvrir qu'il n'y a pas de plomberie pour l'évier, fait perdre le temps de tout le monde.
-
-Un **entretien de system design** fonctionne pareil. "System design" veut simplement dire: planifier comment les pièces d'un produit se parlent pour encaisser de vrais utilisateurs. D'abord les questions. Ensuite la grande forme. Ensuite le détail dur. Ce billet est ce processus écrit pour qu'un candidat nerveux puisse le suivre étape par étape.
+Cet article présente la structure que j'utilise et que je recommande. Ce n'est pas un script. C'est un budget pour votre attention.
 
 ---
 
-## Ce que la salle note vraiment
+## Ce que le recruteur note vraiment
 
-Voyez-le comme une courte réunion de travail sur un problème ouvert, pas comme un quiz avec un seul tableau correct.
+Les grilles varient selon les entreprises, mais elles se regroupent en quatre domaines :
 
-| Signal | À quoi ça ressemble en langage simple |
+| Domaine | À quoi ressemble un bon candidat |
 | --- | --- |
-| Gérer le flou | Vous posez des questions bornées avant de dessiner |
-| Collaborer | Vous dites vos hypothèses à voix haute et changez de cap si on vous corrige |
-| Choisir ce qui compte | Vous passez du temps sur le chemin critique, pas sur chaque feature optionnelle |
-| Parler des trade-offs | Vous nommez coût, vitesse, sûreté et la difficulté d'exploiter le système |
-| Éviter les drapeaux rouges | Pas de monologue silencieux, pas de "système parfait", pas de microservices à la minute une |
+| Navigation du problème | Pose les questions qui changent la conception ; délimite le problème délibérément ; énonce ses hypothèses |
+| Conception de la solution | Produit une conception cohérente de bout en bout où chaque composant a une raison d'exister |
+| Profondeur technique | Approfondit les parties les plus difficiles : modèle de données, cohérence, goulots d'étranglement, modes de défaillance |
+| Communication | Réfléchit à voix haute, vérifie auprès du recruteur, saisit les indices, explique les compromis simplement |
 
-**Trade-off** signifie un choix où vous gagnez une chose et en perdez une autre. Exemple: copier les données sur beaucoup de machines peut accélérer les lectures, mais ces copies ne se mettent pas forcément à jour au même instant.
-
-Drapeaux rouges remarqués vite:
-
-- Dessiner dix boîtes avant de savoir pour qui est le produit
-- Peaufiner un micro-détail alors que le parcours principal utilisateur est encore vide
-- Refuser des ordres de grandeur quand la taille changerait le plan
-- Déclarer le design "terminé" sans parler de ce qui casse
+Remarquez ce qui manque : les architectures apprises par cœur, les mots à la mode et la « bonne » base de données. Un candidat qui choisit l'option inhabituelle et explique clairement le compromis obtient une meilleure note que celui qui choisit l'option attendue sans savoir dire pourquoi.
 
 ---
 
-## Horloge souple pour une boucle de 45 minutes
+## Le budget de 45 minutes
 
-C'est un guide, pas une loi. Si l'interviewer veut rester haut niveau, restez haut niveau. S'il vous tire dans un coin difficile, ce coin est le job du jour.
+![Chronologie de l'entretien : clarifier pendant les cinq premières minutes, estimer de cinq à dix, conception de haut niveau de dix à vingt-cinq, approfondissements de vingt-cinq à quarante et conclusion dans les cinq dernières, avec le rappel que la plupart des entretiens ratés sautent la clarification et passent quarante minutes à approfondir](/assets/images/hld/design-interview-timeline.webp)
 
-| Phase | Minutes | Objectif |
-| --- | --- | --- |
-| 1. Clarifier et figer le scope | 3-10 | Features, utilisateurs, contraintes, ce que vous ne construirez pas |
-| 2. Taille approximative (si utile) | 2-5 | Ordre de grandeur de charge et de stockage |
-| 3. Plan haut niveau et accord | 10-15 | Grosses boîtes, flux principaux, accords simples |
-| 4. Détail sur les parties dures | 10-25 | Forme des données, vitesse, pannes, le vrai goulot |
-| 5. Clôture | 3-5 | Risques, monitoring, ce qui casse à 10x, questions ouvertes |
-
-**Haut niveau** signifie la carte des grandes pièces (client, serveurs, base de données, cache), pas chaque ligne de code. **Goulot** signifie le premier endroit qui s'étouffe quand le trafic croît.
+La note rouge décrit l'échec le plus courant : plonger directement dans les entrailles d'un composant sans jamais établir à quoi sert le système.
 
 ---
 
-## Étape 1: Clarifier les requirements (les questions du médecin)
+## Étape 1 : clarifier (0 à 5 minutes)
 
-Ne soyez pas le candidat qui crache une architecture complète avant de savoir qui utilise le produit. Ralentissez. Quand l'interviewer dit "à vous de décider", écrivez vos hypothèses là où vous deux pouvez les voir.
+Votre objectif est une liste courte et explicite d'exigences sur lesquelles le recruteur et vous êtes d'accord.
 
-### Questions produit (commencez ici)
+**Questions fonctionnelles (que doit faire le système ?)**
 
-1. Que doit marcher en version un? Que peut attendre?
-2. Qui l'utilise: app grand public, outil interne, ou API publique?
-3. Plus de lectures, plus d'écritures, ou mixte? (Une **lecture** charge des données. Une **écriture** crée ou modifie des données.)
-4. Les mises à jour doivent-elles apparaître tout de suite, ou un petit délai est OK?
-5. Mobile, web, ou les deux? Login requis?
-6. Texte seulement, ou aussi images et vidéo?
-7. Une région pour l'entretien, ou mondial dès le jour un?
+* Qui sont les utilisateurs, et quelles sont les deux ou trois actions principales ?
+* Quelles fonctionnalités sont dans le périmètre aujourd'hui, et lesquelles peut-on explicitement écarter ?
+* Des cas particuliers qui changent la conception (comptes privés, modifications, suppressions, médias) ?
 
-### Questions qualité et échelle
+**Questions non fonctionnelles (à quel niveau de qualité ?)**
 
-1. Environ combien d'utilisateurs actifs par jour, et à quelle vitesse ça croît?
-2. Charge moyenne vs pic d'heure de pointe?
-3. Quelle rapidité doit avoir l'action principale (un objectif approximatif suffit)?
-4. Quand vitesse et cohérence parfaite s'opposent, laquelle gagne pour ce produit?
-5. Combien de temps on garde les données? Règles de vie privée (style supprimer mon compte)?
-6. Doit-on réutiliser des outils déjà en place (base courante, cache, file de messages)?
+* Combien d'utilisateurs, et quelle activité ? Le trafic est-il mondial ou régional ?
+* Quelle latence compte, et pour quelle opération ?
+* Est-il acceptable d'afficher des données légèrement périmées ? Peut-on perdre une écriture ?
+* Charge dominée par les lectures ou par les écritures ?
 
-**API** désigne l'ensemble des requêtes que le client envoie au backend (par exemple: créer un post, lister un feed). **Cache** désigne un stockage temporaire rapide pour ne pas frapper la base à chaque requête. **File (queue)** désigne une file d'attente pour un travail qui peut se faire un instant plus tard (envoyer un email, redimensionner une image).
+Écrivez ensuite la liste là où vous la voyez tous les deux. Exemple pour « concevez un fil d'actualité » : publier du texte et des images, suivre des utilisateurs, voir un fil d'accueil des comptes suivis, du plus récent au plus ancien ; 300 M d'utilisateurs actifs par jour ; fil chargé en moins de 200 ms ; quelques secondes de délai avant qu'une publication apparaisse, c'est acceptable. Hors périmètre : publicité, messagerie, recherche.
 
-### Discipline de scope
-
-Dites à voix haute ce que vous **ne** concevrez **pas** aujourd'hui. Un ranking machine learning complet pour un feed, des bases multi-écrivains mondiales, ou un long cours de théorie brûlent souvent du temps sans signal. Nommez-les, garez-les, avancez, sauf si l'interviewer les rouvre.
-
-### Mini exemple: "Concevez un news feed"
-
-- App: mobile et web
-- Version un: publier un post, lire les posts d'amis en ordre chronologique inverse
-- Algorithmes de ranking: plus tard, sauf s'ils demandent
-- Amis par utilisateur: environ 5 000
-- Trafic: environ 10 millions d'utilisateurs actifs par jour
-- Média: images et courte vidéo autorisés
-
-Cette conversation seule empêche de construire le mauvais produit.
+Cette liste est votre contrat pour les 40 minutes suivantes.
 
 ---
 
-## Étape 2: Capacité approximative (taille au dos d'une enveloppe)
+## Étape 2 : estimer (5 à 10 minutes)
 
-Vous n'avez pas besoin de maths parfaites. Vous avez besoin d'ordres de grandeur crédibles pour que le design ne soit pas un jouet.
+Faites juste assez de calculs pour trouver la partie difficile : QPS en lecture et en écriture, croissance du stockage et toute bande passante susceptible de dominer. L'[article sur les estimations](/blog/fr/design-back-of-envelope-estimation) de cette série donne les recettes.
 
-**QPS** signifie requêtes par seconde: combien de requêtes frappent le système chaque seconde. **Ordre de grandeur** signifie "environ 100, pas environ 100 000", pas une feuille Excel financière.
+Énoncez la conclusion, pas seulement les chiffres : « Les lectures dépassent les écritures d'environ 100 contre 1, et la diffusion multiplie les écritures par le nombre d'abonnés, donc le stockage des fils et la diffusion sont la partie difficile. »
 
-Gardez ces outils grossiers en tête:
+Certains recruteurs vous diront de sauter l'estimation. Faites-la quand même en une phrase ; la conclusion oriente toujours votre conception.
 
-| Quantité | Règle pratique |
+---
+
+## Étape 3 : conception de haut niveau et adhésion (10 à 25 minutes)
+
+Dessinez le flux de bout en bout de chaque action principale avant d'entrer dans le détail.
+
+1. **D'abord les API.** Deux ou trois points d'accès avec leurs paramètres clés : `POST /posts`, `GET /feed?cursor=`. Ils obligent à clarifier ce que fait chaque requête.
+2. **Le modèle de données.** Les entités principales, leurs clés et leur partitionnement. C'est là que beaucoup de conceptions réussissent ou échouent en silence.
+3. **Des boîtes et des flèches.** Clients, périphérie (répartiteur de charge, CDN), services, stockages, files de messages. Suivez une requête à travers chaque action principale.
+4. **Vérifiez.** « Est-ce que cela couvre ce que vous attendez, ou faut-il ajuster avant d'aller plus loin ? » C'est le moment de l'adhésion, et il vous vaut souvent un indice sur l'endroit où le recruteur veut de la profondeur.
+
+**Les briques courantes et quand elles méritent leur place :**
+
+| Brique | Ajoutez-la quand |
 | --- | --- |
-| Secondes dans une journée | environ 100 000 (assez pour l'entretien) |
-| Requêtes par jour vers QPS moyen | diviser par environ 100 000; le pic est souvent 2x-5x la moyenne |
-| Stockage | nombre d'items × taille moyenne, plus de la marge pour copies et index |
-| Bande passante | QPS × taille d'une réponse typique |
+| Répartiteur de charge | Il y a plus d'une instance de quoi que ce soit |
+| Cache | L'accès est dominé par les lectures sur des données qui tolèrent un peu de retard |
+| Réplicas de lecture | La charge de lecture dépasse une base de données |
+| File de messages | Le travail peut se faire après la réponse, ou doit être relancé |
+| CDN | Du contenu statique ou multimédia est servi à beaucoup d'utilisateurs |
+| Partitionnement | Les données ou les écritures dépassent une base de données après les options moins chères |
+| Stockage objet | Il y a de gros fichiers : images, vidéos, documents, sauvegardes |
 
-Dites la forme à voix haute:
-
-```
-10M utilisateurs actifs par jour
-Supposez 5 lectures de feed par utilisateur et par jour → 50M lectures / jour
-50 millions / 100 000 ≈ 500 QPS moyens en lecture
-Pic peut-être 2 000-3 000 QPS en lecture (choisissez un facteur et tenez-vous-y)
-
-Supposez 1 post par utilisateur et par jour → 10M écritures / jour ≈ 100 QPS moyens en écriture
-```
-
-Si les chiffres changent le plan (une seule base ne suffit plus, un cache devient obligatoire, la vidéo a besoin d'un object store), dites-le. S'ils ne changent rien, gardez les maths courtes et avancez. Demandez s'ils veulent les chiffres avant d'y passer cinq minutes.
-
-Pour une boîte à outils plus complète, voir [estimation back-of-the-envelope](/blog/fr/design-back-of-envelope-estimation).
+Chaque boîte doit répondre à la question « qu'est-ce qui casse si je l'enlève ? ». Si vous ne savez pas répondre, enlevez-la.
 
 ---
 
-## Étape 3: Design haut niveau et accord (le plan de rénovation)
+## Étape 4 : approfondir (25 à 40 minutes)
 
-Dessinez des boîtes. Parcourez un chemin heureux de bout en bout. Traitez l'interviewer comme un co-concepteur: marquez une pause pour feedback avant d'inventer six services séparés.
+Choisissez deux ou trois parties vraiment difficiles pour ce problème, ou suivez le recruteur. De bonnes cibles selon le type de problème :
 
-### Blocs habituels (ce que signifient les boîtes)
-
-| Pièce | Pourquoi elle apparaît |
+| Type de problème | Où se trouve la profondeur |
 | --- | --- |
-| Client (web ou mobile) | Là où l'utilisateur tape ou touche |
-| Load balancer / API gateway | Porte d'entrée: répartit le trafic, souvent login et limites |
-| Services app / API | Les règles métier vivent ici |
-| Base principale | Source de vérité des données durables |
-| Cache | Lectures chaudes sans marteler la base |
-| CDN / object store | Fichiers statiques et média (photos, vidéo) près de l'utilisateur |
-| File / stream | Travail async: fan-out, emails, miniatures |
-| Index de recherche | Motifs de requête que la base principale déteste |
-| Workers | Jobs en arrière-plan qui traitent la file |
+| Fils et timelines | Diffusion à l'écriture ou à la lecture, le problème des célébrités, classement, pagination |
+| Messagerie et temps réel | Gestion des connexions, ordre, garanties de livraison, présence |
+| Systèmes de stockage | Partitionnement, réplication, cohérence, résolution des conflits |
+| Raccourcisseur d'URL, générateur d'identifiants | Génération des clés, collisions, clés chaudes, cache |
+| Limiteur de débit | Choix de l'algorithme, atomicité, compteurs distribués, échec ouvert ou fermé |
+| Plateformes multimédias | Chaîne d'envoi, transcodage, CDN, coût |
+| Recherche et autocomplétion | Chaîne d'indexation, classement, budget de latence |
 
-**Load balancer** répartit les requêtes entre serveurs sains. **CDN** est un réseau de caches en bordure qui sert le contenu statique près de l'utilisateur. **Async** signifie "fais-le bientôt, pas forcément dans cette même requête".
-
-### Comment le présenter
-
-1. Esquissez clients → porte → services → stocks de données.
-2. Tracez les deux ou trois cas d'usage critiques (créer, chemin de lecture principal, peut-être supprimer).
-3. Dites si les lectures ou les écritures dominent.
-4. Proposez des APIs seulement si le problème est assez petit (raccourcisseur d'URL, rate limiter). Pour "concevez Google Search", restez plus grossier.
-5. Demandez: "Est-ce que ça colle à l'échelle et aux features qu'on a fixées?" Corrigez avant le détail.
-
-### Forme du news feed (haut niveau seulement)
-
-- **Chemin publier:** client → API → sauver les métadonnées du post → job qui met à jour les feeds d'amis (ou les marque sales).
-- **Chemin lire:** client → API → charger un feed préparé (ou l'assembler à la lecture) → hydrater le contenu des posts depuis cache ou base → renvoyer une page.
-
-Deux flux gardent le tableau honnête. Une boîte géante "Feed Service" non.
+Pour chaque approfondissement, couvrez : l'approche naïve et pourquoi elle échoue, la meilleure approche, ce qu'elle coûte et comment elle échoue. Cette structure en quatre temps démontre la profondeur plus sûrement que n'importe quelle quantité de jargon.
 
 ---
 
-## Étape 4: Détail sur les parties qui rapportent du signal
+## Étape 5 : conclure (40 à 45 minutes)
 
-Vous partagez déjà objectifs, esquisse haut niveau et feedback de l'interviewer. Choisissez maintenant les arêtes vives.
+Ne déclarez pas la conception parfaite. Résumez-la en deux phrases, puis nommez :
 
-### Bons cibles selon le type de problème
+* Le goulot d'étranglement actuel et ce que vous feriez quand il saturera.
+* Le principal compromis que vous avez fait et quand vous le reverriez.
+* Ce que vous surveilleriez en production.
 
-| Problème | Vaut le coup d'approfondir | Pièges à temps facile |
-| --- | --- | --- |
-| Raccourcisseur d'URL | Fabrication des IDs, codes courts, type de redirect, clés de cache | UI fancy d'aperçu de lien |
-| Rate limiter | Choix d'algorithme, vie des clés dans Redis, équité multi-serveur | Maths globales parfaites sur chaque cas limite |
-| Chat | Garanties de livraison, présence en ligne, ordre des messages | Design produit complet de chiffrement de bout en bout |
-| News feed | Push vs pull pour les posts d'amis, signaux de ranking, pipeline média | Recréer un modèle de ranking social complet |
-| Drive / stockage | Morceaux de fichier, cohérence d'upload, conflit si deux appareils éditent | Client web pixel-perfect |
-
-### Checklist de détail (choisissez 2-4)
-
-1. **Modèle de données:** entités principales, clés, index, comment découper les données entre machines si besoin.
-2. **Contrats d'API:** retries sûrs (**idempotence** signifie qu'une requête répétée ne crée pas en double), pagination, erreurs claires sur le chemin chaud.
-3. **Cohérence:** forte là où il y a de l'argent ou du login; éventuelle OK là où feeds et compteurs peuvent retarder un instant.
-4. **Cache:** quoi est mis en cache, durée de vie, invalidation, comment éviter une ruée quand il se vide.
-5. **Chemins async:** files, retries, dead letters (jobs ratés qui demandent un traitement spécial), langage honnête de livraison "au moins une fois".
-6. **Goulots:** QPS le plus chaud, plus gros objets, limites d'un seul leader.
-7. **Modes de panne:** mort d'un serveur, partition réseau, cache vide, file qui s'accumule.
-8. **Sécurité (bref sauf demande):** login, limites d'abus, frontières des données privées.
-
-Règle de temps: si un détail ne change ni la correction ni l'échelle pour ce prompt, garez-le. Dites qu'il existe, proposez d'aller plus loin, attendez un signe d'accord.
+Cela montre le jugement que les recruteurs attendent des profils seniors : vous savez ce que vous avez construit, ce que cela coûte et où cela cassera en premier.
 
 ---
 
-## Étape 5: Clôturer sans déclarer la perfection
+## Un court exemple de dialogue
 
-Ne terminez jamais par "et voilà le design complet". Laissez de la place à la critique.
+> **Recruteur :** Concevez un raccourcisseur d'URL.
+>
+> **Candidat :** Avant de dessiner quoi que ce soit, quelques questions. Faut-il des alias personnalisés et une expiration, ou seulement des codes aléatoires ? Faut-il des statistiques de clics ? Combien de liens par mois environ, et quel rapport entre lectures et écritures dois-je supposer ?
+>
+> **Recruteur :** Alias personnalisés oui, statistiques approximatives, 100 millions de liens par mois, surtout des lectures.
+>
+> **Candidat :** Alors je traite les redirections comme le chemin critique et les statistiques comme un effort au mieux. 100 millions par mois, c'est environ 40 écritures par seconde, et avec 100 lectures par écriture, environ 4 000 redirections par seconde en moyenne. Les parties difficiles sont la génération des codes et la rapidité des redirections, donc je vais les concevoir avec soin et garder les statistiques hors du chemin de redirection. Voici les deux API...
 
-1. **Récapitulez** l'architecture en environ 30 secondes (surtout si vous avez exploré des alternatives).
-2. **Ce qui casse en premier à 10x de trafic**, et ce que vous changeriez.
-3. **Opérations:** métriques (latence, taux d'erreur, profondeur de file, hit rate cache), logs, alertes, déploiement prudent (feature flags, petits canaris).
-4. **Playbook de panne:** bascule de la base principale, mode lecture seule, messages empoisonnés dans une file.
-5. **Ouverts** si vous aviez encore une heure: multi-région, meilleur ranking, réduction de coût, jobs de suppression pour la vie privée.
-
-Les interviewers se souviennent des candidats qui peuvent critiquer leur propre design sans le faire s'écrouler.
-
----
-
-## Dialogue d'exemple (langage simple)
-
-**Interviewer:** Concevez un news feed.
-
-**Vous:** Avant les boîtes, je veux le scope. Mobile seul ou les deux? Ranking en version un, ou l'ordre chrono inverse suffit?
-
-**Interviewer:** Les deux clients. Chrono inverse pour la v1, ça va.
-
-**Vous:** Je suppose environ 10 millions d'utilisateurs actifs par jour, environ 5 000 amis par utilisateur, et des posts avec images. Corrigez-moi si c'est faux.
-
-**Interviewer:** Ça marche.
-
-**Vous:** Taille approximative: si chaque utilisateur lit le feed cinq fois par jour, on est autour de 500 QPS moyens en lecture, peut-être quelques milliers au pic. Les écritures sont bien plus basses si on poste une fois par jour. Ça oriente un design lourd en lecture avec un cache sur le chemin chaud.
-
-**Interviewer:** OK.
-
-**Vous:** Haut niveau: le chemin publier écrit le post, puis un job d'arrière-plan aide à construire les feeds d'amis. Le chemin lire charge une page de feed préparée et remplit les corps depuis cache ou base. Est-ce que ça colle à ce qu'on a fixé?
-
-**Interviewer:** Oui. Comment gérez-vous les célébrités avec des millions d'abonnés?
-
-**Vous:** C'est le coin dur. Pour les utilisateurs normaux je peux pousser des entrées de feed à l'écriture. Pour les très gros comptes je tire à la lecture pour qu'un post n'explose pas en millions d'écritures. Trade-off: les feeds célébrité coûtent plus de travail à la lecture.
-
-**Interviewer:** Qu'est-ce qui casse en premier à 10x?
-
-**Vous:** Le cache de feed et les workers de fan-out. Je découperais le stockage de feed, j'ajouterais de la backpressure sur la file, et je surveillerais profondeur de file et hit rate cache. Avec plus de temps, multi-région et ranking plus fort.
-
-Cette conversation, c'est le cadre. Vous n'aviez pas besoin d'un diagramme parfait pour sonner comme un ingénieur calme.
+Remarquez que le candidat n'a jamais prétendu détenir la « bonne » réponse. Il a transformé l'énoncé en exigences, nommé la partie difficile et gagné le droit de la concevoir.
 
 ---
 
-## Liste à faire / à éviter
+## À faire et à éviter
 
-**À faire**
-
-- Posez des questions de clarification tôt et souvent.
-- Écrivez les hypothèses là où vous deux les voyez.
-- Commencez haut niveau; ajoutez du détail seulement après accord.
-- Concevez d'abord le chemin critique.
-- Proposez deux options quand un vrai trade-off existe (par exemple push vs pull de fan-out).
-- Pensez à voix haute. Le silence est dur à noter.
-- Demandez un indice si vous bloquez. Collaborer bat la fierté figée.
-- Continuez jusqu'à ce que l'interviewer clôture.
-
-**À éviter**
-
-- Sprinter vers une solution avec des requirements non définis.
-- Transformer un petit produit en système multi-écrivain mondial le jour un.
-- Enfoncer 15 minutes dans une micro-optimisation alors que le modèle de données est vide.
-- Ignorer des chiffres de taille qui contredisent votre diagramme.
-- Faire semblant que le design n'a pas de modes de panne.
-- Contredire une guidance claire de l'interviewer.
+| À faire | À éviter |
+| --- | --- |
+| Écrire les exigences et y revenir | Dessiner des boîtes dès la première minute |
+| Dire « je suppose X ; dites-moi si c'est faux » | Supposer en silence et espérer |
+| Présenter chaque choix comme un compromis | Présenter des technologies comme évidentes |
+| Suivre une requête de bout en bout | Décrire les composants isolément |
+| Vérifier à la fin de la conception de haut niveau | Faire un monologue de 20 minutes |
+| Admettre ce que vous ignorez et raisonner à partir des principes | Bluffer sur les entrailles d'une technologie |
+| Nommer les modes de défaillance avant qu'on vous les demande | Supposer que tout se passe bien |
 
 ---
 
-## Checklist d'entretien réutilisable
+## Liste de contrôle réutilisable
 
-Copiez-la dans vos notes. Parcourez-la de haut en bas quand vous êtes nerveux.
-
-```
-[ ] Reformuler le problème en une phrase
-[ ] Features version un seulement
-[ ] Cibles non fonctionnelles (utilisateurs, QPS, latence, cohérence)
-[ ] Liste explicite hors scope
-[ ] Hypothèses écrites et confirmées
-[ ] Capacité approximative (QPS, stockage, bande passante) si ça change le design
-[ ] Diagramme haut niveau: clients, porte, services, données, async
-[ ] Tracer les chemins heureux des cas d'usage principaux
-[ ] API ou schéma seulement si la taille du problème le justifie
-[ ] Obtenir un accord explicite avant le détail
-[ ] Détail 1: modèle de données / IDs / stockage
-[ ] Détail 2: perf du chemin chaud (cache, fan-out, sharding)
-[ ] Détail 3: cohérence, pannes ou ops (choisir ce qui compte pour eux)
-[ ] Nommer goulots et changements à 10x
-[ ] Monitoring, déploiement, risques connus
-[ ] Recap + inviter le feedback
-```
+- [ ] Exigences fonctionnelles listées et validées ; hors périmètre énoncé
+- [ ] Exigences non fonctionnelles : échelle, latence, cohérence, disponibilité
+- [ ] Estimations avec une conclusion explicite sur la partie difficile
+- [ ] API et modèle de données principal
+- [ ] Flux de bout en bout pour chaque action principale
+- [ ] Vérification de l'adhésion avant les approfondissements
+- [ ] Deux ou trois approfondissements : approche naïve, meilleure approche, coût, défaillance
+- [ ] Conclusion : goulot d'étranglement, compromis principal, quoi surveiller
 
 ---
 
-## Expliquez-le à un ami
+## Ce qui reste
 
-Un entretien de system design n'est pas "dessine tous les serveurs de l'entreprise". C'est une courte réunion de planification avec un minuteur.
+Les candidats dont je me souviens ne sont pas ceux qui avaient les conceptions les plus astucieuses. Ce sont ceux qui ont posé au début une question à laquelle je n'avais pas pensé, puis construit tout le reste de leur réponse autour.
 
-1. **Demandez d'abord**, comme un médecin: qui l'utilise, que doit faire la version un, quelle taille, ce que vous sautez.
-2. **Mesurez grossièrement** pour savoir si une base est un jouet ou un vrai risque.
-3. **Dessinez le plan de rénovation**: quelques grosses boîtes et les parcours principaux utilisateur. Obtenez un oui.
-4. **Zoomez sur les coins durs** qui intéressent l'interviewer: données, vitesse, pannes.
-5. **Fermez avec honnêteté**: ce qui casse en premier, comment vous le surveilleriez, ce que vous feriez avec plus de temps.
+C'est aussi le métier. L'essentiel du vrai travail de conception consiste à comprendre à quoi sert le système. Les boîtes viennent après, et ce sont généralement la partie facile.
 
-Entraînez ce squelette sur trois problèmes différents (stockage, chat temps réel, feed lourd en lecture) jusqu'à ce que les transitions deviennent automatiques. Le but n'est pas un joli diagramme. Le but est une conversation de design qui ne vous ferait pas honte avec un ingénieur senior dès la première semaine.
+---
 
-Si vous voulez le chemin de croissance complet avant d'autres prompts d'entretien, commencez par [passer de zéro à des millions](/blog/fr/design-scale-zero-to-millions). Pour un ordre de pratique de cette série, voir le [parcours d'apprentissage](/blog/fr/design-interview-learning-path).
+## Sources
 
+* [Alex Xu, « System Design Interview: An Insider's Guide »](https://www.amazon.com/System-Design-Interview-insiders-Second/dp/B08CMF2CQF)
+* [Martin Kleppmann, « Designing Data-Intensive Applications »](https://dataintensive.net/)
+* [Tech Interview Handbook : entretiens de conception de systèmes](https://www.techinterviewhandbook.org/system-design/)
+* [Livre SRE de Google : Introduction (la fiabilité comme objectif de conception)](https://sre.google/sre-book/introduction/)
+* Dans la même série : [Estimations au dos de l'enveloppe](/blog/fr/design-back-of-envelope-estimation), [Continuer à apprendre la conception de systèmes](/blog/fr/design-interview-learning-path), [Concevoir un fil d'actualité](/blog/fr/design-news-feed-system)

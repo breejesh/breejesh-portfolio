@@ -1,313 +1,187 @@
 ---
-title: "A Practical Framework for System Design Interviews"
-description: "A scared-candidate checklist for system design interviews: ask first, plan the boxes, then add detail. Plain English steps, sample dialogue, and a reusable time budget for 45-60 minutes."
+title: "A Practical Framework for System Design Interviews: What Gets Scored and How to Spend 45 Minutes"
+description: "A repeatable plan for system design interviews: what interviewers actually score, a minute-by-minute budget, the clarifying questions that matter, how to present a high-level design and get buy-in, where to go deep for each problem type, a sample dialogue, and the habits that sink otherwise strong candidates."
 date: "2026-01-22"
 tags: [System Design & Architecture]
 coverImage: /assets/images/design-interview-framework.webp
 previewImage: /assets/images/design-interview-framework.webp
 ---
 
-
 > **TL;DR**
-> * **The Problem:** Design a production architecture that balances throughput, latency, and fault tolerance without introducing runaway operational complexity.
-> * **The Insight:** A scared-candidate checklist for system design interviews: ask first, plan the boxes, then add detail. Plain English steps, sample dialogue, and a reusable time budget for 45-60 minutes.
-> * **The Result:** Concrete blueprint with quantitative performance targets and production failure mode mitigations.
+> * **The Problem:** System design interviews are open-ended on purpose. Strong engineers fail them not for lack of knowledge but for lack of structure: they jump into details, design for requirements nobody stated, and run out of time before showing depth.
+> * **The Framework:** Clarify (5 minutes), estimate (5), high-level design with buy-in (15), deep dives on two or three hard parts (15), wrap up with trade-offs and next steps (5). Narrate decisions as trade-offs, not facts.
+> * **The Result:** A conversation the interviewer can score on every axis they care about: navigating ambiguity, sound design, technical depth and communication, with time left to go deep where it counts.
 
-Nobody expects you to rebuild Google Search in 45 minutes. The interviewer is not waiting for a perfect diagram. They want to see how you turn a fuzzy prompt into a clear problem, how you plan before you polish details, and whether you treat them like a teammate.
+There is no correct answer to "design Twitter" in 45 minutes. Interviewers know that. What they are scoring is how you get from an ambiguous prompt to a reasonable design, and how you think when they push on it.
 
-If that still sounds scary, use a picture you already know.
-
-**Doctor visit:** the doctor asks what hurts, how long it has been going on, and what you tried. Only then do they order tests or prescribe medicine. Jumping straight to surgery without questions is malpractice.
-
-**Home remodel:** a good contractor measures the room, asks how many people live there, and checks the budget before picking tile. Drawing a fancy kitchen on minute one, then learning the house has no plumbing for a sink, wastes everyone's time.
-
-A **system design interview** works the same way. "System design" just means: plan how the pieces of a product talk to each other so it can handle real users. You ask questions first. You plan the big shape second. You add hard detail third. This post is that process written so a nervous candidate can follow it step by step.
+This post is the structure I use and recommend. It is not a script. It is a budget for your attention.
 
 ---
 
-## What the interviewer is actually scoring
+## What the Interviewer Is Actually Scoring
 
-Think of it as a short working meeting on an open problem, not a quiz with one correct whiteboard.
+Rubrics differ by company, but they cluster into four areas:
 
-| Signal | What it looks like in plain English |
+| Area | What good looks like |
 | --- | --- |
-| Handling fuzzy problems | You ask scoped questions before you draw |
-| Working together | You say your assumptions out loud and change course when they correct you |
-| Picking what matters | You spend time on the hard path, not every optional feature |
-| Trade-off talk | You name cost, speed, safety, and how hard the system is to run |
-| Avoiding red flags | No silent monologue, no "perfect system," no microservices on minute one |
+| Problem navigation | Asks the questions that change the design; scopes the problem deliberately; states assumptions |
+| Solution design | Produces a coherent end-to-end design whose components each have a reason to exist |
+| Technical depth | Goes deep on the hardest parts: data model, consistency, scaling bottlenecks, failure modes |
+| Communication | Thinks out loud, checks in, takes hints, explains trade-offs in plain terms |
 
-**Trade-off** means a choice where you gain one thing and give up another. Example: a copy of the data on many machines can make reads faster, but those copies may not all update at the exact same moment.
-
-Red flags interviewers notice fast:
-
-- Drawing ten boxes before you know who the product is for
-- Polishing a tiny detail while the main user flow is still blank
-- Refusing rough numbers when size would change the plan
-- Declaring the design "done" without talking about what breaks
+Notice what is missing: memorized architectures, buzzwords, and the "right" database. A candidate who picks the unusual option and explains the trade-off clearly scores better than one who picks the expected option and cannot say why.
 
 ---
 
-## Soft clock for a 45-minute loop
+## The 45-Minute Budget
 
-This is a guide, not a law. If the interviewer wants to stay high level, stay high level. If they pull you into one hard corner, that corner is the job for that day.
+![Interview timeline: clarify for the first five minutes, estimate from five to ten, high-level design from ten to twenty-five, deep dives from twenty-five to forty, and wrap up in the last five, with the reminder that most failed interviews skip clarification and spend forty minutes in deep dives](/assets/images/hld/design-interview-timeline.webp)
 
-| Phase | Minutes | Goal |
-| --- | --- | --- |
-| 1. Clarify and freeze scope | 3-10 | Features, users, limits, what you will not build |
-| 2. Rough size (when it helps) | 2-5 | Order-of-magnitude load and storage |
-| 3. High-level plan and buy-in | 10-15 | Big boxes, main flows, simple agreements |
-| 4. Detail work on hard parts | 10-25 | Data shape, speed, failures, the real bottleneck |
-| 5. Wrap | 3-5 | Risks, monitoring, what breaks at 10x, open questions |
-
-**High-level** means the map of major pieces (client, servers, database, cache), not every line of code. **Bottleneck** means the first place that will choke when traffic grows.
+The red note describes the most common failure: diving straight into one component's internals and never establishing what the system is for.
 
 ---
 
-## Step 1: Clarify requirements (the doctor questions)
+## Step 1: Clarify (0 to 5 minutes)
 
-Do not be the candidate who blurts a full architecture before knowing who uses the product. Slow down. When the interviewer says "you decide," write your assumptions where both of you can see them.
+Your goal is a short, explicit list of requirements you and the interviewer agree on.
 
-### Product questions (start here)
+**Functional questions (what must it do?)**
 
-1. What must work in version one? What can wait?
-2. Who uses it: consumer app, company tool, or public API?
-3. More reads, more writes, or mixed? (A **read** is loading data. A **write** is creating or changing data.)
-4. Must updates show up instantly, or is a short delay OK?
-5. Mobile, web, or both? Login required?
-6. Text only, or images and video too?
-7. One region for the interview, or worldwide from day one?
+* Who are the users, and what are the two or three core actions?
+* Which features are in scope today, and which can we explicitly leave out?
+* Any special cases that change the design (private accounts, edits, deletes, media)?
 
-### Quality and scale questions
+**Non-functional questions (how well must it do it?)**
 
-1. About how many daily active users, and how fast will that grow?
-2. Average load vs busy-hour peak?
-3. How fast should the main action feel (rough target is fine)?
-4. When speed and perfect consistency fight, which wins for this product?
-5. How long do we keep data? Any privacy rules (delete-my-account style)?
-6. Should we assume tools the company already runs (a common database, a cache, a message queue)?
+* How many users, and how active? Is traffic global or regional?
+* What latency matters, and for which operation?
+* Is it acceptable to show slightly stale data? Can we ever lose a write?
+* Read-heavy or write-heavy?
 
-**API** means the set of requests clients send to the backend (for example: create a post, list a feed). **Cache** means a fast temporary store so you do not hit the main database for every request. **Queue** means a waiting line for work that can happen a moment later (send email, resize image).
+Then write the list where you both can see it. Example for "design a news feed": post text and images, follow users, see a home feed of followed accounts newest first; 300M DAU; feed loads under 200 ms; a few seconds of delay before a post appears is fine. Out of scope: ads, messaging, search.
 
-### Scope discipline
-
-Say out loud what you will **not** design today. Full ranking machine learning for a news feed, global multi-writer databases, or a long theory lecture usually burns time without earning points. Name those items, park them, move on unless the interviewer reopens them.
-
-### Mini example: "Design a news feed"
-
-- App: mobile and web
-- Version one: publish a post, read friends' posts in reverse time order
-- Ranking algorithms: later, unless they ask
-- Friends per user: about 5,000
-- Traffic: about 10 million daily active users
-- Media: images and short video allowed
-
-That conversation alone stops you from building the wrong product.
+That list is your contract for the next 40 minutes.
 
 ---
 
-## Step 2: Rough capacity (back-of-the-envelope size)
+## Step 2: Estimate (5 to 10 minutes)
 
-You do not need perfect math. You need credible orders of magnitude so the design is not a toy.
+Do just enough math to find the hard part: read and write QPS, storage growth, and any bandwidth that might dominate. The [estimation post](/blog/en/design-back-of-envelope-estimation) in this series has the recipes.
 
-**QPS** means queries per second: how many requests hit the system each second. **Order of magnitude** means "about 100, not about 100,000," not a finance spreadsheet.
+Say the conclusion, not just the numbers: "Reads outnumber writes about 100 to 1, and fan-out multiplies writes by follower count, so timeline storage and fan-out are the hard part."
 
-Keep these rough tools in your head:
+Some interviewers will tell you to skip estimation. Do it in one sentence anyway; the conclusion still shapes your design.
 
-| Quantity | Rule of thumb |
+---
+
+## Step 3: High-Level Design and Buy-In (10 to 25 minutes)
+
+Draw the end-to-end flow for each core action before drilling into anything.
+
+1. **APIs first.** Two or three endpoints with their key parameters: `POST /posts`, `GET /feed?cursor=`. They force clarity about what each request does.
+2. **Data model.** The main entities and how they are keyed and partitioned. This is where many designs quietly succeed or fail.
+3. **Boxes and arrows.** Clients, edge (load balancer, CDN), services, data stores, queues. Walk one request through each core action.
+4. **Check in.** "Does this cover what you want, or should we adjust before going deeper?" This is the buy-in moment, and it often earns a hint about where the interviewer wants depth.
+
+**Common building blocks and when they earn a place:**
+
+| Block | Add it when |
 | --- | --- |
-| Seconds in a day | about 100,000 (close enough for interview math) |
-| Requests per day to average QPS | divide by about 100,000; peak is often 2x-5x average |
-| Storage | number of items × average size, then add room for copies and indexes |
-| Bandwidth | QPS × size of a typical response |
+| Load balancer | More than one instance of anything |
+| Cache | Read-heavy access to data that tolerates some staleness |
+| Read replicas | Read load exceeds one database |
+| Message queue | Work can happen after the response, or must be retried |
+| CDN | Static or media content served to many users |
+| Sharding | Data or write load exceeds one database after cheaper options |
+| Object storage | Large blobs: images, video, files, backups |
 
-Say the shape out loud:
-
-```
-10M daily active users
-Assume 5 feed reads per user per day → 50M reads per day
-50 million / 100,000 ≈ 500 average read QPS
-Peak maybe 2,000-3,000 read QPS (pick a factor and stick to it)
-
-Assume 1 post per user per day → 10M writes per day ≈ 100 average write QPS
-```
-
-If the numbers change the plan (one database is not enough, a cache becomes required, video needs object storage), say so. If they do not change anything, keep the math short and move on. Ask whether they want the numbers before you spend five minutes on them.
-
-For a fuller toolkit, see [back-of-the-envelope estimation](/blog/en/design-back-of-envelope-estimation).
+Every box should answer "what breaks if I remove it?" If you cannot answer, remove it.
 
 ---
 
-## Step 3: High-level design and get buy-in (the remodel plan)
+## Step 4: Deep Dives (25 to 40 minutes)
 
-Draw boxes. Walk one happy path from start to finish. Treat the interviewer as a co-designer: pause for feedback before you invent six separate services.
+Pick two or three parts that are genuinely hard for this problem, or follow the interviewer's lead. Good targets by problem type:
 
-### Common building blocks (what the boxes mean)
-
-| Piece | Why it shows up |
+| Problem type | Where depth lives |
 | --- | --- |
-| Client (web or mobile) | Where the user taps or types |
-| Load balancer / API gateway | Front door: spreads traffic, often handles login checks and limits |
-| App / API services | Business rules live here |
-| Primary database | Source of truth for lasting data |
-| Cache | Hot reads without hammering the database |
-| CDN / object store | Static files and media (photos, video) near users |
-| Queue / stream | Async work: fan-out, emails, thumbnails |
-| Search index | Query patterns the main database hates |
-| Workers | Background jobs that process the queue |
+| Feeds and timelines | Fan-out on write vs read, the celebrity problem, ranking, pagination |
+| Chat and real-time | Connection management, ordering, delivery guarantees, presence |
+| Storage systems | Partitioning, replication, consistency, conflict resolution |
+| URL shortener, ID generator | Key generation, collisions, hot keys, caching |
+| Rate limiter | Algorithm choice, atomicity, distributed counters, fail-open vs closed |
+| Media platforms | Upload pipeline, transcoding, CDN, cost |
+| Search and autocomplete | Indexing pipeline, ranking, latency budget |
 
-**Load balancer** spreads requests across healthy servers. **CDN** is a network of edge caches that serve static content from a location near the user. **Async** means "do it soon, not necessarily in this same request."
-
-### How to present it
-
-1. Sketch clients → front door → services → data stores.
-2. Trace the two or three critical use cases (create, main read path, maybe delete).
-3. Call out whether reads or writes dominate.
-4. Propose APIs only when the problem is small enough (URL shortener, rate limiter). For "design Google Search," stay coarser.
-5. Ask: "Does this match the scale and features we agreed?" Fix it before detail work.
-
-### News feed shape (high level only)
-
-- **Publish path:** client → API → save post metadata → job that updates friends' feeds (or marks them dirty).
-- **Read path:** client → API → load a prepared feed (or build it on read) → fill in post content from cache or database → return a page.
-
-Two flows keep the whiteboard honest. One giant box labeled "Feed Service" does not.
+For each deep dive, cover: the naive approach and why it fails, the better approach, what it costs, and how it fails. That four-part shape demonstrates depth more reliably than any amount of jargon.
 
 ---
 
-## Step 4: Detail work on the parts that earn signal
+## Step 5: Wrap Up (40 to 45 minutes)
 
-You already share goals, a high-level sketch, and interviewer feedback. Now pick the sharp edges.
+Do not declare the design perfect. Summarize it in two sentences, then name:
 
-### Good targets by problem type
+* The current bottleneck and what you would do when it saturates.
+* The main trade-off you made and when you would revisit it.
+* What you would monitor in production.
 
-| Problem | Worth digging into | Easy time sinks |
-| --- | --- | --- |
-| URL shortener | How IDs are made, short codes, redirect type, cache keys | Fancy link preview UI |
-| Rate limiter | Algorithm choice, how keys live in Redis, multi-server fairness | Perfect global math on every edge case |
-| Chat | Delivery guarantees, online status, message order | Full end-to-end encryption product design |
-| News feed | Push vs pull for friends' posts, ranking inputs, media pipeline | Recreating a full social ranking model |
-| Drive / storage | File chunks, upload consistency, conflict when two devices edit | Pixel-perfect web client |
-
-### Detail checklist (pick 2-4)
-
-1. **Data model:** main entities, keys, indexes, how you split data across machines if needed.
-2. **API contracts:** safe retries (**idempotency** means repeating a request does not double-create), pagination, clear errors on the hot path.
-3. **Consistency:** strong where money or login is involved; eventual is fine where feeds and counters can lag a moment.
-4. **Caching:** what is cached, how long it lives, how you clear it, how you avoid a stampede when it empties.
-5. **Async paths:** queues, retries, dead letters (failed jobs that need human or special handling), honest "at least once" delivery language.
-6. **Bottlenecks:** hottest QPS, largest objects, single-leader limits.
-7. **Failure modes:** server dies, network splits, cache empty, queue piles up.
-8. **Security (brief unless asked):** login, abuse limits, private data boundaries.
-
-Time rule: if a detail does not change correctness or scale for this prompt, park it. Mention it exists, offer to go further, wait for a nod.
+This shows the judgment interviewers look for in senior candidates: you know what you built, what it costs, and where it will break first.
 
 ---
 
-## Step 5: Wrap without declaring perfection
+## A Short Sample Dialogue
 
-Never end with "and that is the complete design." Leave room for critique.
+> **Interviewer:** Design a URL shortener.
+>
+> **Candidate:** Before I draw anything, a few questions. Do we need custom aliases and expiry, or just random codes? Do we need click analytics? Roughly how many links per month, and what read-to-write ratio should I assume?
+>
+> **Interviewer:** Custom aliases yes, analytics roughly, 100 million links a month, mostly reads.
+>
+> **Candidate:** Then I'll treat redirects as the critical path and analytics as best-effort. 100 million a month is about 40 writes a second, and with 100 to 1 reads that's around 4,000 redirects a second on average. The hard parts are code generation and keeping redirects fast, so I'll design those carefully and keep analytics off the redirect path. Here are the two APIs...
 
-1. **Recap** the architecture in about 30 seconds (especially if you explored alternatives).
-2. **What breaks first at 10x traffic**, and what you would change.
-3. **Operations:** metrics (latency, error rate, queue depth, cache hit rate), logs, alerts, careful rollout (feature flags, small canary releases).
-4. **Failure playbook:** primary database failover, read-only mode, poison messages in a queue.
-5. **Open items** if you had another hour: multi-region, better ranking, cost cuts, deletion jobs for privacy rules.
-
-Interviewers remember candidates who can criticize their own design without collapsing it.
-
----
-
-## Sample dialogue (plain English)
-
-**Interviewer:** Design a news feed.
-
-**You:** Before boxes, I want scope. Mobile only or both? Is ranking in version one, or reverse time order is enough?
-
-**Interviewer:** Both clients. Reverse chrono for v1 is fine.
-
-**You:** I will assume about 10 million daily active users, roughly 5,000 friends per user, and posts can include images. Correct me if wrong.
-
-**Interviewer:** Sounds good.
-
-**You:** Rough size: if each user reads the feed five times a day, that is about 500 average read QPS, maybe a few thousand at peak. Writes are much lower if people post once a day. That points to a read-heavy design with a cache on the hot path.
-
-**Interviewer:** OK.
-
-**You:** High level: publish path writes the post, then a background job helps build friends' feeds. Read path loads a prepared feed page and fills post bodies from cache or the database. Does that match what we agreed?
-
-**Interviewer:** Yes. How do you handle celebrities with millions of followers?
-
-**You:** That is the hard corner. For normal users I can push feed entries on write. For huge accounts I pull on read so one post does not explode into millions of writes. Trade-off: celebrity feeds cost more work at read time.
-
-**Interviewer:** What fails first at 10x?
-
-**You:** Feed cache and the fan-out workers. I would split feed storage, add backpressure on the queue, and watch queue depth and cache hit rate. If we had more time I would talk multi-region and stronger ranking.
-
-That conversation is the framework. You never needed a perfect diagram to sound like a calm engineer.
+Notice the candidate never claimed a "right" answer. They converted the prompt into requirements, stated the hard part, and earned the right to design it.
 
 ---
 
-## Do / Don't list
+## Do and Don't
 
-**Do**
-
-- Ask clarifying questions early and often.
-- Write assumptions where both of you can see them.
-- Start high level; add detail only after buy-in.
-- Design the critical path first.
-- Offer two options when a real trade-off exists (for example push vs pull fan-out).
-- Think out loud. Silence is hard to score.
-- Ask for a hint if stuck. Collaboration beats frozen pride.
-- Keep going until the interviewer ends the session.
-
-**Don't**
-
-- Sprint to a solution with undefined requirements.
-- Turn a small product into a worldwide multi-writer system on day one.
-- Sink 15 minutes into one micro-optimization while the data model is blank.
-- Ignore size numbers that contradict your diagram.
-- Pretend the design has no failure modes.
-- Argue past clear interviewer guidance.
+| Do | Don't |
+| --- | --- |
+| Write requirements down and refer back to them | Start drawing boxes in the first minute |
+| Say "I'll assume X; tell me if that's wrong" | Silently assume and hope |
+| Explain every choice as a trade-off | Present technologies as obviously correct |
+| Walk one request end to end | Describe components in isolation |
+| Check in at the end of the high-level design | Monologue for 20 minutes |
+| Admit what you don't know and reason from first principles | Bluff about a technology's internals |
+| Name failure modes before you're asked | Assume the happy path |
 
 ---
 
-## Reusable interview checklist
+## Reusable Checklist
 
-Copy this into notes. Run it top to bottom when you are nervous.
-
-```
-[ ] Restate the problem in one sentence
-[ ] Version-one features only
-[ ] Non-functional targets (users, QPS, latency, consistency)
-[ ] Explicit out-of-scope list
-[ ] Assumptions written and confirmed
-[ ] Rough capacity (QPS, storage, bandwidth) if it affects design
-[ ] High-level diagram: clients, front door, services, data, async
-[ ] Trace happy paths for top use cases
-[ ] API or schema only if the problem size warrants it
-[ ] Get explicit buy-in before detail work
-[ ] Detail 1: data model / IDs / storage
-[ ] Detail 2: hot path performance (cache, fan-out, sharding)
-[ ] Detail 3: consistency, failures, or ops (pick what they care about)
-[ ] Call out bottlenecks and 10x scale changes
-[ ] Monitoring, rollout, known risks
-[ ] Recap + invite feedback
-```
+- [ ] Functional requirements listed and agreed; out-of-scope stated
+- [ ] Non-functional requirements: scale, latency, consistency, availability
+- [ ] Estimates with a stated conclusion about the hard part
+- [ ] APIs and core data model
+- [ ] End-to-end flow for each core action
+- [ ] Buy-in check before deep dives
+- [ ] Two or three deep dives: naive approach, better approach, cost, failure
+- [ ] Wrap-up: bottleneck, main trade-off, what to monitor
 
 ---
 
-## Explain it to a friend
+## The Leftover
 
-A system design interview is not "draw every server in the company." It is a short planning meeting under a timer.
+The candidates I remember are not the ones with the cleverest designs. They are the ones who asked one question at the start that I had not thought of, then built the rest of their answer around it.
 
-1. **Ask first**, like a doctor: who uses it, what version one must do, how big, what you will skip.
-2. **Size it roughly** so you know if one database is a toy or a real risk.
-3. **Draw the remodel plan**: a few big boxes and the main user paths. Get a nod.
-4. **Zoom into the hard corners** the interviewer cares about: data, speed, failures.
-5. **Close with honesty**: what breaks first, how you would watch it, what you would do with more time.
+That is the job, too. Most real design work is figuring out what the system is for. The boxes come later, and they are usually the easy part.
 
-Practice that skeleton on three different problems (storage, realtime chat, read-heavy feed) until the transitions feel automatic. The goal is not a pretty diagram. The goal is a design conversation that would not embarrass you with a senior engineer on your first week.
+---
 
-If you want the full growth path before more interview prompts, start with [scale from zero to millions](/blog/en/design-scale-zero-to-millions). For a practice order across this series, see the [learning path](/blog/en/design-interview-learning-path).
+## Sources
 
+* [Alex Xu, "System Design Interview: An Insider's Guide"](https://www.amazon.com/System-Design-Interview-insiders-Second/dp/B08CMF2CQF)
+* [Martin Kleppmann, "Designing Data-Intensive Applications"](https://dataintensive.net/)
+* [Tech Interview Handbook: system design interviews](https://www.techinterviewhandbook.org/system-design/)
+* [Google SRE Book: Introduction (reliability as a design goal)](https://sre.google/sre-book/introduction/)
+* Related in this series: [Back-of-the-Envelope Estimation](/blog/en/design-back-of-envelope-estimation), [Keep Learning System Design](/blog/en/design-interview-learning-path), [Design a News Feed System](/blog/en/design-news-feed-system)
