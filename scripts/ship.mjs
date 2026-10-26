@@ -34,11 +34,13 @@ const debug =
   process.argv.includes('--debug');
 
 const profiles = {
+  // Every post in every locale is prerendered so crawlers get real HTML
+  // (about 2.5 min for ~400 posts); ship:fast skips it.
   default: {
     label: 'ship',
     typecheck: true,
     deploy: true,
-    env: {},
+    env: { PRERENDER_BLOG: '1', PRERENDER_LANGS: 'en,es,fr,hi' },
   },
   fast: {
     label: 'ship:fast',
@@ -68,7 +70,7 @@ const profiles = {
     label: 'ship:build-only',
     typecheck: true,
     deploy: false,
-    env: {},
+    env: { PRERENDER_BLOG: '1', PRERENDER_LANGS: 'en,es,fr,hi' },
   },
 };
 
@@ -363,7 +365,7 @@ function preflight(env, heap) {
 
   if (!cfg.env.PRERENDER_BLOG) {
     info(
-      'Shell prerender only (/, /blog, …). Blog HTML is client-hydrated. Use ship:seo for EN post HTML.'
+      'Shell prerender only (/, /blog, …). Blog HTML is client-hydrated. Use ship (default) for full post HTML.'
     );
   } else {
     warn(
@@ -466,6 +468,13 @@ async function main() {
   const { env, heap } = buildEnv(nodeEnv);
 
   preflight(env, heap);
+
+  phase('seo-files');
+  await run(process.execPath, [join(ROOT, 'scripts', 'generate-seo-files.mjs')], {
+    env,
+    label: 'seo files',
+    useShell: false,
+  });
 
   if (cfg.typecheck) {
     phase('typecheck');

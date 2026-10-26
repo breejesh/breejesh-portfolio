@@ -18,6 +18,7 @@
     "ship:debug": "node scripts/run-with-node.mjs -- node scripts/ship.mjs debug",
     "content:cache": "node scripts/warm-content-cache.mjs",
     "content:cache:clear": "node scripts/warm-content-cache.mjs --clear",
+    "seo:generate": "node scripts/generate-seo-files.mjs",
     "test": "vitest"
   },
   "dependencies": {

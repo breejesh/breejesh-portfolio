@@ -7,11 +7,6 @@ import path from 'path';
 import { contentCachePlugin } from './scripts/vite-content-cache-plugin.mjs';
 
 /**
- * Site origin for Analog sitemap generation (analogjs.org SSG docs).
- */
-const SITE_HOST = process.env.SITE_HOST || 'https://breejeshrathod.com';
-
-/**
  * Blog locales under src/content/blog/{lang}/.
  * Analog 1.8 contentDir matches only one directory level (not recursive),
  * so we register one contentDir entry per locale.
@@ -303,16 +298,8 @@ export default defineConfig(({ mode }) => {
           },
         },
         prerender: {
-          // Keep public/sitemap.xml (hreflang alternates for every post).
-          // Analog auto-sitemap only covers prerendered routes and would overwrite
-          // the fuller public file on fast/shell builds — enable only for SEO ships.
-          ...(blogPrerenderEnabled()
-            ? {
-                sitemap: {
-                  host: SITE_HOST,
-                },
-              }
-            : {}),
+          // No Analog auto-sitemap: scripts/generate-seo-files.mjs writes
+          // public/sitemap.xml (every locale + hreflang) before each build.
           routes: async () => {
             if (!enableSsr) {
               console.log('[ship-build] prerender routes: [] (ssr disabled)');

@@ -8,6 +8,13 @@
     ],
     "cleanUrls": true,
     "trailingSlash": false,
+    "redirects": [
+      {
+        "regex": "^/blog/(en|es|fr|hi)/ctci-[^/]*$",
+        "destination": "/blog",
+        "type": 301
+      }
+    ],
     "rewrites": [
       {
         "source": "**",
