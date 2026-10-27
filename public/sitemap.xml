@@ -3,7 +3,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://breejeshrathod.com/</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-10-27</lastmod>
   </url>
   <url>
     <loc>https://breejeshrathod.com/experience</loc>
@@ -16,13 +16,85 @@
   </url>
   <url>
     <loc>https://breejeshrathod.com/blog</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-10-27</lastmod>
   </url>
   <url>
     <loc>https://breejeshrathod.com/privacy</loc>
   </url>
   <url>
     <loc>https://breejeshrathod.com/terms</loc>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/en/qwen-beijing-upload-open-weights-trust</loc>
+    <lastmod>2026-10-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/qwen-beijing-upload-open-weights-trust"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/qwen-beijing-upload-open-weights-trust"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/qwen-beijing-upload-open-weights-trust"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/qwen-beijing-upload-open-weights-trust"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/qwen-beijing-upload-open-weights-trust"/>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/es/qwen-beijing-upload-open-weights-trust</loc>
+    <lastmod>2026-10-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/qwen-beijing-upload-open-weights-trust"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/qwen-beijing-upload-open-weights-trust"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/qwen-beijing-upload-open-weights-trust"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/qwen-beijing-upload-open-weights-trust"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/qwen-beijing-upload-open-weights-trust"/>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/fr/qwen-beijing-upload-open-weights-trust</loc>
+    <lastmod>2026-10-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/qwen-beijing-upload-open-weights-trust"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/qwen-beijing-upload-open-weights-trust"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/qwen-beijing-upload-open-weights-trust"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/qwen-beijing-upload-open-weights-trust"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/qwen-beijing-upload-open-weights-trust"/>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/hi/qwen-beijing-upload-open-weights-trust</loc>
+    <lastmod>2026-10-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/qwen-beijing-upload-open-weights-trust"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/qwen-beijing-upload-open-weights-trust"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/qwen-beijing-upload-open-weights-trust"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/qwen-beijing-upload-open-weights-trust"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/qwen-beijing-upload-open-weights-trust"/>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/en/microsoft-buyouts-meta-equity-ai-capex</loc>
+    <lastmod>2026-10-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/microsoft-buyouts-meta-equity-ai-capex"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/microsoft-buyouts-meta-equity-ai-capex"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/microsoft-buyouts-meta-equity-ai-capex"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/microsoft-buyouts-meta-equity-ai-capex"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/microsoft-buyouts-meta-equity-ai-capex"/>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/es/microsoft-buyouts-meta-equity-ai-capex</loc>
+    <lastmod>2026-10-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/microsoft-buyouts-meta-equity-ai-capex"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/microsoft-buyouts-meta-equity-ai-capex"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/microsoft-buyouts-meta-equity-ai-capex"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/microsoft-buyouts-meta-equity-ai-capex"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/microsoft-buyouts-meta-equity-ai-capex"/>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/fr/microsoft-buyouts-meta-equity-ai-capex</loc>
+    <lastmod>2026-10-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/microsoft-buyouts-meta-equity-ai-capex"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/microsoft-buyouts-meta-equity-ai-capex"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/microsoft-buyouts-meta-equity-ai-capex"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/microsoft-buyouts-meta-equity-ai-capex"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/microsoft-buyouts-meta-equity-ai-capex"/>
+  </url>
+  <url>
+    <loc>https://breejeshrathod.com/blog/hi/microsoft-buyouts-meta-equity-ai-capex</loc>
+    <lastmod>2026-10-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breejeshrathod.com/blog/en/microsoft-buyouts-meta-equity-ai-capex"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://breejeshrathod.com/blog/es/microsoft-buyouts-meta-equity-ai-capex"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://breejeshrathod.com/blog/fr/microsoft-buyouts-meta-equity-ai-capex"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://breejeshrathod.com/blog/hi/microsoft-buyouts-meta-equity-ai-capex"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breejeshrathod.com/blog/en/microsoft-buyouts-meta-equity-ai-capex"/>
   </url>
   <url>
     <loc>https://breejeshrathod.com/blog/en/anthropic-openai-ipo-race</loc>

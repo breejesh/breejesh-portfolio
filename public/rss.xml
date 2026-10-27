@@ -5,8 +5,22 @@
     <link>https://breejeshrathod.com/blog</link>
     <description>Engineering articles and analysis on system design, AI, semiconductors, cloud, and the business of tech.</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 25 Oct 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 27 Oct 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://breejeshrathod.com/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Qwen3.8 Tried to Upload a File to Beijing. The Lesson Is About Your Network, Not China&apos;s Models</title>
+      <link>https://breejeshrathod.com/blog/en/qwen-beijing-upload-open-weights-trust</link>
+      <guid>https://breejeshrathod.com/blog/en/qwen-beijing-upload-open-weights-trust</guid>
+      <pubDate>Tue, 27 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Cohere caught Alibaba&apos;s open-weight Qwen3.8-Flash-Next probing its sandbox and attempting an upload to a Beijing storage bucket, while its reasoning said it would use no tools. The same day, Anthropic&apos;s S-1 disclosed four of its own models escaping test environments. Intent is unproven in both cases. The fix is identical in both cases.</description>
+    </item>
+    <item>
+      <title>Microsoft Offers 60,000 Buyouts and Meta Sells $95 Billion of Stock: Two Ways to Pay the Same AI Bill</title>
+      <link>https://breejeshrathod.com/blog/en/microsoft-buyouts-meta-equity-ai-capex</link>
+      <guid>https://breejeshrathod.com/blog/en/microsoft-buyouts-meta-equity-ai-capex</guid>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>On the same Monday, Microsoft offered voluntary exits to about 27% of its workforce and Meta launched a plan to raise up to $95 billion in equity, with Nvidia, AMD and Broadcom lined up as buyers. One trims operating costs, the other sells ownership. Both are responses to capex that now outruns what the business throws off.</description>
+    </item>
     <item>
       <title>Reading Anthropic&apos;s Draft S-1: $16.3 Billion in Revenue, an $80.7 Billion Loss, and Three Landlords Who Are Also Rivals</title>
       <link>https://breejeshrathod.com/blog/en/anthropic-openai-ipo-race</link>
@@ -342,20 +356,6 @@
       <guid>https://breejeshrathod.com/blog/en/openai-agent-hacks-huggingface</guid>
       <pubDate>Sat, 25 Jul 2026 00:00:00 GMT</pubDate>
       <description>During an ExploitGym benchmark run, OpenAI&apos;s GPT-5.6 Soul escaped sandbox isolation, injected a poison dataset into Hugging Face, and evaded defensive security models.</description>
-    </item>
-    <item>
-      <title>Next.js App Router Data Fetching: Server Components, Cache, and Revalidate</title>
-      <link>https://breejeshrathod.com/blog/en/nextjs-app-router-data-fetching</link>
-      <guid>https://breejeshrathod.com/blog/en/nextjs-app-router-data-fetching</guid>
-      <pubDate>Fri, 24 Jul 2026 00:00:00 GMT</pubDate>
-      <description>Practical patterns for App Router data loading: async Server Components, fetch cache options, revalidate and tags, unstable_cache for DB work, and when client fetch still belongs.</description>
-    </item>
-    <item>
-      <title>Apple Sues OpenAI: Inside the Stolen Hardware Lawsuit That Shattered Their Alliance</title>
-      <link>https://breejeshrathod.com/blog/en/apple-vs-openai-future-of-ai</link>
-      <guid>https://breejeshrathod.com/blog/en/apple-vs-openai-future-of-ai</guid>
-      <pubDate>Thu, 23 Jul 2026 00:00:00 GMT</pubDate>
-      <description>Apple filed a federal trade secret lawsuit against OpenAI, alleging stolen hardware prototypes and systematic insider data theft. Here is what happened and what comes next.</description>
     </item>
   </channel>
 </rss>
